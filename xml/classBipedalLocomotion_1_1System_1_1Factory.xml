@@ -151,6 +151,13 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
+      <node id="6">
+        <label>BipedalLocomotion::System::Factory&lt; Dynamics &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Factory"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; Dynamics &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="4">
         <label>BipedalLocomotion::System::Factory&lt; WeightProvider &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Factory"/>
@@ -179,6 +186,12 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Factory"/>
         <childnode refid="1" relation="template-instance">
           <edgelabel>&lt; _Task &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::DynamicsFactory</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory"/>
+        <childnode refid="6" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

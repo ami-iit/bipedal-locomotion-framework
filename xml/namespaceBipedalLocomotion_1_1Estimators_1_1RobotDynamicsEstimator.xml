@@ -2,11 +2,18 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UKFInput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::DynamicsFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</innerclass>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" prot="public" static="no" strong="yes">
         <type></type>
@@ -36,10 +43,69 @@
         <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" line="42" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h" bodystart="42" bodyend="45"/>
       </memberdef>
       </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(ConstantMeasurementModel, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" kindref="compound">ConstantMeasurementModel</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="101" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" declline="101" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(JointVelocityStateDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" kindref="compound">JointVelocityStateDynamics</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h" line="118" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h" declline="118" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(ZeroVelocityStateDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" kindref="compound">ZeroVelocityStateDynamics</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h" line="98" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h" declline="98" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="28" column="1"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="18" column="1"/>
   </compounddef>
 </doxygen>

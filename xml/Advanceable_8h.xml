@@ -15,6 +15,7 @@
     <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <includedby refid="Sink_8h" local="no">BipedalLocomotion/System/Sink.h</includedby>
     <includedby refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includedby>
+    <includedby refid="Dynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -98,6 +99,8 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
       </node>
       <node id="32">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
@@ -167,6 +170,20 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
+      <node id="37">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</label>
+        <link refid="Dynamics_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
+        <link refid="ZeroVelocityStateDynamics_8h"/>
+      </node>
       <node id="35">
         <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
         <link refid="ContactDetector_8h"/>
@@ -206,6 +223,10 @@
       <node id="19">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
+      </node>
+      <node id="38">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</label>
+        <link refid="ConstantMeasurementModel_8h"/>
       </node>
       <node id="26">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
@@ -260,6 +281,10 @@
       <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
+      </node>
+      <node id="39">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</label>
+        <link refid="JointVelocityStateDynamics_8h"/>
       </node>
       <node id="36">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>

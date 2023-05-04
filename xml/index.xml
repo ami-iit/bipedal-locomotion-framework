@@ -233,6 +233,22 @@
     <member refid="structBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPControllerInput_1ade2ca6b8502e354013c8bdd73e34067b" kind="variable"><name>ZMPPosition</name></member>
     <member refid="structBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPControllerInput_1a2af2568751de29ef1a28b5bad1e6164d" kind="variable"><name>angle</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a44ac6dc00dd280268b85a13e86df56e7" kind="variable"><name>m_currentState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a05d61d49f431cafc64e7d0ce1d3bd0cf" kind="variable"><name>m_useBias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1ab2af4023a2b9f683e8ca95c279945085" kind="variable"><name>m_bias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a1928651197146a4bb24936f3b52932e9" kind="variable"><name>m_biasVariableName</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a523a16faed07a3b194fa07739fd9c2fb" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1af33cf5a1ea02162d281e598b369f9d61" kind="variable"><name>m_elements</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a96b9729fc8407e41d7f7dc2093bf15c4" kind="variable"><name>m_stateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1add89f10c855f38efc715043a435cfe29" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a0c3e0e7da0b9e3ba923242c422727646" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a09c5d1883e2a7bd6642c002eaedbcc4a" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a276c97c689d15bc63ab03addcf206946" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aa98d3a777997261624ad92ddd0496f64" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1adcbe625ea8d64fe7ea12618198d5bf8a" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a347786970c88d82054d1dbeda24e8050" kind="function"><name>setInput</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider" kind="class"><name>BipedalLocomotion::System::ConstantWeightProvider</name>
     <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a8af3d86471233a1a57633c3262cd1147" kind="variable"><name>m_weight</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1ad971c451803fef96351eabe8064a20fb" kind="function"><name>ConstantWeightProvider</name></member>
@@ -510,6 +526,29 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a9f413dff797cbc805417478d3519a640" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a141c1d0475b59777195c3e02a12cd0bb" kind="function"><name>setControlInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a464077f4f1329cc6a5697f1a874d6c48" kind="function"><name>dynamics</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a6f6ab82393f65792c50a2f267e2d2235" kind="variable"><name>m_size</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1af79b12fb9a01f2eb05db0c59a639bad9" kind="variable"><name>m_updatedVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1acbab99c51da6ecc85731da9e410a943b" kind="variable"><name>m_description</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1adda3fb21d2afc618efa3b5da736f8a65" kind="variable"><name>m_covariances</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a57fe02624c1ae50c1d839b6ad0e67d8a" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac80148fa7320566717a83ca303a40057" kind="variable"><name>m_initialCovariances</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a4272a944fe6a88c70a2ec198851ae18c" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a8c24850ae58c6cdd1d4534e65ca24c7d" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a09e7ef24e05c4aaca536cc019810e0c5" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a5eebce9bf3502af823458bbbcfc38133" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aafd426248fbbf4a93405b9f4b321d821" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac7ad9601f0f1b7f6516e1117e4845ae2" kind="function"><name>getUpdatedVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a7570b0d3691c7838e5108b13d36196f8" kind="function"><name>size</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a3874e314d326424d9f9514e218badb86" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a53c4861a09cd78e7c7548cd46a28b6e3" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a518aaf5ff8b96345b34fdba009fc2ce5" kind="function"><name>getCovariance</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a1ff246934d62ec52decf6a4df46150c1" kind="function"><name>getInitialStateCovariance</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aa21073a31262bbbc161f0f36130e8273" kind="function"><name>~Dynamics</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::DynamicsFactory</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory_1a273554083d379cf1797746a61d7899d8" kind="function"><name>~DynamicsFactory</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kind="struct"><name>BipedalLocomotion::Contacts::EstimatedContact</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1afe72997e9101e4f602330ba825b7a46e" kind="variable"><name>switchTime</name></member>
@@ -1091,6 +1130,23 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aadda63716a30397931c84195cd8415b1" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a9f15c416528b416790ecb325cd2ad6a1" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ae4217033c29324728b7881a536c513a3" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aaea57c1206cf03c8a00c2938ead6d512" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a76b3f798266e8753bc6902c343b1a90d" kind="variable"><name>m_jointVelocityFullModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1ad2a69142371091f701408d576f7bd612" kind="variable"><name>m_ukfInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a0fdb97712a62eb7cb1c65c8614dd324c" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a3876b5549b35f69e44f24333169f9bb3" kind="variable"><name>m_elements</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1ae74602def443ef9a6388edbcf5adf2ad" kind="variable"><name>m_stateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a6807802f82df85404ff4da6a781783eb" kind="function"><name>JointVelocityStateDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aa057fa004eef8a6439ca59151a4d4e83" kind="function"><name>~JointVelocityStateDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a2dccec9ac370303a4bba055f55596795" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a9da605700c2f13b1c804fec70898619f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1af6bbc581aba2ab3508ffd47b24becd78" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a7adeeb799406f961fe0726f95de452fb" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a42904d91c55d3d0ddf0e00389d632485" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aee5a3dcff4b4921548853b4e80b9fe86" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a6d7158ab61702c3c21d7d9079c6c4712" kind="function"><name>setInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry" kind="class"><name>BipedalLocomotion::Estimators::LeggedOdometry</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a0787382d79eb932e4182dbcdb3828afe" kind="variable"><name>m_pimpl</name></member>
@@ -2058,6 +2114,20 @@
   </compound>
   <compound refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" kind="struct"><name>std::tuple_size&lt;::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</name>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UKFInput</name>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput_1a9d78235d3f56391668d5228d6e9a3b4e" kind="variable"><name>robotJointPositions</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput_1afb8d866785855ef99e2884d7599f1463" kind="variable"><name>robotJointAccelerations</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput_1ad9ee074af1a5fcfdf508888b2a460717" kind="variable"><name>robotBasePose</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput_1a5a3fb5c114a4039fe231f0155061ba6e" kind="variable"><name>robotBaseVelocity</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput_1a832d03b29a43c468ceaa6d2cdbd4065f" kind="variable"><name>robotBaseAcceleration</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a2e0c1479fe1f983a4f9d430704edc53d" kind="variable"><name>m_ukfInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a7489809a382cf446ee213fa527602f42" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a60cfd645c44aab518e818972c3636f74" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a9788214634e66c2e2520dba238f7c3ee" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1ac7fb6b9d366bf543edfb735176c56d16" kind="function"><name>isOutputValid</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
@@ -2357,6 +2427,19 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1ad9f365bbabbd35f8764487ddc5531007" kind="function"><name>sink_it_</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1a47a754ca24dc3823a1817831ae49b06e" kind="function"><name>flush_</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a6361ad33d84382b06414143c70ef3df0" kind="variable"><name>m_currentState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a9bcb8c7dac9b73971b999273b96920bb" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a4c761111deeeeffa6e48df0e67095107" kind="variable"><name>m_elements</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a72db7c3cddf6b7e29d8c211e644098b3" kind="variable"><name>m_stateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1ae6a5db76ff8682e4ec0e2f108c038f56" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a6c0d48bf575fbfba3ccc3ea1d6be8790" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1ad5544ce145a444d8c0871869d52a33e0" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1abb1f86a9f4f04bca5b3082d76e230bd8" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a2605983244b8558846d32ef39f63c558" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1aa0e73c0e6df47b44639e12bdaddfc725" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1adf74cd12317c55b8f0baf82b1eac501f" kind="function"><name>setInput</name></member>
+  </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
     <member refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kind="function"><name>log</name></member>
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
@@ -2416,6 +2499,9 @@
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" kind="enum"><name>UpdateMode</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" kind="enumvalue"><name>Full</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" kind="enumvalue"><name>RobotDynamicsOnly</name></member>
+    <member refid="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+    <member refid="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+    <member refid="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1GenericContainer" kind="namespace"><name>BipedalLocomotion::GenericContainer</name>
     <member refid="NamedTuple_8h_1aeae062fde867d3cef830c1dbfe1e807f" kind="typedef"><name>hash_type</name></member>
@@ -2639,12 +2725,24 @@
   </compound>
   <compound refid="LeggedOdometry_8h" kind="file"><name>LeggedOdometry.h</name>
   </compound>
+  <compound refid="ConstantMeasurementModel_8h" kind="file"><name>ConstantMeasurementModel.h</name>
+    <member refid="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+  </compound>
+  <compound refid="Dynamics_8h" kind="file"><name>Dynamics.h</name>
+    <member refid="Dynamics_8h_1a8f127943e47c240a525c20282fe5c848" kind="define"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+  </compound>
+  <compound refid="JointVelocityStateDynamics_8h" kind="file"><name>JointVelocityStateDynamics.h</name>
+    <member refid="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+  </compound>
   <compound refid="SubModel_8h" kind="file"><name>SubModel.h</name>
   </compound>
   <compound refid="SubModelKinDynWrapper_8h" kind="file"><name>SubModelKinDynWrapper.h</name>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" kind="enum"><name>UpdateMode</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" kind="enumvalue"><name>Full</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" kind="enumvalue"><name>RobotDynamicsOnly</name></member>
+  </compound>
+  <compound refid="ZeroVelocityStateDynamics_8h" kind="file"><name>ZeroVelocityStateDynamics.h</name>
+    <member refid="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
   <compound refid="NamedTuple_8h" kind="file"><name>NamedTuple.h</name>
     <member refid="NamedTuple_8h_1a43d83ea376e1a1fa734900f0fa4b9529" kind="define"><name>BLF_STRING_TO_HASH</name></member>

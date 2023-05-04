@@ -129,6 +129,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a857ecad479baac775759f91b286069c3">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a0957336abdfda330e80aec47c2d5429b">advance</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a9788214634e66c2e2520dba238f7c3ee">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7e89856750429fa6bc97d34845a1f153">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANN_1abc025d0db188dc7bad83348037f2dd14">advance</reimplementedby>
@@ -173,10 +174,10 @@
 <para>The interface contains method to set inputs and output. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="55">
+      <node id="57">
         <label>BipedalLocomotion::Math::SchmittTrigger</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger"/>
-        <childnode refid="54" relation="public-inheritance">
+        <childnode refid="56" relation="public-inheritance">
         </childnode>
       </node>
       <node id="15">
@@ -194,7 +195,7 @@
         <childnode refid="36" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="52">
+      <node id="54">
         <label>BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -254,7 +255,7 @@
         <childnode refid="33" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="56">
+      <node id="58">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -312,6 +313,12 @@
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
       </node>
+      <node id="53">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider"/>
+        <childnode refid="52" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="27">
         <label>BipedalLocomotion::System::Source&lt; DCMPlannerState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
@@ -330,10 +337,10 @@
           <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="53">
+      <node id="55">
         <label>BipedalLocomotion::System::Sink&lt; Input &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Sink"/>
-        <childnode refid="52" relation="public-inheritance">
+        <childnode refid="54" relation="public-inheritance">
         </childnode>
       </node>
       <node id="24">
@@ -348,6 +355,13 @@
         <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="52">
+        <label>BipedalLocomotion::System::Advanceable&lt; UKFInput, UKFInput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; UKFInput, UKFInput &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="17">
         <label>BipedalLocomotion::System::Source&lt; EstimatedContactList &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
@@ -357,10 +371,10 @@
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="57">
+      <node id="59">
         <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="56" relation="public-inheritance">
+        <childnode refid="58" relation="public-inheritance">
         </childnode>
       </node>
       <node id="43">
@@ -382,7 +396,7 @@
           <edgelabel>&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="54">
+      <node id="56">
         <label>BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
