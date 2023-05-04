@@ -48,7 +48,6 @@ enum class UpdateMode {
  * SubModelKinDynWrapper is a concrete class and implements a wrapper of the KinDynComputation class
  * from iDynTree. The class is used to take updated the sub-model kinematics and dynamics
  */
-
 class SubModelKinDynWrapper
 {
     SubModel m_subModel; /**< SubModel struct containing all the information about the sub-model */

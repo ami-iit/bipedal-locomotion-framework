@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Implement a class to perform inference with the [MANN network](https://github.com/ami-iit/mann-pytorch) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/652)
 - Add some useful methods to the `SubModel` and `SubModelKinDynWrapper` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/661)
+- Implement `Dynamics`, `ZeroVelocityDynamics`, and `JointVelocityStateDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/662)
 
 ### Changed
 
@@ -41,6 +42,7 @@ All notable changes to this project are documented in this file.
 - `Catch2` is now downloaded with `FetchContent` if `BUILD_TESTING` is set to `ON` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
 - The tests now uses`Catch2 v3` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
 - Add the possibility to set vectorial gains in CoM IK and TSID tasks (https://github.com/ami-iit/bipedal-locomotion-framework/pull/656)
+- Add some useful methods to the `SubModel` and `SubModelKinDynWrapper` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/661)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
