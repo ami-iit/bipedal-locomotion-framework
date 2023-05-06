@@ -11,7 +11,9 @@
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includes refid="SubModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
     <includes refid="SubModelKinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</includes>
+    <includedby refid="AccelerometerMeasurementDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h</includedby>
     <includedby refid="ConstantMeasurementModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</includedby>
+    <includedby refid="GyroscopeMeasurementDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h</includedby>
     <includedby refid="JointVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</includedby>
     <includedby refid="ZeroVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</includedby>
     <incdepgraph>
@@ -205,6 +207,14 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="4">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h</label>
+        <link refid="GyroscopeMeasurementDynamics_8h"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h</label>
+        <link refid="AccelerometerMeasurementDynamics_8h"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</label>
         <link refid="Dynamics_8h"/>
@@ -214,16 +224,20 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
         <link refid="ZeroVelocityStateDynamics_8h"/>
       </node>
-      <node id="2">
+      <node id="3">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</label>
         <link refid="ConstantMeasurementModel_8h"/>
       </node>
-      <node id="3">
+      <node id="5">
         <label>BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</label>
         <link refid="JointVelocityStateDynamics_8h"/>
       </node>

@@ -1,5 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a57657dc901fc7b7b6bfa0b8b4fbabc4d" kind="variable"><name>m_useBias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ae8a5507a24e5a76a9ca9fcdbb6daae04" kind="variable"><name>m_bias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a635b4f02523f7f13b47ded86a48936e0" kind="variable"><name>m_biasVariableName</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1abc42a61c18ce4b3b8e7caf0fb5c7b95b" kind="variable"><name>m_subModelList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a9662dc365d0a86f7248837881a358782" kind="variable"><name>m_kinDynWrapperList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a095805b39cf6e20006c942a783589f4b" kind="variable"><name>m_isSubModelListSet</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ab58e04a67afee16292a92cf199651df5" kind="variable"><name>m_subModelJointAcc</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aafc39763dc288a01d7ce0049b90d3677" kind="variable"><name>m_gravity</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aff3857c7402b148b4df808154b9d913f" kind="variable"><name>m_subModelsWithAccelerometer</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a219ca24bd2d84d579e053aaf889aef60" kind="variable"><name>m_ukfInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a76f252ea0c1bf35d900e040a6cf3da0b" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aadafa52a332ca551d0d7273079d588a5" kind="variable"><name>m_stateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ac935cd44d408e5c82762ebd9327b7126" kind="variable"><name>m_covSingleVar</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a199020b133e316a5b8aae6d99a1d7e08" kind="variable"><name>m_JdotNu</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a3dc06c9140900c768b98958b93d36f69" kind="variable"><name>m_JvdotBase</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aaa641bb3411ee6802d24e875d51b9f10" kind="variable"><name>m_Jsdotdot</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a4cdff4c12716bef6e7707b16ab41f9d8" kind="variable"><name>m_accRg</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a33dd8464f0c03a3cc49412845670026d" kind="variable"><name>m_vCrossW</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ab9896ea75cfc9a43b84566549c20d45b" kind="variable"><name>m_linVel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a96ab656e9d09db1c19692227a25f9274" kind="variable"><name>m_angVel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a3d8db53a89a3d5e53a369547d60f3f40" kind="function"><name>AccelerometerMeasurementDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ae71091efb6948ed66cdfcf4bd672f203" kind="function"><name>~AccelerometerMeasurementDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1af3eed0c7fa4319eab35a32dc52c98ba6" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aef3f707d1e8fd37079c8fa506012e84c" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a49867c92d4a27555f8207a71cd260863" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a101828f13c55b3a7a55ce17f172bc8fb" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aac83a55f7a01a6620da30a479894a4a6" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a9ea35db69e1605d40708c6dd3368f2bf" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a6a6b5287ed77a89885d16e0e792b7267" kind="function"><name>setInput</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1Advanceable" kind="class"><name>BipedalLocomotion::System::Advanceable</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" kind="typedef"><name>Output</name></member>
@@ -733,6 +764,35 @@
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386da4b7d504abac49ba24b4df86c129d3cbc" kind="enumvalue"><name>NotSpecified</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a7593449baa647417680c7302749593b1" kind="variable"><name>forceDirection</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a8b7861ecc10cd97627136fc6b3256d9b" kind="variable"><name>associatedJoint</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a39a613ca2c216fe47a463e07d4d4224f" kind="variable"><name>m_useBias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a1f99520c1c3db117473ee113cf77c255" kind="variable"><name>m_bias</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a252cb543b890364753a64bcb48c05f62" kind="variable"><name>m_biasVariableName</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a6d882ebdebcfda120b5aeec20e0289e6" kind="variable"><name>m_isSubModelListSet</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ad902ad04911f26984965c58ea1502a29" kind="variable"><name>m_nrOfSubDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1aa638bbfaab66ea8faaa93b4ff88c918d" kind="variable"><name>m_subModelKinDynList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a2c4c7e76398161ae566d7ae689b9cb83" kind="variable"><name>m_subModelList</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a4b672bcc7c161a7ee93913116cb9029e" kind="variable"><name>m_subModelJointVel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac2093fec3a4b1d6d8aa78a274ce42984" kind="variable"><name>m_subModelWithGyro</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ab51a2db3072f88dbc959cc6e154ef199" kind="variable"><name>m_jointVelocityFullModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1aa46481efe7f3493df666d440eec67f92" kind="variable"><name>m_ukfInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a5dcb5aff89feb6d295817b013efc701f" kind="variable"><name>m_name</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a9e6979fef7b95d67faf82417e2d1381e" kind="variable"><name>m_elements</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a8095b9422de1dce39587fe8dfc78220f" kind="variable"><name>m_stateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a1c56d61ecc8a40b01475d3a340050d57" kind="variable"><name>m_covSingleVar</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a9e6f8425ebfaad7f5782992e7cbe4c6f" kind="variable"><name>m_subModelBaseVel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a0c860a4c91c8092b1e8e8b031aca5d17" kind="variable"><name>m_JvBase</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a3f43860970d9f771cba3fee451787b63" kind="variable"><name>m_Jsdot</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a0d95b291a21712935fe703b622ef4417" kind="function"><name>GyroscopeMeasurementDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a7824edb0b3b15aa2a6e18dd1ffa75ab0" kind="function"><name>~GyroscopeMeasurementDynamics</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a89334c44c6f08dea8663020d9f42ef25" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ae6eb978878989961b83885831d2e6648" kind="function"><name>finalize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a07e6af2730f150500e8651329ede39a6" kind="function"><name>setSubModels</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac94fa671ce2b4fcbb999fe448027f2a3" kind="function"><name>checkStateVariableHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a11ea2b1a7f5e305afea1cced7dd225c9" kind="function"><name>update</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a46d021b5133041f9a29575969ad91e17" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a607541a61a5a73d8c0cd6f49c43b2dbd" kind="function"><name>setInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge" kind="class"><name>BipedalLocomotion::RobotInterface::ICameraBridge</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
@@ -2499,7 +2559,9 @@
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" kind="enum"><name>UpdateMode</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" kind="enumvalue"><name>Full</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" kind="enumvalue"><name>RobotDynamicsOnly</name></member>
+    <member refid="AccelerometerMeasurementDynamics_8h_1a62e617307f5d2e0eb07512d5687a14dd" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+    <member refid="GyroscopeMeasurementDynamics_8h_1a37d41a0f0bee6be633b6f47474397a54" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
@@ -2725,11 +2787,17 @@
   </compound>
   <compound refid="LeggedOdometry_8h" kind="file"><name>LeggedOdometry.h</name>
   </compound>
+  <compound refid="AccelerometerMeasurementDynamics_8h" kind="file"><name>AccelerometerMeasurementDynamics.h</name>
+    <member refid="AccelerometerMeasurementDynamics_8h_1a62e617307f5d2e0eb07512d5687a14dd" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+  </compound>
   <compound refid="ConstantMeasurementModel_8h" kind="file"><name>ConstantMeasurementModel.h</name>
     <member refid="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
   <compound refid="Dynamics_8h" kind="file"><name>Dynamics.h</name>
     <member refid="Dynamics_8h_1a8f127943e47c240a525c20282fe5c848" kind="define"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
+  </compound>
+  <compound refid="GyroscopeMeasurementDynamics_8h" kind="file"><name>GyroscopeMeasurementDynamics.h</name>
+    <member refid="GyroscopeMeasurementDynamics_8h_1a37d41a0f0bee6be633b6f47474397a54" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
   <compound refid="JointVelocityStateDynamics_8h" kind="file"><name>JointVelocityStateDynamics.h</name>
     <member refid="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
