@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+﻿# Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
@@ -72,6 +72,16 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         icub-models::icub-models
         Eigen3::Eigen
         MANIF::manif
+        BipedalLocomotion::ManifConversions)
+
+    add_bipedal_test(NAME FrictionTorqueStateDynamics
+        SOURCES FrictionTorqueStateDynamicsTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        BipedalLocomotion::System
+        icub-models::icub-models
+        Eigen3::Eigen
         BipedalLocomotion::ManifConversions)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
