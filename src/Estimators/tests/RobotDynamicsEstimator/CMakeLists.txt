@@ -52,6 +52,28 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         MANIF::manif
         BipedalLocomotion::ManifConversions)
 
+    add_bipedal_test(NAME AccelerometerMeasurementDynamics
+        SOURCES AccelerometerMeasurementDynamicsTest.cpp
+        LINKS   BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        BipedalLocomotion::System
+        icub-models::icub-models
+        Eigen3::Eigen
+        MANIF::manif
+        BipedalLocomotion::ManifConversions)
+
+    add_bipedal_test(NAME GyroscopeMeasurementDynamics
+        SOURCES GyroscopeMeasurementDynamicsTest.cpp
+        LINKS   BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        BipedalLocomotion::System
+        icub-models::icub-models
+        Eigen3::Eigen
+        MANIF::manif
+        BipedalLocomotion::ManifConversions)
+
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
