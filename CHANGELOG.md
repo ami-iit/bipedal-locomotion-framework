@@ -7,6 +7,10 @@ All notable changes to this project are documented in this file.
 - Add some useful methods to the `SubModel` and `SubModelKinDynWrapper` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/661)
 - Implement `Dynamics`, `ZeroVelocityDynamics`, and `JointVelocityStateDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/662)
 - Implement `AccelerometerMeasurementDynamics` and `GyroscopeMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/666)
+- Implement `LieGroupDynamics` in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement `Conversions::toiDynTreePose()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement `Conversions::toiDynTreePose()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement Implement `MANNAutoregressive` class in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
 
 ### Changed
 
