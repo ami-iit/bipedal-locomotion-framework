@@ -8,8 +8,8 @@ if (FRAMEWORK_COMPILE_ML)
 
   add_bipedal_locomotion_library(
     NAME ML
-    PUBLIC_HEADERS ${H_PREFIX}/MANN.h ${H_PREFIX}/MANNAutoregressive.h
-    SOURCES        src/MANN.cpp src/MANNAutoregressive.cpp
+    PUBLIC_HEADERS ${H_PREFIX}/MANN.h ${H_PREFIX}/MANNAutoregressive.h ${H_PREFIX}/MANNTrajectoryGenerator.h
+    SOURCES        src/MANN.cpp src/MANNAutoregressive.cpp src/MANNTrajectoryGenerator.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System
                           BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::Contacts
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging onnxruntime::onnxruntime BipedalLocomotion::ManifConversions

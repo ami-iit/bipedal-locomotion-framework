@@ -705,6 +705,8 @@ bool MANNAutoregressive::advance()
     m_pimpl->output.jointsPosition = mannOutput.jointPositions;
     m_pimpl->output.basePose = I_H_base;
     m_pimpl->output.currentTime = m_pimpl->currentTime;
+    m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    m_pimpl->output.angularMomentum = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
 
     // store the previous support foot and corner
     m_pimpl->supportFootPtr = supportFootPtr;
