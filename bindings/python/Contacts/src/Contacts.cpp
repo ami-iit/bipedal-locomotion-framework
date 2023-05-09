@@ -186,11 +186,27 @@ void CreateContactPhaseList(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
     py::class_<ContactPhaseList>(module, "ContactPhaseList")
-        .def(py::init())
+        .def(py::init())       
+        .def("__getitem__", &ContactPhaseList::operator[])
+        .def("last_phase", [](const ContactPhaseList& impl) ->  const ContactPhase& 
+        {
+            return *impl.lastPhase();
+        }, py::return_value_policy::reference_internal)
+        .def("first_phase", [](const ContactPhaseList& impl) ->  const ContactPhase&  
+        {
+            return *impl.firstPhase();
+        }, py::return_value_policy::reference_internal)
         .def("set_lists",
              py::overload_cast<const ContactListMap&>(&ContactPhaseList::setLists),
              py::arg("contact_lists"))
-        .def("lists", &ContactPhaseList::lists);
+        .def("lists", &ContactPhaseList::lists)
+        .def("get_present_state",
+            [](const ContactPhaseList& l, const std::chrono::nanoseconds& time) -> const ContactPhase& {
+                return *l.getPresentPhase(time);
+            },
+            py::arg("time"), py::return_value_policy::reference_internal)  
+        .def("__iter__",[](const ContactPhaseList& l){return py::make_iterator(l.crbegin(), l.crend());});
+;
 }
 
 void CreateContactListJsonParser(pybind11::module& module)
