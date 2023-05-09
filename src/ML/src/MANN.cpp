@@ -111,22 +111,11 @@ bool MANN::Impl::populateInput(const MANNInput& input)
         return true;
     };
 
-    // [x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12
-    //  y1, y2, ......................................y12]
-    Eigen::Ref<const Eigen::MatrixXd> tmp
-        = input.basePositionTrajectory.rightCols(input.basePositionTrajectory.cols() / 2);
-    const double trajectoryLength
-        = (tmp.rightCols(tmp.cols() - 1) - tmp.leftCols(tmp.cols() - 1)).colwise().norm().sum();
-
     bool ok = populateVectorData("joint_velocities", input.jointVelocities);
     ok = ok && populateVectorData("joint_positions", input.jointPositions);
     ok = ok && populateProjectedData("base_positions", input.basePositionTrajectory);
     ok = ok && populateProjectedData("base_velocities", input.baseVelocitiesTrajectory);
     ok = ok && populateProjectedData("facing_directions", input.facingDirectionTrajectory);
-    ok = ok
-         && populateVectorData("trajectory_length",
-                               Eigen::Matrix<double, 1, 1>::Constant(trajectoryLength));
-
     return ok;
 }
 
@@ -194,7 +183,6 @@ bool MANN::initialize(
                                                              // projectedBaseHorizon)
                                   + 2 * projectedBaseHorizon // velocity of the base on x and y
                                                              // coordinate in the horizon
-                                  + 1 // length of the trajectory of the based projected
                                   + numberOfJoints // joints positions
                                   + numberOfJoints; // joints velocities
 
@@ -216,7 +204,6 @@ bool MANN::initialize(
     m_pimpl->structuredInput.handler.addVariable("base_positions", 2 * projectedBaseHorizon);
     m_pimpl->structuredInput.handler.addVariable("facing_directions", 2 * projectedBaseHorizon);
     m_pimpl->structuredInput.handler.addVariable("base_velocities", 2 * projectedBaseHorizon);
-    m_pimpl->structuredInput.handler.addVariable("trajectory_length", 1);
     m_pimpl->structuredInput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredInput.handler.addVariable("joint_velocities", numberOfJoints);
 
