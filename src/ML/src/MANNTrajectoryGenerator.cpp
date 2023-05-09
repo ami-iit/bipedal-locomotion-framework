@@ -246,13 +246,17 @@ void MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> 
     temp.rightFoot = rightFoot;
     temp.time = time;
 
-    // TODO remove 51
+    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
+    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
+    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
+    // Along with the present datapoint, they sum up to 51!
+    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
     temp.autoregressiveState.pastProjectedBasePositions
-        = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
     temp.autoregressiveState.pastProjectedBaseVelocity
-        = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
     temp.autoregressiveState.pastFacingDirection
-        = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{1.0, 0.0}};
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
     temp.autoregressiveState.I_H_FD = manif::SE2d::Identity();
     temp.autoregressiveState.previousMannInput = temp.input;
 
