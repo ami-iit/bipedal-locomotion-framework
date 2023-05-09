@@ -249,11 +249,12 @@ bool MANNAutoregressive::initialize(
 }
 
 bool MANNAutoregressive::reset(const MANNInput& input,
-                                     const Contacts::EstimatedContact& leftFoot,
+                                const Contacts::EstimatedContact& leftFoot,
                                      const Contacts::EstimatedContact& rightFoot,
                                      const manif::SE3d& basePosition,
                                      const manif::SE3Tangentd& baseVelocity)
 {
+    // TODO remove 51
     AutoregressiveState state;
     state.pastProjectedBasePositions = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
     state.pastProjectedBaseVelocity = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
@@ -719,4 +720,14 @@ bool MANNAutoregressive::isOutputValid() const
 const MANNAutoregressive::Output& MANNAutoregressive::getOutput() const
 {
     return m_pimpl->output;
+}
+
+const MANNInput& MANNAutoregressive::getMANNInput() const
+{
+    return m_pimpl->mannInput;
+}
+
+const MANNAutoregressive::AutoregressiveState& MANNAutoregressive::getAutoregressiveState() const
+{
+    return m_pimpl->state;
 }
