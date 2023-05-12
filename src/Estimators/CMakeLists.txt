@@ -29,13 +29,14 @@ if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
         NAME                    RobotDynamicsEstimator
         SOURCES                 src/SubModel.cpp src/SubModelKinDynWrapper.cpp src/Dynamics.cpp src/ZeroVelocityStateDynamics.cpp src/JointVelocityStateDynamics.cpp
         src/ConstantMeasurementModel.cpp src/AccelerometerMeasurementDynamics.cpp src/GyroscopeMeasurementDynamics.cpp
-        src/FrictionTorqueStateDynamics.cpp src/MotorCurrentMeasurementDynamics.cpp
+        src/FrictionTorqueStateDynamics.cpp src/MotorCurrentMeasurementDynamics.cpp src/UkfState.cpp
         SUBDIRECTORIES          tests/RobotDynamicsEstimator
         PUBLIC_HEADERS          ${H_PREFIX}/SubModel.h ${H_PREFIX}/SubModelKinDynWrapper.h ${H_PREFIX}/Dynamics.h ${H_PREFIX}/ZeroVelocityStateDynamics.h
         ${H_PREFIX}/JointVelocityStateDynamics.h ${H_PREFIX}/ConstantMeasurementModel.h ${H_PREFIX}/AccelerometerMeasurementDynamics.h
         ${H_PREFIX}/GyroscopeMeasurementDynamics.h ${H_PREFIX}/FrictionTorqueStateDynamics.h ${H_PREFIX}/MotorCurrentMeasurementDynamics.h
+        ${H_PREFIX}/UkfState.h
         PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler MANIF::manif BipedalLocomotion::System BipedalLocomotion::Math iDynTree::idyntree-high-level
-        iDynTree::idyntree-core iDynTree::idyntree-model iDynTree::idyntree-modelio Eigen3::Eigen
+        iDynTree::idyntree-core iDynTree::idyntree-model iDynTree::idyntree-modelio Eigen3::Eigen BayesFilters::BayesFilters
         PRIVATE_LINK_LIBRARIES  BipedalLocomotion::TextLogging BipedalLocomotion::ManifConversions
         )
 endif()

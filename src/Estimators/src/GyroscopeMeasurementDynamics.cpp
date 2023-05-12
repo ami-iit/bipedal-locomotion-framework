@@ -178,9 +178,10 @@ bool RDE::GyroscopeMeasurementDynamics::update()
     {
         m_subModelBaseVel = m_subModelKinDynList[m_subModelWithGyro[index]]->getBaseVelocity();
 
-        m_JvBase
-            = m_subModelKinDynList[m_subModelWithGyro[index]]->getGyroscopeJacobian(m_name).leftCols<6>()
-              * m_subModelBaseVel.coeffs();
+        m_JvBase.noalias() = m_subModelKinDynList[m_subModelWithGyro[index]]
+                                 ->getGyroscopeJacobian(m_name)
+                                 .leftCols<6>()
+                             * m_subModelBaseVel.coeffs();
 
         m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
             = m_JvBase.segment(3, 3);
@@ -193,10 +194,11 @@ bool RDE::GyroscopeMeasurementDynamics::update()
 
         if (m_subModelList[m_subModelWithGyro[index]].getJointMapping().size() > 0)
         {
-            m_Jsdot = m_subModelKinDynList[m_subModelWithGyro[index]]
-                          ->getGyroscopeJacobian(m_name)
-                          .rightCols(m_subModelList[m_subModelWithGyro[index]].getModel().getNrOfDOFs())
-                      * m_subModelJointVel[m_subModelWithGyro[index]];
+            m_Jsdot.noalias()
+                = m_subModelKinDynList[m_subModelWithGyro[index]]
+                      ->getGyroscopeJacobian(m_name)
+                      .rightCols(m_subModelList[m_subModelWithGyro[index]].getModel().getNrOfDOFs())
+                  * m_subModelJointVel[m_subModelWithGyro[index]];
 
             m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
                 += m_Jsdot.segment(3, 3);

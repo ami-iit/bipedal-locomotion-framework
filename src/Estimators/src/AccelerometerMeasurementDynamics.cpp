@@ -191,16 +191,16 @@ bool RDE::AccelerometerMeasurementDynamics::update()
         m_JdotNu = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
                        ->getAccelerometerBiasAcceleration(m_name);
 
-        m_JvdotBase = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                          ->getAccelerometerJacobian(m_name)
-                          .leftCols<6>()
-                      * m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                            ->getBaseAcceleration()
-                            .coeffs();
+        m_JvdotBase.noalias() = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
+                                    ->getAccelerometerJacobian(m_name)
+                                    .leftCols<6>()
+                                * m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
+                                      ->getBaseAcceleration()
+                                      .coeffs();
 
-        m_accRg = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                      ->getAccelerometerRotation(m_name)
-                      .act(m_gravity);
+        m_accRg.noalias() = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
+                                ->getAccelerometerRotation(m_name)
+                                .act(m_gravity);
 
         m_linVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
                        ->getAccelerometerVelocity(m_name)
@@ -209,21 +209,20 @@ bool RDE::AccelerometerMeasurementDynamics::update()
                        ->getAccelerometerVelocity(m_name)
                        .ang();
 
-        m_vCrossW = m_linVel.cross(m_angVel);
+        m_vCrossW.noalias() = m_linVel.cross(m_angVel);
 
-        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
+        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()).noalias()
             = m_JdotNu.segment(0, 3) + m_JvdotBase.segment(0, 3) - m_vCrossW - m_accRg;
 
         if (m_useBias)
         {
             m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-                = m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-                  + m_bias;
+                += m_bias;
         }
 
         if (m_subModelList[m_subModelsWithAccelerometer[index]].getJointMapping().size() > 0)
         {
-            m_Jsdotdot
+            m_Jsdotdot.noalias()
                 = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
                       ->getAccelerometerJacobian(m_name)
                       .rightCols(m_subModelJointAcc[m_subModelsWithAccelerometer[index]].size())
