@@ -10,9 +10,9 @@
     <includes local="no">Eigen/Dense</includes>
     <includes local="no">manif/SE3.h</includes>
     <includes refid="Wrench_8h" local="no">BipedalLocomotion/Math/Wrench.h</includes>
-    <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
-    <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
     <includedby refid="FloatingBaseEstimatorIO_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</includedby>
+    <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
+    <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
     <includedby refid="ContactDetector_8h" local="no">BipedalLocomotion/ContactDetectors/ContactDetector.h</includedby>
     <includedby refid="FixedFootDetector_8h" local="no">BipedalLocomotion/ContactDetectors/FixedFootDetector.h</includedby>
     <includedby refid="ContactList_8h" local="no">BipedalLocomotion/Contacts/ContactList.h</includedby>
@@ -84,9 +84,9 @@
         <link refid="Contact_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -94,16 +94,16 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="2">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
         <link refid="FloatingBaseEstimatorIO_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="15">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
       </node>
@@ -115,33 +115,33 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="5">
         <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
         <link refid="LeggedOdometry_8h"/>
       </node>
-      <node id="8">
+      <node id="4">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="5">
+      <node id="8">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="4">
+      <node id="7">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
+        <link refid="FloatingBaseEstimator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
-        <link refid="FloatingBaseEstimator_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
+      <node id="9">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
         <link refid="CentroidalDynamics_8h"/>
       </node>
@@ -149,7 +149,7 @@
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
-      <node id="16">
+      <node id="14">
         <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
         <link refid="ContactListJsonParser_8h"/>
       </node>
@@ -165,18 +165,18 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="16">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
         <link refid="UnicyclePlanner_8h"/>
       </node>
-      <node id="3">
+      <node id="6">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

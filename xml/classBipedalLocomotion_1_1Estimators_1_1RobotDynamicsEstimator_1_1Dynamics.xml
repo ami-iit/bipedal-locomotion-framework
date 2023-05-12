@@ -4,8 +4,10 @@
     <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</compoundname>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::MotorCurrentMeasurementDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</derivedcompoundref>
     <includes local="no">BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</includes>
       <sectiondef kind="protected-attrib">
@@ -104,8 +106,10 @@
         <name>checkStateVariableHandler</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a101828f13c55b3a7a55ce17f172bc8fb">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1add89f10c855f38efc715043a435cfe29">checkStateVariableHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abfe26f954120387f1689673e7f5e65b3">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac94fa671ce2b4fcbb999fe448027f2a3">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a7adeeb799406f961fe0726f95de452fb">checkStateVariableHandler</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a08598584accdb194d3739ccc491901e8">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1ae6a5db76ff8682e4ec0e2f108c038f56">checkStateVariableHandler</reimplementedby>
         <briefdescription>
 <para>Controls whether the variable handler contains the variables on which the dynamics depend. </para>
@@ -128,8 +132,10 @@
         <name>initialize</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1af3eed0c7fa4319eab35a32dc52c98ba6">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a0c3e0e7da0b9e3ba923242c422727646">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a70ecefe4d21d54f691df0ad7762e2c22">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a89334c44c6f08dea8663020d9f42ef25">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a9da605700c2f13b1c804fec70898619f">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1ae3b6ab978805b9244ce84e7c5f656126">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a6c0d48bf575fbfba3ccc3ea1d6be8790">initialize</reimplementedby>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
@@ -161,8 +167,10 @@
         <definition>virtual bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics::finalize</definition>
         <argsstring>(const System::VariablesHandler &amp;handler)</argsstring>
         <name>finalize</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1abbc64a8c7a6f23faa19a0e0d0110562d">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aef3f707d1e8fd37079c8fa506012e84c">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a09c5d1883e2a7bd6642c002eaedbcc4a">finalize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a12b37694033bef08397b09c0ffaeaafe">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ae6eb978878989961b83885831d2e6648">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1af6bbc581aba2ab3508ffd47b24becd78">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1ad5544ce145a444d8c0871869d52a33e0">finalize</reimplementedby>
@@ -200,8 +208,10 @@
         <name>setSubModels</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a49867c92d4a27555f8207a71cd260863">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a276c97c689d15bc63ab03addcf206946">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1add44c7999e65687d61bfc90ffc4c47f7">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a07e6af2730f150500e8651329ede39a6">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a2dccec9ac370303a4bba055f55596795">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a98013e3d0f1021d80351213bb9d4a3c8">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1abb1f86a9f4f04bca5b3082d76e230bd8">setSubModels</reimplementedby>
         <param>
           <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
@@ -247,8 +257,10 @@
         <name>update</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aac83a55f7a01a6620da30a479894a4a6">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aa98d3a777997261624ad92ddd0496f64">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a9e1171fa33e155e5701f15f647ebb838">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a11ea2b1a7f5e305afea1cced7dd225c9">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a42904d91c55d3d0ddf0e00389d632485">update</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a964849eb4bbfafcf83dc08871de91539">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a2605983244b8558846d32ef39f63c558">update</reimplementedby>
         <briefdescription>
 <para>Update the dynamics of the variable. </para>
@@ -303,8 +315,10 @@
         <name>setState</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a9ea35db69e1605d40708c6dd3368f2bf">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1adcbe625ea8d64fe7ea12618198d5bf8a">setState</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a8cb61f5f0955f05aea2499eb49cc64c5">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a46d021b5133041f9a29575969ad91e17">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aee5a3dcff4b4921548853b4e80b9fe86">setState</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1ab03a2760cdbe7fd5f2095f4415f90b6f">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1aa0e73c0e6df47b44639e12bdaddfc725">setState</reimplementedby>
         <param>
           <type>const Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -336,8 +350,10 @@
         <name>setInput</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a6a6b5287ed77a89885d16e0e792b7267">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a347786970c88d82054d1dbeda24e8050">setInput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3264f63d1907b0264c9dfcdc76afb8d5">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a607541a61a5a73d8c0cd6f49c43b2dbd">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a6d7158ab61702c3c21d7d9079c6c4712">setInput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a109527c76a5981586b375067fd47d168">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1adf74cd12317c55b8f0baf82b1eac501f">setInput</reimplementedby>
         <param>
           <type>const <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UKFInput" kindref="compound">UKFInput</ref> &amp;</type>
@@ -418,15 +434,27 @@
 <para>The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> object is created from a parameter handler which specifies the name of the variable described by the dynamics object, the covariances associated to the variable, the initial covariance, the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> model which specifies which implementation of this class will be used. The model of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> object depends on the current state and an input object which need to be set before calling the update method. </para>
     </detaileddescription>
     <inheritancegraph>
+      <node id="7">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::MotorCurrentMeasurementDynamics</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="3">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -440,13 +468,13 @@
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics"/>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics"/>
         <childnode refid="1" relation="public-inheritance">

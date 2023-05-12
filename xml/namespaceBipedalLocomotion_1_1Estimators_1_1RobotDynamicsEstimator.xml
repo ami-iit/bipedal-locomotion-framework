@@ -8,8 +8,10 @@
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::DynamicsFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::MotorCurrentMeasurementDynamics</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
@@ -84,6 +86,25 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="101" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" declline="101" declcolumn="1"/>
       </memberdef>
+      <memberdef kind="function" id="FrictionTorqueStateDynamics_8h_1a043b5beb867b1c060b57f1a80667cb97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(FrictionTorqueStateDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" kindref="compound">FrictionTorqueStateDynamics</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="130" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" declline="130" declcolumn="1"/>
+      </memberdef>
       <memberdef kind="function" id="GyroscopeMeasurementDynamics_8h_1a37d41a0f0bee6be633b6f47474397a54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
@@ -121,6 +142,25 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h" line="118" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h" declline="118" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="MotorCurrentMeasurementDynamics_8h_1af7cc9c5cef59c598ef0113192f71d62b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(MotorCurrentMeasurementDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" kindref="compound">MotorCurrentMeasurementDynamics</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h" line="120" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h" declline="120" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
