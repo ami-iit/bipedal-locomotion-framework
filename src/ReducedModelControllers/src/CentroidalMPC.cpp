@@ -182,6 +182,7 @@ struct CentroidalMPC::Impl
         std::map<std::string, CasadiContactWithConstraints> contacts;
 
         casadi::MX comReference;
+        casadi::MX angularMomentumReference;
         casadi::MX comCurrent;
         casadi::MX dcomCurrent;
         casadi::MX angularMomentumCurrent;
@@ -203,6 +204,7 @@ struct CentroidalMPC::Impl
         std::map<std::string, ContactsInputs> contacts;
 
         casadi::DM comReference;
+        casadi::DM angularMomentumReference;
         casadi::DM comCurrent;
         casadi::DM dcomCurrent;
         casadi::DM angularMomentumCurrent;
@@ -499,6 +501,7 @@ struct CentroidalMPC::Impl
         this->controllerInputs.dcomCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.angularMomentumCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, stateHorizon);
+        this->controllerInputs.angularMomentumReference = casadi::DM::zeros(vector3Size, stateHorizon);
         this->controllerInputs.externalWrench = casadi::DM::zeros(vector3Size, //
                                                                   this->optiSettings.horizon);
 
@@ -590,6 +593,7 @@ struct CentroidalMPC::Impl
         this->optiVariables.dcomCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.angularMomentumCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.comReference = this->opti.parameter(vector3Size, stateHorizon);
+        this->optiVariables.angularMomentumReference = this->opti.parameter(vector3Size, stateHorizon);
         this->optiVariables.externalWrench = this->opti.parameter(vector3Size, //
                                                                   this->optiSettings.horizon);
     }
@@ -733,6 +737,7 @@ struct CentroidalMPC::Impl
 
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
+        auto& angularMomentumReference = this->optiVariables.angularMomentumReference;
 
         // (max - mix) * expo + mi n
         casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
@@ -743,9 +748,7 @@ struct CentroidalMPC::Impl
         }
 
         casadi::MX cost
-            = this->weights.angularMomentum * 10 * casadi::MX::sumsqr(angularMomentum(0, Sl()))
-              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(1, Sl()))
-              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(2, Sl()))
+            = this->weights.angularMomentum  * casadi::MX::sumsqr(angularMomentum - angularMomentumReference)
               + this->weights.com(0) * casadi::MX::sumsqr(com(0, Sl()) - comReference(0, Sl()))
               + this->weights.com(1) * casadi::MX::sumsqr(com(1, Sl()) - comReference(1, Sl()))
               + casadi::MX::sumsqr(weightCoMZ * (com(2, Sl()) - comReference(2, Sl())));
@@ -800,12 +803,18 @@ struct CentroidalMPC::Impl
         input.push_back(this->optiVariables.dcomCurrent);
         input.push_back(this->optiVariables.angularMomentumCurrent);
         input.push_back(this->optiVariables.comReference);
+        input.push_back(this->optiVariables.angularMomentumReference);
+        input.push_back(this->optiVariables.com);
+        input.push_back(this->optiVariables.angularMomentum);
 
         inputName.push_back("external_wrench");
         inputName.push_back("com_current");
         inputName.push_back("dcom_current");
         inputName.push_back("angular_momentum_current");
         inputName.push_back("com_reference");
+        inputName.push_back("angular_momentum_reference");
+        inputName.push_back("com");
+        inputName.push_back("angular_momentum");
 
         for (const auto& [key, contact] : this->optiVariables.contacts)
         {
@@ -815,6 +824,7 @@ struct CentroidalMPC::Impl
             input.push_back(contact.isEnable);
             input.push_back(contact.upperLimitPosition);
             input.push_back(contact.lowerLimitPosition);
+
 
             inputName.push_back("contact_" + key + "_current_position");
             inputName.push_back("contact_" + key + "_nominal_position");
@@ -956,6 +966,9 @@ bool CentroidalMPC::advance()
     vectorizedInputs.push_back(inputs.dcomCurrent);
     vectorizedInputs.push_back(inputs.angularMomentumCurrent);
     vectorizedInputs.push_back(inputs.comReference);
+    vectorizedInputs.push_back(inputs.angularMomentumReference);
+    vectorizedInputs.push_back(inputs.comReference);
+    vectorizedInputs.push_back(inputs.angularMomentumReference);
 
     for (const auto& [key, contact] : inputs.contacts)
     {
@@ -1059,7 +1072,7 @@ bool CentroidalMPC::advance()
     return true;
 }
 
-bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com)
+bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> com, Eigen::Ref<const Eigen::Matrix3Xd> angularMomentum)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setReferenceTrajectory]";
     assert(m_pimpl);
@@ -1073,12 +1086,6 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
         return false;
     }
 
-    if (com.rows() != 3)
-    {
-        log()->error("{} The CoM matrix should have three rows.", errorPrefix);
-        return false;
-    }
-
     if (com.cols() < stateHorizon)
     {
         log()->error("{} The CoM matrix should have at least {} columns. The number of columns is "
@@ -1088,7 +1095,17 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
         return false;
     }
 
+    if (angularMomentum.cols() < stateHorizon)
+    {
+        log()->error("{} The angular momentum matrix should have at least {} columns. The number of columns is "
+                     "equal to the horizon you set in the  initialization phase.",
+                     errorPrefix,
+                     m_pimpl->optiSettings.horizon);
+        return false;
+    }
+
     toEigen(m_pimpl->controllerInputs.comReference) = com.leftCols(stateHorizon);
+    toEigen(m_pimpl->controllerInputs.angularMomentumReference) = angularMomentum.leftCols(stateHorizon);
 
     return true;
 }

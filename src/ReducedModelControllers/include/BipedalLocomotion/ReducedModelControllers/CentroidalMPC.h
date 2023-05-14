@@ -81,7 +81,8 @@ public:
                   Eigen::Ref<const Eigen::Vector3d> dcom,
                   Eigen::Ref<const Eigen::Vector3d> angularMomentum,
                   std::optional<Eigen::Ref<const Eigen::Vector3d>> externalWrench = {});
-    bool setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com);
+
+    bool setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> com, Eigen::Ref<const Eigen::Matrix3Xd> angularMomentum);
 
     /**
      * @brief Get the object.

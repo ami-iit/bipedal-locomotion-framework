@@ -35,6 +35,7 @@ struct MANNTrajectoryGenerator::Impl
     std::vector<MergePointState> mergePointStates;
     std::chrono::nanoseconds dT;
     bool isOutputValid{false};
+    int slowDownFactor{1};
 
     Contacts::ContactListMap contactListMap;
     MANNTrajectoryGeneratorOutput output;
@@ -58,7 +59,7 @@ void MANNTrajectoryGenerator::Impl::resetContactList(
         return;
     }
     Contacts::PlannedContact temp;
-    temp.activationTime = estimatedContact.switchTime;
+    temp.activationTime = estimatedContact.switchTime * slowDownFactor;
     temp.deactivationTime = std::chrono::nanoseconds::max();
     temp.index = estimatedContact.index;
     temp.name = estimatedContact.name;
@@ -82,11 +83,11 @@ bool MANNTrajectoryGenerator::Impl::updateContactList(
     // if the contact list map is empty then this is the first contact that we have to add to the
     // list
     if (contactListMap[footName].size() == 0
-        || (!contactListMap[footName].lastContact()->isContactActive(currentTime)
+        || (!contactListMap[footName].lastContact()->isContactActive(currentTime * this->slowDownFactor)
             && estimatedContact.isActive))
     {
         Contacts::PlannedContact temp;
-        temp.activationTime = estimatedContact.switchTime;
+        temp.activationTime = estimatedContact.switchTime * slowDownFactor;
         temp.deactivationTime = std::chrono::nanoseconds::max();
         temp.index = estimatedContact.index;
         temp.name = estimatedContact.name;
@@ -103,11 +104,11 @@ bool MANNTrajectoryGenerator::Impl::updateContactList(
         contactListMap[footName].addContact(temp);
     }
     // In this case the contact ended so we have to set the deactivation time
-    else if (contactListMap[footName].lastContact()->isContactActive(currentTime)
+    else if (contactListMap[footName].lastContact()->isContactActive(currentTime * slowDownFactor)
              && !estimatedContact.isActive)
     {
         Contacts::PlannedContact lastContact = *(contactListMap[footName].lastContact());
-        lastContact.deactivationTime = currentTime;
+        lastContact.deactivationTime = currentTime * slowDownFactor;
 
         // we cannot update the status of the last contact. We need to remove it and add it again
         contactListMap[footName].removeLastContact();
@@ -160,6 +161,7 @@ bool MANNTrajectoryGenerator::initialize(
 
     bool ok = getParameter(paramHandler, "time_horizon", m_pimpl->horizon);
     ok = ok && getParameter(paramHandler, "sampling_time", m_pimpl->dT);
+    ok = ok && getParameter(paramHandler, "slow_down_factor", m_pimpl->slowDownFactor);
     ok = ok
          && getParameter(paramHandler.lock()->getGroup("MANN"),
                          "projected_base_horizon",
@@ -167,6 +169,8 @@ bool MANNTrajectoryGenerator::initialize(
     m_pimpl->mergePointStates.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.basePoses.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.jointPositions.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.angularMomentumTrajectory.resize(3, m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.comTrajectory.resize(3, m_pimpl->horizon / m_pimpl->dT);
 
     return ok && m_pimpl->mann.initialize(paramHandler);
 }
@@ -282,6 +286,8 @@ bool MANNTrajectoryGenerator::advance()
         m_pimpl->mergePointStates[i].time = MANNOutput.currentTime;
         m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.jointPositions[i] = MANNOutput.jointsPosition;
+        m_pimpl->output.angularMomentumTrajectory.col(i) = MANNOutput.angularMomentum;
+        m_pimpl->output.comTrajectory.col(i) = MANNOutput.comPosition;
 
         if (!m_pimpl->updateContactList("left_foot", MANNOutput.currentTime, MANNOutput.leftFoot))
         {

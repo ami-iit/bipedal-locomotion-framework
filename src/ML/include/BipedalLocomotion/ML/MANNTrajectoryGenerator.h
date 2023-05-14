@@ -36,7 +36,8 @@ struct MANNTrajectoryGeneratorInput : public MANNAutoregressiveInput
  */
 struct MANNTrajectoryGeneratorOutput
 {
-    // Eigen::Matrix3Xd comTrajectory;
+    Eigen::Matrix3Xd comTrajectory;
+    Eigen::Matrix3Xd angularMomentumTrajectory;
     std::vector<Eigen::VectorXd> jointPositions;
     std::vector<manif::SE3d> basePoses;
     Contacts::ContactPhaseList phaseList; /**< List of the contact phases */
@@ -84,6 +85,7 @@ public:
      * | `chest_link_frame_name`  | `string` | Name of of the chest link frame in the model |    Yes    |
      * | `right_foot_frame_name`  | `string` | Name of of the right foot frame in the model |    Yes    |
      * |  `left_foot_frame_name`  | `string` | Name of of the left foot frame in the model  |    Yes    |
+     * |    `slow down factor`    |   `int   |    Slow down factor (default value 1)        |    No     |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
      * |      Parameter Name      |        Type       |                                        Description                                             | Mandatory |
      * |:------------------------:|:-----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
