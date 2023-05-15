@@ -86,6 +86,14 @@ void CreateContact(pybind11::module& module)
     py::class_<ContactWrench, ContactBase>(module, "ContactWrench")
         .def(py::init())
         .def_readwrite("wrench", &ContactWrench::wrench);
+    py::class_<DiscreteGeometryContact>(module, "DiscreteGeometryContact")
+        .def(py::init())
+        .def_readwrite("corners", &DiscreteGeometryContact::corners);
+    py::class_<Corner>(module, "Corner")
+        .def(py::init())
+        .def_readwrite("position", &Corner::position)
+        .def_readwrite("force", &Corner::force);
+    
 }
 
 void CreateContactList(pybind11::module& module)
@@ -200,7 +208,7 @@ void CreateContactPhaseList(pybind11::module& module)
              py::overload_cast<const ContactListMap&>(&ContactPhaseList::setLists),
              py::arg("contact_lists"))
         .def("lists", &ContactPhaseList::lists)
-        .def("get_present_state",
+        .def("get_present_phase",
             [](const ContactPhaseList& l, const std::chrono::nanoseconds& time) -> const ContactPhase& {
                 return *l.getPresentPhase(time);
             },
