@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 - Implement `FrictionTorqueStateDynamics` and `MotorCurrentMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/667)
 
 ### Changed
+- Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
 
 ### Fixed
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
