@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Implement `Dynamics`, `ZeroVelocityDynamics`, and `JointVelocityStateDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/662)
 - Implement `AccelerometerMeasurementDynamics` and `GyroscopeMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/666)
 - Implement `FrictionTorqueStateDynamics` and `MotorCurrentMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/667)
+- Add logging of FTs on the ergoCub legs and fix FT and IMU port names (https://github.com/ami-iit/bipedal-locomotion-framework/pull/671)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
