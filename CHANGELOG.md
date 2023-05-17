@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
+- 🤖 [ergoCubSN000] Clean the mas remapper files of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/673)
 
 ### Fixed
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
