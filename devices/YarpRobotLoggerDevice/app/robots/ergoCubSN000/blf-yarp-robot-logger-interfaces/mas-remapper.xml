@@ -28,8 +28,6 @@
     <paramlist name="networks">
       <elem name="left_arm_ft_client">left_arm_ft_client</elem>
       <elem name="right_arm_ft_client">right_arm_ft_client</elem>
-      <elem name="left_foot_ft_client">left_foot_ft_client</elem>
-      <elem name="right_foot_ft_client">right_foot_ft_client</elem>
       <elem name="left_leg_ft_client">left_leg_ft_client</elem>
       <elem name="right_leg_ft_client">right_leg_ft_client</elem>
       <elem name="head_imu_acc">head_imu_acc</elem>
