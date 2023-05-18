@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <atomic>
+#include <fstream>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -99,10 +100,28 @@ private:
     std::thread m_lookForNewExogenousSignalThread;
 
     std::vector<std::string> m_rgbCamerasList;
-    struct VideoWriter{
-        std::mutex mutex;
-        std::shared_ptr<cv::VideoWriter> writer;
-        cv::Mat frame;
+    std::vector<std::string> m_rgbdCamerasList;
+    struct VideoWriter
+    {
+        enum class SaveMode
+        {
+            Video,
+            Frame
+        };
+
+        struct ImageSaver
+        {
+            std::mutex mutex;
+            std::shared_ptr<cv::VideoWriter> writer;
+            cv::Mat frame;
+            SaveMode saveMode{SaveMode::Video};
+            std::filesystem::path framesPath;
+        };
+
+        std::shared_ptr<ImageSaver> rgb;
+        std::shared_ptr<ImageSaver> depth;
+        int depthScale{1};
+
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
@@ -138,6 +157,7 @@ private:
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
+    std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
@@ -153,9 +173,12 @@ private:
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
-
     bool saveCallback(const std::string& fileName,
                       const robometry::SaveCallbackSaveMethod& method);
+    bool openVideoWriter(std::shared_ptr<VideoWriter::ImageSaver> imageSaver, const std::string& camera, const std::string& imageType,
+                         const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions);
+    bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+                            const std::string& camera, const std::string& imageType);
 };
 
 } // namespace BipedalLocomotion
