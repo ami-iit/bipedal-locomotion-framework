@@ -6,18 +6,26 @@ BSD-3-Clause license. -->
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">ergocub</param>
   <param name="sampling_period_in_s">0.01</param>
-  <param name="rgb_cameras_fps">(30)</param>
+
+  <param name="rgb_cameras_fps">()</param>
+  <param name="rgb_cameras_rgb_save_mode">()</param>
+
+  <param name="rgbd_cameras_fps">(30)</param>
+  <param name="rgbd_cameras_depth_scale">(1000)</param>
+  <param name="rgbd_cameras_depth_save_mode">("frame")</param>
+  <param name="rgbd_cameras_rgb_save_mode">("frame")</param>
+
   <param name="video_codec_code">mp4v</param>
   <param name="port_prefix">/yarp-robot-logger</param>
   <param name="text_logging_subnames">("ergoCubSN000/yarprobotinterface")</param>
   <param name="code_status_cmd_prefixes">("ssh ergocub@10.0.2.2" "ssh ergocub@10.0.2.1")</param>
 
   <group name="Telemetry">
-    <param name="save_period">600.0</param>
+    <param name="save_period">1800.0</param>
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("RobotDynamicsEstimator")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
@@ -36,9 +44,10 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="RobotCameraBridge">
-      <param name="stream_cameras">false</param>
+      <param name="stream_cameras">true</param>
       <group name="Cameras">
-        <param name="rgb_cameras_list">("jabra")</param>
+        <param name="rgb_cameras_list">()</param>
+        <param name="rgbd_cameras_list">("realsense")</param>
       </group>
   </group>
 
@@ -89,8 +98,8 @@ BSD-3-Clause license. -->
       <elem name="right_arm_wrench_client">right_arm_wrench_client</elem>
       <elem name="left_arm_wrench_client">left_arm_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
+      <elem name="realsense">realsense</elem>
       <!-- <elem name="jabra">jabra</elem> -->
-
     </paramlist>
   </action>
 
