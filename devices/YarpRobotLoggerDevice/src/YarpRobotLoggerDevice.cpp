@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -135,29 +136,120 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     if (this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
     {
-        // Currently the logger supports only rgb cameras
-        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
-        {
-            std::vector<int> rgbFPS;
-            if (!params->getParameter("rgb_cameras_fps", rgbFPS))
+        auto populateCamerasData
+            = [logPrefix, params, this](const std::string& fpsParamName,
+                                        const std::vector<std::string>& cameraNames) -> bool {
+            std::vector<int> fps, depthScale;
+            std::vector<std::string> rgbSaveMode, depthSaveMode;
+            if (!params->getParameter(fpsParamName, fps))
             {
+                log()->error("{} Unable to find the parameter named: {}.", logPrefix, fpsParamName);
                 return false;
             }
 
-            const auto& rgbCameras = m_cameraBridge->getMetaData().sensorsList.rgbCamerasList;
-            if (rgbFPS.size() != rgbCameras.size())
+            // if the camera is an rgbd camera then user should provide the depth scale
+            if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
             {
-                log()->error("{} Mismatch between the number of cameras and the vector containg "
+                if (!params->getParameter("rgbd_cameras_depth_scale", depthScale))
+                {
+                    log()->error("{} Unable to find the parameter named: "
+                                 "'rgbd_cameras_depth_scale'.",
+                                 logPrefix);
+                    return false;
+                }
+
+                if (!params->getParameter("rgbd_cameras_rgb_save_mode", rgbSaveMode))
+                {
+                    log()->error("{} Unable to find the parameter named: "
+                                 "'rgb_cameras_rgb_save_mode.",
+                                 logPrefix);
+                    return false;
+                }
+
+                if (!params->getParameter("rgbd_cameras_depth_save_mode", depthSaveMode))
+                {
+                    log()->error("{} Unable to find the parameter named: "
+                                 "'rgbd_cameras_depth_save_mode.",
+                                 logPrefix);
+                    return false;
+                }
+
+                if (fps.size() != depthScale.size() || (fps.size() != rgbSaveMode.size())
+                    || (fps.size() != depthSaveMode.size()))
+                {
+                    log()->error("{} Mismatch between the vector containing the size of the vector "
+                                 "provided from configuration"
+                                 "Number of cameras: {}. Size of the FPS vector {}. Size of the "
+                                 "depth scale vector {}."
+                                 "Size of 'rgb_cameras_rgb_save_mode' {}. Size of "
+                                 "'rgb_cameras_depth_save_mode': {}",
+                                 logPrefix,
+                                 cameraNames.size(),
+                                 fps.size(),
+                                 depthScale.size(),
+                                 rgbSaveMode.size(),
+                                 depthSaveMode.size());
+                    return false;
+                }
+            } else
+            {
+                if (!params->getParameter("rgb_cameras_rgb_save_mode", rgbSaveMode))
+                {
+                    log()->error("{} Unable to find the parameter named: "
+                                 "'rgb_cameras_rgb_save_mode.",
+                                 logPrefix);
+                    return false;
+                }
+            }
+
+            if ((fps.size() != rgbSaveMode.size()))
+            {
+                log()->error("{} Mismatch between the vector containing the size of the vector "
+                             "provided from configuration"
+                             "Number of cameras: {}. Size of the FPS vector {}."
+                             "Size of 'rgb_cameras_rgb_save_mode' {}.",
+                             logPrefix,
+                             cameraNames.size(),
+                             fps.size(),
+                             rgbSaveMode.size());
+                return false;
+            }
+
+            if (fps.size() != cameraNames.size())
+            {
+                log()->error("{} Mismatch between the number of cameras and the vector containing "
                              "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
                              logPrefix,
-                             rgbCameras.size(),
-                             rgbFPS.size());
+                             cameraNames.size(),
+                             fps.size());
                 return false;
             }
 
-            for (unsigned int i = 0; i < rgbFPS.size(); i++)
+            auto createImageSaver
+                = [logPrefix](
+                      const std::string& saveMode) -> std::shared_ptr<VideoWriter::ImageSaver> {
+                auto saver = std::make_shared<VideoWriter::ImageSaver>();
+                if (saveMode == "frame")
+                {
+                    saver->saveMode = VideoWriter::SaveMode::Frame;
+                } else if (saveMode == "video")
+                {
+                    saver->saveMode = VideoWriter::SaveMode::Video;
+                } else
+                {
+                    log()->error("{} The save mode associated to the one of the camera is neither "
+                                 "'frame' nor 'video'. Provided: {}",
+                                 logPrefix,
+                                 saveMode);
+                    return nullptr;
+                }
+                return saver;
+            };
+
+            bool ok = true;
+            for (unsigned int i = 0; i < fps.size(); i++)
             {
-                if (rgbFPS[i] <= 0)
+                if (fps[i] <= 0)
                 {
                     log()->error("{} The FPS associated to the camera {} is negative or equal to "
                                  "zero.",
@@ -167,9 +259,62 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                 }
 
                 // get the desired fps for each camera
-                m_videoWriters[rgbCameras[i]].fps = rgbFPS[i];
+                m_videoWriters[cameraNames[i]].fps = fps[i];
+
+                // this means that the list of cameras are rgb camera
+                if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
+                {
+                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+                }
+                // this means that the list of cameras are rgbd camera
+                else
+                {
+                    if (depthSaveMode[i] == "video")
+                    {
+                        log()->warn("{} The depth stream of the rgbd camera {} will be saved as a "
+                                    "grayscale 8bit video. We suggest to save it as a set of "
+                                    "frames.",
+                                    logPrefix,
+                                    i);
+                    }
+                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+                    m_videoWriters[cameraNames[i]].depth = createImageSaver(depthSaveMode[i]);
+                    ok = ok && m_videoWriters[cameraNames[i]].depth != nullptr;
+                    m_videoWriters[cameraNames[i]].depthScale = depthScale[i];
+                }
             }
 
+            return ok;
+        };
+
+        // get the metadata for rgb camera
+        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
+        {
+            if (!populateCamerasData("rgb_cameras_fps",
+                                     m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
+            {
+                log()->error("{} Unable to populate the camera fps for RGB cameras.", logPrefix);
+                return false;
+            }
+        }
+
+        // Currently the logger supports only rgb cameras
+        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
+        {
+            if (!populateCamerasData("rgbd_cameras_fps",
+                                     m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
+            {
+                log()->error("{} Unable to populate the camera fps for RGBD cameras.", logPrefix);
+                return false;
+            }
+        }
+
+        // get the video codec in case rgb or rgbd camera are enabled
+        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled
+            || m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
+        {
             if (!params->getParameter("video_codec_code", m_videoCodecCode))
             {
                 constexpr auto fourccCodecUrl = "https://abcavi.kibi.ru/fourcc.php";
@@ -189,12 +334,6 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                 return false;
             }
         }
-
-        if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
-        {
-            log()->warn("{} The logger does not support rgbd cameras.", logPrefix);
-        }
-
     } else
     {
         log()->info("{} The video will not be recorded", logPrefix);
@@ -251,8 +390,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         m_vectorsCollectionSignals[remote].local = local;
         m_vectorsCollectionSignals[remote].carrier = carrier;
 
-        if (!m_vectorsCollectionSignals[remote].port.open(
-                m_vectorsCollectionSignals[remote].local))
+        if (!m_vectorsCollectionSignals[remote].port.open(m_vectorsCollectionSignals[remote].local))
         {
             log()->error("{} Unable to open the port named: {}.",
                          logPrefix,
@@ -599,28 +737,99 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     if (m_cameraBridge != nullptr)
     {
         ok = ok && m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
-
         for (const auto& camera : m_rgbCamerasList)
         {
-            const auto& cameraInfo
-                = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);
-            if (cameraInfo == m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.end())
+            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
             {
-                log()->error("{} Unable to get the info of the camera named {}.",
-                             logPrefix,
-                             camera);
-                return false;
+                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                           camera,
+                                           "rgb",
+                                           m_cameraBridge->getMetaData()
+                                               .bridgeOptions.rgbImgDimensions))
+                {
+                    log()->error("{} Unable open the video writer for the camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
+            } else
+            {
+                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+                {
+                    log()->error("{} Unable to create the folder to store the frames for the "
+                                 "camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
+            }
+            ok = ok
+                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                                {1, 1}, //
+                                                {"timestamp"}});
+        }
+
+        ok = ok && m_cameraBridge->getRGBDCamerasList(m_rgbdCamerasList);
+        for (const auto& camera : m_rgbdCamerasList)
+        {
+            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+            {
+                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                           camera,
+                                           "rgb",
+                                           m_cameraBridge->getMetaData()
+                                               .bridgeOptions.rgbdImgDimensions))
+                {
+                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
+            } else
+            {
+                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+                {
+                    log()->error("{} Unable to create the folder to store the frames for the "
+                                 "camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
+            }
+            if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
+            {
+                if (!this->openVideoWriter(m_videoWriters[camera].depth,
+                                           camera,
+                                           "depth",
+                                           m_cameraBridge->getMetaData()
+                                               .bridgeOptions.rgbdImgDimensions))
+                {
+                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
+            } else
+            {
+                if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
+                {
+                    log()->error("{} Unable to create the folder to store the frames for the "
+                                 "camera named {}.",
+                                 logPrefix,
+                                 camera);
+                    return false;
+                }
             }
 
-            m_videoWriters[camera].writer
-                = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
-                                                    cv::VideoWriter::fourcc(m_videoCodecCode.at(0),
-                                                                            m_videoCodecCode.at(1),
-                                                                            m_videoCodecCode.at(2),
-                                                                            m_videoCodecCode.at(3)),
-                                                    m_videoWriters[camera].fps,
-                                                    cv::Size(cameraInfo->second.first,
-                                                             cameraInfo->second.second));
+            ok = ok
+                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                                {1, 1}, //
+                                                {"timestamp"}});
+
+            ok = ok
+                 && m_bufferManager.addChannel({"camera::" + camera + "::depth",
+                                                {1, 1}, //
+                                                {"timestamp"}});
         }
 
         if (ok)
@@ -659,6 +868,72 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     return ok;
 }
 
+bool YarpRobotLoggerDevice::openVideoWriter(
+    std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+    const std::string& camera,
+    const std::string& imageType,
+    const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions)
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::openVideoWriter]";
+    if (imageSaver == nullptr)
+    {
+        log()->error("{} It seems that the camera named {} do not support {}. This shouldn't be "
+                     "possible.",
+                     logPrefix,
+                     camera,
+                     imageType);
+        return false;
+    }
+
+    const auto imgDimension = imgDimensions.find(camera);
+    const auto videoWriter = m_videoWriters.find(camera);
+
+    if (imgDimension == imgDimensions.cend() || videoWriter == m_videoWriters.cend())
+    {
+        log()->error("{} Unable to find the dimension of the image or the video writers for the "
+                     "camera named {}.",
+                     logPrefix,
+                     camera);
+        return false;
+    }
+
+    std::lock_guard guard(imageSaver->mutex);
+    imageSaver->writer
+        = std::make_shared<cv::VideoWriter>("output_" + camera + "_" + imageType + ".mp4",
+                                            cv::VideoWriter::fourcc(m_videoCodecCode.at(0),
+                                                                    m_videoCodecCode.at(1),
+                                                                    m_videoCodecCode.at(2),
+                                                                    m_videoCodecCode.at(3)),
+                                            videoWriter->second.fps,
+                                            cv::Size(imgDimension->second.first,
+                                                     imgDimension->second.second),
+                                            "rgb" == imageType);
+    return true;
+}
+
+bool YarpRobotLoggerDevice::createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+                                               const std::string& camera,
+                                               const std::string& imageType)
+{
+    namespace fs = std::filesystem;
+
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::createFramesFolder]";
+    if (imageSaver == nullptr)
+    {
+        log()->error("{} It seems that the camera named {} do not support {}. This shouldn't be "
+                     "possible.",
+                     logPrefix,
+                     camera,
+                     imageType);
+        return false;
+    }
+
+    imageSaver->framesPath = "output_" + camera + "_" + imageType;
+    std::lock_guard guard(imageSaver->mutex);
+    std::filesystem::create_directory(imageSaver->framesPath);
+    return true;
+}
+
 void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                                       Eigen::Ref<accelerometer_t> accelerometer,
                                       Eigen::Ref<gyro_t> gyro,
@@ -679,10 +954,12 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
 {
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
 
+    using namespace std::chrono_literals;
+
     auto time = BipedalLocomotion::clock().now();
     auto oldTime = time;
     auto wakeUpTime = time;
-    const auto lookForExogenousSignalPeriod = std::chrono::duration<double>(1);
+    const std::chrono::nanoseconds lookForExogenousSignalPeriod = 1s;
     m_lookForNewExogenousSignalIsRunning = true;
 
     auto connectToExogeneous = [](auto& signals) -> void {
@@ -720,7 +997,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         BipedalLocomotion::clock().sleepUntil(wakeUpTime);
     }
 }
-
 
 bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
                                          const std::vector<std::string>& substrings) const
@@ -792,6 +1068,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     auto wakeUpTime = time;
     writer.recordVideoIsRunning = true;
     const auto recordVideoPeriod = std::chrono::duration<double>(1 / double(writer.fps));
+    unsigned int imageIndex = 0;
 
     while (writer.recordVideoIsRunning)
     {
@@ -806,19 +1083,90 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
         wakeUpTime += recordVideoPeriod;
 
         // get the frame from the camera
-        if (!m_cameraBridge->getColorImage(cameraName, writer.frame))
+        if (writer.rgb != nullptr)
         {
-            log()->info("{} Unable to get the frame of the camera named: {}. The previous frame "
-                        "will be used.",
-                        logPrefix,
-                        cameraName);
+            if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
+            {
+                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                            "frame "
+                            "will be used.",
+                            logPrefix,
+                            cameraName);
+            }
+
+            // save the frame in the video writer
+            if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
+            {
+                std::lock_guard<std::mutex> lock(writer.rgb->mutex);
+                writer.rgb->writer->write(writer.rgb->frame);
+            } else
+            {
+                assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
+
+                const std::filesystem::path imgPath
+                    = writer.rgb->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+
+                cv::imwrite(imgPath.string(), writer.rgb->frame);
+
+                // lock the the buffered manager mutex
+                std::lock_guard lock(m_bufferManagerMutex);
+
+                // TODO here we may save the frame itself
+                m_bufferManager.push_back(time.count(),
+                                          time.count(),
+                                          "camera::" + cameraName + "::rgb");
+            }
         }
 
-        // save the frame in the video writer
+        if (writer.depth != nullptr)
         {
-            std::lock_guard<std::mutex> lock(writer.mutex);
-            writer.writer->write(writer.frame);
+            if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
+            {
+                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                            "frame "
+                            "will be used.",
+                            logPrefix,
+                            cameraName);
+
+            } else
+            {
+                // If a new frame arrived the we should scale it
+                writer.depth->frame = writer.depth->frame * writer.depthScale;
+            }
+
+            if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
+            {
+                // we need to convert the image to 8bit this is required by the video writer
+                cv::Mat image8Bit;
+                writer.depth->frame.convertTo(image8Bit, CV_8UC1);
+
+                // save the frame in the video writer
+                std::lock_guard<std::mutex> lock(writer.depth->mutex);
+                writer.depth->writer->write(image8Bit);
+            } else
+            {
+                assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
+
+                const std::filesystem::path imgPath
+                    = writer.depth->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+
+                // convert the image into 16bit grayscale image
+                cv::Mat image16Bit;
+                writer.depth->frame.convertTo(image16Bit, CV_16UC1);
+                cv::imwrite(imgPath.string(), image16Bit);
+
+                // lock the the buffered manager mutex
+                std::lock_guard lock(m_bufferManagerMutex);
+
+                // TODO here we may save the frame itself
+                m_bufferManager.push_back(time.count(),
+                                          time.count(),
+                                          "camera::" + cameraName + "::depth");
+            }
         }
+
+        // increase the index
+        imageIndex++;
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -848,6 +1196,7 @@ void YarpRobotLoggerDevice::run()
 
     const double time = BipedalLocomotion::clock().now().count();
 
+    std::lock_guard lock(m_bufferManagerMutex);
     // collect the data
     if (m_streamJointStates)
     {
@@ -1054,10 +1403,11 @@ void YarpRobotLoggerDevice::run()
     }
 }
 
-bool YarpRobotLoggerDevice::saveCallback(
-    const std::string& fileName,
-    const robometry::SaveCallbackSaveMethod& method)
+bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
+                                         const robometry::SaveCallbackSaveMethod& method)
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveCallback]";
+
     auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
         std::stringstream processStream, stream;
 
@@ -1078,31 +1428,144 @@ bool YarpRobotLoggerDevice::saveCallback(
         return stream.str();
     };
 
+    auto saveVideo = [&fileName, logPrefix](std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+                                            const std::string& camera,
+                                            const std::string& videoTypePostfix) -> bool {
+        if (imageSaver == nullptr)
+        {
+            log()->error("{} The camera named {} do not expose the rgb image. This should't be "
+                         "possible.",
+                         logPrefix,
+                         camera);
+            return false;
+        }
+
+        std::string temp = fileName + "_" + camera + "_" + videoTypePostfix;
+        std::string oldName = "output_" + camera + "_" + videoTypePostfix;
+
+        // release the writer
+        std::lock_guard<std::mutex> lock(imageSaver->mutex);
+        if (imageSaver->saveMode == VideoWriter::SaveMode::Video)
+        {
+            // the name of the files contains mp4
+            temp += ".mp4";
+            oldName += ".mp4";
+
+            imageSaver->writer->release();
+        }
+
+        // rename the file associated to the camera
+        std::filesystem::rename(oldName, temp);
+
+        return true;
+    };
+
     // save the video if there is any
     for (const auto& camera : m_rgbCamerasList)
     {
-        const std::string temp = fileName + "_" + camera + ".mp4";
-        const std::string oldName = "output_" + camera + ".mp4";
-
-        std::lock_guard<std::mutex> lock(m_videoWriters[camera].mutex);
-        m_videoWriters[camera].writer->release();
-
-        // rename the file associated to the camera
-        std::rename(oldName.c_str(), temp.c_str());
-
-        if (method == robometry::SaveCallbackSaveMethod::periodic)
+        if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
-            const auto& cameraInfo
-                = m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions.find(camera);
-            m_videoWriters[camera].writer
-                = std::make_shared<cv::VideoWriter>("output_" + camera + ".mp4",
-                                                    cv::VideoWriter::fourcc(m_videoCodecCode.at(0),
-                                                                            m_videoCodecCode.at(1),
-                                                                            m_videoCodecCode.at(2),
-                                                                            m_videoCodecCode.at(3)),
-                                                    m_videoWriters[camera].fps,
-                                                    cv::Size(cameraInfo->second.first,
-                                                             cameraInfo->second.second));
+            log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
+            return false;
+        }
+
+        if (method != robometry::SaveCallbackSaveMethod::periodic)
+        {
+            continue;
+        }
+
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                       camera,
+                                       "rgb",
+                                       m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions))
+            {
+                log()->error("{} Unable to open a video writer fro the camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder associated to the frames of the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+    }
+
+    for (const auto& camera : m_rgbdCamerasList)
+    {
+        if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
+        {
+            log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
+            return false;
+        }
+
+        if (!saveVideo(m_videoWriters[camera].depth, camera, "depth"))
+        {
+            log()->error("{} Unable to save the depth for the camera named {}", logPrefix, camera);
+            return false;
+        }
+
+        if (method != robometry::SaveCallbackSaveMethod::periodic)
+        {
+            continue;
+        }
+
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+        {
+
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                       camera,
+                                       "rgb",
+                                       m_cameraBridge->getMetaData()
+                                           .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable to open a video writer fro the camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder associated to the frames of the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+        if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].depth,
+                                       camera,
+                                       "depth",
+                                       m_cameraBridge->getMetaData()
+                                           .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable to open a video writer for the depth camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
+            {
+                log()->error("{} Unable to create the folder associated to the depth frames of the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
         }
     }
 
@@ -1124,7 +1587,9 @@ bool YarpRobotLoggerDevice::saveCallback(
         {
             file << "## `" << prefix << "`" << std::endl;
             file << codeStatus(prefix
-                                   + " \"bash ${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh\"",
+                                   + " \"bash "
+                                     "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
+                                     "robotologyGitStatus.sh\"",
                                "ROBOTOLOGY");
             file << codeStatus(prefix + " \"apt list --installed\"", "APT");
         }

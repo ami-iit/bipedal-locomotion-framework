@@ -543,7 +543,7 @@ bool YarpCameraBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
                 return false;
             }
             m_pimpl->metaData.bridgeOptions.rgbdImgDimensions[cameraName]
-                = {interface->getRgbWidth(), interface->getRgbWidth()};
+                = {interface->getRgbWidth(), interface->getRgbHeight()};
         }
     }
 
@@ -642,11 +642,43 @@ bool YarpCameraBridge::getColorImage(
         }
 
         auto& yarpImage = flexImage->second.image;
-        colorImg = cv::Mat(yarpImage.height(),
-                           yarpImage.width(),
-                           yarp::cv::type_code<yarp::sig::PixelRgb>::value,
-                           yarpImage.getRawImage(),
-                           yarpImage.getRowSize());
+        if (yarpImage.getPixelCode() == VOCAB_PIXEL_BGR)
+        {
+            colorImg = cv::Mat(yarpImage.height(),
+                               yarpImage.width(),
+                               yarp::cv::type_code<yarp::sig::PixelBgr>::value,
+                               yarpImage.getRawImage(),
+                               yarpImage.getRowSize());
+
+            if (yarp::cv::convert_code_to_cv<yarp::sig::PixelBgr>::value >= 0)
+            {
+                ::cv::cvtColor(colorImg,
+                               colorImg,
+                               yarp::cv::convert_code_to_cv<yarp::sig::PixelBgr>::value);
+            }
+        } else if (yarpImage.getPixelCode() == VOCAB_PIXEL_RGB)
+        {
+            colorImg = cv::Mat(yarpImage.height(),
+                               yarpImage.width(),
+                               yarp::cv::type_code<yarp::sig::PixelRgb>::value,
+                               yarpImage.getRawImage(),
+                               yarpImage.getRowSize());
+
+            if (yarp::cv::convert_code_to_cv<yarp::sig::PixelRgb>::value >= 0)
+            {
+                ::cv::cvtColor(colorImg,
+                               colorImg,
+                               yarp::cv::convert_code_to_cv<yarp::sig::PixelRgb>::value);
+            }
+        } else
+        {
+            log()->error("[YarpCameraBridge::getColorImage] Unable he convert the yarp image into "
+                         "opencv for the camera named: {}. Only VOCAB_PIXEL_BGR and "
+                         "VOCAB_PIXEL_RGB are supported.",
+                         camName);
+            return false;
+        }
+
         receiveTimeInSeconds = flexImage->second.time;
     }
 
