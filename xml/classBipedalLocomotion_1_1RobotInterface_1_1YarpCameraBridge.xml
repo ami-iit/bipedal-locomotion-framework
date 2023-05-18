@@ -53,7 +53,7 @@
         <definition>bool BipedalLocomotion::RobotInterface::YarpCameraBridge::initialize</definition>
         <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler) final</argsstring>
         <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1af24fb70446a870f16a41c9709680d1ae">initialize</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1abb42ab89afe8f0eb1f0cc3120f5bc4b3">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>handler</declname>

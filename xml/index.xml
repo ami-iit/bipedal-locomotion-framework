@@ -823,7 +823,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aa6d0959360199d4dca78f0e14d046793" kind="typedef"><name>unique_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1aaa69e3706400eaaa4292e2b57e81baf7" kind="typedef"><name>shared_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab535fbdd8130c0208c2f97e031f07f89" kind="typedef"><name>weak_ptr</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1af24fb70446a870f16a41c9709680d1ae" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1abb42ab89afe8f0eb1f0cc3120f5bc4b3" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a18d604a503f9ba409aa1351de5fc7f1f" kind="function"><name>getRGBCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a4157fc5df74981423dc29fe3afb27558" kind="function"><name>getRGBDCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a06408daf35fede203127d24e05a219a9" kind="function"><name>getColorImage</name></member>
