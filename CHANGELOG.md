@@ -9,13 +9,18 @@ All notable changes to this project are documented in this file.
 - Implement `AccelerometerMeasurementDynamics` and `GyroscopeMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/666)
 - Implement `FrictionTorqueStateDynamics` and `MotorCurrentMeasurementDynamics` classes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/667)
 - Add logging of FTs on the ergoCub legs and fix FT and IMU port names (https://github.com/ami-iit/bipedal-locomotion-framework/pull/671)
+- Add the possibility to log the video stream as set of frames or as video in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
+- Add the possibility to log the RGBD stream in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
 - 🤖 [ergoCubSN000] Clean the mas remapper files of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/673)
+- 🤖 [ergoCubSN000] Enable the logging of the realsense camera `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 
 ### Fixed
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
+- Fix the metadata assignment of the rgbd cameras (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
+- Fix the RGB to BGR conversion in YarpCameraBridge for FlexImage (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 
 ## [0.13.0] - 2023-04-22
 ### Added
