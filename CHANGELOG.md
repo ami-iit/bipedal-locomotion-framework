@@ -11,6 +11,10 @@ All notable changes to this project are documented in this file.
 - Add logging of FTs on the ergoCub legs and fix FT and IMU port names (https://github.com/ami-iit/bipedal-locomotion-framework/pull/671)
 - Add the possibility to log the video stream as set of frames or as video in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 - Add the possibility to log the RGBD stream in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
+- Implement `LieGroupDynamics` in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement `Conversions::toiDynTreePose()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement `Conversions::toiDynTreePose()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
+- Implement `MANNAutoregressive` class in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
