@@ -14,7 +14,8 @@ onnxruntime::onnxruntime
 include(FindPackageHandleStandardArgs)
 
 find_path(onnxruntime_INCLUDE_DIR
-  NAMES onnxruntime_c_api.h)
+  NAMES onnxruntime_cxx_api.h
+  PATH_SUFFIXES onnxruntime/core/session)
 mark_as_advanced(onnxruntime_INCLUDE_DIR)
 find_library(onnxruntime_LIBRARY
   NAMES onnxruntime)
