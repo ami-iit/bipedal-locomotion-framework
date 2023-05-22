@@ -5,7 +5,7 @@
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/FolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/MANNModelFolderPath.h" @ONLY)
 
-set(MANN_ONNX_EXPECTED_MD5 de9080f1b909368ffae044615d7646af)
+set(MANN_ONNX_EXPECTED_MD5 d66042fdcd270d20b86e65b674eaa3fa)
 
 if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.onnx")
   file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.onnx" ONNX_MODEL_CHECKSUM_VARIABLE)
@@ -15,8 +15,8 @@ else()
 endif()
 
 if(NOT ${MANN_ONNX_UPDATED})
-  message(STATUS "Fetching MANN onnx model from ami-iit/mann-pytorch...")
-  file(DOWNLOAD https://raw.githubusercontent.com/ami-iit/mann-pytorch/7386952b61440c19459bbe680b818faf7f461ede/models/storage_20220909-131438/models/model_49.onnx
+  message(STATUS "Fetching MANN onnx model from huggingface.co/ami-iit/mann...")
+  file(DOWNLOAD https://huggingface.co/ami-iit/mann/resolve/3a6fa8fe38d39deae540e4aca06063e9f2b53380/ergocubSN000_26j_49e.onnx
     ${CMAKE_CURRENT_BINARY_DIR}/model.onnx
     EXPECTED_MD5 ${MANN_ONNX_EXPECTED_MD5})
 endif()
