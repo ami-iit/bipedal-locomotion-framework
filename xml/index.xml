@@ -116,6 +116,13 @@
     <member refid="structBipedalLocomotion_1_1Perception_1_1ArucoMarkerData_1aa8e492cff93843f8a4f4ac5eade9cc0b" kind="variable"><name>corners</name></member>
     <member refid="structBipedalLocomotion_1_1Perception_1_1ArucoMarkerData_1ab10fa76889f51336d900d2243ce252d7" kind="variable"><name>pose</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kind="struct"><name>BipedalLocomotion::ML::MANNAutoregressive::AutoregressiveState</name>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState_1acdf3647fa92174955110748c6e198508" kind="variable"><name>previousMannInput</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState_1a2339e9207f71ee66d2dea56d50443014" kind="variable"><name>I_H_FD</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState_1a849f466768bda537f8d91ac9675bad7a" kind="variable"><name>pastProjectedBasePositions</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState_1af5139936afd1ec1139b81e4b52b45b8f" kind="variable"><name>pastFacingDirection</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState_1a99b2f1ab2011011a09762338c711d202" kind="variable"><name>pastProjectedBaseVelocity</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1Barrier" kind="class"><name>BipedalLocomotion::System::Barrier</name>
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a24e54a62b6aca02eb2b3b1f3d9fede5e" kind="variable"><name>m_mutex</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1aee81539fa5cfcd960f0cb746e899b4f8" kind="variable"><name>m_cond</name></member>
@@ -1249,6 +1256,17 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a3e622dbc8c0559b2ed5cb5048fc620f9" kind="function"><name>customInitialization</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1LeggedOdometry_1a1a123da1d1e7a8bf3401dbcaa44fa93b" kind="function"><name>updateKinematics</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::LieGroupDynamics</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1a73ee3aa95c870e4e9edf294ad09b1a9f" kind="typedef"><name>State</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1aac3a067ce80797f8e7673546a6cdb683" kind="typedef"><name>Input</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1ab47d910b326f186a7b6185ca811ead48" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1a93d19e8c8393992a30cfcf5f92e130ae" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1a1f261649809bbdb99050ae7dd1faf028" kind="variable"><name>m_controlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1a92c6d82d73d17cd9c9a3137539600019" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1a369d1317b0d98e8b19e5e0faacc30d5a" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1ac7c49ae8efe532eb35084d1d5288138e" kind="function"><name>setControlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics_1acabde53a123039d3da5773eb71dc6aee" kind="function"><name>dynamics</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" kind="class"><name>BipedalLocomotion::Math::LinearizedFrictionCone</name>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1a0dcbb65ac148e5e7f90d548d2c2de5f7" kind="variable"><name>m_A</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aaa98632aa52d0ea97982e47ebc2c5647" kind="variable"><name>m_b</name></member>
@@ -1309,6 +1327,31 @@
     <member refid="classBipedalLocomotion_1_1ML_1_1MANN_1abc025d0db188dc7bad83348037f2dd14" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANN_1accf8d34ca0615c78f9de0e2a1a20fcde" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANN_1a0967420544499455040bf0b62a59fa55" kind="function"><name>isOutputValid</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kind="class"><name>BipedalLocomotion::ML::MANNAutoregressive</name>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1ac04971ade0880eff2d722e0134b17270" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afa303b39fc0fa8f09d687c08f1402302" kind="function"><name>MANNAutoregressive</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a2c2ab2e81d9f64a45b63402b4e089039" kind="function"><name>~MANNAutoregressive</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aa15f5d6fcb4a772b3f4d55663bef6fe3" kind="function"><name>setRobotModel</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a589a1932f42faefa31a95ed39dda5523" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abfcd580b3170da546db92332592dcfed" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aaf347623ce6c9edabdc9f23225bb93f9" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" kind="function"><name>getOutput</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kind="struct"><name>BipedalLocomotion::ML::MANNAutoregressiveInput</name>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ac682f62b25478626a355fe541895e247" kind="variable"><name>desiredFutureBaseTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ad78ed4216b1eaa1e1fa1df22db3713fe" kind="variable"><name>desiredFutureFacingDirections</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1a016f8160259c614e9cc5317e9aa73724" kind="variable"><name>desiredFutureBaseVelocities</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput" kind="struct"><name>BipedalLocomotion::ML::MANNAutoregressiveOutput</name>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a623279d2f9e763b2bd3a2cce5e838c1e" kind="variable"><name>jointsPosition</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1ae46c292fc6b56cb310cbe9b6c904959b" kind="variable"><name>basePose</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a153b278cca20dd837690c9b233e6af62" kind="variable"><name>leftFoot</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a413ea0dc42f4d4c47320514e4790f0d6" kind="variable"><name>rightFoot</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a909ecd5ebff5bb6a00bc9c868b06f197" kind="variable"><name>currentTime</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kind="struct"><name>BipedalLocomotion::ML::MANNInput</name>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNInput_1a05bd30d54f2dade752815bf244d1fdd8" kind="variable"><name>basePositionTrajectory</name></member>
@@ -2172,6 +2215,13 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits</name>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; BipedalLocomotion::ContinuousDynamicalSystem::LieGroupDynamics&lt; _Derived &gt; &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187_1a4b712c69b0fa0c3c0453bafe4c9ec219" kind="typedef"><name>Tangent</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187_1a65eff1984a1fb3fc0ca06ff39f91fa62" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187_1af703232a609f5ea6f8412906e8feff9d" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187_1ae3de1103696937fbe0330f0abd67a770" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187_1a3eb3e43b1d800effb064ee1db6e99d61" kind="typedef"><name>DynamicalSystem</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</name>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a3df6f5ac079f0010c22c01cca5709e67" kind="typedef"><name>Contacts</name></member>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a591c23b38391b2cce826284f3548f1fb" kind="typedef"><name>ExternalForce</name></member>
@@ -2565,6 +2615,7 @@
     <member refid="ContactListJsonParser_8h_1a9cdffabdd4841b37271e56376ba4d079" kind="function"><name>contactListMapToJson</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem</name>
+    <member refid="SO3Dynamics_8h_1a2a95bad6633e51f39dea49b316f16b43" kind="typedef"><name>SO3Dynamics</name></member>
     <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal</name>
@@ -2578,6 +2629,7 @@
     <member refid="ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1a2ee026f68afc3402f6b722614d595136" kind="function"><name>toManifTwist</name></member>
+    <member refid="ManifConversions_8h_1a0514450edfa28e5496b74ab194b67e2f" kind="function"><name>toiDynTreePose</name></member>
     <member refid="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" kind="function"><name>toEigen</name></member>
     <member refid="matioCppConversions_8h_1a3f906ee29461e114c48e47503c43e965" kind="function"><name>toEigen</name></member>
     <member refid="matioCppConversions_8h_1acfc3f7c49d05947006f079d92f9b8839" kind="function"><name>toEigen</name></member>
@@ -2786,10 +2838,15 @@
   </compound>
   <compound refid="Integrator_8h" kind="file"><name>Integrator.h</name>
   </compound>
+  <compound refid="LieGroupDynamics_8h" kind="file"><name>LieGroupDynamics.h</name>
+  </compound>
   <compound refid="LinearTimeInvariantSystem_8h" kind="file"><name>LinearTimeInvariantSystem.h</name>
   </compound>
   <compound refid="MultiStateWeightProvider_8h" kind="file"><name>MultiStateWeightProvider.h</name>
     <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
+  </compound>
+  <compound refid="SO3Dynamics_8h" kind="file"><name>SO3Dynamics.h</name>
+    <member refid="SO3Dynamics_8h_1a2a95bad6633e51f39dea49b316f16b43" kind="typedef"><name>SO3Dynamics</name></member>
   </compound>
   <compound refid="CommonConversions_8h" kind="file"><name>CommonConversions.h</name>
     <member refid="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" kind="function"><name>toEigenPose</name></member>
@@ -2802,6 +2859,7 @@
     <member refid="ManifConversions_8h_1a2b82cd2819e93a949cdf1afb56555565" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1a2ee026f68afc3402f6b722614d595136" kind="function"><name>toManifTwist</name></member>
+    <member refid="ManifConversions_8h_1a0514450edfa28e5496b74ab194b67e2f" kind="function"><name>toiDynTreePose</name></member>
   </compound>
   <compound refid="matioCppConversions_8h" kind="file"><name>matioCppConversions.h</name>
     <member refid="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" kind="function"><name>toEigen</name></member>
@@ -2915,6 +2973,8 @@
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
   </compound>
   <compound refid="MANN_8h" kind="file"><name>MANN.h</name>
+  </compound>
+  <compound refid="MANNAutoregressive_8h" kind="file"><name>MANNAutoregressive.h</name>
   </compound>
   <compound refid="IParametersHandler_8h" kind="file"><name>IParametersHandler.h</name>
   </compound>

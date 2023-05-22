@@ -10,7 +10,9 @@
     <includedby refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includedby>
     <includedby refid="FloatingBaseSystemKinematics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</includedby>
     <includedby refid="ForwardEuler_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</includedby>
+    <includedby refid="LieGroupDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/LieGroupDynamics.h</includedby>
     <includedby refid="LinearTimeInvariantSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</includedby>
+    <includedby refid="SO3Dynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/SO3Dynamics.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>BipedalLocomotion/GenericContainer/NamedTuple.h</label>
@@ -51,6 +53,10 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
@@ -67,6 +73,10 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
@@ -79,6 +89,10 @@
       <node id="6">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</label>
         <link refid="FloatingBaseSystemKinematics_8h"/>
+      </node>
+      <node id="13">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/SO3Dynamics.h</label>
+        <link refid="SO3Dynamics_8h"/>
       </node>
       <node id="7">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
@@ -106,7 +120,7 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="12">
+      <node id="14">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
         <childnode refid="10" relation="include">
@@ -116,6 +130,12 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
         <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/LieGroupDynamics.h</label>
+        <link refid="LieGroupDynamics_8h"/>
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

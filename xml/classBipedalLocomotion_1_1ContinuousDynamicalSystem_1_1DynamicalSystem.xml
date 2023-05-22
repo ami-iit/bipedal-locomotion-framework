@@ -209,7 +209,7 @@
 <para>Computes the system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="89">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="90">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -243,7 +243,7 @@
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> defines a continuous time dynamical system, i.e. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="90">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <ref refid="traits_8h_1a0163896a87affbf02ec432fba8bb6f09" kindref="member">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()</ref> For instance <programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceBipedalLocomotion" kindref="compound">BipedalLocomotion</ref></highlight></codeline>
+<para><formula id="91">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <ref refid="traits_8h_1a0163896a87affbf02ec432fba8bb6f09" kindref="member">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()</ref> For instance <programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceBipedalLocomotion" kindref="compound">BipedalLocomotion</ref></highlight></codeline>
 <codeline><highlight class="normal">{</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ContinuousDynamicalSystem</highlight></codeline>
 <codeline><highlight class="normal">{</highlight></codeline>
@@ -274,19 +274,19 @@
 </programlisting> </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="11">
+      <node id="13">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics"/>
         <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
-        <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</label>
-        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics"/>
-        <childnode refid="8" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="4">
+      <node id="6">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseDynamicsWithCompliantContacts &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">
@@ -297,17 +297,30 @@
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
       </node>
-      <node id="10">
+      <node id="5">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::LieGroupDynamics&lt; _Derived &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseSystemKinematics &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">
           <edgelabel>&lt; FloatingBaseSystemKinematics &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseDynamicsWithCompliantContacts</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts"/>
-        <childnode refid="4" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; LieGroupDynamics&lt; _Derived &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; LieGroupDynamics&lt; _Derived &gt; &gt;</edgelabel>
         </childnode>
       </node>
       <node id="3">
@@ -316,7 +329,7 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="10">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FixedBaseDynamics &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">
@@ -330,13 +343,13 @@
           <edgelabel>&lt; LinearTimeInvariantSystem &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; CentroidalDynamics &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">

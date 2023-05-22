@@ -302,6 +302,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="107" column="27" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="107" bodyend="113"/>
       </memberdef>
+      <memberdef kind="function" id="ManifConversions_8h_1a0514450edfa28e5496b74ab194b67e2f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>iDynTree::Transform</type>
+        <definition>iDynTree::Transform BipedalLocomotion::Conversions::toiDynTreePose</definition>
+        <argsstring>(const manif::SE3d &amp;se3)</argsstring>
+        <name>toiDynTreePose</name>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>se3</declname>
+        </param>
+        <briefdescription>
+<para>Convert a manif SE3 object into and iDynTree::Transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>se3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a manif SE3 object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>pose as iDynTree::Transform </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="121" column="28" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="121" bodyend="124"/>
+      </memberdef>
       <memberdef kind="function" id="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>

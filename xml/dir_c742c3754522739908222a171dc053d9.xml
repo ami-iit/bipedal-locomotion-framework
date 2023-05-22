@@ -13,8 +13,10 @@
     <innerfile refid="FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
     <innerfile refid="ForwardEuler_8h">ForwardEuler.h</innerfile>
     <innerfile refid="Integrator_8h">Integrator.h</innerfile>
+    <innerfile refid="LieGroupDynamics_8h">LieGroupDynamics.h</innerfile>
     <innerfile refid="LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
     <innerfile refid="MultiStateWeightProvider_8h">MultiStateWeightProvider.h</innerfile>
+    <innerfile refid="SO3Dynamics_8h">SO3Dynamics.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -120,6 +120,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a2ee026f68afc3402f6b722614d595136" class="m-doc">toManifTwist</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; twist) -&gt; manif::SE3Tangentd</span>
             </dt>
             <dd>Convert iDynTree twist object to manif SE3Tangentd object.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0514450edfa28e5496b74ab194b67e2f" class="m-doc">toiDynTreePose</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; se3) -&gt; iDynTree::Transform</span>
+            </dt>
+            <dd>Convert a manif SE3 object into and iDynTree::Transform.</dd>
           </dl>
         </section>
         <section>
@@ -297,6 +301,29 @@
                 <tr>
                   <th>Returns</th>
                   <td>a twist as manif SE3Tangentd object</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a0514450edfa28e5496b74ab194b67e2f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">iDynTree::Transform </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0514450edfa28e5496b74ab194b67e2f" class="m-doc-self">toiDynTreePose</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; se3)</span></span>
+            </h3>
+            <p>Convert a manif SE3 object into and iDynTree::Transform.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">se3</td>
+                  <td>a manif SE3 object</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>pose as iDynTree::Transform</td>
                 </tr>
               </tfoot>
             </table>

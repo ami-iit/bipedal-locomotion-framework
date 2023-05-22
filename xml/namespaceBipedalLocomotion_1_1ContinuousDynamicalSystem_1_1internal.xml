@@ -7,6 +7,7 @@
     <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemKinematics &gt;</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01const_01T_01_4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; const T &gt;</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01BipedalLocomotion4b318723a58db2951ea8d9bab9edc187" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; BipedalLocomotion::ContinuousDynamicalSystem::LieGroupDynamics&lt; _Derived &gt; &gt;</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; LinearTimeInvariantSystem &gt;</innerclass>
     <briefdescription>
     </briefdescription>
