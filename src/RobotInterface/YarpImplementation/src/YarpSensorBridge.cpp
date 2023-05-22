@@ -477,13 +477,13 @@ bool YarpSensorBridge::getIMUMeasurement(const std::string& imuName,
                                          OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getIMUMeasurement ",
-                                          m_pimpl->wholeBodyIMUMeasures,
+                                          m_pimpl->IMUMeasures,
                                           imuName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyIMUMeasures.find(imuName);
+    auto iter = m_pimpl->IMUMeasures.find(imuName);
     imuMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -495,13 +495,13 @@ bool YarpSensorBridge::getLinearAccelerometerMeasurement(const std::string& accN
                                                          OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getLinearAccelerometerMeasurement ",
-                                          m_pimpl->wholeBodyInertialMeasures,
+                                          m_pimpl->inertialMeasures,
                                           accName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyInertialMeasures.find(accName);
+    auto iter = m_pimpl->inertialMeasures.find(accName);
     accMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -513,13 +513,13 @@ bool YarpSensorBridge::getGyroscopeMeasure(const std::string& gyroName,
                                            OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getGyroscopeMeasure ",
-                                          m_pimpl->wholeBodyInertialMeasures,
+                                          m_pimpl->inertialMeasures,
                                           gyroName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyInertialMeasures.find(gyroName);
+    auto iter = m_pimpl->inertialMeasures.find(gyroName);
     gyroMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -531,13 +531,13 @@ bool YarpSensorBridge::getOrientationSensorMeasurement(const std::string& rpyNam
                                                        OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getOrientationSensorMeasurement ",
-                                          m_pimpl->wholeBodyInertialMeasures,
+                                          m_pimpl->inertialMeasures,
                                           rpyName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyInertialMeasures.find(rpyName);
+    auto iter = m_pimpl->inertialMeasures.find(rpyName);
     rpyMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -549,13 +549,13 @@ bool YarpSensorBridge::getMagnetometerMeasurement(const std::string& magName,
                                                   OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getMagnetometerMeasurement ",
-                                          m_pimpl->wholeBodyInertialMeasures,
+                                          m_pimpl->inertialMeasures,
                                           magName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyInertialMeasures.find(magName);
+    auto iter = m_pimpl->inertialMeasures.find(magName);
     magMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -567,13 +567,13 @@ bool YarpSensorBridge::getSixAxisForceTorqueMeasurement(const std::string& ftNam
                                                         OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getSixAxisForceTorqueMeasurement ",
-                                          m_pimpl->wholeBodyFTMeasures,
+                                          m_pimpl->FTMeasures,
                                           ftName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyFTMeasures.find(ftName);
+    auto iter = m_pimpl->FTMeasures.find(ftName);
     ftMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -585,13 +585,13 @@ bool YarpSensorBridge::getCartesianWrench(const std::string& cartesianWrenchName
                                           OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getCartesianWrench ",
-                                          m_pimpl->wholeBodyCartesianWrenchMeasures,
+                                          m_pimpl->cartesianWrenchMeasures,
                                           cartesianWrenchName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyCartesianWrenchMeasures.find(cartesianWrenchName);
+    auto iter = m_pimpl->cartesianWrenchMeasures.find(cartesianWrenchName);
     cartesianWrenchMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -603,17 +603,19 @@ bool YarpSensorBridge::getTemperature(const std::string& temperatureSensorName,
                                       OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getTemperature ",
-                                          m_pimpl->wholeBodyTemperatureMeasures,
+                                          m_pimpl->temperatureMeasures,
                                           temperatureSensorName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->wholeBodyTemperatureMeasures.find(temperatureSensorName);
+    auto iter = m_pimpl->temperatureMeasures.find(temperatureSensorName);
     // assuming the vector has only one value
     temperature = iter->second.first(0);
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get() = iter->second.second;
+    }
     return true;
 }
 
