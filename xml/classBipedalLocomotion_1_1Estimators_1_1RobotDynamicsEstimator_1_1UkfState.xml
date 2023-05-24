@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">bfl::AdditiveStateModel</basecompoundref>
+    <includes local="no">BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a975c89e9cbb3bd5a92be8c3b40ed9e11" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState::m_pimpl</definition>
+        <argsstring></argsstring>
+        <name>m_pimpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" line="45" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a3da350f24f92465a9889a322f4596c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState::UkfState</definition>
+        <argsstring>()</argsstring>
+        <name>UkfState</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a813b6ab37e9261787ebff18accce5fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState::~UkfState</definition>
+        <argsstring>()</argsstring>
+        <name>~UkfState</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" line="56" column="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState" kindref="compound">UkfState</ref> is a concrete class that represents the State of the estimator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The user should build the dynamic model of the state setting a variable handler describing the variables composing the state, the list of the dynamic model associated to each variable in the variable handler, and the matrix of covariances associated to the state. The user should set also a ukf input provider which provides the inputs needed to update the ukf process dynamics. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>bfl::AdditiveStateModel</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>bfl::AdditiveStateModel</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" line="39" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfState.h" bodystart="40" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a975c89e9cbb3bd5a92be8c3b40ed9e11" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</scope><name>m_pimpl</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a3da350f24f92465a9889a322f4596c54" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</scope><name>UkfState</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a813b6ab37e9261787ebff18accce5fb4" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</scope><name>~UkfState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

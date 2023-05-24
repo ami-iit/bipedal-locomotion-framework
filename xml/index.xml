@@ -2282,6 +2282,11 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a9788214634e66c2e2520dba238f7c3ee" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1ac7fb6b9d366bf543edfb735176c56d16" kind="function"><name>isOutputValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a975c89e9cbb3bd5a92be8c3b40ed9e11" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a3da350f24f92465a9889a322f4596c54" kind="function"><name>UkfState</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a813b6ab37e9261787ebff18accce5fb4" kind="function"><name>~UkfState</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
@@ -2593,6 +2598,8 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a2605983244b8558846d32ef39f63c558" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1aa0e73c0e6df47b44639e12bdaddfc725" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1adf74cd12317c55b8f0baf82b1eac501f" kind="function"><name>setInput</name></member>
+  </compound>
+  <compound refid="namespacebfl" kind="namespace"><name>bfl</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
     <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
@@ -2918,6 +2925,8 @@
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" kind="enum"><name>UpdateMode</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" kind="enumvalue"><name>Full</name></member>
     <member refid="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" kind="enumvalue"><name>RobotDynamicsOnly</name></member>
+  </compound>
+  <compound refid="UkfState_8h" kind="file"><name>UkfState.h</name>
   </compound>
   <compound refid="ZeroVelocityStateDynamics_8h" kind="file"><name>ZeroVelocityStateDynamics.h</name>
     <member refid="ZeroVelocityStateDynamics_8h_1a36a0db2d271cd49160b70286d7038459" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>

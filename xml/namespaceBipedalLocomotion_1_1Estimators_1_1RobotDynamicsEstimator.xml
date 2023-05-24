@@ -17,6 +17,7 @@
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</innerclass>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="SubModelKinDynWrapper_8h_1a65b1a505bf046e1cb16a2f5601ac1cca" prot="public" static="no" strong="yes">

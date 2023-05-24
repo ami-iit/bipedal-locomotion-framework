@@ -12,6 +12,7 @@
     <includes refid="SubModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
     <includedby refid="Dynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</includedby>
     <includedby refid="JointVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</includedby>
+    <includedby refid="UkfState_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</includedby>
     <incdepgraph>
       <node id="12">
         <label>BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</label>
@@ -150,8 +151,10 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
         <link refid="ZeroVelocityStateDynamics_8h"/>
       </node>
@@ -166,10 +169,16 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</label>
         <link refid="ConstantMeasurementModel_8h"/>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</label>
+        <link refid="UkfState_8h"/>
       </node>
       <node id="7">
         <label>BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</label>

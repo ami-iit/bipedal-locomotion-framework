@@ -11,6 +11,7 @@
     <innerfile refid="MotorCurrentMeasurementDynamics_8h">MotorCurrentMeasurementDynamics.h</innerfile>
     <innerfile refid="SubModel_8h">SubModel.h</innerfile>
     <innerfile refid="SubModelKinDynWrapper_8h">SubModelKinDynWrapper.h</innerfile>
+    <innerfile refid="UkfState_8h">UkfState.h</innerfile>
     <innerfile refid="ZeroVelocityStateDynamics_8h">ZeroVelocityStateDynamics.h</innerfile>
     <briefdescription>
     </briefdescription>
