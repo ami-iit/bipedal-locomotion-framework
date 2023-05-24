@@ -13,7 +13,7 @@
 #include <BipedalLocomotion/ML/MANN.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
-#include <MANNModelFolderPath.h>
+#include <FolderPath.h>
 
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion::ParametersHandler;
