@@ -11,6 +11,7 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
+    <includedby refid="MANNTrajectoryGenerator_8h" local="no">BipedalLocomotion/ML/MANNTrajectoryGenerator.h</includedby>
     <incdepgraph>
       <node id="15">
         <label>manif/SE2.h</label>
@@ -172,6 +173,18 @@
         <label>memory</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/ML/MANNTrajectoryGenerator.h</label>
+        <link refid="MANNTrajectoryGenerator_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ML/MANNAutoregressive.h</label>
+        <link refid="MANNAutoregressive_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveOutput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" prot="public">BipedalLocomotion::ML::MANNAutoregressive</innerclass>

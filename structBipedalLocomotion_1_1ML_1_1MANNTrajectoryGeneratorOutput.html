@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::ML::MANNAutoregressiveInput struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::ML::MANNTrajectoryGeneratorOutput struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,71 +61,54 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ML.html">ML</a>::<wbr/></span>MANNAutoregressiveInput <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="MANNAutoregressive_8h.html">&lt;BipedalLocomotion/ML/MANNAutoregressive.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ML.html">ML</a>::<wbr/></span>MANNTrajectoryGeneratorOutput <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="MANNTrajectoryGenerator_8h.html">&lt;BipedalLocomotion/ML/MANNTrajectoryGenerator.h&gt;</a></div>
         </h1>
-        <p><a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput.html" class="m-doc">MANNAutoregressiveInput</a> contains the unput to <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network when used in autoregressive fashion.</p>
+        <p>Output of the trajectory planner.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed. At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector).</p>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput.html" class="m-doc">MANNTrajectoryGeneratorInput</a>
-            </dt>
-            <dd>Input of the planner.</dd>
-          </dl>
-        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt>
-              Eigen::Matrix2Xd <a href="#ac682f62b25478626a355fe541895e247" class="m-doc">desiredFutureBaseTrajectory</a>
+            <dt id="af0939643f6708017561623115912253c">
+              Eigen::Matrix3Xd <a href="#af0939643f6708017561623115912253c" class="m-doc-self">comTrajectory</a>
             </dt>
-            <dd>Matrix containing the future desired position trajectory.</dd>
-            <dt>
-              Eigen::Matrix2Xd <a href="#ad78ed4216b1eaa1e1fa1df22db3713fe" class="m-doc">desiredFutureFacingDirections</a>
+            <dd>CoM trajectory expressed in the inertial frame.</dd>
+            <dt id="a5da7b955b6e03e9bd75fdf70eecae2d2">
+              Eigen::Matrix3Xd <a href="#a5da7b955b6e03e9bd75fdf70eecae2d2" class="m-doc-self">angularMomentumTrajectory</a>
             </dt>
-            <dd>Matrix containing the desired future facing direction trajectory.</dd>
+            <dd>Centroidal angular momentum trajectory expressed in the mixed representation.</dd>
             <dt>
-              Eigen::Matrix2Xd <a href="#a016f8160259c614e9cc5317e9aa73724" class="m-doc">desiredFutureBaseVelocities</a>
+              std::vector&lt;Eigen::VectorXd&gt; <a href="#a43066efdc55d7be1157a6292e06a9808" class="m-doc">jointPositions</a>
             </dt>
-            <dd>Matrix containing the desired base velocity trajectory.</dd>
+            <dd>Vector cointaining the joint positions for each instant.</dd>
+            <dt id="a7c32b15f320dcd1f91e4db4834bcac0a">
+              std::vector&lt;manif::SE3d&gt; <a href="#a7c32b15f320dcd1f91e4db4834bcac0a" class="m-doc-self">basePoses</a>
+            </dt>
+            <dd>Vector cointaining the base pose for each instant.</dd>
+            <dt id="a07ebe5693895e4a9620a525ca4def711">
+              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">Contacts::<wbr />ContactPhaseList</a> <a href="#a07ebe5693895e4a9620a525ca4def711" class="m-doc-self">phaseList</a>
+            </dt>
+            <dd>List of the contact phases.</dd>
           </dl>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="ac682f62b25478626a355fe541895e247"><div>
+          <section class="m-doc-details" id="a43066efdc55d7be1157a6292e06a9808"><div>
             <h3>
-              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressiveInput::<wbr /><a href="#ac682f62b25478626a355fe541895e247" class="m-doc-self">desiredFutureBaseTrajectory</a>
+              std::vector&lt;Eigen::VectorXd&gt; BipedalLocomotion::<wbr />ML::<wbr />MANNTrajectoryGeneratorOutput::<wbr /><a href="#a43066efdc55d7be1157a6292e06a9808" class="m-doc-self">jointPositions</a>
             </h3>
-            <p>Matrix containing the future desired position trajectory.</p>
-<p>The rows contain the x and y position projected into the ground while the columns the position at each time instant.</p>
-          </div></section>
-          <section class="m-doc-details" id="ad78ed4216b1eaa1e1fa1df22db3713fe"><div>
-            <h3>
-              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressiveInput::<wbr /><a href="#ad78ed4216b1eaa1e1fa1df22db3713fe" class="m-doc-self">desiredFutureFacingDirections</a>
-            </h3>
-            <p>Matrix containing the desired future facing direction trajectory.</p>
-<p>The rows contain the x and y direction projected into the ground while the columns the direction at each time instant.</p>
-          </div></section>
-          <section class="m-doc-details" id="a016f8160259c614e9cc5317e9aa73724"><div>
-            <h3>
-              Eigen::Matrix2Xd BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressiveInput::<wbr /><a href="#a016f8160259c614e9cc5317e9aa73724" class="m-doc-self">desiredFutureBaseVelocities</a>
-            </h3>
-            <p>Matrix containing the desired base velocity trajectory.</p>
-<p>The rows contain the x and y velocity projected into the ground while the columns the position at each time instant.</p>
+            <p>Vector cointaining the joint positions for each instant.</p>
+<p>The order is the one associated to the model provided with <a href="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator.html#a68600891a27c4c05d98c8ec59015c37f" class="m-doc">MANNTrajectoryGenerator::<wbr />setRobotModel</a>.</p>
           </div></section>
         </section>
       </div>

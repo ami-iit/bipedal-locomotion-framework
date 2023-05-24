@@ -8,6 +8,7 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UKFInput, UKFInput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</derivedcompoundref>
@@ -73,6 +74,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a901267089c772b97bd7e3ac64de586f2">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANN_1accf8d34ca0615c78f9de0e2a1a20fcde">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656">getOutput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ab89f4fe820bcced8805275758290ba48">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa">getOutput</reimplementedby>
         <briefdescription>
@@ -113,6 +115,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa2a4f2527741ee1e5d6e2b147b9751cc">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANN_1a0967420544499455040bf0b62a59fa55">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411">isOutputValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a2668eaaa1fa2e56703c5509a9de55a4d">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c">isOutputValid</reimplementedby>
         <briefdescription>
@@ -135,19 +138,19 @@
 <para>The interface contains method to set inputs and output. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="58">
+      <node id="60">
         <label>BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="55">
+      <node id="57">
         <label>BipedalLocomotion::Math::SchmittTrigger</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger"/>
-        <childnode refid="54" relation="public-inheritance">
+        <childnode refid="56" relation="public-inheritance">
         </childnode>
       </node>
       <node id="25">
@@ -156,7 +159,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; SwingFootPlannerState &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="11">
@@ -170,7 +173,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; Input, EmptySignal &gt;</edgelabel>
         </childnode>
       </node>
@@ -197,7 +200,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
@@ -225,12 +228,12 @@
         <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="56">
+      <node id="58">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
@@ -264,7 +267,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; RecursiveLeastSquareState &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="6">
@@ -282,7 +285,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; FloatingBaseEstimators::Output &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="51">
@@ -297,7 +300,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; DCMPlannerState &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="16">
@@ -306,7 +309,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; SensorBridgeMetaData &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="53">
@@ -332,7 +335,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; UKFInput, UKFInput &gt;</edgelabel>
         </childnode>
       </node>
@@ -342,13 +345,13 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="57">
+      <node id="59">
         <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="56" relation="public-inheritance">
+        <childnode refid="58" relation="public-inheritance">
         </childnode>
       </node>
       <node id="45">
@@ -368,16 +371,16 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="54">
+      <node id="56">
         <label>BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; SchmittTriggerInput, SchmittTriggerState &gt;</edgelabel>
         </childnode>
       </node>
@@ -403,7 +406,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="39">
@@ -436,7 +439,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; ArucoDetectorOutput &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="18">
@@ -445,7 +448,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; SplineState &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="23">
@@ -469,7 +472,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; _State &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="26">
@@ -478,10 +481,10 @@
         <childnode refid="25" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="59">
+      <node id="61">
         <label>BipedalLocomotion::ML::MANNAutoregressive</label>
         <link refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive"/>
-        <childnode refid="58" relation="public-inheritance">
+        <childnode refid="60" relation="public-inheritance">
         </childnode>
       </node>
       <node id="41">
@@ -490,13 +493,28 @@
         <childnode refid="40" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="54">
+        <label>BipedalLocomotion::System::Advanceable&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="62" relation="template-instance">
+          <edgelabel>&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="4">
         <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="55">
+        <label>BipedalLocomotion::ML::MANNTrajectoryGenerator</label>
+        <link refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator"/>
+        <childnode refid="54" relation="public-inheritance">
         </childnode>
       </node>
       <node id="9">
@@ -510,7 +528,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="60" relation="template-instance">
+        <childnode refid="62" relation="template-instance">
           <edgelabel>&lt; MANNInput, MANNOutput &gt;</edgelabel>
         </childnode>
       </node>
@@ -547,7 +565,7 @@
         <childnode refid="5" relation="template-instance">
           <edgelabel>&lt; SO3PlannerState &gt;</edgelabel>
         </childnode>
-        <childnode refid="60" relation="public-inheritance">
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="5">
@@ -556,7 +574,7 @@
         <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="60">
+      <node id="62">
         <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">

@@ -8,6 +8,9 @@
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveOutput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" prot="public">BipedalLocomotion::ML::MANNAutoregressive</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" prot="public">BipedalLocomotion::ML::MANNTrajectoryGeneratorInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" prot="public">BipedalLocomotion::ML::MANNTrajectoryGeneratorOutput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" prot="public">BipedalLocomotion::ML::MANNTrajectoryGenerator</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

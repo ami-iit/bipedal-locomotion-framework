@@ -101,6 +101,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="3">
+        <label>BipedalLocomotion/ML/MANNTrajectoryGenerator.h</label>
+        <link refid="MANNTrajectoryGenerator_8h"/>
+      </node>
       <node id="1">
         <label>BipedalLocomotion/ML/MANN.h</label>
         <link refid="MANN_8h"/>
@@ -110,6 +114,8 @@
       <node id="2">
         <label>BipedalLocomotion/ML/MANNAutoregressive.h</label>
         <link refid="MANNAutoregressive_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNInput" prot="public">BipedalLocomotion::ML::MANNInput</innerclass>

@@ -134,10 +134,10 @@
             </dt>
             <dd>Perform one step of the autoregressive model.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#abfcd580b3170da546db92332592dcfed" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="#abc20d5ec51bfd80b7adb0c5caab0b7a8" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const manif::SE3d&amp; basePosition,
+              const manif::SE3d&amp; basePose,
               const manif::SE3Tangentd&amp; baseVelocity) -&gt; bool</span>
             </dt>
             <dd>Reset the autoregressive model.</dd>
@@ -159,6 +159,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#acf0e665f6dd1d88b339333f1b49ad656" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const Output&amp; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the output from <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#afe08f2345ce3f8dd9f6b2a0f6d1e0644" class="m-doc">getMANNInput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp;</span>
+            </dt>
+            <dd>Get the structure that has been used as input for <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#acd530aeb197f36b21fde09a9ad70ee4d" class="m-doc">getAutoregressiveState</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp;</span>
+            </dt>
+            <dd>Get the autoregressive state required to rest <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</dd>
           </dl>
         </section>
         <section>
@@ -247,12 +255,12 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="abfcd580b3170da546db92332592dcfed"><div>
+          <section class="m-doc-details" id="abc20d5ec51bfd80b7adb0c5caab0b7a8"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abfcd580b3170da546db92332592dcfed" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abc20d5ec51bfd80b7adb0c5caab0b7a8" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const manif::SE3d&amp; basePosition,
+              const manif::SE3d&amp; basePose,
               const manif::SE3Tangentd&amp; baseVelocity)</span></span>
             </h3>
             <p>Reset the autoregressive model.</p>
@@ -274,8 +282,8 @@
                   <td>state of the right foot.</td>
                 </tr>
                 <tr>
-                  <td>basePosition</td>
-                  <td>current base position.</td>
+                  <td>basePose</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>baseVelocity</td>
@@ -369,6 +377,34 @@
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>the output of the system.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="afe08f2345ce3f8dd9f6b2a0f6d1e0644"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afe08f2345ce3f8dd9f6b2a0f6d1e0644" class="m-doc-self">getMANNInput</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the structure that has been used as input for <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="acd530aeb197f36b21fde09a9ad70ee4d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acd530aeb197f36b21fde09a9ad70ee4d" class="m-doc-self">getAutoregressiveState</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the autoregressive state required to rest <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a></td>
                 </tr>
               </tfoot>
             </table>

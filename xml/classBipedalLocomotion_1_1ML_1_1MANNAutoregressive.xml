@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="219" column="21" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="218" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="234" column="21" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="233" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="113" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="116" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a2c2ab2e81d9f64a45b63402b4e089039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="118" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="121" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aa15f5d6fcb4a772b3f4d55663bef6fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="126" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="129" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a589a1932f42faefa31a95ed39dda5523" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -191,7 +191,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="152" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="155" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -222,7 +222,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="159" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="162" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -240,12 +240,12 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="165" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="168" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abfcd580b3170da546db92332592dcfed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::ML::MANNAutoregressive::reset</definition>
-        <argsstring>(const MANNInput &amp;input, const Contacts::EstimatedContact &amp;leftFoot, const Contacts::EstimatedContact &amp;rightFoot, const manif::SE3d &amp;basePosition, const manif::SE3Tangentd &amp;baseVelocity)</argsstring>
+        <argsstring>(const MANNInput &amp;input, const Contacts::EstimatedContact &amp;leftFoot, const Contacts::EstimatedContact &amp;rightFoot, const manif::SE3d &amp;basePose, const manif::SE3Tangentd &amp;baseVelocity)</argsstring>
         <name>reset</name>
         <param>
           <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> &amp;</type>
@@ -261,7 +261,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </param>
         <param>
           <type>const manif::SE3d &amp;</type>
-          <declname>basePosition</declname>
+          <declname>basePose</declname>
         </param>
         <param>
           <type>const manif::SE3Tangentd &amp;</type>
@@ -320,7 +320,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="178" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="181" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aaf347623ce6c9edabdc9f23225bb93f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -424,7 +424,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="197" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="200" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -442,7 +442,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="209" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="212" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const Output &amp;</type>
@@ -460,7 +460,41 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="215" column="18"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="218" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afe08f2345ce3f8dd9f6b2a0f6d1e0644" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> &amp;</type>
+        <definition>const MANNInput&amp; BipedalLocomotion::ML::MANNAutoregressive::getMANNInput</definition>
+        <argsstring>() const</argsstring>
+        <name>getMANNInput</name>
+        <briefdescription>
+<para>Get the structure that has been used as input for <ref refid="classBipedalLocomotion_1_1ML_1_1MANN" kindref="compound">MANN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="224" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acd530aeb197f36b21fde09a9ad70ee4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kindref="compound">AutoregressiveState</ref> &amp;</type>
+        <definition>const AutoregressiveState&amp; BipedalLocomotion::ML::MANNAutoregressive::getAutoregressiveState</definition>
+        <argsstring>() const</argsstring>
+        <name>getAutoregressiveState</name>
+        <briefdescription>
+<para>Get the autoregressive state required to rest <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kindref="compound">MANNAutoregressive</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kindref="compound">AutoregressiveState</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="230" column="31"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -546,10 +580,12 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="79" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="81" bodyend="220"/>
+    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="82" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="84" bodyend="235"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acd530aeb197f36b21fde09a9ad70ee4d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>getAutoregressiveState</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afe08f2345ce3f8dd9f6b2a0f6d1e0644" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>getMANNInput</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a589a1932f42faefa31a95ed39dda5523" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>Input</name></member>
@@ -557,7 +593,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1ac04971ade0880eff2d722e0134b17270" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afa303b39fc0fa8f09d687c08f1402302" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>MANNAutoregressive</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abfcd580b3170da546db92332592dcfed" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aaf347623ce6c9edabdc9f23225bb93f9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aa15f5d6fcb4a772b3f4d55663bef6fe3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>setRobotModel</name></member>

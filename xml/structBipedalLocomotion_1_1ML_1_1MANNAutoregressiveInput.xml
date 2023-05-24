@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kind="struct" language="C++" prot="public">
     <compoundname>BipedalLocomotion::ML::MANNAutoregressiveInput</compoundname>
+    <derivedcompoundref refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" prot="public" virt="non-virtual">BipedalLocomotion::ML::MANNTrajectoryGeneratorInput</derivedcompoundref>
     <includes local="no">BipedalLocomotion/ML/MANNAutoregressive.h</includes>
       <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ac682f62b25478626a355fe541895e247" prot="public" static="no" mutable="no">
@@ -56,6 +57,18 @@
     <detaileddescription>
 <para>The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed. At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector). </para>
     </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BipedalLocomotion::ML::MANNAutoregressiveInput</label>
+        <link refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::ML::MANNTrajectoryGeneratorInput</label>
+        <link refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
     <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="37" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="38" bodyend="51"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ac682f62b25478626a355fe541895e247" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressiveInput</scope><name>desiredFutureBaseTrajectory</name></member>

@@ -1336,10 +1336,12 @@
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a589a1932f42faefa31a95ed39dda5523" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" kind="function"><name>setInput</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kind="function"><name>advance</name></member>
-    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abfcd580b3170da546db92332592dcfed" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" kind="function"><name>reset</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aaf347623ce6c9edabdc9f23225bb93f9" kind="function"><name>reset</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afe08f2345ce3f8dd9f6b2a0f6d1e0644" kind="function"><name>getMANNInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acd530aeb197f36b21fde09a9ad70ee4d" kind="function"><name>getAutoregressiveState</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kind="struct"><name>BipedalLocomotion::ML::MANNAutoregressiveInput</name>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ac682f62b25478626a355fe541895e247" kind="variable"><name>desiredFutureBaseTrajectory</name></member>
@@ -1349,6 +1351,9 @@
   <compound refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput" kind="struct"><name>BipedalLocomotion::ML::MANNAutoregressiveOutput</name>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a623279d2f9e763b2bd3a2cce5e838c1e" kind="variable"><name>jointsPosition</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1ae46c292fc6b56cb310cbe9b6c904959b" kind="variable"><name>basePose</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a4304e22505cb55c5a8e60f78e8fa1bd6" kind="variable"><name>baseVelocity</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1ab7b77643164850963291def3063a5dce" kind="variable"><name>comPosition</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a7fbb79b8ee096158cfa2c136bfd3cbea" kind="variable"><name>angularMomentum</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a153b278cca20dd837690c9b233e6af62" kind="variable"><name>leftFoot</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a413ea0dc42f4d4c47320514e4790f0d6" kind="variable"><name>rightFoot</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a909ecd5ebff5bb6a00bc9c868b06f197" kind="variable"><name>currentTime</name></member>
@@ -1367,6 +1372,28 @@
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ab9d45f4b1903bace0492b87e6fc05b4b" kind="variable"><name>jointPositions</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a7b1428e7e29484c448463dfe45598cdd" kind="variable"><name>jointVelocities</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ae60858cb64d8f46635ad9141d75ab0d9" kind="variable"><name>projectedBaseVelocity</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kind="class"><name>BipedalLocomotion::ML::MANNTrajectoryGenerator</name>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a62b24e34994e17325e915db2700f365f" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a885987a83ce5a4d07a4a861cbc3e789f" kind="function"><name>MANNTrajectoryGenerator</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a45814a870f307e40ed8bcb5b9a5609d3" kind="function"><name>~MANNTrajectoryGenerator</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a68600891a27c4c05d98c8ec59015c37f" kind="function"><name>setRobotModel</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1aebbf74a6a0e2cd2891671bb1f25ffd39" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1af4a074d953c17ccb6b6e206e9fab053e" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a4ae5b3df87a949fafb05aa3cf85ea7b8" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a2668eaaa1fa2e56703c5509a9de55a4d" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ab89f4fe820bcced8805275758290ba48" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a917e9761f255f3b58f5183d826ddfde9" kind="function"><name>setInitialState</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" kind="struct"><name>BipedalLocomotion::ML::MANNTrajectoryGeneratorInput</name>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput_1a3fe34f6cc4cda5eb1690729463b56195" kind="variable"><name>mergePointIndex</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" kind="struct"><name>BipedalLocomotion::ML::MANNTrajectoryGeneratorOutput</name>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1af0939643f6708017561623115912253c" kind="variable"><name>comTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a5da7b955b6e03e9bd75fdf70eecae2d2" kind="variable"><name>angularMomentumTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a43066efdc55d7be1157a6292e06a9808" kind="variable"><name>jointPositions</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a7c32b15f320dcd1f91e4db4834bcac0a" kind="variable"><name>basePoses</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a07ebe5693895e4a9620a525ca4def711" kind="variable"><name>phaseList</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1a71fbc272beb1c338054b79dbb92cf735" kind="variable"><name>accelerometer</name></member>
@@ -2984,6 +3011,8 @@
   <compound refid="MANN_8h" kind="file"><name>MANN.h</name>
   </compound>
   <compound refid="MANNAutoregressive_8h" kind="file"><name>MANNAutoregressive.h</name>
+  </compound>
+  <compound refid="MANNTrajectoryGenerator_8h" kind="file"><name>MANNTrajectoryGenerator.h</name>
   </compound>
   <compound refid="IParametersHandler_8h" kind="file"><name>IParametersHandler.h</name>
   </compound>
