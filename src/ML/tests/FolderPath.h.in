@@ -15,4 +15,9 @@ inline std::string getMANNModelPath()
     return std::string(SOURCE_CONFIG_DIR) + "/model.onnx";
 }
 
+inline std::string getRobotModelPath()
+{
+    return std::string(SOURCE_CONFIG_DIR) + "/model.urdf";
+}
+
 #endif // CONFIG_FOLDERPATH_H_IN

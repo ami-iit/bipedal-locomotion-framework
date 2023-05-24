@@ -3,10 +3,9 @@
 # BSD-3-Clause license.
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/FolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/MANNModelFolderPath.h" @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/FolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/FolderPath.h" @ONLY)
 
 set(MANN_ONNX_EXPECTED_MD5 d66042fdcd270d20b86e65b674eaa3fa)
-
 if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.onnx")
   file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.onnx" ONNX_MODEL_CHECKSUM_VARIABLE)
   string(COMPARE EQUAL ${ONNX_MODEL_CHECKSUM_VARIABLE} ${MANN_ONNX_EXPECTED_MD5} MANN_ONNX_UPDATED)
@@ -22,8 +21,27 @@ if(NOT ${MANN_ONNX_UPDATED})
 endif()
 
 
+set(ERGOCUB_MODEL_EXPECTED_MD5 7d24f42cb415e660abc4bbc8a52d355f)
+if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
+  file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.urdf" ERGOCUB_MODEL_CHECKSUM_VARIABLE)
+  string(COMPARE EQUAL ${ERGOCUB_MODEL_CHECKSUM_VARIABLE} ${ERGOCUB_MODEL_EXPECTED_MD5} ERGOCUB_MODEL_UPDATED)
+else()
+  set(ERGOCUB_MODEL_UPDATED FALSE)
+endif()
+
+if(NOT ${ERGOCUB_MODEL_UPDATED})
+  message(STATUS "Fetching ergoCubSN000 model from icub-tech-iit/ergocub-software...")
+  file(DOWNLOAD https://raw.githubusercontent.com/icub-tech-iit/ergocub-software/f28733afcbbfcc99cbac13be530a6a072f832746/urdf/ergoCub/robots/ergoCubSN000/model.urdf
+    ${CMAKE_CURRENT_BINARY_DIR}/model.urdf
+    EXPECTED_MD5 ${ERGOCUB_MODEL_EXPECTED_MD5})
+endif()
 
 add_bipedal_test(
   NAME MANN
   SOURCES MANNTest.cpp
+  LINKS BipedalLocomotion::ML)
+
+add_bipedal_test(
+  NAME MANNTrajectoryGenerator
+  SOURCES MANNTrajectoryGeneratorTest.cpp
   LINKS BipedalLocomotion::ML)

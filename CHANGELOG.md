@@ -16,6 +16,7 @@ All notable changes to this project are documented in this file.
 - Implement `Conversions::toiDynTreePose()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
 - Implement `MANNAutoregressive` class in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/659)
 - Implement`UkfState` class in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/669)
+- Implement `MANNTrajectoryGenerator` class in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/668)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)

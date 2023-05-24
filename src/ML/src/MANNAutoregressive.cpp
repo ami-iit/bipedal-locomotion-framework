@@ -249,15 +249,24 @@ bool MANNAutoregressive::initialize(
 }
 
 bool MANNAutoregressive::reset(const MANNInput& input,
-                                     const Contacts::EstimatedContact& leftFoot,
+                                const Contacts::EstimatedContact& leftFoot,
                                      const Contacts::EstimatedContact& rightFoot,
                                      const manif::SE3d& basePosition,
                                      const manif::SE3Tangentd& baseVelocity)
 {
     AutoregressiveState state;
-    state.pastProjectedBasePositions = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
-    state.pastProjectedBaseVelocity = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{0.0, 0.0}};
-    state.pastFacingDirection = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{1.0, 0.0}};
+
+    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
+    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
+    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
+    // Along with the present datapoint, they sum up to 51!
+    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
+    state.pastProjectedBasePositions
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
+    state.pastProjectedBaseVelocity
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
+    state.pastFacingDirection
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
     state.I_H_FD = manif::SE2d::Identity();
     state.previousMannInput = input;
 
@@ -696,6 +705,8 @@ bool MANNAutoregressive::advance()
     m_pimpl->output.jointsPosition = mannOutput.jointPositions;
     m_pimpl->output.basePose = I_H_base;
     m_pimpl->output.currentTime = m_pimpl->currentTime;
+    m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    m_pimpl->output.angularMomentum = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
 
     // store the previous support foot and corner
     m_pimpl->supportFootPtr = supportFootPtr;
@@ -719,4 +730,14 @@ bool MANNAutoregressive::isOutputValid() const
 const MANNAutoregressive::Output& MANNAutoregressive::getOutput() const
 {
     return m_pimpl->output;
+}
+
+const MANNInput& MANNAutoregressive::getMANNInput() const
+{
+    return m_pimpl->mannInput;
+}
+
+const MANNAutoregressive::AutoregressiveState& MANNAutoregressive::getAutoregressiveState() const
+{
+    return m_pimpl->state;
 }

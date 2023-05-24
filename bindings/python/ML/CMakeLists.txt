@@ -8,8 +8,8 @@ if(FRAMEWORK_COMPILE_ML)
 
   add_bipedal_locomotion_python_module(
     NAME MLBindings
-    SOURCES src/Module.cpp src/MANN.cpp src/MANNAutoregressive.cpp
-    HEADERS ${H_PREFIX}/Module.h ${H_PREFIX}/MANN.h ${H_PREFIX}/MANNAutoregressive.h
+    SOURCES src/Module.cpp src/MANN.cpp src/MANNAutoregressive.cpp src/MANNTrajectoryGenerator.cpp
+    HEADERS ${H_PREFIX}/Module.h ${H_PREFIX}/MANN.h ${H_PREFIX}/MANNAutoregressive.h ${H_PREFIX}/MANNTrajectoryGenerator.h
     LINK_LIBRARIES BipedalLocomotion::ML
     )
 

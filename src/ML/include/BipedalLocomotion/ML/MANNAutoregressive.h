@@ -58,6 +58,9 @@ struct MANNAutoregressiveOutput
 {
     Eigen::VectorXd jointsPosition; /**< Joint positions in radians */
     manif::SE3d basePose; /**< Base pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
+    manif::SE3d::Tangent baseVelocity; /**< Base velocity in mixed representation */
+    Eigen::Vector3d comPosition;
+    Eigen::Vector3d angularMomentum;
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
@@ -178,7 +181,7 @@ public:
     bool reset(const MANNInput& input,
                const Contacts::EstimatedContact& leftFoot,
                const Contacts::EstimatedContact& rightFoot,
-               const manif::SE3d& basePosition,
+               const manif::SE3d& basePose,
                const manif::SE3Tangentd& baseVelocity);
 
     /**
@@ -213,6 +216,18 @@ public:
      * @return the output of the system.
      */
     const Output& getOutput() const override;
+
+    /**
+     * Get the structure that has been used as input for MANN.
+     * @return the MANNInput
+     */
+    const MANNInput& getMANNInput() const;
+
+    /**
+     * Get the autoregressive state required to rest MANNAutoregressive.
+     * @return the AutoregressiveState
+     */
+    const AutoregressiveState& getAutoregressiveState() const;
 
 private:
     struct Impl;
