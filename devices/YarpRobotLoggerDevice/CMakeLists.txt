@@ -54,5 +54,10 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
       BipedalLocomotion::SystemYarpImplementation
       tiny-process-library::tiny-process-library
     CONFIGURE_PACKAGE_NAME yarp_robot_logger_device)
+
+  install(FILES scripts/blf-logger-with-audio.sh
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+    DESTINATION "${CMAKE_INSTALL_BINDIR}")
+
 endif()
 
