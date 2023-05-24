@@ -45,13 +45,14 @@ bool FeasibleContactWrenchTask::setVariablesHandler(const System::VariablesHandl
         return false;
     }
 
-    if (m_contactWrench.variable.size != BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime)
+    if (m_contactWrench.variable.size
+        != static_cast<int>(BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime))
     {
         log()->error("{} The variable size associated to the contact named {} is different "
                      "from {}.",
                      errorPrefix,
-                     m_contactWrench.variable.size,
-                     BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime);
+                     m_contactWrench.variable.name,
+                     static_cast<int>(BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime));
         return false;
     }
 
