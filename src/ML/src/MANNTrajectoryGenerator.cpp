@@ -79,15 +79,19 @@ bool MANNTrajectoryGenerator::Impl::updateContactList(
     const std::chrono::nanoseconds& currentTime,
     const Contacts::EstimatedContact& estimatedContact)
 {
-
     // if the contact list map is empty then this is the first contact that we have to add to the
     // list
-    if (contactListMap[footName].size() == 0
-        || (!contactListMap[footName].lastContact()->isContactActive(currentTime * this->slowDownFactor)
-            && estimatedContact.isActive))
+    // read it as
+    // 1. if contact is active and the list is empty means that the foot just touched the ground
+    // 2. if contact is active and the last contact is not active means that the foot just touched
+    // the ground
+    if (estimatedContact.isActive
+        && (contactListMap[footName].size() == 0
+            || !contactListMap[footName].lastContact()->isContactActive(currentTime
+                                                                        * this->slowDownFactor)))
     {
         Contacts::PlannedContact temp;
-        temp.activationTime = estimatedContact.switchTime * slowDownFactor;
+        temp.activationTime = estimatedContact.switchTime * this->slowDownFactor;
         temp.deactivationTime = std::chrono::nanoseconds::max();
         temp.index = estimatedContact.index;
         temp.name = estimatedContact.name;
@@ -104,11 +108,12 @@ bool MANNTrajectoryGenerator::Impl::updateContactList(
         contactListMap[footName].addContact(temp);
     }
     // In this case the contact ended so we have to set the deactivation time
-    else if (contactListMap[footName].lastContact()->isContactActive(currentTime * slowDownFactor)
+    else if (contactListMap[footName].size() != 0 && contactListMap[footName].lastContact()->isContactActive(currentTime
+                                                                     * this->slowDownFactor)
              && !estimatedContact.isActive)
     {
         Contacts::PlannedContact lastContact = *(contactListMap[footName].lastContact());
-        lastContact.deactivationTime = currentTime * slowDownFactor;
+        lastContact.deactivationTime = currentTime * this->slowDownFactor;
 
         // we cannot update the status of the last contact. We need to remove it and add it again
         contactListMap[footName].removeLastContact();
