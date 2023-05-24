@@ -194,7 +194,7 @@ bool RDE::FrictionTorqueStateDynamics::update()
                 * (m_k2.array() + m_k0k1.array() / m_coshsquared.array());
 
     // \tau_{F,k+1} = \tau_{F,k} + \Delta T * \dot{\tau_{F,k}}
-    m_updatedVariable = m_frictionTorqueFullModel + m_dT * m_dotTauF;
+    m_updatedVariable.noalias() = m_frictionTorqueFullModel + m_dT * m_dotTauF;
 
     return true;
 }

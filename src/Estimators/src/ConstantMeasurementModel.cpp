@@ -132,7 +132,7 @@ bool RDE::ConstantMeasurementModel::update()
 {
     if (m_useBias)
     {
-        m_updatedVariable = m_currentState + m_bias;
+        m_updatedVariable.noalias() = m_currentState + m_bias;
     }
     else
     {

@@ -95,6 +95,10 @@ find_package(robometry 1.1.0 QUIET)
 checkandset_dependency(robometry MINIMUM_VERSION 1.1.0)
 dependency_classifier(robometry MINIMUM_VERSION 1.1.0 IS_USED ${FRAMEWORK_USE_robometry})
 
+find_package(BayesFilters QUIET)
+checkandset_dependency(BayesFilters)
+dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
+
 # required only for some tests
 find_package(icub-models 1.23.3 QUIET)
 checkandset_dependency(icub-models)
@@ -107,6 +111,10 @@ checkandset_dependency(UnicyclePlanner)
 
 find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
+
+find_package(BayesFilters QUIET)
+checkandset_dependency(BayesFilters)
+dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
 
 ##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
@@ -175,7 +183,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
 
 framework_dependent_option(FRAMEWORK_COMPILE_RobotDynamicsEstimator
   "Compile RobotDynamicsEstimator libraries?" ON
-  "FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif" OFF)
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_BayesFilters" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON

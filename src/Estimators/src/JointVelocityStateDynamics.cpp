@@ -108,7 +108,7 @@ bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &s
 
 bool RDE::JointVelocityStateDynamics::update()
 {
-    m_updatedVariable = m_jointVelocityFullModel + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
+    m_updatedVariable.noalias() = m_jointVelocityFullModel + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
 
     return true;
 }
