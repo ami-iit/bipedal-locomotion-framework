@@ -94,6 +94,16 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         BipedalLocomotion::System
         Eigen3::Eigen)
 
+    add_bipedal_test(NAME UkfMeasurement
+        SOURCES  UkfMeasurementTest.cpp
+        LINKS    BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ManifConversions
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::System
+        Eigen3::Eigen
+        icub-models::icub-models)
+
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
