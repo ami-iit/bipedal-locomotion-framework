@@ -23,7 +23,9 @@ struct MANNTrajectoryGenerator::Impl
     {
         MANNInput input;
         Contacts::EstimatedContact leftFoot;
+        Math::SchmittTriggerState leftFootSchmittTriggerState;
         Contacts::EstimatedContact rightFoot;
+        Math::SchmittTriggerState rightFootSchmittTriggerState;
         manif::SE3d basePosition;
         manif::SE3Tangentd baseVelocity;
         MANNAutoregressive::AutoregressiveState autoregressiveState;
@@ -212,6 +214,8 @@ void MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> 
         = std::deque<Eigen::Vector2d>{51, Eigen::Vector2d{1.0, 0.0}};
     temp.autoregressiveState.I_H_FD = manif::SE2d::Identity();
     temp.autoregressiveState.previousMannInput = temp.input;
+    temp.leftFootSchmittTriggerState.state = leftFoot.isActive;
+    temp.rightFootSchmittTriggerState.state = rightFoot.isActive;
 
     for (auto& state : m_pimpl->mergePointStates)
     {
@@ -235,9 +239,13 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
     m_pimpl->mannAutoregressiveInput = input;
 
     const auto& mergePointState = m_pimpl->mergePointStates[input.mergePointIndex];
+
+
     if (!m_pimpl->mann.reset(mergePointState.input,
                              mergePointState.leftFoot,
+                             mergePointState.leftFootSchmittTriggerState,
                              mergePointState.rightFoot,
+                             mergePointState.rightFootSchmittTriggerState,
                              mergePointState.basePosition,
                              mergePointState.baseVelocity,
                              mergePointState.autoregressiveState,
@@ -287,7 +295,9 @@ bool MANNTrajectoryGenerator::advance()
         m_pimpl->mergePointStates[i].baseVelocity = MANNOutput.baseVelocity;
         m_pimpl->mergePointStates[i].input = m_pimpl->mann.getMANNInput();
         m_pimpl->mergePointStates[i].leftFoot = MANNOutput.leftFoot;
+        m_pimpl->mergePointStates[i].leftFootSchmittTriggerState = MANNOutput.leftFootSchmittTriggerState;
         m_pimpl->mergePointStates[i].rightFoot = MANNOutput.rightFoot;
+        m_pimpl->mergePointStates[i].rightFootSchmittTriggerState = MANNOutput.rightFootSchmittTriggerState;
         m_pimpl->mergePointStates[i].time = MANNOutput.currentTime;
         m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.jointPositions[i] = MANNOutput.jointsPosition;
@@ -307,6 +317,15 @@ bool MANNTrajectoryGenerator::advance()
         }
     }
 
+
+/*     for (const auto[key, list] : m_pimpl->contactListMap)
+    {
+        std::cerr << key << std::endl;
+
+        for(auto contact : list)
+            std::cerr << "position " << contact.pose.translation().transpose() <<  " activation " << std::chrono::duration<double>(contact.activationTime).count() << " deactivation " << std::chrono::duration<double>(contact.deactivationTime).count() << std::endl;
+    }
+ */
     // populate the phase list
     m_pimpl->output.phaseList.setLists(m_pimpl->contactListMap);
 
