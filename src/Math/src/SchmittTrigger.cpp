@@ -77,15 +77,15 @@ bool SchmittTrigger::advance()
             }
 
             // integrate the timer
-            m_timer = m_input.time - m_risingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_risingEdgeTimeInstant;
 
             // if the timer is greater than a threshold is time to switch
-            if (m_timer >= m_params.switchOnAfter)
+            if (m_state.timer >= m_params.switchOnAfter)
             {
                 m_state.state = true;
                 m_state.switchTime = m_input.time;
                 m_state.edgeTime = m_risingEdgeTimeInstant;
-                m_timer = std::chrono::nanoseconds::zero();
+                m_state.timer = std::chrono::nanoseconds::zero();
             }
         }
     } else
@@ -106,16 +106,16 @@ bool SchmittTrigger::advance()
             }
 
             // here a small delta is added to the timer
-            m_timer = m_input.time - m_fallingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_fallingEdgeTimeInstant;
 
             // if the value is lower the threshold for more than switchOffAfter seconds is time to
             // switch!
-            if (m_timer >= m_params.switchOffAfter)
+            if (m_state.timer >= m_params.switchOffAfter)
             {
                 m_state.state = false;
                 m_state.switchTime = m_input.time;
                 m_state.edgeTime = m_fallingEdgeTimeInstant;
-                m_timer = std::chrono::nanoseconds::zero();
+                m_state.timer = std::chrono::nanoseconds::zero();
             }
         }
     }
@@ -136,9 +136,6 @@ bool SchmittTrigger::setInput(const SchmittTriggerInput& input)
 void SchmittTrigger::setState(const SchmittTriggerState& state)
 {
     m_state = state;
-
-    // when the state is reset the timer is reset as well
-    m_timer = std::chrono::nanoseconds::zero();
 }
 
 const SchmittTriggerState& SchmittTrigger::getOutput() const

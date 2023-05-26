@@ -32,6 +32,9 @@ struct SchmittTriggerState
 
     /** Time instant at which the raw value transited from low to high of from high to low .*/
     std::chrono::nanoseconds edgeTime{std::chrono::nanoseconds::zero()};
+
+    /** Internal timer used by the switcher to understand if it is the time to switch */
+    std::chrono::nanoseconds timer{std::chrono::nanoseconds::zero()};
 };
 
 /**
@@ -130,8 +133,6 @@ private:
     SchmittTriggerState m_state; /**< Current state stored in the trigger */
     Params m_params; /**< Set of switching parameters */
 
-    /** Internal timer used by the switcher to understand if it is the time to switch */
-    std::chrono::nanoseconds m_timer{std::chrono::nanoseconds::zero()};
     std::chrono::nanoseconds m_risingEdgeTimeInstant; /**< Internal quantity used to store the
                                                          previous time */
     std::chrono::nanoseconds m_fallingEdgeTimeInstant; /**< Internal quantity used to store the
