@@ -24,7 +24,9 @@ struct MANNTrajectoryGenerator::Impl
     {
         MANNInput input;
         Contacts::EstimatedContact leftFoot;
+        Math::SchmittTriggerState leftFootSchmittTriggerState;
         Contacts::EstimatedContact rightFoot;
+        Math::SchmittTriggerState rightFootSchmittTriggerState;
         manif::SE3d basePosition;
         manif::SE3Tangentd baseVelocity;
         MANNAutoregressive::AutoregressiveState autoregressiveState;
@@ -259,6 +261,8 @@ void MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> 
         = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
     temp.autoregressiveState.I_H_FD = manif::SE2d::Identity();
     temp.autoregressiveState.previousMannInput = temp.input;
+    temp.leftFootSchmittTriggerState.state = leftFoot.isActive;
+    temp.rightFootSchmittTriggerState.state = rightFoot.isActive;
 
     for (auto& state : m_pimpl->mergePointStates)
     {
@@ -283,9 +287,13 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
     m_pimpl->mannAutoregressiveInput = input;
 
     const auto& mergePointState = m_pimpl->mergePointStates[input.mergePointIndex];
+
+
     if (!m_pimpl->mann.reset(mergePointState.input,
                              mergePointState.leftFoot,
+                             mergePointState.leftFootSchmittTriggerState,
                              mergePointState.rightFoot,
+                             mergePointState.rightFootSchmittTriggerState,
                              mergePointState.basePosition,
                              mergePointState.baseVelocity,
                              mergePointState.autoregressiveState,
@@ -333,7 +341,9 @@ bool MANNTrajectoryGenerator::advance()
         m_pimpl->mergePointStates[i].baseVelocity = MANNOutput.baseVelocity;
         m_pimpl->mergePointStates[i].input = m_pimpl->mann.getMANNInput();
         m_pimpl->mergePointStates[i].leftFoot = MANNOutput.leftFoot;
+        m_pimpl->mergePointStates[i].leftFootSchmittTriggerState = MANNOutput.leftFootSchmittTriggerState;
         m_pimpl->mergePointStates[i].rightFoot = MANNOutput.rightFoot;
+        m_pimpl->mergePointStates[i].rightFootSchmittTriggerState = MANNOutput.rightFootSchmittTriggerState;
         m_pimpl->mergePointStates[i].time = MANNOutput.currentTime;
 
         // populate the output of the trajectory generator

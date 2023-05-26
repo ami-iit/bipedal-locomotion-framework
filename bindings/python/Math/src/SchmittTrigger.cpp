@@ -7,8 +7,8 @@
 
 #include <chrono>
 
-#include <pybind11/pybind11.h>
 #include <pybind11/chrono.h>
+#include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/System/Advanceable.h>
@@ -27,37 +27,69 @@ void CreateSchmittTrigger(pybind11::module& module)
     using namespace BipedalLocomotion::Math;
     namespace py = ::pybind11;
 
-    py::class_<SchmittTriggerState>(module, "SchmittTriggerState")
+    py::class_<SchmittTriggerOutput>(module, "SchmittTriggerOutput")
         .def(py::init([](bool state,
                          std::chrono::nanoseconds switchTime,
-                         std::chrono::nanoseconds edgeTime) -> SchmittTriggerState {
-                 return SchmittTriggerState{std::move(state),
-                                            std::move(switchTime),
-                                            std::move(edgeTime)};
+                         std::chrono::nanoseconds edgeTime) -> SchmittTriggerOutput {
+                 return SchmittTriggerOutput{std::move(state),
+                                             std::move(switchTime),
+                                             std::move(edgeTime)};
              }),
              py::arg("state") = false,
              py::arg("switch_time") = std::chrono::nanoseconds::zero(),
              py::arg("edge_time") = std::chrono::nanoseconds::zero())
-        .def_readwrite("state", &SchmittTriggerState::state)
-        .def_readwrite("switch_time", &SchmittTriggerState::switchTime)
-        .def_readwrite("edge_time", &SchmittTriggerState::edgeTime);
+        .def_readwrite("state", &SchmittTriggerOutput::state)
+        .def_readwrite("switch_time", &SchmittTriggerOutput::switchTime)
+        .def_readwrite("edge_time", &SchmittTriggerOutput::edgeTime);
+
+    py::class_<SchmittTriggerState, SchmittTriggerOutput>(module, "SchmittTriggerState")
+        .def(py::init([](bool state,
+                         std::chrono::nanoseconds switchTime,
+                         std::chrono::nanoseconds edgeTime,
+                         std::chrono::nanoseconds timer,
+                         std::chrono::nanoseconds risingEdgeTimeInstant,
+                         std::chrono::nanoseconds fallingEdgeTimeInstant,
+                         bool risingDetected,
+                         bool fallingDetected) -> SchmittTriggerState {
+                 return SchmittTriggerState{std::move(state),
+                                            std::move(switchTime),
+                                            std::move(edgeTime),
+                                            std::move(timer),
+                                            std::move(risingEdgeTimeInstant),
+                                            std::move(fallingEdgeTimeInstant),
+                                            std::move(risingDetected),
+                                            std::move(fallingDetected)};
+             }),
+             py::arg("state") = false,
+             py::arg("switch_time") = std::chrono::nanoseconds::zero(),
+             py::arg("edge_time") = std::chrono::nanoseconds::zero(),
+             py::arg("timer") = std::chrono::nanoseconds::zero(),
+             py::arg("rising_edge_time_instant") = std::chrono::nanoseconds::zero(),
+             py::arg("falling_edge_time_instant") = std::chrono::nanoseconds::zero(),
+             py::arg("rising_detected") = false,
+             py::arg("falling_detected") = false)
+        .def_readwrite("timer", &SchmittTriggerState::timer)
+        .def_readwrite("rising_edge_time_instant", &SchmittTriggerState::risingEdgeTimeInstant)
+        .def_readwrite("falling_edge_time_instant", &SchmittTriggerState::fallingEdgeTimeInstant)
+        .def_readwrite("rising_detected", &SchmittTriggerState::risingDetected)
+        .def_readwrite("falling_detected", &SchmittTriggerState::fallingDetected);
 
     py::class_<SchmittTriggerInput>(module, "SchmittTriggerInput")
         .def(py::init([](std::chrono::nanoseconds time, double rawValue) -> SchmittTriggerInput {
                  return SchmittTriggerInput{std::move(time), std::move(rawValue)};
              }),
-            py::arg("time") = std::chrono::nanoseconds::zero(),
+             py::arg("time") = std::chrono::nanoseconds::zero(),
              py::arg("raw_value") = 0.0)
         .def_readwrite("time", &SchmittTriggerInput::time)
         .def_readwrite("raw_value", &SchmittTriggerInput::rawValue);
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<
         BipedalLocomotion::Math::SchmittTriggerInput,
-        BipedalLocomotion::Math::SchmittTriggerState>(module, "SchmittTrigger");
+        BipedalLocomotion::Math::SchmittTriggerOutput>(module, "SchmittTrigger");
 
     py::class_<SchmittTrigger,
                ::BipedalLocomotion::System::Advanceable<SchmittTriggerInput, //
-                                                        SchmittTriggerState>>
+                                                        SchmittTriggerOutput>>
         schmittTrigger(module, "SchmittTrigger");
 
     py::class_<SchmittTrigger::Params>(schmittTrigger, "Params")
@@ -83,6 +115,7 @@ void CreateSchmittTrigger(pybind11::module& module)
 
     schmittTrigger.def(py::init())
         .def("set_state", &SchmittTrigger::setState, py::arg("state"))
+        .def("get_state", &SchmittTrigger::getState)
         .def("initialize",
              py::overload_cast<const SchmittTrigger::Params&>(&SchmittTrigger::initialize),
              py::arg("parameters"));

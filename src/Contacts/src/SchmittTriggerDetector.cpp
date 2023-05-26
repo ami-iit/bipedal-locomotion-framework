@@ -146,10 +146,10 @@ bool SchmittTriggerDetector::advance()
         }
 
         // update the contact
-        const blf::Math::SchmittTriggerState& state = schmittTrigger.getOutput();
+        const blf::Math::SchmittTriggerOutput& output = schmittTrigger.getOutput();
         blf::Contacts::EstimatedContact& contact = m_contactStates.at(contactName);
-        contact.isActive = state.state;
-        contact.switchTime = state.switchTime;
+        contact.isActive = output.state;
+        contact.switchTime = output.switchTime;
     }
 
     return true;

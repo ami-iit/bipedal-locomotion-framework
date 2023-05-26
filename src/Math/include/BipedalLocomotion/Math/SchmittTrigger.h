@@ -20,10 +20,7 @@ namespace BipedalLocomotion
 namespace Math
 {
 
-/**
- * SchmittTriggerState contains the internal state of the trigger,
- */
-struct SchmittTriggerState
+struct SchmittTriggerOutput
 {
     bool state{false}; /**< current state*/
 
@@ -41,7 +38,25 @@ struct SchmittTriggerInput
 {
     /** Current time instant in seconds */
     std::chrono::nanoseconds time{std::chrono::nanoseconds::zero()};
-    double rawValue{0.0} ; /**< Raw value that should  */
+    double rawValue{0.0}; /**< Raw value considered as input by the SchmittTrigger. */
+};
+
+/**
+ * SchmittTriggerState contains the internal state of the trigger,
+ */
+struct SchmittTriggerState : public SchmittTriggerOutput
+{
+    /** Internal timer used by the switcher to understand if it is the time to switch */
+    std::chrono::nanoseconds timer{std::chrono::nanoseconds::zero()};
+
+    /**< Internal quantity used to store the time at which a rising edge as been detected */
+    std::chrono::nanoseconds risingEdgeTimeInstant{std::chrono::nanoseconds::zero()};
+
+    /**< Internal quantity used to store the time at which a falling edge as been detected */
+    std::chrono::nanoseconds fallingEdgeTimeInstant{std::chrono::nanoseconds::zero()};
+
+    bool risingDetected{false}; /**< True if the rising edge is detected */
+    bool fallingDetected{false}; /**< True if the falling edge is detected */
 };
 
 /**
@@ -49,7 +64,7 @@ struct SchmittTriggerInput
  * See [here](https://en.wikipedia.org/wiki/Schmitt_trigger) for further details.
  */
 class SchmittTrigger
-    : public BipedalLocomotion::System::Advanceable<SchmittTriggerInput, SchmittTriggerState>
+    : public BipedalLocomotion::System::Advanceable<SchmittTriggerInput, SchmittTriggerOutput>
 {
 public:
     /**
@@ -94,11 +109,19 @@ public:
 
     /**
      * Set the state of the SchmittTrigger.
-     * @param state the state of the SchmittTrigger
-     * @note When the state is set the internal timer is reset as well. This function should be
-     * called only if the user want to force the state of the system.
+     * @param state The desired state of the SchmittTrigger.
+     * @return True if the state is successfully set, false otherwise.
+     * @note This function should only be called when the user intends to manually control the
+     * system state. In this case, all internal variables required by the trigger will be forcefully
+     * updated to the provided SchmittTriggerState.
      */
-    void setState(const SchmittTriggerState& state);
+    bool setState(const SchmittTriggerState& state);
+
+    /**
+     * Get the state of the SchmittTrigger.
+     * @return the internal state of the SchmittTrigger.
+     */
+    const SchmittTriggerState& getState() const;
 
     /**
      * Perform one step of the trigger.
@@ -116,7 +139,7 @@ public:
      * Get the internal state of the SchmittTrigger.
      * @return a const reference to the state of the trigger.
      */
-    const SchmittTriggerState& getOutput() const override;
+    const SchmittTriggerOutput& getOutput() const override;
 
     /**
      * Set the input of the trigger.
@@ -130,14 +153,16 @@ private:
     SchmittTriggerState m_state; /**< Current state stored in the trigger */
     Params m_params; /**< Set of switching parameters */
 
-    /** Internal timer used by the switcher to understand if it is the time to switch */
-    std::chrono::nanoseconds m_timer{std::chrono::nanoseconds::zero()};
-    std::chrono::nanoseconds m_risingEdgeTimeInstant; /**< Internal quantity used to store the
-                                                         previous time */
-    std::chrono::nanoseconds m_fallingEdgeTimeInstant; /**< Internal quantity used to store the
-                                                          previous time */
-    bool m_risingDetected{false};
-    bool m_fallingDetected{false};
+    enum class FSM
+    {
+        Idle,
+        Initialized,
+        Reset,
+        OutputInvalid,
+        OutputValid,
+    };
+
+    FSM m_fsm{FSM::Idle};
 };
 
 } // namespace Math

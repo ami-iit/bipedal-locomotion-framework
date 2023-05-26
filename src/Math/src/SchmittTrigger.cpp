@@ -54,38 +54,48 @@ bool SchmittTrigger::initialize(const Params& params)
 
     m_params = params;
 
+    m_fsm = FSM::Initialized;
+
     return true;
 }
 
 bool SchmittTrigger::advance()
 {
+    if (m_fsm == FSM::Idle || m_fsm == FSM::Initialized)
+    {
+        log()->error("[SchmittTrigger::advance] Reset the state before using it the first time.");
+        return false;
+    }
+
+    m_fsm = FSM::OutputInvalid;
+
     // if the trigger is not active
     if (!m_state.state)
     {
         // the state is inactive this means that we can reset the fallingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_fallingDetected = false;
+        m_state.fallingDetected = false;
 
         // check if the input is higher of the threshold
         if (m_input.rawValue >= m_params.onThreshold)
         {
             // We detected a rising edge
-            if (!m_risingDetected)
+            if (!m_state.risingDetected)
             {
-                m_risingEdgeTimeInstant = m_input.time;
-                m_risingDetected = true;
+                m_state.risingEdgeTimeInstant = m_input.time;
+                m_state.risingDetected = true;
             }
 
             // integrate the timer
-            m_timer = m_input.time - m_risingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_state.risingEdgeTimeInstant;
 
             // if the timer is greater than a threshold is time to switch
-            if (m_timer >= m_params.switchOnAfter)
+            if (m_state.timer >= m_params.switchOnAfter)
             {
                 m_state.state = true;
                 m_state.switchTime = m_input.time;
-                m_state.edgeTime = m_risingEdgeTimeInstant;
-                m_timer = std::chrono::nanoseconds::zero();
+                m_state.edgeTime = m_state.risingEdgeTimeInstant;
+                m_state.timer = std::chrono::nanoseconds::zero();
             }
         }
     } else
@@ -93,55 +103,74 @@ bool SchmittTrigger::advance()
 
         // the state is inactive this means that we can reset the risingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_risingDetected = false;
+        m_state.risingDetected = false;
 
         // check if the input is lower of the threshold
         if (m_input.rawValue <= m_params.offThreshold)
         {
             // We detected a falling edge
-            if (!m_fallingDetected)
+            if (!m_state.fallingDetected)
             {
-                m_fallingEdgeTimeInstant = m_input.time;
-                m_fallingDetected = true;
+                m_state.fallingEdgeTimeInstant = m_input.time;
+                m_state.fallingDetected = true;
             }
 
             // here a small delta is added to the timer
-            m_timer = m_input.time - m_fallingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_state.fallingEdgeTimeInstant;
 
             // if the value is lower the threshold for more than switchOffAfter seconds is time to
             // switch!
-            if (m_timer >= m_params.switchOffAfter)
+            if (m_state.timer >= m_params.switchOffAfter)
             {
                 m_state.state = false;
                 m_state.switchTime = m_input.time;
-                m_state.edgeTime = m_fallingEdgeTimeInstant;
-                m_timer = std::chrono::nanoseconds::zero();
+                m_state.edgeTime = m_state.fallingEdgeTimeInstant;
+                m_state.timer = std::chrono::nanoseconds::zero();
             }
         }
     }
+
+    m_fsm = FSM::OutputValid;
+
     return true;
 }
 
 bool SchmittTrigger::isOutputValid() const
 {
-    return true;
+    return m_fsm == FSM::OutputValid;
 }
 
 bool SchmittTrigger::setInput(const SchmittTriggerInput& input)
 {
+    if (m_fsm == FSM::Idle)
+    {
+        log()->error("[SchmittTrigger::setInput] Initialize the trigger before rest the state.");
+        return false;
+    }
+
     m_input = input;
     return true;
 }
 
-void SchmittTrigger::setState(const SchmittTriggerState& state)
+bool SchmittTrigger::setState(const SchmittTriggerState& state)
 {
-    m_state = state;
+    if (m_fsm == FSM::Idle)
+    {
+        log()->error("[SchmittTrigger::setState] Initialize the trigger before rest the state.");
+        return false;
+    }
 
-    // when the state is reset the timer is reset as well
-    m_timer = std::chrono::nanoseconds::zero();
+    m_state = state;
+    m_fsm = FSM::Reset;
+    return true;
 }
 
-const SchmittTriggerState& SchmittTrigger::getOutput() const
+const SchmittTriggerOutput& SchmittTrigger::getOutput() const
+{
+    return m_state;
+}
+
+const SchmittTriggerState& SchmittTrigger::getState() const
 {
     return m_state;
 }
