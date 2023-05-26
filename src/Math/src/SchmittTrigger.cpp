@@ -64,27 +64,27 @@ bool SchmittTrigger::advance()
     {
         // the state is inactive this means that we can reset the fallingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_fallingDetected = false;
+        m_state.fallingDetected = false;
 
         // check if the input is higher of the threshold
         if (m_input.rawValue >= m_params.onThreshold)
         {
             // We detected a rising edge
-            if (!m_risingDetected)
+            if (!m_state.risingDetected)
             {
-                m_risingEdgeTimeInstant = m_input.time;
-                m_risingDetected = true;
+                m_state.risingEdgeTimeInstant = m_input.time;
+                m_state.risingDetected = true;
             }
 
             // integrate the timer
-            m_state.timer = m_input.time - m_risingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_state.risingEdgeTimeInstant;
 
             // if the timer is greater than a threshold is time to switch
             if (m_state.timer >= m_params.switchOnAfter)
             {
                 m_state.state = true;
                 m_state.switchTime = m_input.time;
-                m_state.edgeTime = m_risingEdgeTimeInstant;
+                m_state.edgeTime = m_state.risingEdgeTimeInstant;
                 m_state.timer = std::chrono::nanoseconds::zero();
             }
         }
@@ -93,20 +93,20 @@ bool SchmittTrigger::advance()
 
         // the state is inactive this means that we can reset the risingEdgeTimeInstant. We can
         // avoid to do this at every instant. However, coping a double is not the bootlneck. :)
-        m_risingDetected = false;
+        m_state.risingDetected = false;
 
         // check if the input is lower of the threshold
         if (m_input.rawValue <= m_params.offThreshold)
         {
             // We detected a falling edge
-            if (!m_fallingDetected)
+            if (!m_state.fallingDetected)
             {
-                m_fallingEdgeTimeInstant = m_input.time;
-                m_fallingDetected = true;
+                m_state.fallingEdgeTimeInstant = m_input.time;
+                m_state.fallingDetected = true;
             }
 
             // here a small delta is added to the timer
-            m_state.timer = m_input.time - m_fallingEdgeTimeInstant;
+            m_state.timer = m_input.time - m_state.fallingEdgeTimeInstant;
 
             // if the value is lower the threshold for more than switchOffAfter seconds is time to
             // switch!
@@ -114,7 +114,7 @@ bool SchmittTrigger::advance()
             {
                 m_state.state = false;
                 m_state.switchTime = m_input.time;
-                m_state.edgeTime = m_fallingEdgeTimeInstant;
+                m_state.edgeTime = m_state.fallingEdgeTimeInstant;
                 m_state.timer = std::chrono::nanoseconds::zero();
             }
         }

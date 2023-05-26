@@ -35,6 +35,14 @@ struct SchmittTriggerState
 
     /** Internal timer used by the switcher to understand if it is the time to switch */
     std::chrono::nanoseconds timer{std::chrono::nanoseconds::zero()};
+
+
+    std::chrono::nanoseconds risingEdgeTimeInstant; /**< Internal quantity used to store the
+                                                         previous time */
+    std::chrono::nanoseconds fallingEdgeTimeInstant; /**< Internal quantity used to store the
+                                                          previous time */
+    bool risingDetected{false};
+    bool fallingDetected{false};
 };
 
 /**
@@ -133,12 +141,7 @@ private:
     SchmittTriggerState m_state; /**< Current state stored in the trigger */
     Params m_params; /**< Set of switching parameters */
 
-    std::chrono::nanoseconds m_risingEdgeTimeInstant; /**< Internal quantity used to store the
-                                                         previous time */
-    std::chrono::nanoseconds m_fallingEdgeTimeInstant; /**< Internal quantity used to store the
-                                                          previous time */
-    bool m_risingDetected{false};
-    bool m_fallingDetected{false};
+
 };
 
 } // namespace Math
