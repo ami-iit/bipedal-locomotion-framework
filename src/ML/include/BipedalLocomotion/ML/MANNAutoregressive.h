@@ -16,6 +16,7 @@
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ML/MANN.h>
+#include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -62,7 +63,9 @@ struct MANNAutoregressiveOutput
     Eigen::Vector3d comPosition;
     Eigen::Vector3d angularMomentum;
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
+    Math::SchmittTriggerState leftFootSchmittTriggerState;
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
+    Math::SchmittTriggerState rightFootSchmittTriggerState;
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
 
@@ -198,7 +201,9 @@ public:
      */
     bool reset(const MANNInput& input,
                const Contacts::EstimatedContact& leftFoot,
+               const Math::SchmittTriggerState& leftFootSchimittTriggerState,
                const Contacts::EstimatedContact& rightFoot,
+               const Math::SchmittTriggerState& rightFootSchimittTriggerState,
                const manif::SE3d& basePosition,
                const manif::SE3Tangentd& baseVelocity,
                const AutoregressiveState& autoregressiveState,
