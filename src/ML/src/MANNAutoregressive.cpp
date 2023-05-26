@@ -583,10 +583,11 @@ bool MANNAutoregressive::advance()
     // we update the projected contact position in the world frame if and only if
     // 1. The support foot changed
     // 2. Tue support foot did not change but the lower corner yes
-    if ((supportFootPtr != m_pimpl->supportFootPtr)
-        || (supportFootPtr == m_pimpl->supportFootPtr
-            && supportCornerIndex != m_pimpl->supportCornerIndex))
+    if ((supportFootPtr != m_pimpl->supportFootPtr))
+        // || (supportFootPtr == m_pimpl->supportFootPtr
+        //     && supportCornerIndex != m_pimpl->supportCornerIndex))
     {
+        m_pimpl->supportCornerIndex = supportCornerIndex;
         m_pimpl->projectedContactPositionInWorldFrame[0] = (*supportCorner)[0];
         m_pimpl->projectedContactPositionInWorldFrame[1] = (*supportCorner)[1];
     }
@@ -598,7 +599,7 @@ bool MANNAutoregressive::advance()
     const iDynTree::Transform supportVertex_H_base
         = (iDynTree::Transform(iDynTree::Rotation::Identity(),
                                iDynTree::Position(supportFootPtr->discreteGeometryContact
-                                                      .corners[supportCornerIndex]
+                                                      .corners[m_pimpl->supportCornerIndex]
                                                       .position))
                .inverse()
            * base_H_supportFoot.inverse());
@@ -657,7 +658,7 @@ bool MANNAutoregressive::advance()
     const double rightFootHeight
         = m_pimpl->kinDyn.getWorldTransform(m_pimpl->rightFoot.discreteGeometryContact.index)
               .getPosition()[2];
-    constexpr double tolerance = 0.005;
+    constexpr double tolerance = 0.01;
     if (std::abs(leftFootHeight - rightFootHeight) > tolerance)
     {
         // if the support foot is not the left and the left is active, then we deactivate the left
@@ -686,7 +687,6 @@ bool MANNAutoregressive::advance()
 
     // store the previous support foot and corner
     m_pimpl->supportFootPtr = supportFootPtr;
-    m_pimpl->supportCornerIndex = supportCornerIndex;
 
     // advance the internal time
     m_pimpl->currentTime += m_pimpl->dT;
