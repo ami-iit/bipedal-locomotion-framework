@@ -54,11 +54,21 @@ bool SchmittTrigger::initialize(const Params& params)
 
     m_params = params;
 
+    m_fsm = FSM::Initialized;
+
     return true;
 }
 
 bool SchmittTrigger::advance()
 {
+    if (m_fsm == FSM::Idle || m_fsm == FSM::Initialized)
+    {
+        log()->error("[SchmittTrigger::advance] Reset the state before using it the first time.");
+        return false;
+    }
+
+    m_fsm = FSM::OutputInvalid;
+
     // if the trigger is not active
     if (!m_state.state)
     {
@@ -119,26 +129,48 @@ bool SchmittTrigger::advance()
             }
         }
     }
+
+    m_fsm = FSM::OutputValid;
+
     return true;
 }
 
 bool SchmittTrigger::isOutputValid() const
 {
-    return true;
+    return m_fsm == FSM::OutputValid;
 }
 
 bool SchmittTrigger::setInput(const SchmittTriggerInput& input)
 {
+    if (m_fsm == FSM::Idle)
+    {
+        log()->error("[SchmittTrigger::setInput] Initialize the trigger before rest the state.");
+        return false;
+    }
+
     m_input = input;
     return true;
 }
 
-void SchmittTrigger::setState(const SchmittTriggerState& state)
+bool SchmittTrigger::setState(const SchmittTriggerState& state)
 {
+    if (m_fsm == FSM::Idle)
+    {
+        log()->error("[SchmittTrigger::setState] Initialize the trigger before rest the state.");
+        return false;
+    }
+
     m_state = state;
+    m_fsm = FSM::Reset;
+    return true;
 }
 
-const SchmittTriggerState& SchmittTrigger::getOutput() const
+const SchmittTriggerOutput& SchmittTrigger::getOutput() const
+{
+    return m_state;
+}
+
+const SchmittTriggerState& SchmittTrigger::getState() const
 {
     return m_state;
 }
