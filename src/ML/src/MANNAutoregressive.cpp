@@ -95,7 +95,7 @@ void MANNAutoregressive::Impl::updateContact(const double referenceHeight,
 
     trigger.setInput(footSchmittInput);
     trigger.advance();
-    triggerState = trigger.getOutput();
+    triggerState = trigger.getState();
 
      /* if (contact.index == 33)
         std::cerr << referenceHeight << " " << contact.isActive << " " << triggerState.state << " " << std::chrono::duration<double>(triggerState.timer).count() << " " <<contact.index << std::endl; */
