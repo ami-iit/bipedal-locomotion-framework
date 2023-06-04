@@ -65,7 +65,7 @@ struct CentroidalMPC::Impl
     bool isInitialized{false};
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
 
-    CentroidalMPCState state;
+    CentroidalMPCOutput output;
     Contacts::ContactPhaseList contactPhaseList;
     Math::LinearizedFrictionCone frictionCone;
 
@@ -161,12 +161,16 @@ struct CentroidalMPC::Impl
         int solverVerbosity{0}; /**< Verbosity of ipopt */
         std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
         double ipoptTolerance{1e-8}; /**< Tolerance of ipopt
-                                        (https://coin-or.github.io/Ipopt/OPTIONS.html) */
+                                        (https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol) */
         int ipoptMaxIteration{3000}; /**< Maximum number of iteration */
 
         int horizon; /**<Number of samples used in the horizon */
         std::chrono::nanoseconds samplingTime; /**< Sampling time of the planner */
         std::chrono::nanoseconds timeHorizon; /**< Duration of the horizon */
+        bool isWarmStartEnabled{false}; /**< True if the user wants to warm start the CoM, angular
+                                           momentum and contact. */
+        bool isCseEnabled{false}; /**< True if the Common subexpression elimination casadi option is
+                                       enabled. */
     };
 
     OptimizationSettings optiSettings; /**< Settings */
@@ -182,10 +186,12 @@ struct CentroidalMPC::Impl
         std::map<std::string, CasadiContactWithConstraints> contacts;
 
         casadi::MX comReference;
+        casadi::MX angularMomentumReference;
         casadi::MX comCurrent;
         casadi::MX dcomCurrent;
         casadi::MX angularMomentumCurrent;
-        casadi::MX externalWrench;
+        casadi::MX externalForce;
+        casadi::MX externalTorque;
     };
     OptimizationVariables optiVariables; /**< Optimization variables */
 
@@ -203,10 +209,12 @@ struct CentroidalMPC::Impl
         std::map<std::string, ContactsInputs> contacts;
 
         casadi::DM comReference;
+        casadi::DM angularMomentumReference;
         casadi::DM comCurrent;
         casadi::DM dcomCurrent;
         casadi::DM angularMomentumCurrent;
-        casadi::DM externalWrench;
+        casadi::DM externalForce;
+        casadi::DM externalTorque;
     };
     ControllerInputs controllerInputs;
 
@@ -216,8 +224,9 @@ struct CentroidalMPC::Impl
         double contactPosition;
         Eigen::Vector3d forceRateOfChange;
         double angularMomentum;
+        double contactForceSymmetry;
     };
-    Weights weights; /**< Settings */
+    Weights weights;
 
     struct ContactBoundingBox
     {
@@ -266,29 +275,46 @@ struct CentroidalMPC::Impl
 
     bool loadParameters(std::shared_ptr<const ParametersHandler::IParametersHandler> ptr)
     {
-        constexpr auto errorPrefix = "[CentroidalMPC::Impl::loadParameters]";
+        constexpr auto logPrefix = "[CentroidalMPC::Impl::loadParameters]";
 
-        if (!ptr->getParameter("controller_sampling_time", this->optiSettings.samplingTime))
+        auto getParameter
+            = [logPrefix](std::shared_ptr<const ParametersHandler::IParametersHandler> ptr,
+                          const std::string& paramName,
+                          auto& param) -> bool {
+            if (!ptr->getParameter(paramName, param))
+            {
+                log()->error("{} Unable to load the parameter named '{}'.", logPrefix, paramName);
+                return false;
+            }
+            return true;
+        };
+
+        auto getOptionalParameter
+            = [logPrefix](std::shared_ptr<const ParametersHandler::IParametersHandler> ptr,
+                          const std::string& paramName,
+                          auto& param) -> void {
+            if (!ptr->getParameter(paramName, param))
+            {
+                log()->info("{} Unable to load the parameter named '{}'. The default one will be "
+                            "used '{}'.",
+                            logPrefix,
+                            paramName,
+                            param);
+            }
+        };
+
+        bool ok = getParameter(ptr, "sampling_time", this->optiSettings.samplingTime);
+        ok = ok && getParameter(ptr, "time_horizon", this->optiSettings.timeHorizon);
+
+        if (!ok)
         {
-            log()->error("{} Unable to load the sampling time of the controller.", errorPrefix);
             return false;
         }
+        this->optiSettings.horizon
+            = this->optiSettings.timeHorizon / this->optiSettings.samplingTime;
 
-        if (!ptr->getParameter("controller_horizon", this->optiSettings.horizon))
-        {
-            log()->error("{} Unable to load the controller horizon the controller.", errorPrefix);
-            return false;
-        }
-
-        this->optiSettings.timeHorizon
-            = this->optiSettings.horizon * this->optiSettings.samplingTime;
-
-        int numberOfMaximumContacts;
-        if (!ptr->getParameter("number_of_maximum_contacts", numberOfMaximumContacts))
-        {
-            log()->error("{} Unable to load the maximum number of contacts.", errorPrefix);
-            return false;
-        }
+        int numberOfMaximumContacts = 0;
+        ok = ok && getParameter(ptr, "number_of_maximum_contacts", numberOfMaximumContacts);
 
         for (std::size_t i = 0; i < numberOfMaximumContacts; i++)
         {
@@ -298,98 +324,60 @@ struct CentroidalMPC::Impl
             {
                 log()->error("{} Unable to load the contact {}. Please be sure that CONTACT_{} "
                              "group exists.",
-                             errorPrefix,
+                             logPrefix,
                              i,
                              i);
                 return false;
             }
 
             std::string contactName;
-            if (!contactHandler->getParameter("contact_name", contactName))
+            ok = ok && getParameter(contactHandler, "contact_name", contactName);
+            if (!ok)
             {
-                log()->error("{} Unable to get the name of the contact number {}.", errorPrefix, i);
                 return false;
             }
 
             // set the contact name
-            this->state.contacts[contactName].name = contactName;
+            this->output.contacts[contactName].name = contactName;
+            ok = ok
+                 && getParameter(contactHandler,
+                                 "bounding_box_upper_limit",
+                                 this->contactBoundingBoxes[contactName].upperLimit);
+            ok = ok
+                 && getParameter(contactHandler,
+                                 "bounding_box_lower_limit",
+                                 this->contactBoundingBoxes[contactName].lowerLimit);
 
-            if (!contactHandler->getParameter("bounding_box_upper_limit",
-                                              this->contactBoundingBoxes[contactName].upperLimit))
-            {
-                log()->error("{} Unable to load the bounding box upper limit of the contact number "
-                             "{}.",
-                             errorPrefix,
-                             i);
-                return false;
-            }
-
-            if (!contactHandler->getParameter("bounding_box_lower_limit",
-                                              this->contactBoundingBoxes[contactName].lowerLimit))
-            {
-                log()->error("{} Unable to load the bounding box lower limit of the contact number "
-                             "{}.",
-                             errorPrefix,
-                             i);
-                return false;
-            }
-
-            if (!this->loadContactCorners(contactHandler, this->state.contacts[contactName]))
+            if (!this->loadContactCorners(contactHandler, this->output.contacts[contactName]))
             {
                 log()->error("{} Unable to load the contact corners for the contact {}.",
-                             errorPrefix,
+                             logPrefix,
                              i);
                 return false;
             }
         }
 
-        if (!ptr->getParameter("linear_solver", this->optiSettings.ipoptLinearSolver))
-        {
-            log()->info("{} 'linear_solver' not found. The default parameter will be used: {}.",
-                        errorPrefix,
-                        this->optiSettings.ipoptLinearSolver);
-        }
-
-        if (!ptr->getParameter("ipopt_tolerance", this->optiSettings.ipoptTolerance))
-        {
-            log()->info("{} 'ipopt_tolerance' not found. The default parameter will be used: {}.",
-                        errorPrefix,
-                        this->optiSettings.ipoptTolerance);
-        }
-
-        if (!ptr->getParameter("ipopt_max_iteration", this->optiSettings.ipoptMaxIteration))
-        {
-            log()->info("{} 'ipopt_max_iteration' not found. The default parameter will be used: "
-                        "{}.",
-                        errorPrefix,
-                        this->optiSettings.ipoptMaxIteration);
-        }
-
-        if (!ptr->getParameter("solver_verbosity", this->optiSettings.solverVerbosity))
-        {
-            log()->info("{} 'solver_verbosity' not found. The default parameter will be used: {}.",
-                        errorPrefix,
-                        this->optiSettings.solverVerbosity);
-        }
-
-
-        bool ok = true;
-        ok = ok && ptr->getParameter("com_weight", this->weights.com);
-        ok = ok && ptr->getParameter("contact_position_weight", this->weights.contactPosition);
+        ok = ok && getParameter(ptr, "com_weight", this->weights.com);
+        ok = ok && getParameter(ptr, "contact_position_weight", this->weights.contactPosition);
         ok = ok
-             && ptr->getParameter("force_rate_of_change_weight", this->weights.forceRateOfChange);
-        ok = ok && ptr->getParameter("angular_momentum_weight", this->weights.angularMomentum);
+             && getParameter(ptr, "force_rate_of_change_weight", this->weights.forceRateOfChange);
+        ok = ok && getParameter(ptr, "angular_momentum_weight", this->weights.angularMomentum);
+        ok = ok
+             && getParameter(ptr,
+                             "contact_force_symmetry_weight",
+                             this->weights.contactForceSymmetry);
 
         // initialize the friction cone
         ok = ok && frictionCone.initialize(ptr);
 
-        if (!ok)
-        {
-            log()->error("{} Unable to load the weight of the cost function.", errorPrefix);
-            return false;
-        }
+        getOptionalParameter(ptr, "linear_solver", this->optiSettings.ipoptLinearSolver);
+        getOptionalParameter(ptr, "ipopt_tolerance", this->optiSettings.ipoptTolerance);
+        getOptionalParameter(ptr, "ipopt_max_iteration", this->optiSettings.ipoptMaxIteration);
+        getOptionalParameter(ptr, "solver_verbosity", this->optiSettings.solverVerbosity);
+        getOptionalParameter(ptr, "is_warm_start_enabled", this->optiSettings.isWarmStartEnabled);
+        getOptionalParameter(ptr, "is_cse_enabled", this->optiSettings.isCseEnabled);
 
-        return true;
+        return ok;
     }
 
     casadi::Function ode()
@@ -397,7 +385,7 @@ struct CentroidalMPC::Impl
         // Convert DiscreteGeometryContact into a casadiContact object
         std::map<std::string, CasadiContact> casadiContacts;
 
-        for (const auto& [key, contact] : this->state.contacts)
+        for (const auto& [key, contact] : this->output.contacts)
         {
             CasadiContact temp(key);
             temp = contact;
@@ -412,6 +400,7 @@ struct CentroidalMPC::Impl
         casadi::MX angularMomentum = casadi::MX::sym("angular_momentum_in", 3);
 
         casadi::MX externalForce = casadi::MX::sym("external_force", 3);
+        casadi::MX externalTorque = casadi::MX::sym("external_torque", 3);
 
         casadi::MX ddcom = casadi::MX::sym("ddcom", 3);
         casadi::MX angularMomentumDerivative = casadi::MX::sym("angular_momentum_derivative", 3);
@@ -420,10 +409,11 @@ struct CentroidalMPC::Impl
         gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
         ddcom = gravity + externalForce / mass;
-        angularMomentumDerivative = casadi::DM::zeros(3);
+        angularMomentumDerivative = externalTorque;
 
         std::vector<casadi::MX> input;
         input.push_back(externalForce);
+        input.push_back(externalTorque);
         input.push_back(com);
         input.push_back(dcom);
         input.push_back(angularMomentum);
@@ -499,10 +489,14 @@ struct CentroidalMPC::Impl
         this->controllerInputs.dcomCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.angularMomentumCurrent = casadi::DM::zeros(vector3Size);
         this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, stateHorizon);
-        this->controllerInputs.externalWrench = casadi::DM::zeros(vector3Size, //
+        this->controllerInputs.angularMomentumReference
+            = casadi::DM::zeros(vector3Size, stateHorizon);
+        this->controllerInputs.externalForce = casadi::DM::zeros(vector3Size, //
+                                                                 this->optiSettings.horizon);
+        this->controllerInputs.externalTorque = casadi::DM::zeros(vector3Size, //
                                                                   this->optiSettings.horizon);
 
-        for (const auto& [key, contact] : this->state.contacts)
+        for (const auto& [key, contact] : this->output.contacts)
         {
             // The current position of the contact
             this->controllerInputs.contacts[key].currentPosition = casadi::DM::zeros(vector3Size);
@@ -540,7 +534,7 @@ struct CentroidalMPC::Impl
         this->optiVariables.angularMomentum = this->opti.variable(vector3Size, stateHorizon);
 
         // the casadi contacts depends on the maximum number of contacts
-        for (const auto& [key, contact] : this->state.contacts)
+        for (const auto& [key, contact] : this->output.contacts)
         {
             auto [contactIt, outcome]
                 = this->optiVariables.contacts.insert_or_assign(key,
@@ -590,7 +584,11 @@ struct CentroidalMPC::Impl
         this->optiVariables.dcomCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.angularMomentumCurrent = this->opti.parameter(vector3Size);
         this->optiVariables.comReference = this->opti.parameter(vector3Size, stateHorizon);
-        this->optiVariables.externalWrench = this->opti.parameter(vector3Size, //
+        this->optiVariables.angularMomentumReference
+            = this->opti.parameter(vector3Size, stateHorizon);
+        this->optiVariables.externalForce = this->opti.parameter(vector3Size, //
+                                                                 this->optiSettings.horizon);
+        this->optiVariables.externalTorque = this->opti.parameter(vector3Size, //
                                                                   this->optiSettings.horizon);
     }
 
@@ -614,6 +612,7 @@ struct CentroidalMPC::Impl
         }
 
         ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
+        ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
         casadiOptions["expand"] = true;
 
@@ -626,15 +625,17 @@ struct CentroidalMPC::Impl
 
         this->populateOptiVariables();
 
-        //
+        // get the variables to simplify the readability
         auto& com = this->optiVariables.com;
         auto& dcom = this->optiVariables.dcom;
         auto& angularMomentum = this->optiVariables.angularMomentum;
-        auto& externalWrench = this->optiVariables.externalWrench;
+        auto& externalForce = this->optiVariables.externalForce;
+        auto& externalTorque = this->optiVariables.externalTorque;
 
         // prepare the input of the ode
         std::vector<casadi::MX> odeInput;
-        odeInput.push_back(externalWrench);
+        odeInput.push_back(externalForce);
+        odeInput.push_back(externalTorque);
         odeInput.push_back(com(Sl(), Sl(0, -1)));
         odeInput.push_back(dcom(Sl(), Sl(0, -1)));
         odeInput.push_back(angularMomentum(Sl(), Sl(0, -1)));
@@ -651,7 +652,7 @@ struct CentroidalMPC::Impl
             }
         }
 
-        // set the initial values
+        // set the feedback
         this->opti.subject_to(this->optiVariables.comCurrent == com(Sl(), 0));
         this->opti.subject_to(this->optiVariables.dcomCurrent == dcom(Sl(), 0));
         this->opti.subject_to(this->optiVariables.angularMomentumCurrent
@@ -685,7 +686,7 @@ struct CentroidalMPC::Impl
         // convert the eigen matrix into casadi
         // please check https://github.com/casadi/casadi/issues/2563 and
         // https://groups.google.com/forum/#!topic/casadi-users/npPcKItdLN8
-        // Assumption: the matrices as stored as column-major
+        // Assumption: the matrices are stored as column-major
         casadi::DM frictionConeMatrix = casadi::DM::zeros(frictionCone.getA().rows(), //
                                                           frictionCone.getA().cols());
 
@@ -733,19 +734,19 @@ struct CentroidalMPC::Impl
 
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
+        auto& angularMomentumReference = this->optiVariables.angularMomentumReference;
 
-        // (max - mix) * expo + mi n
+        // (max - mix) * exp(-i) + min
         casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
-        double min = this->weights.com(2) / 2;
+        const double min = this->weights.com(2) / 2;
         for (int i = 0; i < com.columns(); i++)
         {
             weightCoMZ(Sl(), i) = (this->weights.com(2) - min) * std::exp(-i) + min;
         }
 
         casadi::MX cost
-            = this->weights.angularMomentum * 10 * casadi::MX::sumsqr(angularMomentum(0, Sl()))
-              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(1, Sl()))
-              + this->weights.angularMomentum * casadi::MX::sumsqr(angularMomentum(2, Sl()))
+            = this->weights.angularMomentum
+                  * casadi::MX::sumsqr(angularMomentum - angularMomentumReference)
               + this->weights.com(0) * casadi::MX::sumsqr(com(0, Sl()) - comReference(0, Sl()))
               + this->weights.com(1) * casadi::MX::sumsqr(com(1, Sl()) - comReference(1, Sl()))
               + casadi::MX::sumsqr(weightCoMZ * (com(2, Sl()) - comReference(2, Sl())));
@@ -773,7 +774,8 @@ struct CentroidalMPC::Impl
             {
                 auto forceRateOfChange = casadi::MX::diff(corner.force.T()).T();
 
-                cost += 10 * casadi::MX::sumsqr(corner.force - averageForce);
+                cost += this->weights.contactForceSymmetry
+                        * casadi::MX::sumsqr(corner.force - averageForce);
 
                 cost += this->weights.forceRateOfChange(0)
                         * casadi::MX::sumsqr(forceRateOfChange(0, Sl()));
@@ -786,7 +788,6 @@ struct CentroidalMPC::Impl
 
         this->opti.minimize(cost);
 
-
         this->setupOptiOptions();
 
         // prepare the casadi function
@@ -795,79 +796,71 @@ struct CentroidalMPC::Impl
         std::vector<std::string> inputName;
         std::vector<std::string> outputName;
 
-        input.push_back(this->optiVariables.externalWrench);
-        input.push_back(this->optiVariables.comCurrent);
-        input.push_back(this->optiVariables.dcomCurrent);
-        input.push_back(this->optiVariables.angularMomentumCurrent);
-        input.push_back(this->optiVariables.comReference);
+        auto concatenateInput
+            = [&input, &inputName](const casadi::MX& inputVariable, std::string inputVariableName) {
+                  input.push_back(inputVariable);
+                  inputName.push_back(std::move(inputVariableName));
+              };
 
-        inputName.push_back("external_wrench");
-        inputName.push_back("com_current");
-        inputName.push_back("dcom_current");
-        inputName.push_back("angular_momentum_current");
-        inputName.push_back("com_reference");
+        auto concatenateOutput = [&output, &outputName](const casadi::MX& outputVariable,
+                                                        std::string outputVariableName) {
+            output.push_back(outputVariable);
+            outputName.push_back(std::move(outputVariableName));
+        };
+
+        concatenateInput(this->optiVariables.externalForce, "external_force");
+        concatenateInput(this->optiVariables.externalTorque, "external_torque");
+        concatenateInput(this->optiVariables.comCurrent, "com_current");
+        concatenateInput(this->optiVariables.dcomCurrent, "dcom_current");
+        concatenateInput(this->optiVariables.angularMomentumCurrent, "angular_momentum_current");
+
+        concatenateInput(this->optiVariables.comReference, "com_reference");
+        concatenateInput(this->optiVariables.angularMomentumReference,
+                         "angular_momentum_reference");
+
+        // this only if warm-start is enabled
+        if (this->optiSettings.isWarmStartEnabled)
+        {
+            concatenateInput(this->optiVariables.com, "com_warmstart");
+            concatenateInput(this->optiVariables.angularMomentum, "angular_momentum_warmstart");
+        }
 
         for (const auto& [key, contact] : this->optiVariables.contacts)
         {
-            input.push_back(contact.currentPosition);
-            input.push_back(contact.nominalPosition);
-            input.push_back(contact.orientation);
-            input.push_back(contact.isEnable);
-            input.push_back(contact.upperLimitPosition);
-            input.push_back(contact.lowerLimitPosition);
+            concatenateInput(contact.currentPosition, "contact_" + key + "_current_position");
+            concatenateInput(contact.nominalPosition, "contact_" + key + "_nominal_position");
+            concatenateInput(contact.orientation, "contact_" + key + "_orientation_input");
+            concatenateInput(contact.isEnable, "contact_" + key + "is_enable_in");
+            concatenateInput(contact.upperLimitPosition,
+                             "contact_" + key + "_upper_limit_position");
+            concatenateInput(contact.lowerLimitPosition,
+                             "contact_" + key + "_lower_limit_position");
 
-            inputName.push_back("contact_" + key + "_current_position");
-            inputName.push_back("contact_" + key + "_nominal_position");
-            inputName.push_back("contact_" + key + "_orientation_in");
-            inputName.push_back("contact_" + key + "_is_enable_in");
-            inputName.push_back("contact_" + key + "_upper_limit_position");
-            inputName.push_back("contact_" + key + "_lower_limit_position");
+            // this only if warm-start is enabled
+            if (this->optiSettings.isWarmStartEnabled)
+            {
+                concatenateInput(contact.position, "contact_" + key + "_position_warmstart");
+            }
 
-            output.push_back(contact.isEnable);
-            output.push_back(contact.position);
-            output.push_back(contact.orientation);
-
-            outputName.push_back("contact_" + key + "_is_enable");
-            outputName.push_back("contact_" + key + "_position");
-            outputName.push_back("contact_" + key + "_orientation");
+            concatenateOutput(contact.isEnable, "contact_" + key + "_is_enable");
+            concatenateOutput(contact.position, "contact_" + key + "_position");
+            concatenateOutput(contact.orientation, "contact_" + key + "_orientation");
 
             std::size_t cornerIndex = 0;
             for (const auto& corner : contact.corners)
             {
-                output.push_back(corner.force);
-                outputName.push_back("contact_" + key + "_corner_" + std::to_string(cornerIndex)
-                                     + "_force");
+                concatenateOutput(corner.force,
+                                  "contact_" + key + "_corner_" + std::to_string(cornerIndex)
+                                      + "_force");
                 cornerIndex++;
             }
         }
 
-        // controller:(com_current[3], dcom_current[3], angular_momentum_current[3],
-        // com_reference[3x16], contact_left_foot_current_position[3],
-        // contact_left_foot_nominal_position[3x16], contact_left_foot_orientation[9x15],
-        // contact_left_foot_is_enable[1x15], contact_left_foot_upper_limit_position[3x15],
-        // contact_left_foot_lower_limit_position[3x15], contact_right_foot_current_position[3],
-        // contact_right_foot_nominal_position[3x16], contact_right_foot_orientation[9x15],
-        // contact_right_foot_is_enable[1x15], contact_right_foot_upper_limit_position[3x15],
-        // contact_right_foot_lower_limit_position[3x15]) -------------------->
-        // (contact_left_foot_position[3x16],
-        // contact_left_foot_is_enable[1x15], contact_left_foot_corner_0_force[3x15],
-        // contact_left_foot_corner_1_force[3x15], contact_left_foot_corner_2_force[3x15],
-        // contact_left_foot_corner_3_force[3x15], contact_right_foot_position[3x16],
-        // contact_right_foot_is_enable[1x15], contact_right_foot_corner_0_force[3x15],
-        // contact_right_foot_corner_1_force[3x15], contact_right_foot_corner_2_force[3x15],
-        // contact_right_foot_corner_3_force[3x15])
+        casadi::Dict toFunctionOptions;
+        toFunctionOptions["cse"] = this->optiSettings.isCseEnabled;
 
-        // casadi::Dict options;
-        // options["jit"] = true;
-        // options["compiler"] = "shell";
-
-        // casadi::Dict jit_options;
-        // jit_options["flags"] = {"-O3"};
-        // jit_options["verbose"] = true;
-
-        // options["jit_options"] = jit_options;
-
-        return this->opti.to_function("controller", input, output, inputName, outputName);
+        return this->opti
+            .to_function("controller", input, output, inputName, outputName, toFunctionOptions);
     }
 };
 
@@ -902,9 +895,9 @@ CentroidalMPC::CentroidalMPC()
     m_pimpl = std::make_unique<Impl>();
 }
 
-const CentroidalMPCState& CentroidalMPC::getOutput() const
+const CentroidalMPCOutput& CentroidalMPC::getOutput() const
 {
-    return m_pimpl->state;
+    return m_pimpl->output;
 }
 
 bool CentroidalMPC::isOutputValid() const
@@ -926,36 +919,22 @@ bool CentroidalMPC::advance()
         return false;
     }
 
-    // controller:(com_current[3], dcom_current[3], angular_momentum_current[3],
-    // com_reference[3x16],
-    //            contact_left_foot_current_position[3],  contact_left_foot_nominal_position[3x16],
-    //            contact_left_foot_orientation[9x15], contact_left_foot_is_enable[1x15],
-    //            contact_left_foot_upper_limit_position[3x15],
-    //            contact_left_foot_lower_limit_position[3x15],
-    //            contact_right_foot_current_position[3], contact_right_foot_nominal_position[3x16],
-    //            contact_right_foot_orientation[9x15], contact_right_foot_is_enable[1x15],
-    //            contact_right_foot_upper_limit_position[3x15],
-    //            contact_right_foot_lower_limit_position[3x15])
-    //             -------------------->
-    //            (contact_left_foot_position[3x16], contact_left_foot_is_enable[1x15],
-    //            contact_left_foot_corner_0_force[3x15],
-    //                                                                                  contact_left_foot_corner_1_force[3x15],
-    //                                                                                  contact_left_foot_corner_2_force[3x15],
-    //                                                                                  contact_left_foot_corner_3_force[3x15],
-    //             contact_right_foot_position[3x16], contact_right_foot_is_enable[1x15],
-    //             contact_right_foot_corner_0_force[3x15],
-    //                                                                                    contact_right_foot_corner_1_force[3x15],
-    //                                                                                    contact_right_foot_corner_2_force[3x15],
-    //                                                                                    contact_right_foot_corner_3_force[3x15])
-
     const auto& inputs = m_pimpl->controllerInputs;
 
     std::vector<casadi::DM> vectorizedInputs;
-    vectorizedInputs.push_back(inputs.externalWrench);
+    vectorizedInputs.push_back(inputs.externalForce);
+    vectorizedInputs.push_back(inputs.externalTorque);
     vectorizedInputs.push_back(inputs.comCurrent);
     vectorizedInputs.push_back(inputs.dcomCurrent);
     vectorizedInputs.push_back(inputs.angularMomentumCurrent);
     vectorizedInputs.push_back(inputs.comReference);
+    vectorizedInputs.push_back(inputs.angularMomentumReference);
+
+    if (m_pimpl->optiSettings.isWarmStartEnabled)
+    {
+        vectorizedInputs.push_back(inputs.comReference);
+        vectorizedInputs.push_back(inputs.angularMomentumReference);
+    }
 
     for (const auto& [key, contact] : inputs.contacts)
     {
@@ -965,6 +944,11 @@ bool CentroidalMPC::advance()
         vectorizedInputs.push_back(contact.isEnable);
         vectorizedInputs.push_back(contact.upperLimitPosition);
         vectorizedInputs.push_back(contact.lowerLimitPosition);
+
+        if (m_pimpl->optiSettings.isWarmStartEnabled)
+        {
+            vectorizedInputs.push_back(contact.nominalPosition);
+        }
     }
 
     // compute the output
@@ -972,8 +956,8 @@ bool CentroidalMPC::advance()
 
     // get the solution
     auto it = controllerOutput.begin();
-    m_pimpl->state.nextPlannedContact.clear();
-    for (auto& [key, contact] : m_pimpl->state.contacts)
+    m_pimpl->output.nextPlannedContact.clear();
+    for (auto& [key, contact] : m_pimpl->output.contacts)
     {
         int index = toEigen(*it).size();
         const int size = toEigen(*it).size();
@@ -998,8 +982,8 @@ bool CentroidalMPC::advance()
 
         if (index < size)
         {
-            m_pimpl->state.nextPlannedContact[key].name = key;
-            m_pimpl->state.nextPlannedContact[key].pose.translation(toEigen(*it).col(index));
+            m_pimpl->output.nextPlannedContact[key].name = key;
+            m_pimpl->output.nextPlannedContact[key].pose.translation(toEigen(*it).col(index));
         }
 
         std::advance(it, 1);
@@ -1008,7 +992,7 @@ bool CentroidalMPC::advance()
 
         if (index < size)
         {
-            m_pimpl->state.nextPlannedContact[key].pose.quat(Eigen::Quaterniond(
+            m_pimpl->output.nextPlannedContact[key].pose.quat(Eigen::Quaterniond(
                 Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
 
             const std::chrono::nanoseconds nextPlannedContactTime
@@ -1022,16 +1006,7 @@ bool CentroidalMPC::advance()
                 return false;
             }
 
-            // log()->warn("[CentroidalMPC] key {} next planned contact pose {} activation time {} "
-            //             "deactivation time {} next planned contact time {} index {}",
-            //             key,
-            //             m_pimpl->state.nextPlannedContact[key].pose.translation().transpose(),
-            //             nextPlannedContact->activationTime,
-            //             nextPlannedContact->deactivationTime,
-            //             nextPlannedContactTime,
-            //             index);
-
-            auto& contact = m_pimpl->state.nextPlannedContact[key];
+            auto& contact = m_pimpl->output.nextPlannedContact[key];
             contact.activationTime = nextPlannedContact->activationTime;
             contact.deactivationTime = nextPlannedContact->deactivationTime;
             contact.index = nextPlannedContact->index;
@@ -1059,10 +1034,10 @@ bool CentroidalMPC::advance()
     return true;
 }
 
-bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com)
+bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> com,
+                                           Eigen::Ref<const Eigen::Matrix3Xd> angularMomentum)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setReferenceTrajectory]";
-    assert(m_pimpl);
 
     const int stateHorizon = m_pimpl->optiSettings.horizon + 1;
 
@@ -1070,12 +1045,6 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
                      errorPrefix);
-        return false;
-    }
-
-    if (com.rows() != 3)
-    {
-        log()->error("{} The CoM matrix should have three rows.", errorPrefix);
         return false;
     }
 
@@ -1088,15 +1057,35 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::MatrixXd> com
         return false;
     }
 
+    if (angularMomentum.cols() < stateHorizon)
+    {
+        log()->error("{} The angular momentum matrix should have at least {} columns. The number "
+                     "of columns is "
+                     "equal to the horizon you set in the  initialization phase.",
+                     errorPrefix,
+                     m_pimpl->optiSettings.horizon);
+        return false;
+    }
+
     toEigen(m_pimpl->controllerInputs.comReference) = com.leftCols(stateHorizon);
+    toEigen(m_pimpl->controllerInputs.angularMomentumReference)
+        = angularMomentum.leftCols(stateHorizon);
 
     return true;
 }
 
 bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
                              Eigen::Ref<const Eigen::Vector3d> dcom,
+                             Eigen::Ref<const Eigen::Vector3d> angularMomentum)
+{
+    Math::Wrenchd dummy = Math::Wrenchd::Zero();
+    return this->setState(com, dcom, angularMomentum, dummy);
+}
+
+bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
+                             Eigen::Ref<const Eigen::Vector3d> dcom,
                              Eigen::Ref<const Eigen::Vector3d> angularMomentum,
-                             std::optional<Eigen::Ref<const Eigen::Vector3d>> externalWrench)
+                             const Math::Wrenchd& externalWrench)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setState]";
     assert(m_pimpl);
@@ -1113,14 +1102,11 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
     toEigen(inputs.dcomCurrent) = dcom;
     toEigen(inputs.angularMomentumCurrent) = angularMomentum;
 
-    toEigen(inputs.externalWrench).setZero();
-    m_pimpl->state.externalWrench = Eigen::Vector3d::Zero();
+    toEigen(inputs.externalForce).setZero();
+    toEigen(inputs.externalTorque).setZero();
 
-    if (externalWrench)
-    {
-        toEigen(inputs.externalWrench).leftCols<1>() = externalWrench.value();
-        m_pimpl->state.externalWrench = externalWrench.value();
-    }
+    toEigen(inputs.externalForce).leftCols<1>() = externalWrench.force();
+    toEigen(inputs.externalTorque).leftCols<1>() = externalWrench.torque();
 
     return true;
 }
@@ -1151,7 +1137,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     auto& inputs = m_pimpl->controllerInputs;
 
     // clear previous data
-    for (const auto& [key, contact] : m_pimpl->state.contacts)
+    for (const auto& [key, contact] : m_pimpl->output.contacts)
     {
         // initialize the current contact pose to zero. If the contact is active the current
         // position will be set later on
@@ -1198,7 +1184,6 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     int index = 0;
     for (auto it = initialPhase; it != std::next(finalPhase); std::advance(it, 1))
     {
-        // TODO check what it's going on if t horizon is greater then last endtime
         const std::chrono::nanoseconds tInitial = std::max(m_pimpl->currentTime, it->beginTime);
         const std::chrono::nanoseconds tFinal = std::min(absoluteTimeHorizon, it->endTime);
 
@@ -1223,10 +1208,10 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
             toEigen(inputContact->second.orientation).middleCols(index, numberOfSamples).colwise()
                 = Eigen::Map<const Eigen::VectorXd>(orientation.data(), orientation.size());
 
-            constexpr double maxForce = 1;
+            constexpr double isEnabled = 1;
             toEigen(inputContact->second.isEnable)
                 .middleCols(index, numberOfSamples)
-                .setConstant(maxForce);
+                .setConstant(isEnabled);
         }
 
         index += numberOfSamples;
@@ -1239,13 +1224,6 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     {
         toEigen(contact.currentPosition) = toEigen(contact.nominalPosition).leftCols<1>();
     }
-
-    // for (const auto& [key, contact] : inputs.contacts)
-    // {
-    //     log()->info("{} current Pose {}:", key, toEigen(contact.currentPosition).transpose());
-    //     log()->info("{} nominal Pose {}:", key, toEigen(contact.nominalPosition));
-    //     log()->info("{} maximumnormalforce  {}", key, toEigen(contact.isEnable));
-    // }
 
     // TODO this part can be improved. For instance you do not need to fill the vectors every time.
     for (auto& [key, contact] : inputs.contacts)

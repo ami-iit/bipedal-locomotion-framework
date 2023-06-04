@@ -44,14 +44,13 @@ TEST_CASE("CentroidalMPC")
     std::chrono::nanoseconds dT = 50ms;
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
-    handler->setParameter("controller_sampling_time", dT);
-    handler->setParameter("controller_horizon", 10);
+    handler->setParameter("sampling_time", dT);
+    handler->setParameter("time_horizon", 500ms);
     handler->setParameter("number_of_maximum_contacts", 2);
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
-    handler->setParameter("solver_verbosity", 4);
-    handler->setParameter("ipopt_max_iteration", 5);
-    handler->setParameter("linear_solver", "ma97");
+    handler->setParameter("solver_verbosity", 2);
+    handler->setParameter("linear_solver", "mumps");
 
     auto contact0Handler = std::make_shared<StdImplementation>();
     contact0Handler->setParameter("number_of_corners", 4);
@@ -81,6 +80,7 @@ TEST_CASE("CentroidalMPC")
     handler->setParameter("contact_position_weight", 1e3);
     handler->setParameter("force_rate_of_change_weight", std::vector<double>{10, 10, 10});
     handler->setParameter("angular_momentum_weight", 1e5);
+    handler->setParameter("contact_force_symmetry_weight", 10.0);
 
     CentroidalMPC mpc;
 
@@ -262,6 +262,8 @@ TEST_CASE("CentroidalMPC")
     std::chrono::nanoseconds currentTime = 0s;
     auto phaseIt = phaseList.getPresentPhase(currentTime);
 
+    const Eigen::MatrixXd angularMomentumTraj = 0 * comTraj;
+
     for (int i = 0; i < 1000; i++)
     {
         const auto& [com, dcom, angularMomentum] = system->getState();
@@ -290,7 +292,7 @@ TEST_CASE("CentroidalMPC")
 
             REQUIRE(mpc.setState(com, dcom, angularMomentum));
             // REQUIRE(mpc.setReferenceTrajectory(comTraj.rightCols(comTraj.cols() - index)));
-            REQUIRE(mpc.setReferenceTrajectory(comTraj));
+            REQUIRE(mpc.setReferenceTrajectory(comTraj, angularMomentumTraj));
             REQUIRE(mpc.setContactPhaseList(phaseList));
             std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
             REQUIRE(mpc.advance());
