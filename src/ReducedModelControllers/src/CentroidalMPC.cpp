@@ -19,6 +19,33 @@
 using namespace BipedalLocomotion::ReducedModelControllers;
 using namespace BipedalLocomotion::Contacts;
 
+
+#define STR_(x) #x
+#define STR(x) STR_(x)
+
+bool casadiVersionIsAtLeast360()
+{
+    std::string str;
+    std::stringstream ss(STR(casadi_VERSION));
+
+    // Use while loop to check the getline() function condition.
+    int index = 0;
+    while (getline(ss, str, '.'))
+    {
+        if (index == 0 && stoi(str) < 3)
+        {
+            return false;
+        }
+        if (index == 1 && stoi(str) < 6)
+        {
+            return false;
+        }
+        index++;
+    }
+
+    return true;
+}
+
 inline Eigen::Map<Eigen::MatrixXd> toEigen(casadi::DM& input)
 {
     return Eigen::Map<Eigen::MatrixXd>(input.ptr(), input.rows(), input.columns());
@@ -857,7 +884,10 @@ struct CentroidalMPC::Impl
         }
 
         casadi::Dict toFunctionOptions;
-        toFunctionOptions["cse"] = this->optiSettings.isCseEnabled;
+        if (casadiVersionIsAtLeast360())
+        {
+            toFunctionOptions["cse"] = this->optiSettings.isCseEnabled;
+        }
 
         return this->opti
             .to_function("controller", input, output, inputName, outputName, toFunctionOptions);

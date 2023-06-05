@@ -44,6 +44,8 @@ dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull}
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
 dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi})
+add_compile_definitions(casadi_VERSION=${casadi_VERSION})
+
 
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
