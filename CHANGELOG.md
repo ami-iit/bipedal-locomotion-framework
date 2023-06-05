@@ -18,6 +18,8 @@ All notable changes to this project are documented in this file.
 - Implement`UkfState` class in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/669)
 - Implement `MANNTrajectoryGenerator` class in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/668)
 - Implement a bash script to automatically log the audio along with the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/681)
+- Implement `QuadraticBezierCurve` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
+- Implement `MANNAutoregressiveInputBuilder` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
