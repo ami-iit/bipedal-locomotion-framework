@@ -116,7 +116,7 @@
 <para>Contains the regressor of the contact model. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="98">$f = A \theta$</formula>, where <formula id="99">$f$</formula> is the contact wrench, <formula id="71">$A$</formula> the regressor and <formula id="100">$\theta$</formula> the parameters </para>
+<para><formula id="98">$f = A \theta$</formula>, where <formula id="99">$f$</formula> is the contact wrench, <formula id="17">$A$</formula> the regressor and <formula id="100">$\theta$</formula> the parameters </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
