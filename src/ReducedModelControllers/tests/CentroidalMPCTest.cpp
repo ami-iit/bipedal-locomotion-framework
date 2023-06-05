@@ -6,23 +6,23 @@
  */
 
 #include <chrono>
+#include <fstream>
+#include <vector>
 
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::ReducedModelControllers;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
-
-#include <fstream>
 
 void updateContactPhaseList(
     const std::map<std::string, BipedalLocomotion::Contacts::PlannedContact>& nextPlannedContacts,
@@ -38,19 +38,73 @@ void updateContactPhaseList(
     phaseList.setLists(newList);
 }
 
+void writeHeaderOfFile(
+    const std::map<std::string, BipedalLocomotion::Contacts::DiscreteGeometryContact>& contacts,
+    std::ostream& centroidalMPCData)
+{
+    for (const auto& [key, contact] : contacts)
+    {
+        centroidalMPCData << key << "_pos_x " << key << "_pos_y " << key << "_pos_z ";
+        for (int j = 0; j < contact.corners.size(); j++)
+        {
+            centroidalMPCData << key << "_" << j << "_x"
+                              << " " << key << "_" << j << "_y"
+                              << " " << key << "_" << j << "_z ";
+        }
+
+        centroidalMPCData << key << "_next_pos_x " << key << "_next_pos_y " << key
+                          << "_next_pos_z ";
+    }
+    centroidalMPCData << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z "
+                         "elapsed_time"
+                      << std::endl;
+}
+
+void writeResultsToFile(const CentroidalMPC& mpc,
+                        const Eigen::Vector3d& com,
+                        const Eigen::Vector3d& angularMomentum,
+                        const Eigen::Vector3d& comDes,
+                        const std::chrono::nanoseconds& elapsedTime,
+                        std::ostream& centroidalMPCData)
+{
+    for (const auto& [key, contact] : mpc.getOutput().contacts)
+    {
+        centroidalMPCData << contact.pose.translation().transpose() << " ";
+        for (const auto& corner : contact.corners)
+        {
+            centroidalMPCData << corner.force.transpose() << " ";
+        }
+
+        auto nextPlannedContact = mpc.getOutput().nextPlannedContact.find(key);
+        if (nextPlannedContact == mpc.getOutput().nextPlannedContact.end())
+        {
+            centroidalMPCData << 0.0 << " " << 0.0 << " " << 0.0 << " ";
+        } else
+        {
+            centroidalMPCData << nextPlannedContact->second.pose.translation().transpose() << " ";
+        }
+    }
+    centroidalMPCData << com.transpose() << " " << comDes.transpose() << " "
+                      << angularMomentum.transpose() << " " << elapsedTime.count() << std::endl;
+}
+
 TEST_CASE("CentroidalMPC")
 {
+
+    constexpr bool saveDataset = false;
+
     using namespace std::chrono_literals;
-    std::chrono::nanoseconds dT = 50ms;
+    constexpr std::chrono::nanoseconds dT = 100ms;
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("sampling_time", dT);
-    handler->setParameter("time_horizon", 500ms);
+    handler->setParameter("time_horizon", 1s + 250ms);
     handler->setParameter("number_of_maximum_contacts", 2);
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
-    handler->setParameter("solver_verbosity", 2);
+    handler->setParameter("solver_verbosity", 0);
     handler->setParameter("linear_solver", "mumps");
+    handler->setParameter("is_warm_start_enabled", false);
 
     auto contact0Handler = std::make_shared<StdImplementation>();
     contact0Handler->setParameter("number_of_corners", 4);
@@ -72,7 +126,6 @@ TEST_CASE("CentroidalMPC")
     contact1Handler->setParameter("bounding_box_lower_limit", std::vector<double>{0, 0, 0});
     contact1Handler->setParameter("bounding_box_upper_limit", std::vector<double>{0, 0, 0});
 
-
     handler->setGroup("CONTACT_0", contact0Handler);
     handler->setGroup("CONTACT_1", contact1Handler);
 
@@ -86,20 +139,21 @@ TEST_CASE("CentroidalMPC")
 
     REQUIRE(mpc.initialize(handler));
 
-
     BipedalLocomotion::Contacts::ContactPhaseList phaseList;
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
 
     BipedalLocomotion::Planners::QuinticSpline comSpline;
 
-
     constexpr int scaling = 1;
     constexpr double scalingPos = 4.0;
     constexpr double scalingPosY = 12;
 
-    // // t  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 20  21  22  23  24  25  26  27
-    // // L |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|++++++++++|---|+++|
-    // // R |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++|
+    // // t  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 20  21
+    // 22  23  24  25  26  27
+    // // L
+    // |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|++++++++++|---|+++|
+    // // R
+    // |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++|
 
     Eigen::Vector3d leftPosition;
     leftPosition << 0, 0.08, 0;
@@ -226,35 +280,32 @@ TEST_CASE("CentroidalMPC")
     comSpline.setKnots(comKnots, timeKnots);
 
     Eigen::Vector3d velocity, acceleration;
-    Eigen::MatrixXd comTraj(3, 1500);
+    std::vector<Eigen::Vector3d> comTraj(700, Eigen::Vector3d::Zero());
+    std::vector<Eigen::Vector3d> angularMomentumTraj(700, Eigen::Vector3d::Zero());
 
-
-    int tempInt = 1000;
-    for (int i = 0; i < tempInt / scaling; i++)
+    int tempInt = 500;
+    for (int i = 0; i < tempInt; i++)
     {
-        // TODO remove me
-        comSpline.evaluatePoint(i * dT, comTraj.col(i), velocity, acceleration);
+        comSpline.evaluatePoint(i * dT, comTraj[i], velocity, acceleration);
     }
 
-    // i = 3
-    // * *
-    // 1 2 3 4 5
-    comTraj.rightCols(comTraj.cols() - tempInt).colwise() = comTraj.col(tempInt - 1);
+    for (int i = tempInt; i < comTraj.size(); i++)
+    {
+        comTraj[i] = comTraj[tempInt - 1];
+    }
 
     // initialize the dynamical system
     auto system = std::make_shared<CentroidalDynamics>();
-    system->setState({comTraj.col(0), Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero()});
+    system->setState({comTraj[0], Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero()});
 
-
-    constexpr std::chrono::nanoseconds integratorStepTime = 10ms;
+    constexpr std::chrono::nanoseconds integratorStepTime = dT;
     ForwardEuler<CentroidalDynamics> integrator;
     integrator.setIntegrationStep(integratorStepTime);
     REQUIRE(integrator.setDynamicalSystem(system));
 
-    std::ofstream myFile;
-    myFile.open("data.txt");
+    std::ofstream centroidalMPCData;
+    centroidalMPCData.open("CentroidalMPCUnitTest.txt");
 
-    // TODO reset contatcs
     int controllerIndex = 0;
     int index = 0;
 
@@ -262,17 +313,16 @@ TEST_CASE("CentroidalMPC")
     std::chrono::nanoseconds currentTime = 0s;
     auto phaseIt = phaseList.getPresentPhase(currentTime);
 
-    const Eigen::MatrixXd angularMomentumTraj = 0 * comTraj;
-
-    for (int i = 0; i < 20; i++)
+    constexpr int simulationHorizon = 50;
+    for (int i = 0; i < simulationHorizon; i++)
     {
         const auto& [com, dcom, angularMomentum] = system->getState();
 
-        if(controllerIndex == 0)
+        if (controllerIndex == 0)
         {
             // update the phaseList this happens only when a new contact should be established
             auto newPhaseIt = phaseList.getPresentPhase(currentTime);
-            if(newPhaseIt != phaseIt)
+            if (newPhaseIt != phaseIt)
             {
                 // check if new contact is established
                 if (phaseIt->activeContacts.size() == 1 && newPhaseIt->activeContacts.size() == 2)
@@ -281,18 +331,18 @@ TEST_CASE("CentroidalMPC")
 
                     // the iterators have been modified we have to compute the new one
                     phaseIt = phaseList.getPresentPhase(currentTime);
-                }
-                else
+                } else
                 {
                     // the iterators did not change no need to get the present phase again
                     phaseIt = newPhaseIt;
                 }
-
             }
 
+            const std::vector<Eigen::Vector3d> comTrajectoryRecedingHorizon
+                = {comTraj.begin() + controllerIndex, comTraj.end() - 1};
+
             REQUIRE(mpc.setState(com, dcom, angularMomentum));
-            // REQUIRE(mpc.setReferenceTrajectory(comTraj.rightCols(comTraj.cols() - index)));
-            REQUIRE(mpc.setReferenceTrajectory(comTraj, angularMomentumTraj));
+            REQUIRE(mpc.setReferenceTrajectory(comTrajectoryRecedingHorizon, angularMomentumTraj));
             REQUIRE(mpc.setContactPhaseList(phaseList));
             std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
             REQUIRE(mpc.advance());
@@ -302,63 +352,25 @@ TEST_CASE("CentroidalMPC")
             currentTime += dT;
         }
 
-        if (i == 0)
-        {
-            for (const auto& [key, contact] : mpc.getOutput().contacts)
-            {
-                myFile << key << "_pos_x " << key << "_pos_y " << key << "_pos_z ";
-                for (int j = 0; j < contact.corners.size(); j++)
-                {
-                    myFile << key << "_" << j << "_x"
-                           << " " << key << "_" << j << "_y"
-                           << " " << key << "_" << j << "_z ";
-                }
-
-                myFile << key << "_next_pos_x " << key << "_next_pos_y " << key << "_next_pos_z ";
-            }
-            myFile << "com_x com_y com_z des_com_x des_com_y des_com_z ang_x ang_y ang_z "
-                      "elapsed_time"
-                   << std::endl;
-        }
-
-        for (const auto& [key, contact] : mpc.getOutput().contacts)
-        {
-            myFile << contact.pose.translation().transpose() << " ";
-            for (const auto& corner : contact.corners)
-            {
-                myFile << corner.force.transpose() << " ";
-            }
-
-            auto nextPlannedContact = mpc.getOutput().nextPlannedContact.find(key);
-            if (nextPlannedContact == mpc.getOutput().nextPlannedContact.end())
-            {
-                myFile << 0.0 << " " << 0.0 << " " << 0.0 << " ";
-            }
-            else
-            {
-                myFile << nextPlannedContact->second.pose.translation().transpose() << " ";
-            }
-        }
-        myFile << com.transpose() << " " << comTraj.col(index).transpose() << " "
-               << angularMomentum.transpose() << " " << elapsedTime.count() << std::endl;
 
 
-        Eigen::Vector3d externalInput = Eigen::Vector3d::Zero();
-        if (i > 150 && i < 170)
-        {
-            externalInput(1) = 1;
-        }
 
-        system->setControlInput({mpc.getOutput().contacts, externalInput});
-
+        system->setControlInput({mpc.getOutput().contacts, Eigen::Vector3d::Zero()});
         REQUIRE(integrator.integrate(0s, integratorStepTime));
 
         controllerIndex++;
-        if (controllerIndex == int(dT / integratorStepTime))
+        if (controllerIndex == dT / integratorStepTime)
         {
             controllerIndex = 0;
         }
     }
 
-    myFile.close();
+    centroidalMPCData.close();
+
+    const auto& [com, dcom, angularMomentum] = system->getState();
+
+    // We check that the robot walked forward keeping the CoM height almost constant
+    REQUIRE(com(0) > 0.25);
+    REQUIRE(std::abs(com(1) - com0(1)) < 0.1);
+    REQUIRE(std::abs(com(2) - com0(2)) < 0.005);
 }
