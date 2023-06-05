@@ -19,7 +19,6 @@
 using namespace BipedalLocomotion::ReducedModelControllers;
 using namespace BipedalLocomotion::Contacts;
 
-
 #define STR_(x) #x
 #define STR(x) STR_(x)
 
@@ -1064,8 +1063,8 @@ bool CentroidalMPC::advance()
     return true;
 }
 
-bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> com,
-                                           Eigen::Ref<const Eigen::Matrix3Xd> angularMomentum)
+bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
+                                           const std::vector<Eigen::Vector3d>& angularMomentum)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setReferenceTrajectory]";
 
@@ -1078,7 +1077,7 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> co
         return false;
     }
 
-    if (com.cols() < stateHorizon)
+    if (com.size() < stateHorizon)
     {
         log()->error("{} The CoM matrix should have at least {} columns. The number of columns is "
                      "equal to the horizon you set in the  initialization phase.",
@@ -1087,7 +1086,7 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> co
         return false;
     }
 
-    if (angularMomentum.cols() < stateHorizon)
+    if (angularMomentum.size() < stateHorizon)
     {
         log()->error("{} The angular momentum matrix should have at least {} columns. The number "
                      "of columns is "
@@ -1097,9 +1096,19 @@ bool CentroidalMPC::setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> co
         return false;
     }
 
-    toEigen(m_pimpl->controllerInputs.comReference) = com.leftCols(stateHorizon);
+    // here we assume that std::vector<Eigen::Vector3d> is contiguous and represent a column major
+    // matrix
+    toEigen(m_pimpl->controllerInputs.comReference)
+        = Eigen::Map<const Eigen::Matrix3Xd>(com.data()->data(), 3, com.size())
+              .leftCols(stateHorizon);
+
+
+
     toEigen(m_pimpl->controllerInputs.angularMomentumReference)
-        = angularMomentum.leftCols(stateHorizon);
+        = Eigen::Map<const Eigen::Matrix3Xd>(angularMomentum.data()->data(),
+                                             3,
+                                             angularMomentum.size())
+              .leftCols(stateHorizon);
 
     return true;
 }

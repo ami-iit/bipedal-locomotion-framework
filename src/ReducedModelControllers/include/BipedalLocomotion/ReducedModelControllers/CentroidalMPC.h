@@ -145,8 +145,8 @@ public:
      * @warning The CoM and the angular momentum trajectory is assumed to be sampled at the
      * controller sampling
      */
-    bool setReferenceTrajectory(Eigen::Ref<const Eigen::Matrix3Xd> com,
-                                Eigen::Ref<const Eigen::Matrix3Xd> angularMomentum);
+    bool setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
+                                const std::vector<Eigen::Vector3d>& angularMomentum);
 
     /**
      * Get the output of the controller
