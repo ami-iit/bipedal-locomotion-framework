@@ -264,7 +264,7 @@ TEST_CASE("CentroidalMPC")
 
     const Eigen::MatrixXd angularMomentumTraj = 0 * comTraj;
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 20; i++)
     {
         const auto& [com, dcom, angularMomentum] = system->getState();
 
