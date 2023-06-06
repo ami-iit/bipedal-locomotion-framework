@@ -25,6 +25,7 @@ All notable changes to this project are documented in this file.
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
 - 🤖 [ergoCubSN000] Clean the mas remapper files of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/673)
 - 🤖 [ergoCubSN000] Enable the logging of the realsense camera `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
+- Add the possibility to force the internal state of the `SchmittTrigger` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/684)
 
 ### Fixed
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
