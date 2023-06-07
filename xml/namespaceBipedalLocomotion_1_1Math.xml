@@ -6,8 +6,9 @@
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1ContactWrenchCone" prot="public">BipedalLocomotion::Math::ContactWrenchCone</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone" prot="public">BipedalLocomotion::Math::LinearizedFrictionCone</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1QuadraticBezierCurve" prot="public">BipedalLocomotion::Math::QuadraticBezierCurve</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" prot="public">BipedalLocomotion::Math::SchmittTriggerState</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput" prot="public">BipedalLocomotion::Math::SchmittTriggerOutput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput" prot="public">BipedalLocomotion::Math::SchmittTriggerInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" prot="public">BipedalLocomotion::Math::SchmittTriggerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger" prot="public">BipedalLocomotion::Math::SchmittTrigger</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1Wrench" prot="public">BipedalLocomotion::Math::Wrench</innerclass>
       <sectiondef kind="typedef">

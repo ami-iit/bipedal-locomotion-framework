@@ -81,6 +81,10 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
+      <node id="26">
+        <label>BipedalLocomotion/Math/Constants.h</label>
+        <link refid="Constants_8h"/>
+      </node>
       <node id="15">
         <label>BipedalLocomotion/ML/MANN.h</label>
         <link refid="MANN_8h"/>
@@ -114,10 +118,24 @@
       <node id="9">
         <label>ratio</label>
       </node>
+      <node id="25">
+        <label>BipedalLocomotion/Math/SchmittTrigger.h</label>
+        <link refid="SchmittTrigger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>Eigen/Dense</label>
       </node>
-      <node id="25">
+      <node id="27">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="11">
@@ -152,11 +170,13 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="23">

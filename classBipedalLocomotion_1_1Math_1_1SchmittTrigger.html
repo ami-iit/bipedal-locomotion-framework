@@ -83,7 +83,7 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;SchmittTriggerInput, SchmittTriggerState&gt;</a>
+              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;SchmittTriggerInput, SchmittTriggerOutput&gt;</a>
             </dt>
             <dd>Basic class that represents a discrete system.</dd>
           </dl>
@@ -109,9 +109,13 @@
             </dt>
             <dd>Initialize the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a> block.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#aaf24d81aa71d1e55750529cdcf824d8d" class="m-doc">setState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; state)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a55ae088ae16dfc5d723d5f3bd45782a1" class="m-doc">setState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; state) -&gt; bool</span>
             </dt>
             <dd>Set the state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a813cd39542e7150c44060a7238a88046" class="m-doc">getState</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp;</span>
+            </dt>
+            <dd>Get the state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a80da3b3f093e4370cd6216e9a0d7eeef" class="m-doc">advance</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
@@ -121,7 +125,7 @@
             </dt>
             <dd>Check if the output of the trigger is valid.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a901267089c772b97bd7e3ac64de586f2" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#afec69a815c8333fc8a62db84916d269f" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput.html" class="m-doc">SchmittTriggerOutput</a>&amp; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the internal state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</dd>
             <dt>
@@ -179,9 +183,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aaf24d81aa71d1e55750529cdcf824d8d"><div>
+          <section class="m-doc-details" id="a55ae088ae16dfc5d723d5f3bd45782a1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaf24d81aa71d1e55750529cdcf824d8d" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; state)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a55ae088ae16dfc5d723d5f3bd45782a1" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; state)</span></span>
             </h3>
             <p>Set the state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -191,11 +195,31 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">state</td>
-                  <td>the state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a></td>
+                  <td>The desired state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True if the state is successfully set, false otherwise.</td>
+                </tr>
+              </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>When the state is set the internal timer is reset as well. This function should be called only if the user want to force the state of the system.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>This function should only be called when the user intends to manually control the system state. In this case, all internal variables required by the trigger will be forcefully updated to the provided <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a813cd39542e7150c44060a7238a88046"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a813cd39542e7150c44060a7238a88046" class="m-doc-self">getState</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the internal state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a80da3b3f093e4370cd6216e9a0d7eeef"><div>
             <h3>
@@ -225,9 +249,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a901267089c772b97bd7e3ac64de586f2"><div>
+          <section class="m-doc-details" id="afec69a815c8333fc8a62db84916d269f"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">SchmittTriggerState</a>&amp; BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a901267089c772b97bd7e3ac64de586f2" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput.html" class="m-doc">SchmittTriggerOutput</a>&amp; BipedalLocomotion::<wbr />Math::<wbr />SchmittTrigger::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afec69a815c8333fc8a62db84916d269f" class="m-doc-self">getOutput</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Get the internal state of the <a href="classBipedalLocomotion_1_1Math_1_1SchmittTrigger.html" class="m-doc">SchmittTrigger</a>.</p>
             <table class="m-table m-fullwidth m-flat">

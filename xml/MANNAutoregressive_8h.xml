@@ -8,6 +8,7 @@
     <includes local="no">Eigen/Dense</includes>
     <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
     <includes refid="MANN_8h" local="no">BipedalLocomotion/ML/MANN.h</includes>
+    <includes refid="SchmittTrigger_8h" local="no">BipedalLocomotion/Math/SchmittTrigger.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
@@ -73,6 +74,10 @@
       <node id="9">
         <label>string</label>
       </node>
+      <node id="25">
+        <label>BipedalLocomotion/Math/Constants.h</label>
+        <link refid="Constants_8h"/>
+      </node>
       <node id="14">
         <label>BipedalLocomotion/ML/MANN.h</label>
         <link refid="MANN_8h"/>
@@ -106,10 +111,24 @@
       <node id="8">
         <label>ratio</label>
       </node>
+      <node id="24">
+        <label>BipedalLocomotion/Math/SchmittTrigger.h</label>
+        <link refid="SchmittTrigger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
       <node id="5">
         <label>Eigen/Dense</label>
       </node>
-      <node id="24">
+      <node id="26">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="10">
@@ -144,11 +163,13 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="22">

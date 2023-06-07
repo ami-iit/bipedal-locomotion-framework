@@ -142,9 +142,11 @@
             </dt>
             <dd>Reset the autoregressive model.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aaf347623ce6c9edabdc9f23225bb93f9" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              <span class="m-doc-wrap-bumper">auto <a href="#a5c1fe49572e7156321206adfafa13a47" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; leftFootSchimittTriggerState,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; rightFootSchimittTriggerState,
               const manif::SE3d&amp; basePosition,
               const manif::SE3Tangentd&amp; baseVelocity,
               const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState,
@@ -216,7 +218,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling considered in the inference.</td><td>Yes</td></tr><tr><td><code>root_link_frame_name</code></td><td><code>string</code></td><td>Name of of the root link frame in the model.</td><td>Yes</td></tr><tr><td><code>chest_link_frame_name</code></td><td><code>string</code></td><td>Name of of the chest link frame in the model.</td><td>Yes</td></tr><tr><td><code>right_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the right foot frame in the model.</td><td>Yes</td></tr><tr><td><code>left_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the left foot frame in the model.</td><td>Yes</td></tr><tr><td><code>forward_direction</code></td><td><code>string</code></td><td>String cointaining &#x27;x&#x27;, &#x27;y&#x27; or &#x27;z&#x27; representing the foot link forward axis. Currently, only &#x27;x&#x27; is supported.</td><td>Yes</td></tr></tbody></table><p>It is also required to define two groups <code>LEFT_FOOT</code> and <code>RIGHT_FOOT</code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>number_of_corners</code></td><td><code>int</code></td><td>Number of corners associated to the foot</td><td>Yes</td></tr><tr><td><code>corner_&lt;i&gt;</code></td><td><code>vector&lt;double&gt;</code></td><td>Position of the corner expressed in the foot frame. I must be from 0 to number_of_corners - 1</td><td>Yes</td></tr></tbody></table><p>Finally it also required to define a group named <code><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a></code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>onnx_model_path</code></td><td><code>string</code></td><td>Path to the <code>onnx</code> model that will be loaded to perform inference</td><td>Yes</td></tr><tr><td><code>projected_base_horizon</code></td><td><code>int</code></td><td>Number of samples of the base horizon considered in the model</td><td>Yes</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling considered in the inference.</td><td>Yes</td></tr><tr><td><code>root_link_frame_name</code></td><td><code>string</code></td><td>Name of of the root link frame in the model.</td><td>Yes</td></tr><tr><td><code>chest_link_frame_name</code></td><td><code>string</code></td><td>Name of of the chest link frame in the model.</td><td>Yes</td></tr><tr><td><code>right_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the right foot frame in the model.</td><td>Yes</td></tr><tr><td><code>left_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the left foot frame in the model.</td><td>Yes</td></tr><tr><td><code>forward_direction</code></td><td><code>string</code></td><td>String cointaining &#x27;x&#x27;, &#x27;y&#x27; or &#x27;z&#x27; representing the foot link forward axis. Currently, only &#x27;x&#x27; is supported.</td><td>Yes</td></tr></tbody></table><p>It is also required to define two groups <code>LEFT_FOOT</code> and <code>RIGHT_FOOT</code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>number_of_corners</code></td><td><code>int</code></td><td>Number of corners associated to the foot</td><td>Yes</td></tr><tr><td><code>corner_&lt;i&gt;</code></td><td><code>vector&lt;double&gt;</code></td><td>Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.</td><td>Yes</td></tr><tr><td><code>on_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>off_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>switch_on_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to activate from deactivate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr><tr><td><code>switch_off_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to deactivate from activate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr></tbody></table><p>Finally it also required to define a group named <code><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a></code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>onnx_model_path</code></td><td><code>string</code></td><td>Path to the <code>onnx</code> model that will be loaded to perform inference.</td><td>Yes</td></tr><tr><td><code>projected_base_horizon</code></td><td><code>int</code></td><td>Number of samples of the base horizon considered in the model.</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
           <section class="m-doc-details" id="a6603138dd787213cce454e0e09cf8e92"><div>
             <h3>
@@ -299,11 +301,13 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>please call this function the before calling <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a7b41a89972cc97991a81b6fb45d06b6f" class="m-doc">MANNAutoregressive::<wbr />advance</a> the first time time.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aaf347623ce6c9edabdc9f23225bb93f9"><div>
+          <section class="m-doc-details" id="a5c1fe49572e7156321206adfafa13a47"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaf347623ce6c9edabdc9f23225bb93f9" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5c1fe49572e7156321206adfafa13a47" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; leftFootSchimittTriggerState,
               const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
+              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; rightFootSchimittTriggerState,
               const manif::SE3d&amp; basePosition,
               const manif::SE3Tangentd&amp; baseVelocity,
               const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState,
@@ -324,8 +328,16 @@
                   <td>state of the left foot.</td>
                 </tr>
                 <tr>
+                  <td>leftFootSchimittTriggerState</td>
+                  <td></td>
+                </tr>
+                <tr>
                   <td>rightFoot</td>
                   <td>state of the right foot.</td>
+                </tr>
+                <tr>
+                  <td>rightFootSchimittTriggerState</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>basePosition</td>

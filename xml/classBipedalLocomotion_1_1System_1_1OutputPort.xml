@@ -8,8 +8,8 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UKFInput, UKFInput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; Input, EmptySignal &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNDirectionalInput, MANNAutoregressiveInput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</derivedcompoundref>
@@ -72,7 +72,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1ad46dbab464e8680510ff523a1d41383e">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a7489809a382cf446ee213fa527602f42">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1ac3382473c18f86c151e40e567b048b68">getOutput</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a901267089c772b97bd7e3ac64de586f2">getOutput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1afec69a815c8333fc8a62db84916d269f">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANN_1accf8d34ca0615c78f9de0e2a1a20fcde">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInputBuilder_1a7ae6033e8bdbe4bc84700a3bf7ae539f">getOutput</reimplementedby>
@@ -150,10 +150,10 @@
           <edgelabel>&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="57">
+      <node id="55">
         <label>BipedalLocomotion::Math::SchmittTrigger</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger"/>
-        <childnode refid="56" relation="public-inheritance">
+        <childnode refid="54" relation="public-inheritance">
         </childnode>
       </node>
       <node id="25">
@@ -387,15 +387,6 @@
           <edgelabel>&lt; CoMZMPControllerInput, CoMZMPControllerOutput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="56">
-        <label>BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerState &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-        <childnode refid="64" relation="template-instance">
-          <edgelabel>&lt; SchmittTriggerInput, SchmittTriggerState &gt;</edgelabel>
-        </childnode>
-      </node>
       <node id="1">
         <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
@@ -425,6 +416,15 @@
         <label>BipedalLocomotion::Planners::TimeVaryingDCMPlanner</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner"/>
         <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>BipedalLocomotion::System::Advanceable&lt; SchmittTriggerInput, SchmittTriggerOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="64" relation="template-instance">
+          <edgelabel>&lt; SchmittTriggerInput, SchmittTriggerOutput &gt;</edgelabel>
         </childnode>
       </node>
       <node id="12">
@@ -511,7 +511,7 @@
         <childnode refid="40" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="54">
+      <node id="56">
         <label>BipedalLocomotion::System::Advanceable&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="public-inheritance">
@@ -529,10 +529,10 @@
           <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="55">
+      <node id="57">
         <label>BipedalLocomotion::ML::MANNTrajectoryGenerator</label>
         <link refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator"/>
-        <childnode refid="54" relation="public-inheritance">
+        <childnode refid="56" relation="public-inheritance">
         </childnode>
       </node>
       <node id="9">

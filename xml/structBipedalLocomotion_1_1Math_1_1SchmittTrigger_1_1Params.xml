@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="60" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="60" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="75" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="62" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="62" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="77" column="16" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a410fdb48943d710f91977557277d2dc8" prot="public" static="no" mutable="no">
         <type>std::chrono::nanoseconds</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="67" column="34" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="82" column="34" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a76121b2e559921393217055a4b6d1718" prot="public" static="no" mutable="no">
         <type>std::chrono::nanoseconds</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="71" column="34" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="71" bodyend="-1"/>
+        <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="86" column="34" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -72,7 +72,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="58" column="5" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="59" bodyend="72"/>
+    <location file="BipedalLocomotion/Math/SchmittTrigger.h" line="73" column="5" bodyfile="BipedalLocomotion/Math/SchmittTrigger.h" bodystart="74" bodyend="87"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a21f8fe15eb551e874be0e106d564df48" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>offThreshold</name></member>
       <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTrigger_1_1Params_1a632d9d4d4eaedfb969c6dc9d42848a7d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::SchmittTrigger::Params</scope><name>onThreshold</name></member>

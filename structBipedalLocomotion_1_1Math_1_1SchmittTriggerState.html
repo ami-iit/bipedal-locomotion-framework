@@ -71,27 +71,55 @@
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput.html" class="m-doc">SchmittTriggerOutput</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a49e7f1cea101cf7a4257ce9732a32c3b">
-              bool <a href="#a49e7f1cea101cf7a4257ce9732a32c3b" class="m-doc-self">state</a>
+            <dt>
+              std::chrono::nanoseconds <a href="#a42274bbe9cf6de3b81c405ac82627036" class="m-doc">timer</a>
             </dt>
-            <dd>current state</dd>
-            <dt id="a1f5b5343c93c88c1b2a689825533e2b0">
-              std::chrono::nanoseconds <a href="#a1f5b5343c93c88c1b2a689825533e2b0" class="m-doc-self">switchTime</a>
+            <dd>Internal timer used by the switcher to understand if it is the time to switch.</dd>
+            <dt id="a743ee973539a1fc1244057b26de16fdf">
+              std::chrono::nanoseconds <a href="#a743ee973539a1fc1244057b26de16fdf" class="m-doc-self">risingEdgeTimeInstant</a>
             </dt>
-            <dd>Time instant at which the state was toggled.</dd>
-            <dt id="aa2dd10ba67be3e735ee164fcac8dfc1f">
-              std::chrono::nanoseconds <a href="#aa2dd10ba67be3e735ee164fcac8dfc1f" class="m-doc-self">edgeTime</a>
+            <dd>Internal quantity used to store the time at which a falling edge as been detected.</dd>
+            <dt id="a8f4fcbd8e6160dda87e003fea79f442d">
+              std::chrono::nanoseconds <a href="#a8f4fcbd8e6160dda87e003fea79f442d" class="m-doc-self">fallingEdgeTimeInstant</a>
             </dt>
-            <dd>Time instant at which the raw value transited from low to high of from high to low .</dd>
+            <dd><span></span></dd>
+            <dt id="a2f93d504bd7c46f2bcf0ac5a78db82d6">
+              bool <a href="#a2f93d504bd7c46f2bcf0ac5a78db82d6" class="m-doc-self">risingDetected</a>
+            </dt>
+            <dd>True if the rising edge is detected.</dd>
+            <dt id="a535c0e0f7ac6967ab0210646f1e6cb9c">
+              bool <a href="#a535c0e0f7ac6967ab0210646f1e6cb9c" class="m-doc-self">fallingDetected</a>
+            </dt>
+            <dd>True if the falling edge is detected.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a42274bbe9cf6de3b81c405ac82627036"><div>
+            <h3>
+              std::chrono::nanoseconds BipedalLocomotion::<wbr />Math::<wbr />SchmittTriggerState::<wbr /><a href="#a42274bbe9cf6de3b81c405ac82627036" class="m-doc-self">timer</a>
+            </h3>
+            <p>Internal timer used by the switcher to understand if it is the time to switch.</p>
+<p>Internal quantity used to store the time at which a rising edge as been detected</p>
+          </div></section>
         </section>
       </div>
     </div>

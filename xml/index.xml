@@ -1337,7 +1337,7 @@
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" kind="function"><name>setInput</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" kind="function"><name>reset</name></member>
-    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aaf347623ce6c9edabdc9f23225bb93f9" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a5c1fe49572e7156321206adfafa13a47" kind="function"><name>reset</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afe08f2345ce3f8dd9f6b2a0f6d1e0644" kind="function"><name>getMANNInput</name></member>
@@ -1365,7 +1365,9 @@
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1ab7b77643164850963291def3063a5dce" kind="variable"><name>comPosition</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a7fbb79b8ee096158cfa2c136bfd3cbea" kind="variable"><name>angularMomentum</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a153b278cca20dd837690c9b233e6af62" kind="variable"><name>leftFoot</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1afa5f03fd73fc213763578bb959de9459" kind="variable"><name>leftFootSchmittTriggerState</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a413ea0dc42f4d4c47320514e4790f0d6" kind="variable"><name>rightFoot</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a464670d3ddf470ec5b3640c81bf268bb" kind="variable"><name>rightFootSchmittTriggerState</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput_1a909ecd5ebff5bb6a00bc9c868b06f197" kind="variable"><name>currentTime</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ML_1_1MANNDirectionalInput" kind="struct"><name>BipedalLocomotion::ML::MANNDirectionalInput</name>
@@ -1785,20 +1787,23 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1RosSink_1a8f2b619d9c6908966c6ddfbdcd77159d" kind="function"><name>flush_</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger" kind="class"><name>BipedalLocomotion::Math::SchmittTrigger</name>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5" kind="enum"><name>FSM</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5ae599161956d626eda4cb0a5ffb85271c" kind="enumvalue"><name>Idle</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5a59d87a4758a9d35fbaf6b204341bb399" kind="enumvalue"><name>Initialized</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5a526d688f37a86d3c3f27d0c5016eb71d" kind="enumvalue"><name>Reset</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5a5395b713f09574931da391d49d8e7ce7" kind="enumvalue"><name>OutputInvalid</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf7ee2273e0fa9a7dbe50ea12eea54f5a07d94a1654f53217a634a49d8cd31ede" kind="enumvalue"><name>OutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1abdfedef770360e9cfb5834ffb228eb69" kind="variable"><name>m_input</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa6199c770e68dfbb3a672d9ed45bd6f1" kind="variable"><name>m_state</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a59743be60af2802202cfe7ff8b5c576c" kind="variable"><name>m_params</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a317cd327dc83b7051b57a81d35b69a2a" kind="variable"><name>m_timer</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a3451f2e30ed10dc900f525ed390c9584" kind="variable"><name>m_risingEdgeTimeInstant</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a2ce6a9d3b8610e72a28b69309ffb9259" kind="variable"><name>m_fallingEdgeTimeInstant</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a4d29272d77c8635aee99812ebea44ce4" kind="variable"><name>m_risingDetected</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a0d1376137928ff87f9d6b2c1c59c5ada" kind="variable"><name>m_fallingDetected</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1ab9dfc56d43e393a4ef3d62074cd53f4f" kind="variable"><name>m_fsm</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1acb2f276e248cadb9d2d51c24ff57dcc9" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a24e1ed4970b0e45ccf2a95bb51a25991" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aaf24d81aa71d1e55750529cdcf824d8d" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a55ae088ae16dfc5d723d5f3bd45782a1" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a813cd39542e7150c44060a7238a88046" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1aa2a4f2527741ee1e5d6e2b147b9751cc" kind="function"><name>isOutputValid</name></member>
-    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a901267089c772b97bd7e3ac64de586f2" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1afec69a815c8333fc8a62db84916d269f" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1ae692d745e0ec26632774af963e551784" kind="function"><name>setInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector" kind="class"><name>BipedalLocomotion::Contacts::SchmittTriggerDetector</name>
@@ -1818,10 +1823,17 @@
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a8ae9aa3571fa83366a61aee39c900305" kind="variable"><name>time</name></member>
     <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerInput_1a01413b0d02d236c18c66d50d6a7d2d01" kind="variable"><name>rawValue</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerOutput</name>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput_1a0f12b0da2682b3dab782bf3fba8bbce5" kind="variable"><name>state</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput_1a1bdef33feb6a7a0b72644be22d5cdb06" kind="variable"><name>switchTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerOutput_1a5d6ceaf99e9f4746099f983bd9ca381f" kind="variable"><name>edgeTime</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kind="struct"><name>BipedalLocomotion::Math::SchmittTriggerState</name>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a49e7f1cea101cf7a4257ce9732a32c3b" kind="variable"><name>state</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a1f5b5343c93c88c1b2a689825533e2b0" kind="variable"><name>switchTime</name></member>
-    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1aa2dd10ba67be3e735ee164fcac8dfc1f" kind="variable"><name>edgeTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a42274bbe9cf6de3b81c405ac82627036" kind="variable"><name>timer</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a743ee973539a1fc1244057b26de16fdf" kind="variable"><name>risingEdgeTimeInstant</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a8f4fcbd8e6160dda87e003fea79f442d" kind="variable"><name>fallingEdgeTimeInstant</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a2f93d504bd7c46f2bcf0ac5a78db82d6" kind="variable"><name>risingDetected</name></member>
+    <member refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState_1a535c0e0f7ac6967ab0210646f1e6cb9c" kind="variable"><name>fallingDetected</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1SE3Task" kind="class"><name>BipedalLocomotion::IK::SE3Task</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1SE3Task_1a3bf3e747f32c05b7b7539066cfdd8096" kind="typedef"><name>Mode</name></member>
