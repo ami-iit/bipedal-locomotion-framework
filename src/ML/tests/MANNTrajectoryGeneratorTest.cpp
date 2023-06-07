@@ -58,6 +58,10 @@ TEST_CASE("MANNTrajectoryGenerator")
     leftFootGroup->setParameter("corner_1", std::vector<double>{+0.08, -0.03, 0.0});
     leftFootGroup->setParameter("corner_2", std::vector<double>{-0.08, -0.03, 0.0});
     leftFootGroup->setParameter("corner_3", std::vector<double>{-0.08, +0.03, 0.0});
+    leftFootGroup->setParameter("on_threshold", 0.01);
+    leftFootGroup->setParameter("off_threshold", 0.01);
+    leftFootGroup->setParameter("switch_on_after", 40ms);
+    leftFootGroup->setParameter("switch_off_after", 40ms);
 
     auto rightFootGroup = std::make_shared<StdImplementation>();
     rightFootGroup->setParameter("number_of_corners", 4);
@@ -65,6 +69,10 @@ TEST_CASE("MANNTrajectoryGenerator")
     rightFootGroup->setParameter("corner_1", std::vector<double>{+0.08, -0.03, 0.0});
     rightFootGroup->setParameter("corner_2", std::vector<double>{-0.08, -0.03, 0.0});
     rightFootGroup->setParameter("corner_3", std::vector<double>{-0.08, +0.03, 0.0});
+    rightFootGroup->setParameter("on_threshold", 0.01);
+    rightFootGroup->setParameter("off_threshold", 0.01);
+    rightFootGroup->setParameter("switch_on_after", 40ms);
+    rightFootGroup->setParameter("switch_off_after", 40ms);
 
     auto mannGroup = std::make_shared<StdImplementation>();
     mannGroup->setParameter("projected_base_horizon", 12);

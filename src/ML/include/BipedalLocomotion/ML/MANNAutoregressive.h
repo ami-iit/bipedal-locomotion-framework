@@ -16,6 +16,7 @@
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ML/MANN.h>
+#include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -62,7 +63,9 @@ struct MANNAutoregressiveOutput
     Eigen::Vector3d comPosition;
     Eigen::Vector3d angularMomentum;
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
+    Math::SchmittTriggerState leftFootSchmittTriggerState;
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
+    Math::SchmittTriggerState rightFootSchmittTriggerState;
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
 
@@ -141,15 +144,19 @@ public:
      * |  `left_foot_frame_name`  | `string` |                                  Name of of the left foot frame in the model.                                 |    Yes    |
      * |    `forward_direction`   | `string` | String cointaining 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
-     * |      Parameter Name      |        Type       |                                        Description                                             | Mandatory |
-     * |:------------------------:|:-----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
-     * |    `number_of_corners`   |        `int`      |                          Number of corners associated to the foot                              |    Yes    |
-     * |       `corner_<i>`       |  `vector<double>` | Position of the corner expressed in the foot frame. I must be from 0 to number_of_corners - 1  |    Yes    |
+     * |    Parameter Name    |       Type       |                                                        Description                                                           | Mandatory |
+     * |:--------------------:|:----------------:|:----------------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |  `number_of_corners` |       `int`      |                                        Number of corners associated to the foot                                              |    Yes    |
+     * |      `corner_<i>`    | `vector<double>` |               Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.                 |    Yes    |
+     * |     `on_threshold`   |     `double`     |  Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.  |    Yes    |
+     * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive. |    Yes    |
+     * |   `switch_on_after`  |     `double`     |     Seconds to wait for before switching to activate from deactivate contact. Ensure it's greater than sampling time.        |    Yes    |
+     * |  `switch_off_after`  |     `double`     |     Seconds to wait for before switching to deactivate from activate contact. Ensure it's greater than sampling time.        |    Yes    |
      * Finally it also required to define a group named `MANN` that contains the following parameter
      * |      Parameter Name      |   Type   |                          Description                                | Mandatory |
      * |:------------------------:|:--------:|:-------------------------------------------------------------------:|:---------:|
-     * |    `onnx_model_path`     | `string` |  Path to the `onnx` model that will be loaded to perform inference  |    Yes    |
-     * | `projected_base_horizon` |  `int`   |    Number of samples of the base horizon considered in the model    |    Yes    |
+     * |    `onnx_model_path`     | `string` |  Path to the `onnx` model that will be loaded to perform inference. |    Yes    |
+     * | `projected_base_horizon` |  `int`   |    Number of samples of the base horizon considered in the model.   |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
@@ -199,7 +206,9 @@ public:
      */
     bool reset(const MANNInput& input,
                const Contacts::EstimatedContact& leftFoot,
+               const Math::SchmittTriggerState& leftFootSchimittTriggerState,
                const Contacts::EstimatedContact& rightFoot,
+               const Math::SchmittTriggerState& rightFootSchimittTriggerState,
                const manif::SE3d& basePosition,
                const manif::SE3Tangentd& baseVelocity,
                const AutoregressiveState& autoregressiveState,
