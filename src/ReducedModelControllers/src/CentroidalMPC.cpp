@@ -1079,36 +1079,33 @@ bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& c
 
     if (com.size() < stateHorizon)
     {
-        log()->error("{} The CoM matrix should have at least {} columns. The number of columns is "
-                     "equal to the horizon you set in the  initialization phase.",
+        log()->error("{} The CoM trajectory vector should have at least {} elements. Provided "
+                     "size: {}.",
                      errorPrefix,
-                     m_pimpl->optiSettings.horizon);
+                     stateHorizon,
+                     com.size());
         return false;
     }
 
     if (angularMomentum.size() < stateHorizon)
     {
-        log()->error("{} The angular momentum matrix should have at least {} columns. The number "
-                     "of columns is "
-                     "equal to the horizon you set in the  initialization phase.",
+        log()->error("{} The angular momentum trajectory vector should have at least {} elements. "
+                     "Provided size: {}.",
                      errorPrefix,
-                     m_pimpl->optiSettings.horizon);
+                     stateHorizon,
+                     angularMomentum.size());
         return false;
     }
 
-    // here we assume that std::vector<Eigen::Vector3d> is contiguous and represent a column major
-    // matrix
-    toEigen(m_pimpl->controllerInputs.comReference)
-        = Eigen::Map<const Eigen::Matrix3Xd>(com.data()->data(), 3, com.size())
-              .leftCols(stateHorizon);
-
-
-
-    toEigen(m_pimpl->controllerInputs.angularMomentumReference)
-        = Eigen::Map<const Eigen::Matrix3Xd>(angularMomentum.data()->data(),
-                                             3,
-                                             angularMomentum.size())
-              .leftCols(stateHorizon);
+    // Since Eigen vector is a contiguous we can copy the CoM and the angular momentum references by
+    // columns.
+    for (int i = 0; i < stateHorizon; i++)
+    {
+        toEigen(m_pimpl->controllerInputs.comReference).col(i)
+            = Eigen::Map<const Eigen::Vector3d>(com[i].data());
+        toEigen(m_pimpl->controllerInputs.angularMomentumReference).col(i)
+            = Eigen::Map<const Eigen::Vector3d>(angularMomentum[i].data());
+    }
 
     return true;
 }
