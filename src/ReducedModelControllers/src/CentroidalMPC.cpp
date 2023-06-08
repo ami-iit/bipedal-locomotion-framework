@@ -55,6 +55,16 @@ inline Eigen::Map<const Eigen::MatrixXd> toEigen(const casadi::DM& input)
     return Eigen::Map<const Eigen::MatrixXd>(input.ptr(), input.rows(), input.columns());
 }
 
+inline Eigen::Map<Eigen::MatrixXd> toEigen(casadi::DM* input)
+{
+    return Eigen::Map<Eigen::MatrixXd>(input->ptr(), input->rows(), input->columns());
+}
+
+inline Eigen::Map<const Eigen::MatrixXd> toEigen(const casadi::DM* const input)
+{
+    return Eigen::Map<const Eigen::MatrixXd>(input->ptr(), input->rows(), input->columns());
+}
+
 inline double chronoToSeconds(const std::chrono::nanoseconds& d)
 {
     return std::chrono::duration<double>(d).count();
@@ -232,26 +242,37 @@ struct CentroidalMPC::Impl
 
     struct ContactsInputs
     {
-        casadi::DM currentPosition;
-        casadi::DM orientation;
-        casadi::DM nominalPosition;
-        casadi::DM upperLimitPosition;
-        casadi::DM lowerLimitPosition;
-        casadi::DM isEnabled;
+        casadi::DM* currentPosition;
+        casadi::DM* orientation;
+        casadi::DM* nominalPosition;
+        casadi::DM* upperLimitPosition;
+        casadi::DM* lowerLimitPosition;
+        casadi::DM* isEnabled;
     };
     struct ControllerInputs
     {
         std::map<std::string, ContactsInputs> contacts;
 
-        casadi::DM comReference;
-        casadi::DM angularMomentumReference;
-        casadi::DM comCurrent;
-        casadi::DM dcomCurrent;
-        casadi::DM angularMomentumCurrent;
-        casadi::DM externalForce;
-        casadi::DM externalTorque;
+        casadi::DM* comReference;
+        casadi::DM* angularMomentumReference;
+        casadi::DM* comCurrent;
+        casadi::DM* dcomCurrent;
+        casadi::DM* angularMomentumCurrent;
+        casadi::DM* externalForce;
+        casadi::DM* externalTorque;
     };
-    ControllerInputs controllerInputs;
+    ControllerInputs controllerInputs; /**< The pointers will point to the vectorized input */
+
+    struct InitialGuess
+    {
+        std::map<std::string, casadi::DM*> contactsLocation;
+
+        casadi::DM* com;
+        casadi::DM* angularMomentum;
+    };
+    InitialGuess initialGuess;
+
+    std::vector<casadi::DM> vectorizedOptiInputs;
 
     struct Weights
     {
@@ -519,43 +540,91 @@ struct CentroidalMPC::Impl
         constexpr int vector3Size = 3;
         const int stateHorizon = this->optiSettings.horizon + 1;
 
+        std::size_t vectorizedOptiInputsSize = 7 + (this->output.contacts.size() * 6);
+
+        if (this->optiSettings.isWarmStartEnabled)
+        {
+            // in this case we need to add the com, the angular momentum and the contact location
+            vectorizedOptiInputsSize += 2 + (this->output.contacts.size() * 1);
+        }
+
+        // we reserve in advance so the push_back will not invalidate the pointers
+        this->vectorizedOptiInputs.reserve(vectorizedOptiInputsSize);
+
         // prepare the controller inputs struct
-        this->controllerInputs.comCurrent = casadi::DM::zeros(vector3Size);
-        this->controllerInputs.dcomCurrent = casadi::DM::zeros(vector3Size);
-        this->controllerInputs.angularMomentumCurrent = casadi::DM::zeros(vector3Size);
-        this->controllerInputs.comReference = casadi::DM::zeros(vector3Size, stateHorizon);
-        this->controllerInputs.angularMomentumReference
-            = casadi::DM::zeros(vector3Size, stateHorizon);
-        this->controllerInputs.externalForce = casadi::DM::zeros(vector3Size, //
-                                                                 this->optiSettings.horizon);
-        this->controllerInputs.externalTorque = casadi::DM::zeros(vector3Size, //
-                                                                  this->optiSettings.horizon);
+        // The order matches the one required by createController
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, //
+                                                               this->optiSettings.horizon));
+        this->controllerInputs.externalForce = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, //
+                                                               this->optiSettings.horizon));
+        this->controllerInputs.externalTorque = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size));
+        this->controllerInputs.comCurrent = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size));
+        this->controllerInputs.dcomCurrent = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size));
+        this->controllerInputs.angularMomentumCurrent = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
+        this->controllerInputs.comReference = &this->vectorizedOptiInputs.back();
+
+        this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
+        this->controllerInputs.angularMomentumReference = &this->vectorizedOptiInputs.back();
+
+        if (this->optiSettings.isWarmStartEnabled)
+        {
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
+            this->initialGuess.com = &this->vectorizedOptiInputs.back();
+
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
+            this->initialGuess.angularMomentum = &this->vectorizedOptiInputs.back();
+        }
 
         for (const auto& [key, contact] : this->output.contacts)
         {
             // The current position of the contact
-            this->controllerInputs.contacts[key].currentPosition = casadi::DM::zeros(vector3Size);
-
-            // The orientation is stored as a vectorized version of the rotation matrix
-            this->controllerInputs.contacts[key].orientation
-                = casadi::DM::zeros(9, this->optiSettings.horizon);
-
-            // Upper limit of the position of the contact. It is expressed in the contact body frame
-            this->controllerInputs.contacts[key].upperLimitPosition
-                = casadi::DM::zeros(vector3Size, this->optiSettings.horizon);
-
-            // Lower limit of the position of the contact. It is expressed in the contact body frame
-            this->controllerInputs.contacts[key].lowerLimitPosition
-                = casadi::DM::zeros(vector3Size, this->optiSettings.horizon);
-
-            // Maximum admissible contact force. It is expressed in the contact body frame
-            this->controllerInputs.contacts[key].isEnabled
-                = casadi::DM::zeros(1, this->optiSettings.horizon);
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size));
+            this->controllerInputs.contacts[key].currentPosition
+                = &this->vectorizedOptiInputs.back();
 
             // The nominal contact position is a parameter that regularize the solution
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
             this->controllerInputs.contacts[key].nominalPosition
-                = casadi::DM::zeros(vector3Size, stateHorizon);
+                = &this->vectorizedOptiInputs.back();
+
+            // The orientation is stored as a vectorized version of the rotation matrix
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(9, this->optiSettings.horizon));
+            this->controllerInputs.contacts[key].orientation = &this->vectorizedOptiInputs.back();
+
+            // Maximum admissible contact force. It is expressed in the contact body frame
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(1, this->optiSettings.horizon));
+            this->controllerInputs.contacts[key].isEnabled = &this->vectorizedOptiInputs.back();
+
+            // Upper limit of the position of the contact. It is expressed in the contact body frame
+            this->vectorizedOptiInputs.push_back(
+                casadi::DM::zeros(vector3Size, this->optiSettings.horizon));
+            this->controllerInputs.contacts[key].upperLimitPosition
+                = &this->vectorizedOptiInputs.back();
+
+            // Lower limit of the position of the contact. It is expressed in the contact body frame
+            this->vectorizedOptiInputs.push_back(
+                casadi::DM::zeros(vector3Size, this->optiSettings.horizon));
+            this->controllerInputs.contacts[key].lowerLimitPosition
+                = &this->vectorizedOptiInputs.back();
+
+            if (this->optiSettings.isWarmStartEnabled)
+            {
+                this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
+                this->initialGuess.contactsLocation[key] = &this->vectorizedOptiInputs.back();
+            }
         }
+
+        assert(vectorizedOptiInputsSize == this->vectorizedOptiInputs.size());
     }
 
     void populateOptiVariables()
@@ -960,40 +1029,8 @@ bool CentroidalMPC::advance()
     // invalidate the output
     m_pimpl->fsm = Impl::FSM::OutputInvalid;
 
-    const auto& inputs = m_pimpl->controllerInputs;
-
-    std::vector<casadi::DM> vectorizedInputs;
-    vectorizedInputs.push_back(inputs.externalForce);
-    vectorizedInputs.push_back(inputs.externalTorque);
-    vectorizedInputs.push_back(inputs.comCurrent);
-    vectorizedInputs.push_back(inputs.dcomCurrent);
-    vectorizedInputs.push_back(inputs.angularMomentumCurrent);
-    vectorizedInputs.push_back(inputs.comReference);
-    vectorizedInputs.push_back(inputs.angularMomentumReference);
-
-    if (m_pimpl->optiSettings.isWarmStartEnabled)
-    {
-        vectorizedInputs.push_back(inputs.comReference);
-        vectorizedInputs.push_back(inputs.angularMomentumReference);
-    }
-
-    for (const auto& [key, contact] : inputs.contacts)
-    {
-        vectorizedInputs.push_back(contact.currentPosition);
-        vectorizedInputs.push_back(contact.nominalPosition);
-        vectorizedInputs.push_back(contact.orientation);
-        vectorizedInputs.push_back(contact.isEnabled);
-        vectorizedInputs.push_back(contact.upperLimitPosition);
-        vectorizedInputs.push_back(contact.lowerLimitPosition);
-
-        if (m_pimpl->optiSettings.isWarmStartEnabled)
-        {
-            vectorizedInputs.push_back(contact.nominalPosition);
-        }
-    }
-
     // compute the output
-    auto controllerOutput = m_pimpl->controller(vectorizedInputs);
+    auto controllerOutput = m_pimpl->controller(m_pimpl->vectorizedOptiInputs);
 
     // get the solution
     auto it = controllerOutput.begin();
@@ -1121,6 +1158,14 @@ bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& c
             = Eigen::Map<const Eigen::Vector3d>(com[i].data());
         toEigen(m_pimpl->controllerInputs.angularMomentumReference).col(i)
             = Eigen::Map<const Eigen::Vector3d>(angularMomentum[i].data());
+    }
+
+    // if the warmstart is enabled then the reference is used also as warmstart
+    if (m_pimpl->optiSettings.isWarmStartEnabled)
+    {
+        toEigen(m_pimpl->initialGuess.com) = toEigen(m_pimpl->controllerInputs.comReference);
+        toEigen(m_pimpl->initialGuess.angularMomentum)
+            = toEigen(m_pimpl->controllerInputs.angularMomentumReference);
     }
 
     return true;
@@ -1275,6 +1320,13 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     for (auto& [key, contact] : inputs.contacts)
     {
         toEigen(contact.currentPosition) = toEigen(contact.nominalPosition).leftCols<1>();
+
+        // if warmstart is enabled the contact location is used as warmstart to initialize the
+        // problem
+        if (m_pimpl->optiSettings.isWarmStartEnabled)
+        {
+            toEigen(m_pimpl->initialGuess.contactsLocation[key]) = toEigen(contact.nominalPosition);
+        }
     }
 
     // TODO this part can be improved. For instance you do not need to fill the vectors every time.
