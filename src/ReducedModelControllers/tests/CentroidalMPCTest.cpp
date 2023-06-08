@@ -104,7 +104,7 @@ TEST_CASE("CentroidalMPC")
     handler->setParameter("static_friction_coefficient", 0.33);
     handler->setParameter("solver_verbosity", 0);
     handler->setParameter("linear_solver", "mumps");
-    handler->setParameter("is_warm_start_enabled", false);
+    handler->setParameter("is_warm_start_enabled", true);
 
     auto contact0Handler = std::make_shared<StdImplementation>();
     contact0Handler->setParameter("number_of_corners", 4);
@@ -231,8 +231,6 @@ TEST_CASE("CentroidalMPC")
     rightPosition(1) -= 0.01 * scalingPosY;
     rightTransform.translation(rightPosition);
     contactListMap["right_foot"].addContact(rightTransform, 28s * scaling, 29s * scaling);
-
-    // contactListMap = BipedalLocomotion::Contacts::contactListMapFromJson("footsteps.json");
     phaseList.setLists(contactListMap);
 
     std::vector<Eigen::VectorXd> comKnots;
@@ -304,7 +302,10 @@ TEST_CASE("CentroidalMPC")
     REQUIRE(integrator.setDynamicalSystem(system));
 
     std::ofstream centroidalMPCData;
-    centroidalMPCData.open("CentroidalMPCUnitTest.txt");
+    if (saveDataset)
+    {
+        centroidalMPCData.open("CentroidalMPCUnitTest.txt");
+    }
 
     int controllerIndex = 0;
     int index = 0;
@@ -314,6 +315,7 @@ TEST_CASE("CentroidalMPC")
     auto phaseIt = phaseList.getPresentPhase(currentTime);
 
     constexpr int simulationHorizon = 50;
+    std::vector<Eigen::Vector3d> comTrajectoryRecedingHorizon;
     for (int i = 0; i < simulationHorizon; i++)
     {
         const auto& [com, dcom, angularMomentum] = system->getState();
@@ -338,8 +340,7 @@ TEST_CASE("CentroidalMPC")
                 }
             }
 
-            const std::vector<Eigen::Vector3d> comTrajectoryRecedingHorizon
-                = {comTraj.begin() + controllerIndex, comTraj.end() - 1};
+            comTrajectoryRecedingHorizon = {comTraj.begin() + i, comTraj.end() - 1};
 
             REQUIRE(mpc.setState(com, dcom, angularMomentum));
             REQUIRE(mpc.setReferenceTrajectory(comTrajectoryRecedingHorizon, angularMomentumTraj));
@@ -352,8 +353,19 @@ TEST_CASE("CentroidalMPC")
             currentTime += dT;
         }
 
-
-
+        if (i == 0 && saveDataset)
+        {
+            writeHeaderOfFile(mpc.getOutput().contacts, centroidalMPCData);
+        }
+        if (saveDataset)
+        {
+            writeResultsToFile(mpc,
+                               com,
+                               angularMomentum,
+                               comTrajectoryRecedingHorizon[0],
+                               elapsedTime,
+                               centroidalMPCData);
+        }
 
         system->setControlInput({mpc.getOutput().contacts, Eigen::Vector3d::Zero()});
         REQUIRE(integrator.integrate(0s, integratorStepTime));
@@ -365,7 +377,10 @@ TEST_CASE("CentroidalMPC")
         }
     }
 
-    centroidalMPCData.close();
+    if (saveDataset)
+    {
+        centroidalMPCData.close();
+    }
 
     const auto& [com, dcom, angularMomentum] = system->getState();
 
