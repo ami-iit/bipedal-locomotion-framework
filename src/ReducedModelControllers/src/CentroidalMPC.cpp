@@ -104,7 +104,6 @@ struct CentroidalMPC::Impl
 
     FSM fsm{FSM::Idle};
 
-
     struct CasadiCorner
     {
         casadi::DM position;
@@ -740,8 +739,13 @@ struct CentroidalMPC::Impl
                                            extractFutureValuesFromState(contact.nominalPosition),
                                            contact.orientation});
 
-            this->opti.subject_to(contact.lowerLimitPosition <= error[0]);
-            this->opti.subject_to(error[0] <= contact.upperLimitPosition);
+            // Elementwise (in)equalities for matrices are not supported with a natural syntax,
+            // since there is an ambiguity with semi-definiteness constraints. The workaround is to
+            // vectorize first
+            this->opti.subject_to(casadi::MX::vec(contact.lowerLimitPosition)
+                                  <= casadi::MX::vec(error[0]));
+            this->opti.subject_to(casadi::MX::vec(contact.upperLimitPosition)
+                                  >= casadi::MX::vec(error[0]));
 
             for (int i = 0; i < this->optiSettings.horizon; i++)
             {
