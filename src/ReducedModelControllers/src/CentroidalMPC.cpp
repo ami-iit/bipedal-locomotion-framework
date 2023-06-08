@@ -730,8 +730,8 @@ struct CentroidalMPC::Impl
                                            extractFutureValuesFromState(contact.nominalPosition),
                                            contact.orientation});
 
-            this->opti.subject_to(contact.lowerLimitPosition <= error[0]
-                                  <= contact.upperLimitPosition);
+            this->opti.subject_to(contact.lowerLimitPosition <= error[0]);
+            this->opti.subject_to(error[0] <= contact.upperLimitPosition);
 
             for (int i = 0; i < this->optiSettings.horizon; i++)
             {
