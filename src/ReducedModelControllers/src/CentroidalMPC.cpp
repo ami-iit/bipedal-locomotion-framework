@@ -88,12 +88,22 @@ struct CentroidalMPC::Impl
 {
     casadi::Opti opti; /**< CasADi opti stack */
     casadi::Function controller;
-    bool isInitialized{false};
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
 
     CentroidalMPCOutput output;
     Contacts::ContactPhaseList contactPhaseList;
     Math::LinearizedFrictionCone frictionCone;
+
+    enum class FSM
+    {
+        Idle,
+        Initialized,
+        OutputValid,
+        OutputInvalid,
+    };
+
+    FSM fsm{FSM::Idle};
+
 
     struct CasadiCorner
     {
@@ -912,7 +922,7 @@ bool CentroidalMPC::initialize(std::weak_ptr<const ParametersHandler::IParameter
 
     m_pimpl->resizeControllerInputs();
     m_pimpl->controller = m_pimpl->createController();
-    m_pimpl->isInitialized = true;
+    m_pimpl->fsm = Impl::FSM::Initialized;
 
     return true;
 }
@@ -931,7 +941,7 @@ const CentroidalMPCOutput& CentroidalMPC::getOutput() const
 
 bool CentroidalMPC::isOutputValid() const
 {
-    return true;
+    return m_pimpl->fsm == Impl::FSM::OutputValid;
 }
 
 bool CentroidalMPC::advance()
@@ -941,12 +951,15 @@ bool CentroidalMPC::advance()
 
     using Sl = casadi::Slice;
 
-    if (!m_pimpl->isInitialized)
+    if (m_pimpl->fsm == Impl::FSM::Idle)
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
                      errorPrefix);
         return false;
     }
+
+    // invalidate the output
+    m_pimpl->fsm = Impl::FSM::OutputInvalid;
 
     const auto& inputs = m_pimpl->controllerInputs;
 
@@ -1060,6 +1073,10 @@ bool CentroidalMPC::advance()
 
     // advance the time
     m_pimpl->currentTime += m_pimpl->optiSettings.samplingTime;
+
+    // Make the output valid
+    m_pimpl->fsm = Impl::FSM::OutputValid;
+
     return true;
 }
 
@@ -1070,7 +1087,7 @@ bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& c
 
     const int stateHorizon = m_pimpl->optiSettings.horizon + 1;
 
-    if (!m_pimpl->isInitialized)
+    if (m_pimpl->fsm == Impl::FSM::Idle)
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
                      errorPrefix);
@@ -1126,7 +1143,7 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
     constexpr auto errorPrefix = "[CentroidalMPC::setState]";
     assert(m_pimpl);
 
-    if (!m_pimpl->isInitialized)
+    if (m_pimpl->fsm == Impl::FSM::Idle)
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
                      errorPrefix);
@@ -1152,7 +1169,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     constexpr auto errorPrefix = "[CentroidalMPC::setContactPhaseList]";
     assert(m_pimpl);
 
-    if (!m_pimpl->isInitialized)
+    if (m_pimpl->fsm == Impl::FSM::Idle)
     {
         log()->error("{} The controller is not initialized please call initialize() method.",
                      errorPrefix);
