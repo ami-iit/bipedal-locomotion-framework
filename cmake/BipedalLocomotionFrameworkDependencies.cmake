@@ -269,4 +269,4 @@ framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
 
 framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
   "Do you want to generate and compile the ReducedModelControllers?" ON
-  "FRAMEWORK_USE_casadi;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Contact;FRAMEWORK_COMPILE_Math" OFF)
+  "FRAMEWORK_USE_casadi;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Contact;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_CasadiConversions" OFF)

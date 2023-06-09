@@ -11,6 +11,7 @@
 #include <casadi/casadi.hpp>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
+#include <BipedalLocomotion/Conversions/CasadiConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Math/LinearizedFrictionCone.h>
 #include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
@@ -43,26 +44,6 @@ bool casadiVersionIsAtLeast360()
     }
 
     return true;
-}
-
-inline Eigen::Map<Eigen::MatrixXd> toEigen(casadi::DM& input)
-{
-    return Eigen::Map<Eigen::MatrixXd>(input.ptr(), input.rows(), input.columns());
-}
-
-inline Eigen::Map<const Eigen::MatrixXd> toEigen(const casadi::DM& input)
-{
-    return Eigen::Map<const Eigen::MatrixXd>(input.ptr(), input.rows(), input.columns());
-}
-
-inline Eigen::Map<Eigen::MatrixXd> toEigen(casadi::DM* input)
-{
-    return Eigen::Map<Eigen::MatrixXd>(input->ptr(), input->rows(), input->columns());
-}
-
-inline Eigen::Map<const Eigen::MatrixXd> toEigen(const casadi::DM* const input)
-{
-    return Eigen::Map<const Eigen::MatrixXd>(input->ptr(), input->rows(), input->columns());
 }
 
 inline double chronoToSeconds(const std::chrono::nanoseconds& d)
@@ -1037,6 +1018,9 @@ bool CentroidalMPC::advance()
     m_pimpl->output.nextPlannedContact.clear();
     for (auto& [key, contact] : m_pimpl->output.contacts)
     {
+        // this is required for toEigen
+        using namespace BipedalLocomotion::Conversions;
+
         int index = toEigen(*it).size();
         const int size = toEigen(*it).size();
         for (int i = 0; i < size; i++)
@@ -1154,18 +1138,20 @@ bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& c
     // columns.
     for (int i = 0; i < stateHorizon; i++)
     {
-        toEigen(m_pimpl->controllerInputs.comReference).col(i)
+        using namespace BipedalLocomotion::Conversions;
+        toEigen(*(m_pimpl->controllerInputs.comReference)).col(i)
             = Eigen::Map<const Eigen::Vector3d>(com[i].data());
-        toEigen(m_pimpl->controllerInputs.angularMomentumReference).col(i)
+        toEigen(*(m_pimpl->controllerInputs.angularMomentumReference)).col(i)
             = Eigen::Map<const Eigen::Vector3d>(angularMomentum[i].data());
     }
 
     // if the warmstart is enabled then the reference is used also as warmstart
     if (m_pimpl->optiSettings.isWarmStartEnabled)
     {
-        toEigen(m_pimpl->initialGuess.com) = toEigen(m_pimpl->controllerInputs.comReference);
-        toEigen(m_pimpl->initialGuess.angularMomentum)
-            = toEigen(m_pimpl->controllerInputs.angularMomentumReference);
+        using namespace BipedalLocomotion::Conversions;
+        toEigen(*(m_pimpl->initialGuess.com)) = toEigen(*(m_pimpl->controllerInputs.comReference));
+        toEigen(*(m_pimpl->initialGuess.angularMomentum))
+            = toEigen(*(m_pimpl->controllerInputs.angularMomentumReference));
     }
 
     return true;
@@ -1195,15 +1181,17 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
     }
 
     auto& inputs = m_pimpl->controllerInputs;
-    toEigen(inputs.comCurrent) = com;
-    toEigen(inputs.dcomCurrent) = dcom;
-    toEigen(inputs.angularMomentumCurrent) = angularMomentum;
 
-    toEigen(inputs.externalForce).setZero();
-    toEigen(inputs.externalTorque).setZero();
+    using namespace BipedalLocomotion::Conversions;
+    toEigen(*inputs.comCurrent) = com;
+    toEigen(*inputs.dcomCurrent) = dcom;
+    toEigen(*inputs.angularMomentumCurrent) = angularMomentum;
 
-    toEigen(inputs.externalForce).leftCols<1>() = externalWrench.force();
-    toEigen(inputs.externalTorque).leftCols<1>() = externalWrench.torque();
+    toEigen(*inputs.externalForce).setZero();
+    toEigen(*inputs.externalTorque).setZero();
+
+    toEigen(*inputs.externalForce).leftCols<1>() = externalWrench.force();
+    toEigen(*inputs.externalTorque).leftCols<1>() = externalWrench.torque();
 
     return true;
 }
@@ -1236,25 +1224,27 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     // clear previous data
     for (const auto& [key, contact] : m_pimpl->output.contacts)
     {
+        using namespace BipedalLocomotion::Conversions;
+
         // initialize the current contact pose to zero. If the contact is active the current
         // position will be set later on
-        toEigen(inputs.contacts[key].currentPosition).setZero();
+        toEigen(*inputs.contacts[key].currentPosition).setZero();
 
         // initialize all the orientation to the identity
-        toEigen(inputs.contacts[key].orientation).colwise()
+        toEigen(*inputs.contacts[key].orientation).colwise()
             = Eigen::Map<const Eigen::VectorXd>(identity.data(), identity.cols() * identity.rows());
 
         // Upper limit of the position of the contact. It is expressed in the contact body frame
-        toEigen(inputs.contacts[key].upperLimitPosition).setZero();
+        toEigen(*inputs.contacts[key].upperLimitPosition).setZero();
 
         // Lower limit of the position of the contact. It is expressed in the contact body frame
-        toEigen(inputs.contacts[key].lowerLimitPosition).setZero();
+        toEigen(*inputs.contacts[key].lowerLimitPosition).setZero();
 
         // Maximum admissible contact force. It is expressed in the contact body frame
-        toEigen(inputs.contacts[key].isEnabled).setZero();
+        toEigen(*inputs.contacts[key].isEnabled).setZero();
 
         // The nominal contact position is a parameter that regularize the solution
-        toEigen(inputs.contacts[key].nominalPosition).setZero();
+        toEigen(*inputs.contacts[key].nominalPosition).setZero();
     }
 
     const std::chrono::nanoseconds absoluteTimeHorizon
@@ -1288,6 +1278,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
 
         for (const auto& [key, contact] : it->activeContacts)
         {
+            using namespace BipedalLocomotion::Conversions;
+
             auto inputContact = inputs.contacts.find(key);
             if (inputContact == inputs.contacts.end())
             {
@@ -1295,18 +1287,18 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
                 return false;
             }
 
-            toEigen(inputContact->second.nominalPosition)
+            toEigen(*(inputContact->second.nominalPosition))
                 .middleCols(index, numberOfSamples + 1)
                 .colwise()
                 = contact->pose.translation();
 
             // this is required to reshape the matrix into a vector
             const Eigen::Matrix3d orientation = contact->pose.quat().toRotationMatrix();
-            toEigen(inputContact->second.orientation).middleCols(index, numberOfSamples).colwise()
+            toEigen(*(inputContact->second.orientation)).middleCols(index, numberOfSamples).colwise()
                 = Eigen::Map<const Eigen::VectorXd>(orientation.data(), orientation.size());
 
             constexpr double isEnabled = 1;
-            toEigen(inputContact->second.isEnabled)
+            toEigen(*(inputContact->second.isEnabled))
                 .middleCols(index, numberOfSamples)
                 .setConstant(isEnabled);
         }
@@ -1319,22 +1311,26 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     // set the current contact position to for the active contact only
     for (auto& [key, contact] : inputs.contacts)
     {
-        toEigen(contact.currentPosition) = toEigen(contact.nominalPosition).leftCols<1>();
+        using namespace BipedalLocomotion::Conversions;
+
+        toEigen(*contact.currentPosition) = toEigen(*contact.nominalPosition).leftCols<1>();
 
         // if warmstart is enabled the contact location is used as warmstart to initialize the
         // problem
         if (m_pimpl->optiSettings.isWarmStartEnabled)
         {
-            toEigen(m_pimpl->initialGuess.contactsLocation[key]) = toEigen(contact.nominalPosition);
+            toEigen(*(m_pimpl->initialGuess.contactsLocation[key])) = toEigen(*contact.nominalPosition);
         }
     }
 
     // TODO this part can be improved. For instance you do not need to fill the vectors every time.
     for (auto& [key, contact] : inputs.contacts)
     {
+        using namespace BipedalLocomotion::Conversions;
+
         const auto& boundingBox = m_pimpl->contactBoundingBoxes.at(key);
-        toEigen(contact.upperLimitPosition).colwise() = boundingBox.upperLimit;
-        toEigen(contact.lowerLimitPosition).colwise() = boundingBox.lowerLimit;
+        toEigen(*contact.upperLimitPosition).colwise() = boundingBox.upperLimit;
+        toEigen(*contact.lowerLimitPosition).colwise() = boundingBox.lowerLimit;
     }
 
     return true;
