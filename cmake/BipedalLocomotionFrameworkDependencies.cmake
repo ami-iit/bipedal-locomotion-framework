@@ -43,7 +43,7 @@ dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull}
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
-dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi})
+dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi} PUBLIC)
 add_compile_definitions(casadi_VERSION=${casadi_VERSION})
 
 
@@ -194,6 +194,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
 framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
   "Compile matioCpp Conversions libraries?" ON
   "FRAMEWORK_USE_matioCpp" OFF)
+
+  framework_dependent_option(FRAMEWORK_COMPILE_CasadiConversions
+  "Compile casadi Conversions libraries?" ON
+  "FRAMEWORK_USE_casadi" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON

@@ -31,4 +31,12 @@ if (FRAMEWORK_COMPILE_matioCppConversions)
         )
 endif()
 
-
+if (FRAMEWORK_COMPILE_CasadiConversions)
+    add_bipedal_locomotion_library(
+        NAME                   CasadiConversions
+        IS_INTERFACE
+        PUBLIC_HEADERS         include/BipedalLocomotion/Conversions/CasadiConversions.h
+        PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::CommonConversions casadi
+        INSTALLATION_FOLDER    Conversions
+        )
+endif()
