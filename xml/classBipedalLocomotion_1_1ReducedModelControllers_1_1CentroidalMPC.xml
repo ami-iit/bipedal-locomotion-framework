@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC" kind="class" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</compoundname>
+    <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; CentroidalMPCOutput &gt;</basecompoundref>
+    <includes local="no">BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1adcab73d03a8224133ca3cc095af54cdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::ReducedModelControllers::CentroidalMPC::CentroidalMPC</definition>
+        <argsstring>()</argsstring>
+        <name>CentroidalMPC</name>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af75524466b061f0594e965798606a863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::ReducedModelControllers::CentroidalMPC::~CentroidalMPC</definition>
+        <argsstring>()</argsstring>
+        <name>~CentroidalMPC</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="61" column="5"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC" kindref="compound">CentroidalMPC</ref> implements a Non-Linear Model Predictive Controller for humanoid robot locomotion with online step adjustment capabilities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The proposed controller considers the Centroidal Dynamics of the system to compute the desired contact forces and torques and contact locations. Let us assume the presence of a high-level contact planner that generates only the contact location and timings, the <ref refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC" kindref="compound">CentroidalMPC</ref> objective is to implement a control law that generates feasible contact wrenches and locations while considering the Centroidal dynamics of the floating base system, and a nominal set of contact positions and timings. The control problem is formulated using the Model Predictive Control (MPC) framework. <simplesect kind="note"><para>This class implements the work presented in G. Romualdi, S. Dafarra, G. L&apos;Erario, I. Sorrentino, S. Traversaro and D. Pucci, &quot;Online Non-linear Centroidal MPC for Humanoid Robot
+Locomotion with Step Adjustment,&quot; 2022 International Conference on Robotics and Automation (ICRA), Philadelphia, PA, USA, 2022, pp. 10412-10419, doi: 10.1109/ICRA46639.2022.9811670. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::System::Source&lt; CentroidalMPCOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="template-instance">
+          <edgelabel>&lt; CentroidalMPCOutput &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</label>
+        <link refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>BipedalLocomotion::System::InputPort&lt; _Input &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1InputPort"/>
+      </node>
+      <node id="2">
+        <label>BipedalLocomotion::System::Source&lt; CentroidalMPCOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="template-instance">
+          <edgelabel>&lt; CentroidalMPCOutput &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</label>
+        <link refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion::System::Advanceable&lt; EmptySignal, Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="template-instance">
+          <edgelabel>&lt; EmptySignal, Output &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::Source&lt; Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="50" column="1" bodyfile="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" bodystart="51" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1adcab73d03a8224133ca3cc095af54cdb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>CentroidalMPC</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>close</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a8c089ecf2dd8ff0fb2732233994b6cac" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ac50de29a6160baa2bba195af9d69430a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>isOutputValid</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>~Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af75524466b061f0594e965798606a863" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>~CentroidalMPC</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>~InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>~OutputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Source_1acf12427433027de27b18e6e70ba0cae8" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>~Source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

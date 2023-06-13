@@ -3,6 +3,66 @@
   <compounddef id="namespaceBipedalLocomotion_1_1Conversions" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Conversions</compoundname>
       <sectiondef kind="func">
+      <memberdef kind="function" id="CasadiConversions_8h_1a45a5aa8a4c62ac77c651decc132cd9b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Eigen::Map&lt; Eigen::MatrixXd &gt;</type>
+        <definition>Eigen::Map&lt;Eigen::MatrixXd&gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <argsstring>(casadi::DM &amp;input)</argsstring>
+        <name>toEigen</name>
+        <param>
+          <type>casadi::DM &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Conversion from a casadi::DM to an Eigen matrix,. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The casadi::DM matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A map from the internal data of the casadi matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Conversions/CasadiConversions.h" line="25" column="19" bodyfile="BipedalLocomotion/Conversions/CasadiConversions.h" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="CasadiConversions_8h_1a6f0fa87d3039e71c1b954fc2b6a170cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Eigen::Map&lt; const Eigen::MatrixXd &gt;</type>
+        <definition>Eigen::Map&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::Conversions::toEigen</definition>
+        <argsstring>(const casadi::DM &amp;input)</argsstring>
+        <name>toEigen</name>
+        <param>
+          <type>const casadi::DM &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Conversion from a casadi::DM to an Eigen matrix,. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The casadi::DM matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A map from the internal data of the casadi matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Conversions/CasadiConversions.h" line="35" column="19" bodyfile="BipedalLocomotion/Conversions/CasadiConversions.h" bodystart="35" bodyend="38"/>
+      </memberdef>
       <memberdef kind="function" id="CommonConversions_8h_1ab559baf769548fa6dc9b2319b05e61b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
@@ -1016,6 +1076,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/Conversions/CommonConversions.h" line="15" column="1"/>
+    <location file="BipedalLocomotion/Conversions/CasadiConversions.h" line="17" column="1"/>
   </compounddef>
 </doxygen>
