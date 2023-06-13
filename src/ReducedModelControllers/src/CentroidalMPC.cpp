@@ -1029,7 +1029,17 @@ bool CentroidalMPC::advance()
     m_pimpl->fsm = Impl::FSM::OutputInvalid;
 
     // compute the output
-    auto controllerOutput = m_pimpl->controller(m_pimpl->vectorizedOptiInputs);
+    std::vector<casadi::DM> controllerOutput;
+    try
+    {
+        controllerOutput = m_pimpl->controller(m_pimpl->vectorizedOptiInputs);
+    } catch (const std::exception& e)
+    {
+        log()->error("{} Unable to solve the problem. The following exception has been thrown {}.",
+                     errorPrefix,
+                     e.what());
+        return false;
+    }
 
     // get the solution
     auto it = controllerOutput.begin();
@@ -1337,7 +1347,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         // problem
         if (m_pimpl->optiSettings.isWarmStartEnabled)
         {
-            toEigen(*(m_pimpl->initialGuess.contactsLocation[key])) = toEigen(*contact.nominalPosition);
+            toEigen(*(m_pimpl->initialGuess.contactsLocation[key]))
+                = toEigen(*contact.nominalPosition);
         }
     }
 
