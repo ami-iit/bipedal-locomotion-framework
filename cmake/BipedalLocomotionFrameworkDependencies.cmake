@@ -43,7 +43,9 @@ dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull}
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
-dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi})
+dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi} PUBLIC)
+add_compile_definitions(casadi_VERSION=${casadi_VERSION})
+
 
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
@@ -193,6 +195,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
   "Compile matioCpp Conversions libraries?" ON
   "FRAMEWORK_USE_matioCpp" OFF)
 
+  framework_dependent_option(FRAMEWORK_COMPILE_CasadiConversions
+  "Compile casadi Conversions libraries?" ON
+  "FRAMEWORK_USE_casadi" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON
   "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact;FRAMEWORK_USE_OsqpEigen" OFF)
@@ -260,3 +266,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
 framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
   "Do you want to generate and compile the VectorsCollectionWrapper?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
+  "Do you want to generate and compile the ReducedModelControllers?" ON
+  "FRAMEWORK_USE_casadi;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Contact;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_CasadiConversions" OFF)

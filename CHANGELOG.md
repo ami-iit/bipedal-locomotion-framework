@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 - Implement a bash script to automatically log the audio along with the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/681)
 - Implement `QuadraticBezierCurve` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
 - Implement `MANNAutoregressiveInputBuilder` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
+- Implement the `CentroidalMPC` in `ReducedModelControllers`component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/645)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
