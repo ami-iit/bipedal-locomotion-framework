@@ -718,6 +718,7 @@ struct CentroidalMPC::Impl
         ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
         casadiOptions["expand"] = true;
+        casadiOptions["error_on_fail"] = true;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
     }
