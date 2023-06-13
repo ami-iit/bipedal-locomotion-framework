@@ -521,15 +521,33 @@ struct CentroidalMPC::Impl
         constexpr int vector3Size = 3;
         const int stateHorizon = this->optiSettings.horizon + 1;
 
-        std::size_t vectorizedOptiInputsSize = 7 + (this->output.contacts.size() * 6);
+        // In case of no warmstart the variables are:
+        // - centroidalVariables = 7: external force + external torque + com current + dcom current
+        //                            + current angular momentum + com reference
+        //                            + angular momentum reference
+        // - contactVariables = 6: for each contact we have current position + nominal position +
+        //                         orientation + is enabled + upper limit in position
+        //                         + lower limit in position
+        constexpr std::size_t centroidalVariables = 7;
+        constexpr std::size_t contactVariables = 6;
+
+        std::size_t vectorizedOptiInputsSize = centroidalVariables + //
+                                               (this->output.contacts.size() * contactVariables);
 
         if (this->optiSettings.isWarmStartEnabled)
         {
             // in this case we need to add the com, the angular momentum and the contact location
-            vectorizedOptiInputsSize += 2 + (this->output.contacts.size() * 1);
+            constexpr std::size_t centroidalVariablesWarmStart = 2;
+            constexpr std::size_t contactVariablesWarmStart = 1;
+            vectorizedOptiInputsSize += centroidalVariablesWarmStart + //
+                                        (this->output.contacts.size() * contactVariablesWarmStart);
         }
 
         // we reserve in advance so the push_back will not invalidate the pointers
+        // Indeed the standard guarantees that if the new size() is greater than capacity() then all
+        // iterators and references (including the end() iterator) are invalidated. Otherwise only
+        // the end() iterator is invalidated.
+        // https://en.cppreference.com/w/cpp/container/vector/push_back
         this->vectorizedOptiInputs.reserve(vectorizedOptiInputsSize);
 
         // prepare the controller inputs struct
