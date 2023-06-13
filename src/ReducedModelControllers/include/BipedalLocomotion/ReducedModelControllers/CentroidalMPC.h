@@ -38,7 +38,7 @@ struct CentroidalMPCOutput
  * with online step adjustment capabilities. The proposed controller considers the Centroidal
  * Dynamics of the system to compute the desired contact forces and torques and contact locations.
  * Let us assume the presence of a high-level contact planner that generates only the contact
- * location and timings, The CentroidalMPC objective is to implement a control law that generates
+ * location and timings, the CentroidalMPC objective is to implement a control law that generates
  * feasible contact wrenches and locations while considering the Centroidal dynamics of the floating
  * base system, and a nominal set of contact positions and timings. The control problem is
  * formulated using the Model Predictive Control (MPC) framework.
@@ -123,7 +123,7 @@ public:
      * @param dcom velocity of the CoM expressed in a frame centered in the CoM and oriented as the
      * inertial frame.
      * @param angularMomentum centroidal angular momentum.
-     * @param externalWrench optional parameter used to represents an external wrench applied to the
+     * @param externalWrench optional parameter used to represent an external wrench applied to the
      * robot CoM.
      * @return True in case of success, false otherwise.
      * @note This function needs to be called before advance.
@@ -143,7 +143,7 @@ public:
      * @note In case the warmstart has been enabled in the initialization, then the CoM and the
      * angular momentum will be used to warmstart the problem.
      * @warning The CoM and the angular momentum trajectory is assumed to be sampled at the
-     * controller sampling
+     * controller sampling period
      */
     bool setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
                                 const std::vector<Eigen::Vector3d>& angularMomentum);
