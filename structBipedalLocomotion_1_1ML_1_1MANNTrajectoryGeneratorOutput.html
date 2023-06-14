@@ -79,37 +79,27 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="af0939643f6708017561623115912253c">
-              Eigen::Matrix3Xd <a href="#af0939643f6708017561623115912253c" class="m-doc-self">comTrajectory</a>
+            <dt id="a7d2870d53e95bf2a10288575bbad2e02">
+              std::vector&lt;Eigen::Vector3d&gt; <a href="#a7d2870d53e95bf2a10288575bbad2e02" class="m-doc-self">comTrajectory</a>
             </dt>
             <dd>CoM trajectory expressed in the inertial frame.</dd>
-            <dt id="a5da7b955b6e03e9bd75fdf70eecae2d2">
-              Eigen::Matrix3Xd <a href="#a5da7b955b6e03e9bd75fdf70eecae2d2" class="m-doc-self">angularMomentumTrajectory</a>
+            <dt id="a0556205ab44143da5f89c1b6f59f8978">
+              std::vector&lt;Eigen::Vector3d&gt; <a href="#a0556205ab44143da5f89c1b6f59f8978" class="m-doc-self">angularMomentumTrajectory</a>
             </dt>
             <dd>Centroidal angular momentum trajectory expressed in the mixed representation.</dd>
-            <dt>
-              std::vector&lt;Eigen::VectorXd&gt; <a href="#a43066efdc55d7be1157a6292e06a9808" class="m-doc">jointPositions</a>
+            <dt id="a43066efdc55d7be1157a6292e06a9808">
+              std::vector&lt;Eigen::VectorXd&gt; <a href="#a43066efdc55d7be1157a6292e06a9808" class="m-doc-self">jointPositions</a>
             </dt>
-            <dd>Vector cointaining the joint positions for each instant.</dd>
+            <dd>Joints position in radians.</dd>
             <dt id="a7c32b15f320dcd1f91e4db4834bcac0a">
               std::vector&lt;manif::SE3d&gt; <a href="#a7c32b15f320dcd1f91e4db4834bcac0a" class="m-doc-self">basePoses</a>
             </dt>
-            <dd>Vector cointaining the base pose for each instant.</dd>
+            <dd>Vector containing the base pose for each instant.</dd>
             <dt id="a07ebe5693895e4a9620a525ca4def711">
               <a href="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList.html" class="m-doc">Contacts::<wbr />ContactPhaseList</a> <a href="#a07ebe5693895e4a9620a525ca4def711" class="m-doc-self">phaseList</a>
             </dt>
             <dd>List of the contact phases.</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="a43066efdc55d7be1157a6292e06a9808"><div>
-            <h3>
-              std::vector&lt;Eigen::VectorXd&gt; BipedalLocomotion::<wbr />ML::<wbr />MANNTrajectoryGeneratorOutput::<wbr /><a href="#a43066efdc55d7be1157a6292e06a9808" class="m-doc-self">jointPositions</a>
-            </h3>
-            <p>Vector cointaining the joint positions for each instant.</p>
-<p>The order is the one associated to the model provided with <a href="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator.html#a68600891a27c4c05d98c8ec59015c37f" class="m-doc">MANNTrajectoryGenerator::<wbr />setRobotModel</a>.</p>
-          </div></section>
         </section>
       </div>
     </div>
