@@ -1413,8 +1413,8 @@
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput_1a3fe34f6cc4cda5eb1690729463b56195" kind="variable"><name>mergePointIndex</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" kind="struct"><name>BipedalLocomotion::ML::MANNTrajectoryGeneratorOutput</name>
-    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a8bc9a1233fd5662e3e4793c06b89c4c4" kind="variable"><name>comTrajectory</name></member>
-    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a5705cd3f05c2ef8801d971b5b4586fbc" kind="variable"><name>angularMomentumTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1af0939643f6708017561623115912253c" kind="variable"><name>comTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a5da7b955b6e03e9bd75fdf70eecae2d2" kind="variable"><name>angularMomentumTrajectory</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a43066efdc55d7be1157a6292e06a9808" kind="variable"><name>jointPositions</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a7c32b15f320dcd1f91e4db4834bcac0a" kind="variable"><name>basePoses</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a07ebe5693895e4a9620a525ca4def711" kind="variable"><name>phaseList</name></member>
