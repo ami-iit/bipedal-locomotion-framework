@@ -129,8 +129,8 @@ TEST_CASE("MANNTrajectoryGenerator")
     REQUIRE(generator.advance());
 
     // here we check that the robot was able to walk straight
-    Eigen::Vector3d finalCoMPosition = generator.getOutput().comTrajectory.rightCols<1>();
-    Eigen::Vector3d initialCoMPosition = generator.getOutput().comTrajectory.leftCols<1>();
+    Eigen::Vector3d finalCoMPosition = generator.getOutput().comTrajectory.back();
+    Eigen::Vector3d initialCoMPosition = generator.getOutput().comTrajectory.front();
 
     constexpr double forwardTolerance = 2;
     constexpr double lateralTolerance = 0.6;
@@ -145,8 +145,8 @@ TEST_CASE("MANNTrajectoryGenerator")
     REQUIRE(generator.advance());
 
     // here we check that the robot was able to walk straight
-    finalCoMPosition = generator.getOutput().comTrajectory.rightCols<1>();
-    initialCoMPosition = generator.getOutput().comTrajectory.leftCols<1>();
+    finalCoMPosition = generator.getOutput().comTrajectory.back();
+    initialCoMPosition = generator.getOutput().comTrajectory.front();
     REQUIRE(std::abs(finalCoMPosition[0] - initialCoMPosition[0]) > forwardTolerance);
     REQUIRE(std::abs(finalCoMPosition[1] - initialCoMPosition[1]) < lateralTolerance);
     REQUIRE(std::abs(finalCoMPosition[2] - initialCoMPosition[2]) < verticalTolerance);
