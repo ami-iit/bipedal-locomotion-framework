@@ -13,8 +13,8 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ML/MANNAutoregressive.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
 namespace BipedalLocomotion
@@ -36,14 +36,14 @@ struct MANNTrajectoryGeneratorInput : public MANNAutoregressiveInput
  */
 struct MANNTrajectoryGeneratorOutput
 {
-    Eigen::Matrix3Xd comTrajectory; /**< CoM trajectory expressed in the inertial frame. */
-    Eigen::Matrix3Xd angularMomentumTrajectory; /**< Centroidal angular momentum trajectory
-                                                   expressed in the mixed representation. */
-    std::vector<Eigen::VectorXd> jointPositions; /**< Vector cointaining the joint positions for
-                                                    each instant. The order is the one associated to
-                                                    the model provided with
-                                                    MANNTrajectoryGenerator::setRobotModel. */
-    std::vector<manif::SE3d> basePoses; /**< Vector cointaining the base pose for each instant. */
+    /** CoM trajectory expressed in the inertial frame */
+    std::vector<Eigen::Vector3d> comTrajectory;
+
+    /** Centroidal angular momentum trajectory expressed in the mixed representation. */
+    std::vector<Eigen::Vector3d> angularMomentumTrajectory;
+
+    std::vector<Eigen::VectorXd> jointPositions; /**< Joints position in radians */
+    std::vector<manif::SE3d> basePoses; /**< Vector containing the base pose for each instant. */
     Contacts::ContactPhaseList phaseList; /**< List of the contact phases */
 };
 
@@ -78,7 +78,6 @@ class MANNTrajectoryGenerator
     : public System::Advanceable<MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput>
 {
 public:
-
     /**
      * Constructor
      */

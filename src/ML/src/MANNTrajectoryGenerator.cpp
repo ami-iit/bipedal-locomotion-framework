@@ -219,8 +219,8 @@ bool MANNTrajectoryGenerator::initialize(
     m_pimpl->mergePointStates.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.basePoses.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.jointPositions.resize(m_pimpl->horizon / m_pimpl->dT);
-    m_pimpl->output.angularMomentumTrajectory.resize(3, m_pimpl->horizon / m_pimpl->dT);
-    m_pimpl->output.comTrajectory.resize(3, m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.angularMomentumTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.comTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
 
     return m_pimpl->mann.initialize(paramHandler);
 }
@@ -349,8 +349,8 @@ bool MANNTrajectoryGenerator::advance()
         // populate the output of the trajectory generator
         m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.jointPositions[i] = MANNOutput.jointsPosition;
-        m_pimpl->output.angularMomentumTrajectory.col(i) = MANNOutput.angularMomentum;
-        m_pimpl->output.comTrajectory.col(i) = MANNOutput.comPosition;
+        m_pimpl->output.angularMomentumTrajectory[i] = MANNOutput.angularMomentum;
+        m_pimpl->output.comTrajectory[i] = MANNOutput.comPosition;
 
         if (!m_pimpl->updateContactList("left_foot", MANNOutput.currentTime, MANNOutput.leftFoot))
         {
