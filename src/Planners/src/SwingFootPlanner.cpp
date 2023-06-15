@@ -274,6 +274,8 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
     // The rotation cannot change when the contact list is updated. For this reason we can build the
     // trajectory considering the initial and the final conditions
     const auto T = nextContactPtr->activationTime - m_currentContactPtr->deactivationTime;
+    m_SO3Planner.setInitialConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero());
+    m_SO3Planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero());
     if (!m_SO3Planner.setRotations(m_currentContactPtr->pose.asSO3(),
                                    nextContactPtr->pose.asSO3(),
                                    T))

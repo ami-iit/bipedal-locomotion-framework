@@ -33,6 +33,8 @@ TEST_CASE("SO3 planner")
     SECTION("Left - Trivialized [Body]")
     {
         SO3PlannerBody planner;
+        REQUIRE(planner.setInitialConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero()));
+        REQUIRE(planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero()));
         REQUIRE(planner.setRotations(initialTranform, finalTranform, T));
 
         manif::SO3d rotation, predictedRotation;
@@ -67,6 +69,8 @@ TEST_CASE("SO3 planner")
     SECTION("Right - Trivialized [Inertial]")
     {
         SO3PlannerInertial planner;
+        REQUIRE(planner.setInitialConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero()));
+        REQUIRE(planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero()));
         REQUIRE(planner.setRotations(initialTranform, finalTranform, T));
 
         manif::SO3d rotation, predictedRotation;
@@ -78,6 +82,44 @@ TEST_CASE("SO3 planner")
 
         REQUIRE(rotation.isApprox(initialTranform, tolerance));
         REQUIRE(velocity.isApprox(manif::SO3d::Tangent::Zero(), tolerance));
+        REQUIRE(acceleration.isApprox(manif::SO3d::Tangent::Zero(), tolerance));
+
+        for (std::size_t i = 1; i < samples; i++)
+        {
+            // propagate the system
+            predictedRotation = (velocity * std::chrono::duration<double>(dT).count()) + rotation;
+            predictedVelocity = velocity + (acceleration * std::chrono::duration<double>(dT).count());
+
+            planner.evaluatePoint(i * dT, rotation, velocity, acceleration);
+
+            REQUIRE(predictedRotation.isApprox(rotation, tolerance));
+            REQUIRE(predictedVelocity.isApprox(velocity, tolerance));
+        }
+
+        planner.evaluatePoint(T, rotation, velocity, acceleration);
+        REQUIRE(rotation.isApprox(finalTranform, tolerance));
+        REQUIRE(velocity.isApprox(manif::SO3d::Tangent::Zero(), tolerance));
+        REQUIRE(acceleration.isApprox(manif::SO3d::Tangent::Zero(), tolerance));
+    }
+
+    SECTION("Right - Trivialized [Inertial] Initial velocity different from zero")
+    {
+        SO3PlannerInertial planner;
+        manif::SO3d::Tangent initialVelocity = (finalTranform * initialTranform.inverse()).log();
+        initialVelocity.coeffs() = initialVelocity.coeffs() * 2;
+        REQUIRE(planner.setInitialConditions(initialVelocity, manif::SO3d::Tangent::Zero()));
+        REQUIRE(planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero()));
+        REQUIRE(planner.setRotations(initialTranform, finalTranform, T));
+
+        manif::SO3d rotation, predictedRotation;
+        manif::SO3d::Tangent velocity, predictedVelocity;
+        manif::SO3d::Tangent acceleration;
+        REQUIRE(planner.evaluatePoint(0s, rotation, velocity, acceleration));
+        predictedRotation = rotation;
+        predictedVelocity = velocity;
+
+        REQUIRE(rotation.isApprox(initialTranform, tolerance));
+        REQUIRE(velocity.isApprox(initialVelocity, tolerance));
         REQUIRE(acceleration.isApprox(manif::SO3d::Tangent::Zero(), tolerance));
 
         for (std::size_t i = 1; i < samples; i++)
