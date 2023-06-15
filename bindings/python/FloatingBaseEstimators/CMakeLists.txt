@@ -1,6 +1,6 @@
 # Copyright (C) 2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
 
@@ -12,8 +12,6 @@ if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
     HEADERS ${H_PREFIX}/LeggedOdometry.h ${H_PREFIX}/FloatingBaseEstimators.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::FloatingBaseEstimators
     TESTS tests/test_legged_odometry.py
-    )
-
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tests/model.urdf ${PROJECT_BINARY_DIR}/model.urdf COPYONLY)
+    TESTS_RUNTIME_CONDITIONS FRAMEWORK_USE_icub-models)
 
 endif()

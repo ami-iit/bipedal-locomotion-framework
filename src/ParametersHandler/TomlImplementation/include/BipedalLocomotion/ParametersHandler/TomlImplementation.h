@@ -2,7 +2,7 @@
  * @file TomlImplementation.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_TOML_IMPLEMENTATION_H
@@ -114,8 +114,15 @@ public:
      * @param parameter parameter
      * @return true/false in case of success/failure
      */
-
     bool getParameter(const std::string& parameterName, bool& parameter) const final;
+
+    /**
+     * Get a parameter [std::chrono::nanoseconds]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool getParameter(const std::string& parameterName, std::chrono::nanoseconds& parameter) const final;
 
     /**
      * Get a parameter [std::vector<bool>]
@@ -148,6 +155,16 @@ public:
      * @return true/false in case of success/failure
      */
     bool getParameter(const std::string& parameterName, GenericContainer::Vector<std::string>::Ref parameter) const final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::chrono::nanoseconds>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     * @return true/false in case of success/failure
+     */
+    bool
+    getParameter(const std::string& parameterName,
+                 GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const final;
 
     /**
      * Set a parameter [int]
@@ -187,6 +204,13 @@ public:
     void setParameter(const std::string& parameterName, const bool& parameter) final;
 
     /**
+     * Set a parameter [std::chrono::nanoseconds]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(const std::string& parameterName, const std::chrono::nanoseconds& parameter) final;
+
+    /**
      * Set a parameter [std::vector<bool>]
      * @param parameterName name of the parameter
      * @param parameter parameter
@@ -213,6 +237,15 @@ public:
      * @param parameter parameter
      */
     void setParameter(const std::string& parameterName, const GenericContainer::Vector<const std::string>::Ref parameter) final;
+
+    /**
+     * Get a parameter [GenericContainer::Vector<std::chrono::nanoseconds>]
+     * @param parameterName name of the parameter
+     * @param parameter parameter
+     */
+    void setParameter(
+        const std::string& parameterName,
+        const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter) final;
 
     /**
      * Get a Group from the handler.

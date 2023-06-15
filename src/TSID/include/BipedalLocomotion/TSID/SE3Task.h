@@ -2,7 +2,7 @@
  * @file SE3Task.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H
@@ -10,6 +10,7 @@
 
 #include <manif/manif.h>
 
+#include <BipedalLocomotion/System/ITaskControllerManager.h>
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -35,7 +36,7 @@ namespace TSID
  * desired trajectory. The linear component of \f$\dot{\mathrm{v}} ^ *\f$ is computed with a
  * standard PD controller in \f$R^3\f$ while the angular acceleration is computed by a PD controller
  * in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  * @note The SE3Task is technically not a \f$SE(3)\f$ space defined task, instead is a \f$SO(3)
  * \times \mathbb{R}^3\f$ task. Theoretically, there are differences between the two due to the
@@ -43,8 +44,12 @@ namespace TSID
  * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
  * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
  */
-class SE3Task : public TSIDLinearTask
+class SE3Task : public TSIDLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
+public:
+    using Mode = System::ITaskControllerManager::Mode;
+
+private:
     LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
                                                                                   SO(3) */
     LieGroupControllers::ProportionalDerivativeControllerR3d m_R3Controller; /**< PD Controller in
@@ -65,6 +70,9 @@ class SE3Task : public TSIDLinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
+    /** State of the proportional derivative controller implemented in the task */
+    Mode m_controllerMode{Mode::Enable};
+
 public:
     /**
      * Initialize the planner.
@@ -74,10 +82,10 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |             `kd_linear`            | `double` |                         Gain of the linear velocity controller                         |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
-     * |            `kd_angular`            | `double` |                         Gain of the angular velocity controller                        |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gains of the position controller                            |    Yes    |
+     * |             `kd_linear`            | `double` or `vector<double>` |                         Gains of the linear velocity controller                         |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
+     * |            `kd_angular`            | `double` or `vector<double>` |                         Gain of the angular velocity controller                        |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
@@ -136,6 +144,19 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Set the task controller mode. Please use this method to disable/enable the Proportional
+     * Derivative controller implemented in this task.
+     * @param state state of the controller
+     */
+    void setTaskControllerMode(Mode mode) override;
+
+    /**
+     * Get the task controller mode.
+     * @return the state of the controller
+     */
+    Mode getTaskControllerMode() const override;
 };
 
 } // namespace TSID

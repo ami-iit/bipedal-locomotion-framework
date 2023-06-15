@@ -2,14 +2,22 @@
  * @file QPInverseKinematics.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <cstddef>
 #include <memory>
+
+#include <iDynTree/KinDynComputations.h>
 
 #include <OsqpEigen/OsqpEigen.h>
 
+#include <BipedalLocomotion/IK/IKLinearTask.h>
+#include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
+#include <BipedalLocomotion/System/ConstantWeightProvider.h>
+#include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::IK;
@@ -21,7 +29,7 @@ struct QPInverseKinematics::Impl
     {
         std::shared_ptr<QPInverseKinematics::Task> task;
         std::size_t priority;
-        Eigen::VectorXd weight;
+        std::shared_ptr<const System::WeightProviderPort> weightProvider;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix usefull to reduce dynamics allocation
                                 in advance method */
     };
@@ -135,7 +143,18 @@ QPInverseKinematics::~QPInverseKinematics() = default;
 bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> task,
                                   const std::string& taskName,
                                   std::size_t priority,
-                                  std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
+                                  Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->addTask(task,
+                         taskName,
+                         priority,
+                         std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> task,
+                                  const std::string& taskName,
+                                  std::size_t priority,
+                                  std::shared_ptr<const System::WeightProviderPort> weightProvider)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::addTask]";
 
@@ -156,15 +175,6 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
         return false;
     }
 
-    if (priority == 1 && !weight)
-    {
-        log()->error("{} - [Task name: '{}'] In case of priority equal to 1 the weight is "
-                     "mandatory.",
-                     logPrefix,
-                     taskName);
-        return false;
-    }
-
     if (priority == 1 && task->type() == System::LinearTask::Type::inequality)
     {
         log()->error("{} - [Task name: '{}'] This implementation of the inverse kinematics cannot "
@@ -178,16 +188,30 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
     m_pimpl->tasks[taskName].task = task;
     m_pimpl->tasks[taskName].priority = priority;
 
-    if (priority == 1)
+    // If the priority is set to 1 the user has to provide the weight in terms of weight provider
+    if (priority == 1 && !weightProvider)
     {
-        if (weight.value().size() != task->size())
+        log()->error("{} - [Task name: '{}'] Please provide the associated weight. This is "
+                     "necessary since the priority of the task is equal to 1",
+                     logPrefix,
+                     taskName);
+
+        // erase the task since it is not valid
+        m_pimpl->tasks.erase(taskName);
+
+        return false;
+    }
+
+    if (priority == 1 && weightProvider)
+    {
+        if (weightProvider->getOutput().size() != task->size())
         {
             log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                          "size of the task. Expected: {}. Given: {}.",
                          logPrefix,
                          taskName,
                          m_pimpl->tasks[taskName].task->size(),
-                         weight.value().size());
+                         weightProvider->getOutput().size());
 
             // erase the task since it is not valid
             m_pimpl->tasks.erase(taskName);
@@ -195,8 +219,8 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
             return false;
         }
 
-        // add the weight
-        m_pimpl->tasks[taskName].weight = weight.value();
+        // add the weight In this case we assume that the weight will be constant
+        m_pimpl->tasks[taskName].weightProvider = weightProvider;
 
         // add the task to the list of the element that are used to build the cost function
         m_pimpl->costs.push_back(m_pimpl->tasks[taskName]);
@@ -211,9 +235,89 @@ bool QPInverseKinematics::addTask(std::shared_ptr<QPInverseKinematics::Task> tas
     return true;
 }
 
+bool QPInverseKinematics::setTaskWeight(
+    const std::string& taskName, std::shared_ptr<const System::WeightProviderPort> weightProvider)
+{
+    constexpr auto logPrefix = "[QPInverseKinematics::setTaskWeight]";
+
+    auto tmp = m_pimpl->tasks.find(taskName);
+
+    const bool taskExist = (tmp != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return false;
+    }
+
+    auto taskWithPriority = tmp->second;
+
+    if (taskWithPriority.priority != 1)
+    {
+        log()->error("{} - [Task name: '{}'] The weight can be set only to a task with priority "
+                     "equal to 1.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weightProvider == nullptr || !weightProvider->isOutputValid())
+    {
+        log()->error("{} - [Task name: '{}'] The weightProvider is not valid.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weightProvider->getOutput().size() != taskWithPriority.task->size())
+    {
+        log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
+                     "size of the task. Expected: {}. Given: {}.",
+                     logPrefix,
+                     taskName,
+                     taskWithPriority.task->size(),
+                     weightProvider->getOutput().size());
+        return false;
+    }
+
+    // update the weight
+    m_pimpl->tasks[taskName].weightProvider = weightProvider;
+
+    return true;
+}
+
+bool QPInverseKinematics::setTaskWeight(const std::string& taskName,
+                                        Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->setTaskWeight(taskName, std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+std::weak_ptr<const System::WeightProviderPort>
+QPInverseKinematics::getTaskWeightProvider(const std::string& taskName) const
+{
+    constexpr auto logPrefix = "[QPInverseKinematics::getTaskWeightProvider]";
+
+    auto taskWithPriority = m_pimpl->tasks.find(taskName);
+    const bool taskExist = (taskWithPriority != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return std::shared_ptr<System::WeightProviderPort>();
+    }
+
+    return taskWithPriority->second.weightProvider;
+}
+
 bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::finalize]";
+
+    if (!m_pimpl->isInitialized)
+    {
+        log()->error("{} Please call initialize() before finalize().", logPrefix);
+        return false;
+    }
+
+    m_pimpl->isFinalized = false;
 
     // clear the solver
     m_pimpl->solver.clearSolver();
@@ -245,7 +349,15 @@ bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
     // resize the temporary matrix usefull to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        cost.get().tmp.resize(handler.getNumberOfVariables(), cost.get().weight.size());
+        if(cost.get().weightProvider == nullptr)
+        {
+            log()->error("{} One of the weight provider has been not correctly set.",
+                         logPrefix);
+            return false;
+        }
+
+        cost.get().tmp.resize(handler.getNumberOfVariables(),
+                              cost.get().weightProvider->getOutput().size());
     }
 
     m_pimpl->solver.data()->setNumberOfVariables(handler.getNumberOfVariables());
@@ -324,7 +436,8 @@ bool QPInverseKinematics::advance()
         Eigen::Ref<const Eigen::VectorXd> b = cost.get().task->getB();
 
         // Here we avoid to have dynamic allocation
-        cost.get().tmp.noalias() = A.transpose() * cost.get().weight.asDiagonal();
+        cost.get().tmp.noalias() = A.transpose() * //
+                                   cost.get().weightProvider->getOutput().asDiagonal();
         m_pimpl->hessian.noalias() += cost.get().tmp * A;
         m_pimpl->gradient.noalias() -= cost.get().tmp * b;
     }
@@ -385,10 +498,22 @@ bool QPInverseKinematics::advance()
     }
 
     // solve the QP
-    if (!m_pimpl->solver.solve())
+    if (m_pimpl->solver.solveProblem() != OsqpEigen::ErrorExitFlag::NoError)
     {
         log()->error("{} Unable to to solve the problem.", logPrefix);
         return false;
+    }
+
+    if (m_pimpl->solver.getStatus() != OsqpEigen::Status::Solved
+        && m_pimpl->solver.getStatus() != OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->error("{} osqp was not able to find a feasible solution.", logPrefix);
+        return false;
+    }
+
+    if (m_pimpl->solver.getStatus() == OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->debug("{} The solver found an inaccurate feasible solution.", logPrefix);
     }
 
     // retrieve the solution
@@ -462,4 +587,208 @@ bool QPInverseKinematics::initialize(std::weak_ptr<const ParametersHandler::IPar
     m_pimpl->isInitialized = true;
 
     return true;
+}
+
+std::string QPInverseKinematics::toString() const
+{
+    std::ostringstream oss;
+
+    oss << "====== QPInverseKinematics class ======" << std::endl
+        << "The optimization problem is composed by the following tasks:" << std::endl;
+    for (const auto& [name, task] : m_pimpl->tasks)
+    {
+        oss << "\t - " << name << ": " << task.task->getDescription()
+            << " Priority: " << task.priority << "." << std::endl;
+    }
+    oss << "Note: The lower is the integer associated to the priority, the higher is the priority."
+        << std::endl
+        << "==========================" << std::endl;
+
+    return oss.str();
+}
+
+Eigen::Ref<const Eigen::VectorXd> QPInverseKinematics::getRawSolution() const
+{
+    return m_pimpl->solver.getSolution();
+}
+
+IntegrationBasedIKProblem
+QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                           std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    constexpr auto logPrefix = "[QPInverseKinematics::build]";
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
+    if (kinDyn == nullptr || !kinDyn->isValid())
+    {
+        log()->error("{} Invalid iDynTree::KinDynComputations object.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
+    std::unique_ptr<QPInverseKinematics> solver = std::make_unique<QPInverseKinematics>();
+    std::unordered_map<std::string, std::shared_ptr<System::WeightProvider>> weights;
+
+    if (!solver->initialize(ptr->getGroup("IK")))
+    {
+        log()->error("{} Unable to initialize the IK solver.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
+    BipedalLocomotion::System::VariablesHandler variablesHandler;
+    if (!variablesHandler.addVariable(solver->m_pimpl->robotVelocityVariable.name,
+                                     kinDyn->getNrOfDegreesOfFreedom() + 6))
+    {
+        log()->error("{} Unable to add the variable named '{}'.",
+                     logPrefix,
+                     solver->m_pimpl->robotVelocityVariable.name);
+        return IntegrationBasedIKProblem();
+    }
+
+    std::vector<std::string> tasks;
+    if (!ptr->getParameter("tasks", tasks))
+    {
+        log()->error("{} Unable to find the parameter 'tasks'.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
+    for (const auto& taskGroupName : tasks)
+    {
+        auto taskGroupTmp = ptr->getGroup(taskGroupName).lock();
+        if (taskGroupTmp == nullptr)
+        {
+            log()->error("{} Unable to find the group named '{}'.", logPrefix, taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        // add robot_velocity_variable_name parameter since it is required by all the tasks
+        auto taskGroup = taskGroupTmp->clone();
+        taskGroup->setParameter("robot_velocity_variable_name",
+                                solver->m_pimpl->robotVelocityVariable.name);
+
+        // create an instance of the task
+        std::string taskType;
+        if (!taskGroup->getParameter("type", taskType))
+        {
+            log()->error("{} Unable to find the parameter 'type' in the group named '{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        std::shared_ptr<IKLinearTask> taskInstance = IKLinearTaskFactory::createInstance(taskType);
+        if (taskInstance == nullptr)
+        {
+            log()->error("{} The task type '{}' has not been registered.", logPrefix, taskType);
+            return IntegrationBasedIKProblem();
+        }
+
+        if (!taskInstance->setKinDyn(kinDyn))
+        {
+            log()->error("{} Unable to set the kinDynComputations object for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        if (!taskInstance->initialize(taskGroup))
+        {
+            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        int priority{0};
+        if (!taskGroup->getParameter("priority", priority))
+        {
+            log()->error("{} Unable to get the parameter 'priority' for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        if (priority != 0 && priority != 1)
+        {
+            log()->error("{} Invalid priority provided for the task named '{}'. For the time being "
+                         "we support only priority equal to 0 or 1.",
+                         logPrefix,
+                         taskGroupName);
+            return IntegrationBasedIKProblem();
+        }
+
+        if (priority == 1)
+        {
+            std::string weightProviderType = "ConstantWeightProvider";
+            if (!taskGroup->getParameter("weight_provider_type", weightProviderType))
+            {
+                log()->warn("{} Unable to get the parameter 'weight_provider_type' for the task "
+                            "in the group "
+                            "'{}'. The default one will be used. Default: '{}'.",
+                            logPrefix,
+                            taskGroupName,
+                            weightProviderType);
+            }
+
+            auto weightProvider = BipedalLocomotion::System::WeightProviderFactory::createInstance(
+                weightProviderType);
+
+            if (weightProvider == nullptr)
+            {
+                log()->error("{} The weight provider '{}' has not been registered.",
+                             logPrefix,
+                             weightProviderType);
+                return IntegrationBasedIKProblem();
+            }
+
+            if (!weightProvider->initialize(taskGroup))
+            {
+                log()->error("{} Unable to initialize the weight provider for the task in the "
+                             "group "
+                             "'{}'.",
+                             logPrefix,
+                             taskGroupName);
+                return IntegrationBasedIKProblem();
+            }
+
+            // the weight is considered only if priority is equal to 1
+            if (!solver->addTask(taskInstance, taskGroupName, priority, weightProvider))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return IntegrationBasedIKProblem();
+            }
+
+            weights[taskGroupName] = weightProvider;
+
+        } else
+        {
+            if (!solver->addTask(taskInstance, taskGroupName, priority))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return IntegrationBasedIKProblem();
+            }
+        }
+    }
+
+    if (!solver->finalize(variablesHandler))
+    {
+        log()->error("{} Unable to finalize the solver.", logPrefix);
+        return IntegrationBasedIKProblem();
+    }
+
+    IntegrationBasedIKProblem problem;
+    problem.ik = std::move(solver);
+    problem.variablesHandler = std::move(variablesHandler);
+    problem.weights = std::move(weights);
+
+    return problem;
 }

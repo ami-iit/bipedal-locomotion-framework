@@ -2,14 +2,15 @@
  * @file ParametersHandlerYarpTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // std
+#include <chrono>
 #include <memory>
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // YARP
 #include <yarp/os/Property.h>
@@ -29,6 +30,7 @@ using namespace BipedalLocomotion::GenericContainer;
 
 TEST_CASE("Get parameters")
 {
+    using namespace std::chrono_literals;
     std::vector<int> fibonacciNumbers{1, 1, 2, 3, 5, 8, 13, 21};
     std::vector<std::string> donaldsNephews{"Huey", "Dewey", "Louie"};
     bool flag = true;
@@ -36,12 +38,17 @@ TEST_CASE("Get parameters")
 
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
+    std::chrono::nanoseconds time = 13h + 39min + 51s + 523ms;
+    double timeAsDouble = 0.01;
+
     parameterHandler->setParameter("answer_to_the_ultimate_question_of_life", 42);
     parameterHandler->setParameter("pi", 3.14);
     parameterHandler->setParameter("John", "Smith");
     parameterHandler->setParameter("Fibonacci Numbers", fibonacciNumbers);
     parameterHandler->setParameter("flag", flag);
     parameterHandler->setParameter("flags", flags);
+    parameterHandler->setParameter("time", time);
+    parameterHandler->setParameter("time_as_double", timeAsDouble);
 
     SECTION("Get integer")
     {
@@ -64,12 +71,25 @@ TEST_CASE("Get parameters")
         REQUIRE(element == flag);
     }
 
-
     SECTION("Get String")
     {
         std::string element;
         REQUIRE(parameterHandler->getParameter("John", element));
         REQUIRE(element == "Smith");
+    }
+
+    SECTION("Get std::chrono::nanoseconds")
+    {
+        std::chrono::nanoseconds element;
+        REQUIRE(parameterHandler->getParameter("time", element));
+        REQUIRE(element == time);
+    }
+
+    SECTION("Get std::chrono::nanoseconds from double")
+    {
+        std::chrono::nanoseconds element;
+        REQUIRE(parameterHandler->getParameter("time_as_double", element));
+        REQUIRE(element == std::chrono::duration<double>(timeAsDouble));
     }
 
     SECTION("Change String")
@@ -93,7 +113,6 @@ TEST_CASE("Get parameters")
         REQUIRE(parameterHandler->getParameter("flags", element));
         REQUIRE(element == flags);
     }
-
 
     SECTION("Change Vector")
     {
@@ -254,6 +273,30 @@ TEST_CASE("Get parameters")
             REQUIRE(element == fibonacciNumbers);
         }
 
+        {
+            std::chrono::nanoseconds element;
+            REQUIRE(parameterHandler->getParameter("time", element));
+            REQUIRE(3 == std::chrono::duration_cast<std::chrono::hours>(element).count());
+            REQUIRE(
+                13
+                == std::chrono::duration_cast<std::chrono::minutes>(element % std::chrono::hours(1))
+                       .count());
+            REQUIRE(38
+                    == std::chrono::duration_cast<std::chrono::seconds>(element
+                                                                        % std::chrono::minutes(1))
+                           .count());
+            REQUIRE(21451
+                    == std::chrono::duration_cast<std::chrono::microseconds>(
+                           element % std::chrono::seconds(1))
+                           .count());
+        }
+
+        {
+            std::chrono::nanoseconds element;
+            REQUIRE(parameterHandler->getParameter("time_as_double", element));
+            REQUIRE(element == std::chrono::duration<double>(0.05));
+        }
+
         IParametersHandler::shared_ptr cartoonsGroup = parameterHandler->getGroup("CARTOONS").lock();
         REQUIRE(cartoonsGroup);
 
@@ -274,6 +317,34 @@ TEST_CASE("Get parameters")
             std::string element;
             REQUIRE(cartoonsGroup->getParameter("John", element));
             REQUIRE(element == "Doe");
+        }
+
+        IParametersHandler::shared_ptr timingsGroup = parameterHandler->getGroup("TIMINGS").lock();
+        REQUIRE(timingsGroup);
+
+        {
+            std::vector<std::chrono::nanoseconds> element;
+            REQUIRE(timingsGroup->getParameter("time", element));
+
+            using namespace std::chrono_literals;
+
+            // these are copied from the ini file
+            REQUIRE(element
+                    == std::vector<std::chrono::nanoseconds>{3h + 13min + 38s + 21451us,
+                                                             5h + 31min + 48s + 189405us});
+        }
+
+        {
+            std::vector<std::chrono::nanoseconds> element;
+            REQUIRE(timingsGroup->getParameter("time_as_double", element));
+
+            using namespace std::chrono_literals;
+
+            // these are copied from the ini file
+            REQUIRE(
+                element
+                == std::vector<std::chrono::nanoseconds>{std::chrono::duration_cast<std::chrono::nanoseconds>(0.03s),
+                                                         std::chrono::duration_cast<std::chrono::nanoseconds>(1.8s)});
         }
     }
 

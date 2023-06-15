@@ -2,7 +2,7 @@
  * @file CoMTask.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_TSID_COM_TASK_H
@@ -35,7 +35,7 @@ namespace TSID
  * The desired acceleration is chosen such that the CoM will asymptotically converge to the
  * desired trajectory. \f$\dot{v} ^ *\f$ is computed with a
  * standard PD controller in \f$R^3\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class CoMTask : public TSIDLinearTask
@@ -63,11 +63,11 @@ public:
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
-     * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
-     * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |             `kd_linear`            | `double` |                         Gain of the linear velocity controller                         |    Yes    |
+     * |           Parameter Name           |               Type           |                                       Description                                      | Mandatory |
+     * |:----------------------------------:|:----------------------------:|:--------------------------------------------------------------------------------------:|:---------:|
+     * | `robot_acceleration_variable_name` |            `string`          | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
+     * |             `kd_linear`            | `double` or `vector<double>` |                         Gain of the linear velocity controller                         |    Yes    |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.

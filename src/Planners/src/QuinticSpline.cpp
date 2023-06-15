@@ -2,16 +2,23 @@
  * @file QuinticSpline.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 
 #include <Eigen/Sparse>
 
 #include <BipedalLocomotion/Planners/QuinticSpline.h>
 using namespace BipedalLocomotion::Planners;
+
+template <class Rep, class Period>
+constexpr double durationToSeconds(const std::chrono::duration<Rep, Period>& d)
+{
+    return std::chrono::duration<double>(d).count();
+}
 
 struct QuinticSpline::Impl
 {
@@ -33,7 +40,7 @@ struct QuinticSpline::Impl
         Eigen::VectorXd velocity; /**< first derivative of spline computed at t@knot */
         Eigen::VectorXd acceleration; /**< second derivative of spline computed at t@knot */
 
-        double timeInstant; /**< Knot time (it is an absolute time ) */
+        std::chrono::nanoseconds timeInstant; /**< Knot time (it is an absolute time ) */
     };
 
     /**
@@ -52,7 +59,7 @@ struct QuinticSpline::Impl
         const Knot* initialPoint;
         const Knot* finalPoint;
 
-        double duration;
+        std::chrono::nanoseconds duration;
     };
 
     BoundaryConditions initialCondition; /**< Initial condition */
@@ -64,34 +71,38 @@ struct QuinticSpline::Impl
     bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
 
     SplineState currentTrajectory; /**< Current trajectory stored in the advance state */
-    double advanceTimeStep{0.0}; /**< Time step of the advance interface. */
-    double advanceCurrentTime{0.0}; /**< current time of the advance object. */
+    std::chrono::nanoseconds advanceTimeStep{std::chrono::nanoseconds::zero()}; /**< Time step of
+                                                                                   the advance
+                                                                                   interface. */
+    std::chrono::nanoseconds advanceCurrentTime{std::chrono::nanoseconds::zero()}; /**< current time
+                                                                                      of the advance
+                                                                                      object. */
 
     /**
      * Reset a given knot with a time instant and a position
      */
-    void resetKnot(const double& timeInstant,
+    void resetKnot(const std::chrono::nanoseconds& timeInstant,
                    Eigen::Ref<const Eigen::VectorXd> position,
                    Knot& knot);
 
     /**
      * Get the position at given time for a sub-trajectory
      */
-    void getPositionAtTime(const double& t,
+    void getPositionAtTime(const std::chrono::nanoseconds& t,
                            const Polynomial& poly,
                            Eigen::Ref<Eigen::VectorXd> position);
 
     /**
      * Get the velocity at given time for a sub-trajectory
      */
-    void getVelocityAtTime(const double& t,
+    void getVelocityAtTime(const std::chrono::nanoseconds& t,
                            const Polynomial& poly,
                            Eigen::Ref<Eigen::VectorXd> velocity);
 
     /**
      * Get the acceleration at given time for a sub-trajectory
      */
-    void getAccelerationAtTime(const double& t,
+    void getAccelerationAtTime(const std::chrono::nanoseconds& t,
                                const Polynomial& poly,
                                Eigen::Ref<Eigen::VectorXd> acceleration);
 
@@ -223,9 +234,10 @@ bool QuinticSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocit
     return true;
 }
 
-bool QuinticSpline::setAdvanceTimeStep(const double& dt)
+bool QuinticSpline::setAdvanceTimeStep(const std::chrono::nanoseconds& dt)
 {
-    if (dt <= 0)
+    // this cannot happen
+    if (dt <= std::chrono::nanoseconds::zero())
     {
         std::cerr << "[QuinticSpline::setAdvanceTimeStep] The time step of the advance object has "
                      "to be a strictly  positive number."
@@ -239,7 +251,7 @@ bool QuinticSpline::setAdvanceTimeStep(const double& dt)
 }
 
 bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
-                             const std::vector<double>& time)
+                             const std::vector<std::chrono::nanoseconds>& time)
 {
     if (position.size() < 2)
     {
@@ -284,7 +296,7 @@ bool QuinticSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
     return true;
 }
 
-void QuinticSpline::Impl::resetKnot(const double& timeInstant,
+void QuinticSpline::Impl::resetKnot(const std::chrono::nanoseconds& timeInstant,
                                     Eigen::Ref<const Eigen::VectorXd> position,
                                     Knot& knot)
 {
@@ -303,7 +315,7 @@ bool QuinticSpline::Impl::computePhasesDuration()
         polynomials[i].duration = knots[i + 1].timeInstant - knots[i].timeInstant;
 
         // This is required or stability purposes, the matrix A may not be invertible.
-        if (std::abs(polynomials[i].duration) <= std::numeric_limits<double>::epsilon())
+        if (polynomials[i].duration == std::chrono::nanoseconds::zero())
         {
             std::cerr << "[QuinticSpline::Impl::computePhasesDuration] Two consecutive points have "
                          "the same time coordinate."
@@ -433,6 +445,9 @@ void QuinticSpline::Impl::addTripletCurrentKnot(const int& knotIndex,
     const auto& poly = polynomials[knotIndex];
     const auto& prevPoly = polynomials[knotIndex - 1];
 
+    const double prevPolyDuration = durationToSeconds(prevPoly.duration);
+    const double polyDuration = durationToSeconds(poly.duration);
+
     // The following triplets represent this matrix
     // /    /   1      1\          /   1      1\ \
     // | 12 |------ - --|      -3  |------ + --| |
@@ -450,22 +465,20 @@ void QuinticSpline::Impl::addTripletCurrentKnot(const int& knotIndex,
     tripletList.push_back(
         {rowOffset,
          columnOffset,
-         12 * ((1 / std::pow(prevPoly.duration, 2)) - (1 / std::pow(poly.duration, 2)))});
+         12 * ((1 / std::pow(prevPolyDuration, 2)) - (1 / std::pow(polyDuration, 2)))});
 
     tripletList.push_back(
-        {rowOffset,
-         columnOffset + 1,
-         -3 * ((1 / prevPoly.duration) + (1 / poly.duration))});
+        {rowOffset, columnOffset + 1, -3 * ((1 / prevPolyDuration) + (1 / polyDuration))});
 
     tripletList.push_back(
         {rowOffset + 1,
          columnOffset,
-         16 * ((1 / std::pow(prevPoly.duration, 3)) + (1 / std::pow(poly.duration, 3)))});
+         16 * ((1 / std::pow(prevPolyDuration, 3)) + (1 / std::pow(polyDuration, 3)))});
 
     tripletList.push_back(
         {rowOffset + 1,
          columnOffset + 1,
-         3 * ((-1 / std::pow(prevPoly.duration, 2)) + (1 / std::pow(poly.duration, 2)))});
+         3 * ((-1 / std::pow(prevPolyDuration, 2)) + (1 / std::pow(polyDuration, 2)))});
 }
 
 void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
@@ -474,6 +487,7 @@ void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
                                                  std::vector<Eigen::Triplet<double>>& tripletList)
 {
     const auto& poly = polynomials[knotIndex - 1];
+    const double polyDuration = durationToSeconds(poly.duration);
 
     // The following triplets represent this matrix
     // /    8          1    \
@@ -489,10 +503,10 @@ void QuinticSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
     // | T          T       |
     // \  i - 1      i - 1  /
 
-    tripletList.push_back({rowOffset, columnOffset, 8 / std::pow(poly.duration, 2)});
-    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly.duration});
-    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(poly.duration, 3)});
-    tripletList.push_back({rowOffset + 1, columnOffset + 1, 2 / std::pow(poly.duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset, 8 / std::pow(polyDuration, 2)});
+    tripletList.push_back({rowOffset, columnOffset + 1, 1 / polyDuration});
+    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(polyDuration, 3)});
+    tripletList.push_back({rowOffset + 1, columnOffset + 1, 2 / std::pow(polyDuration, 2)});
 }
 
 void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
@@ -501,6 +515,7 @@ void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
                                              std::vector<Eigen::Triplet<double>>& tripletList)
 {
     const auto& poly = polynomials[knotIndex];
+    const double polyDuration = durationToSeconds(poly.duration);
 
     // The following triplets represent this matrix
     // /    8          1    \
@@ -516,10 +531,10 @@ void QuinticSpline::Impl::addTripletNextKnot(const int& knotIndex,
     // |  T            T    |
     // \   i            i   /
 
-    tripletList.push_back({rowOffset, columnOffset, -8 / std::pow(poly.duration, 2)});
-    tripletList.push_back({rowOffset, columnOffset + 1, 1 / poly.duration});
-    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(poly.duration, 3)});
-    tripletList.push_back({rowOffset + 1, columnOffset + 1, -2 / std::pow(poly.duration, 2)});
+    tripletList.push_back({rowOffset, columnOffset, -8 / std::pow(polyDuration, 2)});
+    tripletList.push_back({rowOffset, columnOffset + 1, 1 / polyDuration});
+    tripletList.push_back({rowOffset + 1, columnOffset, 14 / std::pow(polyDuration, 3)});
+    tripletList.push_back({rowOffset + 1, columnOffset + 1, -2 / std::pow(polyDuration, 2)});
 }
 
 void QuinticSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
@@ -532,15 +547,15 @@ void QuinticSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
     const auto& j = coordinateIndex;
 
     b[0] += 20
-            * (1 / std::pow(poly[i - 1].duration, 3)
+            * (1 / std::pow(durationToSeconds(poly[i - 1].duration), 3)
                    * (knots[i].position[j] - knots[i - 1].position[j])
-               + 1 / std::pow(poly[i].duration, 3)
+               + 1 / std::pow(durationToSeconds(poly[i].duration), 3)
                      * (knots[i].position[j] - knots[i + 1].position[j]));
 
     b[1] += 30
-            * (1 / std::pow(poly[i - 1].duration, 4)
+            * (1 / std::pow(durationToSeconds(poly[i - 1].duration), 4)
                    * (knots[i].position[j] - knots[i - 1].position[j])
-               - 1 / std::pow(poly[i].duration, 4)
+               - 1 / std::pow(durationToSeconds(poly[i].duration), 4)
                      * (knots[i].position[j] - knots[i + 1].position[j]));
 }
 
@@ -554,8 +569,10 @@ void QuinticSpline::Impl::addKnownTermNextKnot(const std::size_t& knotIndex,
     const auto& j = coordinateIndex;
 
     Eigen::Matrix2d tempMatrix;
-    tempMatrix << -8 / std::pow(poly[i].duration, 2), 1 / poly[i].duration,
-        14 / std::pow(poly[i].duration, 3), -2 / std::pow(poly[i].duration, 2);
+    tempMatrix << -8 / std::pow(durationToSeconds(poly[i].duration), 2),
+        1 / durationToSeconds(poly[i].duration),
+        14 / std::pow(durationToSeconds(poly[i].duration), 3),
+        -2 / std::pow(durationToSeconds(poly[i].duration), 2);
 
     Eigen::Vector2d tempVector;
     tempVector << knots[i + 1].velocity[j], knots[i + 1].acceleration[j];
@@ -572,8 +589,10 @@ void QuinticSpline::Impl::addKnownTermPreviousKnot(const std::size_t& knotIndex,
     const auto& j = coordinateIndex;
 
     Eigen::Matrix2d tempMatrix;
-    tempMatrix << 8 / std::pow(poly[i - 1].duration, 2), 1 / poly[i - 1].duration,
-        14 / std::pow(poly[i - 1].duration, 3), 2 / std::pow(poly[i - 1].duration, 2);
+    tempMatrix << 8 / std::pow(durationToSeconds(poly[i - 1].duration), 2),
+        1 / durationToSeconds(poly[i - 1].duration),
+        14 / std::pow(durationToSeconds(poly[i - 1].duration), 3),
+        2 / std::pow(durationToSeconds(poly[i - 1].duration), 2);
 
     Eigen::Vector2d tempVector;
     tempVector << knots[i - 1].velocity[j], knots[i - 1].acceleration[j];
@@ -582,7 +601,7 @@ void QuinticSpline::Impl::addKnownTermPreviousKnot(const std::size_t& knotIndex,
 
 void QuinticSpline::Impl::setPolynomialCoefficients(Polynomial& poly)
 {
-    const auto& T = poly.duration;
+    const double T = durationToSeconds(poly.duration);
 
     const auto& x0 = poly.initialPoint->position;
     const auto& dx0 = poly.initialPoint->velocity;
@@ -728,11 +747,14 @@ void QuinticSpline::Impl::computeIntermediateVelocitiesAndAcceleration()
     }
 }
 
-void QuinticSpline::Impl::getPositionAtTime(const double& t,
+void QuinticSpline::Impl::getPositionAtTime(const std::chrono::nanoseconds& t,
                                             const Polynomial& poly,
                                             Eigen::Ref<Eigen::VectorXd> position)
 {
     // improve the readability of the code
+
+    const double tS = durationToSeconds(t);
+
     const auto& a0 = poly.a0;
     const auto& a1 = poly.a1;
     const auto& a2 = poly.a2;
@@ -741,18 +763,21 @@ void QuinticSpline::Impl::getPositionAtTime(const double& t,
     const auto& a5 = poly.a5;
 
     position = a0
-             + a1 * t
-             + a2 * std::pow(t, 2)
-             + a3 * std::pow(t, 3)
-             + a4 * std::pow(t, 4)
-             + a5 * std::pow(t, 5);
+             + a1 * tS
+             + a2 * std::pow(tS, 2)
+             + a3 * std::pow(tS, 3)
+             + a4 * std::pow(tS, 4)
+             + a5 * std::pow(tS, 5);
 }
 
-void QuinticSpline::Impl::getVelocityAtTime(const double& t,
+void QuinticSpline::Impl::getVelocityAtTime(const std::chrono::nanoseconds& t,
                                             const Polynomial& poly,
                                             Eigen::Ref<Eigen::VectorXd> velocity)
 {
     // improve the readability of the code
+
+    const double tS = durationToSeconds(t);
+
     const auto& a0 = poly.a0;
     const auto& a1 = poly.a1;
     const auto& a2 = poly.a2;
@@ -761,17 +786,20 @@ void QuinticSpline::Impl::getVelocityAtTime(const double& t,
     const auto& a5 = poly.a5;
 
     velocity = a1
-             + 2 * a2 * t
-             + 3 * a3 * std::pow(t, 2)
-             + 4 * a4 * std::pow(t, 3)
-             + 5 * a5 * std::pow(t, 4);
+             + 2 * a2 * tS
+             + 3 * a3 * std::pow(tS, 2)
+             + 4 * a4 * std::pow(tS, 3)
+             + 5 * a5 * std::pow(tS, 4);
 }
 
-void QuinticSpline::Impl::getAccelerationAtTime(const double& t,
+void QuinticSpline::Impl::getAccelerationAtTime(const std::chrono::nanoseconds& t,
                                                 const Polynomial& poly,
                                                 Eigen::Ref<Eigen::VectorXd> acceleration)
 {
     // improve the readability of the code
+
+    const double tS = durationToSeconds(t);
+
     const auto& a0 = poly.a0;
     const auto& a1 = poly.a1;
     const auto& a2 = poly.a2;
@@ -780,12 +808,12 @@ void QuinticSpline::Impl::getAccelerationAtTime(const double& t,
     const auto& a5 = poly.a5;
 
     acceleration = 2 * a2
-                 + 2 * 3 * a3 * t
-                 + 3 * 4 * a4 * std::pow(t, 2)
-                 + 4 * 5 * a5 * std::pow(t, 3);
+                 + 2 * 3 * a3 * tS
+                 + 3 * 4 * a4 * std::pow(tS, 2)
+                 + 4 * 5 * a5 * std::pow(tS, 3);
 }
 
-bool QuinticSpline::evaluatePoint(const double& t,
+bool QuinticSpline::evaluatePoint(const std::chrono::nanoseconds& t,
                                   Eigen::Ref<Eigen::VectorXd> position,
                                   Eigen::Ref<Eigen::VectorXd> velocity,
                                   Eigen::Ref<Eigen::VectorXd> acceleration)
@@ -820,6 +848,7 @@ bool QuinticSpline::evaluatePoint(const double& t,
         return true;
     }
 
+    // TODO (Giulio) Reimplement with the reverse iterator
     const auto poly = std::find_if(m_pimpl->polynomials.begin(),
                                    m_pimpl->polynomials.end(),
                                    [&t](const auto& p) {
@@ -841,7 +870,7 @@ bool QuinticSpline::evaluatePoint(const double& t,
     return true;
 }
 
-bool QuinticSpline::evaluatePoint(const double& t, SplineState& state)
+bool QuinticSpline::evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state)
 {
     return this->evaluatePoint(t, state.position, state.velocity, state.acceleration);
 }
@@ -850,8 +879,8 @@ bool QuinticSpline::isOutputValid() const
 {
     // if the time step is different from zero and the user already set the knots the advance
     // capabilities can be used
-    bool ok = (m_pimpl->advanceTimeStep != 0.0) && (!m_pimpl->knots.empty());
-    return ok;
+    return (m_pimpl->advanceTimeStep != std::chrono::nanoseconds::zero())
+           && (!m_pimpl->knots.empty());
 }
 
 bool QuinticSpline::advance()

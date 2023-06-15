@@ -1,0 +1,44 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device  xmlns:xi="http://www.w3.org/2001/XInclude" name="ft-imu-mas-remapper" type="multipleanalogsensorsremapper">
+    <param name="period">10</param>
+    <param name="ThreeAxisGyroscopesNames">
+          (l_upper_leg_ft_gyro_3b12
+           l_foot_ft_gyro_3b13
+           r_upper_leg_ft_gyro_3b11
+           r_foot_ft_gyro_3b14)
+        </param>
+        <param name="ThreeAxisLinearAccelerometersNames">
+          (l_upper_leg_ft_acc_3b12
+           l_foot_ft_acc_3b13
+           r_upper_leg_ft_acc_3b11
+           r_foot_ft_acc_3b14)
+        </param>
+        <param name="OrientationSensorsNames">
+          (l_upper_leg_ft_eul_3b12
+           l_foot_ft_eul_3b13
+           r_upper_leg_ft_eul_3b11
+           r_foot_ft_eul_3b14)
+        </param>
+        <param name="SixAxisForceTorqueSensorsNames">
+          (l_leg_ft_sensor
+           l_foot_ft_sensor
+           r_leg_ft_sensor
+           r_foot_ft_sensor)
+        </param>
+    <action phase="startup" level="5" type="attach">
+            <paramlist name="networks">
+                <elem name="left-leg-ft-client">left-leg-ft-client</elem>
+                <elem name="right-leg-ft-client">right-leg-ft-client</elem>
+                <elem name="left-foot-ft-client">left-foot-ft-client</elem>
+                <elem name="right-foot-ft-client">right-foot-ft-client</elem>
+                <elem name="left-leg-inertials-client">left-leg-inertials-client</elem>
+                <elem name="right-leg-inertials-client">right-leg-inertials-client</elem>
+            </paramlist>
+        </action>
+
+        <action phase="shutdown" level="5" type="detach" />
+</device>

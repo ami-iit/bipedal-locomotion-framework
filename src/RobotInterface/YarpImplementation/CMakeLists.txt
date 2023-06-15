@@ -1,6 +1,6 @@
 # Copyright (C) 2020 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 if(FRAMEWORK_COMPILE_YarpImplementation)
 
@@ -17,7 +17,8 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
       NAME                   PerceptionInterfaceYarpImplementation
       SOURCES                src/YarpCameraBridge.cpp
       PUBLIC_HEADERS         include/BipedalLocomotion/RobotInterface/YarpCameraBridge.h
-      PUBLIC_LINK_LIBRARIES  BipedalLocomotion::PerceptionInterface BipedalLocomotion::TextLogging YARP::YARP_dev YARP::YARP_os YARP::YARP_sig
+      PUBLIC_LINK_LIBRARIES  BipedalLocomotion::PerceptionInterface  YARP::YARP_dev YARP::YARP_os YARP::YARP_sig
+      PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging BipedalLocomotion::System
       INSTALLATION_FOLDER    RobotInterface)
   endif()
 

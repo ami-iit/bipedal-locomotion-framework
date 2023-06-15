@@ -2,12 +2,13 @@
  * @file TomlImplementation.tpp
  * @authors Giulio Romualdi
  * @copyright 2020,2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_TOML_IMPLEMENTATION_TPP
 #define BIPEDAL_LOCOMOTION_PARAMETERS_HANDLER_TOML_IMPLEMENTATION_TPP
 
+#include <chrono>
 #include <type_traits>
 
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
@@ -25,7 +26,33 @@ bool TomlImplementation::getParameterPrivate(const std::string& parameterName, T
     constexpr auto logPrefix = "[TomlImplementation::getParameterPrivate]";
     auto paramToml = m_container[parameterName];
 
-    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    if constexpr (std::is_same_v<T, std::chrono::nanoseconds>)
+    {
+        using namespace std::chrono_literals;
+        if (paramToml.is_time())
+        {
+
+            const toml::time time = paramToml.value<toml::time>().value();
+            parameter = time.hour * 1h //
+                        + time.minute * 1min //
+                        + time.second * 1s //
+                        + time.nanosecond * 1ns;
+            return true;
+        }
+
+        if (paramToml.is<double>())
+        {
+            parameter = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::duration<double>(paramToml.value<double>().value()));
+            return true;
+        }
+
+        BipedalLocomotion::log()->debug("{} The type of the parameter named {} is "
+                                        "different from expected one.",
+                                        logPrefix,
+                                        parameterName);
+        return false;
+    } else if constexpr (std::is_scalar<T>::value || is_string<T>::value)
     {
         if constexpr (std::is_integral<T>() && !std::is_same_v<T, bool>)
         {
@@ -51,6 +78,8 @@ bool TomlImplementation::getParameterPrivate(const std::string& parameterName, T
         }
         parameter = paramToml.value<T>().value();
         return true;
+
+
     } else // otherwise it is considered as a vector
     {
         using elementType = typename T::value_type;
@@ -109,6 +138,17 @@ bool TomlImplementation::getParameterPrivate(const std::string& parameterName, T
 
                 return false;
             }
+        } else if constexpr (std::is_same_v<elementType, std::chrono::nanoseconds>)
+        {
+            if (!array.is_homogeneous(toml::node_type::time) || !array.is_homogeneous<double>())
+            {
+                BipedalLocomotion::log()->debug("{} The type of the parameter named {} is "
+                                                "different from expected one.",
+                                                logPrefix,
+                                                parameterName);
+
+                return false;
+            }
         } else
         {
             if (!array.is_homogeneous<elementType>())
@@ -124,27 +164,79 @@ bool TomlImplementation::getParameterPrivate(const std::string& parameterName, T
 
         for (int i = 0; i < array.size(); i++)
         {
-            parameter[i] = array[i].value<elementType>().value();
+            if constexpr (std::is_same_v<elementType, std::chrono::nanoseconds>)
+            {
+                if (array[i].is_time())
+                {
+                    using namespace std::chrono_literals;
+                    const toml::time time = array[i].value<toml::time>().value();
+                    parameter[i] = time.hour * 1h //
+                                   + time.minute * 1min //
+                                   + time.second * 1s //
+                                   + time.nanosecond * 1ns;
+                } else // in this case is a double
+                {
+                    parameter[i] = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        std::chrono::duration<double>(array[i].value<double>().value()));
+                }
+            } else
+            {
+                parameter[i] = array[i].value<elementType>().value();
+            }
         }
 
-        return true;
+            return true;
     }
 }
 
 template <typename T>
 void TomlImplementation::setParameterPrivate(const std::string& parameterName, const T& parameter)
 {
-    if constexpr (std::is_scalar<T>::value || is_string<T>::value)
+    if constexpr (std::is_same<T, std::chrono::nanoseconds>::value)
+    {
+        toml::time time;
+        time.hour = std::chrono::duration_cast<std::chrono::hours>(parameter).count();
+        time.minute
+            = std::chrono::duration_cast<std::chrono::minutes>(parameter % std::chrono::hours(1))
+                  .count();
+        time.second
+            = std::chrono::duration_cast<std::chrono::seconds>(parameter % std::chrono::minutes(1))
+                  .count();
+        time.nanosecond = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                              parameter % std::chrono::seconds(1))
+                              .count();
+
+        m_container.insert_or_assign(parameterName, time);
+
+    } else if constexpr (std::is_scalar<T>::value || is_string<T>::value)
     {
         m_container.insert_or_assign(parameterName, parameter);
     } else // if it is a vector
     {
         m_container.insert_or_assign(parameterName, toml::array());
-        for(const auto& element : parameter)
-        {
-            m_container[parameterName].as_array()->push_back(element);
-        }
+        using elementType = typename T::value_type;
 
+        for (const auto& element : parameter)
+        {
+            if constexpr (std::is_same_v<elementType, std::chrono::nanoseconds>)
+            {
+                toml::time time;
+                time.hour = std::chrono::duration_cast<std::chrono::hours>(element).count();
+                time.minute = std::chrono::duration_cast<std::chrono::minutes>(
+                                  element % std::chrono::hours(1))
+                                  .count();
+                time.second = std::chrono::duration_cast<std::chrono::seconds>(
+                                  element % std::chrono::minutes(1))
+                                  .count();
+                time.nanosecond = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                                      element % std::chrono::seconds(1)).count();
+
+                m_container[parameterName].as_array()->push_back(time);
+            } else
+            {
+                m_container[parameterName].as_array()->push_back(element);
+            }
+        }
     }
 }
 

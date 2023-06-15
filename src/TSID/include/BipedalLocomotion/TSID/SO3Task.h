@@ -2,7 +2,7 @@
  * @file SO3Task.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_TSID_SO3_TASK_H
@@ -34,7 +34,7 @@ namespace TSID
  * The desired acceleration is chosen such that the frame orientation will asymptotically converge
  * to the desired trajectory. The angular acceleration is computed by a PD controller in
  * \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class SO3Task : public TSIDLinearTask
@@ -69,8 +69,8 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * | `robot_acceleration_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SO3Task                      |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
-     * |            `kd_angular`            | `double` |                         Gain of the angular velocity controller                        |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
+     * |            `kd_angular`            | `double` or `vector<double>` |                         Gain of the angular velocity controller                        |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;

@@ -2,7 +2,7 @@
  * @file YarpSensorBridge.cpp
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h>
@@ -135,6 +135,19 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
                     logPrefix);
     }
 
+    ret = m_pimpl->subConfigLoader("stream_temperatures",
+                                   "TemperatureSensors",
+                                   &YarpSensorBridge::Impl::configureTemperatureSensors,
+                                   handler,
+                                   m_pimpl->metaData,
+                                   m_pimpl->metaData.bridgeOptions.isTemperatureSensorEnabled);
+    if (!ret)
+    {
+        log()->info("{} Skipping the configuration of TemperatureSensors. YarpSensorBridge "
+                    "will not stream relevant measures.",
+                    logPrefix);
+    }
+
     m_pimpl->bridgeInitialized = true;
     return true;
 }
@@ -155,6 +168,7 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
     ret = ret && m_pimpl->attachAllInertials(deviceDriversList);
     ret = ret && m_pimpl->attachAllSixAxisForceTorqueSensors(deviceDriversList);
     ret = ret && m_pimpl->attachCartesianWrenchInterface(deviceDriversList);
+    ret = ret && m_pimpl->attachAllTemperatureSensors(deviceDriversList);
 
     if (!ret)
     {
@@ -275,6 +289,61 @@ bool YarpSensorBridge::getCartesianWrenchesList(std::vector<std::string>& cartes
     return true;
 }
 
+bool YarpSensorBridge::getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList)
+{
+    if (!m_pimpl->checkValid("[YarpSensorBridge::getTemperatureSensorsList]"))
+    {
+        return false;
+    }
+    temperatureSensorsList = m_pimpl->metaData.sensorsList.temperatureSensorsList;
+    return true;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getJointsList() const
+{
+    return m_pimpl->metaData.sensorsList.jointsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getIMUsList() const
+{
+    return m_pimpl->metaData.sensorsList.IMUsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getLinearAccelerometersList() const
+{
+    return m_pimpl->metaData.sensorsList.linearAccelerometersList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getGyroscopesList() const
+{
+    return m_pimpl->metaData.sensorsList.gyroscopesList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getOrientationSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.orientationSensorsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getMagnetometersList() const
+{
+    return m_pimpl->metaData.sensorsList.magnetometersList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getSixAxisForceTorqueSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.sixAxisForceTorqueSensorsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getTemperatureSensorsList() const
+{
+    return m_pimpl->metaData.sensorsList.temperatureSensorsList;
+}
+
+const std::vector<std::string>& YarpSensorBridge::getCartesianWrenchesList() const
+{
+    return m_pimpl->metaData.sensorsList.cartesianWrenchesList;
+}
+
 bool YarpSensorBridge::getJointPosition(const std::string& jointName,
                                         double& jointPosition,
                                         OptionalDoubleRef receiveTimeInSeconds)
@@ -360,6 +429,46 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
 
+    return true;
+}
+
+bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
+                                            double& jointAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("{} {} could not be found in the configured list of joints.",
+                     logPrefix,
+                     jointName);
+        return false;
+    }
+
+    jointAcceleration = m_pimpl->controlBoardRemapperMeasures.jointAccelerations[idx];
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
+                                             OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getJointAccelerations]",
+                                          m_pimpl->controlBoardRemapperInterfaces.encoders,
+                                          m_pimpl->metaData.bridgeOptions.isJointSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.jointAccelerations))
+    {
+        return false;
+    }
+    jointAccelerations = m_pimpl->controlBoardRemapperMeasures.jointAccelerations;
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
     return true;
 }
 
@@ -484,6 +593,25 @@ bool YarpSensorBridge::getCartesianWrench(const std::string& cartesianWrenchName
 
     auto iter = m_pimpl->wholeBodyCartesianWrenchMeasures.find(cartesianWrenchName);
     cartesianWrenchMeasurement = yarp::eigen::toEigen(iter->second.first);
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get() = iter->second.second;
+    return true;
+}
+
+bool YarpSensorBridge::getTemperature(const std::string& temperatureSensorName,
+                                      double& temperature,
+                                      OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getTemperature ",
+                                          m_pimpl->wholeBodyTemperatureMeasures,
+                                          temperatureSensorName))
+    {
+        return false;
+    }
+
+    auto iter = m_pimpl->wholeBodyTemperatureMeasures.find(temperatureSensorName);
+    // assuming the vector has only one value
+    temperature = iter->second.first(0);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
     return true;
@@ -847,6 +975,56 @@ bool YarpSensorBridge::getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVeloc
     }
 
     motorVelocties = m_pimpl->controlBoardRemapperMeasures.motorVelocities;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorAcceleration(const std::string& jointName,
+                                            double& motorAcceleration,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAcceleration]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorAccelerations))
+    {
+        return false;
+    }
+
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("[YarpSensorBridge::getMotorPosition] {} could not be found in the configured "
+                     "list of motors.",
+                     jointName);
+        return false;
+    }
+
+    motorAcceleration = m_pimpl->controlBoardRemapperMeasures.motorAccelerations[idx];
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
+                                             OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorAccelerations]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motorEncoders,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorAccelerations))
+    {
+        return false;
+    }
+
+    motorAccelerations = m_pimpl->controlBoardRemapperMeasures.motorAccelerations;
 
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()

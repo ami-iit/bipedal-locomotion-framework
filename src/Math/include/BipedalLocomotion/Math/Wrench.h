@@ -2,7 +2,7 @@
  * @file Wrench.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_MATH_WRENCH_H
@@ -26,22 +26,10 @@ template <class Scalar> class Wrench : public Eigen::Matrix<Scalar, 6, 1>
 public:
     using Base = Eigen::Matrix<Scalar, 6, 1>;
 
-    Wrench()
-        : Eigen::Matrix<Scalar, 6, 1>()
-    {
-    }
-
-    template <typename OtherDerived>
-    Wrench(const Eigen::MatrixBase<OtherDerived>& other)
-        : Eigen::Matrix<Scalar, 6, 1>(other)
-    {
-    }
-
-    template <typename OtherDerived> Wrench& operator=(const Eigen::MatrixBase<OtherDerived>& other)
-    {
-        this->Base::operator=(other);
-        return *this;
-    }
+    /**
+     * Inherit Eigen constructors
+     */
+    using Base::Base;
 
     /**
      * Get the linear force of the wrench

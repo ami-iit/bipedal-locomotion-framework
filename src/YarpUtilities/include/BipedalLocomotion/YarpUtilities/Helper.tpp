@@ -2,42 +2,18 @@
  * @file Helper.tpp
  * @authors Giulio Romualdi
  * @copyright 2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // std
+#include <string>
 #include <type_traits>
 
-//GenericContainer
+// GenericContainer
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
-
-// clang-format off
-
-#define YARP_UTILITES_GET_ELEMENT_TYPE(type)                            \
-    ((std::is_same<type, double>::value) ? "double" :                   \
-    ((std::is_same<type, int>::value) ? "int" :                         \
-    ((std::is_same<type, std::string>::value) ? "string" :              \
-    ((std::is_same<type, bool>::value) ? "bool" :                       \
-     "undefined" ))))
-
-#define YARP_UTILITES_CHECK_ELEMENT_SUPPORT(type)                       \
-    ((std::is_same<type, double>::value) ? true :                       \
-    ((std::is_same<type, int>::value) ? true :                          \
-    ((std::is_same<type, std::string>::value) ? true :                  \
-    ((std::is_same<type, bool>::value) ? true :                         \
-     false ))))
-
-#define YARP_UTILITES_GET_CHECKER_NAME(type)                                                  \
-    ((std::is_same<type, int>::value) ? &yarp::os::Value::isInt :                             \
-    ((std::is_same<type, double>::value) ? &yarp::os::Value::isDouble :                       \
-    ((std::is_same<type, std::string>::value) ? &yarp::os::Value::isString :                  \
-    ((std::is_same<type, bool>::value) ? &yarp::os::Value::isBool :                           \
-     &yarp::os::Value::isDouble ))))
-
-// clang-format on
 
 namespace BipedalLocomotion
 {
@@ -47,6 +23,41 @@ namespace BipedalLocomotion
  */
 namespace YarpUtilities
 {
+
+template <typename T>
+struct is_element_supported_by_yarp
+    : public std::disjunction<std::is_same<double, typename std::decay<T>::type>,
+                              std::is_same<int, typename std::decay<T>::type>,
+                              std::is_same<std::string, typename std::decay<T>::type>,
+                              std::is_same<bool, typename std::decay<T>::type>>
+{
+};
+
+template <typename T> bool isValueValid(const yarp::os::Value& value)
+{
+    if constexpr (std::is_same<T, int>::value)
+    {
+        return value.isInt32();
+    }
+    if constexpr (std::is_same<T, double>::value)
+    {
+        return value.isFloat64();
+    }
+    if constexpr (std::is_same<T, float>::value)
+    {
+        return value.isFloat32();
+    }
+    if constexpr (std::is_same<T, bool>::value)
+    {
+        return value.isBool() || value.isInt32();
+    }
+    if constexpr (std::is_same<T, std::string>::value)
+    {
+        return value.isString();
+    }
+
+    return false;
+}
 
 template <typename T> T convertValue(const yarp::os::Value& value)
 {
@@ -64,7 +75,7 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
 {
     constexpr auto logPrefix = "[BipedalLocomotion::YarpUtilities::getElementFromSearchable]";
 
-    static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(T),
+    static_assert(is_element_supported_by_yarp<T>(),
                   "[BipedalLocomotion::YarpUtilities::getElementFromSearchable] The "
                   "function getElementFromSearchable() cannot be called with the desired "
                   "element type");
@@ -76,12 +87,12 @@ bool getElementFromSearchable(const yarp::os::Searchable& config,
         return false;
     }
 
-    if (!(value->*YARP_UTILITES_GET_CHECKER_NAME(T))())
+    if (!isValueValid<T>(*value))
     {
         log()->debug("{} The value named: {} is not a {}.",
                      logPrefix,
                      key,
-                     YARP_UTILITES_GET_ELEMENT_TYPE(T));
+                     BipedalLocomotion::type_name<T>());
 
         return false;
     }
@@ -96,7 +107,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
     constexpr auto logPrefix = "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable]";
     using elementType = typename std::pointer_traits<decltype(vector.data())>::element_type;
 
-    static_assert(YARP_UTILITES_CHECK_ELEMENT_SUPPORT(elementType),
+    static_assert(is_element_supported_by_yarp<elementType>(),
                   "[BipedalLocomotion::YarpUtilities::getVectorFromSearchable] The "
                   "function getElementFromSearchable() cannot be called with the desired "
                   "element type");
@@ -142,8 +153,7 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
                              vector.size());
                 return false;
             }
-        }
-        else if constexpr (is_resizable<T>::value)
+        } else if constexpr (is_resizable<T>::value)
             vector.resize(inputPtr->size());
         else
         {
@@ -158,12 +168,12 @@ bool getVectorFromSearchable(const yarp::os::Searchable& config, const std::stri
 
     for (int i = 0; i < inputPtr->size(); i++)
     {
-        if (!(inputPtr->get(i).*YARP_UTILITES_GET_CHECKER_NAME(elementType))())
+        if (!isValueValid<elementType>(inputPtr->get(i)))
         {
             log()->debug("{} The element of the list associated to the value named {} is not a {}.",
                          logPrefix,
                          key,
-                         YARP_UTILITES_GET_ELEMENT_TYPE(elementType));
+                         BipedalLocomotion::type_name<elementType>());
             return false;
         }
 
@@ -233,8 +243,3 @@ void sendVariadicVector(yarp::os::BufferedPort<yarp::sig::Vector>& port, const A
 }
 } // namespace YarpUtilities
 } // namespace BipedalLocomotion
-
-// remove the macro
-#undef YARP_UTILITES_GET_ELEMENT_TYPE
-#undef YARP_UTILITES_CHECK_ELEMENT_SUPPORT
-#undef YARP_UTILITES_GET_CHECKER_NAME

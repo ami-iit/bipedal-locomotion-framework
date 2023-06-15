@@ -2,17 +2,17 @@
  * @file ContactDetector.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_DETECTOR_H
 #define BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_CONTACT_DETECTOR_H
 
+#include <unordered_map>
+
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Source.h>
-
-#include <unordered_map>
 
 namespace BipedalLocomotion
 {
@@ -25,21 +25,6 @@ class ContactDetector : public BipedalLocomotion::System::Source<EstimatedContac
 {
 public:
     virtual ~ContactDetector() = default;
-
-    /**
-     * Configure generic parameters
-     * @param[in] handler configure the generic parameters for the estimator
-     * @return True in case of success, false otherwise.
-     */
-    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
-
-    /**
-     * Compute one step of the detector
-     * The derived class must implement its own methods for setting measurements
-     * and update states to be called within the advance() method
-     * @return True in case of success, false otherwise.
-     */
-    bool advance() final;
 
     /**
      * Determines the validity of the object retrieved with get()
@@ -75,20 +60,6 @@ public:
     Contacts::EstimatedContact get(const std::string& contactName) const;
 
 protected:
-    /**
-     * These custom parameter specifications should be specified by the derived class.
-     * @param[in] handler configure the custom parameters for the estimator
-     * @return True if success, false otherwise
-     */
-    virtual bool
-    customInitialization(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
-
-    /**
-     * The derived class must implement the contact detection technique to update the contact states
-     * @return True if success, false otherwise
-     */
-    virtual bool updateContactStates() = 0;
-
     /**
      * Enumerator used to determine the running state of the estimator
      */

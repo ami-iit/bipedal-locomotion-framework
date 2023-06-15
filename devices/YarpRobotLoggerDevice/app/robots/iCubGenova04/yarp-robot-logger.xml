@@ -1,0 +1,52 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
+  <param name="robot">icub</param>
+  <param name="sampling_period_in_s">0.01</param>
+  <param name="port_prefix">/yarp-robot-logger</param>
+
+  <group name="Telemetry">
+    <param name="save_period">600.0</param>
+  </group>
+
+  <group name="RobotSensorBridge">
+    <param name="check_for_nan">false</param>
+    <param name="stream_joint_states">true</param>
+    <param name="stream_inertials">true</param>
+    <param name="stream_cartesian_wrenches">false</param>
+    <param name="stream_forcetorque_sensors">true</param>
+
+    <group name="RemoteControlBoardRemapper">
+      <param name="joints_list">("neck_pitch", "neck_roll", "neck_yaw", "torso_pitch", "torso_roll", "torso_yaw", "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow", "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll", "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
+    </group>
+
+    <group name="SixAxisForceTorqueSensors">
+      <param name="sixaxis_forcetorque_sensors_list">("l_leg_ft_sensor", "l_foot_ft_sensor", "r_leg_ft_sensor", "r_foot_ft_sensor")</param>
+      <!--           <param name="sixaxis_forcetorque_sensors_list">("left_leg-eb6-j0_3-strain", "left_leg-eb7-j4_5-strain", "right_leg-eb8-j0_3-strain", "right_leg-eb9-j4_5-strain")</param>-->
+    </group>
+
+    <group name="InertialSensors">
+      <param name="imu_list">("root_link_imu_acc")</param>
+      <param name="accelerometers_list">("l_upper_leg_ft_acc_3b12", "l_foot_ft_acc_3b13", "r_upper_leg_ft_acc_3b11", "r_foot_ft_acc_3b14")</param>
+      <param name="gyroscopes_list">("l_upper_leg_ft_gyro_3b12", "l_foot_ft_gyro_3b13", "r_upper_leg_ft_gyro_3b11", "r_foot_ft_gyro_3b14")</param>
+      <param name="orientation_sensors_list">("l_upper_leg_ft_eul_3b12", "l_foot_ft_eul_3b13", "r_upper_leg_ft_eul_3b11", "r_foot_ft_eul_3b14")</param>
+    </group>
+
+  </group>
+
+  <!-- ATTACH -->
+  <action phase="startup" level="15" type="attach">
+    <paramlist name="networks">
+      <elem name="all_joints">all_joints_mc</elem>
+      <elem name="root_link_imu_acc">root_link_imu_acc</elem>~
+      <elem name="ft-imu-mas-remapper">ft-imu-mas-remapper</elem>
+    </paramlist>
+  </action>
+
+  <action phase="shutdown" level="2" type="detach" />
+  <!-- FINISH ATTACH-->
+
+</device>

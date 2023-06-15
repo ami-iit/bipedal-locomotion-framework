@@ -15,12 +15,12 @@ The minimum required dependencies are `Eigen3`, `iDynTree` and `spdlog`. If you 
 
 \section exported-components 📙 Exported components
 
-The **bipedal-locomotion-framework** project consists of several components. The components are stored in the [`src`](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/src) folder and their compilation depends on the installed dependencies.
+The **bipedal-locomotion-framework** project consists of several components. The components are stored in the [`src`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src) folder and their compilation depends on the installed dependencies.
 
 |                  Component                   |                         Description                          |                   Additional Dependencies                    |
 | :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                    Framework                 |    Interface library that gathers all the exported components, includable with the file `BipedalLocomotion/Framework.h`     |  -   |
-|          [AutoDiff](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
+|          [AutoDiff](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/AutoDiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
 |     [ContactModels](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
 |          [Contacts](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [`nlohmann json`](https://github.com/nlohmann/json/) |
 |    [CommonConversions](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
@@ -34,7 +34,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |          [Planners](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [RobotInterface](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
 |            [System](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/dic-iit/lie-group-controllers) |
+|              [TSID](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
 |     [YarpUtilities](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
 | [PerceptionInterface](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
 |    [PerceptionCapture](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
@@ -58,7 +58,7 @@ The **bipedal-locomotion-framework**  can be built on Windows, macOS, and Linux.
 If you do not want to use the `robotology-superbuild` you can manually compile the code in the repository running the following command in the terminal
 
 ~~~~~~~~~~~~~{.sh}
-git clone https://github.com/dic-iit/bipedal-locomotion-framework.git
+git clone https://github.com/ami-iit/bipedal-locomotion-framework.git
 cd bipedal-locomotion-framework
 mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=<path/where/you/want/to/install> \
@@ -70,7 +70,7 @@ cmake --build . --config Release --target install
 
 \section some-utilities 🖥️  Some utilities
 
-The **bipedal-locomotion-framework** ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the [`utilities` folder](https://github.com/dic-iit/bipedal-locomotion-framework/tree/master/utilities). Each utility contains a well-documented `README` where you can find further details.
+The **bipedal-locomotion-framework** ships also some utilities that can help you in the everyday tests on a real robot. You can find them in the [`utilities` folder](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/utilities). Each utility contains a well-documented `README` where you can find further details.
 
 \section python 🐍 Python
 
@@ -89,6 +89,8 @@ cmake --build . --config Release --target install
 ~~~~~~~~~~~~~
 
 \warning ⚠️  The python bindings are currently supported on Linux.
+
+\note You can find further information regarding the `python` bindings in \ref python-additional-info
 
 \section how-to-use-the-libraries 🏃 How to use the libraries
 \b bipedal-locomotion-framework provides native `CMake` support which allows the library to be easily used in `CMake` projects.

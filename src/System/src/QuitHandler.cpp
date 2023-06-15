@@ -2,7 +2,7 @@
  * @file QuitHandler.cpp
  * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <csignal>
@@ -43,7 +43,7 @@ void my_handler(int sig)
     customHandlerLambda();
 }
 
-#ifdef WIN32
+#ifdef _WIN32
 
 #include <windows.h>
 
@@ -67,7 +67,7 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 
 void handleQuitSignals(std::function<void()> customHandler)
 {
-#ifdef WIN32
+#ifdef _WIN32
     SetConsoleCtrlHandler(CtrlHandler, TRUE);
 #else
     struct sigaction action;

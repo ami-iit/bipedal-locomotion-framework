@@ -2,6 +2,8 @@ name: C++ CI Workflow
 
 on:
   push:
+    branches:
+    - master
   pull_request:
   schedule:
   # * is a special character in YAML so you have to quote this string
@@ -9,23 +11,27 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.7.0
-  YCM_TAG: v0.12.1
-  YARP_TAG: v3.4.2
-  iDynTree_TAG: v3.1.0
-  Catch2_TAG: v2.13.4
+  vcpkg_robotology_TAG: v0.10.1
+  YCM_TAG: v0.14.2
+  YARP_TAG: v3.7.0
+  iDynTree_TAG: v8.0.0
   Qhull_TAG: 2020.2
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.4
-  matioCpp_TAG: v0.1.0
-  LieGroupControllers_TAG: v0.1.1
+  matioCpp_TAG: v0.2.0
+  LieGroupControllers_TAG: v0.2.0
   osqp_TAG: v0.6.2
-  OsqpEigen_TAG: v0.6.3
-  tomlplusplus_TAG: v2.5.0
+  OsqpEigen_TAG: v0.7.0
+  tomlplusplus_TAG: v3.0.1
+  icub_models_TAG: v1.23.3
   UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
+  telemetry_TAG: v1.2.0
 
   # Overwrite the VCPKG_INSTALLATION_ROOT env variable defined by GitHub Actions to point to our vcpkg
   VCPKG_INSTALLATION_ROOT: C:\robotology\vcpkg
+
+  # Default number of cores set to one
+  NUM_CORES_FOR_CMAKE_BUILD: 1
 
 jobs:
   check-style:
@@ -52,7 +58,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-latest, macos-latest]
+        os: [ubuntu-20.04, windows-2019, macos-latest]
       fail-fast: false
 
     steps:
@@ -75,43 +81,55 @@ jobs:
         for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
 
     - name: Dependencies [Windows]
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       run: |
         # To avoid spending a huge time compiling vcpkg dependencies, we download a root that comes precompiled with all the ports that we need
         choco install -y wget unzip
         # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
         # that has been used to create the pre-compiled archive
         cd C:/
-        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
-        unzip vcpkg-robotology.zip -d C:/
-        rm vcpkg-robotology.zip
+        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology-with-gazebo.zip
+        unzip vcpkg-robotology-with-gazebo.zip -d C:/
+        rm vcpkg-robotology-with-gazebo.zip
         # Also re-bootstrap to avoid problems
         cd C:/robotology/vcpkg
         ./bootstrap-vcpkg.bat
 
-        # Install Catch2
-        cd C:/robotology/vcpkg
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install catch2:x64-windows
-
         # Install tomlplusplus
         ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
+
+    - name: Fixup brew [macOS]
+      if: matrix.os == 'macos-latest'
+      run: |
+          # Unlink and re-link to prevent errors when github mac runner images
+          # install python outside of brew, for example:
+          # https://github.com/orgs/Homebrew/discussions/3895
+          # https://github.com/actions/setup-python/issues/577
+          # https://github.com/actions/runner-images/issues/6459
+          # https://github.com/actions/runner-images/issues/6507
+          # https://github.com/actions/runner-images/issues/2322
+          brew list -1 | grep python | while read formula; do brew unlink $formula; brew link --overwrite $formula; done
 
     - name: Dependencies [macOS]
       if: matrix.os == 'macos-latest'
       run: |
-
         brew update
-        brew install ace boost eigen swig qt5 orocos-kdl catch2 qhull ipopt cppad pkg-config pybind11 libmatio spdlog librealsense nlohmann-json
+        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 \
+                     libmatio spdlog librealsense nlohmann-json numpy assimp
 
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
 
         sudo apt-get update
-        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev  libboost-system-dev libboost-filesystem-dev \
-                             libboost-thread-dev liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev \
-                             libxml2-dev liburdfdom-dev libtinyxml-dev liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
-                             libmatio-dev python3-pytest python3-numpy python3-scipy python3-setuptools libspdlog-dev libopencv-dev  libpcl-dev python3-pybind11 nlohmann-json3-dev
+        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev \
+                             libboost-system-dev libboost-filesystem-dev libboost-thread-dev \
+                             liborocos-kdl-dev libeigen3-dev swig qtbase5-dev qtdeclarative5-dev \
+                             qtmultimedia5-dev libxml2-dev liburdfdom-dev libtinyxml-dev \
+                             liburdfdom-dev liboctave-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy \
+                             python3-setuptools  libspdlog-dev  libopencv-dev libpcl-dev \
+                             python3-pybind11 nlohmann-json3-dev libassimp-dev
         # install realsense from apt (see https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCD
         sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
@@ -121,17 +139,30 @@ jobs:
         mkdir -p /usr/share/librealsense2/presets
         sudo apt-get install librealsense2-dev
 
+    # Get the number of cores
+    - name: Get number of cores to speed up cmake build [Windows]
+      if: matrix.os == 'windows-2019'
+      run: |
+         echo "NUM_CORES_FOR_CMAKE_BUILD=$((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors)" >> $env:GITHUB_ENV
+
+    - name: Get number of cores to speed up cmake build [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+
+    - name: Get number of cores to speed up cmake build [macOS]
+      if: matrix.os == 'macos-latest'
+      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`sysctl -n hw.logicalcpu`" >> $GITHUB_ENV
+
     - name: Cache Source-based Dependencies
       id: cache-source-deps
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        # Including ${{ runner.temp }} is a workaround taken from https://github.com/robotology/whole-body-estimators/pull/62 to fix macos configuration failure on https://github.com/dic-iit/bipedal-locomotion-framework/pull/45
-        key: source-deps-${{ runner.os }}-${{runner.temp}}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-catch2-${{ env.Catch2_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-qhull-${{ env.Qhull_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-latest'
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-2019'
       shell: bash
       run: |
         # YCM
@@ -143,7 +174,7 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
 
         # YARP
@@ -155,7 +186,7 @@ jobs:
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
               -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target INSTALL
+        cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
         # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
         export IPOPT_DIR=${VCPKG_INSTALLATION_ROOT}/installed/x64-windows
 
@@ -171,20 +202,7 @@ jobs:
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
-
-        # Qhull
-        cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/qhull/qhull
-        cd qhull
-        git checkout ${Qhull_TAG}
-        mkdir -p build
-        cd build
-        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp
         cd ${GITHUB_WORKSPACE}
@@ -196,7 +214,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp-eigen
         cd ${GITHUB_WORKSPACE}
@@ -209,7 +227,7 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
 
         # CasADi
@@ -217,7 +235,7 @@ jobs:
         # the other dependencies. Please check:
         # https://github.com/casadi/casadi/blob/6f122ca22e2a869903628c5738f154c8ac0f7455/CMakeLists.txt#L317
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
@@ -231,7 +249,7 @@ jobs:
                      -DBIN_PREFIX:PATH="bin" \
                      -DWITH_IPOPT=BOOL:ON \
                      -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # manif
         cd ${GITHUB_WORKSPACE}
@@ -244,11 +262,11 @@ jobs:
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
@@ -256,12 +274,12 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
@@ -269,8 +287,8 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # UnicycleFootstepPlanner
         cd ${GITHUB_WORKSPACE}
@@ -282,8 +300,36 @@ jobs:
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+
+
+        # icub-models
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/icub-models
+        cd icub-models
+        git checkout ${icub_models_TAG}
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+                     -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+
+        # robometry
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/robometry
+        cd robometry
+        git checkout ${telemetry_TAG}
+        mkdir build
+        cd build
+        cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                     -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Source-based Dependencies [Ubuntu/macOS]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
@@ -298,7 +344,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # YCM
         cd ${GITHUB_WORKSPACE}
@@ -307,7 +353,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # YARP
         cd ${GITHUB_WORKSPACE}
@@ -317,7 +363,7 @@ jobs:
         mkdir -p build
         cd build
         cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # iDynTree
         cd ${GITHUB_WORKSPACE}
@@ -326,9 +372,12 @@ jobs:
         git checkout ${iDynTree_TAG}
         mkdir -p build
         cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DIDYNTREE_USES_PYTHON:BOOL=ON \
+              -DIDYNTREE_USES_ASSIMP:BOOL=ON \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp
         cd ${GITHUB_WORKSPACE}
@@ -338,7 +387,7 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp-eigen
         cd ${GITHUB_WORKSPACE}
@@ -349,17 +398,17 @@ jobs:
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # CasADi
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON \
               -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # manif
         cd ${GITHUB_WORKSPACE}
@@ -369,27 +418,27 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/matio-cpp
+        git clone https://github.com/ami-iit/matio-cpp
         cd matio-cpp
         git checkout ${matioCpp_TAG}
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # LieGroupControllers
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/dic-iit/lie-group-controllers
+        git clone https://github.com/ami-iit/lie-group-controllers
         cd lie-group-controllers
         git checkout ${LieGroupControllers_TAG}
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # UnicycleFootstepPlanner
         cd ${GITHUB_WORKSPACE}
@@ -399,23 +448,31 @@ jobs:
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+
+        # icub-models
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/icub-models
+        cd icub-models
+        git checkout ${icub_models_TAG}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DICUB_MODELS_USES_PYTHON:BOOL=ON ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+
+        # robometry
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/robotology/robometry
+        cd robometry
+        git checkout ${telemetry_TAG}
+        mkdir build && cd build
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Source-based Dependencies [Ubuntu]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
-        # Catch2
-        git clone -b ${Catch2_TAG} https://github.com/catchorg/Catch2.git
-        cd Catch2
-        mkdir -p build
-        cd build
-        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
-               -DBUILD_TESTING=OFF ..
-
-        cmake --build . --config ${{ matrix.build_type }} --target install
-
         # Qhull
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/qhull/qhull
@@ -426,12 +483,8 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: CppAD [Ubuntu]
-      if: startsWith(matrix.os, 'ubuntu')
-      shell: bash
-      run: |
         # CppAD
         git clone https://github.com/coin-or/CppAD.git
         cd CppAD
@@ -442,9 +495,9 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
               -DBUILD_TESTING=OFF ..
 
-        cmake --build . --config ${{ matrix.build_type }} --target install
+        cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: Install manifpy [Ubintu/macOS]
+    - name: Install manifpy [Ubuntu/macOS]
       if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
       run: |
         git clone https://github.com/artivis/manif.git manifpy
@@ -458,13 +511,19 @@ jobs:
         echo "Default interpreter: $(which python)"
         python3 -c 'import sys; print(sys.prefix)'
 
+    - name: Extend the pythonpath and LD_LIBRARY_PATH [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        echo "PYTHONPATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${GITHUB_WORKSPACE}/install/deps/lib" >> $GITHUB_ENV
+
     # ===================
     # CMAKE-BASED PROJECT
     # ===================
 
     - name: Configure [Windows]
       # Use bash also on Windows (otherwise cd, mkdir, ... do not work)
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-2019'
       shell: bash
       run: |
         mkdir -p build
@@ -487,6 +546,7 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
               -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
+              -DENABLE_YarpRobotLoggerDevice:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
     - name: Configure [macOS]
@@ -508,11 +568,11 @@ jobs:
       shell: bash
       run: |
         cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json UnicyclePlanner; do
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models; do
             echo "Testing ${missing_dep} as missing dependency."
             # Deselect missing dependency and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
-            cmake --build . --config ${{ matrix.build_type }}
+            cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
             # Enable again dependency
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
         done
@@ -524,11 +584,11 @@ jobs:
         # Attempt of fix for using YARP idl generators (that link ACE) in Windows
         # See https://github.com/robotology/idyntree/issues/569
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        cmake --build . --config ${{ matrix.build_type }}
+        cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
     - name: Test
       shell: bash
       run: |
         cd build
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        ctest --output-on-failure -C ${{ matrix.build_type }} .
+        ctest --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .

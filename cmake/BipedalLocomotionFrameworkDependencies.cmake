@@ -1,9 +1,18 @@
 # Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 include(BipedalLocomotionFrameworkFindDependencies)
 include(BipedalLocomotionDependencyClassifier)
+
+# Workaround for issue that occurs with CMake 3.26.1 and pybind11 2.4.3
+# see https://github.com/ami-iit/bipedal-locomotion-framework/issues/636
+# This is done here as it needs to be done before any call (even transitive)
+# to find_package(pybind11)
+# It can be removed once pybind11 2.4.3 is not supported anymore
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
 ################################################################################
 ########################## Mandatory dependencies ##############################
@@ -19,29 +28,36 @@ dependency_classifier(spdlog MINIMUM_VERSION 1.5.0 IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
-find_package(YARP QUIET)
-checkandset_dependency(YARP)
-dependency_classifier(YARP IS_USED ${FRAMEWORK_USE_YARP} PUBLIC)
+find_package(rclcpp 16.0.0 QUIET)
+checkandset_dependency(rclcpp MINIMUM_VERSION 16.0.0)
+dependency_classifier(rclcpp MINIMUM_VERSION 16.0.0 IS_USED ${FRAMEWORK_USE_rclcpp} PUBLIC)
+
+find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools QUIET)
+checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
+dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
+                      COMPONENTS companion profiler dev os idl_tools PUBLIC)
 
 find_package(Qhull 8.0.0 QUIET)
-checkandset_dependency(Qhull 8.0.0)
+checkandset_dependency(Qhull MINIMUM_VERSION 8.0.0)
 dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull} PUBLIC)
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
-dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi})
+dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi} PUBLIC)
+add_compile_definitions(casadi_VERSION=${casadi_VERSION})
+
 
 find_package(cppad QUIET)
 checkandset_dependency(cppad)
 dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
 find_package(manif 0.0.4 QUIET)
-checkandset_dependency(manif)
+checkandset_dependency(manif MINIMUM_VERSION 0.0.4)
 dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
-find_package(OsqpEigen 0.6.3 QUIET)
-checkandset_dependency(OsqpEigen)
-dependency_classifier(OsqpEigen MINIMUM_VERSION 0.6.3 IS_USED ${FRAMEWORK_USE_OsqpEigen})
+find_package(OsqpEigen 0.7.0 QUIET)
+checkandset_dependency(OsqpEigen MINIMUM_VERSION 0.7.0)
+dependency_classifier(OsqpEigen MINIMUM_VERSION 0.7.0 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
 find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
@@ -53,9 +69,9 @@ find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
 dependency_classifier(matioCpp IS_USED ${FRAMEWORK_USE_matioCpp} PUBLIC)
 
-find_package(LieGroupControllers 0.1.1 QUIET)
-checkandset_dependency(LieGroupControllers)
-dependency_classifier(LieGroupControllers MINIMUM_VERSION 0.1.1 IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
+find_package(LieGroupControllers 0.2.0 QUIET)
+checkandset_dependency(LieGroupControllers MINIMUM_VERSION 0.2.0)
+dependency_classifier(LieGroupControllers MINIMUM_VERSION 0.2.0 IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
 
 find_package(OpenCV QUIET)
 checkandset_dependency(OpenCV)
@@ -70,15 +86,24 @@ checkandset_dependency(realsense2)
 dependency_classifier(realsense2 IS_USED ${FRAMEWORK_USE_realsense2} PUBLIC)
 
 find_package(nlohmann_json 3.7.3 QUIET)
-checkandset_dependency(nlohmann_json)
+checkandset_dependency(nlohmann_json MINIMUM_VERSION 3.7.3)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
-find_package(tomlplusplus 2.4.0 QUIET)
-checkandset_dependency(tomlplusplus)
-dependency_classifier(tomlplusplus MINIMUM_VERSION 2.4.0 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
+find_package(tomlplusplus 3.0.1 QUIET)
+checkandset_dependency(tomlplusplus MINIMUM_VERSION 3.0.1)
+dependency_classifier(tomlplusplus MINIMUM_VERSION 3.0.1 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
-find_package(Catch2 QUIET)
-checkandset_dependency(Catch2)
+find_package(robometry 1.1.0 QUIET)
+checkandset_dependency(robometry MINIMUM_VERSION 1.1.0)
+dependency_classifier(robometry MINIMUM_VERSION 1.1.0 IS_USED ${FRAMEWORK_USE_robometry})
+
+find_package(BayesFilters QUIET)
+checkandset_dependency(BayesFilters)
+dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
+
+# required only for some tests
+find_package(icub-models 1.23.3 QUIET)
+checkandset_dependency(icub-models)
 
 find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
@@ -86,18 +111,25 @@ checkandset_dependency(VALGRIND)
 find_package(UnicyclePlanner QUIET)
 checkandset_dependency(UnicyclePlanner)
 
-##########################      Components       ##############################
-framework_dependent_option(FRAMEWORK_COMPILE_tests
-  "Compile tests?" ON
-  "FRAMEWORK_USE_Catch2;BUILD_TESTING" OFF)
+find_package(onnxruntime QUIET)
+checkandset_dependency(onnxruntime)
 
+find_package(BayesFilters QUIET)
+checkandset_dependency(BayesFilters)
+dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
+
+##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
-  "FRAMEWORK_COMPILE_tests;VALGRIND_FOUND" OFF)
+  "BUILD_TESTING;VALGRIND_FOUND" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_RosImplementation
+  "Compile All the ROS implementations?" ON
+  "FRAMEWORK_USE_rclcpp" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpImplementation
   "Compile All the YARP implementations?" ON
@@ -137,7 +169,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_Unicycle
 
 framework_dependent_option(FRAMEWORK_COMPILE_ContinuousDynamicalSystem
   "Compile System ContinuousDynamicalSystem?" ON
-  "FRAMEWORK_COMPILE_ContactModels;FRAMEWORK_COMPILE_Math" OFF)
+  "FRAMEWORK_COMPILE_ContactModels;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_Contact" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_AutoDiffCppAD
   "Compile CppAD-Eigen wrapper?" ON
@@ -151,6 +183,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_FloatingBaseEstimators
   "Compile FloatingBaseEstimators libraries?" ON
   "FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_RobotDynamicsEstimator
+  "Compile RobotDynamicsEstimator libraries?" ON
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_BayesFilters" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_ManifConversions
   "Compile manif Conversions libraries?" ON
   "FRAMEWORK_USE_manif" OFF)
@@ -159,13 +195,21 @@ framework_dependent_option(FRAMEWORK_COMPILE_matioCppConversions
   "Compile matioCpp Conversions libraries?" ON
   "FRAMEWORK_USE_matioCpp" OFF)
 
+  framework_dependent_option(FRAMEWORK_COMPILE_CasadiConversions
+  "Compile casadi Conversions libraries?" ON
+  "FRAMEWORK_USE_casadi" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_TSID
   "Compile TSID library?" ON
-  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact" OFF)
+  "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Contact;FRAMEWORK_USE_OsqpEigen" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_IK
   "Compile IK library?" ON
   "FRAMEWORK_COMPILE_System;FRAMEWORK_USE_LieGroupControllers;FRAMEWORK_COMPILE_ManifConversions;FRAMEWORK_USE_manif;FRAMEWORK_USE_OsqpEigen" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ML
+  "Compile machine learning libraries?" ON
+  "FRAMEWORK_USE_onnxruntime;FRAMEWORK_USE_manif" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_SimplifiedModelControllers
   "Compile SimplifiedModelControllers library?" ON
@@ -177,11 +221,11 @@ framework_dependent_option(FRAMEWORK_COMPILE_JointPositionTrackingApplication
 
 framework_dependent_option(FRAMEWORK_COMPILE_PYTHON_BINDINGS
   "Do you want to generate and compile the Python bindings?" ON
-  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Planners;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation" OFF)
+  "FRAMEWORK_USE_Python3;FRAMEWORK_USE_pybind11;FRAMEWORK_COMPILE_Math" OFF)
 
 framework_dependent_option(FRAMEWORK_TEST_PYTHON_BINDINGS
   "Do you want to test the Python bindings?" ON
-  "FRAMEWORK_COMPILE_tests;FRAMEWORK_COMPILE_PYTHON_BINDINGS" OFF)
+  "BUILD_TESTING;FRAMEWORK_COMPILE_PYTHON_BINDINGS" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_MasImuTest
   "Compile test on the MAS IMU?" ON
@@ -210,3 +254,19 @@ framework_dependent_option(FRAMEWORK_COMPILE_RealSenseTestApplication
 framework_dependent_option(FRAMEWORK_COMPILE_CalibrationDeltaUpdaterApplication
   "Compile calibration-delta-updater application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_BalancingPositionControlApplication
+  "Compile balancing-position-control application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_IK" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
+  "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
+  "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_robometry" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
+  "Do you want to generate and compile the VectorsCollectionWrapper?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
+  "Do you want to generate and compile the ReducedModelControllers?" ON
+  "FRAMEWORK_USE_casadi;FRAMEWORK_COMPILE_System;FRAMEWORK_COMPILE_Contact;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_CasadiConversions" OFF)

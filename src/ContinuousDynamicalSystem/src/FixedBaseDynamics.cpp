@@ -2,7 +2,7 @@
  * @file FixedBaseDynamics.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <iDynTree/Model/Model.h>
@@ -17,7 +17,7 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FixedBaseDynamics::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FixedBaseDynamics::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::initialize]";
 
@@ -129,7 +129,7 @@ bool FixedBaseDynamics::setMassMatrixRegularization(const Eigen::Ref<const Eigen
     return true;
 }
 
-bool FixedBaseDynamics::dynamics(const double& time, StateDerivative& stateDerivative)
+bool FixedBaseDynamics::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FixedBaseDynamics::dynamics]";
 

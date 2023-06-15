@@ -1,0 +1,14 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device  xmlns:xi="http://www.w3.org/2001/XInclude" name="vectors-collection-wrapper" type="VectorsCollectionWrapper">
+  <param name="sampling_period_in_s">0.01</param>
+  <param name="port_prefix">/vcWrapper</param>
+  <param name="remote_port_names">("/icubSim/torso/state:o", "/icubSim/head/state:o")</param>
+  <param name="remote_var_names">("sim_torso_state", "sim_head_state")</param>
+  <param name="output_port_name">"/vcWrapper/upper_body_state"</param>
+</device>
+
+

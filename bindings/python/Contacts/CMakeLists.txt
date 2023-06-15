@@ -1,6 +1,6 @@
 # Copyright (C) 2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 if(FRAMEWORK_COMPILE_Contact)
 
@@ -11,6 +11,6 @@ if(FRAMEWORK_COMPILE_Contact)
     SOURCES src/Contacts.cpp src/ContactDetectors.cpp  src/Module.cpp
     HEADERS ${H_PREFIX}/Contacts.h ${H_PREFIX}/ContactDetectors.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::Contacts BipedalLocomotion::ContactDetectors
-    TESTS tests/test_contact.py tests/test_schmitt_trigger_detector.py)
+    TESTS tests/test_contact.py tests/test_fixed_foot_detector.py tests/test_schmitt_trigger_detector.py)
 
 endif()

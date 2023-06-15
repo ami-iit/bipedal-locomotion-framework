@@ -2,7 +2,7 @@
  * @file ContactList.h
  * @authors Stefano Dafarra
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACTLIST_H
@@ -11,10 +11,10 @@
 // BipedalLocomotion
 #include <BipedalLocomotion/Contacts/Contact.h>
 
-//iDynTree
 #include <manif/manif.h>
 
 // std
+#include <chrono>
 #include <functional>
 #include <set>
 #include <string>
@@ -27,8 +27,9 @@ namespace Contacts
 
 /**
  * @brief Class containing a list of contacts.
- * The contact are added such that the activation time is strictly growing. In addition, contacts cannot be overlapping.
- * It represents a series of contact activations and deactivations of a single entity.
+ * The contact are added such that the activation time is strictly growing. In addition, contacts
+ * cannot be overlapping. It represents a series of contact activations and deactivations of a
+ * single entity.
  */
 class ContactList
 {
@@ -45,7 +46,8 @@ class ContactList
                                                      structure for inserting and ordering
                                                      contacts. **/
     std::string m_defaultName{"ContactList"}; /** Default name for the contact list. **/
-    BipedalLocomotion::Contacts::ContactType m_defaultContactType{BipedalLocomotion::Contacts::ContactType::FULL}; /** Default contact type. **/
+    BipedalLocomotion::Contacts::ContactType m_defaultContactType{
+        BipedalLocomotion::Contacts::ContactType::FULL}; /** Default contact type. **/
     int m_defaultIndex{-1}; /**< Default Frame index of the contact */
 
 public:
@@ -94,7 +96,8 @@ public:
      * @brief Add a new contact to the list.
      * @param newContact The new contact
      * @return false if it was not possible to insert the contact.
-     * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
+     * Possible failures: the activation time is greater than the deactivation time, or the new
+     * contact overlaps with an existing contact.
      */
     bool addContact(const BipedalLocomotion::Contacts::PlannedContact& newContact);
 
@@ -106,9 +109,12 @@ public:
      * @param activationTime The activation time.
      * @param deactivationTime The deactivation time.
      * @return false if it was not possible to insert the contact.
-     * Possible failures: the activation time is greater than the deactivation time, or the new contact ovelaps with an existing contact.
+     * Possible failures: the activation time is greater than the deactivation time, or the new
+     * contact overlaps with an existing contact.
      */
-    bool addContact(const manif::SE3d& newTransform, double activationTime, double deactivationTime);
+    bool addContact(const manif::SE3d& newTransform,
+                    const std::chrono::nanoseconds& activationTime,
+                    const std::chrono::nanoseconds& deactivationTime);
 
     /**
      * @brief Erase a contact
@@ -128,12 +134,14 @@ public:
     const_iterator cbegin() const;
 
     /**
-     * @brief Return a const reverse iterator to the contacts (basically starting from the last contact going backward).
+     * @brief Return a const reverse iterator to the contacts (basically starting from the last
+     * contact going backward).
      */
     const_reverse_iterator rbegin() const;
 
     /**
-     * @brief Return a const reverse iterator to the contacts (basically starting from the last contact going backward).
+     * @brief Return a const reverse iterator to the contacts (basically starting from the last
+     * contact going backward).
      */
     const_reverse_iterator crbegin() const;
 
@@ -193,7 +201,8 @@ public:
      * @brief Edit an existing contact.
      * @param element Iterator to the element to edit.
      * @param newContact The new contact
-     * @return false if the element is not valid or if the new contact timing would require a reordering of the list.
+     * @return false if the element is not valid or if the new contact timing would require a
+     * reordering of the list.
      */
     bool editContact(const_iterator element,
                      const BipedalLocomotion::Contacts::PlannedContact& newContact);
@@ -208,14 +217,14 @@ public:
      * @return an iterator to the last contact  having an activation time lower than time.
      * If no contact satisfy this condition, it returns a pointer to the end.
      */
-    const_iterator getPresentContact(double time) const;
+    const_iterator getPresentContact(const std::chrono::nanoseconds& time) const;
 
     /**
      * @brief Clear all the steps, except the one returned by getPresentContact
      * @param time The present time.
      * @return false if no contact is available at this time.
      */
-    bool keepOnlyPresentContact(double time);
+    bool keepOnlyPresentContact(const std::chrono::nanoseconds& time);
 
     /**
      * @brief Clear the contacts.
@@ -226,7 +235,6 @@ public:
      * @brief Remove only the last contact.
      */
     void removeLastContact();
-
 };
 
 /**

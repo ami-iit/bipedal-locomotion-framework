@@ -2,7 +2,7 @@
  * @file ISensorBridge.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_ISENSOR_BRIDGE_H
@@ -46,6 +46,8 @@ struct SensorBridgeOptions
     bool isMotorSensorsEnabled{false}; /** flag to connect motor measurement sources */
     bool isPWMControlEnabled{false}; /** flag to connect PWM measurement sources */
 
+    bool isTemperatureSensorEnabled{false}; /** flag to connect temperature measurement sources */
+
     size_t nrJoints{0}; /**< number of joints available through Kinematics stream, to be configured
                            at initialization */
 };
@@ -69,6 +71,7 @@ struct SensorLists
                                                                  sensors attached to the bridge */
     std::vector<std::string> cartesianWrenchesList; /**< list of cartesian wrench streams attached
                                                        to the bridge */
+    std::vector<std::string> temperatureSensorsList; /**< list of temperature sensors attached to the bridge */
 };
 
 /**
@@ -193,6 +196,16 @@ public:
     };
 
     /**
+     * Get temperature sensors
+     * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
+     * @return  true/false in case of success/failure
+     */
+    virtual bool getTemperatureSensorsList(std::vector<std::string>& temperatureSensorsList)
+    {
+        return false;
+    };
+
+    /**
      * Get joint position  in radians
      * @param[in] jointName name of the joint
      * @param[out] jointPosition joint position in radians
@@ -208,7 +221,7 @@ public:
 
     /**
      * Get all joints' positions in radians
-     * @param[out] parameter all joints' position in radians
+     * @param[out] jointPositions all joints' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -237,7 +250,7 @@ public:
 
     /**
      * Get all joints' velocities in rad/s
-     * @param[out] parameter all joints' velocities in radians per second
+     * @param[out] jointVelocties all joints' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -246,6 +259,35 @@ public:
      */
     virtual bool getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVelocties,
                                     OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get joint acceleration in rad/s^2
+     * @param[in] jointName name of the joint
+     * @param[out] jointAcceleration joint acceleration in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getJointAcceleration(const std::string& jointName,
+                                      double& jointAcceleration,
+                                      OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all joints' accelerations in rad/s^2
+     * @param[out] jointAccelerations all joints' accelerations in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "jointAccelerations" to this method
+     * @return true/false in case of success/failure
+     */
+    virtual bool getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
+                                       OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };
@@ -370,6 +412,20 @@ public:
     };
 
     /**
+     * Get temperature measurement
+     * @param[in] temperatureSensorName name of the temperature sensor
+     * @param[out] temperature temperature measurement
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getTemperature(const std::string& temperatureSensorName,
+                                double& temperature,
+                                OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
      * Destructor
      */
     virtual ~ISensorBridge() = default;
@@ -427,6 +483,7 @@ protected:
         return true;
     };
 
+public:
     /**
      * Get motor currents in ampere
      * @param[in] jointName name of the joint
@@ -588,7 +645,7 @@ protected:
 
     /**
      * Get all motors' positions in rad
-     * @param[out] parameter all motors' position in radians
+     * @param[out] motorPositions all motors' position in radians
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -617,7 +674,7 @@ protected:
 
     /**
      * Get all motors' velocities in rad/s
-     * @param[out] parameter all motors' velocities in radians per second
+     * @param[out] motorVelocties all motors' velocities in radians per second
      * @param[out] receiveTimeInSeconds time at which the measurement was received
      * @warning the size is decided at the configuration and remains fixed,
      * and internal checks must be done at the implementation level by the Derived class.
@@ -626,6 +683,35 @@ protected:
      */
     virtual bool getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVelocties,
                                     OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get motor acceleration in rad/s^2
+     * @param[in] jointName name of the joint
+     * @param[out] motorAcceleration motor acceleration in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorAcceleration(const std::string& jointName,
+                                      double& motorAcceleration,
+                                      OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get all motors' accelerations in rad/s^2
+     * @param[out] motorAccelerations all motors' accelerations in radians per second squared
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorAccelerations" to this method
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
+                                       OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };

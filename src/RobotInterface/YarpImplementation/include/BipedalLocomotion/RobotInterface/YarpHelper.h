@@ -2,7 +2,7 @@
  * @file YarpHelper.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_HELPER_H
@@ -16,6 +16,7 @@
 #include <yarp/dev/PolyDriver.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <yarp/dev/PolyDriverList.h>
 
 namespace BipedalLocomotion
 {
@@ -73,12 +74,89 @@ PolyDriverDescriptor constructRemoteControlBoardRemapper(
  * |       `description`       | `string` |          Description of the genericSensorClient. It is the device name                       |    Yes    |
  * |     `remote_port_name`    | `string` |                           Name of the port associate to the remote                           |    Yes    |
  * |       `local_prefix`      | `string` |                     Prefix of the local port (e.g. the application name)                     |    Yes    |
- * | `local_port_name_suffix`  | `string` |  Suffix of the local port. The local port name is `/<local_prefix><local_port_name_suffix>`  |    Yes    |
+ * | `local_port_name_postfix` | `string` | Postfix of the local port. The local port name is `/<local_prefix><local_port_name_postfix>` |    Yes    |
  * @note The genericSensorClient device is implement in [whole-body-estimators](https://github.com/robotology/whole-body-estimators/tree/cc8ffb83375a2d410b225f4fa67aee4a29074b42/devices/genericSensorClient).
  * @return A PolyDriverDescriptor. If one of the parameters is missing an invalid PolyDriverDescriptor is returned.
  */
 PolyDriverDescriptor constructGenericSensorClient(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsClient` device.
+ * @param handler pointer to a parameter handler interface.
+ * @note The following parameters are taken into consideration
+ * |       Parameter Name      |   Type   |                                                                                              Description                                                                             | Mandatory |
+ * |:-------------------------:|:--------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
+ * |       `description`       | `string` |                                                               Description of the multiple analog sensor client. It is the device name                                                |    Yes    |
+ * |     `remote_port_name`    | `string` |                                                                          Name of the port associate to the remote                                                                    |    Yes    |
+ * |       `local_prefix`      | `string` |                                                                  Prefix of the local port (e.g. the application name)                                                                |    Yes    |
+ * | `local_port_name_postfix` | `string` |                                               Postfix of the local port. The local port name is `/<local_prefix><local_port_name_postfix>`                                           |    Yes    |
+ * |           `timeout`       | `double` |                                      Timeout in seconds after which the device reports an error if no measurement was received. (Default value 0.01)                                 |     No    |
+ * |   `external_connection`   |  `bool`  | If set to true, the connection to the rpc port of the MAS server is skipped and it is possible to connect to the data source externally after being opened. (Default value `false`)  |     No    |
+ * |          `carrier`        | `string` |                                                   The carrier used for the connection with the server. (Default value `tcp`)                                                         |     No    |
+ * @note The `MultipleAnalogSensorsClient` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsClient.html).
+ * @return A `PolyDriverDescriptor`. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsClient(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsRemapper` device.
+ * @param handler pointer to a parameter handler interface.
+ * @note The following parameters are taken into consideration
+ * |                Parameter Name           |       Type       |                                          Description                                    | Mandatory |
+ * |:---------------------------------------:|:----------------:|:---------------------------------------------------------------------------------------:|:---------:|
+ * |       `three_axis_gyroscopes_names`     | `vector<string>` |     Vector containing the names of the gyroscopes (Default empty vector)                |     No    |
+ * | `three_axis_linear_accelerometers_names`| `vector<string>` |  Vector containing the names of the accelerometers (Default empty vector)               |     No    |
+ * |    `three_axis_magnetometers_names`     | `vector<string>` |    Vector containing the names of the magnetometers (Default empty vector)              |     No    |
+ * |       `orientation_sensors_names`       | `vector<string>` |    Vector containing the names of the orientation sensors (Default empty vector)        |     No    |
+ * | `six_axis_force_torque_sensors_names`   | `vector<string>` |    Vector containing the names of the FT sensors (Default empty vector)                 |     No    |
+ * |      `temperature_sensors_names`        | `vector<string>` |    Vector containing the names of the temperature sensors (Default empty vector)        |     No    |
+ * @note The `MultipleAnalogSensorsRemapper` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html).
+ * @return A PolyDriverDescriptor. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsRemapper` device.
+ * @param handler pointer to a parameter handler interface.
+ * @param polydriverList a list of the polydriver that will be attached to the multiple analog sensor remapper
+ * @note The following parameters are taken into consideration
+ * |                Parameter Name           |       Type       |                                          Description                                    | Mandatory |
+ * |:---------------------------------------:|:----------------:|:---------------------------------------------------------------------------------------:|:---------:|
+ * |       `three_axis_gyroscopes_names`     | `vector<string>` |     Vector containing the names of the gyroscopes (Default empty vector)                |     No    |
+ * | `three_axis_linear_accelerometers_names`| `vector<string>` |  Vector containing the names of the accelerometers (Default empty vector)               |     No    |
+ * |    `three_axis_magnetometers_names`     | `vector<string>` |    Vector containing the names of the magnetometers (Default empty vector)              |     No    |
+ * |       `orientation_sensors_names`       | `vector<string>` |    Vector containing the names of the orientation sensors (Default empty vector)        |     No    |
+ * | `six_axis_force_torque_sensors_names`   | `vector<string>` |    Vector containing the names of the FT sensors (Default empty vector)                 |     No    |
+ * |      `temperature_sensors_names`        | `vector<string>` |    Vector containing the names of the temperature sensors (Default empty vector)        |     No    |
+ * @note The `MultipleAnalogSensorsRemapper` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html).
+ * @return A PolyDriverDescriptor. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    const std::vector<PolyDriverDescriptor>& polydriverList);
+
+/**
+ * Helper function that can be used to build a `MultipleAnalogSensorsRemapper` device.
+ * @param handler pointer to a parameter handler interface.
+ * @param polydriverList a list of the polydriver that will be attached to the multiple analog sensor remapper.
+ * @note The following parameters are taken into consideration
+ * |                Parameter Name           |       Type       |                                          Description                                    | Mandatory |
+ * |:---------------------------------------:|:----------------:|:---------------------------------------------------------------------------------------:|:---------:|
+ * |       `three_axis_gyroscopes_names`     | `vector<string>` |     Vector containing the names of the gyroscopes (Default empty vector)                |     No    |
+ * | `three_axis_linear_accelerometers_names`| `vector<string>` |  Vector containing the names of the accelerometers (Default empty vector)               |     No    |
+ * |    `three_axis_magnetometers_names`     | `vector<string>` |    Vector containing the names of the magnetometers (Default empty vector)              |     No    |
+ * |       `orientation_sensors_names`       | `vector<string>` |    Vector containing the names of the orientation sensors (Default empty vector)        |     No    |
+ * | `six_axis_force_torque_sensors_names`   | `vector<string>` |    Vector containing the names of the FT sensors (Default empty vector)                 |     No    |
+ * |      `temperature_sensors_names`        | `vector<string>` |    Vector containing the names of the temperature sensors (Default empty vector)        |     No    |
+ * @note The `MultipleAnalogSensorsRemapper` device is implement in [yarp](https://www.yarp.it/git-master/classMultipleAnalogSensorsRemapper.html).
+ * @return A PolyDriverDescriptor. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructMultipleAnalogSensorsRemapper(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
+    const yarp::dev::PolyDriverList& polydriverList);
 
 } // namespace RobotInterface
 } // namespace BipedalLocomotion

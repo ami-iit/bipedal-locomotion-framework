@@ -2,10 +2,11 @@
  * @file CubicSpline.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 
 #include <Eigen/Sparse>
@@ -14,6 +15,12 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::Planners;
+
+template <class Rep, class Period>
+constexpr double durationToSeconds(const std::chrono::duration<Rep, Period>& d)
+{
+    return std::chrono::duration<double>(d).count();
+}
 
 struct CubicSpline::Impl
 {
@@ -35,7 +42,7 @@ struct CubicSpline::Impl
         Eigen::VectorXd velocity; /**< first derivative of spline computed at t@knot */
         Eigen::VectorXd acceleration; /**< second derivative of spline computed at t@knot */
 
-        double timeInstant; /**< Knot time (it is an absolute time ) */
+        std::chrono::nanoseconds timeInstant; /**< Knot time (it is an absolute time ) */
     };
 
     /**
@@ -52,7 +59,7 @@ struct CubicSpline::Impl
         const Knot* initialPoint;
         const Knot* finalPoint;
 
-        double duration;
+        std::chrono::nanoseconds duration;
     };
 
     BoundaryConditions initialCondition; /**< Initial condition */
@@ -64,34 +71,38 @@ struct CubicSpline::Impl
     bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
 
     SplineState currentTrajectory; /**< Current trajectory stored in the advance state */
-    double advanceTimeStep{0.0}; /**< Time step of the advance interface. */
-    double advanceCurrentTime{0.0}; /**< current time of the advance object. */
+    std::chrono::nanoseconds advanceTimeStep{std::chrono::nanoseconds::zero()}; /**< Time step of
+                                                                                   the advance
+                                                                                   interface. */
+    std::chrono::nanoseconds advanceCurrentTime{std::chrono::nanoseconds::zero()}; /**< current time
+                                                                                      of the advance
+                                                                                      object. */
 
     /**
      * Reset a given knot with a time instant and a position
      */
-    void resetKnot(const double& timeInstant,
+    void resetKnot(const std::chrono::nanoseconds& timeInstant,
                    Eigen::Ref<const Eigen::VectorXd> position,
                    Knot& knot);
 
     /**
      * Get the position at given time for a sub-trajectory
      */
-    void getPositionAtTime(const double& t,
+    void getPositionAtTime(const std::chrono::nanoseconds& t,
                            const Polynomial& poly,
                            Eigen::Ref<Eigen::VectorXd> position);
 
     /**
      * Get the velocity at given time for a sub-trajectory
      */
-    void getVelocityAtTime(const double& t,
+    void getVelocityAtTime(const std::chrono::nanoseconds& t,
                            const Polynomial& poly,
                            Eigen::Ref<Eigen::VectorXd> velocity);
 
     /**
      * Get the acceleration at given time for a sub-trajectory
      */
-    void getAccelerationAtTime(const double& t,
+    void getAccelerationAtTime(const std::chrono::nanoseconds& t,
                                const Polynomial& poly,
                                Eigen::Ref<Eigen::VectorXd> acceleration);
 
@@ -182,6 +193,11 @@ CubicSpline::~CubicSpline() = default;
 bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
                                        Eigen::Ref<const Eigen::VectorXd> /**acceleration*/)
 {
+    return this->setInitialConditions(velocity);
+}
+
+bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity)
+{
     m_pimpl->initialCondition.velocity = velocity;
     m_pimpl->initialCondition.acceleration = Eigen::VectorXd::Zero(velocity.size());
 
@@ -203,6 +219,11 @@ bool CubicSpline::setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocit
 bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
                                      Eigen::Ref<const Eigen::VectorXd> /**acceleration*/)
 {
+    return this->setFinalConditions(velocity);
+}
+
+bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity)
+{
     m_pimpl->finalCondition.velocity = velocity;
     m_pimpl->finalCondition.acceleration = Eigen::VectorXd::Zero(velocity.size());
 
@@ -217,11 +238,12 @@ bool CubicSpline::setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity,
     return true;
 }
 
-bool CubicSpline::setAdvanceTimeStep(const double& dt)
+bool CubicSpline::setAdvanceTimeStep(const std::chrono::nanoseconds& dt)
 {
     constexpr auto logPrefix = "[CubicSpline::setAdvanceTimeStep]";
 
-    if (dt <= 0)
+    // this should never happen
+    if (dt <= std::chrono::nanoseconds::zero())
     {
         log()->error("{} The time step of the advance object has to be a strictly positive number.",
                      logPrefix);
@@ -234,7 +256,7 @@ bool CubicSpline::setAdvanceTimeStep(const double& dt)
 }
 
 bool CubicSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
-                           const std::vector<double>& time)
+                           const std::vector<std::chrono::nanoseconds>& time)
 {
     constexpr auto logPrefix = "[CubicSpline::setKnots]";
 
@@ -288,7 +310,7 @@ bool CubicSpline::setKnots(const std::vector<Eigen::VectorXd>& position,
     return true;
 }
 
-void CubicSpline::Impl::resetKnot(const double& timeInstant,
+void CubicSpline::Impl::resetKnot(const std::chrono::nanoseconds& timeInstant,
                                   Eigen::Ref<const Eigen::VectorXd> position,
                                   Knot& knot)
 {
@@ -309,7 +331,7 @@ bool CubicSpline::Impl::computePhasesDuration()
         polynomials[i].duration = knots[i + 1].timeInstant - knots[i].timeInstant;
 
         // This is required or stability purposes, the matrix A may not be invertible.
-        if (std::abs(polynomials[i].duration) <= std::numeric_limits<double>::epsilon())
+        if (polynomials[i].duration == std::chrono::nanoseconds::zero())
         {
             log()->error("{} Two consecutive points have the same time coordinate.", errorPrefix);
             return false;
@@ -442,14 +464,15 @@ void CubicSpline::Impl::addTripletCurrentKnot(const int& knotIndex,
 
     // The following triplet represent this matrix
     //  /      /   1      1\ \
-    //  |   4  |------ - --| |
+    //  |   4  |------ + --| |
     //  |      |T        T | |
     //  |      \ i - 1    i/ |
     //  \                    /
 
     tripletList.emplace_back(rowOffset,
                              columnOffset,
-                             4 * (1 / prevPoly.duration + 1 / poly.duration));
+                             4 * (1 / durationToSeconds(prevPoly.duration)
+                                    + 1 / durationToSeconds(poly.duration)));
 }
 
 void CubicSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
@@ -465,7 +488,7 @@ void CubicSpline::Impl::addTripletPreviousKnot(const int& knotIndex,
     // |  T         |
     // \   i - 1    /
 
-    tripletList.emplace_back(rowOffset, columnOffset, 2 / poly.duration);
+    tripletList.emplace_back(rowOffset, columnOffset, 2 / durationToSeconds(poly.duration));
 }
 
 void CubicSpline::Impl::addTripletNextKnot(const int& knotIndex,
@@ -481,7 +504,7 @@ void CubicSpline::Impl::addTripletNextKnot(const int& knotIndex,
     // |   T      |
     // \    i     /
 
-    tripletList.emplace_back(rowOffset, columnOffset, 2 / poly.duration);
+    tripletList.emplace_back(rowOffset, columnOffset, 2 / durationToSeconds(poly.duration));
 }
 
 void CubicSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
@@ -494,8 +517,10 @@ void CubicSpline::Impl::addKnownTermKnotPosition(const std::size_t& knotIndex,
     const auto& j = coordinateIndex;
 
     b[0] += 6
-            * ((knots[i].position[j] - knots[i - 1].position[j]) / std::pow(poly[i - 1].duration, 2)
-               + (knots[i + 1].position[j] - knots[i].position[j]) / std::pow(poly[i].duration, 2));
+            * ((knots[i].position[j] - knots[i - 1].position[j])
+                   / std::pow(durationToSeconds(poly[i - 1].duration), 2)
+               + (knots[i + 1].position[j] - knots[i].position[j])
+                     / std::pow(durationToSeconds(poly[i].duration), 2));
 }
 
 void CubicSpline::Impl::addKnownTermNextKnot(const std::size_t& knotIndex,
@@ -505,7 +530,7 @@ void CubicSpline::Impl::addKnownTermNextKnot(const std::size_t& knotIndex,
     const auto& poly = polynomials;
     const auto& i = knotIndex;
     const auto& j = coordinateIndex;
-    b[0] -= 2 * knots[i + 1].velocity[j] / poly[i].duration;
+    b[0] -= 2 * knots[i + 1].velocity[j] / durationToSeconds(poly[i].duration);
 }
 
 void CubicSpline::Impl::addKnownTermPreviousKnot(const std::size_t& knotIndex,
@@ -517,12 +542,12 @@ void CubicSpline::Impl::addKnownTermPreviousKnot(const std::size_t& knotIndex,
     const auto& i = knotIndex;
     const auto& j = coordinateIndex;
 
-    b[0] -= 2 * knots[i - 1].velocity[j] / poly[i - 1].duration;
+    b[0] -= 2 * knots[i - 1].velocity[j] / durationToSeconds(poly[i - 1].duration);
 }
 
 void CubicSpline::Impl::setPolynomialCoefficients(Polynomial& poly)
 {
-    const auto& T = poly.duration;
+    const double T = durationToSeconds(poly.duration);
 
     const auto& x0 = poly.initialPoint->position;
     const auto& dx0 = poly.initialPoint->velocity;
@@ -653,32 +678,37 @@ void CubicSpline::Impl::computeIntermediateVelocities()
     }
 }
 
-void CubicSpline::Impl::getPositionAtTime(const double& t,
-                                            const Polynomial& poly,
-                                            Eigen::Ref<Eigen::VectorXd> position)
+void CubicSpline::Impl::getPositionAtTime(const std::chrono::nanoseconds& t,
+                                          const Polynomial& poly,
+                                          Eigen::Ref<Eigen::VectorXd> position)
 {
+
+    const double tS = durationToSeconds(t);
+
     // improve the readability of the code
     const auto& a0 = poly.a0;
     const auto& a1 = poly.a1;
     const auto& a2 = poly.a2;
     const auto& a3 = poly.a3;
 
-    position = a0 + a1 * t + a2 * std::pow(t, 2) + a3 * std::pow(t, 3);
+    position = a0 + a1 * tS + a2 * std::pow(tS, 2) + a3 * std::pow(tS, 3);
 }
 
-void CubicSpline::Impl::getVelocityAtTime(const double& t,
-                                            const Polynomial& poly,
-                                            Eigen::Ref<Eigen::VectorXd> velocity)
+void CubicSpline::Impl::getVelocityAtTime(const std::chrono::nanoseconds& t,
+                                          const Polynomial& poly,
+                                          Eigen::Ref<Eigen::VectorXd> velocity)
 {
+    const double tS = durationToSeconds(t);
+
     // improve the readability of the code
     const auto& a1 = poly.a1;
     const auto& a2 = poly.a2;
     const auto& a3 = poly.a3;
 
-    velocity = a1 + 2 * a2 * t + 3 * a3 * std::pow(t, 2);
+    velocity = a1 + 2 * a2 * tS + 3 * a3 * std::pow(tS, 2);
 }
 
-void CubicSpline::Impl::getAccelerationAtTime(const double& t,
+void CubicSpline::Impl::getAccelerationAtTime(const std::chrono::nanoseconds& t,
                                               const Polynomial& poly,
                                               Eigen::Ref<Eigen::VectorXd> acceleration)
 {
@@ -686,10 +716,10 @@ void CubicSpline::Impl::getAccelerationAtTime(const double& t,
     const auto& a2 = poly.a2;
     const auto& a3 = poly.a3;
 
-    acceleration = 2 * a2 + 2 * 3 * a3 * t;
+    acceleration = 2 * a2 + 2 * 3 * a3 * durationToSeconds(t);
 }
 
-bool CubicSpline::evaluatePoint(const double& t,
+bool CubicSpline::evaluatePoint(const std::chrono::nanoseconds& t,
                                 Eigen::Ref<Eigen::VectorXd> position,
                                 Eigen::Ref<Eigen::VectorXd> velocity,
                                 Eigen::Ref<Eigen::VectorXd> acceleration)
@@ -706,7 +736,7 @@ bool CubicSpline::evaluatePoint(const double& t,
 
     if (t < m_pimpl->polynomials.front().initialPoint->timeInstant)
     {
-        constexpr double initialTime = 0;
+        constexpr std::chrono::nanoseconds initialTime = std::chrono::nanoseconds::zero();
 
         m_pimpl->getPositionAtTime(initialTime, m_pimpl->polynomials.front(), position);
         m_pimpl->getVelocityAtTime(initialTime, m_pimpl->polynomials.front(), velocity);
@@ -718,14 +748,15 @@ bool CubicSpline::evaluatePoint(const double& t,
 
     if (t >= m_pimpl->polynomials.back().finalPoint->timeInstant)
     {
-        const double finalTime = m_pimpl->polynomials.back().finalPoint->timeInstant
-                                 - m_pimpl->polynomials.back().initialPoint->timeInstant;
+        const auto finalTime = m_pimpl->polynomials.back().finalPoint->timeInstant
+                               - m_pimpl->polynomials.back().initialPoint->timeInstant;
         m_pimpl->getPositionAtTime(finalTime, m_pimpl->polynomials.back(), position);
         m_pimpl->getVelocityAtTime(finalTime, m_pimpl->polynomials.back(), velocity);
         m_pimpl->getAccelerationAtTime(finalTime, m_pimpl->polynomials.back(), acceleration);
         return true;
     }
 
+    // TODO(Giulio) Change this algorithm with the reverse iterator
     const auto poly = std::find_if(m_pimpl->polynomials.begin(),
                                    m_pimpl->polynomials.end(),
                                    [&t](const auto& p) {
@@ -746,7 +777,7 @@ bool CubicSpline::evaluatePoint(const double& t,
     return true;
 }
 
-bool CubicSpline::evaluatePoint(const double& t, SplineState& state)
+bool CubicSpline::evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state)
 {
     return this->evaluatePoint(t, state.position, state.velocity, state.acceleration);
 }
@@ -755,8 +786,8 @@ bool CubicSpline::isOutputValid() const
 {
     // if the time step is different from zero and the user already set the knots the advance
     // capabilities can be used
-    bool ok = (m_pimpl->advanceTimeStep != 0.0) && (!m_pimpl->knots.empty());
-    return ok;
+    return (m_pimpl->advanceTimeStep != std::chrono::nanoseconds::zero())
+           && (!m_pimpl->knots.empty());
 }
 
 bool CubicSpline::advance()

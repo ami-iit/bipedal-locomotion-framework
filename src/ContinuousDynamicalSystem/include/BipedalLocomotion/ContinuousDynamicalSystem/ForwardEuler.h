@@ -2,18 +2,20 @@
  * @file ForwardEuler.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FORWARD_EULER_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FORWARD_EULER_H
 
+#include <chrono>
 #include <tuple>
 #include <type_traits>
 
 #include <iDynTree/Core/EigenHelpers.h>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h>
+#include <BipedalLocomotion/GenericContainer/NamedTuple.h>
 
 namespace BipedalLocomotion
 {
@@ -30,6 +32,7 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 
+
 /**
  * Forward Euler integration method.
  * @tparam _DynamicalSystem a class derived from DynamicalSystem
@@ -41,13 +44,17 @@ namespace ContinuousDynamicalSystem
  * \f[
  * X + \psi = X \circ  \exp(\psi)
  * \f]
- * where \f$X\f$ belongs to a Lie group and $\f\psi\f$ belongs to the tangent space.
+ * where \f$X\f$ belongs to a Lie group and \f$\psi\f$ belongs to the tangent space.
  */
 template <class _DynamicalSystem>
 class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
 {
+public:
+    using DynamicalSystem = typename internal::traits<ForwardEuler<_DynamicalSystem>>::DynamicalSystem;
     using State = typename internal::traits<ForwardEuler<_DynamicalSystem>>::State;
     using StateDerivative = typename internal::traits<ForwardEuler<_DynamicalSystem>>::StateDerivative;
+
+private:
 
     /** Temporary buffer usefully to avoid continuous memory allocation */
     StateDerivative m_computationalBufferStateDerivative;
@@ -55,21 +62,24 @@ class ForwardEuler : public FixedStepIntegrator<ForwardEuler<_DynamicalSystem>>
     /** Temporary buffer usefully to avoid continuous memory allocation */
     State m_computationalBufferState;
 
-    template <std::size_t I = 0, typename... Tp, typename... Td>
-    inline typename std::enable_if<I == sizeof...(Tp), void>::type
-    addArea(const std::tuple<Tp...>& dx, const double& dT, std::tuple<Td...>& x)
+    template <std::size_t I = 0>
+    inline typename std::enable_if<I == std::tuple_size<State>::value, void>::type
+    addArea(const StateDerivative& dx, const std::chrono::nanoseconds& dT, State& x)
     {
-        static_assert(sizeof...(Tp) == sizeof...(Td));
+        static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
     }
 
-    template <std::size_t I = 0, typename... Tp, typename... Td>
-    inline typename std::enable_if < I<sizeof...(Tp), void>::type
-    addArea(const std::tuple<Tp...>& dx, const double& dT, std::tuple<Td...>& x)
+    template <std::size_t I = 0>
+    inline typename std::enable_if<(I < std::tuple_size<State>::value), void>::type
+    addArea(const StateDerivative& dx, const std::chrono::nanoseconds& dT, State& x)
     {
-        static_assert(sizeof...(Tp) == sizeof...(Td));
+        static_assert(std::tuple_size<State>::value == std::tuple_size<StateDerivative>::value);
 
         // the order matters since we assume that all the velocities are left trivialized.
-        std::get<I>(x) = (std::get<I>(dx) * dT) + std::get<I>(x);
+        using std::get;
+
+        // convert the dT in seconds
+        get<I>(x) = (get<I>(dx) * std::chrono::duration<double>(dT).count()) + get<I>(x);
         addArea<I + 1>(dx, dT, x);
     }
 
@@ -80,11 +90,12 @@ public:
      * @param dT sampling time.
      * @return true in case of success, false otherwise.
      */
-     bool oneStepIntegration(double t0, double dT);
+    bool oneStepIntegration(const std::chrono::nanoseconds& t0, const std::chrono::nanoseconds& dT);
 };
 
 template <class _DynamicalSystem>
-bool ForwardEuler<_DynamicalSystem>::oneStepIntegration(double t0, double dT)
+bool ForwardEuler<_DynamicalSystem>::oneStepIntegration(const std::chrono::nanoseconds& t0,
+                                                        const std::chrono::nanoseconds& dT)
 {
     constexpr auto errorPrefix = "[ForwardEuler::oneStepIntegration]";
     if (this->m_dynamicalSystem == nullptr)

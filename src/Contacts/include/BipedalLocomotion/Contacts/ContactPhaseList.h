@@ -2,7 +2,7 @@
  * @file ContactPhase.h
  * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2020, 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_LIST_H
@@ -114,7 +114,7 @@ public:
      * @return an iterator to the last phase having an activation time lower than time.
      * If no phase satisfies this condition, it returns a pointer to the end.
      */
-    const_iterator getPresentPhase(double time) const;
+    const_iterator getPresentPhase(const std::chrono::nanoseconds& time) const;
 
     /**
      * @brief A reference to the lists stored in this class.

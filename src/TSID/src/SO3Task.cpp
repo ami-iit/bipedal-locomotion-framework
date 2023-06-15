@@ -2,7 +2,7 @@
  * @file SO3Task.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -125,18 +125,37 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpAngular, kdAngular;
-    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
+    // set the gains for the SO3 controller
+    Eigen::Vector3d kpAngular, kdAngular;
+    double scalarBuffer;
+
+    if (ptr->getParameter("kp_angular", scalarBuffer))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative angular gain.",
+        kpAngular.setConstant(scalarBuffer);
+    }
+    else if(!ptr->getParameter("kp_angular", kpAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
         return false;
     }
 
-    m_SO3Controller.setGains({kpAngular, kdAngular});
+    if (ptr->getParameter("kd_angular", scalarBuffer))
+    {
+        kdAngular.setConstant(scalarBuffer);
+    }
+    else if(!ptr->getParameter("kd_angular", kdAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    m_SO3Controller.setGains(kpAngular, kdAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";
@@ -156,11 +175,10 @@ bool SO3Task::update()
         return m_isValid;
     }
 
-
-    m_SO3Controller.setState(
-        {BipedalLocomotion::Conversions::toManifRot(
-             m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3())});
+    m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                 m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
+                             iDynTree::toEigen(
+                                 m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3()));
 
     m_SO3Controller.computeControlLaw();
 
@@ -186,7 +204,7 @@ bool SO3Task::setSetPoint(const manif::SO3d& I_R_F,
 {
     bool ok = true;
 
-    ok = ok && m_SO3Controller.setDesiredState({I_R_F, angularVelocity});
+    ok = ok && m_SO3Controller.setDesiredState(I_R_F, angularVelocity);
     ok = ok && m_SO3Controller.setFeedForward(angularAcceleration);
 
     return ok;

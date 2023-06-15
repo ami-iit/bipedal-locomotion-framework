@@ -4,7 +4,7 @@ pytestmark = pytest.mark.planners
 import bipedal_locomotion_framework.bindings as blf
 import manifpy as manif
 import numpy as np
-
+from datetime import timedelta
 
 def test_contact():
 
@@ -12,8 +12,8 @@ def test_contact():
 
     # Default values
     assert contact.pose == manif.SE3(position=[0., 0, 0], quaternion=[0, 0, 0, 1])
-    assert contact.activation_time == 0.0
-    assert contact.deactivation_time == 0.0
+    assert contact.activation_time == timedelta(seconds=0)
+    assert contact.deactivation_time == timedelta(seconds=0)
     assert contact.name == "Contact"
     assert contact.type == blf.contacts.ContactType.Full
 
@@ -21,11 +21,8 @@ def test_contact():
     assert contact.pose.translation() == pytest.approx(np.array([1.0, -2.0, 3.3]))
     assert contact.pose.quat() == pytest.approx(np.array([0, 0, -1, 0]))
 
-    contact.activation_time = 42.0
-    assert contact.activation_time == 42.0
-
-    contact.deactivation_time = -42.0
-    assert contact.deactivation_time == -42.0
+    contact.activation_time = timedelta(seconds=42)
+    assert contact.activation_time == timedelta(seconds=42)
 
     contact.name = "MyNewContact"
     assert contact.name == "MyNewContact"
@@ -50,13 +47,13 @@ def test_contact_list():
 
     contact1 = blf.contacts.PlannedContact()
     contact1.name = "Contact1"
-    contact1.activation_time = 0.1
-    contact1.deactivation_time = 0.5
+    contact1.activation_time = timedelta(seconds=0.1)
+    contact1.deactivation_time = timedelta(seconds=0.5)
 
     contact2 = blf.contacts.PlannedContact()
     contact2.name = "Contact2"
-    contact2.activation_time = 1.0
-    contact2.deactivation_time = 1.5
+    contact2.activation_time = timedelta(seconds=1)
+    contact2.deactivation_time = timedelta(seconds=1.5)
 
     assert contact_list.add_contact(contact1)
     assert contact_list.add_contact(contact2)
@@ -66,8 +63,8 @@ def test_contact_list():
 
     contact3 = blf.contacts.PlannedContact()
     contact3.name = "Contact3"
-    contact3.activation_time = 0.6
-    contact3.deactivation_time = 0.8
+    contact3.activation_time = timedelta(seconds=0.6)
+    contact3.deactivation_time = timedelta(seconds=0.8)
 
     assert contact_list.add_contact(contact3)
     assert len(contact_list) == 3
@@ -75,8 +72,8 @@ def test_contact_list():
 
     contact3_bis = blf.contacts.PlannedContact()
     contact3_bis.name = "Contact3"
-    contact3_bis.activation_time = 0.9
-    contact3_bis.deactivation_time = 1.6
+    contact3_bis.activation_time = timedelta(seconds=0.9)
+    contact3_bis.deactivation_time = timedelta(seconds=1.6)
 
     assert not contact_list.add_contact(contact3_bis)
 
@@ -88,9 +85,9 @@ def test_contact_list():
     # contact_list[len(contact_list) - 1] = contact2_modified
     # assert contact_list[len(contact_list) - 1] == contact2_modified
 
-    assert contact2 == contact_list.get_present_contact(time=1.2)
-    assert contact2 == contact_list.get_present_contact(time=1.6)
-    assert contact3 == contact_list.get_present_contact(time=0.6)
+    assert contact2 == contact_list.get_present_contact(timedelta(seconds=1.2))
+    assert contact2 == contact_list.get_present_contact(timedelta(seconds=1.6))
+    assert contact3 == contact_list.get_present_contact(timedelta(seconds=0.6))
     # assert contact_list.get_present_contact(time=0.0) == \
     #        contact_list[len(contact_list) - 1]
 
@@ -117,8 +114,8 @@ def test_contact_phase():
     phase = blf.contacts.ContactPhase()
 
     # Default values
-    assert phase.begin_time == 0.0
-    assert phase.end_time == 0.0
+    assert phase.begin_time == timedelta(seconds=0)
+    assert phase.end_time == timedelta(seconds=0)
     assert phase.active_contacts == dict()
 
     list1 = blf.contacts.ContactList()

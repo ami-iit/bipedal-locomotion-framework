@@ -2,12 +2,13 @@
  * @file FloatingBaseDynamicsWithCompliantContacts.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_FLOATING_BASE_SYSTEM_DYNAMICS_WITH_COMPLIANT_CONTACTS_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -118,7 +119,7 @@ public:
      * |  `base_link`  | `string` |  Name of the link considered as fixed base in the model. If not defined the default link will be used. Please check [here](https://robotology.github.io/idyntree/master/classiDynTree_1_1Model.html#a1a8dc1c97b99ffc51dbf93ecff20e8c1)    |    No     |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler);
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
 
     /**
      * Set the model of the robot.
@@ -128,8 +129,8 @@ public:
     bool setRobotModel(const iDynTree::Model& model);
 
     /**
-     * Set the mass matrix regularization term. i.e. $\f\bar{M} = M + M _ {reg}\f$. Where  $\fM\f$
-     * is the mass matrix and  $\fM_{reg}\f$ is the matrix regularization term.
+     * Set the mass matrix regularization term. i.e. \f$\bar{M} = M + M _ {reg}\f$. Where  \f$M\f$
+     * is the mass matrix and  \f$M_{reg}\f$ is the matrix regularization term.
      * @param matrix the regularization term for the mass matrix.
      * @notice Calling this function is not mandatory. Call it only if you want to add a
      * regularization term.
@@ -145,7 +146,7 @@ public:
      * @param stateDynamics tuple containing a reference to the element of the state derivative
      * @return true in case of success, false otherwise.
      */
-    bool dynamics(const double& time, StateDerivative& stateDerivative);
+    bool dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative);
 
     /**
      * Set the state of the dynamical system.

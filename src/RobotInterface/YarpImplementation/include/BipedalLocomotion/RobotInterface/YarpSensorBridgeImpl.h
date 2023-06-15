@@ -2,7 +2,7 @@
  * @file YarpSensorBridgeImpl.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_YARP_SENSOR_BRIDGE_IMPL_H
@@ -92,7 +92,13 @@ struct YarpSensorBridge::Impl
         yarp::dev::ISixAxisForceTorqueSensors* sixAxisFTSensors{nullptr};
     };
 
+    struct WholeBodyTemperatureSensorsInterface
+    {
+        yarp::dev::ITemperatureSensors* temperatureSensors{nullptr};
+    };
+
     WholeBodyMASForceTorquesInterface wholeBodyMASForceTorquesInterface;
+    WholeBodyTemperatureSensorsInterface wholeBodyTemperatureSensorsInterface;
 
     struct MASSensorIndexMaps
     {
@@ -101,6 +107,7 @@ struct YarpSensorBridge::Impl
         std::unordered_map<std::string, std::size_t> magnetometers;
         std::unordered_map<std::string, std::size_t> orientationSensors;
         std::unordered_map<std::string, std::size_t> sixAxisFTSensors;
+        std::unordered_map<std::string, std::size_t> temperatureSensors;
     };
 
     MASSensorIndexMaps masSensorIndexMaps;
@@ -114,20 +121,24 @@ struct YarpSensorBridge::Impl
         Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> remappedJointPermutationMatrix;
         Eigen::VectorXd jointPositions;
         Eigen::VectorXd jointVelocities;
+        Eigen::VectorXd jointAccelerations;
         Eigen::VectorXd motorCurrents;
         Eigen::VectorXd jointTorques;
         Eigen::VectorXd motorPositions;
         Eigen::VectorXd motorVelocities;
+        Eigen::VectorXd motorAccelerations;
         Eigen::VectorXd pidPositions;
         Eigen::VectorXd pidPositionErrors;
         Eigen::VectorXd motorPWMs;
 
         Eigen::VectorXd jointPositionsUnordered;
         Eigen::VectorXd jointVelocitiesUnordered;
+        Eigen::VectorXd jointAccelerationsUnordered;
         Eigen::VectorXd motorCurrentsUnordered;
         Eigen::VectorXd jointTorquesUnordered;
         Eigen::VectorXd motorPositionsUnordered;
         Eigen::VectorXd motorVelocitiesUnordered;
+        Eigen::VectorXd motorAccelerationsUnordered;
         Eigen::VectorXd pidPositionsUnordered;
         Eigen::VectorXd pidPositionErrorsUnordered;
         Eigen::VectorXd motorPWMsUnordered;
@@ -158,6 +169,9 @@ struct YarpSensorBridge::Impl
 
     /**< map holding cartesian wrench measures */
     std::unordered_map<std::string, StampedYARPVector> wholeBodyCartesianWrenchMeasures;
+
+    /**< map holding temperature measures */
+    std::unordered_map<std::string, StampedYARPVector> wholeBodyTemperatureMeasures;
 
     const int nrChannelsInYARPGenericIMUSensor{12};
     const int nrChannelsInYARPGenericCartesianWrench{6};
@@ -387,6 +401,31 @@ struct YarpSensorBridge::Impl
     }
 
     /**
+     * Configure temperature sensors meta data
+     */
+    bool
+    configureTemperatureSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                               SensorBridgeMetaData& metaData)
+    {
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::configureTemperatureSensors] ";
+        auto ptr = handler.lock();
+        if (ptr == nullptr)
+        {
+            return false;
+        }
+
+        if (!ptr->getParameter("temperature_sensors_list",
+                               metaData.sensorsList.temperatureSensorsList))
+        {
+            log()->error("{} Required parameter \"temperature_sensors_list\" not available "
+                         "in the configuration.",
+                         logPrefix);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Attach device with IGenericSensor or IAnalogSensor interfaces
      * Important assumptions here,
      * - Any generic sensor with 12 channels is a IMU sensor
@@ -548,8 +587,11 @@ struct YarpSensorBridge::Impl
         if (nrSensors != sensorList.size())
         {
             log()->error("{} Expecting the same number of MAS sensors attached to the Bridge as "
-                         "many mentioned in the initialization step.",
-                         logPrefix);
+                         "many mentioned in the initialization step. Number of MAS sensor in the interface: {}. "
+                         "Number of sensor in itialization: {}.",
+                         logPrefix,
+                         nrSensors,
+                         sensorList.size());
             return false;
         }
 
@@ -588,6 +630,10 @@ struct YarpSensorBridge::Impl
                                                         yarp::dev::ISixAxisForceTorqueSensors>)
                     {
                         masSensorIndexMaps.sixAxisFTSensors[masSensorName] = attachedIdx;
+                    } else if constexpr (std::is_same_v<MASSensorType,
+                                                        yarp::dev::ITemperatureSensors>)
+                    {
+                        masSensorIndexMaps.temperatureSensors[masSensorName] = attachedIdx;
                     }
                     break;
                 }
@@ -631,6 +677,9 @@ struct YarpSensorBridge::Impl
         } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             return sensorInterface->getNrOfSixAxisForceTorqueSensors();
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ITemperatureSensors>)
+        {
+            return sensorInterface->getNrOfTemperatureSensors();
         }
 
         return 0;
@@ -665,6 +714,9 @@ struct YarpSensorBridge::Impl
         } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ISixAxisForceTorqueSensors>)
         {
             return sensorInterface->getSixAxisForceTorqueSensorName(sensIdx, sensorName);
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ITemperatureSensors>)
+        {
+            return sensorInterface->getTemperatureSensorName(sensIdx, sensorName);
         }
         return true;
     }
@@ -725,6 +777,15 @@ struct YarpSensorBridge::Impl
             {
                 std::string sensName;
                 sensorInterface->getSixAxisForceTorqueSensorName(sensIdx, sensName);
+                availableSensorNames.push_back(sensName);
+            }
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ITemperatureSensors>)
+        {
+            auto nrSensors = sensorInterface->getNrOfTemperatureSensors();
+            for (std::size_t sensIdx = 0; sensIdx < nrSensors; sensIdx++)
+            {
+                std::string sensName;
+                sensorInterface->getTemperatureSensorName(sensIdx, sensName);
                 availableSensorNames.push_back(sensName);
             }
         }
@@ -835,6 +896,7 @@ struct YarpSensorBridge::Impl
                                                  metaData.sensorsList.IMUsList,
                                                  interfaceType))
             {
+                log()->error("{} Unable to attach the imus as generic or analog sensors.", logPrefix);
                 return false;
             }
         }
@@ -847,6 +909,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.linearAccelerometersList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the accelerometer as MAS.", logPrefix);
                 return false;
             }
         }
@@ -859,6 +922,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.gyroscopesList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the gyros as MAS.", logPrefix);
                 return false;
             }
         }
@@ -871,6 +935,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.orientationSensorsList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the orientation as MAS.", logPrefix);
                 return false;
             }
         }
@@ -883,6 +948,7 @@ struct YarpSensorBridge::Impl
                                           metaData.sensorsList.magnetometersList,
                                           interfaceType))
             {
+                log()->error("{} Unable to attach the magnetoemeters as MAS.", logPrefix);
                 return false;
             }
         }
@@ -911,51 +977,74 @@ struct YarpSensorBridge::Impl
         // expects only one remotecontrolboard device attached to it, if found break!
         // if there multiple remote control boards, then  use a remapper to create a single
         // remotecontrolboard
-        bool ok{true};
+        bool okJointsSensor = !metaData.bridgeOptions.isJointSensorsEnabled;
+        bool okPWM = !metaData.bridgeOptions.isPWMControlEnabled;
+        bool okMotorsSensor = !metaData.bridgeOptions.isMotorSensorsEnabled;
+        bool okPID = !metaData.bridgeOptions.isPIDsEnabled;
+
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
-            if (metaData.bridgeOptions.isJointSensorsEnabled)
+            yarp::dev::PolyDriver* poly = devList[devIdx]->poly;
+
+            if (!okJointsSensor && metaData.bridgeOptions.isJointSensorsEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.axis);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.encoders);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.torques);
+                okJointsSensor = poly->view(controlBoardRemapperInterfaces.axis);
+                okJointsSensor = okJointsSensor
+                                 && poly->view(controlBoardRemapperInterfaces.encoders);
+                okJointsSensor = okJointsSensor
+                                 && poly->view(controlBoardRemapperInterfaces.torques);
             }
-            if (metaData.bridgeOptions.isPWMControlEnabled)
+            if (!okPWM && metaData.bridgeOptions.isPWMControlEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);
+                okPWM = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.amp);
             }
-            if (metaData.bridgeOptions.isMotorSensorsEnabled)
+            if (!okMotorsSensor && metaData.bridgeOptions.isMotorSensorsEnabled)
             {
-                ok = ok
-                     && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motorEncoders);
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
+                okMotorsSensor
+                    = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motorEncoders);
+                okMotorsSensor
+                    = okMotorsSensor
+                      && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.currsensors);
             }
-            if (metaData.bridgeOptions.isPIDsEnabled)
+            if (!okPID && metaData.bridgeOptions.isPIDsEnabled)
             {
-                ok = ok && devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
+                okPID = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
             }
 
-            if (ok)
+            if (okPID && okJointsSensor && okMotorsSensor && okPWM)
             {
-                break;
+                if (!compareControlBoardJointsList())
+                {
+                    log()->error("{} Could not attach to remapped control board interface.",
+                                 logPrefix);
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        if (!ok)
-        {
-            log()->error("{} Could not find a remapped remote control board with the desired "
-                         "interfaces",
-                         logPrefix);
-            return false;
-        }
+        auto getSensorStatus = [](bool isRequired, bool isFound) -> const char* {
+            if (isRequired)
+            {
+                return isFound ? "required and found" : "required but not found";
+            }
+            return "not required";
+        };
 
-        if (!compareControlBoardJointsList())
-        {
-            log()->error("{} Could not attach to remapped control board interface.", logPrefix);
-            return false;
-        }
+        log()->error("{} Could not find a remapped remote control board with the desired "
+                     "interfaces. Here the status of the interfaces. "
+                     "Joint sensors: {}, "
+                     "Motor sensors: {}, ",
+                     "PID sensors: {}, ",
+                     "PWM sensors: {}.",
+                     logPrefix,
+                     getSensorStatus(metaData.bridgeOptions.isJointSensorsEnabled, okJointsSensor),
+                     getSensorStatus(metaData.bridgeOptions.isMotorSensorsEnabled, okMotorsSensor),
+                     getSensorStatus(metaData.bridgeOptions.isPIDsEnabled, okPID),
+                     getSensorStatus(metaData.bridgeOptions.isPWMControlEnabled, okPWM));
 
-        return true;
+        return false;
     }
 
     /**
@@ -974,11 +1063,14 @@ struct YarpSensorBridge::Impl
 
             controlBoardRemapperMeasures.jointPositions.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointVelocities.resize(metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.jointAccelerations.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointTorques.resize(metaData.bridgeOptions.nrJoints);
 
             controlBoardRemapperMeasures.jointPositionsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointVelocitiesUnordered.resize(
+                metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.jointAccelerationsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.jointTorquesUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
@@ -987,6 +1079,7 @@ struct YarpSensorBridge::Impl
             controlBoardRemapperMeasures.remappedJointPermutationMatrix.setIdentity();
             controlBoardRemapperMeasures.jointPositions.setZero();
             controlBoardRemapperMeasures.jointVelocities.setZero();
+            controlBoardRemapperMeasures.jointAccelerations.setZero();
             controlBoardRemapperMeasures.jointTorques.setZero();
         }
 
@@ -1006,11 +1099,14 @@ struct YarpSensorBridge::Impl
             // firstly resize all the controlboard data buffers
             controlBoardRemapperMeasures.motorPositions.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorVelocities.resize(metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.motorAccelerations.resize(metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorCurrents.resize(metaData.bridgeOptions.nrJoints);
 
             controlBoardRemapperMeasures.motorPositionsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorVelocitiesUnordered.resize(
+                metaData.bridgeOptions.nrJoints);
+            controlBoardRemapperMeasures.motorAccelerationsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
             controlBoardRemapperMeasures.motorCurrentsUnordered.resize(
                 metaData.bridgeOptions.nrJoints);
@@ -1018,6 +1114,7 @@ struct YarpSensorBridge::Impl
             // zero buffers
             controlBoardRemapperMeasures.motorPositions.setZero();
             controlBoardRemapperMeasures.motorVelocities.setZero();
+            controlBoardRemapperMeasures.motorAccelerations.setZero();
             controlBoardRemapperMeasures.motorCurrents.setZero();
         }
 
@@ -1164,6 +1261,28 @@ struct YarpSensorBridge::Impl
                                              nrChannelsInYARPAnalogSixAxisFTSensor,
                                              analogFTSensors,
                                              interfaceType))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool attachAllTemperatureSensors(const yarp::dev::PolyDriverList& devList)
+    {
+        if (!metaData.bridgeOptions.isTemperatureSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllTemperatureSensors]";
+
+        std::string_view interfaceType{"ITemperatureSensors"};
+        if (!attachAndCheckMASSensors(devList,
+                                      wholeBodyTemperatureSensorsInterface.temperatureSensors,
+                                      metaData.sensorsList.temperatureSensorsList,
+                                      interfaceType))
         {
             return false;
         }
@@ -1337,6 +1456,9 @@ struct YarpSensorBridge::Impl
             constexpr int dim{6};
             sensorMeasure.resize(dim);
             ok = interface->getSixAxisForceTorqueSensorMeasure(sensIdx, sensorMeasure, txTimeStamp);
+        } else if constexpr (std::is_same_v<MASSensorType, yarp::dev::ITemperatureSensors>)
+        {
+            ok = interface->getTemperatureSensorMeasure(sensIdx, sensorMeasure, txTimeStamp);
         }
 
         if (!ok)
@@ -1428,6 +1550,9 @@ struct YarpSensorBridge::Impl
             ok = ok
                  && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(
                      controlBoardRemapperMeasures.jointVelocitiesUnordered.data());
+            ok = ok
+                 && controlBoardRemapperInterfaces.encoders->getEncoderAccelerations(
+                     controlBoardRemapperMeasures.jointAccelerationsUnordered.data());
 
             if (ok)
             {
@@ -1446,6 +1571,13 @@ struct YarpSensorBridge::Impl
                     {
                         return false;
                     }
+
+                    if (nanExistsInVec(controlBoardRemapperMeasures.jointAccelerationsUnordered,
+                                       logPrefix,
+                                       "encoder accelerations"))
+                    {
+                        return false;
+                    }
                 }
 
                 // convert from degrees to radians - YARP convention is to store joint positions in
@@ -1457,6 +1589,10 @@ struct YarpSensorBridge::Impl
                 controlBoardRemapperMeasures.jointVelocities.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
                       * controlBoardRemapperMeasures.jointVelocitiesUnordered * M_PI / 180;
+
+                controlBoardRemapperMeasures.jointAccelerations.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.jointAccelerationsUnordered * M_PI / 180;
             } else
             {
                 log()->error("{} Unable to read from IEncodersTimed interface, use previous "
@@ -1513,6 +1649,9 @@ struct YarpSensorBridge::Impl
             ok = ok
                  && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoderSpeeds(
                      controlBoardRemapperMeasures.motorVelocitiesUnordered.data());
+            ok = ok
+                 && controlBoardRemapperInterfaces.motorEncoders->getMotorEncoderAccelerations(
+                     controlBoardRemapperMeasures.motorAccelerationsUnordered.data());
 
             if (ok)
             {
@@ -1531,14 +1670,26 @@ struct YarpSensorBridge::Impl
                     {
                         return false;
                     }
+
+                    if (nanExistsInVec(controlBoardRemapperMeasures.motorAccelerationsUnordered,
+                                       logPrefix,
+                                       "MotorEncodersAcc"))
+                    {
+                        return false;
+                    }
                 }
 
                 controlBoardRemapperMeasures.motorPositions.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorPositionsUnordered;
+                      * controlBoardRemapperMeasures.motorPositionsUnordered * M_PI / 180;
+
                 controlBoardRemapperMeasures.motorVelocities.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorVelocitiesUnordered;
+                      * controlBoardRemapperMeasures.motorVelocitiesUnordered * M_PI / 180;
+
+                controlBoardRemapperMeasures.motorAccelerations.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.motorAccelerationsUnordered * M_PI / 180;
             } else
             {
                 log()->error("{} Unable to read from IMotorEncoders interface, use previous "
@@ -1810,6 +1961,52 @@ struct YarpSensorBridge::Impl
                                  checkForNAN);
     }
 
+    bool readAllAnalogSixAxisForceTorqueSensors(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isSixAxisForceTorqueSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllAnalogSixAxisForceTorqueSensors]";
+
+        bool allFTsReadCorrectly{true};
+        failedSensorReads.clear();
+        for (auto const& FTUnit : wholeBodyAnalogSixAxisFTSensorsInterface)
+        {
+            const auto& FTName = FTUnit.first;
+            bool ok = readAnalogOrGenericSensor(FTName,
+                                                nrChannelsInYARPAnalogSixAxisFTSensor,
+                                                wholeBodyAnalogSixAxisFTSensorsInterface,
+                                                wholeBodyFTMeasures,
+                                                checkForNAN);
+            if (!ok)
+            {
+                log()->error("{} Read FT sensor failed for {}.", logPrefix, FTName);
+                failedSensorReads.emplace_back(FTName);
+            }
+            allFTsReadCorrectly = ok && allFTsReadCorrectly;
+        }
+
+        return allFTsReadCorrectly;
+    }
+
+    bool readAllMASTemperatures(std::vector<std::string>& failedSensorReads)
+    {
+        if (!metaData.bridgeOptions.isTemperatureSensorEnabled)
+        {
+            // do nothing
+            return true;
+        }
+
+        return readAllMASSensors(wholeBodyTemperatureSensorsInterface.temperatureSensors,
+                                 masSensorIndexMaps.temperatureSensors,
+                                 wholeBodyTemperatureMeasures,
+                                 failedSensorReads,
+                                 checkForNAN);
+    }
+
     bool readAllSensors(std::vector<std::string>& failedReadAllSensors)
     {
         failedReadAllSensors.clear();
@@ -1863,6 +2060,20 @@ struct YarpSensorBridge::Impl
         }
 
         if (!readAllMASSixAxisForceTorqueSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllAnalogSixAxisForceTorqueSensors(failedReads))
+        {
+            failedReadAllSensors.insert(failedReadAllSensors.end(),
+                                        failedReads.begin(),
+                                        failedReads.end());
+        }
+
+        if (!readAllMASTemperatures(failedReads))
         {
             failedReadAllSensors.insert(failedReadAllSensors.end(),
                                         failedReads.begin(),

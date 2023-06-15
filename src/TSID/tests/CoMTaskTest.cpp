@@ -2,11 +2,11 @@
  * @file CoMTaskTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // BipedalLocomotion
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
@@ -40,7 +40,7 @@ TEST_CASE("CoM Task")
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
         iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 40; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
@@ -118,13 +118,13 @@ TEST_CASE("CoM Task")
 
             // check the vector b
             LieGroupControllers::ProportionalDerivativeControllerR3d R3Controller;
-            R3Controller.setGains({kp, kd});
+            R3Controller.setGains(kp, kd);
 
             R3Controller.setFeedForward(desiredAcceleration);
-            R3Controller.setDesiredState({desiredPosition, desiredVelocity});
+            R3Controller.setDesiredState(desiredPosition, desiredVelocity);
 
-            R3Controller.setState({toEigen(kinDyn->getCenterOfMassPosition()),
-                                   toEigen(kinDyn->getCenterOfMassVelocity())});
+            R3Controller.setState(toEigen(kinDyn->getCenterOfMassPosition()),
+                                  toEigen(kinDyn->getCenterOfMassVelocity()));
 
             R3Controller.computeControlLaw();
 

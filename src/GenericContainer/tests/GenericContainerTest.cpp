@@ -2,11 +2,11 @@
  * @file GenericContainerTest.cpp
  * @authors Stefano Dafarra
  * @copyright 2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <iDynTree/Core/VectorDynSize.h>
 #include <iDynTree/Core/VectorFixSize.h>
 #include <iDynTree/Core/TestUtils.h>

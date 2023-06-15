@@ -2,37 +2,82 @@ import pytest
 pytestmark = pytest.mark.tsid
 
 import bipedal_locomotion_framework.bindings as blf
+import idyntree.swig as idyn
 import manifpy as manif
 import numpy as np
 import tempfile
-import urllib.request
-import os
+
+import icub_models
+
+def test_custom_task():
+    class CustomTask(blf.tsid.TSIDLinearTask):
+        def __init__(self):
+            blf.tsid.TSIDLinearTask.__init__(self)
+
+            self._description = "Custom Task"
+
+        def set_variables_handler(self, variables_handler: blf.system.VariablesHandler):
+            variable = variables_handler.get_variable("robotAcceleration")
+            temp = np.zeros((10, variables_handler.get_number_of_variables()))
+
+            # avoiding slicing
+            for i in range(10):
+                temp[i, variable.offset] = 1
+
+            self._A = temp
+            self._b = np.ones(10)
+            return True
+
+        def size(self):
+            return 10
+
+        def type(self):
+            return blf.tsid.TSIDLinearTask.Type.equality
+
+        def is_valid(self):
+            return True
+
+    # Set the parameters
+    qp_tsid_param_handler = blf.parameters_handler.StdParametersHandler()
+    qp_tsid_param_handler.set_parameter_string(name="robot_acceleration_variable_name", value="robotAcceleration")
+    qp_tsid_param_handler.set_parameter_string(name="joint_torques_variable_name", value="jointTorque")
+    qp_tsid_param_handler.set_parameter_vector_string(name="contact_wrench_variables_name", value=["contact_1"])
+
+    # Initialize the QP inverse kinematics
+    qp_tsid = blf.tsid.QPTSID()
+    assert qp_tsid.initialize(handler=qp_tsid_param_handler)
+
+    qp_tsid_param_handler = blf.system.VariablesHandler()
+    assert qp_tsid_param_handler.add_variable("robotAcceleration",
+                                              38) is True  # robot velocity size = 32 (joints) + 6 (base)
+    assert qp_tsid_param_handler.add_variable("jointTorque",
+                                              32) is True  # robot velocity size = 32 (joints) + 6 (base)
+    assert qp_tsid_param_handler.add_variable("contact_1",
+                                              6) is True  # robot velocity size = 32 (joints) + 6 (base)
+
+    # add the custom task
+    custom_task = CustomTask()
+    assert qp_tsid.add_task(custom_task, "custom_task", 0)
+    assert qp_tsid.finalize(qp_tsid_param_handler)
+
 
 def get_kindyn():
 
-    # retrieve the model
-    model_url = 'https://raw.githubusercontent.com/robotology/icub-models/master/iCub/robots/iCubGazeboV2_5/model.urdf'
-    model = urllib.request.urlopen(model_url)
-    temp = tempfile.NamedTemporaryFile('wb', delete=False)
-    temp.write(model.read())
-    temp.close()
-
-    # create KinDynComputationsDescriptor
-    kindyn_handler = blf.parameters_handler.StdParametersHandler()
-    kindyn_handler.set_parameter_string("model_file_name", temp.name)
     joints_list = ["neck_pitch", "neck_roll", "neck_yaw",
                    "torso_pitch", "torso_roll", "torso_yaw",
                    "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw","l_elbow",
                    "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw","r_elbow",
                    "l_hip_pitch", "l_hip_roll", "l_hip_yaw","l_knee", "l_ankle_pitch", "l_ankle_roll",
                    "r_hip_pitch", "r_hip_roll", "r_hip_yaw","r_knee", "r_ankle_pitch", "r_ankle_roll"]
-    kindyn_handler.set_parameter_vector_string("joints_list", joints_list)
-    kindyn_desc = blf.floating_base_estimators.construct_kindyncomputations_descriptor(kindyn_handler)
-    assert kindyn_desc.is_valid()
 
-    os.unlink(temp.name)
+    model_loader = idyn.ModelLoader()
+    assert model_loader.loadReducedModelFromFile(str(icub_models.get_model_file("iCubGazeboV2_5")), joints_list)
 
-    return joints_list, kindyn_desc
+    # create KinDynComputationsDescriptor
+    kindyn = idyn.KinDynComputations()
+    assert kindyn.loadRobotModel(model_loader.model())
+
+    return joints_list, kindyn
 
 def test_com_task():
 
@@ -40,7 +85,7 @@ def test_com_task():
     kd = 0.5
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     com_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -51,7 +96,7 @@ def test_com_task():
 
     # Initialize the task
     com_task = blf.tsid.CoMTask()
-    assert com_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert com_task.set_kin_dyn(kindyn)
     assert com_task.initialize(param_handler=com_param_handler)
 
     com_var_handler = blf.system.VariablesHandler()
@@ -66,7 +111,7 @@ def test_com_task():
 def test_se3_task():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     se3_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -79,7 +124,7 @@ def test_se3_task():
 
     # Initialize the task
     se3_task = blf.tsid.SE3Task()
-    assert se3_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert se3_task.set_kin_dyn(kindyn)
     assert se3_task.initialize(param_handler=se3_param_handler)
     se3_var_handler = blf.system.VariablesHandler()
     assert se3_var_handler.add_variable("robotAcceleration", len(joints_list) + 6) is True
@@ -96,7 +141,7 @@ def test_se3_task():
 def test_so3_task():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     so3_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -107,7 +152,7 @@ def test_so3_task():
 
     # Initialize the task
     so3_task = blf.tsid.SO3Task()
-    assert so3_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert so3_task.set_kin_dyn(kindyn)
     assert so3_task.initialize(param_handler=so3_param_handler)
     so3_var_handler = blf.system.VariablesHandler()
     assert so3_var_handler.add_variable("robotAcceleration", len(joints_list) + 6) is True
@@ -124,17 +169,17 @@ def test_so3_task():
 def test_joint_tracking_task():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     joint_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
     joint_tracking_param_handler.set_parameter_string(name="robot_acceleration_variable_name", value="robotAcceleration")
-    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn_desc.kindyn.get_nr_of_dofs())
-    joint_tracking_param_handler.set_parameter_vector_float(name="kd",value=[1.0]*kindyn_desc.kindyn.get_nr_of_dofs())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kp",value=[5.0]*kindyn.getNrOfDegreesOfFreedom())
+    joint_tracking_param_handler.set_parameter_vector_float(name="kd",value=[1.0]*kindyn.getNrOfDegreesOfFreedom())
 
     # Initialize the task
     joint_tracking_task = blf.tsid.JointTrackingTask()
-    assert joint_tracking_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert joint_tracking_task.set_kin_dyn(kindyn)
     assert joint_tracking_task.initialize(param_handler=joint_tracking_param_handler)
     joint_tracking_var_handler = blf.system.VariablesHandler()
 
@@ -143,18 +188,18 @@ def test_joint_tracking_task():
     assert joint_tracking_task.set_variables_handler(variables_handler=joint_tracking_var_handler)
 
     # Set desired joint pos
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values)
 
     # Set desired joint pos and vel
-    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
-    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn_desc.kindyn.get_nr_of_dofs())]
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
+    joint_velocities = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
     assert joint_tracking_task.set_set_point(joint_position=joint_values,joint_velocity=joint_velocities)
 
 def test_feasible_contact_wrench():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     feasible_contact_wrench_param_handler = blf.parameters_handler.StdParametersHandler()
@@ -172,7 +217,7 @@ def test_feasible_contact_wrench():
 
     # Initialize the task
     feasible_contact_wrench_task = blf.tsid.FeasibleContactWrenchTask()
-    assert feasible_contact_wrench_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert feasible_contact_wrench_task.set_kin_dyn(kindyn)
     assert feasible_contact_wrench_task.initialize(param_handler=feasible_contact_wrench_param_handler)
     feasible_contact_wrench_var_handler = blf.system.VariablesHandler()
 
@@ -182,7 +227,7 @@ def test_feasible_contact_wrench():
 def test_dynamics():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     param_handler = blf.parameters_handler.StdParametersHandler()
@@ -207,20 +252,20 @@ def test_dynamics():
 
     # Initialize the task
     base_dynamics_task = blf.tsid.BaseDynamicsTask()
-    assert base_dynamics_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert base_dynamics_task.set_kin_dyn(kindyn)
     assert base_dynamics_task.initialize(param_handler=param_handler)
     assert base_dynamics_task.set_variables_handler(variables_handler=var_handler)
 
     # Initialize the task
     joint_dynamics_task = blf.tsid.JointDynamicsTask()
-    assert joint_dynamics_task.set_kin_dyn(kindyn_desc.kindyn)
+    assert joint_dynamics_task.set_kin_dyn(kindyn)
     assert joint_dynamics_task.initialize(param_handler=param_handler)
     assert joint_dynamics_task.set_variables_handler(variables_handler=var_handler)
 
 def test_variable_regularization_task():
 
     # get  kindyn
-    joints_list, kindyn_desc = get_kindyn()
+    joints_list, kindyn = get_kindyn()
 
     # Set the parameters
     param_handler_1 = blf.parameters_handler.StdParametersHandler()

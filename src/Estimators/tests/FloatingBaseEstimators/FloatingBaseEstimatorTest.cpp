@@ -2,21 +2,22 @@
  * @file FloatingBaseEstimatorTest.cpp
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <catch2/catch.hpp>
-
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
-#include <iDynTree/Core/TestUtils.h>
-
-#include <ResourceFolderPath.h>
+#include <catch2/catch_test_macros.hpp>
 
 #include <Eigen/Dense>
+
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+
+#include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
+
+#include <iCubModels/iCubModels.h>
 
 using namespace BipedalLocomotion::Estimators;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -47,7 +48,7 @@ TEST_CASE("Bare Bones Base Estimator")
     REQUIRE(populateConfig(parameterHandler));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    std::string model_path{getFBEURDFModelPath()};
+    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5_plus");
     std::cout << model_path << std::endl;
     std::vector<std::string> joints_list = {"neck_pitch", "neck_roll", "neck_yaw",
         "torso_pitch", "torso_roll", "torso_yaw",

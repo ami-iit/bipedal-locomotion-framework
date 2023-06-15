@@ -2,7 +2,7 @@
  * @file CoMTask.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -114,14 +114,21 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     // set the gains for the controllers
-    double kpLinear;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+    double kpLinearScalar;
+    Eigen::Vector3d kpLinearVector;
+    if (ptr->getParameter("kp_linear", kpLinearScalar))
     {
-        log()->error("{} [{}] to get the proportional linear gain.", errorPrefix, m_description);
+        m_R3Controller.setGains(kpLinearScalar);
+    } else if (ptr->getParameter("kp_linear", kpLinearVector))
+    {
+        m_R3Controller.setGains(kpLinearVector);
+    } else
+    {
+        log()->error("{} [{}] Unable to get the proportional linear gain.",
+                     errorPrefix,
+                     m_description);
         return false;
     }
-
-    m_R3Controller.setGains(kpLinear);
 
     std::vector<bool> mask;
     if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))

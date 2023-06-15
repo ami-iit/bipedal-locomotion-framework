@@ -2,11 +2,13 @@
  * @file ContactPhaseListTest.cpp
  * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2020,2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
+
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 
@@ -14,15 +16,17 @@ using namespace BipedalLocomotion::Contacts;
 
 TEST_CASE("Rule of five")
 {
+    using namespace std::chrono_literals;
+
     ContactPhaseList phaseList;
 
     ContactListMap contactListMap;
-    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0.0, 1.0));
-    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2.0, 5.0));
-    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6.0, 7.0));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0s, 1s));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2s, 5s));
+    REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6s, 7s));
 
-    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0.0, 3.0));
-    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4.0, 7.0));
+    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0s, 3s));
+    REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4s, 7s));
 
     phaseList.setLists(contactListMap);
 
@@ -68,17 +72,19 @@ TEST_CASE("Rule of five")
 
 TEST_CASE("ContactPhaseList")
 {
+    using namespace std::chrono_literals;
+
     ContactPhaseList phaseList;
 
     SECTION("Set from map")
     {
         ContactListMap contactListMap;
-        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0.0, 1.0));
-        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2.0, 5.0));
-        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6.0, 7.0));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 0s, 1s));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 2s, 5s));
+        REQUIRE(contactListMap["left"].addContact(manif::SE3d::Identity(), 6s, 7s));
 
-        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0.0, 3.0));
-        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4.0, 7.0));
+        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 0s, 3s));
+        REQUIRE(contactListMap["right"].addContact(manif::SE3d::Identity(), 4s, 7s));
 
         phaseList.setLists(contactListMap);
     }
@@ -88,15 +94,15 @@ TEST_CASE("ContactPhaseList")
     contactListRight.setDefaultName("right");
     contactListAdditional.setDefaultName("additional");
 
-    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 0.0, 1.0));
-    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 2.0, 5.0));
-    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 6.0, 7.0));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 0s, 1s));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 2s, 5s));
+    REQUIRE(contactListLeft.addContact(manif::SE3d::Identity(), 6s, 7s));
 
-    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 0.0, 3.0));
-    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 4.0, 7.0));
+    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 0s, 3s));
+    REQUIRE(contactListRight.addContact(manif::SE3d::Identity(), 4s, 7s));
 
-    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 4.0, 5.0));
-    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 6.0, 7.5));
+    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 4s, 5s));
+    REQUIRE(contactListAdditional.addContact(manif::SE3d::Identity(), 6s, 7s + 500ms));
 
     REQUIRE(phaseList.setLists({contactListAdditional, contactListLeft, contactListRight}));
 
@@ -108,7 +114,7 @@ TEST_CASE("ContactPhaseList")
         REQUIRE(same);
 
         std::advance(it, 1);
-        same = phaseList.getPresentPhase((it->beginTime + it->endTime) / 2.0) == it;
+        same = phaseList.getPresentPhase(((it->beginTime + it->endTime).count() / 2)*1ns) == it;
         REQUIRE(same);
 
         std::advance(it, 1);
@@ -129,8 +135,8 @@ TEST_CASE("ContactPhaseList")
         ContactList::const_iterator expectedAdditional = contactListMap.at("additional").begin();
 
         ContactPhaseList::const_iterator phase = phaseList.begin();
-        REQUIRE(phase->beginTime == 0.0);
-        REQUIRE(phase->endTime == 1.0);
+        REQUIRE(phase->beginTime == 0s);
+        REQUIRE(phase->endTime == 1s);
         REQUIRE(phase->activeContacts.size() == 2);
         bool ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
@@ -140,16 +146,16 @@ TEST_CASE("ContactPhaseList")
         phase++;
         expectedLeft++;
 
-        REQUIRE(phase->beginTime == 1.0);
-        REQUIRE(phase->endTime == 2.0);
+        REQUIRE(phase->beginTime == 1s);
+        REQUIRE(phase->endTime == 2s);
         REQUIRE(phase->activeContacts.size() == 1);
         ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
 
-        REQUIRE(phase->beginTime == 2.0);
-        REQUIRE(phase->endTime == 3.0);
+        REQUIRE(phase->beginTime == 2s);
+        REQUIRE(phase->endTime == 3s);
         REQUIRE(phase->activeContacts.size() == 2);
         ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
@@ -159,16 +165,16 @@ TEST_CASE("ContactPhaseList")
         phase++;
         expectedRight++;
 
-        REQUIRE(phase->beginTime == 3.0);
-        REQUIRE(phase->endTime == 4.0);
+        REQUIRE(phase->beginTime == 3s);
+        REQUIRE(phase->endTime == 4s);
         REQUIRE(phase->activeContacts.size() == 1);
         ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
 
         phase++;
 
-        REQUIRE(phase->beginTime == 4.0);
-        REQUIRE(phase->endTime == 5.0);
+        REQUIRE(phase->beginTime == 4s);
+        REQUIRE(phase->endTime == 5s);
         REQUIRE(phase->activeContacts.size() == 3);
         ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
@@ -181,16 +187,16 @@ TEST_CASE("ContactPhaseList")
         expectedLeft++;
         expectedAdditional++;
 
-        REQUIRE(phase->beginTime == 5.0);
-        REQUIRE(phase->endTime == 6.0);
+        REQUIRE(phase->beginTime == 5s);
+        REQUIRE(phase->endTime == 6s);
         REQUIRE(phase->activeContacts.size() == 1);
         ok = phase->activeContacts.at("right") == expectedRight;
         REQUIRE(ok);
 
         phase++;
 
-        REQUIRE(phase->beginTime == 6.0);
-        REQUIRE(phase->endTime == 7.0);
+        REQUIRE(phase->beginTime == 6s);
+        REQUIRE(phase->endTime == 7s);
         REQUIRE(phase->activeContacts.size() == 3);
         ok = phase->activeContacts.at("left") == expectedLeft;
         REQUIRE(ok);
@@ -203,8 +209,8 @@ TEST_CASE("ContactPhaseList")
         expectedLeft++;
         expectedRight++;
 
-        REQUIRE(phase->beginTime == 7.0);
-        REQUIRE(phase->endTime == 7.5);
+        REQUIRE(phase->beginTime == 7s);
+        REQUIRE(phase->endTime == 7s + 500ms);
         REQUIRE(phase->activeContacts.size() == 1);
         ok = phase->activeContacts.at("additional") == expectedAdditional;
         REQUIRE(ok);

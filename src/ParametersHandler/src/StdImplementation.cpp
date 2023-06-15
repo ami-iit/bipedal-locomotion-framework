@@ -2,15 +2,18 @@
  * @file StdImplementation.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <string>
 
+#include <BipedalLocomotion/GenericContainer/Vector.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
+using namespace BipedalLocomotion;
 
 void StdImplementation::setParameter(const std::string& parameterName,
                                      const GenericContainer::Vector<const int>::Ref parameter)
@@ -24,8 +27,16 @@ void StdImplementation::setParameter(const std::string& parameterName,
     return setParameterPrivate(parameterName, parameter);
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const GenericContainer::Vector<const std::string>::Ref parameter)
+void StdImplementation::setParameter(
+    const std::string& parameterName,
+    const GenericContainer::Vector<const std::string>::Ref parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
+void StdImplementation::setParameter(
+        const std::string& parameterName,
+        const GenericContainer::Vector<const std::chrono::nanoseconds>::Ref parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
@@ -48,24 +59,35 @@ bool StdImplementation::getParameter(const std::string& parameterName,
     return getParameterPrivate(parameterName, parameter);
 }
 
+bool StdImplementation::getParameter(
+    const std::string& parameterName,
+    GenericContainer::Vector<std::chrono::nanoseconds>::Ref parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
 bool StdImplementation::getParameter(const std::string& parameterName, int& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
-bool StdImplementation::getParameter(const std::string& parameterName,
-                                     double& parameter) const
+bool StdImplementation::getParameter(const std::string& parameterName, double& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
-bool StdImplementation::getParameter(const std::string& parameterName,
-                                     std::string& parameter) const
+bool StdImplementation::getParameter(const std::string& parameterName, std::string& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
 
 bool StdImplementation::getParameter(const std::string& parameterName, bool& parameter) const
+{
+    return getParameterPrivate(parameterName, parameter);
+}
+
+bool StdImplementation::getParameter(const std::string& parameterName,
+                                     std::chrono::nanoseconds& parameter) const
 {
     return getParameterPrivate(parameterName, parameter);
 }
@@ -81,8 +103,7 @@ void StdImplementation::setParameter(const std::string& parameterName, const int
     return setParameterPrivate(parameterName, parameter);
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const double& parameter)
+void StdImplementation::setParameter(const std::string& parameterName, const double& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
@@ -92,13 +113,18 @@ void StdImplementation::setParameter(const std::string& parameterName, const cha
     return setParameterPrivate(parameterName, std::string(parameter));
 }
 
-void StdImplementation::setParameter(const std::string& parameterName,
-                                     const std::string& parameter)
+void StdImplementation::setParameter(const std::string& parameterName, const std::string& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }
 
 void StdImplementation::setParameter(const std::string& parameterName, const bool& parameter)
+{
+    return setParameterPrivate(parameterName, parameter);
+}
+
+void StdImplementation::setParameter(const std::string& parameterName,
+                                     const std::chrono::nanoseconds& parameter)
 {
     return setParameterPrivate(parameterName, parameter);
 }

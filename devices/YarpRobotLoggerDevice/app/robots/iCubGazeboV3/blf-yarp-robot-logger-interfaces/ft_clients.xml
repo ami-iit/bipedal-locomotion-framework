@@ -1,0 +1,43 @@
+<!-- Copyright (C) 2022 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<devices>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/left_arm/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_arm</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_arm_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/right_arm/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_arm</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_front_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/left_foot_front/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_front_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_rear_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/left_foot_rear/analog:o</param>
+        <param name="local">/yarp_robot_logger/left_rear_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_upper_leg_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/right_leg/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_upper_leg_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_front_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/right_foot_front/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_front_ft</param>
+    </device>
+
+    <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_rear_ft_client" type="analogsensorclient">
+        <param name="remote">/icubSim/right_foot_rear/analog:o</param>
+        <param name="local">/yarp_robot_logger/right_rear_ft</param>
+    </device>
+
+</devices>

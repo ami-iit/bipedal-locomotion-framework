@@ -2,7 +2,7 @@
  * @file InvariantEKFBaseEstimator.cpp
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
@@ -194,7 +194,8 @@ public:
     friend class InvariantEKFBaseEstimator;
 };
 
-InvariantEKFBaseEstimator::InvariantEKFBaseEstimator() : m_pimpl(std::make_unique<Impl>())
+InvariantEKFBaseEstimator::InvariantEKFBaseEstimator()
+    : m_pimpl(std::make_unique<Impl>())
 {
     m_isInvEKF = true;
     m_state.imuOrientation.setIdentity();

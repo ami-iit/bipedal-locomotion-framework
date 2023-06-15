@@ -2,7 +2,7 @@
  * @file TimeVaryingDCMPlanner.cpp
  * @authors Diego Ferigo, Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <pybind11/eigen.h>
@@ -11,7 +11,7 @@
 
 #include <BipedalLocomotion/Planners/DCMPlanner.h>
 #include <BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h>
-#include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/Planners/TimeVaryingDCMPlanner.h>
 
 namespace BipedalLocomotion
@@ -28,16 +28,7 @@ void CreateTimeVaryingDCMPlanner(pybind11::module& module)
 
     py::class_<TimeVaryingDCMPlanner, DCMPlanner>(module, "TimeVaryingDCMPlanner")
         .def(py::init())
-        .def(
-            "initialize",
-            [](TimeVaryingDCMPlanner& impl,
-               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
         .def("compute_trajectory", &TimeVaryingDCMPlanner::computeTrajectory)
-        .def("get_output", &TimeVaryingDCMPlanner::getOutput)
-        .def("is_output_valid", &TimeVaryingDCMPlanner::isOutputValid)
-        .def("advance", &TimeVaryingDCMPlanner::advance)
         .def("set_contact_phase_list",
              &TimeVaryingDCMPlanner::setContactPhaseList,
              py::arg("contact_phase_list"))

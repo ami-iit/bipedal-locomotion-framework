@@ -2,13 +2,14 @@
  * @file IntegratorFloatingBaseSystemKinematics.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <memory>
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <Eigen/Dense>
 
@@ -21,9 +22,10 @@ using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
 TEST_CASE("Integrator - Linear system")
 {
-    constexpr double dT = 0.0001;
+    using namespace std::chrono_literals;
+    constexpr std::chrono::nanoseconds dT = 100us;
     constexpr double tolerance = 1e-3;
-    constexpr double simulationTime = 0.5;
+    constexpr std::chrono::nanoseconds simulationTime = 500ms;
 
     auto system = std::make_shared<FloatingBaseSystemKinematics>();
 
@@ -65,12 +67,12 @@ TEST_CASE("Integrator - Linear system")
         const auto& [basePosition, baseRotation, jointPosition] = integrator.getSolution();
 
         const auto& [basePositionExact, baseRotationExact, jointPositionExact]
-            = closeFormSolution(dT * i);
+            = closeFormSolution(std::chrono::duration<double>(dT * i).count());
 
         REQUIRE(baseRotation.rotation().isApprox(baseRotationExact, tolerance));
         REQUIRE(basePosition.isApprox(basePositionExact, tolerance));
         REQUIRE(jointPosition.isApprox(jointPositionExact, tolerance));
 
-        REQUIRE(integrator.integrate(0, dT));
+        REQUIRE(integrator.integrate(0s, dT));
     }
 }

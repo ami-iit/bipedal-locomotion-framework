@@ -2,7 +2,7 @@
  * @file FloatingBaseEstimator.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_ESTIMATORS_FLOATING_BASE_ESTIMATOR_H
@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorParams.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h>
 
+#include <chrono>
 #include <iDynTree/KinDynComputations.h>
 #include <iostream>
 #include <memory>
@@ -195,8 +196,8 @@ public:
     */
     bool setContactStatus(const std::string& name,
                           const bool& contactStatus,
-                          const double& switchTime,
-                          double timeNow = 0.);
+                          const std::chrono::nanoseconds& switchTime,
+                          const std::chrono::nanoseconds& = std::chrono::nanoseconds::zero());
 
     /**
     * Set kinematic measurements
@@ -220,7 +221,7 @@ public:
     bool setLandmarkRelativePose(const int& landmarkID,
                                  const Eigen::Quaterniond& quat,
                                  const Eigen::Vector3d& pos,
-                                 const double& timeNow);
+                                 const std::chrono::nanoseconds& timeNow);
 
     /**
     * Compute one step of the estimator

@@ -2,7 +2,7 @@
  * @file bipedal_locomotion.cpp.in
  * @authors Giulio Romualdi, Diego Ferigo
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // clang-format off
@@ -11,6 +11,15 @@
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
 #include <BipedalLocomotion/bindings/TextLogging/Module.h>
+#include <BipedalLocomotion/bindings/TextLogging/TextLogging.h>
+
+@cmakeif FRAMEWORK_USE_rclcpp
+#include <BipedalLocomotion/bindings/TextLogging/RosModule.h>
+@endcmakeif FRAMEWORK_USE_rclcpp
+
+@cmakeif FRAMEWORK_COMPILE_YarpImplementation
+#include <BipedalLocomotion/bindings/TextLogging/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpImplementation
 
 @cmakeif FRAMEWORK_COMPILE_YarpImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
@@ -22,7 +31,16 @@
 
 @cmakeif FRAMEWORK_COMPILE_System
 #include <BipedalLocomotion/bindings/System/Module.h>
+#include <BipedalLocomotion/bindings/System/Clock.h>
 @endcmakeif FRAMEWORK_COMPILE_System
+
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+#include <BipedalLocomotion/bindings/System/YarpModule.h>
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+#include <BipedalLocomotion/bindings/System/RosModule.h>
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
 
 @cmakeif FRAMEWORK_COMPILE_Contact
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
@@ -32,9 +50,13 @@
 #include <BipedalLocomotion/bindings/Planners/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_Planners
 
-@cmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+@cmakeif FRAMEWORK_COMPILE_Unicycle
+#include <BipedalLocomotion/bindings/Planners/UnicycleModule.h>
+@endcmakeif FRAMEWORK_COMPILE_Unicycle
+
+@cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 
 @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
@@ -48,6 +70,21 @@
 #include <BipedalLocomotion/bindings/TSID/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_TSID
 
+@cmakeif FRAMEWORK_COMPILE_ManifConversions
+#include <BipedalLocomotion/bindings/Conversions/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ManifConversions
+
+@cmakeif FRAMEWORK_COMPILE_YarpUtilities
+#include <BipedalLocomotion/bindings/YarpUtilities/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+
+@cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+#include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+
+@cmakeif FRAMEWORK_COMPILE_ML
+#include <BipedalLocomotion/bindings/ML/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ML
 
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
@@ -61,8 +98,17 @@ PYBIND11_MODULE(bindings, m)
 
     m.doc() = "BipedalLocomotionFramework bindings";
 
-    py::module textLoggingModule = m.def_submodule("logging");
+    py::module textLoggingModule = m.def_submodule("text_logging");
     bindings::TextLogging::CreateModule(textLoggingModule);
+    bindings::CreateLogger(m);
+
+    @cmakeif FRAMEWORK_USE_rclcpp
+    bindings::TextLogging::CreateRosModule(textLoggingModule);
+    @endcmakeif FRAMEWORK_USE_rclcpp
+
+    @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+    bindings::TextLogging::CreateYarpModule(textLoggingModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
@@ -81,7 +127,16 @@ PYBIND11_MODULE(bindings, m)
     @cmakeif FRAMEWORK_COMPILE_System
     py::module systemModule = m.def_submodule("system");
     bindings::System::CreateModule(systemModule);
+    bindings::CreateClock(m);
     @endcmakeif FRAMEWORK_COMPILE_System
+
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+    bindings::System::CreateYarpModule(systemModule);
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+    bindings::System::CreateRosModule(systemModule);
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
 
     @cmakeif FRAMEWORK_COMPILE_Contact
     py::module contactsModule = m.def_submodule("contacts");
@@ -93,10 +148,14 @@ PYBIND11_MODULE(bindings, m)
     bindings::Planners::CreateModule(plannersModule);
     @endcmakeif FRAMEWORK_COMPILE_Planners
 
-    @cmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+    @cmakeif FRAMEWORK_COMPILE_Unicycle
+    bindings::Planners::CreateUnicycleModule(plannersModule);
+    @endcmakeif FRAMEWORK_COMPILE_Unicycle
+
+    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
     py::module robotInterfaceModule = m.def_submodule("robot_interface");
     bindings::RobotInterface::CreateModule(robotInterfaceModule);
-    @endcmakeif FRAMEWORK_COMPILE_RobotInterfaceBindings
+    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
 
     @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
     py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
@@ -112,4 +171,24 @@ PYBIND11_MODULE(bindings, m)
     py::module tsidModule = m.def_submodule("tsid");
     bindings::TSID::CreateModule(tsidModule);
     @endcmakeif FRAMEWORK_COMPILE_TSID
+
+    @cmakeif FRAMEWORK_COMPILE_ManifConversions
+    py::module conversionsModule = m.def_submodule("conversions");
+    bindings::Conversions::CreateModule(conversionsModule);
+    @endcmakeif FRAMEWORK_COMPILE_ManifConversions
+
+    @cmakeif FRAMEWORK_COMPILE_YarpUtilities
+    py::module yarpUtilitiesModule = m.def_submodule("yarp_utilities");
+    bindings::YarpUtilities::CreateModule(yarpUtilitiesModule);
+    @endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+
+    @cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+    py::module continuousDynamicalSystemModule = m.def_submodule("continuous_dynamical_system");
+    bindings::ContinuousDynamicalSystem::CreateModule(continuousDynamicalSystemModule);
+    @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+
+    @cmakeif FRAMEWORK_COMPILE_ML
+    py::module mlModule = m.def_submodule("ml");
+    bindings::ML::CreateModule(mlModule);
+    @endcmakeif FRAMEWORK_COMPILE_ML
 }

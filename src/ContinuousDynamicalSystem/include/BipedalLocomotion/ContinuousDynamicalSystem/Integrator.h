@@ -2,12 +2,13 @@
  * @file Integrator.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 #define BIPEDAL_LOCOMOTION_CONTINUOUS_DYNAMICAL_SYSTEM_INTEGRATOR_H
 
+#include <chrono>
 #include <memory>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
@@ -15,6 +16,18 @@
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+
+
+namespace BipedalLocomotion
+{
+namespace ContinuousDynamicalSystem
+{
+template <typename _Derived> class Integrator;
+}
+}
+
+BLF_DEFINE_INTEGRATOR_STRUCTURE(Integrator, _Derived)
+
 
 namespace BipedalLocomotion
 {
@@ -28,11 +41,9 @@ namespace ContinuousDynamicalSystem
 template <class _Derived> class Integrator
 {
 public:
-    /** DynamicalSystem type */
-    using DynamicalSystem = typename internal::traits<_Derived>::DynamicalSystem;
-
-    /** State of the integrator type */
-    using State = typename internal::traits<_Derived>::State;
+    using DynamicalSystem = typename internal::traits<Integrator<_Derived>>::DynamicalSystem;
+    using State = typename internal::traits<Integrator<_Derived>>::State;
+    using StateDerivative = typename internal::traits<Integrator<_Derived>>::StateDerivative;
 
     static_assert(std::is_base_of<
                       BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem<DynamicalSystem>,
@@ -71,7 +82,8 @@ public:
      * @param finalTime final time of the integration.
      * @return true in case of success, false otherwise.
      */
-    bool integrate(double initialTime, double finalTime);
+    bool integrate(const std::chrono::nanoseconds& initialTime,
+                   const std::chrono::nanoseconds& finalTime);
 };
 
 template <class _Derived>
@@ -109,7 +121,9 @@ const typename Integrator<_Derived>::State& Integrator<_Derived>::getSolution() 
     return m_dynamicalSystem->getState();
 }
 
-template <class _Derived> bool Integrator<_Derived>::integrate(double initialTime, double finalTime)
+template <class _Derived>
+bool Integrator<_Derived>::integrate(const std::chrono::nanoseconds& initialTime,
+                                     const std::chrono::nanoseconds& finalTime)
 {
     return static_cast<_Derived*>(this)->integrate(initialTime, finalTime);
 }

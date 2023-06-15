@@ -2,12 +2,14 @@
  * @file SE3Task.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/IK/SE3Task.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+
+#include <Eigen/src/Geometry/Quaternion.h>
 
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/Model.h>
@@ -131,10 +133,18 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpLinear;
-    double kpAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear))
+    // set the gains for the R3 controller
+    double kpLinearScalar;
+    Eigen::Vector3d kpLinearVector;
+    if(ptr->getParameter("kp_linear", kpLinearScalar))
+    {
+        m_R3Controller.setGains(kpLinearScalar);
+    }
+    else if(ptr->getParameter("kp_linear", kpLinearVector))
+    {
+        m_R3Controller.setGains(kpLinearVector);
+    }
+    else
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -143,7 +153,18 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    if (!ptr->getParameter("kp_angular", kpAngular))
+    // set gains for the SO3 controller
+    double kpAngularScalar;
+    Eigen::Vector3d kpAngularVector;
+    if(ptr->getParameter("kp_angular", kpAngularScalar))
+    {
+        m_SO3Controller.setGains(kpAngularScalar);
+    }
+    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    {
+        m_SO3Controller.setGains(kpAngularVector);
+    }
+    else
     {
         log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -151,9 +172,6 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                      frameName);
         return false;
     }
-
-    m_R3Controller.setGains(kpLinear);
-    m_SO3Controller.setGains(kpAngular);
 
     std::vector<bool> mask;
     if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
@@ -181,7 +199,35 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         }
     }
 
-    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription + ".";
+    // the following parameters are optional
+    if (!ptr->getParameter("use_orientation_exogenous_feedback", m_useOrientationExogenousFeedback))
+    {
+        log()->info("{} [{} {}] Unable to find the use_orientation_exogenous_feedback parameter. "
+                    "The default value is used: {}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    m_useOrientationExogenousFeedback);
+    }
+
+    if (!ptr->getParameter("use_position_exogenous_feedback", m_usePositionExogenousFeedback))
+    {
+        log()->info("{} [{} {}] Unable to find the use_position_exogenous_feedback parameter. "
+                    "The default value is used: {}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    m_usePositionExogenousFeedback);
+    }
+
+    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription
+      + ". Use exogenous feedback position:" + boolToString(m_usePositionExogenousFeedback)
+      + ". Use exogenous feedback orientation:" + boolToString(m_useOrientationExogenousFeedback)
+      + ".";
+
+    // initialize the feedback of the controller
+    m_R3Controller.setState(manif::SE3d::Translation::Zero());
+    m_SO3Controller.setState(Eigen::Quaterniond::Identity());
 
     m_isInitialized = true;
 
@@ -197,14 +243,23 @@ bool SE3Task::update()
 
     auto getControllerState = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
+        {
             return controller.getControl().coeffs();
-        else
-            return controller.getFeedForward().coeffs();
+        }
+
+        return controller.getFeedForward().coeffs();
     };
 
     // set the state
-    m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
-    m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
+    if (!m_useOrientationExogenousFeedback)
+    {
+        m_SO3Controller.setState(
+            toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
+    }
+    if (!m_usePositionExogenousFeedback)
+    {
+        m_R3Controller.setState(toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()));
+    }
 
     // update the controller
     m_SO3Controller.computeControlLaw();
@@ -267,6 +322,35 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& 
 
     ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat());
     ok = ok && m_SO3Controller.setFeedForward(mixedVelocity.ang());
+
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SE3d& I_H_F)
+{
+    bool ok = this->setFeedback(I_H_F.translation());
+    ok = ok && this->setFeedback(I_H_F.quat());
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SE3d::Translation& I_p_F)
+{
+    bool ok = true;
+    if (m_usePositionExogenousFeedback)
+    {
+        ok = ok && m_R3Controller.setState(I_p_F);
+    }
+
+    return ok;
+}
+
+bool SE3Task::setFeedback(const manif::SO3d& I_R_F)
+{
+    bool ok = true;
+    if (m_useOrientationExogenousFeedback)
+    {
+        ok = ok && m_SO3Controller.setState(I_R_F);
+    }
 
     return ok;
 }

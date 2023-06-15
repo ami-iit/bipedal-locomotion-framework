@@ -1,6 +1,6 @@
 /**
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 
@@ -37,12 +37,13 @@ namespace Capture {
 class RealSense : public BipedalLocomotion::RobotInterface::ICameraBridge,
                   public BipedalLocomotion::RobotInterface::IPointCloudBridge
 {
-    public:
+public:
     RealSense();
 
     ~RealSense();
 
-    bool initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(
+        std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
 
     bool isValid();
 
@@ -52,36 +53,43 @@ class RealSense : public BipedalLocomotion::RobotInterface::ICameraBridge,
 
     bool getPCLDevicesList(std::vector<std::string>& pclDevList) final;
 
-    bool getColorImage(const std::string& camName,
-                       cv::Mat& colorImg,
-                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool
+    getColorImage(const std::string& camName,
+                  cv::Mat& colorImg,
+                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
 
-    bool getDepthImage(const std::string& camName,
-                       cv::Mat& depthImg,
-                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool
+    getDepthImage(const std::string& camName,
+                  cv::Mat& depthImg,
+                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
 
-   bool getColorizedDepthImage(const std::string& camName,
-                               cv::Mat& depthImg,
-                               std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
+    bool
+    getColorizedDepthImage(const std::string& camName,
+                           cv::Mat& depthImg,
+                           std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
 
     bool getInfraredImage(const std::string& camName,
                           cv::Mat& irImage,
                           std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
 
-    bool getPointCloud(const std::string& pclDevName,
-                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                       std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool
+    getPointCloud(const std::string& pclDevName,
+                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
+                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+
+    /**
+     * Get the stored metadata.
+     * @return a const reference to the metadata
+     */
+    const BipedalLocomotion::RobotInterface::CameraBridgeMetaData& getMetaData() const final;
 
 private:
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;
-
 };
-
 
 } // namespace Capture
 } // namespace Perception
 } // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_PERCEPTION_CAPTURE_REALSENSE_H
-

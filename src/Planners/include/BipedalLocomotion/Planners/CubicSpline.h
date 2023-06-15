@@ -2,12 +2,13 @@
  * @file CubicSpline.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_CUBIC_SPLINE_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_CUBIC_SPLINE_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -48,7 +49,7 @@ public:
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */
-    bool setAdvanceTimeStep(const double& dt) final;
+    bool setAdvanceTimeStep(const std::chrono::nanoseconds& dt) final;
 
     /**
      * Set the knots of the spline.
@@ -57,7 +58,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setKnots(const std::vector<Eigen::VectorXd>& position, //
-                  const std::vector<double>& time) final;
+                  const std::vector<std::chrono::nanoseconds>& time) final;
 
     /**
      * Set the initial condition of the spline
@@ -80,6 +81,20 @@ public:
                             Eigen::Ref<const Eigen::VectorXd> acceleration) final;
 
     /**
+     * Set the initial condition of the spline
+     * @param velocity initial velocity (i.e. first derivative).
+     * @return True in case of success, false otherwise.
+     */
+    bool setInitialConditions(Eigen::Ref<const Eigen::VectorXd> velocity);
+
+    /**
+     * Set the final condition of the spline
+     * @param velocity final velocity (i.e. first derivative).
+     * @return True in case of success, false otherwise.
+     */
+    bool setFinalConditions(Eigen::Ref<const Eigen::VectorXd> velocity);
+
+    /**
      * Evaluate the spline at a given point
      * @param t instant time
      * @param position position at time t
@@ -87,7 +102,7 @@ public:
      * @param acceleration acceleration at time t
      * @return True in case of success, false otherwise.
      */
-    bool evaluatePoint(const double& t,
+    bool evaluatePoint(const std::chrono::nanoseconds& t,
                        Eigen::Ref<Eigen::VectorXd> position,
                        Eigen::Ref<Eigen::VectorXd> velocity,
                        Eigen::Ref<Eigen::VectorXd> acceleration) final;
@@ -98,7 +113,7 @@ public:
      * @param state of the system
      * @return True in case of success, false otherwise.
      */
-    bool evaluatePoint(const double& t, SplineState& state) final;
+    bool evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state) final;
 
     /**
      * Get the state of the system.

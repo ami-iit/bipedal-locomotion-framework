@@ -1,34 +1,48 @@
 /**
  * @copyright 2020,2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
-#include <matioCpp/matioCpp.h>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <unordered_set>
+#include <atomic>
+#include <fstream>
 
-#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/videoio.hpp>
 
 #include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/Wrapper.h>
+#include <yarp/dev/IMultipleWrapper.h>
+#include <yarp/os/Bottle.h>
+#include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
+#include <yarp/sig/Vector.h>
 
-#include <memory>
-#include <string>
-#include <unordered_map>
+#include <robometry/BufferManager.h>
+
+#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
+
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
 namespace BipedalLocomotion
 {
 
 class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
-                          public yarp::dev::IMultipleWrapper,
-                          public yarp::os::PeriodicThread
+                              public yarp::dev::IMultipleWrapper,
+                              public yarp::os::PeriodicThread
 {
 public:
     YarpRobotLoggerDevice(double period,
-                      yarp::os::ShouldUseSystemClock useSystemClock
-                      = yarp::os::ShouldUseSystemClock::No);
+                          yarp::os::ShouldUseSystemClock useSystemClock
+                          = yarp::os::ShouldUseSystemClock::No);
     YarpRobotLoggerDevice();
     ~YarpRobotLoggerDevice();
 
@@ -43,41 +57,128 @@ private:
     using gyro_t = Eigen::Matrix<double, 3, 1>;
     using accelerometer_t = Eigen::Matrix<double, 3, 1>;
     using orientation_t = Eigen::Matrix<double, 3, 1>;
+    using magnemetometer_t = Eigen::Matrix<double, 3, 1>;
     using analog_sensor_t = Eigen::Matrix<double, 12, 1>;
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
-    std::mutex m_deviceMutex;
+    std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
-    std::unordered_map<std::string, Eigen::MatrixXd> m_orientations;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_accelerometers;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_gyros;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_fts;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_jointState;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_motorState;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_motorPWMs;
-    std::unordered_map<std::string, Eigen::MatrixXd> m_PIDs;
-    Eigen::VectorXd m_time;
-    double m_timeNow;
+    template <typename T>
+    struct ExogenousSignal
+    {
+        std::mutex mutex;
+        std::string remote;
+        std::string local;
+        std::string carrier;
+        std::string signalName;
+        yarp::os::BufferedPort<T> port;
+        bool dataArrived{false};
+        bool connected{false};
 
-    std::vector<std::string> m_IMUNames;
-    std::vector<std::string> m_FTNames;
-    std::vector<std::string> m_accelerometerNames;
-    std::vector<std::string> m_gyroNames;
-    std::vector<std::string> m_orientationNames;
-    std::vector<std::string> m_jointNames;
+        bool connect()
+        {
+            return yarp::os::Network::connect(remote, local, carrier);
+        }
+
+        void disconnect()
+        {
+            if (connected)
+            {
+                yarp::os::Network::disconnect(remote, local);
+            }
+        }
+    };
+
+    std::unordered_map<std::string,
+                       ExogenousSignal<BipedalLocomotion::YarpUtilities::VectorsCollection>>
+        m_vectorsCollectionSignals;
+
+    std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
+
+    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
+    std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
+    std::thread m_lookForNewExogenousSignalThread;
+
+    std::vector<std::string> m_rgbCamerasList;
+    std::vector<std::string> m_rgbdCamerasList;
+    struct VideoWriter
+    {
+        enum class SaveMode
+        {
+            Video,
+            Frame
+        };
+
+        struct ImageSaver
+        {
+            std::mutex mutex;
+            std::shared_ptr<cv::VideoWriter> writer;
+            cv::Mat frame;
+            SaveMode saveMode{SaveMode::Video};
+            std::filesystem::path framesPath;
+        };
+
+        std::shared_ptr<ImageSaver> rgb;
+        std::shared_ptr<ImageSaver> depth;
+        int depthScale{1};
+
+        std::thread videoThread;
+        std::atomic<bool> recordVideoIsRunning{false};
+        int fps{-1};
+    };
+
+    std::string m_videoCodecCode{"mp4v"};
+    std::unordered_map<std::string, VideoWriter> m_videoWriters;
+
+    const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
+    std::unordered_set<std::string> m_textLoggingPortNames;
+    yarp::os::BufferedPort<yarp::os::Bottle> m_textLoggingPort;
+    std::atomic<bool> m_lookForNewLogsIsRunning{false};
+    std::unordered_set<std::string> m_textLogsStoredInManager;
+    std::thread m_lookForNewLogsThread;
+
+    Eigen::VectorXd m_jointSensorBuffer;
+    ft_t m_ftBuffer;
+    gyro_t m_gyroBuffer;
+    accelerometer_t m_acceloremeterBuffer;
+    orientation_t m_orientationBuffer;
+    magnemetometer_t m_magnemetometerBuffer;
     analog_sensor_t m_analogSensorBuffer;
-    unsigned int m_dofs;
+    double m_ftTemperatureBuffer;
 
+    bool m_streamMotorStates{false};
+    bool m_streamJointStates{false};
+    bool m_streamMotorPWM{false};
+    bool m_streamPIDs{false};
+    bool m_streamInertials{false};
+    bool m_streamCartesianWrenches{false};
+    bool m_streamFTSensors{false};
+    bool m_streamTemperatureSensors{false};
+    std::vector<std::string> m_textLoggingSubnames;
+    std::vector<std::string> m_codeStatusCmdPrefixes;
+
+    std::mutex m_bufferManagerMutex;
+    robometry::BufferManager m_bufferManager;
+
+    void lookForNewLogs();
+    void lookForExogenousSignals();
+    bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
+    void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
-
-    matioCpp::Struct createStruct(const std::string& key,
-                                  const std::unordered_map<std::string, Eigen::MatrixXd>& signal);
-
-    bool setupRobotSensorBridge(yarp::os::Searchable& config);
-    bool logData();
+    bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupRobotCameraBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
+                        const double& devicePeriod);
+    bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool saveCallback(const std::string& fileName,
+                      const robometry::SaveCallbackSaveMethod& method);
+    bool openVideoWriter(std::shared_ptr<VideoWriter::ImageSaver> imageSaver, const std::string& camera, const std::string& imageType,
+                         const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions);
+    bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+                            const std::string& camera, const std::string& imageType);
 };
 
 } // namespace BipedalLocomotion

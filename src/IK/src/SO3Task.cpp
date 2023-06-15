@@ -2,7 +2,7 @@
  * @file SO3Task.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -127,9 +127,18 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     // set the gains for the controllers
-    double kpAngular;
+    double kpAngularScalar;
+    Eigen::Vector3d kpAngularVector;
 
-    if (!ptr->getParameter("kp_angular", kpAngular))
+    if (ptr->getParameter("kp_angular", kpAngularScalar))
+    {
+        m_SO3Controller.setGains(kpAngularScalar);
+    }
+    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    {
+        m_SO3Controller.setGains(kpAngularVector);
+    }
+    else
     {
         log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -137,8 +146,6 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                      frameName);
         return false;
     }
-
-    m_SO3Controller.setGains(kpAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";

@@ -2,14 +2,14 @@
  * @file YarpUtilitiesTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // std
 #include <random>
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // YARP
 #include <yarp/os/Property.h>
@@ -42,6 +42,35 @@ TEST_CASE("Get int from searchable", "[int]")
     REQUIRE(getElementFromSearchable(property, key, element));
     REQUIRE(element == value);
 }
+
+TEST_CASE("Get bool from searchable", "[bool]")
+{
+    bool element;
+    yarp::os::Property property;
+    std::string key = "toss_coin_result";
+    bool value = false;
+
+    property.put(key, value);
+
+    // test
+    REQUIRE(getElementFromSearchable(property, key, element));
+    REQUIRE(element == value);
+}
+
+TEST_CASE("Get bool (int) from searchable", "[bool (int)]")
+{
+    bool element;
+    yarp::os::Property property;
+    std::string key = "toss_coin_result";
+    int value = 1;
+
+    property.put(key, value);
+
+    // test
+    REQUIRE(getElementFromSearchable(property, key, element));
+    REQUIRE((value == 1) == element);
+}
+
 
 TEST_CASE("Get double from searchable", "[double]")
 {
@@ -82,7 +111,7 @@ TEST_CASE("Get int vector from searchable", "[std::vector<int>]")
     auto list = yarpValue.asList();
 
     for (const auto& v : value)
-        list->addInt(v);
+        list->addInt32(v);
 
     property.put(key, yarpValue);
 
@@ -159,7 +188,7 @@ TEST_CASE("Get iDynTree vector from searchable", "[iDynTree::VectorDynSize]")
     for (unsigned int i = 0; i < 6; i++)
     {
         double seriesElement = 0.5 * std::pow(0.5, i);
-        list->addDouble(seriesElement);
+        list->addFloat64(seriesElement);
         value[i] = seriesElement;
     }
     property.put(key, yarpValue);
@@ -183,7 +212,7 @@ TEST_CASE("Get YARP vector from searchable", "[yarp::sig::Vector]")
     for (unsigned int i = 0; i < 6; i++)
     {
         double seriesElement = 0.5 * std::pow(0.5, i);
-        list->addDouble(seriesElement);
+        list->addFloat64(seriesElement);
         value[i] = seriesElement;
     }
     property.put(key, yarpValue);

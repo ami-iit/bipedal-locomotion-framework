@@ -1,8 +1,8 @@
 /**
- * @file QPInverseKinematics.cpp
+ * @file QPTSID.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <pybind11/eigen.h>
@@ -11,8 +11,9 @@
 
 #include <BipedalLocomotion/TSID/QPFixedBaseTSID.h>
 #include <BipedalLocomotion/TSID/QPTSID.h>
-#include <BipedalLocomotion/System/Source.h>
+
 #include <BipedalLocomotion/bindings/TSID/QPTSID.h>
+#include <BipedalLocomotion/bindings/type_caster/swig.h>
 
 namespace BipedalLocomotion
 {
@@ -26,7 +27,8 @@ void CreateQPTSID(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
 
-    py::class_<QPTSID, TaskSpaceInverseDynamics>(module, "QPTSID").def(py::init());
+    py::class_<QPTSID, TaskSpaceInverseDynamics>(module, "QPTSID")
+        .def(py::init());
 }
 
 void CreateQPFixedBaseTSID(pybind11::module& module)
@@ -36,7 +38,22 @@ void CreateQPFixedBaseTSID(pybind11::module& module)
 
     py::class_<QPFixedBaseTSID, QPTSID>(module, "QPFixedBaseTSID")
         .def(py::init())
-        .def("set_kin_dyn", &QPFixedBaseTSID::setKinDyn, py::arg("kin_dyn"));
+        .def(
+            "set_kin_dyn",
+            [](QPFixedBaseTSID& impl, ::pybind11::object& obj) -> bool {
+                std::shared_ptr<iDynTree::KinDynComputations>* cls
+                    = pybind11::detail::swig_wrapped_pointer_to_pybind<
+                        std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+                if (cls == nullptr)
+                {
+                    throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                  "an iDynTree::KinDynComputations object.");
+                }
+
+                return impl.setKinDyn(*cls);
+            },
+            py::arg("kin_dyn"));
 }
 
 } // namespace TSID

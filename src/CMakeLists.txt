@@ -1,6 +1,6 @@
 # Copyright (C) 2019 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 add_subdirectory(ContinuousDynamicalSystem)
 add_subdirectory(TextLogging)
@@ -20,3 +20,5 @@ add_subdirectory(TSID)
 add_subdirectory(Perception)
 add_subdirectory(IK)
 add_subdirectory(SimplifiedModelControllers)
+add_subdirectory(ML)
+add_subdirectory(ReducedModelControllers)

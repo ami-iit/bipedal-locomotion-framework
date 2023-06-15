@@ -2,7 +2,7 @@
  * @file FloatingBaseEstimatorDevice.h
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_BASE_ESTIMATOR_DEVICE_H
@@ -17,7 +17,7 @@
 
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/Wrapper.h>
+#include <yarp/dev/IMultipleWrapper.h>
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/dev/IFrameTransform.h>
 

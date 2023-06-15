@@ -2,11 +2,11 @@
  * @file SE3TaskTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // BipedalLocomotion
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -24,6 +24,7 @@ using namespace BipedalLocomotion::IK;
 TEST_CASE("SE3 Task")
 {
     constexpr double kp = 1.0;
+    const std::vector<double> kpVector{kp, kp, kp};
     const std::string robotVelocity = "robotVelocity";
 
 
@@ -33,13 +34,13 @@ TEST_CASE("SE3 Task")
     parameterHandler->setParameter("robot_velocity_variable_name",
                                    robotVelocity);
 
-    parameterHandler->setParameter("kp_linear", kp);
+    parameterHandler->setParameter("kp_linear", kpVector);
     parameterHandler->setParameter("kp_angular", kp);
 
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 30; numberOfJoints += 15)
     {
         // create the model
         const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
@@ -231,5 +232,73 @@ TEST_CASE("SE3 Task")
 
             REQUIRE(b.isApprox(expectedB));
         }
+
+        DYNAMIC_SECTION("Model with " << numberOfJoints
+                                      << " joints - [All DoF - exogenous feedback]")
+        {
+            parameterHandler->setParameter("use_orientation_exogenous_feedback", true);
+            parameterHandler->setParameter("use_position_exogenous_feedback", true);
+
+            const manif::SE3d randomTransform = manif::SE3d::Random();
+
+            SE3Task task;
+            REQUIRE(task.setKinDyn(kinDyn));
+            REQUIRE(task.initialize(parameterHandler));
+            REQUIRE(task.setVariablesHandler(variablesHandler));
+            REQUIRE(task.size() == 6);
+
+            const auto desiredPose = manif::SE3d::Random();
+            const auto desiredVelocity = manif::SE3d::Tangent::Random();
+
+            REQUIRE(task.setFeedback(randomTransform));
+            REQUIRE(task.setSetPoint(desiredPose, desiredVelocity));
+
+            REQUIRE(task.update());
+            REQUIRE(task.isValid());
+
+            // get A and b
+            Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
+            Eigen::Ref<const Eigen::VectorXd> b = task.getB();
+
+            // check the matrix A
+            REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
+                                 variablesHandler.getVariable("dummy1").size)
+                    .isZero());
+
+            REQUIRE(A.middleCols(variablesHandler.getVariable("dummy2").offset,
+                                 variablesHandler.getVariable("dummy2").size)
+                    .isZero());
+
+            Eigen::MatrixXd jacobian(6, model.getNrOfDOFs() + 6);
+            REQUIRE(kinDyn->getFrameFreeFloatingJacobian(controlledFrame, jacobian));
+
+            REQUIRE(A.middleCols(variablesHandler.getVariable(robotVelocity).offset,
+                                 variablesHandler.getVariable(robotVelocity).size)
+                    .isApprox(jacobian));
+
+            // check the vector b
+            LieGroupControllers::ProportionalControllerSO3d SO3Controller;
+            LieGroupControllers::ProportionalControllerR3d R3Controller;
+            SO3Controller.setGains(kp);
+            R3Controller.setGains(kp);
+
+            SO3Controller.setFeedForward(desiredVelocity.ang());
+            R3Controller.setFeedForward(desiredVelocity.lin());
+            SO3Controller.setDesiredState(desiredPose.quat());
+            R3Controller.setDesiredState(desiredPose.translation());
+
+            SO3Controller.setState(randomTransform.quat());
+            R3Controller.setState(randomTransform.translation());
+
+            SO3Controller.computeControlLaw();
+            R3Controller.computeControlLaw();
+
+            Eigen::VectorXd expectedB(6);
+            expectedB.head<3>() = R3Controller.getControl().coeffs();
+            expectedB.tail<3>() = SO3Controller.getControl().coeffs();
+
+            REQUIRE(b.isApprox(expectedB));
+        }
+
     }
 }

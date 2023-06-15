@@ -2,7 +2,7 @@
  * @file Logger.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_TEXT_LOGGING_LOGGER_H
@@ -12,6 +12,36 @@
 #include <spdlog/fmt/ostr.h>
 
 #include <spdlog/spdlog.h>
+#include <type_traits>
+
+// This is required only for FMT > v9.0.0
+#if (defined(FMT_VERSION) && FMT_VERSION > 90000)
+#include <Eigen/Dense>
+template <typename _Derived>
+struct fmt::formatter<Eigen::DenseBase<_Derived>> : ostream_formatter
+{
+};
+template <typename _Derived>
+struct fmt::formatter<Eigen::Transpose<_Derived>> : ostream_formatter
+{
+};
+#endif
+
+// spdlog/fmt/chrono.h has been introduced in spdlog v1.8.0
+#if (defined(SPDLOG_VERSION) && SPDLOG_VERSION >= 10800)
+#include <spdlog/fmt/chrono.h>
+#else // <--- The following lines copies the content of spdlog/fmt/chrono.h
+#if !defined(SPDLOG_FMT_EXTERNAL)
+#ifdef SPDLOG_HEADER_ONLY
+#ifndef FMT_HEADER_ONLY
+#define FMT_HEADER_ONLY
+#endif
+#endif
+#include <spdlog/fmt/bundled/chrono.h>
+#else
+#include <fmt/chrono.h>
+#endif
+#endif
 
 namespace BipedalLocomotion
 {
@@ -27,7 +57,7 @@ namespace BipedalLocomotion
 /**
  * Get an the instance of the log
  */
-TextLogging::Logger* const log();
+std::shared_ptr<TextLogging::Logger> const log();
 
 } // namespace BipedalLocomotion
 
@@ -35,15 +65,15 @@ namespace BipedalLocomotion
 {
 namespace TextLogging
 {
-enum class Verbosity
+enum class Verbosity : std::underlying_type<spdlog::level::level_enum>::type
 {
-    Trace,
-    Debug,
-    Info,
-    Warn,
-    Err,
-    Critical,
-    Off,
+    Trace = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::trace),
+    Debug = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::debug),
+    Info = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::info),
+    Warn = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::warn),
+    Err = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::err),
+    Critical = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::critical),
+    Off = static_cast<std::underlying_type<spdlog::level::level_enum>::type>(spdlog::level::level_enum::off),
 };
 
 /**
@@ -68,7 +98,7 @@ public:
     /**
      * Create a Logger
      */
-    virtual Logger* const createLogger() = 0;
+    virtual std::shared_ptr<Logger> const createLogger() = 0;
 };
 
 } // namespace TextLogging

@@ -2,9 +2,10 @@
  * @file Module.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
 #include <fstream>
 #include <iomanip>
 
@@ -26,7 +27,7 @@ using namespace BipedalLocomotion::JointPositionTracking;
 
 double Module::getPeriod()
 {
-    return m_dT;
+    return std::chrono::duration<double>(m_dT).count();
 }
 
 bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
@@ -149,8 +150,9 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_spline.setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
 
     m_timeKnots.clear();
-    m_timeKnots.push_back(0);
-    m_timeKnots.push_back(trajectoryDuration);
+    m_timeKnots.push_back(std::chrono::nanoseconds::zero());
+    m_timeKnots.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::duration<double>(trajectoryDuration)));
 
     if (!m_sensorBridge.advance())
     {
@@ -217,7 +219,7 @@ bool Module::updateModule()
     m_spline.advance();
 
     const double now = yarp::os::Time::now();
-    if (now - m_initTrajectoryTime > m_timeKnots.back() + 2)
+    if (now - m_initTrajectoryTime > std::chrono::duration<double>(m_timeKnots.back()).count() + 2)
     {
         std::cout << "[Module::updateModule] Generate a new trajectory." << std::endl;
 

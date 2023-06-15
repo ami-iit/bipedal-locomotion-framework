@@ -2,17 +2,22 @@
  * @file Contact.h
  * @authors Stefano Dafarra, Prashanth Ramadoss, Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 #define BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_H
 
-#include <BipedalLocomotion/Math/Wrench.h>
+#include <cmath>
+#include <ratio>
+#include <string>
+#include <vector>
+#include <chrono>
 
+#include <Eigen/Dense>
 #include <manif/SE3.h>
 
-#include <string>
+#include <BipedalLocomotion/Math/Wrench.h>
 
 namespace BipedalLocomotion
 {
@@ -69,12 +74,12 @@ struct PlannedContact : ContactBase
     /**
      * Instant from which the contact can be considered active.
      */
-    double activationTime{0.0};
+    std::chrono::nanoseconds activationTime{std::chrono::nanoseconds::zero()};
 
     /**
      * Instant after which the contact is no more active.
      */
-    double deactivationTime{0.0};
+    std::chrono::nanoseconds deactivationTime{std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The equality operator.
@@ -83,6 +88,14 @@ struct PlannedContact : ContactBase
      * @return True if the contacts are the same, false otherwise.
      */
     bool operator==(const PlannedContact& other) const;
+
+    /**
+     * @brief Check if the contact is active at a give time instant
+     *
+     * @param t time instant at which we check if the contact is active.
+     * @return True if `activationTime <= t < deactivationTime`.
+     */
+    [[nodiscard]] bool isContactActive(const std::chrono::nanoseconds& t) const;
 };
 
 /**
@@ -94,7 +107,7 @@ struct EstimatedContact : ContactBase
     /**
      * Instant at which the contact state was toggled.
      */
-    double switchTime{0.0};
+    std::chrono::nanoseconds switchTime{std::chrono::nanoseconds::zero()};
 
     /**
      * Current state of contact
@@ -105,11 +118,11 @@ struct EstimatedContact : ContactBase
      * Time at which the contact details were last updated
      * This field helps in forgetting contacts
      */
-    double lastUpdateTime{0.0};
+    std::chrono::nanoseconds lastUpdateTime{std::chrono::nanoseconds::zero()};
 
-    std::pair<bool, double> getContactDetails() const;
+    std::pair<bool, std::chrono::nanoseconds> getContactDetails() const;
 
-    void setContactStateStamped(const std::pair<bool, double>& pair);
+    void setContactStateStamped(const std::pair<bool, std::chrono::nanoseconds>& pair);
 };
 
 /**
@@ -121,6 +134,25 @@ struct ContactWrench : public ContactBase
 };
 
 using EstimatedLandmark = EstimatedContact;
+
+/**
+ * @brief Definition of a corner
+ */
+struct Corner
+{
+    Eigen::Vector3d position; /**< Position of the corner with respect to the main frame associated
+                                 to the contact. */
+    Eigen::Vector3d force; /**< Pure force applied to the contact corner. */
+};
+
+/**
+ * @brief DiscreteGeometryContact is a contact which is represented by a set of corners that
+ * exchanges a pure force whith the enviroment.
+ */
+struct DiscreteGeometryContact : public ContactBase
+{
+    std::vector<Corner> corners; /**< List of corners associated to the Contact. */
+};
 
 } // namespace Contacts
 } // namespace BipedalLocomotion

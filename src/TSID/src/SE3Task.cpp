@@ -2,7 +2,7 @@
  * @file SE3Task.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -123,29 +123,69 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-    // set the gains for the controllers
-    double kpLinear, kdLinear;
-    double kpAngular, kdAngular;
-    if (!ptr->getParameter("kp_linear", kpLinear) || !ptr->getParameter("kd_linear", kdLinear))
+    // set the gains for the R3 controller
+    Eigen::Vector3d kpLinear, kdLinear;
+    double bufferLinearScalar;
+
+    if(ptr->getParameter("kp_linear", bufferLinearScalar))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative linear gain.",
+        kpLinear.setConstant(bufferLinearScalar);
+    }
+    else if(!ptr->getParameter("kp_linear", kpLinear))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
         return false;
     }
 
-    if (!ptr->getParameter("kp_angular", kpAngular) || !ptr->getParameter("kd_angular", kdAngular))
+    if(ptr->getParameter("kd_linear", bufferLinearScalar))
     {
-        log()->error("{}, [{} {}] Unable to get the proportional and derivative angular gain.",
+        kdLinear.setConstant(bufferLinearScalar);
+    }
+    else if(!ptr->getParameter("kd_linear", kdLinear))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative linear gain.",
                      errorPrefix,
                      descriptionPrefix,
                      frameName);
         return false;
     }
 
-    m_R3Controller.setGains({kpLinear, kdLinear});
-    m_SO3Controller.setGains({kpAngular, kdAngular});
+    m_R3Controller.setGains(kpLinear, kdLinear);
+
+    // set the gains for the SO3 controller
+    Eigen::Vector3d kpAngular, kdAngular;
+    double bufferAngularScalar;
+
+    if(ptr->getParameter("kp_angular", bufferAngularScalar))
+    {
+        kpAngular.setConstant(bufferAngularScalar);
+    }
+    else if(!ptr->getParameter("kp_angular", kpAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    if(ptr->getParameter("kd_angular", bufferAngularScalar))
+    {
+        kdAngular.setConstant(bufferAngularScalar);
+    }
+    else if(!ptr->getParameter("kd_angular", kdAngular))
+    {
+        log()->error("{}, [{} {}] Unable to get the derivative angular gain.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
+    m_SO3Controller.setGains(kpAngular, kdAngular);
 
     // set the description
     m_description = std::string(descriptionPrefix) + frameName + ".";
@@ -165,22 +205,31 @@ bool SE3Task::update()
         return m_isValid;
     }
 
+    auto getControllerOutupt = [&](const auto& controller) {
+        if (m_controllerMode == Mode::Enable)
+            return controller.getControl().coeffs();
+        else
+            return controller.getFeedForward().coeffs();
+    };
+
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
 
-    m_SO3Controller.setState(
-        {BipedalLocomotion::Conversions::toManifRot(
-             m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3())});
+    m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                 m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
+                             iDynTree::toEigen(
+                                 m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3()));
 
-    m_R3Controller.setState(
-        {iDynTree::toEigen(m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
-         iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3())});
+    m_R3Controller.setState(iDynTree::toEigen(
+                                m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
+                            iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3()));
 
+    // update the controller ouptut
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
-    m_b.head<3>() += m_R3Controller.getControl().coeffs();
-    m_b.tail<3>() += m_SO3Controller.getControl().coeffs();
+    // get the output
+    m_b.head<3>() += getControllerOutupt(m_R3Controller);
+    m_b.tail<3>() += getControllerOutupt(m_SO3Controller);
 
     if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                 this->subA(m_robotAccelerationVariable)))
@@ -198,10 +247,10 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F,
                           const manif::SE3d::Tangent& mixedAcceleration)
 {
     bool ok = true;
-    ok = ok && m_R3Controller.setDesiredState({I_H_F.translation(), mixedVelocity.lin()});
+    ok = ok && m_R3Controller.setDesiredState(I_H_F.translation(), mixedVelocity.lin());
     ok = ok && m_R3Controller.setFeedForward(mixedAcceleration.lin());
 
-    ok = ok && m_SO3Controller.setDesiredState({I_H_F.quat(), mixedVelocity.ang()});
+    ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat(), mixedVelocity.ang());
     ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.ang());
 
     return ok;
@@ -220,4 +269,14 @@ SE3Task::Type SE3Task::type() const
 bool SE3Task::isValid() const
 {
     return m_isValid;
+}
+
+void SE3Task::setTaskControllerMode(Mode mode)
+{
+    m_controllerMode = mode;
+}
+
+SE3Task::Mode SE3Task::getTaskControllerMode() const
+{
+    return m_controllerMode;
 }

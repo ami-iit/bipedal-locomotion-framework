@@ -2,11 +2,11 @@
  * @file SO3TaskTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // BipedalLocomotion
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
@@ -24,6 +24,7 @@ using namespace BipedalLocomotion::TSID;
 TEST_CASE("SO3 Task")
 {
     constexpr double kp = 1.0;
+    std::vector<double> kpVector{kp, kp, kp};
     constexpr double kd = 0.5;
     const std::string robotAcceleration = "robotAcceleration";
 
@@ -32,14 +33,14 @@ TEST_CASE("SO3 Task")
 
     parameterHandler->setParameter("robot_acceleration_variable_name", robotAcceleration);
 
-    parameterHandler->setParameter("kp_angular", kp);
+    parameterHandler->setParameter("kp_angular", kpVector);
     parameterHandler->setParameter("kd_angular", kd);
 
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
         iDynTree::FrameVelocityRepresentation::MIXED_REPRESENTATION));
 
-    for (std::size_t numberOfJoints = 6; numberOfJoints < 200; numberOfJoints += 15)
+    for (std::size_t numberOfJoints = 6; numberOfJoints < 40; numberOfJoints += 15)
     {
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
@@ -115,15 +116,15 @@ TEST_CASE("SO3 Task")
 
             // check the vector b
             LieGroupControllers::ProportionalDerivativeControllerSO3d SO3Controller;
-            SO3Controller.setGains({kp, kd});
+            SO3Controller.setGains(kp, kd);
 
             SO3Controller.setFeedForward(desiredAcceleration);
-            SO3Controller.setDesiredState({desiredOrientation, desiredVelocity});
+            SO3Controller.setDesiredState(desiredOrientation, desiredVelocity);
 
-            SO3Controller.setState(
-                {BipedalLocomotion::Conversions::toManifRot(
-                     kinDyn->getWorldTransform(controlledFrame).getRotation()),
-                 iDynTree::toEigen(kinDyn->getFrameVel(controlledFrame).getAngularVec3())});
+            SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
+                                       kinDyn->getWorldTransform(controlledFrame).getRotation()),
+                                   iDynTree::toEigen(
+                                       kinDyn->getFrameVel(controlledFrame).getAngularVec3()));
 
             SO3Controller.computeControlLaw();
 

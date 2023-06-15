@@ -2,12 +2,13 @@
  * @file Clock.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_CLOCK_H
 #define BIPEDAL_LOCOMOTION_SYSTEM_CLOCK_H
 
+#include <atomic>
 #include <memory>
 
 #include <BipedalLocomotion/System/IClock.h>
@@ -30,6 +31,9 @@ class ClockBuilder
      * Pointer to factory used to build the clock
      */
     inline static std::shared_ptr<ClockFactory> m_factory{std::make_shared<StdClockFactory>()};
+    inline static std::atomic<bool> m_clockAlreadyCalledOnce{false}; /**< True if the clock() has been already
+                                                                        called once. If True it will not be
+                                                                        possible to set a new Factory */
 
 public:
     /**

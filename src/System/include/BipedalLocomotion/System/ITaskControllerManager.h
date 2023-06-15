@@ -2,7 +2,7 @@
  * @file ITaskControllerManager.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_I_TASK_CONTROLLER_MANAGER_H
@@ -39,6 +39,11 @@ struct ITaskControllerManager
      * @return the state of the controller
      */
     virtual Mode getTaskControllerMode() const = 0;
+
+    /**
+     * Destructor.
+     */
+    virtual ~ITaskControllerManager() = default;
 };
 
 } // namespace System

@@ -2,7 +2,7 @@
  * @file SE3Task.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_IK_SE3_TASK_H
@@ -38,7 +38,7 @@ namespace IK
  * desired trajectory. The linear component of \f$\mathrm{v} ^ *\f$ is computed with a
  * standard Proportional controller in \f$R^3\f$ while the angular velocity is computed
  * by a Proportional controller in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  * @note The SE3Task is technically not a \f$SE(3)\f$ space defined task, instead is a \f$SO(3)
  * \times \mathbb{R}^3\f$ task. Theoretically, there are differences between the two due to the
@@ -50,6 +50,10 @@ namespace IK
  */
 class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
+public:
+    using Mode = System::ITaskControllerManager::Mode;
+
+private:
     LieGroupControllers::ProportionalControllerSO3d m_SO3Controller; /**< P Controller in SO(3) */
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< P Controller in R3 */
 
@@ -65,6 +69,10 @@ class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskCont
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
+    bool m_usePositionExogenousFeedback{false}; /**< True if the feedback of the position task must
+                                                   be provided by the user. */
+    bool m_useOrientationExogenousFeedback{false}; /**< True if the feedback of the orientation task
+                                                   must be provided by the user. */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
@@ -77,7 +85,7 @@ class SE3Task : public IKLinearTask, public BipedalLocomotion::System::ITaskCont
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 
     /** State of the proportional controller implemented in the task */
-    System::ITaskControllerManager::Mode m_controllerMode{Mode::Enable};
+    Mode m_controllerMode{Mode::Enable};
 
 public:
     /**
@@ -88,9 +96,11 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |   `robot_velocity_variable_name`   | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
+     * |  `use_position_exogenous_feedback` |  `bool`  |    If true the task will consider the frame position provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |
+     * |  `use_orientation_exogenous_feedback` |  `bool`  |    If true the task will consider the frame orientation provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`) |   No   |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
@@ -103,7 +113,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -127,10 +137,38 @@ public:
     /**
      * Set the desired set-point of the trajectory.
      * @param I_H_F Homogeneous transform between the link and the inertial frame.
-     * @param mixedVelocity 6D-velocity written in mixed representation.g
+     * @param mixedVelocity 6D-velocity written in mixed representation. The default value is zero.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity);
+    bool setSetPoint(const manif::SE3d& I_H_F,
+                     const manif::SE3d::Tangent& mixedVelocity = manif::SE3d::Tangent::Zero());
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_H_F Homogeneous transform between the link and the inertial frame.
+     * @note the feedback will be considered only if the `use_orientation_exogenous_feedback` or
+     * `use_position_exogenous_feedback` is set to true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SE3d& I_H_F);
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_p_F position of the link respect to the inertial frame.
+     * @note the feedback will be considered only if the `use_position_exogenous_feedback` is set to
+     * true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SE3d::Translation& I_p_F);
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param I_R_F orientation of the link respect to the inertial frame.
+     * @note the feedback will be considered only if the `use_orientation_exogenous_feedback` is set
+     * to true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(const manif::SO3d& I_R_F);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -163,6 +201,8 @@ public:
      */
     Mode getTaskControllerMode() const override;
 };
+
+BLF_REGISTER_IK_TASK(SE3Task);
 
 } // namespace IK
 } // namespace BipedalLocomotion

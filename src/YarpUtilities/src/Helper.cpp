@@ -2,7 +2,7 @@
  * @file Helper.cpp
  * @authors Giulio Romualdi
  * @copyright 2019 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -38,12 +38,12 @@ void YarpUtilities::populateBottleWithStrings(yarp::os::Bottle& bottle,
 
 template <> int YarpUtilities::convertValue<int>(const yarp::os::Value& value)
 {
-    return value.asInt();
+    return value.asInt32();
 }
 
 template <> double YarpUtilities::convertValue<double>(const yarp::os::Value& value)
 {
-    return value.asDouble();
+    return value.asFloat64();
 }
 
 template <> std::string YarpUtilities::convertValue<std::string>(const yarp::os::Value& value)

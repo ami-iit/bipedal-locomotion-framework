@@ -2,7 +2,7 @@
  * @file ContactPhase.cpp
  * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2020, 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
@@ -34,8 +34,8 @@ void ContactPhaseList::createPhases()
 {
     m_phases.clear();
 
-    std::map<double, std::unordered_map<std::string, ContactList::const_iterator>> activations,
-        deactivations;
+    std::map<std::chrono::nanoseconds, std::unordered_map<std::string, ContactList::const_iterator>>
+        activations, deactivations;
 
     for (ContactListMap::iterator list = m_contactLists.begin(); list != m_contactLists.end();
          ++list)
@@ -140,7 +140,8 @@ bool ContactPhaseList::setLists(const std::initializer_list<ContactList>& contac
     return true;
 }
 
-ContactPhaseList::const_iterator ContactPhaseList::getPresentPhase(double time) const
+ContactPhaseList::const_iterator
+ContactPhaseList::getPresentPhase(const std::chrono::nanoseconds& time) const
 {
     // With the reverse iterator we find the last phase such that the begin time is smaller that
     // time

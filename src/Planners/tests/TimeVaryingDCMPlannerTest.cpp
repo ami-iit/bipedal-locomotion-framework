@@ -2,11 +2,13 @@
  * @file TimeVaryingDCMPlannerTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <chrono>
+
 // Catch2
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/Math/Constants.h>
@@ -20,6 +22,8 @@ using namespace BipedalLocomotion::Math;
 
 TEST_CASE("TimeVaryingDCMPlanner")
 {
+    using namespace std::chrono_literals;
+
     ContactPhaseList phaseList;
 
     ContactListMap contactListMap;
@@ -29,31 +33,31 @@ TEST_CASE("TimeVaryingDCMPlanner")
     Eigen::Vector3d leftPos;
     leftPos << 0, -0.8, 0;
     manif::SE3d leftTransform(leftPos, manif::SO3d::Identity());
-    REQUIRE(contactListMap["left"].addContact(leftTransform, 0.0, 1.0));
+    REQUIRE(contactListMap["left"].addContact(leftTransform, 0s, 1s));
 
     // second footstep
     leftPos(0) = 0.25;
     leftPos(2) = 0.2;
     leftTransform = manif::SE3d(leftPos, manif::SO3d::Identity());
-    REQUIRE(contactListMap["left"].addContact(leftTransform, 2.0, 7.0));
+    REQUIRE(contactListMap["left"].addContact(leftTransform, 2s, 7s));
 
     // right foot
     // first footstep
     Eigen::Vector3d rightPos;
     rightPos << 0, 0.8, 0;
     manif::SE3d rightTransform(rightPos, manif::SO3d::Identity());
-    REQUIRE(contactListMap["right"].addContact(rightTransform, 0.0, 3.0));
+    REQUIRE(contactListMap["right"].addContact(rightTransform, 0s, 3s));
 
     // second footstep
     rightPos(0) = 0.25;
     rightPos(2) = 0.2;
     rightTransform = manif::SE3d(rightPos, manif::SO3d::Identity());
-    REQUIRE(contactListMap["right"].addContact(rightTransform, 4.0, 7.0));
+    REQUIRE(contactListMap["right"].addContact(rightTransform, 4s, 7s));
     phaseList.setLists(contactListMap);
 
     // Set the parameters
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
-    handler->setParameter("planner_sampling_time", 0.05);
+    handler->setParameter("planner_sampling_time", 50ms);
     handler->setParameter("number_of_foot_corners", 4);
 
     // set the foot-corners

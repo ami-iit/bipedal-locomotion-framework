@@ -2,7 +2,7 @@
  * @file SO3Task.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_IK_SO3_TASK_H
@@ -36,7 +36,7 @@ namespace IK
  * desired velocity. The desired velocity is chosen such that the orientation of the frame will
  * asymptotically converge to the desired trajectory. \f$\omega ^ *\f$ is computed with a
  * Proportional controller in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  */
 class SO3Task : public IKLinearTask
@@ -71,7 +71,7 @@ public:
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |    `robot_velocity_variable_name`  | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SO3Task                      |    Yes    |
-     * |            `kp_angular`            | `double` |                           Gain of the orientation controller                           |    Yes    |
+     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.
@@ -83,7 +83,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -98,8 +98,6 @@ public:
      */
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
 
-
-
     /**
      * Update the content of the element.
      * @return True in case of success, false otherwise.
@@ -109,10 +107,12 @@ public:
     /**
      * Set the desired reference trajectory.
      * @param I_R_F Rotation between the link and the inertial frame.
-     * @param angularVelocity angular velocity written in mixed inertial frame.
+     * @param angularVelocity angular velocity written in mixed inertial frame. The default value is
+     * zero.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SO3d& I_H_F, const manif::SO3d::Tangent& angularVelocity);
+    bool setSetPoint(const manif::SO3d& I_R_F,
+                     const manif::SO3d::Tangent& angularVelocity = manif::SO3d::Tangent::Zero());
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -132,6 +132,8 @@ public:
      */
     bool isValid() const override;
 };
+
+BLF_REGISTER_IK_TASK(SO3Task);
 
 } // namespace IK
 } // namespace BipedalLocomotion

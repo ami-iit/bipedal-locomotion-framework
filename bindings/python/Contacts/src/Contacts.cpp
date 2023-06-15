@@ -2,14 +2,16 @@
  * @file Contacts.cpp
  * @authors Diego Ferigo, Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 #include <iomanip>
+#include <chrono>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
@@ -40,8 +42,10 @@ std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
 
     std::stringstream description;
     description << "Contact (name = " << contact.name << ", pose = " << pose.str()
-                << std::setprecision(7) << ", activation_time = " << contact.activationTime
-                << ", deactivation_time = " << contact.deactivationTime
+                << std::setprecision(7) << ", activation_time = "
+                << std::chrono::duration<double>(contact.activationTime).count()
+                << ", deactivation_time = "
+                << std::chrono::duration<double>(contact.deactivationTime).count()
                 << ", type = " << static_cast<int>(contact.type) << ")";
 
     return description.str();
@@ -68,7 +72,8 @@ void CreateContact(pybind11::module& module)
         .def_readwrite("activation_time", &PlannedContact::activationTime)
         .def_readwrite("deactivation_time", &PlannedContact::deactivationTime)
         .def("__repr__", &toString)
-        .def("__eq__", &PlannedContact::operator==, py::is_operator());
+        .def("__eq__", &PlannedContact::operator==, py::is_operator())
+        .def("is_contact_active", &PlannedContact::isContactActive);
 
     py::class_<EstimatedContact, ContactBase>(module, "EstimatedContact")
         .def(py::init())
@@ -77,6 +82,10 @@ void CreateContact(pybind11::module& module)
         .def_readwrite("last_update_time", &EstimatedContact::lastUpdateTime)
         .def("get_contact_details", &EstimatedContact::getContactDetails)
         .def("set_contact_state_stamped", &EstimatedContact::setContactStateStamped);
+
+    py::class_<ContactWrench, ContactBase>(module, "ContactWrench")
+        .def(py::init())
+        .def_readwrite("wrench", &ContactWrench::wrench);
 }
 
 void CreateContactList(pybind11::module& module)
@@ -94,7 +103,9 @@ void CreateContactList(pybind11::module& module)
              py::overload_cast<const PlannedContact&>(&ContactList::addContact),
              py::arg("contact"))
         .def("add_contact",
-             py::overload_cast<const manif::SE3d&, double, double>(&ContactList::addContact),
+             py::overload_cast<const manif::SE3d&,
+                               const std::chrono::nanoseconds&,
+                               const std::chrono::nanoseconds&>(&ContactList::addContact),
              py::arg("transform"),
              py::arg("activation_time"),
              py::arg("deactivation_time"))
@@ -119,9 +130,8 @@ void CreateContactList(pybind11::module& module)
         .def("size", &ContactList::size)
         .def("__len__", &ContactList::size)
         .def("edit_contact", &ContactList::editContact, py::arg("element"), py::arg("new_contact"))
-        .def(
-            "get_present_contact",
-            [](const ContactList& l, const double time) -> PlannedContact {
+        .def("get_present_contact",
+            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
                 return *l.getPresentContact(time);
             },
             py::arg("time"))

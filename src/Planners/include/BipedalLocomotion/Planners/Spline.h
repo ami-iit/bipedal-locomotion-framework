@@ -2,12 +2,13 @@
  * @file Spline.h
  * @authors Giulio Romualdi
  * @copyright 2020. 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_SPLINE_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_SPLINE_H
 
+#include <chrono>
 #include <memory>
 #include <vector>
 
@@ -44,7 +45,7 @@ public:
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */
-    virtual bool setAdvanceTimeStep(const double& dt) = 0;
+    virtual bool setAdvanceTimeStep(const std::chrono::nanoseconds& dt) = 0;
 
     /**
      * Set the knots of the spline.
@@ -53,7 +54,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     virtual bool setKnots(const std::vector<Eigen::VectorXd>& position, //
-                          const std::vector<double>& time)
+                          const std::vector<std::chrono::nanoseconds>& time)
         = 0;
 
     /**
@@ -84,7 +85,7 @@ public:
      * @param acceleration acceleration at time t
      * @return True in case of success, false otherwise.
      */
-    virtual bool evaluatePoint(const double& t,
+    virtual bool evaluatePoint(const std::chrono::nanoseconds& t,
                                Eigen::Ref<Eigen::VectorXd> position,
                                Eigen::Ref<Eigen::VectorXd> velocity,
                                Eigen::Ref<Eigen::VectorXd> acceleration)
@@ -96,7 +97,7 @@ public:
      * @param state of the system
      * @return True in case of success, false otherwise.
      */
-    virtual bool evaluatePoint(const double& t, SplineState& state) = 0;
+    virtual bool evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state) = 0;
 };
 } // namespace Planners
 } // namespace BipedalLocomotion

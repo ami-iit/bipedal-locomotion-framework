@@ -2,7 +2,7 @@
  * @file CoMTask.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_IK_COM_TASK_H
@@ -37,7 +37,7 @@ namespace IK
  * desired trajectory. The linear component of \f$\mathrm{v} ^ *\f$ is computed with a
  * standard Proportional controller in \f$R^3\f$ while the angular velocity is computed
  * by a Proportional controller in \f$SO(3)\f$.
- * @note Please refer to https://github.com/dic-iit/lie-group-controllers if you are interested in
+ * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
  * @note The SE3Task is technically not a \f$SE(3)\f$ space defined task, instead is a \f$SO(3)
  * \times \mathbb{R}^3\f$ task. Theoretically, there are differences between the two due to the
@@ -74,11 +74,11 @@ public:
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
-     * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
-     * |   `robot_velocity_variable_name`   | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
-     * |             `kp_linear`            | `double` |                             Gain of the position controller                            |    Yes    |
-     * |               `mask`               | `vector<bool>` |  Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])   |    No    |
+     * |           Parameter Name           |              Type            |                                                        Description                                                                       | Mandatory |
+     * |:----------------------------------:|:----------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |   `robot_velocity_variable_name`   |            `string`          |                            Name of the variable contained in `VariablesHandler` describing the robot velocity                            |    Yes    |
+     * |             `kp_linear`            | `double` or `vector<double>` |                                               Gain of the position controller                                                            |    Yes    |
+     * |               `mask`               |         `vector<bool>`       |  Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])   |    No     |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
@@ -91,7 +91,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -138,6 +138,8 @@ public:
      */
     bool isValid() const override;
 };
+
+BLF_REGISTER_IK_TASK(CoMTask);
 
 } // namespace IK
 } // namespace BipedalLocomotion

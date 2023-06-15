@@ -1,6 +1,6 @@
 # Copyright (C) 2020 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 if(FRAMEWORK_COMPILE_Math)
 
@@ -10,10 +10,11 @@ if(FRAMEWORK_COMPILE_Math)
     NAME                  Math
     PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h
                           ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/ContactWrenchCone.h
-                          ${H_PREFIX}/Wrench.h
+                          ${H_PREFIX}/Wrench.h ${H_PREFIX}/SchmittTrigger.h ${H_PREFIX}/QuadraticBezierCurve.h
     SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp src/ContactWrenchCone.cpp
+                          src/SchmittTrigger.cpp src/QuadraticBezierCurve.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler
-                          BipedalLocomotion::TextLogging MANIF::manif
+                          BipedalLocomotion::TextLogging BipedalLocomotion::System MANIF::manif
     SUBDIRECTORIES        tests)
 
 endif()

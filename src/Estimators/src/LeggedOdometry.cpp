@@ -2,11 +2,12 @@
  * @file LeggedOdometry.cpp
  * @authors Prashanth Ramadoss
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <chrono>
 #include <iDynTree/Core/EigenHelpers.h>
 #include <iDynTree/Model/Model.h>
 #include <manif/manif.h>
@@ -345,7 +346,11 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLatestSwitchedContact(const std::m
 
     bool atleastOneActiveContact{false};
     int latestContactIdx{-1};
-    double latestTime{-1.0}; // assuming time cannot be negative
+
+    // we initialize latestTime = -1 so assuming no contact has a switch time lower than 0, we find
+    // the contact with the highest switch time
+    std::chrono::nanoseconds latestTime{-1}; // assuming time cannot be negative
+
     for (const auto& [idx, contact] : contacts)
     {
         if (contact.isActive)
@@ -385,7 +390,9 @@ iDynTree::FrameIndex LeggedOdometry::Impl::getLastActiveContact(const std::map<i
         }
     }
 
-    double latestTime{std::numeric_limits<double>::max()}; // assuming time cannot be negative
+    // here we are interested in finding the last active contact so we are looking for the minimum
+    // switchTime
+    std::chrono::nanoseconds latestTime{std::chrono::nanoseconds::max()};
     int latestContactIdx{-1};
     for (const auto& [idx, contact] : contacts)
     {

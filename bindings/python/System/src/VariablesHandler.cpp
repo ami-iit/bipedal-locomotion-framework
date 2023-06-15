@@ -2,7 +2,7 @@
  * @file ParametersHandler.cpp
  * @authors Giulio Romualdi, Diego Ferigo
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <pybind11/pybind11.h>
@@ -35,6 +35,12 @@ void CreateVariablesHandler(pybind11::module& module)
         .def_static("invalid_variable", &VariablesHandler::VariableDescription::InvalidVariable);
 
     variablesHandler.def(py::init())
+        .def(
+            "initialize",
+            [](VariablesHandler& impl,
+               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("param_handler"))
         .def("add_variable",
              py::overload_cast<const std::string&, const std::size_t&>(
                  &VariablesHandler::addVariable),
@@ -46,8 +52,9 @@ void CreateVariablesHandler(pybind11::module& module)
              py::arg("name"),
              py::arg("elements_name"))
         .def("add_variable",
-             py::overload_cast<const std::string&, const std::size_t&, const std::vector<std::string>& >(
-                 &VariablesHandler::addVariable),
+             py::overload_cast<const std::string&,
+                               const std::size_t&,
+                               const std::vector<std::string>&>(&VariablesHandler::addVariable),
              py::arg("name"),
              py::arg("size"),
              py::arg("elements_name"))

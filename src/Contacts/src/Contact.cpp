@@ -2,8 +2,10 @@
  * @file Contact.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
+
+#include <chrono>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 
@@ -11,7 +13,6 @@ using namespace BipedalLocomotion::Contacts;
 
 bool PlannedContact::operator==(const PlannedContact& other) const
 {
-
     bool eq = true;
     eq = eq && this->activationTime == other.activationTime;
     eq = eq && this->name == other.name;
@@ -22,12 +23,17 @@ bool PlannedContact::operator==(const PlannedContact& other) const
     return eq;
 }
 
-std::pair<bool, double> EstimatedContact::getContactDetails() const
+bool PlannedContact::isContactActive(const std::chrono::nanoseconds& t) const
+{
+    return (this->activationTime <= t) && (t < this->deactivationTime);
+}
+
+std::pair<bool, std::chrono::nanoseconds> EstimatedContact::getContactDetails() const
 {
     return std::make_pair(isActive, switchTime);
 }
 
-void EstimatedContact::setContactStateStamped(const std::pair<bool, double>& pair)
+void EstimatedContact::setContactStateStamped(const std::pair<bool, std::chrono::nanoseconds>& pair)
 {
     isActive = pair.first;
     switchTime = pair.second;

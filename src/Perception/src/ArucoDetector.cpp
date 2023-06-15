@@ -2,7 +2,7 @@
  * @file ArucoDetector.cpp
  * @authors Prashanth Ramadoss
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <BipedalLocomotion/Conversions/CommonConversions.h>
@@ -55,6 +55,11 @@ public:
     /**
      * Utility map for choosing Aruco marker dictionary depending on user parameter
      */
+    // TODO(traversaro): when we drop support for OpenCV < 4.7.0, we can cleanup this part
+    // we can also check if there are other dictionary that should be added here
+#if (CV_VERSION_MAJOR >= 5) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
+#define PREDEFINED_DICTIONARY_NAME PredefinedDictionaryType
+#endif
     std::unordered_map<std::string, cv::aruco::PREDEFINED_DICTIONARY_NAME>
         availableDict{{"4X4_50", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_50},
                       {"4X4_100", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_4X4_100},
@@ -115,7 +120,14 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
         return false;
     }
 
+// In OpenCV 4.7.0 getPredefinedDictionary started returning a cv::aruco::Dictionary
+// instead of a cv::Ptr<cv::aruco::Dictionary>
+#if (CV_VERSION_MAJOR >= 5) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
+    m_pimpl->dictionary = cv::makePtr<cv::aruco::Dictionary>();
+    *(m_pimpl->dictionary) = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
+#else
     m_pimpl->dictionary = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
+#endif
 
     if (!handle->getParameter("marker_length", m_pimpl->markerLength))
     {
@@ -275,12 +287,12 @@ bool ArucoDetector::getImageWithDetectedMarkers(cv::Mat& outputImg,
     {
         for (std::size_t idx = 0; idx < nrDetectedMarkers; idx++)
         {
-            cv::aruco::drawAxis(outputImg,
-                                m_pimpl->cameraMatrix,
-                                m_pimpl->distCoeff,
-                                m_pimpl->currentDetectedMarkersRotVecs[idx],
-                                m_pimpl->currentDetectedMarkersTransVecs[idx],
-                                axisLengthForDrawing);
+            cv::drawFrameAxes(outputImg,
+                              m_pimpl->cameraMatrix,
+                              m_pimpl->distCoeff,
+                              m_pimpl->currentDetectedMarkersRotVecs[idx],
+                              m_pimpl->currentDetectedMarkersTransVecs[idx],
+                              axisLengthForDrawing);
         }
     }
 

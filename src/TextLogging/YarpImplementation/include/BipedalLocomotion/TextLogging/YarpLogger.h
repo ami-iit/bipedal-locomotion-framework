@@ -2,7 +2,7 @@
  * @file YarpLogger.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_TEXT_LOGGING_YARP_LOGGER_H
@@ -72,7 +72,7 @@ using YarpSink_mt = YarpSink<std::mutex>;
 
 
 /**
- * YarpLoggetFactory implements the factory you should use to enable the sink using yaro.
+ * YarpLoggerFactory implements the factory you should use to enable the sink using yaro.
  * The YARP logger can be easily used as follows
  * \code{.cpp}
  * #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -89,10 +89,19 @@ class YarpLoggerFactory final : public LoggerFactory
 {
 public:
     /**
+     * Construct a new YarpLoggerFactory object
+     * @param name the name of the logger which will be used inside the formatted messages
+     */
+    YarpLoggerFactory(const std::string_view& name = "blf");
+
+    /**
      * Create the YARPLogger as a singleton
      * @return the pointer to TextLogging::Logger that streams the output using YARP
      */
-    TextLogging::Logger* const createLogger() final;
+    std::shared_ptr<TextLogging::Logger> const createLogger() final;
+
+private:
+    const std::string m_name; /** The name of the logger */
 };
 
 } // namespace TextLogging

@@ -2,12 +2,13 @@
  * @file SwingFootPlanner.h
  * @authors Giulio Romualdi
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_SWING_FOOT_PLANNER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_SWING_FOOT_PLANNER_H
 
+#include <chrono>
 #include <memory>
 
 #include <manif/manif.h>
@@ -43,8 +44,11 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
 {
     SwingFootPlannerState m_state; /**< State of the planner */
 
-    double m_dT{0.0}; /**< Sampling time of the planner in seconds*/
-    double m_currentTrajectoryTime{0.0}; /**< Current time of the planner in seconds */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Sampling time of the
+                                                                        planner */
+
+    /** Current time of the planner in seconds */
+    std::chrono::nanoseconds m_currentTrajectoryTime{std::chrono::nanoseconds::zero()};
 
     Contacts::ContactList m_contactList; /**< List of the contacts */
     Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal
@@ -61,11 +65,28 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                                  stepHeight is the maximum of the trajectory. */
     double m_footApexTime{0.5}; /**< Number between 0 and 1 representing the foot apex instant */
 
+    double m_footLandingVelocity{0.0}; /**< Landing velocity in \f$m/s\f$ */
+    double m_footLandingAcceleration{0.0}; /**< Landing acceleration in \f$m/s^2\f$ */
+
+    double m_footTakeOffVelocity{0.0}; /**< Take off velocity in \f$m/s\f$ */
+    double m_footTakeOffAcceleration{0.0}; /**< Take off acceleration in \f$m/s^2\f$ */
+
+    bool m_isOutputValid{false}; /**< True if getOutput returns meaningful data */
+
     /**
      * Update the SE3 Trajectory.
      * @return True in case of success/false otherwise.
      */
     bool updateSE3Traj();
+
+    /**
+     * Create a new SE3Trajectory considering the previous and next contact
+     * @return True in case of success/false otherwise.
+     */
+    bool createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
+                       Eigen::Ref<const Eigen::Vector2d> initialPlanarAcceleration,
+                       Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalVelocity,
+                       Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalAcceleration);
 
 public:
     /**
@@ -77,20 +98,42 @@ public:
      * |        `sampling_time`       | `double` |                                                                 Sampling time of the planner in seconds                                                        |    Yes    |
      * |         `step_height`        | `double` |                              Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum              |    Yes    |
      * |        `foot_apex_time`      | `double` |                          Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                       |    Yes    |
-     * |    `foot_landing_velocity`   | `double` |                                                          Landing vertical velocity (default value 0.0)                                                         |    No    |
-     * |  `foot_landing_acceleration` | `double` |                                                       Landing vertical acceleration (default value 0.0)                                                        |    No    |
-     * |   `foot_take_off_velocity`   | `double` |                                                         Take-off vertical velocity (default value 0.0)                                                         |    No    |
-     * | `foot_take_off_acceleration` | `double` |                                                      Take-off vertical acceleration (default value 0.0)                                                        |    No    |
-     * |     `interpolation_method`   | `string` |  Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`)    |    No    |
+     * |    `foot_landing_velocity`   | `double` |                                                          Landing vertical velocity (default value 0.0)                                                         |    No     |
+     * |  `foot_landing_acceleration` | `double` |                                                       Landing vertical acceleration (default value 0.0)                                                        |    No     |
+     * |   `foot_take_off_velocity`   | `double` |                                                         Take-off vertical velocity (default value 0.0)                                                         |    No     |
+     * | `foot_take_off_acceleration` | `double` |                                                      Take-off vertical acceleration (default value 0.0)                                                        |    No     |
+     * |     `interpolation_method`   | `string` |  Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`)    |    No     |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
      * Set the contact list
-     * @param contactList contains the list fora given contact
+     * @param contactList contains the list for a given contact.
+     * @return true in case of success, false otherwise.
+     * @note The contact list can be updated at run-time, i.e., when the planner is running. However
+     * the new contact list must satify a set of hypothesis.
+     * If the contact list stored in the class is empty, then it is the first time the
+     * contact list is added to the planner. In this case we accept all kinds of ContactList
+     * If the contact list is not empty, we check if it is possible to update the list.  Given some
+     * limitations of the framework (mainly due to the SO3 trajectory generation) for the time
+     * being, we support only the two following cases:
+     * - Given the current time instant, both the stored and the new contact lists must have an
+     * active contact at the same pose.
+     * - If the contact is not active (swing phase) the next contact must satisfy the following two
+     * hypothesis
+     *   1. the orientation of the next contact must be the same as the orientation of the next
+     * contact in the contact list stored in the class.
+     *   2. the impact time of the next contact must be the same as the one of the next contact in
+     * the contact list stored in the class.
      */
-    void setContactList(const Contacts::ContactList& contactList);
+    bool setContactList(const Contacts::ContactList& contactList);
+
+    /**
+     * Reset the time.
+     * @param time internal time of the system.
+     */
+    void setTime(const std::chrono::nanoseconds& time);
 
     /**
      * @brief Get the object.

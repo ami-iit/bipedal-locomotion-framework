@@ -2,7 +2,7 @@
  * @file FloatingBaseDynamicsWithCompliantContacts.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <iDynTree/Core/EigenHelpers.h>
@@ -18,7 +18,8 @@ using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseDynamicsWithCompliantContacts::initialize(std::weak_ptr<IParametersHandler> handler)
+bool FloatingBaseDynamicsWithCompliantContacts::initialize(
+    std::weak_ptr<const IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::initialize]";
 
@@ -142,7 +143,7 @@ bool FloatingBaseDynamicsWithCompliantContacts::setMassMatrixRegularization(
     return true;
 }
 
-bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const double& time,
+bool FloatingBaseDynamicsWithCompliantContacts::dynamics(const std::chrono::nanoseconds& time,
                                                          StateDerivative& stateDerivative)
 {
     constexpr auto logPrefix = "[FloatingBaseDynamicsWithCompliantContacts::dynamics]";

@@ -2,12 +2,15 @@
  * @file QPTSID.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <OsqpEigen/Constants.hpp>
 #include <OsqpEigen/OsqpEigen.h>
 
 #include <BipedalLocomotion/Math/Wrench.h>
+#include <BipedalLocomotion/System/ConstantWeightProvider.h>
+#include <BipedalLocomotion/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/TSID/QPTSID.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -22,7 +25,7 @@ struct QPTSID::Impl
     {
         std::shared_ptr<QPTSID::Task> task;
         std::size_t priority;
-        Eigen::VectorXd weight;
+        std::shared_ptr<const System::WeightProviderPort> weightProvider;
         Eigen::MatrixXd tmp; /**< This is a temporary matrix useful to reduce dynamics allocation
                                 in advance method */
     };
@@ -148,7 +151,18 @@ QPTSID::~QPTSID() = default;
 bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
                      const std::string& taskName,
                      std::size_t priority,
-                     std::optional<Eigen::Ref<const Eigen::VectorXd>> weight)
+                     Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->addTask(task,
+                         taskName,
+                         priority,
+                         std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
+                     const std::string& taskName,
+                     std::size_t priority,
+                     std::shared_ptr<const System::WeightProviderPort> weightProvider)
 {
     constexpr auto logPrefix = "[QPTSID::addTask]";
 
@@ -169,15 +183,6 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
         return false;
     }
 
-    if (priority == 1 && !weight)
-    {
-        log()->error("{} - [Task name: '{}'] In case of priority equal to 1 the weight is "
-                     "mandatory.",
-                     logPrefix,
-                     taskName);
-        return false;
-    }
-
     if (priority == 1 && task->type() == QPTSID::Task::Type::inequality)
     {
         log()->error("{} - [Task name: '{}'] This implementation of the task space inverse "
@@ -192,16 +197,29 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
     m_pimpl->tasks[taskName].task = task;
     m_pimpl->tasks[taskName].priority = priority;
 
-    if (priority == 1)
+    // If the priority is set to 1 the user has to provide the weight in terms of weight provider
+    if (priority == 1 && !weightProvider)
     {
-        if (weight.value().size() != task->size())
+        log()->error("{} - [Task name: '{}'] Please provide the associated weight. This is "
+                     "necessary since the priority of the task is equal to 1",
+                     logPrefix,
+                     taskName);
+
+        // erase the task since it is not valid
+        m_pimpl->tasks.erase(taskName);
+
+        return false;
+    }
+    if (priority == 1 && weightProvider)
+    {
+        if (weightProvider->getOutput().size() != task->size())
         {
             log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
                          "size of the task. Expected: {}. Given: {}.",
                          logPrefix,
                          taskName,
                          m_pimpl->tasks[taskName].task->size(),
-                         weight.value().size());
+                         weightProvider->getOutput().size());
 
             // erase the task since it is not valid
             m_pimpl->tasks.erase(taskName);
@@ -209,13 +227,12 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
             return false;
         }
 
-        // add the weight
-        m_pimpl->tasks[taskName].weight = weight.value();
+        // add the weight In this case we assume that the weight will be constant
+        m_pimpl->tasks[taskName].weightProvider = weightProvider;
 
         // add the task to the list of the element that are used to build the cost function
         m_pimpl->costs.push_back(m_pimpl->tasks[taskName]);
-    }
-    else
+    } else
     {
         m_pimpl->constraints.push_back(m_pimpl->tasks[taskName]);
     }
@@ -224,6 +241,77 @@ bool QPTSID::addTask(std::shared_ptr<QPTSID::Task> task,
     m_pimpl->isFinalized = false;
 
     return true;
+}
+
+bool QPTSID::setTaskWeight(const std::string& taskName,
+                           std::shared_ptr<const System::WeightProviderPort> weightProvider)
+{
+    constexpr auto logPrefix = "[QPTSID::setTaskWeight]";
+
+    auto tmp = m_pimpl->tasks.find(taskName);
+
+    const bool taskExist = (tmp != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return false;
+    }
+
+    auto taskWithPriority = tmp->second;
+
+    if (taskWithPriority.priority != 1)
+    {
+        log()->error("{} - [Task name: '{}'] The weight can be set only to a task with priority "
+                     "equal to 1.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weightProvider == nullptr || !weightProvider->isOutputValid())
+    {
+        log()->error("{} - [Task name: '{}'] The weightProvider is not valid.",
+                     logPrefix,
+                     taskName);
+        return false;
+    }
+
+    if (weightProvider->getOutput().size() != taskWithPriority.task->size())
+    {
+        log()->error("{} - [Task name: '{}'] The size of the weight is not coherent with the "
+                     "size of the task. Expected: {}. Given: {}.",
+                     logPrefix,
+                     taskName,
+                     taskWithPriority.task->size(),
+                     weightProvider->getOutput().size());
+        return false;
+    }
+
+    // update the weight
+    m_pimpl->tasks[taskName].weightProvider = weightProvider;
+
+    return true;
+}
+
+bool QPTSID::setTaskWeight(const std::string& taskName, Eigen::Ref<const Eigen::VectorXd> weight)
+{
+    return this->setTaskWeight(taskName, std::make_shared<System::ConstantWeightProvider>(weight));
+}
+
+std::weak_ptr<const System::WeightProviderPort>
+QPTSID::getTaskWeightProvider(const std::string& taskName) const
+{
+    constexpr auto logPrefix = "[QPTSID::getTaskWeightProvider]";
+
+    auto taskWithPriority = m_pimpl->tasks.find(taskName);
+    const bool taskExist = (taskWithPriority != m_pimpl->tasks.end());
+    if (!taskExist)
+    {
+        log()->error("{} The task named {} does not exist.", logPrefix, taskName);
+        return std::shared_ptr<System::WeightProviderPort>();
+    }
+
+    return taskWithPriority->second.weightProvider;
 }
 
 std::vector<std::string> QPTSID::getTaskNames() const
@@ -289,7 +377,7 @@ bool QPTSID::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
     std::vector<std::string> wrenchVariableNames;
     if (!ptr->getParameter("contact_wrench_variables_name", wrenchVariableNames))
     {
-        log()->error("{} Error while retrieving the joint torques variable.", logPrefix);
+        log()->error("{} Error while retrieving the contact wrench variables.", logPrefix);
         return false;
     }
 
@@ -339,7 +427,15 @@ bool QPTSID::finalize(const System::VariablesHandler& handler)
     // resize the temporary matrix useful to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        cost.get().tmp.resize(handler.getNumberOfVariables(), cost.get().weight.size());
+        if(cost.get().weightProvider == nullptr)
+        {
+            log()->error("{} One of the weight provider has been not correctly set.",
+                         logPrefix);
+            return false;
+        }
+
+        cost.get().tmp.resize(handler.getNumberOfVariables(),
+                              cost.get().weightProvider->getOutput().size());
     }
 
     m_pimpl->solver.data()->setNumberOfVariables(handler.getNumberOfVariables());
@@ -435,7 +531,8 @@ bool QPTSID::advance()
         Eigen::Ref<const Eigen::VectorXd> b = cost.get().task->getB();
 
         // Here we avoid to have dynamic allocation
-        cost.get().tmp.noalias() = A.transpose() * cost.get().weight.asDiagonal();
+        cost.get().tmp.noalias() = A.transpose() * //
+                                   cost.get().weightProvider->getOutput().asDiagonal();
         m_pimpl->hessian.noalias() += cost.get().tmp * A;
         m_pimpl->gradient.noalias() -= cost.get().tmp * b;
     }
@@ -496,24 +593,41 @@ bool QPTSID::advance()
     }
 
     // solve the QP
-    if (!m_pimpl->solver.solve())
+    if (m_pimpl->solver.solveProblem() != OsqpEigen::ErrorExitFlag::NoError)
     {
         log()->error("{} Unable to to solve the problem.", logPrefix);
         return false;
+    }
+
+    if (m_pimpl->solver.getStatus() != OsqpEigen::Status::Solved
+        && m_pimpl->solver.getStatus() != OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->error("{} osqp was not able to find a feasible solution.", logPrefix);
+        return false;
+    }
+
+    if (m_pimpl->solver.getStatus() == OsqpEigen::Status::SolvedInaccurate)
+    {
+        log()->debug("{} The solver found an inaccurate feasible solution.", logPrefix);
     }
 
     // retrieve the solution
     constexpr std::size_t spatialAccelerationSize = 6;
     const std::size_t joints = m_pimpl->robotAccelerationVariable.size - spatialAccelerationSize;
 
+    // the first six elements are the base acceleration
+    m_pimpl->solution.baseAcceleration
+        = m_pimpl->solver.getSolution().segment<spatialAccelerationSize>(
+            m_pimpl->robotAccelerationVariable.offset);
+
     m_pimpl->solution.jointAccelerations
-        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset,
+        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset
+                                                    + spatialAccelerationSize,
                                                 joints);
 
     m_pimpl->solution.jointTorques
-        = m_pimpl->solver.getSolution().segment(m_pimpl->robotAccelerationVariable.offset
-                                                    + m_pimpl->robotAccelerationVariable.size,
-                                                joints);
+        = m_pimpl->solver.getSolution().segment(m_pimpl->jointTorquesVariable.offset,
+                                                m_pimpl->jointTorquesVariable.size);
 
     for (const auto& variable : m_pimpl->contactWrenchVariables)
     {
@@ -534,4 +648,27 @@ const QPTSID::State& QPTSID::getOutput() const
 bool QPTSID::isOutputValid() const
 {
     return m_pimpl->isValid;
+}
+
+std::string QPTSID::toString() const
+{
+    std::ostringstream oss;
+
+    oss << "====== QPTSID class ======" << std::endl
+        << "The optimization problem is composed by the following tasks:" << std::endl;
+    for (const auto& [name, task] : m_pimpl->tasks)
+    {
+        oss << "\t - " << name << ": " << task.task->getDescription()
+            << " Priority: " << task.priority << "." << std::endl;
+    }
+    oss << "Note: The lower is the integer associated to the priority, the higher is the priority."
+        << std::endl
+        << "==========================" << std::endl;
+
+    return oss.str();
+}
+
+Eigen::Ref<const Eigen::VectorXd> QPTSID::getRawSolution() const
+{
+    return m_pimpl->solver.getSolution();
 }

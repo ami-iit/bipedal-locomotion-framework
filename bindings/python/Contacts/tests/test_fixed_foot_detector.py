@@ -6,116 +6,166 @@ import bipedal_locomotion_framework.bindings as blf
 import manifpy as manif
 import numpy as np
 
+from datetime import timedelta
+from typing import Dict
 
-def test_fixed_foot_detector():
-    dt = 0.01
+class FixedFootState:
+    def __init__(self):
+        self.left_foot = blf.contacts.EstimatedContact()
+        self.right_foot = blf.contacts.EstimatedContact()
 
-    parameters_handler = blf.parameters_handler.StdParametersHandler()
-    parameters_handler.set_parameter_float("sampling_time", dt)
+def get_fixed_foot_state(t: timedelta, list_map: Dict[str, blf.contacts.ContactList]) -> FixedFootState:
 
-    detector = blf.contacts.FixedFootDetector()
-    assert (detector.initialize(parameters_handler))
+    # t            0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
+    # L            |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|
+    # R            |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
+    # stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|
+    state = FixedFootState()
+    state.left_foot.pose = list_map["left_foot"].get_present_contact(t).pose
+    state.right_foot.pose = list_map["right_foot"].get_present_contact(t).pose
 
-    # Create the map of contact lists
+    if t < timedelta(seconds=1):
+        state.left_foot.is_active = True
+        state.right_foot.is_active = False
+    elif t < timedelta(seconds=3):
+        state.left_foot.is_active = False
+        state.right_foot.is_active = True
+    elif t < timedelta(seconds=5):
+        state.left_foot.is_active = True
+        state.right_foot.is_active = False
+    elif t < timedelta(seconds=7):
+        state.left_foot.is_active = False
+        state.right_foot.is_active = True
+    elif t < timedelta(seconds=9):
+        state.left_foot.is_active = True
+        state.right_foot.is_active = False
+    elif t < timedelta(seconds=11):
+        state.left_foot.is_active = False
+        state.right_foot.is_active = True
+    elif t < timedelta(seconds=13):
+        state.left_foot.is_active = True
+        state.right_foot.is_active = False
+    elif t < timedelta(seconds=15):
+        state.left_foot.is_active = False
+        state.right_foot.is_active = True
+    else:
+        state.left_foot.is_active = True
+        state.right_foot.is_active = False
+
+    return state
+
+def create_contact_list() -> blf.contacts.ContactPhaseList:
+    # t            0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17
+    # L            |+++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|
+    # R            |+++++++++++|---|+++++++++++|---|+++++++++++|---|+++++++++++|---|+++|
+    # stance foot  |LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|RRR|RRR|LLL|LLL|
+
     contact_list_map = dict()
+    contact_list_map["left_foot"] = blf.contacts.ContactList()
+    contact_list_map["right_foot"] = blf.contacts.ContactList()
 
-    # Names of the frames
-    rfoot_frame = "r_sole"
-    lfoot_frame = "l_sole"
+    left_position = np.array([0.0, 0.08, 0.0])
+    # quaternion=[0, 0, 0, 1] please read it as 0i + 0j + 0k + 1
+    left_transform = manif.SE3(left_position, [0, 0, 0, 1])
+    assert(contact_list_map["left_foot"].add_contact(left_transform,
+                                                      timedelta(seconds=0),
+                                                      timedelta(seconds=1)))
 
-    # Create the contact lists
-    contact_list_map[rfoot_frame] = blf.contacts.ContactList()
-    contact_list_map[lfoot_frame] = blf.contacts.ContactList()
+    left_position[0] += 0.05
+    left_transform.translation(left_position)
+    assert(contact_list_map["left_foot"].add_contact(left_transform,
+                                                     timedelta(seconds=2),
+                                                     timedelta(seconds=5)))
 
-    # Set the contacts (t: time, L: left foot, R: right foot)
+    left_position[0] += 0.1
+    left_transform.translation(left_position)
+    assert(contact_list_map["left_foot"].add_contact(left_transform,
+                                                     timedelta(seconds=6),
+                                                     timedelta(seconds=9)))
 
-    # t:   ||    1    2    3    4    5    6    7    8    9    10
-    #      ||----|----|----|----|----|----|----|----|----|----||
-    # L:   ||****|****|****|    |****|****|****|****|****|****||
-    # R:   ||****|****|****|****|****|****|    |****|****|****||
+    left_position[0] += 0.1
+    left_transform.translation(left_position)
+    assert(contact_list_map["left_foot"].add_contact(left_transform,
+                                                     timedelta(seconds=10),
+                                                     timedelta(seconds=13)))
 
-    # Initial foot position and orientation
-    r_foot_quat = [1, 0, 0, 0]
-    r_foot_position = [0, 0.7, 0]
-    l_foot_quat = [1, 0, 0, 0]
-    l_foot_position = [0, -0.7, 0]
+    left_position[0] += 0.1
+    left_transform.translation(left_position)
+    assert(contact_list_map["left_foot"].add_contact(left_transform,
+                                                     timedelta(seconds=14),
+                                                     timedelta(seconds=17)))
 
-    assert contact_list_map[lfoot_frame].add_contact(
-        transform=manif.SE3(position=np.array(l_foot_position),
-                            quaternion=l_foot_quat),
-        activation_time=0.0,
-        deactivation_time=3.0)
-    assert contact_list_map[rfoot_frame].add_contact(
-        transform=manif.SE3(position=np.array(r_foot_position),
-                            quaternion=r_foot_quat),
-        activation_time=0.0,
-        deactivation_time=6.0)
 
-    assert contact_list_map[lfoot_frame].add_contact(
-        transform=manif.SE3(position=np.array([l_foot_position[0] + 0.1, l_foot_position[1], 0.0]),
-                            quaternion=l_foot_quat),
-        activation_time=4.0,
-        deactivation_time=10.0)
-    assert contact_list_map[rfoot_frame].add_contact(
-        transform=manif.SE3(position=np.array([r_foot_position[0] + 0.2, r_foot_position[1], 0.0]),
-                            quaternion=r_foot_quat),
-        activation_time=7.0,
-        deactivation_time=10.0)
+    right_position = np.array([0.0, -0.08, 0.0])
+    # quaternion=[0, 0, 0, 1] please read it as 0i + 0j + 0k + 1
+    right_transform = manif.SE3(right_position, [0, 0, 0, 1])
+
+    assert(contact_list_map["right_foot"].add_contact(right_transform,
+                                                      timedelta(seconds=0),
+                                                      timedelta(seconds=3)))
+
+    right_position[0] += 0.1
+    right_transform.translation(right_position)
+    assert(contact_list_map["right_foot"].add_contact(right_transform,
+                                                      timedelta(seconds=4),
+                                                      timedelta(seconds=7)))
+
+    right_position[0] += 0.1
+    right_transform.translation(right_position)
+    assert(contact_list_map["right_foot"].add_contact(right_transform,
+                                                      timedelta(seconds=8),
+                                                      timedelta(seconds=11)))
+
+    right_position[0] += 0.1
+    right_transform.translation(right_position)
+    assert(contact_list_map["right_foot"].add_contact(right_transform,
+                                                      timedelta(seconds=12),
+                                                      timedelta(seconds=15)))
+
+    right_position[0] += 0.05
+    right_transform.translation(right_position)
+    assert(contact_list_map["right_foot"].add_contact(right_transform,
+                                                      timedelta(seconds=16),
+                                                      timedelta(seconds=17)))
+
 
     phase_list = blf.contacts.ContactPhaseList()
-    phase_list.set_lists(contact_lists=contact_list_map)
+    phase_list.set_lists(contact_list_map)
 
-    assert (detector.set_contact_phase_list(phase_list))
+    return phase_list
 
-    # Retrieve initial fixed foot
-    fixed_foot = detector.get_fixed_foot()
 
-    assert (fixed_foot.name == "l_sole")
-    assert (fixed_foot.pose == manif.SE3(position=np.array(l_foot_position), quaternion=l_foot_quat))
-    assert (fixed_foot.switch_time == 0.0)
-    assert (fixed_foot.last_update_time == 0.0)
+def time_generator(start: timedelta, stop: timedelta, step: timedelta):
+  while start < stop:
+    yield start
+    start = start + step
 
-    # Retrieve fixed foot along the trajectory
-    for i in np.arange(start=dt, step=dt, stop=10.0):
+def test_fixed_foot_detector():
+    dt = timedelta(milliseconds=10)
+    horizon = timedelta(seconds=20)
 
-        assert (detector.advance())
-        fixed_foot = detector.get_fixed_foot()
+    detector = blf.contacts.FixedFootDetector()
+    parameters_handler = blf.parameters_handler.StdParametersHandler()
+    parameters_handler.set_parameter_datetime("sampling_time", dt)
 
-        # Fixed foot: left - Phase: double support
-        if i <= 3.0:
-            assert (fixed_foot.name == "l_sole")
-            assert (fixed_foot.pose == manif.SE3(position=np.array(l_foot_position), quaternion=l_foot_quat))
-            assert (fixed_foot.switch_time == 0.0)
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
+    assert (detector.initialize(parameters_handler))
 
-        # Fixed foot: right - Phase: single support
-        elif i <= 4.0:
-            assert (fixed_foot.name == "r_sole")
-            assert (fixed_foot.pose == manif.SE3(position=np.array(r_foot_position), quaternion=r_foot_quat))
-            assert (fixed_foot.switch_time == 3.0)
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
+    phase_list = create_contact_list()
+    detector.set_contact_phase_list(phase_list)
 
-        # Fixed foot: right - Phase: double support
-        elif i <= 6.0:
-            assert (fixed_foot.name == "r_sole")
-            assert (fixed_foot.pose == manif.SE3(position=np.array(r_foot_position), quaternion=r_foot_quat))
-            assert (fixed_foot.switch_time == 3.0)
-            assert (round(fixed_foot.last_update_time, 2) == 4.0) # last_update_time fixed to the beginning of DS
+    for current_time in time_generator(timedelta(seconds=0), horizon, dt):
 
-        # Fixed foot: left - Phase: single support
-        elif i <= 7.0:
-            assert (fixed_foot.name == "l_sole")
-            assert (fixed_foot.pose == manif.SE3(
-                position=np.array(np.array([l_foot_position[0] + 0.1, l_foot_position[1], 0.0])),
-                quaternion=l_foot_quat))
-            assert (fixed_foot.switch_time == 6.0)
-            assert (round(fixed_foot.last_update_time, 2) == round(i, 2)) # last_update_time updated incrementally
+        assert(detector.advance())
+        assert(detector.is_output_valid())
+        output = detector.get_output()
 
-        # Fixed foot: left - Phase: double support
-        elif i <= 10.0:
-            assert (fixed_foot.name == "l_sole")
-            assert (fixed_foot.pose == manif.SE3(
-                position=np.array(np.array([l_foot_position[0] + 0.1, l_foot_position[1], 0.0])),
-                quaternion=l_foot_quat))
-            assert (fixed_foot.switch_time == 6.0)
-            assert (round(fixed_foot.last_update_time, 2) == 7.0) # last_update_time fixed to the beginning of DS
+        state = get_fixed_foot_state(current_time, phase_list.lists())
+        assert(output["left_foot"].is_active == state.left_foot.is_active)
+        assert(output["right_foot"].is_active == state.right_foot.is_active)
+
+        if state.left_foot.is_active:
+            assert(output["left_foot"].pose == state.left_foot.pose)
+        elif state.right_foot.is_active:
+            assert(output["right_foot"].pose == state.right_foot.pose)
+        else:
+            assert(False) # This should never happen

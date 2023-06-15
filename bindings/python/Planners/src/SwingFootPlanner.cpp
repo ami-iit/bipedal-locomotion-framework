@@ -2,7 +2,7 @@
  * @file SwingFootPlanner.cpp
  * @authors Diego Ferigo, Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #include <pybind11/eigen.h>
@@ -11,9 +11,9 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
-#include <BipedalLocomotion/System/Source.h>
 
 #include <BipedalLocomotion/bindings/Planners/SwingFootPlanner.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -54,20 +54,13 @@ void CreateSwingFootPlanner(pybind11::module& module)
                 s.mixedAcceleration.coeffs() = coeffs;
             });
 
-    py::class_<Source<SwingFootPlannerState>>(module, "SwingFootPlannerStateSource");
+    BipedalLocomotion::bindings::System::CreateSource<SwingFootPlannerState> //
+        (module, "SwingFootPlanner");
 
     py::class_<SwingFootPlanner, Source<SwingFootPlannerState>>(module, "SwingFootPlanner")
         .def(py::init())
-        .def(
-            "initialize",
-            [](SwingFootPlanner& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
-                return impl.initialize(handler);
-            },
-            py::arg("handler"))
         .def("set_contact_list", &SwingFootPlanner::setContactList, py::arg("contact_list"))
-        .def("get_output", &SwingFootPlanner::getOutput)
-        .def("is_output_valid", &SwingFootPlanner::isOutputValid)
-        .def("advance", &SwingFootPlanner::advance);
+        .def("set_time", &SwingFootPlanner::setTime, py::arg("time"));
 }
 
 } // namespace Planners

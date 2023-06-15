@@ -1,6 +1,6 @@
 # Copyright (C) 2020 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 # This software may be modified and distributed under the terms of the
-# GNU Lesser General Public License v2.1 or any later version.
+# BSD-3-Clause license.
 
 if (FRAMEWORK_COMPILE_Planners)
 
@@ -32,7 +32,7 @@ if (FRAMEWORK_COMPILE_Planners)
     BipedalLocomotion::Contacts
     PRIVATE_LINK_LIBRARIES
     Qhull::qhullcpp
-    Qhull::qhullstatic_r
+    Qhull::qhull_r
     casadi
     iDynTree::idyntree-core
     BipedalLocomotion::Math

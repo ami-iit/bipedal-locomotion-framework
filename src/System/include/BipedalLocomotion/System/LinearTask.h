@@ -2,7 +2,7 @@
  * @file LinearTask.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_LINEAR_TASK_H
@@ -117,6 +117,21 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     virtual bool isValid() const = 0;
+
+    /**
+     * Compute the residual of the task. The residual is defined as
+     * \f[
+     * r = A x - b
+     * \f]
+     * where \f$x\f$ is the solution of the ILinearTaskSolver
+     * @return the residual associated to the task
+     */
+    Eigen::VectorXd getResidual(Eigen::Ref<const Eigen::VectorXd> solution) const;
+
+    /**
+     * Destructor.
+     */
+    virtual ~LinearTask() = default;
 };
 
 } // namespace System

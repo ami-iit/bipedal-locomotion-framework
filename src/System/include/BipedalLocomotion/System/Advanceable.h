@@ -2,7 +2,7 @@
  * @file Advanceable.h
  * @authors Stefano Dafarra, Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_ADVANCEABLE_H
@@ -11,6 +11,8 @@
 #include <variant>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/InputPort.h>
+#include <BipedalLocomotion/System/OutputPort.h>
 
 namespace BipedalLocomotion
 {
@@ -30,11 +32,13 @@ template <class _Input, class _Output> class Advanceable;
  * Basic class that represents a discrete system. The interface contains method to set inputs and
  * output.
  */
-template <class _Input, class _Output> class BipedalLocomotion::System::Advanceable
+template <class _Input, class _Output>
+class BipedalLocomotion::System::Advanceable : public BipedalLocomotion::System::InputPort<_Input>,
+                                               public BipedalLocomotion::System::OutputPort<_Output>
 {
 public:
-    using Input = _Input;
-    using Output = _Output;
+    using Input = typename BipedalLocomotion::System::InputPort<_Input>::Input;
+    using Output = typename BipedalLocomotion::System::OutputPort<_Output>::Output;
 
     virtual ~Advanceable() = default;
 
@@ -44,24 +48,6 @@ public:
      * @return True if the initialization is successfull.
      */
     virtual bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
-
-    /**
-     * @brief Get the output of the advanceable.
-     * @return a const reference of the requested object.
-     */
-    virtual const Output& getOutput() const = 0;
-
-    /**
-     * @brief Get the object.
-     * @return a const reference of the requested object.
-     */
-    virtual bool setInput(const Input& input) = 0;
-
-    /**
-     * @brief Determines the validity of the object retrieved with getOutput()
-     * @return True if the object is valid, false otherwise.
-     */
-    virtual bool isOutputValid() const = 0;
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from getOutput().
@@ -82,7 +68,7 @@ namespace BipedalLocomotion
 namespace System
 {
 
-template <class Input, class Output> bool Advanceable<Input, Output>::close()
+template <class _Input, class _Output> bool Advanceable<_Input, _Output>::close()
 {
     return true;
 }

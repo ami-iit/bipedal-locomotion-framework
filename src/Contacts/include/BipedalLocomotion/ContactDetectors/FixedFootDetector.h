@@ -2,7 +2,7 @@
  * @file FixedFootDetector.h
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
 #ifndef BIPEDAL_LOCOMOTION_CONTACT_DETECTORS_FIXED_FOOT_DETECTOR_H
@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 
+#include <chrono>
 #include <memory>
 
 namespace BipedalLocomotion
@@ -51,9 +52,12 @@ namespace Contacts
  *
  * // initialize the detector
  * detector.initialize(paramsHandler);
+ *
+ * detector.resetTime(contactPhaseList.firstPhase()->beginTime);
  * detector.setContactPhaseList(contactPhaseList);
  *
  * // get the fixed frame at initial time instant (t = t_i)
+ * detector.advance();
  * auto fixedFoot = detector.getFixedFoot();
  *
  * // get the fixed frame at initial time + sampling time instant (t = t_i + dt)
@@ -64,27 +68,11 @@ namespace Contacts
 class FixedFootDetector : public ContactDetector
 {
     ContactPhaseList m_contactPhaselist; /**< List of the contacts */
-    double m_currentTime{0}; /**< Current time in seconds */
-    double m_dT{0}; /**< Fixed sampling time in seconds */
+    std::chrono::nanoseconds m_currentTime{std::chrono::nanoseconds::zero()}; /**< Current time in
+                                                                                 seconds */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Fixed sampling time in
+                                                                        seconds */
     EstimatedContact m_dummyContact; /**< A dummy esitmated contact */
-
-    /**
-     * Initialize the detector.
-     * @param handler pointer to the parameter handler.
-     * @note the following parameters are required by the class
-     * |   Parameter Name  |    Type    |                Description                 | Mandatory |
-     * |:-----------------:|:----------:|:------------------------------------------:|:---------:|
-     * |  `sampling_time`  |  `double`  |  Sampling time of the detector is seconds  |    Yes    |
-     * @return true in case of success/false otherwise.
-     */
-    bool customInitialization(std::weak_ptr<const //
-                                            ParametersHandler::IParametersHandler> handler) final;
-
-    /**
-     * Update the contact state. This function advance the current time stored in the class.
-     * @return true in case of success/false otherwise.
-     */
-    bool updateContactStates() final;
 
     /**
      * Update the fixed foot.
@@ -95,10 +83,33 @@ class FixedFootDetector : public ContactDetector
 public:
 
     /**
+     * Initialize the detector.
+     * @param handler pointer to the parameter handler.
+     * @note the following parameters are required by the class
+     * |   Parameter Name  |           Type        |                Description                 | Mandatory |
+     * |:-----------------:|:---------------------:|:------------------------------------------:|:---------:|
+     * |  `sampling_time`  | `chrono::nanoseconds` |  Sampling time of the detector is seconds  |    Yes    |
+     * @return true in case of success/false otherwise.
+     */
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+
+    /**
+     * Update the contact state. This function advance the current time stored in the class.
+     * @return true in case of success/false otherwise.
+     */
+    bool advance() override;
+
+    /**
      * Set the contact phase list
      * @param phaseList a contact phase list
      */
-    bool setContactPhaseList(const ContactPhaseList& phaseList);
+    void setContactPhaseList(const ContactPhaseList& phaseList);
+
+    /**
+     * Reset the time
+     * @param time time
+     */
+    void resetTime(const std::chrono::nanoseconds& time);
 
     /**
      * Get the fixed foot

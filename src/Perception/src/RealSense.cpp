@@ -1,12 +1,14 @@
 /**
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the GNU Lesser General Public License v2.1 or any later version.
+ * distributed under the terms of the BSD-3-Clause license.
  */
+
+#include <algorithm>
 
 #include <BipedalLocomotion/Perception/Capture/RealSense.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+
 #include <librealsense2/rs.hpp>
-#include <algorithm>
 #include <tuple>
 
 using namespace BipedalLocomotion::Perception::Capture;
@@ -24,21 +26,19 @@ struct RealSense::Impl
 
     /**
      * Copied from Realsense examples
-     * see https://github.com/IntelRealSense/librealsense/blob/master/wrappers/pcl/pcl-color/rs-pcl-color.cpp
+     * see
+     * https://github.com/IntelRealSense/librealsense/blob/master/wrappers/pcl/pcl-color/rs-pcl-color.cpp
      */
     TextureRGB rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY);
     void toPCL(const rs2::points& points,
                const rs2::video_frame& color,
                pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
-    bool isColorEnabled{true};
     bool isIREnabled{false};
-    bool isDepthEnabled{false};
     bool isPCLEnabled{false};
 
-    int genericWidth{640};
-    int genericHeight{480};
     int genericFPS{30};
+    BipedalLocomotion::RobotInterface::CameraBridgeMetaData metadata;
 
     rs2_format colorFormat{RS2_FORMAT_BGR8};
     rs2_format irFormat{RS2_FORMAT_Y8};
@@ -58,11 +58,10 @@ struct RealSense::Impl
     rs2::colorizer color_map;
     bool doAlignToColor{false};
     std::unique_ptr<rs2::align> alignToColor;
-
-    std::string camName{"RealSense"};
 };
 
-RealSense::RealSense() : m_pimpl(std::make_unique<Impl>())
+RealSense::RealSense()
+    : m_pimpl(std::make_unique<Impl>())
 {
 }
 
@@ -71,64 +70,99 @@ RealSense::~RealSense()
     m_pimpl->stopStream();
 }
 
-bool RealSense::initialize(std::weak_ptr<BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+bool RealSense::initialize(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
     constexpr std::string_view logPrefix = "[RealSense::initialize] ";
     auto ptr = handler.lock();
-    if (ptr == nullptr) { return false; }
+    if (ptr == nullptr)
+    {
+        return false;
+    }
 
-    if (!ptr->getParameter("camera_name", m_pimpl->camName))
+    m_pimpl->metadata.sensorsList.rgbCamerasList = std::vector<std::string>{"RealSense"};
+    if (!ptr->getParameter("camera_name", m_pimpl->metadata.sensorsList.rgbCamerasList[0]))
     {
         log()->warn("{} Parameter \"camera_name\" not available in the configuration."
-                     "Using default name \"RealSense\".", logPrefix);
+                    "Using default name \"{}\".",
+                    logPrefix,
+                    m_pimpl->metadata.sensorsList.rgbCamerasList[0]);
     }
+    m_pimpl->metadata.sensorsList.rgbdCamerasList = m_pimpl->metadata.sensorsList.rgbCamerasList;
 
-    if (!ptr->getParameter("frame_width", m_pimpl->genericWidth))
+    //
+    const auto& camName = m_pimpl->metadata.sensorsList.rgbCamerasList[0];
+    m_pimpl->metadata.bridgeOptions.rgbImgDimensions[camName]
+        = std::pair<std::size_t, std::size_t>{640, 480};
+    auto& rgbDimensions = m_pimpl->metadata.bridgeOptions.rgbImgDimensions[camName];
+    int width;
+    if (ptr->getParameter("frame_width", width))
+    {
+        rgbDimensions.first = width;
+    } else
     {
         log()->warn("{} Parameter \"frame_width\" not available in the configuration."
-                     "Using default name \"640\".", logPrefix);
+                    "Using default name \"{}\".",
+                    logPrefix,
+                    rgbDimensions.first);
     }
-
-    if (!ptr->getParameter("frame_height", m_pimpl->genericHeight))
+    int height;
+    if (!ptr->getParameter("frame_height", height))
+    {
+        rgbDimensions.second = height;
+    } else
     {
         log()->warn("{} Parameter \"frame_height\" not available in the configuration."
-                     "Using default name \"480\".", logPrefix);
+                    "Using default name \"{}\".",
+                    logPrefix,
+                    rgbDimensions.second);
     }
+    m_pimpl->metadata.bridgeOptions.rgbdImgDimensions
+        = m_pimpl->metadata.bridgeOptions.rgbImgDimensions;
 
     if (!ptr->getParameter("fps", m_pimpl->genericFPS))
     {
         log()->warn("{} Parameter \"fps\" not available in the configuration."
-                     "Using default name \"30\".", logPrefix);
+                    "Using default name \"{}\".",
+                    logPrefix,
+                    m_pimpl->genericFPS);
     }
 
-    if (!ptr->getParameter("stream_color", m_pimpl->isColorEnabled))
+    m_pimpl->metadata.bridgeOptions.isRGBCameraEnabled = true;
+    if (!ptr->getParameter("stream_color", m_pimpl->metadata.bridgeOptions.isRGBCameraEnabled))
     {
         log()->warn("{} Parameter \"stream_color\" not available in the configuration."
-                     "Color stream will not be available.", logPrefix);
+                    "Color stream will not be available.",
+                    logPrefix);
     }
 
-    if (!ptr->getParameter("stream_depth", m_pimpl->isDepthEnabled))
+    m_pimpl->metadata.bridgeOptions.isRGBDCameraEnabled = false;
+    if (!ptr->getParameter("stream_depth", m_pimpl->metadata.bridgeOptions.isRGBDCameraEnabled))
     {
         log()->warn("{} Parameter \"stream_depth\" not available in the configuration."
-                     "Depth stream will not be available.", logPrefix);
+                    "Depth stream will not be available.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("stream_ir", m_pimpl->isIREnabled))
     {
         log()->warn("{} Parameter \"stream_ir\" not available in the configuration."
-                     "IR stream will not be available.", logPrefix);
+                    "IR stream will not be available.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("stream_pcl", m_pimpl->isPCLEnabled))
     {
         log()->warn("{} Parameter \"stream_pcl\" not available in the configuration."
-                     "PCL stream will not be available.", logPrefix);
+                    "PCL stream will not be available.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("align_frames_to_color", m_pimpl->doAlignToColor))
     {
         log()->warn("{} Parameter \"align_frames_to_color\" not available in the configuration."
-                     "Frames will not be aligned to color frame.", logPrefix);
+                    "Frames will not be aligned to color frame.",
+                    logPrefix);
     }
 
     if (!m_pimpl->startStream())
@@ -156,7 +190,8 @@ bool RealSense::isValid()
 
 bool RealSense::Impl::isValidCamera(const std::string& _camName)
 {
-    if (_camName != camName)
+    if (this->metadata.sensorsList.rgbCamerasList.size() == 0
+        || _camName != this->metadata.sensorsList.rgbCamerasList[0])
     {
         log()->error("[RealSenseCapture::Impl::isValidCamera] Requested camera not available.");
         return false;
@@ -167,22 +202,19 @@ bool RealSense::Impl::isValidCamera(const std::string& _camName)
 
 bool RealSense::getRGBCamerasList(std::vector<std::string>& rgbCamerasList)
 {
-    rgbCamerasList.clear();
-    rgbCamerasList.push_back(m_pimpl->camName);
+    rgbCamerasList = m_pimpl->metadata.sensorsList.rgbCamerasList;
     return true;
 }
 
 bool RealSense::getRGBDCamerasList(std::vector<std::string>& rgbdCamerasList)
 {
-    rgbdCamerasList.clear();
-    rgbdCamerasList.push_back(m_pimpl->camName);
+    rgbdCamerasList = m_pimpl->metadata.sensorsList.rgbdCamerasList;
     return true;
 }
 
 bool RealSense::getPCLDevicesList(std::vector<std::string>& pclDevList)
 {
-    pclDevList.clear();
-    pclDevList.push_back(m_pimpl->camName);
+    pclDevList = m_pimpl->metadata.sensorsList.rgbCamerasList;
     return true;
 }
 
@@ -195,11 +227,20 @@ bool RealSense::getColorImage(const std::string& camName,
         return false;
     }
 
-    if (!m_pimpl->isColorEnabled)
+    if (!m_pimpl->metadata.bridgeOptions.isRGBCameraEnabled)
     {
         log()->error("[RealSenseCapture::getColorImage] Color stream was not enabled.");
         return false;
     }
+
+    const std::size_t genericWidth
+        = m_pimpl->metadata.bridgeOptions
+              .rgbImgDimensions[m_pimpl->metadata.sensorsList.rgbCamerasList[0]]
+              .first;
+    const std::size_t genericHeight
+        = m_pimpl->metadata.bridgeOptions
+              .rgbImgDimensions[m_pimpl->metadata.sensorsList.rgbCamerasList[0]]
+              .second;
 
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
     if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
@@ -207,12 +248,13 @@ bool RealSense::getColorImage(const std::string& camName,
         m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
     }
     m_pimpl->colorFrame = m_pimpl->frames.get_color_frame();
-    colorImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
-                       CV_8UC3, (void*)m_pimpl->colorFrame.get_data(), cv::Mat::AUTO_STEP);
+    colorImg = cv::Mat(cv::Size(genericWidth, genericHeight),
+                       CV_8UC3,
+                       (void*)m_pimpl->colorFrame.get_data(),
+                       cv::Mat::AUTO_STEP);
 
     return true;
 }
-
 
 bool RealSense::getDepthImage(const std::string& camName,
                               cv::Mat& depthImg,
@@ -223,11 +265,20 @@ bool RealSense::getDepthImage(const std::string& camName,
         return false;
     }
 
-    if (!m_pimpl->isDepthEnabled)
+    if (!m_pimpl->metadata.bridgeOptions.isRGBDCameraEnabled)
     {
         log()->error("[RealSenseCapture::getDepthImage] Depth stream was not enabled.");
         return false;
     }
+
+    const std::size_t genericWidth
+        = m_pimpl->metadata.bridgeOptions
+              .rgbdImgDimensions[m_pimpl->metadata.sensorsList.rgbdCamerasList[0]]
+              .first;
+    const std::size_t genericHeight
+        = m_pimpl->metadata.bridgeOptions
+              .rgbdImgDimensions[m_pimpl->metadata.sensorsList.rgbdCamerasList[0]]
+              .second;
 
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
     if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
@@ -236,8 +287,10 @@ bool RealSense::getDepthImage(const std::string& camName,
     }
     m_pimpl->depthFrame = m_pimpl->frames.get_depth_frame();
 
-    depthImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
-                                CV_8UC1, (void*)m_pimpl->depthFrame.get_data(), cv::Mat::AUTO_STEP);
+    depthImg = cv::Mat(cv::Size(genericWidth, genericHeight),
+                       CV_8UC1,
+                       (void*)m_pimpl->depthFrame.get_data(),
+                       cv::Mat::AUTO_STEP);
 
     return true;
 }
@@ -251,11 +304,20 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
         return false;
     }
 
-    if (!m_pimpl->isDepthEnabled)
+    if (!m_pimpl->metadata.bridgeOptions.isRGBDCameraEnabled)
     {
         log()->error("[RealSenseCapture::getColorizedDepthImage] Depth stream was not enabled.");
         return false;
     }
+
+    const std::size_t genericWidth
+        = m_pimpl->metadata.bridgeOptions
+              .rgbdImgDimensions[m_pimpl->metadata.sensorsList.rgbdCamerasList[0]]
+              .first;
+    const std::size_t genericHeight
+        = m_pimpl->metadata.bridgeOptions
+              .rgbdImgDimensions[m_pimpl->metadata.sensorsList.rgbdCamerasList[0]]
+              .second;
 
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
     if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
@@ -264,8 +326,10 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
     }
     m_pimpl->depthFrame = m_pimpl->frames.get_depth_frame().apply_filter(m_pimpl->color_map);
 
-    depthImg = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
-                                CV_8UC3, (void*)m_pimpl->depthFrame.get_data(), cv::Mat::AUTO_STEP);
+    depthImg = cv::Mat(cv::Size(genericWidth, genericHeight),
+                       CV_8UC3,
+                       (void*)m_pimpl->depthFrame.get_data(),
+                       cv::Mat::AUTO_STEP);
 
     return true;
 }
@@ -285,14 +349,23 @@ bool RealSense::getInfraredImage(const std::string& camName,
         return false;
     }
 
+    const std::size_t genericWidth
+        = m_pimpl->metadata.bridgeOptions.rgbImgDimensions[m_pimpl->metadata.sensorsList.rgbCamerasList[0]]
+              .first;
+    const std::size_t genericHeight
+        = m_pimpl->metadata.bridgeOptions.rgbImgDimensions[m_pimpl->metadata.sensorsList.rgbCamerasList[0]]
+              .second;
+
     m_pimpl->frames = m_pimpl->pipe.wait_for_frames();
     if (m_pimpl->doAlignToColor && m_pimpl->alignToColor != nullptr)
     {
         m_pimpl->frames = m_pimpl->alignToColor->process(m_pimpl->frames);
     }
     m_pimpl->irFrame = m_pimpl->frames.get_infrared_frame();
-    irImage = cv::Mat(cv::Size(m_pimpl->genericWidth, m_pimpl->genericHeight),
-                               CV_8UC1, (void*)m_pimpl->irFrame.get_data(), cv::Mat::AUTO_STEP);
+    irImage = cv::Mat(cv::Size(genericWidth, genericHeight),
+                      CV_8UC1,
+                      (void*)m_pimpl->irFrame.get_data(),
+                      cv::Mat::AUTO_STEP);
 
     return true;
 }
@@ -342,28 +415,28 @@ bool RealSense::Impl::startStream()
 {
     if (isPCLEnabled)
     {
-        if (!isColorEnabled)
-        {
-            isColorEnabled = true;
-        }
+        metadata.bridgeOptions.isRGBCameraEnabled = true;
+        metadata.bridgeOptions.isRGBDCameraEnabled = true;
 
-        if (!isDepthEnabled)
-        {
-            isDepthEnabled = true;
-        }
-
-        log()->info("[RealSenseCapture::Impl::startStream] PCL stream enabled. Automatically enabling RGB and Depth streaming.");
+        log()->info("[RealSenseCapture::Impl::startStream] PCL stream enabled. Automatically "
+                    "enabling RGB and Depth streaming.");
     }
 
-    if (!isColorEnabled &&
-        !isIREnabled &&
-        !isDepthEnabled)
+    if (!metadata.bridgeOptions.isRGBCameraEnabled && !isIREnabled
+        && !metadata.bridgeOptions.isRGBDCameraEnabled)
     {
-        log()->error("[RealSenseCapture::Impl::startStream] None of the stream options enabled. Cannot start streaming.");
+        log()->error("[RealSenseCapture::Impl::startStream] None of the stream options enabled. "
+                     "Cannot start streaming.");
         return false;
     }
 
-    if (isColorEnabled)
+    // by construction the width and height are the same for the rgbd and the rgb camera
+    const std::size_t genericWidth
+        = metadata.bridgeOptions.rgbImgDimensions[metadata.sensorsList.rgbCamerasList[0]].first;
+    const std::size_t genericHeight
+        = metadata.bridgeOptions.rgbImgDimensions[metadata.sensorsList.rgbCamerasList[0]].second;
+
+    if (metadata.bridgeOptions.isRGBCameraEnabled)
     {
         cfg.enable_stream(RS2_STREAM_COLOR, genericWidth, genericHeight, colorFormat, genericFPS);
     }
@@ -373,7 +446,7 @@ bool RealSense::Impl::startStream()
         cfg.enable_stream(RS2_STREAM_INFRARED, genericWidth, genericHeight, irFormat, genericFPS);
     }
 
-    if (isDepthEnabled)
+    if (metadata.bridgeOptions.isRGBDCameraEnabled)
     {
         cfg.enable_stream(RS2_STREAM_DEPTH, genericWidth, genericHeight, depthFormat, genericFPS);
     }
@@ -383,17 +456,17 @@ bool RealSense::Impl::startStream()
     try
     {
         pipe.start(cfg);
-    }
-    catch (const rs2::error& e)
+    } catch (const rs2::error& e)
     {
-        log()->error("[RealSenseCapture::Impl::startStream] Failed to start the pipeline: ({})", e.what());
+        log()->error("[RealSenseCapture::Impl::startStream] Failed to start the pipeline: ({})",
+                     e.what());
         return false;
     }
 
     // Camera warmup - dropping several first frames to let auto-exposure stabilize
-    for(int i = 0; i < 30; i++)
+    for (int i = 0; i < 30; i++)
     {
-        //Wait for all configured streams to produce a frame
+        // Wait for all configured streams to produce a frame
         frames = pipe.wait_for_frames();
     }
 
@@ -408,7 +481,6 @@ void RealSense::Impl::stopStream()
     isStreaming = false;
 }
 
-
 //======================================================
 // RGB Texture
 // - Function is utilized to extract the RGB data from
@@ -419,19 +491,20 @@ void RealSense::Impl::stopStream()
 // texture coordinates, the RGB components can be
 // "mapped" to each individual point (XYZ).
 //======================================================
-RealSense::Impl::TextureRGB RealSense::Impl::rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY)
+RealSense::Impl::TextureRGB
+RealSense::Impl::rgbTexture(rs2::video_frame textureImg, rs2::texture_coordinate textureXY)
 {
     // Get Width and Height coordinates of texture
-    int width  = textureImg.get_width();  // Frame width in pixels
+    int width = textureImg.get_width(); // Frame width in pixels
     int height = textureImg.get_height(); // Frame height in pixels
 
     // Normals to Texture Coordinates conversion
-    int xValue = std::min(std::max(int(textureXY.u * width  + .5f), 0), width - 1);
+    int xValue = std::min(std::max(int(textureXY.u * width + .5f), 0), width - 1);
     int yValue = std::min(std::max(int(textureXY.v * height + .5f), 0), height - 1);
 
-    int bytes = xValue * textureImg.get_bytes_per_pixel();   // Get # of bytes per pixel
+    int bytes = xValue * textureImg.get_bytes_per_pixel(); // Get # of bytes per pixel
     int strides = yValue * textureImg.get_stride_in_bytes(); // Get line width in bytes
-    int textureIndex =  (bytes + strides);
+    int textureIndex = (bytes + strides);
 
     const auto newTexture = reinterpret_cast<const uint8_t*>(textureImg.get_data());
 
@@ -442,7 +515,6 @@ RealSense::Impl::TextureRGB RealSense::Impl::rgbTexture(rs2::video_frame texture
 
     return RealSense::Impl::TextureRGB{NT1, NT2, NT3};
 }
-
 
 //===================================================
 //  PCL_Conversion
@@ -466,10 +538,10 @@ void RealSense::Impl::toPCL(const rs2::points& points,
         return;
     }
 
-    cloud->width  = static_cast<uint32_t>( sp.width()  );
-    cloud->height = static_cast<uint32_t>( sp.height() );
+    cloud->width = static_cast<uint32_t>(sp.width());
+    cloud->height = static_cast<uint32_t>(sp.height());
     cloud->is_dense = false;
-    cloud->points.resize( points.size() );
+    cloud->points.resize(points.size());
 
     auto textureCoord = points.get_texture_coordinates();
     auto vertex = points.get_vertices();
@@ -494,4 +566,9 @@ void RealSense::Impl::toPCL(const rs2::points& points,
         cloud->points[i].g = rgbColor.g; // Reference tuple<1>
         cloud->points[i].b = rgbColor.r; // Reference tuple<0>
     }
+}
+
+const BipedalLocomotion::RobotInterface::CameraBridgeMetaData& RealSense::getMetaData() const
+{
+    return m_pimpl->metadata;
 }
