@@ -13,10 +13,10 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
-#include <BipedalLocomotion/Planners/Spline.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/SO3Planner.h>
+#include <BipedalLocomotion/Planners/Spline.h>
 #include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
@@ -50,9 +50,12 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
     /** Current time of the planner in seconds */
     std::chrono::nanoseconds m_currentTrajectoryTime{std::chrono::nanoseconds::zero()};
 
+    /** Starting time of the active SO3 trajectory seconds */
+    std::chrono::nanoseconds m_staringTimeOfCurrentSO3Traj{std::chrono::nanoseconds::zero()};
+
     Contacts::ContactList m_contactList; /**< List of the contacts */
-    Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact. (internal
-                                                        use) */
+    Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact.
+                                                        (internal use) */
 
     SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
     std::unique_ptr<Spline> m_planarPlanner; /**< Trajectory planner for the x y coordinates of the
@@ -86,23 +89,25 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
     bool createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
                        Eigen::Ref<const Eigen::Vector2d> initialPlanarAcceleration,
                        Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalVelocity,
-                       Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalAcceleration);
+                       Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalAcceleration,
+                       const manif::SO3d::Tangent& initialAngularVelocity,
+                       const manif::SO3d::Tangent& initialAngularAcceleration);
 
 public:
     /**
      * Initialize the planner.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |         Parameter Name       |   Type   |                                                                            Description                                                                         | Mandatory |
-     * |:----------------------------:|:--------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |        `sampling_time`       | `double` |                                                                 Sampling time of the planner in seconds                                                        |    Yes    |
-     * |         `step_height`        | `double` |                              Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum              |    Yes    |
-     * |        `foot_apex_time`      | `double` |                          Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                       |    Yes    |
-     * |    `foot_landing_velocity`   | `double` |                                                          Landing vertical velocity (default value 0.0)                                                         |    No     |
-     * |  `foot_landing_acceleration` | `double` |                                                       Landing vertical acceleration (default value 0.0)                                                        |    No     |
-     * |   `foot_take_off_velocity`   | `double` |                                                         Take-off vertical velocity (default value 0.0)                                                         |    No     |
-     * | `foot_take_off_acceleration` | `double` |                                                      Take-off vertical acceleration (default value 0.0)                                                        |    No     |
-     * |     `interpolation_method`   | `string` |  Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`)    |    No     |
+     * |         Parameter Name       |   Type   |                                                                   Description                                                                              | Mandatory |
+     * |:----------------------------:|:--------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |        `sampling_time`       | `double` |                                                     Sampling time of the planner in seconds                                                                |    Yes    |
+     * |         `step_height`        | `double` |                              Height of the  swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum         |    Yes    |
+     * |        `foot_apex_time`      | `double` |            Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                                 |    Yes    |
+     * |    `foot_landing_velocity`   | `double` |                                          Landing vertical velocity (default value 0.0)                                                                     |    No     |
+     * |  `foot_landing_acceleration` | `double` |                                        Landing vertical acceleration (default value 0.0)                                                                   |    No     |
+     * |   `foot_take_off_velocity`   | `double` |                                         Take-off vertical velocity (default value 0.0)                                                                     |    No     |
+     * | `foot_take_off_acceleration` | `double` |                                       Take-off vertical acceleration (default value 0.0)                                                                   |    No     |
+     * |    `interpolation_method`    | `string` | Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`) |    No     |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
@@ -112,7 +117,7 @@ public:
      * @param contactList contains the list for a given contact.
      * @return true in case of success, false otherwise.
      * @note The contact list can be updated at run-time, i.e., when the planner is running. However
-     * the new contact list must satify a set of hypothesis.
+     * the new contact list must satisfy a set of hypothesis.
      * If the contact list stored in the class is empty, then it is the first time the
      * contact list is added to the planner. In this case we accept all kinds of ContactList
      * If the contact list is not empty, we check if it is possible to update the list.  Given some
@@ -122,8 +127,10 @@ public:
      * active contact at the same pose.
      * - If the contact is not active (swing phase) the next contact must satisfy the following two
      * hypothesis
-     *   1. the orientation of the next contact must be the same as the orientation of the next
-     * contact in the contact list stored in the class.
+     *   1. the final orientation may change still the error (in the tangent space) between the
+     *  new orientation and the current one should be parallel to the current velocity and
+     *  acceleration vectors. This is required to keep the SO3Planner problem still treatable
+     *  online. This check is not done here since the SO3Planner will complain in case of issues.
      *   2. the impact time of the next contact must be the same as the one of the next contact in
      * the contact list stored in the class.
      */
@@ -139,19 +146,19 @@ public:
      * @brief Get the object.
      * @return a const reference of the requested object.
      */
-     const SwingFootPlannerState& getOutput() const final;
+    const SwingFootPlannerState& getOutput() const final;
 
     /**
      * @brief Determines the validity of the object retrieved with get()
      * @return True if the object is valid, false otherwise.
      */
-     bool isOutputValid() const final;
+    bool isOutputValid() const final;
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from get().
      * @return True if the advance is successfull.
      */
-     bool advance() final;
+    bool advance() final;
 };
 
 } // namespace Planners
