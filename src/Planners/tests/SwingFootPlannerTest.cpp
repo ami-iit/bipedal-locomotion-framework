@@ -84,7 +84,7 @@ ContactList createModifiedContactList()
 
     // third
     transform = manif::SE3d({0.5104, 0.415, 0.400},
-                            Eigen::AngleAxisd(2.0208, Eigen::Vector3d::UnitZ()));
+                            Eigen::AngleAxisd(2.4, Eigen::Vector3d::UnitZ()));
     REQUIRE(contactList.addContact(transform, 1s + 800ms, 2s + 700ms));
 
     // forth
