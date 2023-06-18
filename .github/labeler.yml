@@ -14,6 +14,7 @@
 ':hammer: component: ParametersHandler': src/ParametersHandler/**/*
 ':hammer: component: Perception': src/Perception/**/*
 ':hammer: component: Planners': src/Planners/**/*
+':hammer: component: ReducedModelControllers': src/ReducedModelControllers/**/*
 ':hammer: component: RobotInterface': src/RobotInterface/**/*
 ':hammer: component: SimplifiedModelControllers': src/SimplifiedModelControllers/**/*
 ':hammer: component: System': src/System/**/*
