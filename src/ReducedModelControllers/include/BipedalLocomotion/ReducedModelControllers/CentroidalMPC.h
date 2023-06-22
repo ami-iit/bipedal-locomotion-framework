@@ -82,7 +82,7 @@ public:
      * |     `is_warm_start_enabled`     |      `bool`      |                                 True if the user wants to warm start the CoM, angular momentum, and contact location with the nominal value (Default `false`)                                |     No    |
      * |         `is_cse_enabled`        |      `bool`      | True if the Common subexpression elimination casadi option is enabled. This option is supported only by casadi 3.6.0 https://github.com/casadi/casadi/releases/tag/3.6.3  (Default `false` ) |     No    |
      *
-     * Moreover for each contact \f$i\f$ where $\f 0\le \le i \le \f$ `number_of_maximum_contacts-1` it is required to define a group `CONTACT_<i>` that contains the following parameters
+     * Moreover for each contact \f$i\f$ where \f$ 0 \le i \le \f$ `number_of_maximum_contacts-1` it is required to define a group `CONTACT_<i>` that contains the following parameters
      * |       Parameter Name       |        Type      |                                                          Description                                                             | Mandatory |
      * |:--------------------------:|:----------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:---------:|
      * |      `contact_name`        |     `string`     |                                                 Name associated to the contact.                                                  |    Yes    |
