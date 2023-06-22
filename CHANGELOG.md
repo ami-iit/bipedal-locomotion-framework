@@ -27,6 +27,8 @@ All notable changes to this project are documented in this file.
 - 🤖 [ergoCubSN000] Clean the mas remapper files of the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/673)
 - 🤖 [ergoCubSN000] Enable the logging of the realsense camera `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 - Add the possibility to force the internal state of the `SchmittTrigger` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/684)
+- Add the possibility to update the contact list in the swing foot planner when the contact is not active and the new orientation is different from the previous one (https://github.com/ami-iit/bipedal-locomotion-framework/pull/688)
+- Add the possibility to set the boundary condition for the velocity and acceleration of the `SO3Planner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/688)
 
 ### Fixed
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
