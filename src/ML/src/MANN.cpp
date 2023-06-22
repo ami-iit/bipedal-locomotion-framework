@@ -167,8 +167,13 @@ bool MANN::initialize(
         return false;
     }
 
+    // Ort::Session's constructor is OS-dependent, wants wchar_t* on Windows and char* on other OSs
+    // Note: this only works with single-byte characters, such as ASCII or ISO-8859-1,
+    // see https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
+    std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(), networkModelPath.end());
+
     m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
-                                                      networkModelPath.c_str(),
+                                                      networkModelPathAsOrtString.c_str(),
                                                       Ort::SessionOptions{nullptr});
 
     if (m_pimpl->session == nullptr)

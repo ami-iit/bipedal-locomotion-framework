@@ -18,8 +18,7 @@ find_path(onnxruntime_INCLUDE_DIR
   PATH_SUFFIXES onnxruntime/core/session)
 mark_as_advanced(onnxruntime_INCLUDE_DIR)
 find_library(onnxruntime_LIBRARY
-  NAMES onnxruntime)
-mark_as_advanced(onnxruntime_LIBRARY)
+  NAMES onnxruntime onnxruntime_conda)
 mark_as_advanced(onnxruntime_LIBRARY)
 
 find_package_handle_standard_args(onnxruntime DEFAULT_MSG onnxruntime_INCLUDE_DIR onnxruntime_LIBRARY)
