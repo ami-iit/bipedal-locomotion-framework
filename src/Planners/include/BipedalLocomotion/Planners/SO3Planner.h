@@ -73,6 +73,45 @@ class SO3Planner : public System::Source<SO3PlannerState>
     SO3PlannerState m_state; /**< Current state of the planner. It is used by the advance
                                 capabilities. */
 
+    /**
+     * Description of a 5-th polynomial. It contains the coefficients of the sub-trajectory.
+     */
+    struct Polynomial
+    {
+        double a0;
+        double a1;
+        double a2;
+        double a3;
+        double a4;
+        double a5;
+    };
+
+    /**
+     * Struct containing the boundary condition
+     */
+    struct BoundaryConditions
+    {
+        manif::SO3d::Tangent velocity;
+        manif::SO3d::Tangent acceleration;
+        bool isSet{false};
+    };
+
+    BoundaryConditions initialCondition; /**< Initial condition */
+    BoundaryConditions finalCondition; /**< Final condition */
+    bool areCoefficientsComputed{false}; /**< If true the coefficients are computed and updated */
+    Polynomial polynomial;
+
+    /**
+     * This function is the entry point to compute the coefficients of the spline
+     */
+    bool computeCoefficients();
+
+    /**
+     * Compute the distance given two rotations. It depends on the trivialization.
+     */
+    static manif::SO3d::Tangent
+    computeDistance(const manif::SO3d& initialRotation, const manif::SO3d& finalRotation);
+
 public:
     /**
      * Set the rotation
@@ -91,8 +130,7 @@ public:
      * @param state state of the planner.
      * @return True in case of success/false otherwise.
      */
-    bool evaluatePoint(const std::chrono::nanoseconds& time,
-                       SO3PlannerState& state) const;
+    bool evaluatePoint(const std::chrono::nanoseconds& time, SO3PlannerState& state);
 
     /**
      * Get the trajectory at a given time
@@ -104,12 +142,11 @@ public:
      * (accordingly to the trivialization used).
      * @return True in case of success/false otherwise.
      */
-    template<class Derived>
+    template <class Derived>
     bool evaluatePoint(const std::chrono::nanoseconds& time,
                        manif::SO3d& rotation,
                        manif::SO3TangentBase<Derived>& velocity,
-                       manif::SO3TangentBase<Derived>& acceleration) const;
-
+                       manif::SO3TangentBase<Derived>& acceleration);
 
     /**
      * Set the time step of the advance interface.
@@ -118,6 +155,24 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setAdvanceTimeStep(const std::chrono::nanoseconds& dt);
+
+    /**
+     * Set the initial condition of the spline
+     * @param velocity initial angular velocity.
+     * @param acceleration initial angular acceleration.
+     * @return True in case of success, false otherwise.
+     */
+    bool setInitialConditions(const manif::SO3d::Tangent& velocity,
+                              const manif::SO3d::Tangent& acceleration);
+
+    /**
+     * Set the final condition of the trajectory generator
+     * @param velocity final angular velocity.
+     * @param acceleration final angular acceleration.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFinalConditions(const manif::SO3d::Tangent& velocity,
+                            const manif::SO3d::Tangent& acceleration);
 
     /**
      * Get the state of the system.
@@ -142,6 +197,21 @@ public:
      * @return True if the advance is successfull.
      */
     bool advance() final;
+
+    /**
+     * Project the tangent vector on the vector that represents the distance between the two
+     * rotations.
+     * @param initialRotation initial rotation \f${}^{\mathcal{I}}R_{\mathcal{B}_0}\f$.
+     * @param finalRotation final rotation \f${}^{\mathcal{I}}R_{\mathcal{B}_T}\f$.
+     * @param vector Tangent vector that needs to be projected.
+     * @return The projected tangent vector.
+     * @warning If the initial and final rotations coincides the projected tangent vector will be
+     * set equal to zero.
+     * @note this method can be used along with setInitialConditions and setFinalConditions.
+     */
+    static manif::SO3d::Tangent projectTangentVector(const manif::SO3d& initialRotation,
+                                                     const manif::SO3d& finalRotation,
+                                                     const manif::SO3d::Tangent& vector);
 };
 
 /**

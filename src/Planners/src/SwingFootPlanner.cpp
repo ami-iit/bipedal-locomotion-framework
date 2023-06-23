@@ -157,7 +157,11 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     // - Given the current time instant the both the original and the new contact list have an
     //   active contact at the same position.
     // - If the contact is not active we have to check that:
-    //    1. the final orientation didn't change
+    //    1. the final orientation may change still the error (in the tangent space) between the
+    //       new orientation and the current one should be parallel to the current velocity and
+    //       acceleration vectors. This is required to keep the SO3Planner problem still treatable
+    //       online. This check is not done here since the SO3Planner will complain in case of
+    //       issues.
     //    2. the swing foot trajectory duration did not change
 
     // Here the case where the contact is active
@@ -183,7 +187,12 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         && newContactAtCurrentTime != contactList.lastContact())
     {
         // we take the next contact of the new contact list and we check:
-        // 1. the final orientation didn't change
+        // 1. the final orientation may change still the error (in the tangent space) between the
+        //     new orientation and the current one should be parallel to the current velocity and
+        //     acceleration vectors. This is required to keep the SO3Planner problem still treatable
+        //     online. This check is not done here since the SO3Planner will complain in case of
+        //     issues.
+        //
         // 2. the swing foot trajectory duration didn't change
         auto newNextContactAtCurrentTime = std::next(newContactAtCurrentTime, 1);
 
@@ -197,21 +206,19 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         const auto newSwingFootTrajectoryDuration = newNextContactAtCurrentTime->activationTime
                                                     - newContactAtCurrentTime->deactivationTime;
 
-        if (!newNextContactAtCurrentTime->pose.quat().isApprox(
-                nextContactAtCurrentTime->pose.quat())
-            || newSwingFootTrajectoryDuration != originalSwingFootTrajectoryDuration)
+        if (newSwingFootTrajectoryDuration != originalSwingFootTrajectoryDuration)
         {
             log()->error("{} Failing to update the contact list. At the give time instant t = {} "
-                        "the foot is swinging. In order to update the conatct list we ask: 1) the "
-                        "final orientation didn't change. 2) the duration of the swing foot phase "
-                        "do not change. In this case we have. New Orientation {}, original "
-                        "orientation {}. New duration {}, original duration {}.",
-                        logPrefix,
-                        m_currentTrajectoryTime,
-                        newNextContactAtCurrentTime->pose.quat().coeffs().transpose(),
-                        nextContactAtCurrentTime->pose.quat().coeffs().transpose(),
-                        newSwingFootTrajectoryDuration,
-                        originalSwingFootTrajectoryDuration);
+                         "the foot is swinging. In order to update the conatct list we ask. The "
+                         "duration of the swing foot phase do not change. In this case we have. "
+                         "New Orientation {}, original orientation {}. New duration {}, original "
+                         "duration {}.",
+                         logPrefix,
+                         m_currentTrajectoryTime,
+                         newNextContactAtCurrentTime->pose.quat().coeffs().transpose(),
+                         nextContactAtCurrentTime->pose.quat().coeffs().transpose(),
+                         newSwingFootTrajectoryDuration,
+                         originalSwingFootTrajectoryDuration);
             return false;
         }
 
@@ -221,7 +228,9 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         if (!this->createSE3Traj(m_state.mixedVelocity.lin().head<2>(),
                                  m_state.mixedAcceleration.lin().head<2>(),
                                  m_state.mixedVelocity.lin().tail<1>(),
-                                 m_state.mixedAcceleration.lin().tail<1>()))
+                                 m_state.mixedAcceleration.lin().tail<1>(),
+                                 m_state.mixedVelocity.ang(),
+                                 m_state.mixedAcceleration.ang()))
         {
             log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
             return false;
@@ -258,7 +267,9 @@ void SwingFootPlanner::setTime(const std::chrono::nanoseconds& time)
 bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
                                      Eigen::Ref<const Eigen::Vector2d> initialPlanarAcceleration,
                                      Eigen::Ref<const Vector1d> initialVerticalVelocity,
-                                     Eigen::Ref<const Vector1d> initialVerticalAcceleration)
+                                     Eigen::Ref<const Vector1d> initialVerticalAcceleration,
+                                     const manif::SO3d::Tangent& initialAngularVelocity,
+                                     const manif::SO3d::Tangent& initialAngularAcceleration)
 {
     constexpr auto logPrefix = "[SwingFootPlanner::createSE3Traj]";
 
@@ -273,16 +284,16 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
 
     // The rotation cannot change when the contact list is updated. For this reason we can build the
     // trajectory considering the initial and the final conditions
-    const auto T = nextContactPtr->activationTime - m_currentContactPtr->deactivationTime;
-    if (!m_SO3Planner.setRotations(m_currentContactPtr->pose.asSO3(),
-                                   nextContactPtr->pose.asSO3(),
-                                   T))
+    m_staringTimeOfCurrentSO3Traj = m_currentTrajectoryTime;
+    const auto T = nextContactPtr->activationTime - m_staringTimeOfCurrentSO3Traj;
+    m_SO3Planner.setInitialConditions(initialAngularVelocity, initialAngularAcceleration);
+    m_SO3Planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero());
+    if (!m_SO3Planner.setRotations(m_state.transform.quat(), nextContactPtr->pose.asSO3(), T))
     {
         log()->error("{} Unable to set the initial and final rotations for the SO(3) planner.",
                      logPrefix);
         return false;
     }
-
 
     m_planarPlanner->setInitialConditions(initialPlanarVelocity, initialPlanarAcceleration);
     m_planarPlanner->setFinalConditions(Eigen::Vector2d::Zero(), Eigen::Vector2d::Zero());
@@ -307,7 +318,6 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
     const std::chrono::nanoseconds footHeightViaPointTime
         = std::chrono::duration_cast<std::chrono::nanoseconds>(
             m_footApexTime * T + m_currentContactPtr->deactivationTime);
-
 
     m_heightPlanner->setInitialConditions(initialVerticalVelocity, initialVerticalAcceleration);
     m_heightPlanner->setFinalConditions(Vector1d::Constant(m_footLandingVelocity),
@@ -346,7 +356,7 @@ bool SwingFootPlanner::updateSE3Traj()
     constexpr auto logPrefix = "[SwingFootPlanner::updateSE3Traj]";
 
     // compute the trajectory at the current time
-    const auto shiftedTime = m_currentTrajectoryTime - m_currentContactPtr->deactivationTime;
+    const auto shiftedTime = m_currentTrajectoryTime - m_staringTimeOfCurrentSO3Traj;
 
     manif::SO3d rotation;
 
@@ -408,7 +418,8 @@ bool SwingFootPlanner::advance()
 
     if (m_contactList.size() == 0)
     {
-        log()->error("{} Empty contact list. Please call SwingFootPlanner::setContactList()", logPrefix);
+        log()->error("{} Empty contact list. Please call SwingFootPlanner::setContactList()",
+                     logPrefix);
         return false;
     }
 
@@ -461,7 +472,9 @@ bool SwingFootPlanner::advance()
         if (!this->createSE3Traj(Eigen::Vector2d::Zero(),
                                  Eigen::Vector2d::Zero(),
                                  Vector1d::Constant(m_footTakeOffVelocity),
-                                 Vector1d::Constant(m_footTakeOffAcceleration)))
+                                 Vector1d::Constant(m_footTakeOffAcceleration),
+                                 manif::SO3d::Tangent::Zero(),
+                                 manif::SO3d::Tangent::Zero()))
         {
             log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
             return false;
