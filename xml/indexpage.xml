@@ -9,6 +9,13 @@
     <detaileddescription>
 <para>The <bold>bipedal-locomotion-framework</bold> project is a <emphasis>suite</emphasis> of libraries for achieving bipedal locomotion on humanoid robots.<image type="html" name="https://user-images.githubusercontent.com/16744101/117514707-d516e480-af94-11eb-9e7e-3df7a0997ddd.png" inline="yes"></image>
 </para>
+<sect1 id="index_1interesting-math-notes">
+<title>📚 Interesting Math Notes</title>
+<para>What follows is a list of interesting math notes that can be usefull to fully understand the usage of the library<itemizedlist>
+<listitem><para><ref refid="so3-minjerk" kindref="compound">🧮 SO3 Minimum jerk trajectory</ref></para>
+</listitem></itemizedlist>
+</para>
+</sect1>
 <sect1 id="index_1mandatory-dependencies">
 <title>📄 Mandatory dependencies</title>
 <para>The <bold>bipedal-locomotion-framework</bold> project is versatile and can be used to compile only some components.</para>

@@ -4,6 +4,8 @@
     <compoundname>BipedalLocomotion::Planners::SO3Planner</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SO3PlannerState &gt;</basecompoundref>
     <includes local="no">BipedalLocomotion/Planners/SO3Planner.h</includes>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions" prot="private">BipedalLocomotion::Planners::SO3Planner::BoundaryConditions</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1Polynomial" prot="private">BipedalLocomotion::Planners::SO3Planner::Polynomial</innerclass>
     <templateparamlist>
       <param>
         <type><ref refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7" kindref="member">LieGroupTrivialization</ref></type>
@@ -22,7 +24,7 @@
 <para>Initial rotation from the inertial frame to the body frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Namely <formula id="119">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
+<para>Namely <formula id="147">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -104,6 +106,103 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Planners/SO3Planner.h" line="73" column="21" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="73" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab3dd9ec52e540fc7977dd1212cf606be" prot="private" static="no" mutable="no">
+        <type>BoundaryConditions</type>
+        <definition>BoundaryConditions BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::initialCondition</definition>
+        <argsstring></argsstring>
+        <name>initialCondition</name>
+        <briefdescription>
+<para>Initial condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="99" column="24" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a35d2db6ea72892a29469aa78a6abdc6f" prot="private" static="no" mutable="no">
+        <type>BoundaryConditions</type>
+        <definition>BoundaryConditions BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::finalCondition</definition>
+        <argsstring></argsstring>
+        <name>finalCondition</name>
+        <briefdescription>
+<para>Final condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="100" column="24" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1af9f2dd6b5374aeea22200e3621f19ebb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::areCoefficientsComputed</definition>
+        <argsstring></argsstring>
+        <name>areCoefficientsComputed</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>If true the coefficients are computed and updated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="101" column="10" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab23493b6535d6059539e283312b0a2a8" prot="private" static="no" mutable="no">
+        <type>Polynomial</type>
+        <definition>Polynomial BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::polynomial</definition>
+        <argsstring></argsstring>
+        <name>polynomial</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="102" column="16" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1af1303b303379cf79d5b43672529f8318" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::computeCoefficients</definition>
+        <argsstring>()</argsstring>
+        <name>computeCoefficients</name>
+        <briefdescription>
+<para>This function is the entry point to compute the coefficients of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="107" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a4debb19540e1a541d619357f1b23bc0b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>manif::SO3d::Tangent</type>
+        <definition>static manif::SO3d::Tangent BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::computeDistance</definition>
+        <argsstring>(const manif::SO3d &amp;initialRotation, const manif::SO3d &amp;finalRotation)</argsstring>
+        <name>computeDistance</name>
+        <param>
+          <type>const manif::SO3d &amp;</type>
+          <declname>initialRotation</declname>
+        </param>
+        <param>
+          <type>const manif::SO3d &amp;</type>
+          <declname>finalRotation</declname>
+        </param>
+        <briefdescription>
+<para>Compute the distance given two rotations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It depends on the trivialization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="113" column="5"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a751ed13ee6ed5e64a8cdda33a3b86e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -132,7 +231,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="120">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="148">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -140,7 +239,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="121">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="149">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -158,12 +257,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="84" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="123" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a0291224a2506522545cb3e865ecbb74a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ae3e6f24567865a4e663d511ab33e036e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::evaluatePoint</definition>
-        <argsstring>(const std::chrono::nanoseconds &amp;time, SO3PlannerState &amp;state) const</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;time, SO3PlannerState &amp;state)</argsstring>
         <name>evaluatePoint</name>
         <param>
           <type>const std::chrono::nanoseconds &amp;</type>
@@ -200,9 +299,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="94" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="133" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab99ce32e60131666b7d6e680366fcd32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ad04c074445143dbdafacded0a4cf003a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>class Derived</type>
@@ -210,7 +309,7 @@
         </templateparamlist>
         <type>bool</type>
         <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::evaluatePoint</definition>
-        <argsstring>(const std::chrono::nanoseconds &amp;time, manif::SO3d &amp;rotation, manif::SO3TangentBase&lt; Derived &gt; &amp;velocity, manif::SO3TangentBase&lt; Derived &gt; &amp;acceleration) const</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;time, manif::SO3d &amp;rotation, manif::SO3TangentBase&lt; Derived &gt; &amp;velocity, manif::SO3TangentBase&lt; Derived &gt; &amp;acceleration)</argsstring>
         <name>evaluatePoint</name>
         <param>
           <type>const std::chrono::nanoseconds &amp;</type>
@@ -245,7 +344,7 @@
 <parametername>rotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><formula id="119">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
+<para><formula id="147">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -271,7 +370,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="108" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="146" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a99076971e06978cd9c12c994bba78b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -303,7 +402,91 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="120" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="157" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a7b6c4758bd5e24cf8cf2f2c897c22470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::setInitialConditions</definition>
+        <argsstring>(const manif::SO3d::Tangent &amp;velocity, const manif::SO3d::Tangent &amp;acceleration)</argsstring>
+        <name>setInitialConditions</name>
+        <param>
+          <type>const manif::SO3d::Tangent &amp;</type>
+          <declname>velocity</declname>
+        </param>
+        <param>
+          <type>const manif::SO3d::Tangent &amp;</type>
+          <declname>acceleration</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial condition of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial angular velocity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>acceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial angular acceleration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="165" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a6d52e0f86362c02c0afe09b1b7f9667a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::setFinalConditions</definition>
+        <argsstring>(const manif::SO3d::Tangent &amp;velocity, const manif::SO3d::Tangent &amp;acceleration)</argsstring>
+        <name>setFinalConditions</name>
+        <param>
+          <type>const manif::SO3d::Tangent &amp;</type>
+          <declname>velocity</declname>
+        </param>
+        <param>
+          <type>const manif::SO3d::Tangent &amp;</type>
+          <declname>acceleration</declname>
+        </param>
+        <briefdescription>
+<para>Set the final condition of the trajectory generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final angular velocity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>acceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final angular acceleration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="174" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a9e1bc5e248e0f83cddae20277200ca12" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState" kindref="compound">SO3PlannerState</ref> &amp;</type>
@@ -323,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="128" column="27"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="183" column="27"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1acdf5026823d28b0bec14badad5617599" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -343,7 +526,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="136" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="191" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a557793850f4ed78b59238328566f1c57" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -363,7 +546,67 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="144" column="10"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="199" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a539aabcb65a220f593eeeccfc1c777d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>manif::SO3d::Tangent</type>
+        <definition>static manif::SO3d::Tangent BipedalLocomotion::Planners::SO3Planner&lt; trivialization &gt;::projectTangentVector</definition>
+        <argsstring>(const manif::SO3d &amp;initialRotation, const manif::SO3d &amp;finalRotation, const manif::SO3d::Tangent &amp;vector)</argsstring>
+        <name>projectTangentVector</name>
+        <param>
+          <type>const manif::SO3d &amp;</type>
+          <declname>initialRotation</declname>
+        </param>
+        <param>
+          <type>const manif::SO3d &amp;</type>
+          <declname>finalRotation</declname>
+        </param>
+        <param>
+          <type>const manif::SO3d::Tangent &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Project the tangent vector on the vector that represents the distance between the two rotations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>initialRotation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>initial rotation <formula id="148">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>finalRotation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final rotation <formula id="149">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tangent vector that needs to be projected. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The projected tangent vector. </para>
+</simplesect>
+<simplesect kind="warning"><para>If the initial and final rotations coincides the projected tangent vector will be set equal to zero. </para>
+</simplesect>
+<simplesect kind="note"><para>this method can be used along with setInitialConditions and setFinalConditions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="212" column="33"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -492,13 +735,18 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="55" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="56" bodyend="145"/>
+    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="55" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="56" bodyend="215"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a557793850f4ed78b59238328566f1c57" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1af9f2dd6b5374aeea22200e3621f19ebb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>areCoefficientsComputed</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>close</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a0291224a2506522545cb3e865ecbb74a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>evaluatePoint</name></member>
-      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab99ce32e60131666b7d6e680366fcd32" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1af1303b303379cf79d5b43672529f8318" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>computeCoefficients</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a4debb19540e1a541d619357f1b23bc0b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>computeDistance</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ae3e6f24567865a4e663d511ab33e036e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ad04c074445143dbdafacded0a4cf003a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a35d2db6ea72892a29469aa78a6abdc6f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>finalCondition</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a9e1bc5e248e0f83cddae20277200ca12" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab3dd9ec52e540fc7977dd1212cf606be" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>initialCondition</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1acdf5026823d28b0bec14badad5617599" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>isOutputValid</name></member>
@@ -509,7 +757,11 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a621d5c6139af33f66a232c481f63a921" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a08c15998f131bd795737ada373ec845f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>m_T</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1ab23493b6535d6059539e283312b0a2a8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>polynomial</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a539aabcb65a220f593eeeccfc1c777d5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>projectTangentVector</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a99076971e06978cd9c12c994bba78b76" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setAdvanceTimeStep</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a6d52e0f86362c02c0afe09b1b7f9667a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setFinalConditions</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a7b6c4758bd5e24cf8cf2f2c897c22470" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setInitialConditions</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Source_1a472624c76d5e02e8ae16991cd77016ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="BipedalLocomotion::System::Advanceable::"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a751ed13ee6ed5e64a8cdda33a3b86e57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner</scope><name>setRotations</name></member>

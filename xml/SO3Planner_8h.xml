@@ -94,6 +94,8 @@
     </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState" prot="public">BipedalLocomotion::Planners::SO3PlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" prot="public">BipedalLocomotion::Planners::SO3Planner</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1Polynomial" prot="private">BipedalLocomotion::Planners::SO3Planner::Polynomial</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions" prot="private">BipedalLocomotion::Planners::SO3Planner::BoundaryConditions</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Planners">BipedalLocomotion::Planners</innernamespace>
       <sectiondef kind="enum">
@@ -137,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="151" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="151" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="221" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="221" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" prot="public" static="no">
         <type>SO3Planner&lt; LieGroupTrivialization::Left &gt;</type>
@@ -151,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="157" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="157" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="227" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="227" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
