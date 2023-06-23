@@ -213,7 +213,7 @@ void CreateContactPhaseList(pybind11::module& module)
                 return *l.getPresentPhase(time);
             },
             py::arg("time"), py::return_value_policy::reference_internal)  
-        .def("__iter__",[](const ContactPhaseList& l){return py::make_iterator(l.crbegin(), l.crend());});
+        .def("__iter__",[](const ContactPhaseList& l){return py::make_iterator(l.cbegin(), l.cend());});
 ;
 }
 
