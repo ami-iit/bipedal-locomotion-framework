@@ -21,6 +21,7 @@ All notable changes to this project are documented in this file.
 - Implement `QuadraticBezierCurve` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
 - Implement `MANNAutoregressiveInputBuilder` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
 - Implement the `CentroidalMPC` in `ReducedModelControllers`component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/645)
+- Implement the `BaseEstimatorFromFootIMU` in the `Estimators` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/641)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
@@ -65,7 +66,6 @@ All notable changes to this project are documented in this file.
 - `Catch2` is now downloaded with `FetchContent` if `BUILD_TESTING` is set to `ON` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
 - The tests now uses`Catch2 v3` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/655)
 - Add the possibility to set vectorial gains in CoM IK and TSID tasks (https://github.com/ami-iit/bipedal-locomotion-framework/pull/656)
-- Add some useful methods to the `SubModel` and `SubModelKinDynWrapper` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/661)
 
 ### Fixed
 - Return an error if an invalid `KinDynComputations` object is passed to `QPInverseKinematics::build()` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/622)
