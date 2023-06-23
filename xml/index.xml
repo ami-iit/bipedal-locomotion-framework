@@ -150,6 +150,49 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a6d90ba80aab8806c56240dc1d36a9760" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ab52f89a6fdcb4e730f1d4c473c87c567" kind="function"><name>isValid</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU" kind="class"><name>BipedalLocomotion::Estimators::BaseEstimatorFromFootIMU</name>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1adebbb2eb6fc6f0e1177ad053cb07692f" kind="variable"><name>m_input</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a2dc94e0422c2e73202769a8dc9510232" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a2c74f0af47e5ba023b73e1919985ec1a" kind="variable"><name>m_footWidth</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a28910fc72699d4b4148aa60a177b6075" kind="variable"><name>m_footLength</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1aaedc35db191723de0c34ae818bb5e2ae" kind="variable"><name>m_cornersInLocalFrame</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1aa8e93dddd7ad69ed09b0c4321c166132" kind="variable"><name>m_transformedFootCorners</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a9b80317119e5d3835d02ed07c613987a" kind="variable"><name>m_desiredTranslation</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a4dd40c7320cbbbc148dfb20764372904" kind="variable"><name>m_desiredRotation</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ab52937b95ef5a3eb4ce15b087ec8d69d" kind="variable"><name>m_desiredRPY</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a07b1ee80db7a5e0dd25f552725eafad2" kind="variable"><name>m_measuredRotation</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a378ddd88891f5e7f892b2175b681b078" kind="variable"><name>m_measuredRPY</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a7192e3433c42095931796a21d0044e13" kind="variable"><name>m_measuredRotationCorrected</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1aeaddb68abec17a2f45c749223c24bbb2" kind="variable"><name>m_measuredFootPose</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a5fb4ef6cd3201f9aea45b1d7f9cfd59b" kind="variable"><name>m_frame_H_link</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1aa4257d21d87868e66288e160eec49229" kind="variable"><name>m_gravity</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a8b87821d6efae4235d049800a736dc82" kind="variable"><name>m_kinDyn</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a59127b5e8249358dcc259e1a989e1f54" kind="variable"><name>m_model</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a0dce726c579113f15d8b715ada98f9e8" kind="variable"><name>m_linkIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ae131b41e813fc81f1eab2a8a9b21f39b" kind="variable"><name>m_frameIndex</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a35045a4b9aec3e7ba5775e7eea0dc381" kind="variable"><name>m_frameName</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ac53367f4faa29d6f1f6342eb4f7016be" kind="variable"><name>m_baseFrame</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a4247f193f97d486d05d731038e1ccd5c" kind="variable"><name>m_footFrameName</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1afbc900e9a9cf5f3ca0d8c3b7e543597c" kind="variable"><name>m_isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ae0dfa0946aceb4b92416a8c6c192e6b6" kind="variable"><name>m_isModelSet</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ad62c1d568353b5bfee40b3183ce614e9" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a12a31f19ea6d56c7be4d512aaa2d8cc4" kind="function"><name>setModel</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a8e8ef1a51d3dacb779390eb960290f66" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a539d12fb415dda17066d633e4d2b8091" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a467fbacbd5a1c6c18ff1d37807867850" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a3d62b4fe62bbf2e53b4e26c41a3e1bc3" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ae1645502f84c48aefba7d4adb4029669" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1ad1000bd1e28a9aa6be96f34cd1be906b" kind="function"><name>setState</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUInput" kind="struct"><name>BipedalLocomotion::Estimators::BaseEstimatorFromFootIMUInput</name>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUInput_1ad639dc7f19e60c3a684f81388e9fc09e" kind="variable"><name>jointPositions</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUInput_1a0c1c0f634c25638c78c6b120b7b4fd49" kind="variable"><name>jointVelocities</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUInput_1aeecab826b8ababd66846dc6eb3680174" kind="variable"><name>desiredFootPose</name></member>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUInput_1adf65dc94e7ffda78acbe0c102c19cbb0" kind="variable"><name>measuredRotation</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUState" kind="struct"><name>BipedalLocomotion::Estimators::BaseEstimatorFromFootIMUState</name>
+    <member refid="structBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMUState_1af3a323cdfbfb105e66008bdbc10ab069" kind="variable"><name>basePose</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions" kind="struct"><name>BipedalLocomotion::Planners::SO3Planner::BoundaryConditions</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a8f64dddf6fb7a02b8c6404060e1535b3" kind="variable"><name>velocity</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a9cc94457d7efe3a508e74c35527f334c" kind="variable"><name>acceleration</name></member>
@@ -2995,6 +3038,8 @@
     <member refid="matioCppConversions_8h_1af3036db9a887e7f936d293c4a9f2c89d" kind="function"><name>toMatioCppCellArray</name></member>
   </compound>
   <compound refid="RecursiveLeastSquare_8h" kind="file"><name>RecursiveLeastSquare.h</name>
+  </compound>
+  <compound refid="BaseEstimatorFromFootIMU_8h" kind="file"><name>BaseEstimatorFromFootIMU.h</name>
   </compound>
   <compound refid="FloatingBaseEstimator_8h" kind="file"><name>FloatingBaseEstimator.h</name>
   </compound>

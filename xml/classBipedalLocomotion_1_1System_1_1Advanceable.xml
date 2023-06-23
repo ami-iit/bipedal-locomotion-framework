@@ -81,6 +81,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a12c749a6558f999fbcdafab99f0110d8">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a699553512ac3d76602d9c771f265a2a3">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a16cd88a66f84360f7e54929e88e28021">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a8e8ef1a51d3dacb779390eb960290f66">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics_1a6905bd4a457f7e5e7f7337340999e261">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1acb2f276e248cadb9d2d51c24ff57dcc9">initialize</reimplementedby>
@@ -135,6 +136,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1FixedFootDetector_1a04055b32348e7487046e29bfbd0e8894">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother_1a857ecad479baac775759f91b286069c3">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1MultiStateWeightProvider_1a0957336abdfda330e80aec47c2d5429b">advance</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU_1a467fbacbd5a1c6c18ff1d37807867850">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider_1a9788214634e66c2e2520dba238f7c3ee">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a7e89856750429fa6bc97d34845a1f153">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1a80da3b3f093e4370cd6216e9a0d7eeef">advance</reimplementedby>
@@ -183,7 +185,7 @@
 <para>The interface contains method to set inputs and output. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="66">
+      <node id="68">
         <label>BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -271,7 +273,7 @@
         <childnode refid="35" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="62">
+      <node id="64">
         <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -300,6 +302,12 @@
         <label>BipedalLocomotion::System::ConstantWeightProvider</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider"/>
         <childnode refid="26" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>BipedalLocomotion::Estimators::BaseEstimatorFromFootIMU</label>
+        <link refid="classBipedalLocomotion_1_1Estimators_1_1BaseEstimatorFromFootIMU"/>
+        <childnode refid="62" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
@@ -344,6 +352,13 @@
         <childnode refid="54" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="62">
+        <label>BipedalLocomotion::System::Advanceable&lt; BaseEstimatorFromFootIMUInput, BaseEstimatorFromFootIMUState &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; BaseEstimatorFromFootIMUInput, BaseEstimatorFromFootIMUState &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="29">
         <label>BipedalLocomotion::System::Source&lt; DCMPlannerState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
@@ -353,7 +368,7 @@
           <edgelabel>&lt; DCMPlannerState &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="64">
+      <node id="66">
         <label>BipedalLocomotion::System::Advanceable&lt; MANNDirectionalInput, MANNAutoregressiveInput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
         <childnode refid="1" relation="template-instance">
@@ -403,10 +418,10 @@
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="63">
+      <node id="65">
         <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
         <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="62" relation="public-inheritance">
+        <childnode refid="64" relation="public-inheritance">
         </childnode>
       </node>
       <node id="45">
@@ -478,10 +493,10 @@
         <childnode refid="39" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="65">
+      <node id="67">
         <label>BipedalLocomotion::ML::MANNAutoregressiveInputBuilder</label>
         <link refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInputBuilder"/>
-        <childnode refid="64" relation="public-inheritance">
+        <childnode refid="66" relation="public-inheritance">
         </childnode>
       </node>
       <node id="41">
@@ -544,10 +559,10 @@
         <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="67">
+      <node id="69">
         <label>BipedalLocomotion::ML::MANNAutoregressive</label>
         <link refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive"/>
-        <childnode refid="66" relation="public-inheritance">
+        <childnode refid="68" relation="public-inheritance">
         </childnode>
       </node>
       <node id="33">

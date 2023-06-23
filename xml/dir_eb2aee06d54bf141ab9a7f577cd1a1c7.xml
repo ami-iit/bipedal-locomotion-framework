@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="dir_eb2aee06d54bf141ab9a7f577cd1a1c7" kind="dir">
     <compoundname>BipedalLocomotion/FloatingBaseEstimators</compoundname>
+    <innerfile refid="BaseEstimatorFromFootIMU_8h">BaseEstimatorFromFootIMU.h</innerfile>
     <innerfile refid="FloatingBaseEstimator_8h">FloatingBaseEstimator.h</innerfile>
     <innerfile refid="FloatingBaseEstimatorIO_8h">FloatingBaseEstimatorIO.h</innerfile>
     <innerfile refid="FloatingBaseEstimatorParams_8h">FloatingBaseEstimatorParams.h</innerfile>
