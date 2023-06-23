@@ -64,6 +64,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a9e1bc5e248e0f83cddae20277200ca12">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ad4e7aa0da4b67123771a8155611fbe64">getOutput</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7462bc4a06678c8029ccd692cb48eea9">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a92beedaec20313db5623cca3f9b630fd">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a5413119cdc59bf3418e488057b539974">getOutput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a16bdab064ee802587c20b12ccf0d5c62">getOutput</reimplementedby>
@@ -107,6 +108,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1acdf5026823d28b0bec14badad5617599">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1ae3452250d0c1ff2c505e160837cdebc9">isOutputValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a053ae0d2488c8c09826f12b15afad527">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a4037cd65a12b285a8fd2cc3d2db443c8">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a331d69e7059d2622ccb84ff4f2246d37">isOutputValid</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1a3391c4ce67dea1bde179f87c61c09c58">isOutputValid</reimplementedby>

@@ -193,8 +193,17 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a60fa86d3a8a46ac3055203c1973a826c" kind="function"><name>setControlInput</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC" kind="class"><name>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</name>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a535ac58d984b521b3280d0fe0e14de8b" kind="variable"><name>m_pimpl</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1adcab73d03a8224133ca3cc095af54cdb" kind="function"><name>CentroidalMPC</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af75524466b061f0594e965798606a863" kind="function"><name>~CentroidalMPC</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af0f4177a9f28c839e56fe70e977f1daf" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a2fce2bf43ea7b309cd3a31a20bfaf8ce" kind="function"><name>setContactPhaseList</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af2b0c915edf393922a59032671900760" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1ae934d8090b0fd0e758c1e99039384569" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7d5769df43fe3e67f66a6609b8a1dac6" kind="function"><name>setReferenceTrajectory</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7462bc4a06678c8029ccd692cb48eea9" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a053ae0d2488c8c09826f12b15afad527" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a769ca3af8290ee3a847226534013153b" kind="function"><name>advance</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPCOutput" kind="struct"><name>BipedalLocomotion::ReducedModelControllers::CentroidalMPCOutput</name>
     <member refid="structBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPCOutput_1a72225f23682298132ef40238cae8c946" kind="variable"><name>contacts</name></member>
