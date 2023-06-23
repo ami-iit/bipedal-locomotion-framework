@@ -361,9 +361,10 @@ bool YarpSensorBridge::getJointPosition(const std::string& jointName,
     jointPosition = m_pimpl->controlBoardRemapperMeasures.jointPositions[idx];
 
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
-
+    }
     return true;
 }
 
@@ -379,8 +380,10 @@ bool YarpSensorBridge::getJointPositions(Eigen::Ref<Eigen::VectorXd> jointPositi
     }
     jointPositions = m_pimpl->controlBoardRemapperMeasures.jointPositions;
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    }
     return true;
 }
 
@@ -407,9 +410,10 @@ bool YarpSensorBridge::getJointVelocity(const std::string& jointName,
 
     jointVelocity = m_pimpl->controlBoardRemapperMeasures.jointVelocities[idx];
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
-
+    }
     return true;
 }
 
@@ -426,8 +430,10 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
     jointVelocties = m_pimpl->controlBoardRemapperMeasures.jointVelocities;
 
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    }
 
     return true;
 }
@@ -449,8 +455,10 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
     jointAcceleration = m_pimpl->controlBoardRemapperMeasures.jointAccelerations[idx];
 
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    }
 
     return true;
 }
@@ -467,8 +475,10 @@ bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAc
     }
     jointAccelerations = m_pimpl->controlBoardRemapperMeasures.jointAccelerations;
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+    }
     return true;
 }
 
@@ -486,7 +496,9 @@ bool YarpSensorBridge::getIMUMeasurement(const std::string& imuName,
     auto iter = m_pimpl->IMUMeasures.find(imuName);
     imuMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get() = iter->second.second;
+    }
     return true;
 }
 
@@ -495,16 +507,18 @@ bool YarpSensorBridge::getLinearAccelerometerMeasurement(const std::string& accN
                                                          OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getLinearAccelerometerMeasurement ",
-                                          m_pimpl->inertialMeasures,
+                                          m_pimpl->accelerometerMeasures,
                                           accName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->inertialMeasures.find(accName);
+    auto iter = m_pimpl->accelerometerMeasures.find(accName);
     accMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get() = iter->second.second;
+    }
     return true;
 }
 
@@ -513,13 +527,13 @@ bool YarpSensorBridge::getGyroscopeMeasure(const std::string& gyroName,
                                            OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getGyroscopeMeasure ",
-                                          m_pimpl->inertialMeasures,
+                                          m_pimpl->gyroMeasures,
                                           gyroName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->inertialMeasures.find(gyroName);
+    auto iter = m_pimpl->gyroMeasures.find(gyroName);
     gyroMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;
@@ -531,16 +545,18 @@ bool YarpSensorBridge::getOrientationSensorMeasurement(const std::string& rpyNam
                                                        OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getOrientationSensorMeasurement ",
-                                          m_pimpl->inertialMeasures,
+                                          m_pimpl->orientationMeasures,
                                           rpyName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->inertialMeasures.find(rpyName);
+    auto iter = m_pimpl->orientationMeasures.find(rpyName);
     rpyMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
+    {
         receiveTimeInSeconds.value().get() = iter->second.second;
+    }
     return true;
 }
 
@@ -549,13 +565,13 @@ bool YarpSensorBridge::getMagnetometerMeasurement(const std::string& magName,
                                                   OptionalDoubleRef receiveTimeInSeconds)
 {
     if (!m_pimpl->checkValidSensorMeasure("YarpSensorBridge::getMagnetometerMeasurement ",
-                                          m_pimpl->inertialMeasures,
+                                          m_pimpl->magnetometerMeasures,
                                           magName))
     {
         return false;
     }
 
-    auto iter = m_pimpl->inertialMeasures.find(magName);
+    auto iter = m_pimpl->magnetometerMeasures.find(magName);
     magMeasurement = yarp::eigen::toEigen(iter->second.first);
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get() = iter->second.second;

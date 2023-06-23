@@ -151,14 +151,17 @@ struct YarpSensorBridge::Impl
     /**< map of six axis force torque sensors attached through analog sensor interfaces */
     std::unordered_map<std::string, yarp::dev::IAnalogSensor*> analogSixAxisFTSensorsInterface;
 
-    /** < map holding analog IMU sensor measurements */
+    /** < map holding analog IMU sensor measurements (Used only for analog sensor interfaces) */
     std::unordered_map<std::string, StampedYARPVector> IMUMeasures;
 
     /**< map holding six axis force torque measures */
     std::unordered_map<std::string, StampedYARPVector> FTMeasures;
 
-    /**< map holding three axis inertial sensor measures */
-    std::unordered_map<std::string, StampedYARPVector> inertialMeasures;
+    /**< maps holding three axis inertial sensor measures */
+    std::unordered_map<std::string, StampedYARPVector> gyroMeasures;
+    std::unordered_map<std::string, StampedYARPVector> accelerometerMeasures;
+    std::unordered_map<std::string, StampedYARPVector> orientationMeasures;
+    std::unordered_map<std::string, StampedYARPVector> magnetometerMeasures;
 
     /**< map holding cartesian wrench measures */
     std::unordered_map<std::string, StampedYARPVector> cartesianWrenchMeasures;
@@ -485,20 +488,20 @@ struct YarpSensorBridge::Impl
     {
         constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllGenericOrAnalogSensors]";
 
-        bool allSensorsAttachedSuccesful{true};
-        for (auto genericSensorCartesianWrench : sensorList)
+        bool allSensorsAttachedSuccessful{true};
+        for (const auto& genericSensorCartesianWrench : sensorList)
         {
             if (!attachGenericOrAnalogSensor(devList,
                                              genericSensorCartesianWrench,
                                              nrChannelsInSensor,
                                              sensorMap))
             {
-                allSensorsAttachedSuccesful = false;
+                allSensorsAttachedSuccessful = false;
                 break;
             }
         }
 
-        if (!allSensorsAttachedSuccesful || (sensorMap.size() != sensorList.size()))
+        if (!allSensorsAttachedSuccessful || (sensorMap.size() != sensorList.size()))
         {
             log()->error("{} Could not attach all desired {}.", logPrefix, interfaceType);
             return false;
@@ -567,7 +570,7 @@ struct YarpSensorBridge::Impl
     }
 
     /**
-     * Check if all the desired MAS sensors are availabled in the attached MAS interface
+     * Check if all the desired MAS sensors are available in the attached MAS interface
      */
     template <typename MASSensorType>
     bool checkAttachedMASSensors(const yarp::dev::PolyDriverList& devList,
@@ -582,7 +585,7 @@ struct YarpSensorBridge::Impl
             log()->error("{} Expecting the same number of MAS sensors attached to the Bridge as "
                          "many mentioned in the initialization step. Number of MAS sensor in the "
                          "interface: {}. "
-                         "Number of sensor in itialization: {}.",
+                         "Number of sensor in initialization: {}.",
                          logPrefix,
                          nrSensors,
                          sensorList.size());
@@ -1876,7 +1879,7 @@ struct YarpSensorBridge::Impl
 
         return readAllMASSensors(masInertialsInterface.accelerometers,
                                  masSensorIndexMaps.accelerometer,
-                                 inertialMeasures,
+                                 accelerometerMeasures,
                                  failedSensorReads,
                                  checkForNAN);
     }
@@ -1891,7 +1894,7 @@ struct YarpSensorBridge::Impl
 
         return readAllMASSensors(masInertialsInterface.gyroscopes,
                                  masSensorIndexMaps.gyroscopes,
-                                 inertialMeasures,
+                                 gyroMeasures,
                                  failedSensorReads,
                                  checkForNAN);
     }
@@ -1906,7 +1909,7 @@ struct YarpSensorBridge::Impl
 
         return readAllMASSensors(masInertialsInterface.orientationSensors,
                                  masSensorIndexMaps.orientationSensors,
-                                 inertialMeasures,
+                                 orientationMeasures,
                                  failedSensorReads,
                                  checkForNAN);
     }
@@ -1921,7 +1924,7 @@ struct YarpSensorBridge::Impl
 
         return readAllMASSensors(masInertialsInterface.magnetometers,
                                  masSensorIndexMaps.magnetometers,
-                                 inertialMeasures,
+                                 magnetometerMeasures,
                                  failedSensorReads,
                                  checkForNAN);
     }
