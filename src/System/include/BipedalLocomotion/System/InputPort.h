@@ -24,6 +24,11 @@ template <class _Input> class BipedalLocomotion::System::InputPort
 public:
     using Input = _Input;
 
+    InputPort() = default;
+    InputPort(const InputPort&) = delete;
+    InputPort(InputPort&&) = delete;
+    InputPort& operator=(const InputPort&) = delete;
+    InputPort& operator=(InputPort&&) = delete;
     virtual ~InputPort() = default;
 
     /**

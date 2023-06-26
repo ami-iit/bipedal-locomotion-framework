@@ -28,6 +28,11 @@ public:
         return true;
     }
 
+    Source() = default;
+    Source(const Source&) = delete;
+    Source(Source&&) = delete;
+    Source& operator=(const Source&) = delete;
+    Source& operator=(Source&&) = delete;
     virtual ~Source() = default;
 };
 
