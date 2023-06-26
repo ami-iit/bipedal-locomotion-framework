@@ -4,21 +4,28 @@ input_port_audio=$1
 
 # Function to handle SIGINT signal
 function handle_sigint {
-  echo "Received SIGINT signal. Forwarding to background programs..."
-  # Forward SIGINT to the background program
-  kill -SIGINT $bg_pid1 $bg_pid2
+    echo "Received SIGINT signal. Forwarding to background programs..."
+    # Forward SIGINT to the background program
+    kill -SIGINT $bg_pid1 $bg_pid2
 }
 
 function handle_exit {
-  echo "Renaming the audio"
 
-  # get the latest matfile name
-  latest_file=$(find . -maxdepth 1 -type f -name "*.mat" -printf "%T@ %f\n" | sort -nr | head -n 1 | awk '{print $2}' | sed 's/\.mat$//')
-  mv audio_out.wav $latest_file.wav
+    echo "Loking fro the audio file. It may take a while."
+    until [ -f audio_out.wav ]
+    do
+        sleep 5
+    done
 
-  echo "Closing"
+    echo "Renaming the audio"
 
-  exit
+    # get the latest matfile name
+    latest_file=$(find . -maxdepth 1 -type f -name "*.mat" -printf "%T@ %f\n" | sort -nr | head -n 1 | awk '{print $2}' | sed 's/\.mat$//')
+    mv audio_out.wav $latest_file.wav
+
+    echo "Closing"
+
+    exit
 }
 
 # launch the audio device recorder
