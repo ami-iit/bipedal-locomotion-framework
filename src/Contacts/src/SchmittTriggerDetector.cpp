@@ -136,7 +136,7 @@ bool SchmittTriggerDetector::advance()
     for (auto& [contactName, schmittTrigger] : m_pimpl->manager)
     {
         // advance the trigger and get the state
-        if(!schmittTrigger.advance())
+        if (!schmittTrigger.advance())
         {
             log()->error("{} Unable to update the state of the Schmitt trigger cell for the "
                          "contact named: '{}'.",
@@ -211,16 +211,13 @@ bool SchmittTriggerDetector::addContact(const std::string& contactName,
     newContact.isActive = initialState.state;
     newContact.name = contactName;
 
-    blf::Math::SchmittTrigger schmittTrigger;
-    if (!schmittTrigger.initialize(params))
+    if (!m_pimpl->manager[contactName].initialize(params)
+        || !m_pimpl->manager[contactName].setState(initialState))
     {
-        log()->error("{} Unable to initialize the trigger", logPrefix);
+        log()->error("{} Unable to initialize the trigger named: {}.", logPrefix, contactName);
+        m_pimpl->manager.erase(contactName);
         return false;
     }
-    schmittTrigger.setState(initialState);
-
-    std::string triggerKey = contactName;
-    m_pimpl->manager.emplace(std::move(triggerKey), std::move(schmittTrigger));
 
     std::string contactsKey = contactName;
     m_contactStates.emplace(std::move(contactsKey), std::move(newContact));
