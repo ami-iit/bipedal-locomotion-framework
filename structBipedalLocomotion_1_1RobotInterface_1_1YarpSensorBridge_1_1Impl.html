@@ -90,27 +90,19 @@
             </dt>
             <dd>Struct holding measurements polled from remapped remote control board interfaces.</dd>
             <dt>
-              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps.html" class="m-doc">MASSensorIndexMaps</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface.html" class="m-doc">WholeBodyMASForceTorquesInterface</a>
+              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface.html" class="m-doc">MASForceTorquesInterface</a>
             </dt>
             <dd>Struct holding remapped MAS interfaces - FT sensors related.</dd>
             <dt>
-              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface.html" class="m-doc">WholeBodyMASInertialsInterface</a>
+              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface.html" class="m-doc">MASInertialsInterface</a>
             </dt>
             <dd>Struct holding remapped MAS interfaces -inertial sensors related.</dd>
             <dt>
-              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface.html" class="m-doc">WholeBodyTemperatureSensorsInterface</a>
+              struct <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps.html" class="m-doc">MASSensorIndexMaps</a>
             </dt>
             <dd><span></span></dd>
             <dt id="affb6f61e8c5fd651c2b443d86e298f01">
               using <a href="#affb6f61e8c5fd651c2b443d86e298f01" class="m-doc-self">StampedYARPVector</a> = std::pair&lt;yarp::sig::Vector, double&gt;
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ab45e080a337f6cf66ed8da8bad101d4b">
-              using <a href="#ab45e080a337f6cf66ed8da8bad101d4b" class="m-doc-self">StampedYARPImage</a> = std::pair&lt;yarp::sig::Image, double&gt;
             </dt>
             <dd><span></span></dd>
             <dt id="a1670ba59d4dd962196014b0f7cb3f80e">
@@ -205,7 +197,7 @@
               MASSensorType*&amp; sensorInterface,
               const std::vector&lt;std::string&gt;&amp; sensorList) -&gt; bool</span>
             </dt>
-            <dd>Check if all the desired MAS sensors are availabled in the attached MAS interface.</dd>
+            <dd>Check if all the desired MAS sensors are available in the attached MAS interface.</dd>
             <dt id="af65be9001db4db26ab6b5f44c67d9ebb">
               <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#af65be9001db4db26ab6b5f44c67d9ebb" class="m-doc-self">getNumberOfMASSensors</a>(</span><span class="m-doc-wrap">MASSensorType*&amp; sensorInterface) -&gt; std::size_t</span>
@@ -289,11 +281,11 @@
               bool checkForNan = false) -&gt; bool</span>
             </dt>
             <dd>Read generic or analog sensor stream and update internal measurement buffer.</dd>
-            <dt id="a992caac13c61cf02db7ecea0eea7171c">
+            <dt id="aa8288679bfacdc3eecb66e59a23438e1">
               <div class="m-doc-template">template&lt;typename MASSensorType&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a992caac13c61cf02db7ecea0eea7171c" class="m-doc-self">readMASSensor</a>(</span><span class="m-doc-wrap">MASSensorType* interface,
+              <span class="m-doc-wrap-bumper">auto <a href="#aa8288679bfacdc3eecb66e59a23438e1" class="m-doc-self">readMASSensor</a>(</span><span class="m-doc-wrap">MASSensorType* interface,
               const std::string&amp; sensorName,
-              const std::unordered_map&lt;std::string, std::size_t&gt;&amp; sensorIdxMap,
+              const std::size_t sensorIdx,
               std::unordered_map&lt;std::string, StampedYARPVector&gt;&amp; measurementMap,
               bool checkForNan = false) -&gt; bool</span>
             </dt>
@@ -376,16 +368,12 @@
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces.html" class="m-doc">ControlBoardRemapperInterfaces</a> <a href="#a3458b4ceee2731654e92e3e83637a5aa" class="m-doc-self">controlBoardRemapperInterfaces</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="a24bbe6faa3d3ba7e9f460623c6c840d0">
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface.html" class="m-doc">WholeBodyMASInertialsInterface</a> <a href="#a24bbe6faa3d3ba7e9f460623c6c840d0" class="m-doc-self">wholeBodyMASInertialsInterface</a>
+            <dt id="a56fd0f3c88cfe3ffb600fbcaecefccad">
+              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface.html" class="m-doc">MASInertialsInterface</a> <a href="#a56fd0f3c88cfe3ffb600fbcaecefccad" class="m-doc-self">masInertialsInterface</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="adb7402419e404672a51e88b9e1cd82a4">
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface.html" class="m-doc">WholeBodyMASForceTorquesInterface</a> <a href="#adb7402419e404672a51e88b9e1cd82a4" class="m-doc-self">wholeBodyMASForceTorquesInterface</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a33b4e67df75711e8fcef386f638f92d1">
-              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface.html" class="m-doc">WholeBodyTemperatureSensorsInterface</a> <a href="#a33b4e67df75711e8fcef386f638f92d1" class="m-doc-self">wholeBodyTemperatureSensorsInterface</a>
+            <dt id="aeeaad4575281a6703a7df8f367f292de">
+              <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface.html" class="m-doc">MASForceTorquesInterface</a> <a href="#aeeaad4575281a6703a7df8f367f292de" class="m-doc-self">masForceTorquesInterface</a>
             </dt>
             <dd><span></span></dd>
             <dt id="a368b7e691b1b97efeab70991b08d53ba">
@@ -396,36 +384,48 @@
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures.html" class="m-doc">ControlBoardRemapperMeasures</a> <a href="#a38999672bf88950164c018940dc333fa" class="m-doc-self">controlBoardRemapperMeasures</a>
             </dt>
             <dd>map of IMU sensors attached through generic sensor interfaces</dd>
-            <dt id="add7f72bc98131e7143128a4e402a5c83">
-              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#add7f72bc98131e7143128a4e402a5c83" class="m-doc-self">wholeBodyAnalogIMUInterface</a>
+            <dt id="ac60fea245eb0c8998210cdb6e0812182">
+              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#ac60fea245eb0c8998210cdb6e0812182" class="m-doc-self">analogIMUInterface</a>
             </dt>
             <dd>map of cartesian wrench streams attached through generic sensor interfaces</dd>
-            <dt id="a8fcc3495e3ca8243257a707503c3f83d">
-              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#a8fcc3495e3ca8243257a707503c3f83d" class="m-doc-self">wholeBodyCartesianWrenchInterface</a>
+            <dt id="a7559bd8ffc797edf75c650d4f1b79cd4">
+              std::unordered_map&lt;std::string, yarp::dev::IGenericSensor*&gt; <a href="#a7559bd8ffc797edf75c650d4f1b79cd4" class="m-doc-self">cartesianWrenchInterface</a>
             </dt>
             <dd>map of six axis force torque sensors attached through analog sensor interfaces</dd>
-            <dt id="a5999d83428894f606cc716db736b815f">
-              std::unordered_map&lt;std::string, yarp::dev::IAnalogSensor*&gt; <a href="#a5999d83428894f606cc716db736b815f" class="m-doc-self">wholeBodyAnalogSixAxisFTSensorsInterface</a>
+            <dt id="a5d05dccc580f028d742dc892e16f1339">
+              std::unordered_map&lt;std::string, yarp::dev::IAnalogSensor*&gt; <a href="#a5d05dccc580f028d742dc892e16f1339" class="m-doc-self">analogSixAxisFTSensorsInterface</a>
             </dt>
             <dd><span></span></dd>
             <dt>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a4e11c913cf23a04e1df20057e89427f4" class="m-doc">wholeBodyIMUMeasures</a>
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a7ba19518b4cb533c4efadd5cee4fc228" class="m-doc">IMUMeasures</a>
             </dt>
-            <dd>&lt; map holding analog IMU sensor measurements</dd>
-            <dt id="a146b0f13d791bbabb8f534d585968b4c">
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a146b0f13d791bbabb8f534d585968b4c" class="m-doc-self">wholeBodyFTMeasures</a>
+            <dd>&lt; map holding analog IMU sensor measurements (Used only for analog sensor interfaces)</dd>
+            <dt id="af858dbf8cf4a3f0b6bf04eb1d277b51d">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#af858dbf8cf4a3f0b6bf04eb1d277b51d" class="m-doc-self">FTMeasures</a>
             </dt>
-            <dd>map holding three axis inertial sensor measures</dd>
-            <dt id="af591902e04acb12f6fe233009b08c615">
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#af591902e04acb12f6fe233009b08c615" class="m-doc-self">wholeBodyInertialMeasures</a>
+            <dd>maps holding three axis inertial sensor measures</dd>
+            <dt id="a40b826f1ff0467a18257933282c38908">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a40b826f1ff0467a18257933282c38908" class="m-doc-self">gyroMeasures</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4b2b4e3c92199baebbe0d2fb0da2bb3e">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a4b2b4e3c92199baebbe0d2fb0da2bb3e" class="m-doc-self">accelerometerMeasures</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0e2425a7635ae5091e4db0fd934804fe">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a0e2425a7635ae5091e4db0fd934804fe" class="m-doc-self">orientationMeasures</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5673bbf104898c86ee14781edd6f9e8d">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a5673bbf104898c86ee14781edd6f9e8d" class="m-doc-self">magnetometerMeasures</a>
             </dt>
             <dd>map holding cartesian wrench measures</dd>
-            <dt id="ae823a598bcdd7c2d564809113917bbc8">
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#ae823a598bcdd7c2d564809113917bbc8" class="m-doc-self">wholeBodyCartesianWrenchMeasures</a>
+            <dt id="a15344583848d4eb8544dc040814711a1">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a15344583848d4eb8544dc040814711a1" class="m-doc-self">cartesianWrenchMeasures</a>
             </dt>
             <dd>map holding temperature measures</dd>
-            <dt id="a582321138c98369836422c8bfc6751f7">
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a582321138c98369836422c8bfc6751f7" class="m-doc-self">wholeBodyTemperatureMeasures</a>
+            <dt id="a552eee2b3533231b790f25e028cdfdfc">
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; <a href="#a552eee2b3533231b790f25e028cdfdfc" class="m-doc-self">temperatureMeasures</a>
             </dt>
             <dd><span></span></dd>
             <dt id="aec19fa9be3de7df28e3f98f55e984e34">
@@ -480,11 +480,11 @@
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="a4e11c913cf23a04e1df20057e89427f4"><div>
+          <section class="m-doc-details" id="a7ba19518b4cb533c4efadd5cee4fc228"><div>
             <h3>
-              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a4e11c913cf23a04e1df20057e89427f4" class="m-doc-self">wholeBodyIMUMeasures</a>
+              std::unordered_map&lt;std::string, StampedYARPVector&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpSensorBridge::<wbr />Impl::<wbr /><a href="#a7ba19518b4cb533c4efadd5cee4fc228" class="m-doc-self">IMUMeasures</a>
             </h3>
-            <p>&lt; map holding analog IMU sensor measurements</p>
+            <p>&lt; map holding analog IMU sensor measurements (Used only for analog sensor interfaces)</p>
 <p>map holding six axis force torque measures</p>
           </div></section>
         </section>

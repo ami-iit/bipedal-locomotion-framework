@@ -4,6 +4,7 @@
     <compoundname>YarpSensorBridgeImpl.h</compoundname>
     <includes refid="Vector_8h" local="no">BipedalLocomotion/GenericContainer/Vector.h</includes>
     <includes refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includes>
+    <includes refid="Clock_8h" local="no">BipedalLocomotion/System/Clock.h</includes>
     <includes refid="Logger_8h" local="no">BipedalLocomotion/TextLogging/Logger.h</includes>
     <includes local="no">yarp/os/Time.h</includes>
     <includes local="no">yarp/sig/Image.h</includes>
@@ -25,37 +26,40 @@
     <includes local="no">cmath</includes>
     <includes local="no">set</includes>
     <incdepgraph>
-      <node id="37">
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="41">
         <label>yarp/dev/IAxisInfo.h</label>
       </node>
-      <node id="31">
+      <node id="35">
         <label>yarp/dev/IMotorEncoders.h</label>
       </node>
       <node id="3">
         <label>functional</label>
       </node>
-      <node id="33">
+      <node id="37">
         <label>yarp/dev/ITorqueControl.h</label>
       </node>
-      <node id="8">
+      <node id="15">
         <label>BipedalLocomotion/System/Advanceable.h</label>
         <link refid="Advanceable_8h"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="29">
+      <node id="33">
         <label>yarp/dev/ICurrentControl.h</label>
       </node>
-      <node id="36">
+      <node id="40">
         <label>yarp/dev/IRGBDSensor.h</label>
       </node>
-      <node id="16">
+      <node id="7">
         <label>BipedalLocomotion/RobotInterface/ISensorBridge.h</label>
         <link refid="ISensorBridge_8h"/>
         <childnode refid="3" relation="include">
@@ -64,57 +68,69 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
+      </node>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="28">
+        <label>yarp/os/Time.h</label>
+      </node>
+      <node id="27">
+        <label>spdlog/fmt/bundled/chrono.h</label>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
+        <link refid="IParametersHandler_8h"/>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="9">
-        <label>variant</label>
+      <node id="45">
+        <label>cmath</label>
       </node>
-      <node id="24">
-        <label>yarp/os/Time.h</label>
+      <node id="14">
+        <label>BipedalLocomotion/System/Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
-      <node id="23">
-        <label>spdlog/fmt/bundled/chrono.h</label>
+      <node id="38">
+        <label>yarp/dev/MultipleAnalogSensorsInterfaces.h</label>
       </node>
-      <node id="10">
-        <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
-        <link refid="IParametersHandler_8h"/>
-        <childnode refid="11" relation="include">
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>BipedalLocomotion/System/Clock.h</label>
+        <link refid="Clock_8h"/>
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="41">
-        <label>cmath</label>
-      </node>
-      <node id="7">
-        <label>BipedalLocomotion/System/Source.h</label>
-        <link refid="Source_8h"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="34">
-        <label>yarp/dev/MultipleAnalogSensorsInterfaces.h</label>
-      </node>
-      <node id="12">
-        <label>string</label>
-      </node>
-      <node id="20">
+      <node id="24">
         <label>spdlog/fmt/ostr.h</label>
       </node>
-      <node id="30">
+      <node id="34">
         <label>yarp/dev/IGenericSensor.h</label>
       </node>
       <node id="1">
@@ -124,13 +140,7 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
@@ -162,60 +172,74 @@
         </childnode>
         <childnode refid="42" relation="include">
         </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
       </node>
       <node id="21">
+        <label>BipedalLocomotion/System/IClock.h</label>
+        <link refid="IClock_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>spdlog/spdlog.h</label>
       </node>
-      <node id="18">
+      <node id="11">
         <label>Eigen/Dense</label>
       </node>
-      <node id="35">
+      <node id="39">
         <label>yarp/dev/FrameGrabberInterfaces.h</label>
       </node>
-      <node id="19">
+      <node id="23">
         <label>BipedalLocomotion/TextLogging/Logger.h</label>
         <link refid="Logger_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="28">
+      <node id="32">
         <label>yarp/dev/IAnalogSensor.h</label>
       </node>
       <node id="5">
         <label>optional</label>
       </node>
-      <node id="25">
+      <node id="29">
         <label>yarp/sig/Image.h</label>
       </node>
-      <node id="13">
+      <node id="10">
         <label>vector</label>
       </node>
       <node id="6">
         <label>yarp/dev/PolyDriverList.h</label>
       </node>
-      <node id="26">
+      <node id="30">
         <label>yarp/sig/Vector.h</label>
       </node>
-      <node id="15">
+      <node id="18">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
       </node>
-      <node id="27">
+      <node id="31">
         <label>yarp/dev/IAmplifierControl.h</label>
       </node>
-      <node id="39">
+      <node id="43">
         <label>yarp/eigen/Eigen.h</label>
       </node>
-      <node id="17">
+      <node id="9">
         <label>unordered_map</label>
       </node>
-      <node id="11">
+      <node id="13">
         <label>chrono</label>
       </node>
       <node id="2">
@@ -231,37 +255,44 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="22">
+        <label>BipedalLocomotion/System/StdClock.h</label>
+        <link refid="StdClock_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
         <label>BipedalLocomotion/System/InputPort.h</label>
         <link refid="InputPort_8h"/>
       </node>
-      <node id="22">
+      <node id="26">
         <label>type_traits</label>
       </node>
-      <node id="42">
+      <node id="46">
         <label>set</label>
       </node>
-      <node id="40">
+      <node id="44">
         <label>algorithm</label>
       </node>
-      <node id="32">
+      <node id="36">
         <label>yarp/dev/IPidControl.h</label>
       </node>
       <node id="4">
         <label>memory</label>
       </node>
-      <node id="38">
+      <node id="42">
         <label>yarp/dev/IEncodersTimed.h</label>
       </node>
     </incdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperInterfaces</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASInertialsInterface</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASForceTorquesInterface</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures" prot="public">BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::ControlBoardRemapperMeasures</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>

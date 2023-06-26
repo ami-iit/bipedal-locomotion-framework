@@ -25,7 +25,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
@@ -34,6 +34,12 @@
         <link refid="Clock_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
+        <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
       <node id="1">
         <label>BipedalLocomotion/System/StdClock.h</label>

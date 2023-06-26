@@ -940,22 +940,23 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1affb6f61e8c5fd651c2b443d86e298f01" kind="typedef"><name>StampedYARPVector</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab45e080a337f6cf66ed8da8bad101d4b" kind="typedef"><name>StampedYARPImage</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a1670ba59d4dd962196014b0f7cb3f80e" kind="typedef"><name>SubConfigLoader</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3458b4ceee2731654e92e3e83637a5aa" kind="variable"><name>controlBoardRemapperInterfaces</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a24bbe6faa3d3ba7e9f460623c6c840d0" kind="variable"><name>wholeBodyMASInertialsInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adb7402419e404672a51e88b9e1cd82a4" kind="variable"><name>wholeBodyMASForceTorquesInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a33b4e67df75711e8fcef386f638f92d1" kind="variable"><name>wholeBodyTemperatureSensorsInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a56fd0f3c88cfe3ffb600fbcaecefccad" kind="variable"><name>masInertialsInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aeeaad4575281a6703a7df8f367f292de" kind="variable"><name>masForceTorquesInterface</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a368b7e691b1b97efeab70991b08d53ba" kind="variable"><name>masSensorIndexMaps</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a38999672bf88950164c018940dc333fa" kind="variable"><name>controlBoardRemapperMeasures</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1add7f72bc98131e7143128a4e402a5c83" kind="variable"><name>wholeBodyAnalogIMUInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a8fcc3495e3ca8243257a707503c3f83d" kind="variable"><name>wholeBodyCartesianWrenchInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5999d83428894f606cc716db736b815f" kind="variable"><name>wholeBodyAnalogSixAxisFTSensorsInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4e11c913cf23a04e1df20057e89427f4" kind="variable"><name>wholeBodyIMUMeasures</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a146b0f13d791bbabb8f534d585968b4c" kind="variable"><name>wholeBodyFTMeasures</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af591902e04acb12f6fe233009b08c615" kind="variable"><name>wholeBodyInertialMeasures</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae823a598bcdd7c2d564809113917bbc8" kind="variable"><name>wholeBodyCartesianWrenchMeasures</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a582321138c98369836422c8bfc6751f7" kind="variable"><name>wholeBodyTemperatureMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ac60fea245eb0c8998210cdb6e0812182" kind="variable"><name>analogIMUInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a7559bd8ffc797edf75c650d4f1b79cd4" kind="variable"><name>cartesianWrenchInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5d05dccc580f028d742dc892e16f1339" kind="variable"><name>analogSixAxisFTSensorsInterface</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a7ba19518b4cb533c4efadd5cee4fc228" kind="variable"><name>IMUMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af858dbf8cf4a3f0b6bf04eb1d277b51d" kind="variable"><name>FTMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a40b826f1ff0467a18257933282c38908" kind="variable"><name>gyroMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4b2b4e3c92199baebbe0d2fb0da2bb3e" kind="variable"><name>accelerometerMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0e2425a7635ae5091e4db0fd934804fe" kind="variable"><name>orientationMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a5673bbf104898c86ee14781edd6f9e8d" kind="variable"><name>magnetometerMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a15344583848d4eb8544dc040814711a1" kind="variable"><name>cartesianWrenchMeasures</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a552eee2b3533231b790f25e028cdfdfc" kind="variable"><name>temperatureMeasures</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aec19fa9be3de7df28e3f98f55e984e34" kind="variable"><name>nrChannelsInYARPGenericIMUSensor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab3105b232abcf38f738f0b1c6d96cffa" kind="variable"><name>nrChannelsInYARPGenericCartesianWrench</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a15cda4d7b2907a8489fdad15b6bf0527" kind="variable"><name>nrChannelsInYARPAnalogSixAxisFTSensor</name></member>
@@ -993,7 +994,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa8f34bfd335827bcc8101263c7d03b56" kind="function"><name>attachCartesianWrenchInterface</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a3a882f8cdc12216473a706327db2fea2" kind="function"><name>deg2rad</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ac660b2cd4be78ce657eb97f7854e29e1" kind="function"><name>readAnalogOrGenericSensor</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a992caac13c61cf02db7ecea0eea7171c" kind="function"><name>readMASSensor</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa8288679bfacdc3eecb66e59a23438e1" kind="function"><name>readMASSensor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a849f6076aaf1ed72a02234cc63f35b4f" kind="function"><name>readAllMASSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab21dc032893cf0ad554211a9c1a5d51d" kind="function"><name>readControlBoardInterface</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a559050923864e6c3b958e05c6bbea5f0" kind="function"><name>readAllJointSensors</name></member>
@@ -1475,6 +1476,16 @@
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a43066efdc55d7be1157a6292e06a9808" kind="variable"><name>jointPositions</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a7c32b15f320dcd1f91e4db4834bcac0a" kind="variable"><name>basePoses</name></member>
     <member refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput_1a07ebe5693895e4a9620a525ca4def711" kind="variable"><name>phaseList</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASForceTorquesInterface</name>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface_1a7b0295ff15dcba61b5850610e8c76c0f" kind="variable"><name>sixAxisFTSensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASForceTorquesInterface_1ac4e1c5739b4d86fa28842fc81c22e70c" kind="variable"><name>temperatureSensors</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASInertialsInterface</name>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a1c7960700e4ddf32ca5fdddc0fb8cef2" kind="variable"><name>accelerometers</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a1d314a6406b9db0cddc68f86cc235d8d" kind="variable"><name>gyroscopes</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a9f046eb1542cc37141de10bfc1561ce8" kind="variable"><name>magnetometers</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a97647e52f6c4f26010773dfce912257b" kind="variable"><name>orientationSensors</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASSensorIndexMaps</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASSensorIndexMaps_1a71fbc272beb1c338054b79dbb92cf735" kind="variable"><name>accelerometer</name></member>
@@ -2562,18 +2573,6 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory" kind="class"><name>BipedalLocomotion::System::WeightProviderFactory</name>
     <member refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory_1a05326770e9b43202046c5e89c2a01091" kind="function"><name>~WeightProviderFactory</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASForceTorquesInterface</name>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASForceTorquesInterface_1a571aab909fc2b837e6662118bff517ca" kind="variable"><name>sixAxisFTSensors</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyMASInertialsInterface</name>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a9954b7197adaf0aa7019ad93440ea6fb" kind="variable"><name>accelerometers</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1af9a2d910c114287ba0d82d691a150db7" kind="variable"><name>gyroscopes</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1a24daa0ea533e341e07eab2cb1a4c3fa5" kind="variable"><name>magnetometers</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyMASInertialsInterface_1aec3ffb8c816e69b02d0e4512ad51213b" kind="variable"><name>orientationSensors</name></member>
-  </compound>
-  <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface" kind="struct"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::WholeBodyTemperatureSensorsInterface</name>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1WholeBodyTemperatureSensorsInterface_1a91b8e16cf465857d30536cf4266e2049" kind="variable"><name>temperatureSensors</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Math_1_1Wrench" kind="class"><name>BipedalLocomotion::Math::Wrench</name>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1ac876eec5b76a1463e6dc81c864eb771a" kind="typedef"><name>Base</name></member>
