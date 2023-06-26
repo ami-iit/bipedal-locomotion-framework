@@ -35,6 +35,8 @@ All notable changes to this project are documented in this file.
 - Fix RobotDynamicsEstimator compilation dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/665)
 - Fix the metadata assignment of the rgbd cameras (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
 - Fix the RGB to BGR conversion in YarpCameraBridge for FlexImage (https://github.com/ami-iit/bipedal-locomotion-framework/pull/672)
+- Make the YarpSensorBridge compatible with MAS that use the same name between gyro ac magn and
+  orientation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/692)
 
 ## [0.13.0] - 2023-04-22
 ### Added

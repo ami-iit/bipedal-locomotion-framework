@@ -16,8 +16,8 @@
 // YARP
 #include <yarp/dev/PolyDriverList.h>
 
-#include <BipedalLocomotion/System/Source.h>
 #include <BipedalLocomotion/RobotInterface/ISensorBridge.h>
+#include <BipedalLocomotion/System/Source.h>
 
 namespace BipedalLocomotion
 {
@@ -45,7 +45,6 @@ namespace RobotInterface
  * - Any generic sensor interface with channel dimensions of 6 is considered to be a cartesian wrench interface
  * - Any generic sensor interface with channel dimensions of 12 is considered as a IMU interface (server inertial)
  * - Any analog sensor interface with channel dimensions of 6 is considered as a force torque sensor interface
- * - The images are available through a FrameGrabber interface (RGB only) and a RGBD interface (RGB and Depth).
  * - The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set
  *
  * The parameters for writing the configuration file for this class is given as,
@@ -75,7 +74,6 @@ namespace RobotInterface
  * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors (the difference between a MAS FT and an analog FT is done internally assuming that the names are distinct form each other)|
  * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
  * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
- *
  */
 class YarpSensorBridge : public ISensorBridge,
                          public BipedalLocomotion::System::Source<SensorBridgeMetaData>
@@ -172,19 +170,23 @@ public:
 
     /**
      * Get 6 axis FT sensors
-     * @param[out] sixAxisForceTorqueSensorsList list of 6 axis force torque sensors attached to the bridge
+     * @param[out] sixAxisForceTorqueSensorsList list of 6 axis force torque sensors attached to the
+     * bridge
      * @return  true/false in case of success/failure
      */
-    bool getSixAxisForceTorqueSensorsList(std::vector<std::string>& sixAxisForceTorqueSensorsList) final;
+    bool
+    getSixAxisForceTorqueSensorsList(std::vector<std::string>& sixAxisForceTorqueSensorsList) final;
 
     /**
      * Get 6 axis FT sensors
-     * @param[out] threeAxisForceTorqueSensorsList list of 3 axis force torque sensors attached to the bridge
+     * @param[out] threeAxisForceTorqueSensorsList list of 3 axis force torque sensors attached to
+     * the bridge
      * @return  true/false in case of success/failure
      */
-    bool getThreeAxisForceTorqueSensorsList(std::vector<std::string>& threeAxisForceTorqueSensorsList) final;
+    bool getThreeAxisForceTorqueSensorsList(
+        std::vector<std::string>& threeAxisForceTorqueSensorsList) final;
 
-   /**
+    /**
      * Get cartesian wrenches
      * @param[out] cartesianWrenchesList list of cartesian wrenches attached to the bridge
      * @return  true/false in case of success/failure
@@ -324,7 +326,7 @@ public:
                              Eigen::Ref<Eigen::Vector3d> gyroMeasurement,
                              OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
-   /**
+    /**
      * Get orientation sensor measurement in radians as roll pitch yaw Euler angles
      * @param[in] rpyName name of the orientation sensor
      * @param[out] rpyMeasurement rpy measurements of size 3
@@ -335,7 +337,7 @@ public:
                                          Eigen::Ref<Eigen::Vector3d> rpyMeasurement,
                                          OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
-   /**
+    /**
      * Get magentometer measurement in tesla
      * @param[in] magName name of the magnetometer
      * @param[out] magMeasurement magnetometer measurements of size 3
@@ -358,7 +360,8 @@ public:
                                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
-     * Get three axis force-torque measurement containing normal force (N) and tangential moments (Nm)
+     * Get three axis force-torque measurement containing normal force (N) and tangential moments
+     * (Nm)
      * @param[in] ftName name of the FT sensor
      * @param[out] ftMeasurement FT measurements of size 3 containing tau_x tau_y and fz
      * @param[out] receiveTimeInSeconds time at which the measurement was received
@@ -368,7 +371,7 @@ public:
                                             Eigen::Ref<Eigen::Vector3d> ftMeasurement,
                                             OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
-   /**
+    /**
      * Get 6D end effector wrenches in N and Nm for forces and torques respectively
      * @param[in] cartesianWrenchName name of the end effector wrench
      * @param[out] cartesianWrenchMeasurement end effector wrench measurement of size 6
@@ -467,8 +470,8 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getPidPosition(const std::string& jointName,
-                                  double& pidPosition,
-                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                double& pidPosition,
+                                OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all pid positions in rad
@@ -490,8 +493,8 @@ public:
      * @return true/false in case of success/failure
      */
     virtual bool getPidPositionError(const std::string& jointName,
-                                  double& pidPositionError,
-                                  OptionalDoubleRef receiveTimeInSeconds = {}) final;
+                                     double& pidPositionError,
+                                     OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get all pid position errors in rad
