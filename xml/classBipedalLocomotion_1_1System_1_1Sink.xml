@@ -61,6 +61,83 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/Sink.h" line="31" column="10" bodyfile="BipedalLocomotion/System/Sink.h" bodystart="31" bodyend="34"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1a73dd6c7dffbf8512e32e8516f47566aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::Sink&lt; Input &gt;::Sink</definition>
+        <argsstring>()=default</argsstring>
+        <name>Sink</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Sink.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1a7d2e5543f089fc84ae13ac0d8916e5b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::Sink&lt; Input &gt;::Sink</definition>
+        <argsstring>(const Sink &amp;)=delete</argsstring>
+        <name>Sink</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Sink.h" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1a7490abae175c066da42c7b619d969cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::Sink&lt; Input &gt;::Sink</definition>
+        <argsstring>(Sink &amp;&amp;)=delete</argsstring>
+        <name>Sink</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Sink.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1a7a77208b401c2b9fbc82f568967c2e13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;</type>
+        <definition>Sink&amp; BipedalLocomotion::System::Sink&lt; Input &gt;::operator=</definition>
+        <argsstring>(const Sink &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Sink.h" line="39" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1a518f9a5339ccaec80a7af998fee675f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;</type>
+        <definition>Sink&amp; BipedalLocomotion::System::Sink&lt; Input &gt;::operator=</definition>
+        <argsstring>(Sink &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1Sink" kindref="compound">Sink</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Sink.h" line="40" column="10"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Sink_1adb2b9dd914f4b55afd3382e7b62d85cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::System::Sink&lt; Input &gt;::~Sink</definition>
@@ -72,7 +149,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Sink.h" line="36" column="13"/>
+        <location file="BipedalLocomotion/System/Sink.h" line="41" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -151,17 +228,37 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/Sink.h" line="22" column="12" bodyfile="BipedalLocomotion/System/Sink.h" bodystart="23" bodyend="37"/>
+    <location file="BipedalLocomotion/System/Sink.h" line="22" column="12" bodyfile="BipedalLocomotion/System/Sink.h" bodystart="23" bodyend="42"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a67107e46e831d93f572558b541aab6d2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>advance</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1aaeb3eba3073fbc844dea1eba4c9b68f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac1549cb26bd896e27370e97b0795ba3f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a4f83834c9269c31074e5a7e35ddb5f99" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a27c614cb30c1e4b78e64791f4919dfa7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a74d1418613e89a7f2993ea936228a44a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a02ec5c947f1d2d83d2952c3b899cc58f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a6228f114c0fc428501649d4c13ae5cb8" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a76e236d8e9d44b6c0100108b9421a842" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>m_out</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a7a77208b401c2b9fbc82f568967c2e13" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a518f9a5339ccaec80a7af998fee675f2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ae147cdee9ff9160a9dfe0d3e349a9aad" prot="public" virt="non-virtual" ambiguityscope="Advanceable&lt; Input, EmptySignal &gt;::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1adf0d9fc07bab0ec5d4db7f3a35816bf2" prot="public" virt="non-virtual" ambiguityscope="Advanceable&lt; Input, EmptySignal &gt;::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a54f476d3c8d6d003fb714309ea6272aa" prot="public" virt="non-virtual" ambiguityscope="Advanceable&lt; Input, EmptySignal &gt;::BipedalLocomotion::System::InputPort::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1adb341b37472241b6da8b552166308d7b" prot="public" virt="non-virtual" ambiguityscope="Advanceable&lt; Input, EmptySignal &gt;::BipedalLocomotion::System::InputPort::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1af5e15f5e4962a5c8e0f0c0a49adb9ca1" prot="public" virt="non-virtual" ambiguityscope="BipedalLocomotion::System::OutputPort::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1ad5c6ce3ad7d2a064d7bb512fe0bc489e" prot="public" virt="non-virtual" ambiguityscope="BipedalLocomotion::System::OutputPort::"><scope>BipedalLocomotion::System::Sink</scope><name>operator=</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a69603f2c9c608815908425b5b8c2005c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Output</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a7c0d15e677a1935918fc747ba4c25ec1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>OutputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a0a39b891749961d34507b4b591886741" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>OutputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a581340f280eca1890a8a7b2331761b57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>setInput</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a73dd6c7dffbf8512e32e8516f47566aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Sink</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a7d2e5543f089fc84ae13ac0d8916e5b1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Sink</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Sink_1a7490abae175c066da42c7b619d969cb8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Sink</scope><name>Sink</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1adcc49c38152c9204dcab4f8e87f68977" prot="public" virt="virtual"><scope>BipedalLocomotion::System::Sink</scope><name>~OutputPort</name></member>

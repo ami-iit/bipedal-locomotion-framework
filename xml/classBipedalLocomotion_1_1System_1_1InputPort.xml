@@ -37,6 +37,83 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1a27c614cb30c1e4b78e64791f4919dfa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::InputPort&lt; _Input &gt;::InputPort</definition>
+        <argsstring>()=default</argsstring>
+        <name>InputPort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/InputPort.h" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1a74d1418613e89a7f2993ea936228a44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::InputPort&lt; _Input &gt;::InputPort</definition>
+        <argsstring>(const InputPort &amp;)=delete</argsstring>
+        <name>InputPort</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/InputPort.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1a02ec5c947f1d2d83d2952c3b899cc58f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::System::InputPort&lt; _Input &gt;::InputPort</definition>
+        <argsstring>(InputPort &amp;&amp;)=delete</argsstring>
+        <name>InputPort</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/InputPort.h" line="29" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1a54f476d3c8d6d003fb714309ea6272aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;</type>
+        <definition>InputPort&amp; BipedalLocomotion::System::InputPort&lt; _Input &gt;::operator=</definition>
+        <argsstring>(const InputPort &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/InputPort.h" line="30" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1adb341b37472241b6da8b552166308d7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;</type>
+        <definition>InputPort&amp; BipedalLocomotion::System::InputPort&lt; _Input &gt;::operator=</definition>
+        <argsstring>(InputPort &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1System_1_1InputPort" kindref="compound">InputPort</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/InputPort.h" line="31" column="15"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::System::InputPort&lt; _Input &gt;::~InputPort</definition>
@@ -48,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/InputPort.h" line="27" column="13"/>
+        <location file="BipedalLocomotion/System/InputPort.h" line="32" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -82,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/InputPort.h" line="34" column="18"/>
+        <location file="BipedalLocomotion/System/InputPort.h" line="39" column="18"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -580,9 +657,14 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/System/InputPort.h" line="22" column="12" bodyfile="BipedalLocomotion/System/InputPort.h" bodystart="23" bodyend="35"/>
+    <location file="BipedalLocomotion/System/InputPort.h" line="22" column="12" bodyfile="BipedalLocomotion/System/InputPort.h" bodystart="23" bodyend="40"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1adc7e6f59dd13c49f34ec04c1a4550a5a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>Input</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a27c614cb30c1e4b78e64791f4919dfa7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a74d1418613e89a7f2993ea936228a44a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a02ec5c947f1d2d83d2952c3b899cc58f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>InputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a54f476d3c8d6d003fb714309ea6272aa" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>operator=</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1adb341b37472241b6da8b552166308d7b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>operator=</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::System::InputPort</scope><name>~InputPort</name></member>
     </listofallmembers>
