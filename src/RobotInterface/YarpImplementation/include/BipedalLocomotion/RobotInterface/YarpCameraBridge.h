@@ -74,10 +74,10 @@ public:
     bool setDriversList(const yarp::dev::PolyDriverList& deviceDriversList);
 
     /**
-     * @brief Determines the validity of the object retrieved with get()
+     * @brief Determines the validity of the object retrieved with getMetadata()
      * @return True if the object is valid, false otherwise.
      */
-    bool isValid() const;
+    bool isValid() const final;
 
     /**
      * @brief Get the object.

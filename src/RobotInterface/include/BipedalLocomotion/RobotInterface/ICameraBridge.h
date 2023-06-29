@@ -137,6 +137,18 @@ public:
     };
 
     /**
+     * Get the stored metadata.
+     * @return a const reference to the metadata
+     */
+    virtual const CameraBridgeMetaData& getMetaData() const = 0;
+
+    /**
+     * @brief Determines the validity of the object retrieved with getMetadata()
+     * @return True if the object is valid, false otherwise.
+     */
+    virtual bool isValid() const = 0;
+
+    /**
      * Destructor
      */
     virtual ~ICameraBridge() = default;
@@ -195,12 +207,6 @@ protected:
     {
         return true;
     };
-
-    /**
-     * Get the stored metadata.
-     * @return a const reference to the metadata
-     */
-    virtual const CameraBridgeMetaData& getMetaData() const = 0;
 };
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
