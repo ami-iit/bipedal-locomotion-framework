@@ -227,7 +227,7 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogS
     }
 
     std::string description;
-    if(!ptr->getParameter("description", description))
+    if (!ptr->getParameter("description", description))
     {
         log()->error("{} Unable to find the parameter 'description'.", errorPrefix);
         return PolyDriverDescriptor();
@@ -307,6 +307,79 @@ PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructMultipleAnalogS
     if (!multipleWrapper->attachAll(polydriverList))
     {
         log()->error("{} Could not attach the polydriver list.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    return device;
+}
+
+PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRDGBSensorClient(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
+{
+    constexpr auto errorPrefix = "[RobotInterface::constructRDGBSensorClient]";
+
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    bool ok = true;
+
+    std::string name;
+    ok = ok && ptr->getParameter("name", name);
+
+    std::string localPrefix;
+    ok = ok && ptr->getParameter("local_prefix", localPrefix);
+
+    std::string localImagePortNamePostfix;
+    ok = ok && ptr->getParameter("local_image_port_postfix", localImagePortNamePostfix);
+
+    std::string localDepthPortNamePostfix;
+    ok = ok && ptr->getParameter("local_depth_port_postfix", localDepthPortNamePostfix);
+
+    std::string localRpcPortNamePostfix;
+    ok = ok && ptr->getParameter("local_rpc_port_postfix", localRpcPortNamePostfix);
+
+    std::string remoteImagePortName;
+    ok = ok && ptr->getParameter("remote_image_port", remoteImagePortName);
+
+    std::string remoteDepthPortName;
+    ok = ok && ptr->getParameter("remote_depth_port", remoteDepthPortName);
+
+    std::string remoteRpcPortName;
+    ok = ok && ptr->getParameter("remote_rpc_port", remoteRpcPortName);
+
+    std::string imageCarrier;
+    ok = ok && ptr->getParameter("image_carrier", imageCarrier);
+
+    std::string depthCarrier;
+    ok = ok && ptr->getParameter("depth_carrier", depthCarrier);
+
+    if (!ok)
+    {
+        log()->error("{} Unable to get all the parameters from configuration file.", errorPrefix);
+        return PolyDriverDescriptor();
+    }
+
+    yarp::os::Property options;
+    options.put("device", "RGBDSensorClient");
+    options.put("localImagePort", "/" + localPrefix + localImagePortNamePostfix);
+    options.put("localDepthPort", "/" + localPrefix + localDepthPortNamePostfix);
+    options.put("localRpcPort", "/" + localPrefix + localRpcPortNamePostfix);
+    options.put("ImageCarrier", imageCarrier);
+    options.put("DepthCarrier", depthCarrier);
+    options.put("remoteImagePort", remoteImagePortName);
+    options.put("remoteDepthPort", remoteDepthPortName);
+    options.put("remoteRpcPort", remoteRpcPortName);
+
+    PolyDriverDescriptor device(name, std::make_shared<yarp::dev::PolyDriver>());
+
+    if (!device.poly->open(options) && !device.poly->isValid())
+    {
+        log()->error("{} Could not open polydriver object.", errorPrefix);
         return PolyDriverDescriptor();
     }
 
