@@ -1,8 +1,8 @@
 import pytest
 import bipedal_locomotion_framework.bindings as blf
-import timedelta
 import numpy as np 
 import manifpy as manif
+from datetime import timedelta
 
 pytestmark = pytest.mark.mpc
 
