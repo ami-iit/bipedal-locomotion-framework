@@ -194,7 +194,8 @@ void CreateContactPhaseList(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
     py::class_<ContactPhaseList>(module, "ContactPhaseList")
-        .def(py::init())       
+        .def(py::init()) 
+        .def("size", &ContactPhaseList::size)      
         .def("__getitem__", &ContactPhaseList::operator[])
         .def("last_phase", [](const ContactPhaseList& impl) ->  const ContactPhase& 
         {
