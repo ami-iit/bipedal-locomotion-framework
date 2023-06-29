@@ -9,4 +9,6 @@ add_bipedal_locomotion_python_module(
   SOURCES src/CentroidalMPC.cpp src/Module.cpp
   HEADERS ${H_PREFIX}/CentroidalMPC.h ${H_PREFIX}/Module.h 
   LINK_LIBRARIES BipedalLocomotion::ReducedModelControllers    
+  TESTS tests/test_centroidal_mpc.py)
+
   )
