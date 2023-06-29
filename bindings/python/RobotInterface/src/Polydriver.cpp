@@ -43,29 +43,36 @@ void CreatePolyDriverDescriptor(pybind11::module& module)
 
     module.def(
         "construct_remote_control_board_remapper",
-        [](std::shared_ptr<IParametersHandler> handler) -> PolyDriverDescriptor {
+        [](std::shared_ptr<const IParametersHandler> handler) -> PolyDriverDescriptor {
             return constructRemoteControlBoardRemapper(handler);
         },
         py::arg("handler"));
 
     module.def(
         "construct_generic_sensor_client",
-        [](std::shared_ptr<IParametersHandler> handler) -> PolyDriverDescriptor {
+        [](std::shared_ptr<const IParametersHandler> handler) -> PolyDriverDescriptor {
             return constructGenericSensorClient(handler);
         },
         py::arg("handler"));
 
     module.def(
         "construct_multiple_analog_sensors_client",
-        [](std::shared_ptr<IParametersHandler> handler) -> PolyDriverDescriptor {
+        [](std::shared_ptr<const IParametersHandler> handler) -> PolyDriverDescriptor {
             return constructMultipleAnalogSensorsClient(handler);
         },
         py::arg("handler"));
 
     module.def(
         "construct_multiple_analog_sensors_remapper",
-        [](std::shared_ptr<IParametersHandler> handler) -> PolyDriverDescriptor {
+        [](std::shared_ptr<const IParametersHandler> handler) -> PolyDriverDescriptor {
             return constructMultipleAnalogSensorsRemapper(handler);
+        },
+        py::arg("handler"));
+
+    module.def(
+        "construct_RGBD_sensor_client",
+        [](std::shared_ptr<const IParametersHandler> handler) -> PolyDriverDescriptor {
+            return constructRDGBSensorClient(handler);
         },
         py::arg("handler"));
 }
