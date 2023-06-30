@@ -141,7 +141,7 @@ def test_contact_phase_list():
     contact.deactivation_time = timedelta(seconds=4.0)
     contact_list_left_foot.add_contact(contact)
 
-    # Right Foot 
+    # Right Foot
     contact_list_right_foot = blf.contacts.ContactList()
     contact = blf.contacts.PlannedContact()
     rightPosition = np.zeros(3)
@@ -163,20 +163,20 @@ def test_contact_phase_list():
 
     c_1 = contact_phase_list.get_present_phase(timedelta(seconds=50.0))
     c_2 = contact_phase_list.last_phase()
-    assert c_1 == c_2 
+    assert c_1 == c_2
 
     c_3 = contact_phase_list.get_present_phase(timedelta(seconds=0.5))
     c_4 = contact_phase_list.first_phase()
 
     assert (c_3 == c_4)
 
-    assert contact_phase_list.size() == 5 
+    assert contact_phase_list.size() == 5
     i = 0
-    for item in contact_phase_list: 
-        i  = i + 1 
-        if(i == 1): 
+    for item in contact_phase_list:
+        i  = i + 1
+        if(i == 1):
             assert item == contact_phase_list.first_phase()
-        if( i == contact_phase_list.size()): 
+        if( i == contact_phase_list.size()):
             assert item == contact_phase_list.last_phase()
-        
-     
+
+

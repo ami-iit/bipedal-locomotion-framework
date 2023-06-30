@@ -1,6 +1,6 @@
 import pytest
 import bipedal_locomotion_framework.bindings as blf
-import numpy as np 
+import numpy as np
 import manifpy as manif
 from datetime import timedelta
 
@@ -52,12 +52,12 @@ def test_centroidal_mpc():
     mpc_param_handler.set_parameter_vector_float("force_rate_of_change_weight", [10.0,10.0,10.0])
     mpc_param_handler.set_parameter_float("angular_momentum_weight", 1e5)
 
-    #Defining com and angular momentum reference trajectory 
+    #Defining com and angular momentum reference trajectory
     com_ref_traj = [np.zeros(3), np.zeros(3), np.zeros(3)]
     angular_ref_traj = [np.zeros(3), np.zeros(3), np.zeros(3)]
     centroidal_mpc.set_reference_trajectory(com_ref_traj,angular_ref_traj)
 
-    # Defining the contact phase list 
+    # Defining the contact phase list
     contact_list_left_foot = blf.contacts.ContactList()
     contact = blf.contacts.PlannedContact()
     leftPosition = np.zeros(3)
@@ -68,7 +68,7 @@ def test_centroidal_mpc():
     contact.name = "contactLeft1"
     contact_list_left_foot.add_contact(contact)
 
-    # Right Foot 
+    # Right Foot
     contact_list_right_foot = blf.contacts.ContactList()
     contact = blf.contacts.PlannedContact()
     rightPosition = np.zeros(3)
@@ -84,7 +84,7 @@ def test_centroidal_mpc():
     contact_phase_list = blf.contacts.ContactPhaseList()
     contact_phase_list.set_lists(contact_list_map)
 
-    # Testing the mpc 
+    # Testing the mpc
     assert centroidal_mpc.initialize(mpc_param_handler)
     assert centroidal_mpc.set_state(np.zeros(3), np.zeros(3), np.zeros(3))
     assert centroidal_mpc.set_contact_phase_list(contact_phase_list)

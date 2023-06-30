@@ -10,8 +10,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <iomanip>
 #include <chrono>
+#include <iomanip>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/Contacts/ContactList.h>
@@ -93,7 +93,6 @@ void CreateContact(pybind11::module& module)
         .def(py::init())
         .def_readwrite("position", &Corner::position)
         .def_readwrite("force", &Corner::force);
-    
 }
 
 void CreateContactList(pybind11::module& module)
@@ -138,7 +137,8 @@ void CreateContactList(pybind11::module& module)
         .def("size", &ContactList::size)
         .def("__len__", &ContactList::size)
         .def("edit_contact", &ContactList::editContact, py::arg("element"), py::arg("new_contact"))
-        .def("get_present_contact",
+        .def(
+            "get_present_contact",
             [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
                 return *l.getPresentContact(time);
             },
@@ -194,28 +194,30 @@ void CreateContactPhaseList(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Contacts;
     py::class_<ContactPhaseList>(module, "ContactPhaseList")
-        .def(py::init()) 
-        .def("size", &ContactPhaseList::size)      
+        .def(py::init())
+        .def("size", &ContactPhaseList::size)
         .def("__getitem__", &ContactPhaseList::operator[])
-        .def("last_phase", [](const ContactPhaseList& impl) ->  const ContactPhase& 
-        {
-            return *impl.lastPhase();
-        }, py::return_value_policy::reference_internal)
-        .def("first_phase", [](const ContactPhaseList& impl) ->  const ContactPhase&  
-        {
-            return *impl.firstPhase();
-        }, py::return_value_policy::reference_internal)
+        .def(
+            "last_phase",
+            [](const ContactPhaseList& impl) -> const ContactPhase& { return *impl.lastPhase(); },
+            py::return_value_policy::reference_internal)
+        .def(
+            "first_phase",
+            [](const ContactPhaseList& impl) -> const ContactPhase& { return *impl.firstPhase(); },
+            py::return_value_policy::reference_internal)
         .def("set_lists",
              py::overload_cast<const ContactListMap&>(&ContactPhaseList::setLists),
              py::arg("contact_lists"))
         .def("lists", &ContactPhaseList::lists)
-        .def("get_present_phase",
-            [](const ContactPhaseList& l, const std::chrono::nanoseconds& time) -> const ContactPhase& {
-                return *l.getPresentPhase(time);
-            },
-            py::arg("time"), py::return_value_policy::reference_internal)  
-        .def("__iter__",[](const ContactPhaseList& l){return py::make_iterator(l.cbegin(), l.cend());});
-;
+        .def(
+            "get_present_phase",
+            [](const ContactPhaseList& l, const std::chrono::nanoseconds& time)
+                -> const ContactPhase& { return *l.getPresentPhase(time); },
+            py::arg("time"),
+            py::return_value_policy::reference_internal)
+        .def("__iter__",
+             [](const ContactPhaseList& l) { return py::make_iterator(l.cbegin(), l.cend()); });
+    ;
 }
 
 void CreateContactListJsonParser(pybind11::module& module)

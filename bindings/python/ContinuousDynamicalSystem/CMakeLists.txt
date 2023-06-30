@@ -11,6 +11,6 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
             ${H_PREFIX}/MultiStateWeightProvider.h ${H_PREFIX}/CentroidalDynamics.h
             ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::ContinuousDynamicalSystem
-    TESTS tests/test_linear_system.py tests/test_floating_base_system_kinematics.py tests/test_centroidal_dynamics.py 
+    TESTS tests/test_linear_system.py tests/test_floating_base_system_kinematics.py tests/test_centroidal_dynamics.py
     )
 endif()

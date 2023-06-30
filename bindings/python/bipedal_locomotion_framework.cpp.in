@@ -86,7 +86,9 @@
 #include <BipedalLocomotion/bindings/ML/Module.h>
 @endcmakeif FRAMEWORK_COMPILE_ML
 
+@cmakeif FRAMEWORK_COMPILE_ReducedModelControllers
 #include<BipedalLocomotion/bindings/ReducedModelControllers/Module.h>
+@endcmakeif FRAMEWORK_COMPILE_ReducedModelControllers
 
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
@@ -194,7 +196,8 @@ PYBIND11_MODULE(bindings, m)
     bindings::ML::CreateModule(mlModule);
     @endcmakeif FRAMEWORK_COMPILE_ML
 
+    @cmakeif FRAMEWORK_COMPILE_ReducedModelControllers
     py::module reducedModelControllersModule = m.def_submodule("reduced_model_controllers");
     bindings::ReducedModelControllers::CreateModule(reducedModelControllersModule);
-    
+    @endcmakeif FRAMEWORK_COMPILE_ReducedModelControllers
 }
