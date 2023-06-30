@@ -35,12 +35,6 @@ void CreateCentroidalMPC(pybind11::module& module)
                                                                            "CentroidalMPCOutput");
     py::class_<CentroidalMPC, Source<CentroidalMPCOutput>>(module, "CentroidalMPC")
         .def(py::init())
-        .def(
-            "initialize",
-            [](CentroidalMPC& impl,
-               std::shared_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>
-                   handler) -> bool { return impl.initialize(handler); },
-            py::arg("handler"))
         .def("set_contact_phase_list",
              py::overload_cast<const Contacts::ContactPhaseList&>(
                  &CentroidalMPC::setContactPhaseList),
@@ -57,11 +51,7 @@ void CreateCentroidalMPC(pybind11::module& module)
                                const std::vector<Eigen::Vector3d>&>(
                  &CentroidalMPC::setReferenceTrajectory),
              py::arg("com"),
-             py::arg("angularMomentum"))
-        .def("get_output",
-             [](const CentroidalMPC& l) -> const CentroidalMPCOutput& { return l.getOutput(); })
-        .def("is_output_valid", &CentroidalMPC::isOutputValid)
-        .def("advance", &CentroidalMPC::advance);
+             py::arg("angularMomentum"));
 }
 
 } // namespace ReducedModelControllers
