@@ -127,7 +127,7 @@ def test_contact_phase():
     # TODO: the active_contacts is a read_only attribute
 
 def test_contact_phase_list():
-    # Defining the contact phase list 
+
     contact_list_left_foot = blf.contacts.ContactList()
     contact = blf.contacts.PlannedContact()
     leftPosition = np.zeros(3)
@@ -138,7 +138,7 @@ def test_contact_phase_list():
     contact.name = "contactLeft1"
     contact_list_left_foot.add_contact(contact)
     contact.activation_time = timedelta(seconds=2.0)
-    contact.deactivation_time = timedelta(seconds=3.0)
+    contact.deactivation_time = timedelta(seconds=4.0)
     contact_list_left_foot.add_contact(contact)
 
     # Right Foot 
@@ -169,3 +169,14 @@ def test_contact_phase_list():
     c_4 = contact_phase_list.first_phase()
 
     assert (c_3 == c_4)
+
+    assert contact_phase_list.size() == 5 
+    i = 0
+    for item in contact_phase_list: 
+        i  = i + 1 
+        if(i == 1): 
+            assert item == contact_phase_list.first_phase()
+        if( i == contact_phase_list.size()): 
+            assert item == contact_phase_list.last_phase()
+        
+     
