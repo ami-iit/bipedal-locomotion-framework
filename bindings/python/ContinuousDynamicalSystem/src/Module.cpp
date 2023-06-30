@@ -7,6 +7,7 @@
 
 #include <pybind11/pybind11.h>
 
+#include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/CentroidalDynamics.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
@@ -26,6 +27,7 @@ void CreateModule(pybind11::module& module)
     CreateLinearTimeInvariantSystem(module);
     CreateFloatingBaseSystemKinematics(module);
     CreateMultiStateWeightProvider(module);
+    CreateCentroidalDynamics(module);
 }
 } // namespace ContinuousDynamicalSystem
 } // namespace bindings

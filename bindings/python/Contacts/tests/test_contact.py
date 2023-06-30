@@ -1,5 +1,5 @@
 import pytest
-pytestmark = pytest.mark.planners
+pytestmark = pytest.mark.contact
 
 import bipedal_locomotion_framework.bindings as blf
 import manifpy as manif
@@ -125,3 +125,58 @@ def test_contact_phase():
     list2.set_default_name(default_name="List2")
 
     # TODO: the active_contacts is a read_only attribute
+
+def test_contact_phase_list():
+
+    contact_list_left_foot = blf.contacts.ContactList()
+    contact = blf.contacts.PlannedContact()
+    leftPosition = np.zeros(3)
+    quaternion = [0.0, 0.0, 0.0, 1.0]
+    contact.pose = manif.SE3(position=leftPosition, quaternion=quaternion)
+    contact.activation_time = timedelta(seconds=0.0)
+    contact.deactivation_time = timedelta(seconds=1.0)
+    contact.name = "contactLeft1"
+    contact_list_left_foot.add_contact(contact)
+    contact.activation_time = timedelta(seconds=2.0)
+    contact.deactivation_time = timedelta(seconds=4.0)
+    contact_list_left_foot.add_contact(contact)
+
+    # Right Foot
+    contact_list_right_foot = blf.contacts.ContactList()
+    contact = blf.contacts.PlannedContact()
+    rightPosition = np.zeros(3)
+    contact.pose = manif.SE3(position = rightPosition, quaternion = quaternion)
+    contact.activation_time = timedelta(seconds=0.0)
+    contact.deactivation_time = timedelta(seconds=3.0)
+    contact.name = "contactRight1"
+    contact_list_right_foot.add_contact(contact)
+    contact.activation_time = timedelta(seconds=4.0)
+    contact.deactivation_time = timedelta(seconds=6.0)
+    contact_list_right_foot.add_contact(contact)
+
+    contact_list_map ={}
+    contact_list_map.update({"left_foot":contact_list_left_foot})
+    contact_list_map.update({"right_foot":contact_list_right_foot})
+    contact_phase_list = blf.contacts.ContactPhaseList()
+
+    contact_phase_list.set_lists(contact_list_map)
+
+    c_1 = contact_phase_list.get_present_phase(timedelta(seconds=50.0))
+    c_2 = contact_phase_list.last_phase()
+    assert c_1 == c_2
+
+    c_3 = contact_phase_list.get_present_phase(timedelta(seconds=0.5))
+    c_4 = contact_phase_list.first_phase()
+
+    assert (c_3 == c_4)
+
+    assert contact_phase_list.size() == 5
+    i = 0
+    for item in contact_phase_list:
+        i  = i + 1
+        if(i == 1):
+            assert item == contact_phase_list.first_phase()
+        if( i == contact_phase_list.size()):
+            assert item == contact_phase_list.last_phase()
+
+

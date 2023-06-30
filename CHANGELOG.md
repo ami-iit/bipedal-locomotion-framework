@@ -22,6 +22,7 @@ All notable changes to this project are documented in this file.
 - Implement `MANNAutoregressiveInputBuilder` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/689)
 - Implement the `CentroidalMPC` in `ReducedModelControllers`component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/645)
 - Implement the `BaseEstimatorFromFootIMU` in the `Estimators` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/641)
+- Add bindings for `CentroidalMPC`, `CentroidalDynamics`, `ContactPhaseList`, `DiscreteGeometryContact` and `Corner` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/650)
 
 ### Changed
 - Restructure application folders of `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/670)
