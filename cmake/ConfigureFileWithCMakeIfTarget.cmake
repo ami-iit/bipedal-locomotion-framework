@@ -51,11 +51,11 @@ function(CONFIGURE_FILE_WITH_CMAKEIF_TARGET _input_file _output)
 
 
   # Find couples of @cmakeif / @endcmakeif
-  # - ([A-Za-z0-9_]+(::[A-Za-z0-9_]+)?[ ]+&&[ ]+)*: This part matches the pattern [A-Za-z0-9_]+(::[A-Za-z0-9_]+)? && zero or more times. 
+  # - ([A-Za-z0-9_]+(::[A-Za-z0-9_]+)?[ ]+&&[ ]+)*: This part matches the pattern [A-Za-z0-9_]+(::[A-Za-z0-9_]+)? && zero or more times.
   #    The pattern [A-Za-z0-9_]+ matches one or more alphanumeric characters or underscores. The (::[A-Za-z0-9_]+)? allows
   #    for an optional occurrence of :: followed by one or more alphanumeric characters or underscores. The [ ]+ matches one or more
   #    spaces before and after the "&&".
-  # - [A-Za-z0-9_]+(::[A-Za-z0-9_]+)?: This part matches the last repetition of [A-Za-z0-9_]+(::[A-Za-z0-9_]+)? 
+  # - [A-Za-z0-9_]+(::[A-Za-z0-9_]+)?: This part matches the last repetition of [A-Za-z0-9_]+(::[A-Za-z0-9_]+)?
   #   without the trailing "&&".
   string(REGEX MATCHALL
     "@cmakeiftarget[ ]+([A-Za-z0-9_]+(::[A-Za-z0-9_]+)?[ ]+&&[ ]+)*[A-Za-z0-9_]+(::[A-Za-z0-9_]+)?"
@@ -69,7 +69,7 @@ function(CONFIGURE_FILE_WITH_CMAKEIF_TARGET _input_file _output)
   endif()
 
   foreach(_if ${_matched_ifs})
-    string(REGEX MATCH "([A-Za-z0-9_]+(::[A-Za-z0-9_]+)?[ ]+&&[ ]+)*[A-Za-z0-9_]+(::[A-Za-z0-9_]+)?$" 
+    string(REGEX MATCH "([A-Za-z0-9_]+(::[A-Za-z0-9_]+)?[ ]+&&[ ]+)*[A-Za-z0-9_]+(::[A-Za-z0-9_]+)?$"
       _conditions ${_if})
     set(_conditions ${CMAKE_MATCH_0})
     split_string(${CMAKE_MATCH_0} _conditions_split)

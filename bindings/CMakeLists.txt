@@ -2,6 +2,25 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
+# Detect if we are doing a standalone build of the bindings, using an external bipedal-locomotion-framework
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+  set(FRAMEWORK_PYTHON_BINDINGS_BUILD_STANDALONE ON)
+  set(FRAMEWORK_COMPILE_PYTHON_BINDINGS ON)
+else()
+  set(FRAMEWORK_PYTHON_BINDINGS_BUILD_STANDALONE FALSE)
+endif()
+
+if(FRAMEWORK_PYTHON_BINDINGS_BUILD_STANDALONE)
+  cmake_minimum_required(VERSION 3.16)
+  project(BipedalLocomotionFrameworkBindings)
+  find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+  find_package(pybind11 REQUIRED)
+  find_package(BipedalLocomotionFramework REQUIRED)
+  get_filename_component(CMAKE_CURRENT_PARENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_PARENT_SOURCE_DIR}/cmake)
+  include(AddBipedalLocomotionPythonModule)
+endif()
+
 if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
     set(NEW_LINE "\n")
