@@ -13,82 +13,82 @@
 #include <BipedalLocomotion/bindings/TextLogging/Module.h>
 #include <BipedalLocomotion/bindings/TextLogging/TextLogging.h>
 
-@cmakeif FRAMEWORK_USE_rclcpp
+@cmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingRosImplementation
 #include <BipedalLocomotion/bindings/TextLogging/RosModule.h>
-@endcmakeif FRAMEWORK_USE_rclcpp
+@endcmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingRosImplementation
 
-@cmakeif FRAMEWORK_COMPILE_YarpImplementation
+@cmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingYarpImplementation
 #include <BipedalLocomotion/bindings/TextLogging/YarpModule.h>
-@endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+@endcmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingYarpImplementation
 
-@cmakeif FRAMEWORK_COMPILE_YarpImplementation
+@cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/YarpModule.h>
-@endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+@endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
 
-@cmakeif FRAMEWORK_COMPILE_TomlImplementation
+@cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerTomlImplementation
 #include <BipedalLocomotion/bindings/ParametersHandler/TomlModule.h>
-@endcmakeif FRAMEWORK_COMPILE_TomlImplementation
+@endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerTomlImplementation
 
-@cmakeif FRAMEWORK_COMPILE_System
+@cmakeiftarget BipedalLocomotion::System
 #include <BipedalLocomotion/bindings/System/Module.h>
 #include <BipedalLocomotion/bindings/System/Clock.h>
-@endcmakeif FRAMEWORK_COMPILE_System
+@endcmakeiftarget BipedalLocomotion::System
 
-@cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+@cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
 #include <BipedalLocomotion/bindings/System/YarpModule.h>
-@endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+@endcmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
 
-@cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+@cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemRosImplementation
 #include <BipedalLocomotion/bindings/System/RosModule.h>
-@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+@endcmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemRosImplementation
 
-@cmakeif FRAMEWORK_COMPILE_Contact
+@cmakeiftarget BipedalLocomotion::Contacts
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_Contact
+@endcmakeiftarget BipedalLocomotion::Contacts
 
-@cmakeif FRAMEWORK_COMPILE_Planners
+@cmakeiftarget BipedalLocomotion::Planners
 #include <BipedalLocomotion/bindings/Planners/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_Planners
+@endcmakeiftarget BipedalLocomotion::Planners
 
-@cmakeif FRAMEWORK_COMPILE_Unicycle
+@cmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
 #include <BipedalLocomotion/bindings/Planners/UnicycleModule.h>
-@endcmakeif FRAMEWORK_COMPILE_Unicycle
+@endcmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
 
-@cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
+@cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
+@endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
 
-@cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
+@cmakeiftarget BipedalLocomotion::FloatingBaseEstimators
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
+@endcmakeiftarget BipedalLocomotion::FloatingBaseEstimators
 
-@cmakeif FRAMEWORK_COMPILE_IK
+@cmakeiftarget BipedalLocomotion::IK
 #include <BipedalLocomotion/bindings/IK/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_IK
+@endcmakeiftarget BipedalLocomotion::IK
 
-@cmakeif FRAMEWORK_COMPILE_TSID
+@cmakeiftarget BipedalLocomotion::TSID
 #include <BipedalLocomotion/bindings/TSID/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_TSID
+@endcmakeiftarget BipedalLocomotion::TSID
 
-@cmakeif FRAMEWORK_COMPILE_ManifConversions
+@cmakeiftarget BipedalLocomotion::ManifConversions
 #include <BipedalLocomotion/bindings/Conversions/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_ManifConversions
+@endcmakeiftarget BipedalLocomotion::ManifConversions
 
-@cmakeif FRAMEWORK_COMPILE_YarpUtilities
+@cmakeiftarget BipedalLocomotion::YarpUtilities
 #include <BipedalLocomotion/bindings/YarpUtilities/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+@endcmakeiftarget BipedalLocomotion::YarpUtilities
 
-@cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+@cmakeiftarget BipedalLocomotion::ContinuousDynamicalSystem
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+@endcmakeiftarget BipedalLocomotion::ContinuousDynamicalSystem
 
-@cmakeif FRAMEWORK_COMPILE_ML
+@cmakeiftarget BipedalLocomotion::ML
 #include <BipedalLocomotion/bindings/ML/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_ML
+@endcmakeiftarget BipedalLocomotion::ML
 
-@cmakeif FRAMEWORK_COMPILE_ReducedModelControllers
+@cmakeiftarget BipedalLocomotion::ReducedModelControllers
 #include<BipedalLocomotion/bindings/ReducedModelControllers/Module.h>
-@endcmakeif FRAMEWORK_COMPILE_ReducedModelControllers
+@endcmakeiftarget BipedalLocomotion::ReducedModelControllers
 
 // Create the Python module
 PYBIND11_MODULE(bindings, m)
@@ -96,9 +96,9 @@ PYBIND11_MODULE(bindings, m)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion;
 
-    @cmakeif FRAMEWORK_USE_manif
+    @cmakeiftarget BipedalLocomotion::ManifConversions
     py::module::import("manifpy");
-    @endcmakeif FRAMEWORK_USE_manif
+    @endcmakeiftarget BipedalLocomotion::ManifConversions
 
     m.doc() = "BipedalLocomotionFramework bindings";
 
@@ -106,98 +106,98 @@ PYBIND11_MODULE(bindings, m)
     bindings::TextLogging::CreateModule(textLoggingModule);
     bindings::CreateLogger(m);
 
-    @cmakeif FRAMEWORK_USE_rclcpp
+    @cmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingRosImplementation
     bindings::TextLogging::CreateRosModule(textLoggingModule);
-    @endcmakeif FRAMEWORK_USE_rclcpp
+    @endcmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingRosImplementation
 
-    @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+    @cmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingYarpImplementation
     bindings::TextLogging::CreateYarpModule(textLoggingModule);
-    @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+    @endcmakeiftarget BipedalLocomotion::TextLogging && BipedalLocomotion::TextLoggingYarpImplementation
 
     py::module parametersHandlerModule = m.def_submodule("parameters_handler");
     bindings::ParametersHandler::CreateModule(parametersHandlerModule);
 
-    @cmakeif FRAMEWORK_COMPILE_YarpImplementation
+    @cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
     bindings::ParametersHandler::CreateYarpModule(parametersHandlerModule);
-    @endcmakeif FRAMEWORK_COMPILE_YarpImplementation
+    @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
 
-    @cmakeif FRAMEWORK_COMPILE_TomlImplementation
+    @cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
     bindings::ParametersHandler::CreateTomlModule(parametersHandlerModule);
-    @endcmakeif FRAMEWORK_COMPILE_TomlImplementation
+    @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
 
     py::module mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);
 
-    @cmakeif FRAMEWORK_COMPILE_System
+    @cmakeiftarget BipedalLocomotion::System
     py::module systemModule = m.def_submodule("system");
     bindings::System::CreateModule(systemModule);
     bindings::CreateClock(m);
-    @endcmakeif FRAMEWORK_COMPILE_System
+    @endcmakeiftarget BipedalLocomotion::System
 
-    @cmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+    @cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
     bindings::System::CreateYarpModule(systemModule);
-    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_YarpSystem
+    @endcmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
 
-    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+    @cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemRosImplementation
     bindings::System::CreateRosModule(systemModule);
-    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RosSystem
+    @endcmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemRosImplementation
 
-    @cmakeif FRAMEWORK_COMPILE_Contact
+    @cmakeiftarget BipedalLocomotion::Contacts
     py::module contactsModule = m.def_submodule("contacts");
     bindings::Contacts::CreateModule(contactsModule);
-    @endcmakeif FRAMEWORK_COMPILE_Contact
+    @endcmakeiftarget BipedalLocomotion::Contacts
 
-    @cmakeif FRAMEWORK_COMPILE_Planners
+    @cmakeiftarget BipedalLocomotion::Planners
     py::module plannersModule = m.def_submodule("planners");
     bindings::Planners::CreateModule(plannersModule);
-    @endcmakeif FRAMEWORK_COMPILE_Planners
+    @endcmakeiftarget BipedalLocomotion::Planners
 
-    @cmakeif FRAMEWORK_COMPILE_Unicycle
+    @cmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
     bindings::Planners::CreateUnicycleModule(plannersModule);
-    @endcmakeif FRAMEWORK_COMPILE_Unicycle
+    @endcmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
 
-    @cmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
+    @cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
     py::module robotInterfaceModule = m.def_submodule("robot_interface");
     bindings::RobotInterface::CreateModule(robotInterfaceModule);
-    @endcmakeif FRAMEWORK_COMPILE_BINDINGS_RobotInterface
+    @endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
 
-    @cmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
+    @cmakeiftarget BipedalLocomotion::FloatingBaseEstimators
     py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");
     bindings::FloatingBaseEstimators::CreateModule(floatingBaseEstimatorModule);
-    @endcmakeif FRAMEWORK_COMPILE_FloatingBaseEstimators
+    @endcmakeiftarget BipedalLocomotion::FloatingBaseEstimators
 
-    @cmakeif FRAMEWORK_COMPILE_IK
+    @cmakeiftarget BipedalLocomotion::IK
     py::module ikModule = m.def_submodule("ik");
     bindings::IK::CreateModule(ikModule);
-    @endcmakeif FRAMEWORK_COMPILE_IK
+    @endcmakeiftarget BipedalLocomotion::IK
 
-    @cmakeif FRAMEWORK_COMPILE_TSID
+    @cmakeiftarget BipedalLocomotion::TSID
     py::module tsidModule = m.def_submodule("tsid");
     bindings::TSID::CreateModule(tsidModule);
-    @endcmakeif FRAMEWORK_COMPILE_TSID
+    @endcmakeiftarget BipedalLocomotion::TSID
 
-    @cmakeif FRAMEWORK_COMPILE_ManifConversions
+    @cmakeiftarget BipedalLocomotion::ManifConversions
     py::module conversionsModule = m.def_submodule("conversions");
     bindings::Conversions::CreateModule(conversionsModule);
-    @endcmakeif FRAMEWORK_COMPILE_ManifConversions
+    @endcmakeiftarget BipedalLocomotion::ManifConversions
 
-    @cmakeif FRAMEWORK_COMPILE_YarpUtilities
+    @cmakeiftarget BipedalLocomotion::YarpUtilities
     py::module yarpUtilitiesModule = m.def_submodule("yarp_utilities");
     bindings::YarpUtilities::CreateModule(yarpUtilitiesModule);
-    @endcmakeif FRAMEWORK_COMPILE_YarpUtilities
+    @endcmakeiftarget BipedalLocomotion::YarpUtilities
 
-    @cmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+    @cmakeiftarget BipedalLocomotion::ContinuousDynamicalSystem
     py::module continuousDynamicalSystemModule = m.def_submodule("continuous_dynamical_system");
     bindings::ContinuousDynamicalSystem::CreateModule(continuousDynamicalSystemModule);
-    @endcmakeif FRAMEWORK_COMPILE_ContinuousDynamicalSystem
+    @endcmakeiftarget BipedalLocomotion::ContinuousDynamicalSystem
 
-    @cmakeif FRAMEWORK_COMPILE_ML
+    @cmakeiftarget BipedalLocomotion::ML
     py::module mlModule = m.def_submodule("ml");
     bindings::ML::CreateModule(mlModule);
-    @endcmakeif FRAMEWORK_COMPILE_ML
+    @endcmakeiftarget BipedalLocomotion::ML
 
-    @cmakeif FRAMEWORK_COMPILE_ReducedModelControllers
+    @cmakeiftarget BipedalLocomotion::ReducedModelControllers
     py::module reducedModelControllersModule = m.def_submodule("reduced_model_controllers");
     bindings::ReducedModelControllers::CreateModule(reducedModelControllersModule);
-    @endcmakeif FRAMEWORK_COMPILE_ReducedModelControllers
+    @endcmakeiftarget BipedalLocomotion::ReducedModelControllers
 }
