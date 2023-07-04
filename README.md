@@ -24,15 +24,16 @@
 The **bipedal-locomotion-framework** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 # Table of content
 
-- [:page_facing_up: Mandatory dependencies](#page_facing_up-mandatory-dependencies)
+- [Table of content](#table-of-content)
+- [:page\_facing\_up: Mandatory dependencies](#page_facing_up-mandatory-dependencies)
+- [:orange\_book: Exported components](#orange_book-exported-components)
+- [:package: Install with conda (recommended)](#package-install-with-conda-recommended)
 - [:hammer: Build the suite](#hammer-build-the-suite)
-- [:orange_book: Exported components](#orange_book-exported-components)
-- [:computer: Some utitilites](#computer-some-utilities)
-- [:hammer: Build the suite](#hammer-build-the-suite)
-- [:package: Install with conda (recommended)](#package-install-with-conda-(recommended))
+- [:computer: Some utilities](#computer-some-utilities)
 - [:snake: Python](#snake-python)
 - [:running: How to use the libraries](#running-how-to-use-the-libraries)
 - [:gear: Contributing](#gear-contributing)
+- [:technologist: Maintainers](#technologist-maintainers)
 
 # :page_facing_up: Mandatory dependencies
 The **bipedal-locomotion-framework** project is versatile and can be used to compile only some components.
@@ -43,36 +44,42 @@ The minimum required dependencies are `Eigen3`, `iDynTree` and `spdlog`. If you 
 
 The **bipedal-locomotion-framework** project consists of several components. The components are stored in the [`src`](./src) folder and their compilation depends on the installed dependencies.
 
-|                  Component                   |                         Description                          |                   Additional Dependencies                    |
-| :------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                    Framework                 |    Interface library that gathers all the exported components, includable with the file `BipedalLocomotion/Framework.h`     |  -   |
-|          [AutoDiff](./src/Autodiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
-|     [ContactModels](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
-|          [Contacts](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [`nlohmann json`](https://github.com/nlohmann/json/) |
-|    [CommonConversions](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
-|    [ManifConversions](./src/Conversions)     | `manif` library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
-|        [Estimators](./src/Estimators)        |                 Library containing observers                 |                              -                               |
-|  [FloatingBaseEstimator](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
-|  [GenericContainer](./src/GenericContainer)  |      Data structure similar to ``span`` but resizable.       |                              -                               |
-|               [IK](./src/IK)                 |                      Inverse kinematics                      | [`manif`](https://github.com/artivis/manif) [`osqp-eigen`](https://github.com/robotology/osqp-eigen) |
-|              [Math](./src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
-| [ParametersHandler](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`tomlplusplus`](https://github.com/marzer/tomlplusplus/) (only if you want the `toml` implementation) |
-|          [Planners](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
-|    [RobotInterface](./src/RobotInterface)    | Generic interface classes to adapt to various IO data formats | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
-|            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
-|     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
+|                    Component                   |                         Description                          |                   Additional Dependencies                    |
+| :--------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                    `Framework`                 |    Interface library that gathers all the exported components, includable with the file `BipedalLocomotion/Framework.h`     |  -   |
+|          [`AutoDiff`](./src/AutoDiff)          |                Bridge between CppAD and Eigen                |   [`CppAD`](https://coin-or.github.io/CppAD/doc/cppad.htm)   |
+|     [`ContactModels`](./src/ContactModels)     | Models to describe the contact between robot and enviroment  |                              -                               |
+|          [`Contacts`](./src/Contacts)          |              Syntactic description of a contact              |  [`manif`](https://github.com/artivis/manif) [`nlohmann json`](https://github.com/nlohmann/json/) |
+|    [`CommonConversions`](./src/Conversions)    |      Common conversion utilities used in the framework       |                              -                               |
+|    [`ManifConversions`](./src/Conversions)     | Library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
+|    [`matioCppConversions`](./src/Conversions)  | Library related conversion utilities used in the framework |         [`matio-cpp`](https://github.com/ami-iit/matio-cpp)          |
+|    [`CasadiConversions`](./src/Conversions)  | Library related conversion utilities used in the framework |         [`CasADi`](https://github.com/casadi/casadi)          |
+|        [`Estimators`](./src/Estimators)        |                 Library containing observers                 |                              -                               |
+|  [`FloatingBaseEstimator`](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
+|  [`RobotDynamicsEstimator`](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
+|  [`GenericContainer`](./src/GenericContainer)  |      Data structure similar to ``span`` but resizable.       |                              -                               |
+|               [`IK`](./src/IK)                 |                      Inverse kinematics                      | [`manif`](https://github.com/artivis/manif) [`osqp-eigen`](https://github.com/robotology/osqp-eigen) |
+|              [`Math`](./src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
+|              [`ML`](./src/ML)              |          Library containing deep learning algorithms           |      [`onnxruntime`](https://onnxruntime.ai/)             |
+| [`ParametersHandler`](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`tomlplusplus`](https://github.com/marzer/tomlplusplus/) (only if you want the `toml` implementation) |
 | [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
 |    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
 |    [PerceptionFeatures](./src/Perception)     |   Library containing perception algorithms useful for locomotion   | [`OpenCV`](https://github.com/opencv/opencv) |
-|    [SimplifiedModelControllers](./src/SimplifiedModelControllers)     |   Library containing the controllers based on simplified models   | [`manif`](https://github.com/artivis/manif) |
+|          [`Planners`](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
+|    [`ReducedModelControllers`](./src/ReducedModelsController)    | Controller based on reduced models, e.g., `CentroidalMPC` | [`CasADi`](https://github.com/casadi/casadi)|
+| [`RobotInterface`](./src/RobotInterface) |  Library for communicating with the robot  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
+|            [SimplifiedModelControllers](./src/SimplifiedModelControllers)            |   Controllers based on simplified models, i.e, LIPM.   |                              -                               |
+|            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
+|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
+|              [TextLogging](./src/TextLogging)              |   Helper library to display messages into the console               | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`ros-humble`](https://docs.ros.org/en/humble/) (if you want the `ros2` implementation) |
+|     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
 
 :warning: Including `BipedalLocomotion/Framework.h` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.
 
 # :package: Install with conda (recommended)
 You can easily the library with [`conda`](https://anaconda.org/robotology/bipedal-locomotion-framework) using the following command
 
-```sh
+```console
 conda install -c conda-forge bipedal-locomotion-framework
 ```
 
