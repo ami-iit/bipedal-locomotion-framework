@@ -73,9 +73,9 @@
         <link refid="LinearTask_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="10">
