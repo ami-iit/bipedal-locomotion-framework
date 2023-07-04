@@ -57,6 +57,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/ParametersHandler/IParametersHandler.h" line="18" column="1"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h" line="16" column="1"/>
   </compounddef>
 </doxygen>

@@ -2458,8 +2458,8 @@
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
-    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
   </compound>

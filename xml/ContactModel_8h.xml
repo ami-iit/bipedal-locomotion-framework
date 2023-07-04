@@ -13,8 +13,8 @@
     <includes local="no">iDynTree/Core/VectorFixSize.h</includes>
     <includes local="no">iDynTree/Core/Wrench.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
-    <includedby refid="ContinuousContactModel_8h" local="no">BipedalLocomotion/ContactModels/ContinuousContactModel.h</includedby>
     <includedby refid="CompliantContactWrench_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</includedby>
+    <includedby refid="ContinuousContactModel_8h" local="no">BipedalLocomotion/ContactModels/ContinuousContactModel.h</includedby>
     <incdepgraph>
       <node id="12">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -92,11 +92,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="4">
+      <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
         <link refid="FixedBaseDynamics_8h"/>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
         <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
       </node>
@@ -105,18 +105,18 @@
         <link refid="ContactModel_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</label>
-        <link refid="CompliantContactWrench_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="2">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</label>
+        <link refid="CompliantContactWrench_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
         <label>BipedalLocomotion/ContactModels/ContinuousContactModel.h</label>
         <link refid="ContinuousContactModel_8h"/>
       </node>

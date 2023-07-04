@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</compoundname>
+    <basecompoundref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</basecompoundref>
+    <includes local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386d" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>Direction</name>
+        <enumvalue id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386da3289297424e01eda5b788c083bbf3147" prot="public">
+          <name>Positive</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386daffb9356ff2b7da85c75c92fa7ea03b8b" prot="public">
+          <name>Negative</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386da4b7d504abac49ba24b4df86c129d3cbc" prot="public">
+          <name>NotSpecified</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Direction can assume values: 1 if the system is applying the force on the sub-model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>-1 if the sub-model is applying the force on the system. 0 if the direction is not specified. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="51" column="5" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="52" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a7593449baa647417680c7302749593b1" prot="public" static="no" mutable="no">
+        <type><ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386d" kindref="member">Direction</ref></type>
+        <definition>Direction BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT::forceDirection</definition>
+        <argsstring></argsstring>
+        <name>forceDirection</name>
+        <initializer>= Direction::NotSpecified</initializer>
+        <briefdescription>
+<para>Force direction depending on which side of the sensor is considered (+1 or -1) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="58" column="15" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a8b7861ecc10cd97627136fc6b3256d9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT::associatedJoint</definition>
+        <argsstring></argsstring>
+        <name>associatedJoint</name>
+        <briefdescription>
+<para>Name of the fixed joint used to represent the ft sensor in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="60" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> describes the force/torque sensors of the submodels. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</label>
+        <link refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</label>
+        <link refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</label>
+        <link refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>frame</edgelabel>
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</label>
+        <link refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>associatedJoint</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::string</label>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="43" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="44" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a8b7861ecc10cd97627136fc6b3256d9b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</scope><name>associatedJoint</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a568d87a86281c6cebfc0a4327b8e386d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</scope><name>Direction</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a7593449baa647417680c7302749593b1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</scope><name>forceDirection</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a8a43d5c50a2942822bcb31852c8b56dd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</scope><name>frame</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a08e2ce535c0ece8ff1ddbb27a1611192" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
