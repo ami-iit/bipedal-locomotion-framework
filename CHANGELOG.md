@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.14.0] - 2023-07-04
 ### Added
 - Implement a class to perform inference with the [MANN network](https://github.com/ami-iit/mann-pytorch) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/652, https://github.com/ami-iit/bipedal-locomotion-framework/pull/686)
 - Add some useful methods to the `SubModel` and `SubModelKinDynWrapper` classes (https://github.com/ami-iit/bipedal-locomotion-framework/pull/661)
@@ -415,7 +415,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.13.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.0...master
+[0.14.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.0...v0.11.1
