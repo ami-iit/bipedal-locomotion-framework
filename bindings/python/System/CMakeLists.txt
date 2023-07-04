@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-if(FRAMEWORK_COMPILE_System)
+if(TARGET BipedalLocomotion::System)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/System)
 
@@ -14,7 +14,7 @@ if(FRAMEWORK_COMPILE_System)
     TESTS tests/test_variables_handler.py
     )
 
-  if(FRAMEWORK_COMPILE_YarpImplementation)
+  if(TARGET BipedalLocomotion::SystemYarpImplementation)
 
     add_bipedal_locomotion_python_module(
       NAME  SystemYarpImplementationBindings
@@ -25,7 +25,7 @@ if(FRAMEWORK_COMPILE_System)
 
   endif()
 
-  if(FRAMEWORK_COMPILE_RosImplementation)
+  if(TARGET BipedalLocomotion::SystemRosImplementation)
 
     add_bipedal_locomotion_python_module(
       NAME  SystemRosImplementationBindings

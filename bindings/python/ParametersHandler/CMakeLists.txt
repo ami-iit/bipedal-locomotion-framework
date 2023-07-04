@@ -13,7 +13,7 @@ add_bipedal_locomotion_python_module(
   )
 
 
-if(FRAMEWORK_COMPILE_YarpImplementation)
+if(TARGET BipedalLocomotion::ParametersHandlerYarpImplementation)
 
   add_bipedal_locomotion_python_module(
     NAME  ParametersHandlerYarpImplementationBindings
@@ -29,7 +29,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
 endif()
 
 
-if(FRAMEWORK_COMPILE_TomlImplementation)
+if(TARGET BipedalLocomotion::ParametersHandlerTomlImplementation)
 
   add_bipedal_locomotion_python_module(
     NAME  ParametersHandlerTomlImplementationBindings

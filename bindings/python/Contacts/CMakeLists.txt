@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-if(FRAMEWORK_COMPILE_Contact)
+if(TARGET BipedalLocomotion::Contacts AND TARGET BipedalLocomotion::ContactDetectors)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/Contacts)
 
