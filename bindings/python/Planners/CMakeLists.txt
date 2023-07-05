@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-if(FRAMEWORK_COMPILE_Planners)
+if(TARGET BipedalLocomotion::Planners)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/Planners)
 
@@ -32,7 +32,7 @@ if(FRAMEWORK_COMPILE_Planners)
 
 endif()
 
-if(FRAMEWORK_COMPILE_Unicycle)
+if(TARGET BipedalLocomotion::Unicycle)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/Planners)
 

@@ -16,7 +16,7 @@ add_bipedal_locomotion_python_module(
   BipedalLocomotion::TextLogging
   )
 
-if(FRAMEWORK_COMPILE_RosImplementation)
+if(TARGET BipedalLocomotion::TextLoggingRosImplementation)
 
   add_bipedal_locomotion_python_module(
     NAME  TextLoggingRosImplementation
@@ -27,7 +27,7 @@ if(FRAMEWORK_COMPILE_RosImplementation)
 endif()
 
 
-if(FRAMEWORK_COMPILE_YarpImplementation)
+if(TARGET BipedalLocomotion::TextLoggingYarpImplementation)
 
   add_bipedal_locomotion_python_module(
     NAME  TextLoggingYarpImplementation

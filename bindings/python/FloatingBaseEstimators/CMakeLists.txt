@@ -2,7 +2,7 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-if(FRAMEWORK_COMPILE_FloatingBaseEstimators)
+if(TARGET BipedalLocomotion::FloatingBaseEstimators)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/FloatingBaseEstimators)
 
