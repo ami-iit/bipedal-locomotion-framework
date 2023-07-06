@@ -5,8 +5,20 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#define PYBIND_VERSION_AT_LEAST(x, y, z)                                \
+    ((pybind11_VERSION_MAJOR > x)                                       \
+     || ((pybind11_VERSION_MAJOR >= x) && (pybind11_VERSION_MINOR > y)) \
+     || ((pybind11_VERSION_MAJOR >= x) && (pybind11_VERSION_MINOR >= y) \
+         && (pybind11_VERSION_PATCH > z)))
+
+// This compiles only if pybind11 is at least v2.7.0
+// Indeed we need a feature in pybind that has been introduced by this commit
+// https://github.com/pybind/pybind11/commit/74a767d42921001fc4569ecee3b8726383c42ad4
+// https://github.com/pybind/pybind11/pull/2864
+#if PYBIND_VERSION_AT_LEAST(2, 7, 0)
 // NumPy/OpenCV compatibility
 #include <cvnp/cvnp.h>
+#endif // PYBIND_VERSION_AT_LEAST(2, 7, 0)
 
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
@@ -50,13 +62,22 @@ void CreateICameraBridge(pybind11::module& module)
         .def_readwrite("sensors_list", &CameraBridgeMetaData::sensorsList)
         .def_readwrite("bridge_options", &CameraBridgeMetaData::bridgeOptions);
 
-    py::class_<ICameraBridge>(module, "ICameraBridge")
+    py::class_<ICameraBridge> iCameraBridge(module, "ICameraBridge");
+    iCameraBridge
         .def(
             "initialize",
             [](ICameraBridge& impl, std::shared_ptr<const IParametersHandler> handler) -> bool {
                 return impl.initialize(handler);
             },
             py::arg("handler"))
+        .def("get_meta_data", &ICameraBridge::getMetaData)
+        .def("is_valid", &ICameraBridge::isValid);
+
+    // Here we require a feature in pybind that has been introduced by this commit
+    // https://github.com/pybind/pybind11/commit/74a767d42921001fc4569ecee3b8726383c42ad4
+    // https://github.com/pybind/pybind11/pull/2864
+#if PYBIND_VERSION_AT_LEAST(2, 7, 0)
+    iCameraBridge
         .def(
             "get_color_image",
             [](ICameraBridge& impl, const std::string& camName) {
@@ -72,9 +93,8 @@ void CreateICameraBridge(pybind11::module& module)
                 ret.first = impl.getDepthImage(camName, ret.second);
                 return ret;
             },
-            py::arg("cam_name"))
-        .def("get_meta_data", &ICameraBridge::getMetaData)
-        .def("is_valid", &ICameraBridge::isValid);
+            py::arg("cam_name"));
+#endif // PYBIND_VERSION_AT_LEAST(2, 7, 0)
 }
 
 void CreateYarpCameraBridge(pybind11::module& module)
