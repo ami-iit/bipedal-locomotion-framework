@@ -449,7 +449,12 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     }
 
     robometry::BufferConfig config;
-    config.yarp_robot_name = std::getenv("YARP_ROBOT_NAME");
+    char* tmp = std::getenv("YARP_ROBOT_NAME");
+    // if the variable does not exist it points to NULL
+    if (tmp != NULL)
+    {
+        config.yarp_robot_name = tmp;
+    }
     config.filename = "robot_logger_device";
     config.auto_save = true;
     config.save_periodically = true;
