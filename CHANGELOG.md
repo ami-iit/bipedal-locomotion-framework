@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Fixed
+- Fix python bindings compilation when toml is not installed (https://github.com/ami-iit/bipedal-locomotion-framework/pull/700)
+
 ## [0.14.0] - 2023-07-04
 ### Added
 - Implement a class to perform inference with the [MANN network](https://github.com/ami-iit/mann-pytorch) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/652, https://github.com/ami-iit/bipedal-locomotion-framework/pull/686)
