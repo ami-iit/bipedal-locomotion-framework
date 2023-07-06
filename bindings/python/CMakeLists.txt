@@ -29,6 +29,7 @@ get_property(pybind_headers GLOBAL PROPERTY pybind_headers)
 get_property(pybind_sources GLOBAL PROPERTY pybind_sources)
 get_property(pybind_include_dirs GLOBAL PROPERTY pybind_include_dirs)
 get_property(pybind_link_libraries GLOBAL PROPERTY pybind_link_libraries)
+get_property(pybind_compile_definitions GLOBAL PROPERTY pybind_compile_definitions)
 
 pybind11_add_module(pybind11_blf MODULE
   ${CMAKE_CURRENT_BINARY_DIR}/bipedal_locomotion_framework.cpp
@@ -38,6 +39,7 @@ pybind11_add_module(pybind11_blf MODULE
 
 target_compile_features(pybind11_blf PUBLIC cxx_std_17)
 target_include_directories(pybind11_blf PUBLIC "$<BUILD_INTERFACE:${pybind_include_dirs}>")
+target_compile_definitions(pybind11_blf PRIVATE ${pybind_compile_definitions})
 
 target_link_libraries(pybind11_blf PRIVATE
   ${pybind_link_libraries})

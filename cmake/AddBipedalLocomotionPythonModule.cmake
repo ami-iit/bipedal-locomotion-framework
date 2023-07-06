@@ -11,7 +11,8 @@ function(add_bipedal_locomotion_python_module)
     HEADERS
     LINK_LIBRARIES
     TESTS
-    TESTS_RUNTIME_CONDITIONS)
+    TESTS_RUNTIME_CONDITIONS
+    ADDITIONAL_COMPILE_DEFINITIONS)
 
   set(prefix "bipedal_component")
 
@@ -29,6 +30,7 @@ function(add_bipedal_locomotion_python_module)
   set(subdirectories ${${prefix}_SUBDIRECTORIES})
   set(tests ${${prefix}_TESTS})
   set(tests_runtime_conditions ${${prefix}_TESTS_RUNTIME_CONDITIONS})
+  set(additional_compile_definitions ${${prefix}_ADDITIONAL_COMPILE_DEFINITIONS})
 
   foreach(file ${headers})
     set_property(GLOBAL APPEND PROPERTY pybind_headers ${CMAKE_CURRENT_SOURCE_DIR}/${file})
@@ -56,6 +58,10 @@ function(add_bipedal_locomotion_python_module)
         ${CMAKE_CURRENT_SOURCE_DIR}/${test})
     endforeach()
   endif()
+
+  foreach(definition ${additional_compile_definitions})
+    set_property(GLOBAL APPEND PROPERTY pybind_compile_definitions ${definition})
+  endforeach()
 
   message(STATUS "Added files for bindings named ${name} in ${PROJECT_NAME}.")
 
