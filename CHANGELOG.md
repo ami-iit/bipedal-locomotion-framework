@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+
+### Changed
+
+### Fixed
+
 ## [0.14.1] - 2023-07-07
 ### Fixed
 - Fix python bindings compilation when toml is not installed (https://github.com/ami-iit/bipedal-locomotion-framework/pull/700)
