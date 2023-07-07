@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 
 ### Changed
+- Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
 
 ### Fixed
 
