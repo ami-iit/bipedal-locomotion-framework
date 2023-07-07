@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelKinDynWrapper class | bipedal locomotion framework v0.14.1</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <span id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">
+        <a href="../index.html">bipedal locomotion framework</a> <span class="m-breadcrumb">|</span> <a href="index.html" class="m-thin">v0.14.1</a>
+      </span>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="pages.html">Pages</a></li>
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li>
+              <a href="pages.html">Versions</a>
+              <ol>
+                <li><a href="../index.html">Master</a></li>
+                <li><a href="../v0.13.0/index.html">v0.13.0</a></li>
+                <li><a href="../v0.14.1/index.html">v0.14.1</a></li>
+                <li><a href="../v0.12.0/index.html">v0.12.0</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="pages.html">Contacts</a>
+              <ol>
+                <li><a href="https://github.com/ami-iit/bipedal-locomotion-framework">GitHub</a></li>
+                <li><a href="https://www.iit.it/web/ami/">Lab website</a></li>
+              </ol>
+            </li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators.html">Estimators</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator.html">RobotDynamicsEstimator</a>::<wbr/></span>SubModelKinDynWrapper <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SubModelKinDynWrapper_8h.html">&lt;BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h&gt;</a></div>
+        </h1>
+        <p><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper.html" class="m-doc">SubModelKinDynWrapper</a> is a concrete class and implements a wrapper of the KinDynComputation class from iDynTree.</p>
+        <nav class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pro-methods">Protected functions</a></li>
+                <li><a href="#pro-attribs">Protected variables</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+<p>The class is used to take updated the sub-model kinematics and dynamics</p>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af3fba7bfe078c323a783f3c69e645cd4" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool</span>
+            </dt>
+            <dd>set kinDyn</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab6db0ec05f01faf70a01c93a299de27f" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel) -&gt; bool</span>
+            </dt>
+            <dd>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a15e33582b2b0b95e9d79797f0c5f2549" class="m-doc">updateState</a>(</span><span class="m-doc-wrap">const manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
+              <a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) -&gt; bool</span>
+            </dt>
+            <dd>updateState updates the state of the KinDynWrapper object.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#abb4f098caf9ada04ee1f2ea30dd15bbd" class="m-doc">forwardDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; frictionTorques,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; tauExt,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; baseAcceleration,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; jointAcceleration) -&gt; bool</span>
+            </dt>
+            <dd>forwardDynamics computes the free floaing forward dynamics</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a44c41944a6da405005b614deefb0e054" class="m-doc">getBaseAcceleration</a>(</span><span class="m-doc-wrap">) -&gt; const manif::SE3d::Tangent&amp;</span>
+            </dt>
+            <dd>getBaseAcceleration gets the acceleration of the sub-model base.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac899bf2bc2d81f2cf4255d0ae8d1de06" class="m-doc">getBaseVelocity</a>(</span><span class="m-doc-wrap">) -&gt; const manif::SE3d::Tangent&amp;</span>
+            </dt>
+            <dd>getBaseVelocity gets the acceleration of the sub-model base.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8e8c4f5e36f4e4430070eb23c8e2fb42" class="m-doc">getBaseFrameName</a>(</span><span class="m-doc-wrap">) const -&gt; const std::string&amp;</span>
+            </dt>
+            <dd>Getters.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9dc11c283de095a7b4d250a726cdd562" class="m-doc">getMassMatrix</a>(</span><span class="m-doc-wrap">) const -&gt; const Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
+            </dt>
+            <dd>Access massMatrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af7f5e7c2929e0803ca62e1a73d22be9e" class="m-doc">getGeneralizedForces</a>(</span><span class="m-doc-wrap">) const -&gt; const Eigen::Ref&lt;const Eigen::VectorXd&gt;</span>
+            </dt>
+            <dd>Access genForces.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4a8ba87bc2c0d8cc6aa1a80f2d45b296" class="m-doc">getFTJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; ftName) const -&gt; const Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
+            </dt>
+            <dd>Access the jacobian of the force/torque sensor specified by ftName.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4bd7931610cd1cb3ed6026aa612ccf38" class="m-doc">getAccelerometerJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const -&gt; const Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
+            </dt>
+            <dd>Access the jacobian of the accelerometer sensor specified by accName.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a43b7946d7abd9d660f157b660f95c85e" class="m-doc">getGyroscopeJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; gyroName) const -&gt; const Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
+            </dt>
+            <dd>Access the jacobian of the gyroscope sensor specified by gyroName.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6d2cf9ac3d6fa2076a88c8a59d3be603" class="m-doc">getExtContactJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; extContactName) const -&gt; const Eigen::Ref&lt;const Eigen::MatrixXd&gt;</span>
+            </dt>
+            <dd>Access the jacobian of the contact frame specified by extContactName.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae98bfff133995906513ab72e21313517" class="m-doc">getAccelerometerBiasAcceleration</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const -&gt; const Eigen::Ref&lt;const Eigen::VectorXd&gt;</span>
+            </dt>
+            <dd>Access the bias acceleration referred to the accelerometer specified by accName.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2d8a900dc3403b539eb107174994011b" class="m-doc">getAccelerometerRotation</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const -&gt; const manif::SO3d&amp;</span>
+            </dt>
+            <dd>Access the rotation matrix between the senosr accName and the world.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f699e8521cfd79e494e29235e843373" class="m-doc">getAccelerometerVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) -&gt; const manif::SE3d::Tangent&amp;</span>
+            </dt>
+            <dd>getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.</dd>
+          </dl>
+        </section>
+        <section id="pro-methods">
+          <h2><a href="#pro-methods">Protected functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad79581c5d49443c46d54b1e19faa2ebf" class="m-doc">updateDynamicsVariableState</a>(</span><span class="m-doc-wrap"><a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) -&gt; bool</span>
+            </dt>
+            <dd>updateDynamicsVariableState updates the value of all the member variables containing information about the robot kinematics and dynamics</dd>
+            <dt id="a436f7385a4b66952245fee53677958b6">
+              <span class="m-doc-wrap-bumper">void <a href="#a436f7385a4b66952245fee53677958b6" class="m-doc-self">computeTotalTorqueFromContacts</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Compute the contribution of external contacts on the joint torques.</dd>
+          </dl>
+        </section>
+        <section id="pro-attribs">
+          <h2><a href="#pro-attribs">Protected variables</a></h2>
+          <dl class="m-doc">
+            <dt>
+              int <a href="#af5d50bef865206c8699d2c4255c6c4d7" class="m-doc">m_numOfJoints</a>
+            </dt>
+            <dd>Acceleration of the sub-model base.</dd>
+            <dt id="abfc548a6ca8486e08aafdec5ace12959">
+              Eigen::MatrixXd <a href="#abfc548a6ca8486e08aafdec5ace12959" class="m-doc-self">m_FTranspose</a>
+            </dt>
+            <dd>It is the bottom-left block of the mass matrix, that is, massmatrix[6:end, 0:6].</dd>
+            <dt id="a88e3e44fd559c4d2299136a8d02d5d92">
+              Eigen::MatrixXd <a href="#a88e3e44fd559c4d2299136a8d02d5d92" class="m-doc-self">m_H</a>
+            </dt>
+            <dd>It is the bottom-right block of the mass matrix, that is, massmatrix[6:end, 6:end].</dd>
+            <dt id="ad6fb26e6c77d8ad8601753bf55f7b79c">
+              Eigen::VectorXd <a href="#ad6fb26e6c77d8ad8601753bf55f7b79c" class="m-doc-self">m_genBiasJointTorques</a>
+            </dt>
+            <dd>Generalized bias joint torques.</dd>
+            <dt id="adc22dbfdadba6aa8886b3a8adab43e81">
+              Eigen::MatrixXd <a href="#adc22dbfdadba6aa8886b3a8adab43e81" class="m-doc-self">m_pseudoInverseH</a>
+            </dt>
+            <dd>m_H pseudoinverse</dd>
+            <dt id="a86c26c612695b89dfaa122912d30875d">
+              Eigen::VectorXd <a href="#a86c26c612695b89dfaa122912d30875d" class="m-doc-self">m_FTBaseAcc</a>
+            </dt>
+            <dd>FTranspose times base acceleration.</dd>
+            <dt id="a44036883e6289de052ed6d32eb3f60d8">
+              Eigen::VectorXd <a href="#a44036883e6289de052ed6d32eb3f60d8" class="m-doc-self">m_totalTorques</a>
+            </dt>
+            <dd>total torques acting on the joints, before being converted into joint acceleration through the mass matrix</dd>
+            <dt id="a492de5e9f48ce602eb0e5210af2ecc1b">
+              Eigen::VectorXd <a href="#a492de5e9f48ce602eb0e5210af2ecc1b" class="m-doc-self">m_jointPositionModel</a>
+            </dt>
+            <dd>Vector of joint positions from full model.</dd>
+            <dt id="ad9f8f332ffd289d9b2fd4567c365ae64">
+              Eigen::VectorXd <a href="#ad9f8f332ffd289d9b2fd4567c365ae64" class="m-doc-self">m_jointVelocityModel</a>
+            </dt>
+            <dd>Vector of joint velocities from full model.</dd>
+            <dt id="a32220c2a1661aeebdc8d30c2acee329b">
+              Eigen::Vector3d <a href="#a32220c2a1661aeebdc8d30c2acee329b" class="m-doc-self">m_worldGravity</a>
+            </dt>
+            <dd>world gravity acceleration</dd>
+            <dt id="a0229dfed1e721381fc57fd731872631d">
+              manif::SE3d <a href="#a0229dfed1e721381fc57fd731872631d" class="m-doc-self">m_worldTBase</a>
+            </dt>
+            <dd>Pose of base of the sub-model wrt the world frame.</dd>
+            <dt id="a6669659c18a4add83b46b8d46fbcbf99">
+              Eigen::VectorXd <a href="#a6669659c18a4add83b46b8d46fbcbf99" class="m-doc-self">m_qj</a>
+            </dt>
+            <dd>Vector of joint positions of the sub-model.</dd>
+            <dt id="a5d50a38678b91a69c79b7e36e0cc6a1a">
+              Eigen::VectorXd <a href="#a5d50a38678b91a69c79b7e36e0cc6a1a" class="m-doc-self">m_dqj</a>
+            </dt>
+            <dd>Vector of joint velocities of the sub-model.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="af3fba7bfe078c323a783f3c69e645cd4"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af3fba7bfe078c323a783f3c69e645cd4" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn)</span></span>
+            </h3>
+            <p>set kinDyn</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">kinDyn</td>
+                  <td>is an iDynTree KinDynComputation object handling the kinematics and the dynamics of the model.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a boolean value saying if the input pointer is valid</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ab6db0ec05f01faf70a01c93a299de27f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab6db0ec05f01faf70a01c93a299de27f" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a>&amp; subModel)</span></span>
+            </h3>
+            <p>initialize initializes the kindyncomputation object and resizes all the variable not allocated yet.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">subModel</td>
+                  <td>a struct of type SubModif el describing the subModel structure and model.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a boolean value saying if all the variables are initialized correctly.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a15e33582b2b0b95e9d79797f0c5f2549"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a15e33582b2b0b95e9d79797f0c5f2549" class="m-doc-self">updateState</a>(</span><span class="m-doc-wrap">const manif::SE3d::Tangent&amp; robotBaseAcceleration,
+              Eigen::Ref&lt;const Eigen::VectorXd&gt; robotJointAcceleration,
+              <a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode)</span></span>
+            </h3>
+            <p>updateState updates the state of the KinDynWrapper object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">robotBaseAcceleration</td>
+                  <td>is a manif::SE3d::Tangent representing the robot base acceleration.</td>
+                </tr>
+                <tr>
+                  <td>robotJointAcceleration</td>
+                  <td>is a Eigen reference to a Eigen::VectorXd containing the joint accelerations.</td>
+                </tr>
+                <tr>
+                  <td>updateMode</td>
+                  <td>says if update only objects for computing the forward dynamics or also information associated to additional sensors like accelerometers/gyroscopes</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a boolean value saying if the subModelList has been created correctly.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="abb4f098caf9ada04ee1f2ea30dd15bbd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abb4f098caf9ada04ee1f2ea30dd15bbd" class="m-doc-self">forwardDynamics</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTorqueAfterGearbox,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; frictionTorques,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; tauExt,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; baseAcceleration,
+              Eigen::Ref&lt;Eigen::VectorXd&gt; jointAcceleration)</span></span>
+            </h3>
+            <p>forwardDynamics computes the free floaing forward dynamics</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">motorTorqueAfterGearbox</td>
+                  <td>a vector of size number of joints containing the motor torques times the gearbox ratio.</td>
+                </tr>
+                <tr>
+                  <td>frictionTorques</td>
+                  <td>a vector of size number of joints containing the friction torques.</td>
+                </tr>
+                <tr>
+                  <td>tauExt</td>
+                  <td>a vector of size number of joints containing the joint torques generated by the external contacts.</td>
+                </tr>
+                <tr>
+                  <td>baseAcceleration</td>
+                  <td>the sub-model base acceleration.</td>
+                </tr>
+                <tr>
+                  <td>jointAcceleration</td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a boolean value</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a44c41944a6da405005b614deefb0e054"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a44c41944a6da405005b614deefb0e054" class="m-doc-self">getBaseAcceleration</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>getBaseAcceleration gets the acceleration of the sub-model base.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>subModelBaseAcceleration the acceleration of the sub-model base.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ac899bf2bc2d81f2cf4255d0ae8d1de06"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac899bf2bc2d81f2cf4255d0ae8d1de06" class="m-doc-self">getBaseVelocity</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>getBaseVelocity gets the acceleration of the sub-model base.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>baseVelocity the velocity of the sub-model base.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a8e8c4f5e36f4e4430070eb23c8e2fb42"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const std::string&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8e8c4f5e36f4e4430070eb23c8e2fb42" class="m-doc-self">getBaseFrameName</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Getters.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The name of the base frame.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Access the name of the sub-model base frame.</p>
+          </div></section>
+          <section class="m-doc-details" id="a9dc11c283de095a7b4d250a726cdd562"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9dc11c283de095a7b4d250a726cdd562" class="m-doc-self">getMassMatrix</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Access massMatrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The current value of massMatrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af7f5e7c2929e0803ca62e1a73d22be9e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af7f5e7c2929e0803ca62e1a73d22be9e" class="m-doc-self">getGeneralizedForces</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Access genForces.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The current value of genForces.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a4a8ba87bc2c0d8cc6aa1a80f2d45b296"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4a8ba87bc2c0d8cc6aa1a80f2d45b296" class="m-doc-self">getFTJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; ftName) const</span></span>
+            </h3>
+            <p>Access the jacobian of the force/torque sensor specified by ftName.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the desired jacobian is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if ftName is not in the list of force/torque sensors of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a4bd7931610cd1cb3ed6026aa612ccf38"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4bd7931610cd1cb3ed6026aa612ccf38" class="m-doc-self">getAccelerometerJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const</span></span>
+            </h3>
+            <p>Access the jacobian of the accelerometer sensor specified by accName.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the desired jacobian is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if accName is not in the list of accelerometer sensors of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a43b7946d7abd9d660f157b660f95c85e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a43b7946d7abd9d660f157b660f95c85e" class="m-doc-self">getGyroscopeJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; gyroName) const</span></span>
+            </h3>
+            <p>Access the jacobian of the gyroscope sensor specified by gyroName.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the desired jacobian is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if gyroName is not in the list of gyroscope sensors of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a6d2cf9ac3d6fa2076a88c8a59d3be603"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::MatrixXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6d2cf9ac3d6fa2076a88c8a59d3be603" class="m-doc-self">getExtContactJacobian</a>(</span><span class="m-doc-wrap">const std::string&amp; extContactName) const</span></span>
+            </h3>
+            <p>Access the jacobian of the contact frame specified by extContactName.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the desired jacobian is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if extContactName is not in the list of external contacts of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae98bfff133995906513ab72e21313517"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae98bfff133995906513ab72e21313517" class="m-doc-self">getAccelerometerBiasAcceleration</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const</span></span>
+            </h3>
+            <p>Access the bias acceleration referred to the accelerometer specified by accName.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the bias acceleration is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if accName is not in the list of accelerometer sensors of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a2d8a900dc3403b539eb107174994011b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const manif::SO3d&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2d8a900dc3403b539eb107174994011b" class="m-doc-self">getAccelerometerRotation</a>(</span><span class="m-doc-wrap">const std::string&amp; accName) const</span></span>
+            </h3>
+            <p>Access the rotation matrix between the senosr accName and the world.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a boolean value saying if the rotation matrix is found.</td>
+                </tr>
+              </thead>
+              <thead>
+                <tr><th colspan="2">Exceptions</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>an</td>
+                  <td>out_of_range exception if accName is not in the list of accelerometer sensors of the sub-model.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a8f699e8521cfd79e494e29235e843373"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const manif::SE3d::Tangent&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8f699e8521cfd79e494e29235e843373" class="m-doc-self">getAccelerometerVelocity</a>(</span><span class="m-doc-wrap">const std::string&amp; accName)</span></span>
+            </h3>
+            <p>getAccelerometerVelocity access the velocity of the accelerometer specified by the input param.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">accName</td>
+                  <td>is the name of the accelerometer.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>the velocity of the accelerometer.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad79581c5d49443c46d54b1e19faa2ebf"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad79581c5d49443c46d54b1e19faa2ebf" class="m-doc-self">updateDynamicsVariableState</a>(</span><span class="m-doc-wrap"><a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> updateMode) <span class="m-label m-warning">protected</span></span></span>
+            </h3>
+            <p>updateDynamicsVariableState updates the value of all the member variables containing information about the robot kinematics and dynamics</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">updateMode</td>
+                  <td>says if update only objects for computing the forward dynamics or also information associated to additional sensors like accelerometers/gyroscopes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="af5d50bef865206c8699d2c4255c6c4d7"><div>
+            <h3>
+              int BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelKinDynWrapper::<wbr /><a href="#af5d50bef865206c8699d2c4255c6c4d7" class="m-doc-self">m_numOfJoints</a> <span class="m-label m-warning">protected</span>
+            </h3>
+            <p>Acceleration of the sub-model base.</p>
+<p>Number of joints in the sub-model</p>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v2.js"></script>
+<script src="searchdata-v2.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>bipedal-locomotion-framework documentation. Licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">GNU Lesser General Public License v3.0</a>. Project maintained by the <a href="https://www.iit.it/web/ami/">Artificial and Mechanical Intelligence Lab</a>. Contact the team via <a href="https://github.com/ami-iit/bipedal-locomotion-framework/issues/new">GitHub</a>.<br />Generated by <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
