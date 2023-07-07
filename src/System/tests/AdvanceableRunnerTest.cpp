@@ -5,6 +5,8 @@
  * General Public License v2.1 or any later version.
  */
 
+#include <chrono>
+
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
@@ -16,6 +18,7 @@
 
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion::ParametersHandler;
+using namespace std::chrono_literals;
 
 class DummyBlock : public Source<bool>
 {
@@ -48,9 +51,10 @@ public:
 
 TEST_CASE("Test Block")
 {
+    using namespace std::chrono_literals;
     std::shared_ptr param = std::make_shared<StdImplementation>();
 
-    param->setParameter("sampling_time", 0.001);
+    param->setParameter("sampling_time", 1ms);
     param->setParameter("enable_telemetry", true);
     param->setParameter("name", "Runner");
 
@@ -83,7 +87,7 @@ TEST_CASE("Test Block")
 
         while (!output0->get() || !output1->get())
         {
-            BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+            BipedalLocomotion::clock().sleepFor(10ms);
         }
 
         // close the runner
@@ -124,7 +128,7 @@ TEST_CASE("Test Block")
 
         while (!output0->get() || !output1->get())
         {
-            BipedalLocomotion::clock().sleepFor(std::chrono::duration<double>(0.01));
+            BipedalLocomotion::clock().sleepFor(10ms);
         }
 
         // close the runner
