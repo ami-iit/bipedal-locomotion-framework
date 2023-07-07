@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.14.1] - 2023-07-07
 ### Fixed
 - Fix python bindings compilation when toml is not installed (https://github.com/ami-iit/bipedal-locomotion-framework/pull/700)
 - Fix `YarpRobotLoggerDevice` if `YARP_ROBOT_NAME` is not defined (https://github.com/ami-iit/bipedal-locomotion-framework/pull/701)
@@ -420,7 +420,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...master
+[0.14.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.11.1...v0.12.0
