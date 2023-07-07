@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Fixed
 - Fix python bindings compilation when toml is not installed (https://github.com/ami-iit/bipedal-locomotion-framework/pull/700)
+- Fix `YarpRobotLoggerDevice` if `YARP_ROBOT_NAME` is not defined (https://github.com/ami-iit/bipedal-locomotion-framework/pull/701)
 
 ## [0.14.0] - 2023-07-04
 ### Added
