@@ -125,9 +125,9 @@ PYBIND11_MODULE(bindings, m)
     bindings::ParametersHandler::CreateYarpModule(parametersHandlerModule);
     @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
 
-    @cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
+    @cmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerTomlImplementation
     bindings::ParametersHandler::CreateTomlModule(parametersHandlerModule);
-    @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerYarpImplementation
+    @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerTomlImplementation
 
     py::module mathModule = m.def_submodule("math");
     bindings::Math::CreateModule(mathModule);

@@ -24,7 +24,6 @@
 The **bipedal-locomotion-framework** project is a _suite_ of libraries for achieving bipedal locomotion on humanoid robots.
 # Table of content
 
-- [Table of content](#table-of-content)
 - [:page\_facing\_up: Mandatory dependencies](#page_facing_up-mandatory-dependencies)
 - [:orange\_book: Exported components](#orange_book-exported-components)
 - [:package: Install with conda (recommended)](#package-install-with-conda-recommended)
@@ -62,17 +61,17 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |              [`Math`](./src/Math)              |          Library containing mathematical algorithms          |      [`manif`](https://github.com/artivis/manif)             |
 |              [`ML`](./src/ML)              |          Library containing deep learning algorithms           |      [`onnxruntime`](https://onnxruntime.ai/)             |
 | [`ParametersHandler`](./src/ParametersHandler) |  Library for retrieving parameters from configuration files  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`tomlplusplus`](https://github.com/marzer/tomlplusplus/) (only if you want the `toml` implementation) |
-| [PerceptionInterface](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
-|    [PerceptionCapture](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
-|    [PerceptionFeatures](./src/Perception)     |   Library containing perception algorithms useful for locomotion   | [`OpenCV`](https://github.com/opencv/opencv) |
+| [`PerceptionInterface`](./src/RobotInterface)  | Generic interface classes to adapt to perception data formats like images and point clouds | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) |
+|    [`PerceptionCapture`](./src/Perception)     |   Library containing driver classes for perception devices   | [`OpenCV`](https://github.com/opencv/opencv) [`PCL`](https://github.com/PointCloudLibrary/pcl) [`realsense2`](https://github.com/IntelRealSense/librealsense) |
+|    [`PerceptionFeatures`](./src/Perception)     |   Library containing perception algorithms useful for locomotion   | [`OpenCV`](https://github.com/opencv/opencv) |
 |          [`Planners`](./src/Planners)          |       Library containing planner useful for locomotion       | [`manif`](https://github.com/artivis/manif) [`CasADi`](https://web.casadi.org/) [`qhull`](http://www.qhull.org/) |
 |    [`ReducedModelControllers`](./src/ReducedModelsController)    | Controller based on reduced models, e.g., `CentroidalMPC` | [`CasADi`](https://github.com/casadi/casadi)|
 | [`RobotInterface`](./src/RobotInterface) |  Library for communicating with the robot  | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) |
-|            [SimplifiedModelControllers](./src/SimplifiedModelControllers)            |   Controllers based on simplified models, i.e, LIPM.   |                              -                               |
-|            [System](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
-|              [TSID](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
-|              [TextLogging](./src/TextLogging)              |   Helper library to display messages into the console               | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`ros-humble`](https://docs.ros.org/en/humble/) (if you want the `ros2` implementation) |
-|     [YarpUtilities](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
+|            [`SimplifiedModelControllers`](./src/SimplifiedModelControllers)            |   Controllers based on simplified models, i.e, LIPM.   |                              -                               |
+|            [`System`](./src/System)            |   Description of discrete and continuous dynamical systems   |                              -                               |
+|              [`TSID`](./src/TSID)              |                 Task space inverse dynamics                  | [`manif`](https://github.com/artivis/manif) [`lie-group-controllers`](https://github.com/ami-iit/lie-group-controllers) |
+|              [`TextLogging`](./src/TextLogging)              |   Helper library to display messages into the console               | [`YARP`](https://www.yarp.it/git-master/) (only if you want the `YARP` implementation) [`ros-humble`](https://docs.ros.org/en/humble/) (if you want the `ros2` implementation) |
+|     [`YarpUtilities`](./src/YarpUtilities)     | Utilities library for retrieving data and from YARP structures |          [`YARP`](https://www.yarp.it/git-master/)           |
 
 :warning: Including `BipedalLocomotion/Framework.h` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.
 
@@ -127,7 +126,7 @@ cmake --build . --config Release --target install
 # :running: How to use the libraries
 The **bipedal-locomotion-framework** provides native `CMake` support which allows the library to be easily used in `CMake` projects.
 
-**bipedal-locomotion-framework** exports the `CMake` targets presented in [Exported components](#orange_book-exported-components) section. The targets can be imported using the `find_package`  command and used by calling `target_link_libraries`.
+**bipedal-locomotion-framework** exports the `CMake` targets presented in [Exported components](#orange_book-exported-components) section. The targets can be imported using the `find_package` command and used by calling `target_link_libraries`.
 
 For instance, `Math` component can be used as follows:
 
@@ -138,6 +137,8 @@ find_package(BipedalLocomotionFramework COMPONENTS Math REQUIRED)
 add_executable(example example.cpp)
 target_link_libraries(example PRIVATE BipedalLocomotion::Math)
 ```
+
+The list of the targets can be found in the table [:orange\_book: Exported components](#orange_book-exported-components).
 
 # :gear: Contributing
 
