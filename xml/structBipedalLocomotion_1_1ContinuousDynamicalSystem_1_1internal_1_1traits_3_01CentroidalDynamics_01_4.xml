@@ -18,11 +18,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="33" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" bodystart="34" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a591c23b38391b2cce826284f3548f1fb" prot="public" static="no">
-        <type>std::optional&lt; Eigen::Vector3d &gt;</type>
-        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;::ExternalForce =  std::optional&lt;Eigen::Vector3d&gt;</definition>
+      <memberdef kind="typedef" id="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a6950bd343df2269016b7737609ad7923" prot="public" static="no">
+        <type>std::optional&lt; <ref refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kindref="member">BipedalLocomotion::Math::Wrenchd</ref> &gt;</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;::ExternalWrench =  std::optional&lt;BipedalLocomotion::Math::Wrenchd&gt;</definition>
         <argsstring></argsstring>
-        <name>ExternalForce</name>
+        <name>ExternalWrench</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -57,9 +57,9 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="40" column="5" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" bodystart="43" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1accea5b62991680eb681fa6ebd0139fb6" prot="public" static="no">
-        <type><ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">GenericContainer::named_tuple</ref>&lt; <ref refid="NamedTuple_8h_1ada076b998fea094893fd04f260e52c83" kindref="member">BLF_NAMED_PARAM</ref>(contacts, Contacts), <ref refid="NamedTuple_8h_1ada076b998fea094893fd04f260e52c83" kindref="member">BLF_NAMED_PARAM</ref>(external_force, ExternalForce)&gt;</type>
-        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;::Input =  GenericContainer::named_tuple&lt;BLF_NAMED_PARAM(contacts, Contacts), BLF_NAMED_PARAM(external_force, ExternalForce)&gt;</definition>
+      <memberdef kind="typedef" id="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aa22318ed07a1a1f05ff6dfe9fa00c07b" prot="public" static="no">
+        <type><ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">GenericContainer::named_tuple</ref>&lt; <ref refid="NamedTuple_8h_1ada076b998fea094893fd04f260e52c83" kindref="member">BLF_NAMED_PARAM</ref>(contacts, Contacts), <ref refid="NamedTuple_8h_1ada076b998fea094893fd04f260e52c83" kindref="member">BLF_NAMED_PARAM</ref>(external_wrench, ExternalWrench)&gt;</type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;::Input =  GenericContainer::named_tuple&lt;BLF_NAMED_PARAM(contacts, Contacts), BLF_NAMED_PARAM(external_wrench, ExternalWrench)&gt;</definition>
         <argsstring></argsstring>
         <name>Input</name>
         <briefdescription>
@@ -92,8 +92,8 @@
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a3df6f5ac079f0010c22c01cca5709e67" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>Contacts</name></member>
       <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aaaf39ecefe07a78b052c60e9760d1508" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>DynamicalSystem</name></member>
-      <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a591c23b38391b2cce826284f3548f1fb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>ExternalForce</name></member>
-      <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1accea5b62991680eb681fa6ebd0139fb6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>Input</name></member>
+      <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a6950bd343df2269016b7737609ad7923" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>ExternalWrench</name></member>
+      <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aa22318ed07a1a1f05ff6dfe9fa00c07b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>Input</name></member>
       <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a07827264ac141dc5936ff67000bd60b0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>State</name></member>
       <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a73ad643100c564c88e357e85bf356e91" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</scope><name>StateDerivative</name></member>
     </listofallmembers>

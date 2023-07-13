@@ -2402,10 +2402,10 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; CentroidalDynamics &gt;</name>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a3df6f5ac079f0010c22c01cca5709e67" kind="typedef"><name>Contacts</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a591c23b38391b2cce826284f3548f1fb" kind="typedef"><name>ExternalForce</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a6950bd343df2269016b7737609ad7923" kind="typedef"><name>ExternalWrench</name></member>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a07827264ac141dc5936ff67000bd60b0" kind="typedef"><name>State</name></member>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1a73ad643100c564c88e357e85bf356e91" kind="typedef"><name>StateDerivative</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1accea5b62991680eb681fa6ebd0139fb6" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aa22318ed07a1a1f05ff6dfe9fa00c07b" kind="typedef"><name>Input</name></member>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01CentroidalDynamics_01_4_1aaaf39ecefe07a78b052c60e9760d1508" kind="typedef"><name>DynamicalSystem</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01const_01T_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; const T &gt;</name>

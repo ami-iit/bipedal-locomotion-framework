@@ -9,8 +9,8 @@
     <includes local="no">string</includes>
     <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
     <includes refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includes>
-    <includes refid="Constants_8h" local="no">BipedalLocomotion/Math/Constants.h</includes>
     <includes refid="NamedTuple_8h" local="no">BipedalLocomotion/GenericContainer/NamedTuple.h</includes>
+    <includes refid="Constants_8h" local="no">BipedalLocomotion/Math/Constants.h</includes>
     <includes local="no">Eigen/Dense</includes>
     <incdepgraph>
       <node id="18">
@@ -143,9 +143,9 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
