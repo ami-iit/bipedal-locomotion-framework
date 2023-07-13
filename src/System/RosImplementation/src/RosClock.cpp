@@ -14,18 +14,18 @@
 
 using namespace BipedalLocomotion::System;
 
-std::chrono::duration<double> RosClock::now()
+std::chrono::nanoseconds RosClock::now()
 {
-    return std::chrono::duration<double>(m_clock.now().seconds());
+    return std::chrono::nanoseconds(m_clock.now().nanoseconds());
 }
 
-void RosClock::sleepFor(const std::chrono::duration<double>& sleepDuration)
+void RosClock::sleepFor(const std::chrono::nanoseconds& sleepDuration)
 {
     // std::chrono::duration store the time in second
     m_clock.sleep_for(sleepDuration);
 }
 
-void RosClock::sleepUntil(const std::chrono::duration<double>& sleepTime)
+void RosClock::sleepUntil(const std::chrono::nanoseconds& sleepTime)
 {
     m_clock.sleep_for(sleepTime - this->now());
 }
