@@ -113,15 +113,15 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0e89b562a22f1290761787be01084145" class="m-doc">now</a>(</span><span class="m-doc-wrap">) -&gt; std::chrono::duration&lt;double&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#abed28e22693ceef75f3b4815e5e8b161" class="m-doc">now</a>(</span><span class="m-doc-wrap">) -&gt; std::chrono::nanoseconds <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get the current time.</dd>
-            <dt id="a67693d3efb397f36a29a3cd293a3b254">
-              <span class="m-doc-wrap-bumper">void <a href="#a67693d3efb397f36a29a3cd293a3b254" class="m-doc-self">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; sleepDuration) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            <dt id="a763f3c55d3f4f7a5dd25bb8e7617aa15">
+              <span class="m-doc-wrap-bumper">void <a href="#a763f3c55d3f4f7a5dd25bb8e7617aa15" class="m-doc-self">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; sleepDuration) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Blocks the execution of the current thread for at least the specified sleepDuration.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a24adc25ba8b11d0a01bcde4eeb4fd91b" class="m-doc">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; time) <span class="m-label m-flat m-warning">pure virtual</span></span>
+              <span class="m-doc-wrap-bumper">void <a href="#a674205e7d1abc851e26f165b5e14b7f9" class="m-doc">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Blocks the execution of the current thread until specified sleepTime has been reached.</dd>
             <dt id="a220afc1ddc1f19474cb0da08a3cd3640">
@@ -139,9 +139,9 @@
             <p>The constructor is protected.</p>
 <p>Please create the clock with ClockBulder.</p>
           </div></section>
-          <section class="m-doc-details" id="a0e89b562a22f1290761787be01084145"><div>
+          <section class="m-doc-details" id="abed28e22693ceef75f3b4815e5e8b161"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">std::chrono::duration&lt;double&gt; BipedalLocomotion::<wbr />System::<wbr />IClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0e89b562a22f1290761787be01084145" class="m-doc-self">now</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">std::chrono::nanoseconds BipedalLocomotion::<wbr />System::<wbr />IClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abed28e22693ceef75f3b4815e5e8b161" class="m-doc-self">now</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Get the current time.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -152,11 +152,11 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p><code><a href="namespaceBipedalLocomotion.html#a5927a6bb897f521070adfb6ca866668f" class="m-doc">BipedalLocomotion::<wbr />clock()</a>.<a href="classBipedalLocomotion_1_1System_1_1IClock.html#a0e89b562a22f1290761787be01084145" class="m-doc">now()</a>.count()</code> returns a double containing the seconds since epoch.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p><code><a href="namespaceBipedalLocomotion.html#a5927a6bb897f521070adfb6ca866668f" class="m-doc">BipedalLocomotion::<wbr />clock()</a>.<a href="classBipedalLocomotion_1_1System_1_1IClock.html#abed28e22693ceef75f3b4815e5e8b161" class="m-doc">now()</a>.count()</code> returns a double containing the seconds since epoch.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a24adc25ba8b11d0a01bcde4eeb4fd91b"><div>
+          <section class="m-doc-details" id="a674205e7d1abc851e26f165b5e14b7f9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />IClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a24adc25ba8b11d0a01bcde4eeb4fd91b" class="m-doc-self">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; time) <span class="m-label m-warning">pure virtual</span></span></span>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />IClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a674205e7d1abc851e26f165b5e14b7f9" class="m-doc-self">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) <span class="m-label m-warning">pure virtual</span></span></span>
             </h3>
             <p>Blocks the execution of the current thread until specified sleepTime has been reached.</p>
             <table class="m-table m-fullwidth m-flat">

@@ -48,7 +48,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ab8c0fcc548344a3a24e1b02cfa9001f1" kind="typedef"><name>Input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aaa44595f1b0aeb91c084b9d9c9e732e2" kind="typedef"><name>Output</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aeafea8568191190a6d326ce5de57f4e6" kind="variable"><name>m_isInitialized</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a7092cb2b64b25c5f58700d109d480831" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ac4ff36df03bedeb9f68cc35369526082" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3c04c2ef54987b3a9ca47eaa30ce0205" kind="variable"><name>m_isRunning</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64c5013701d957c58f9db8f0244d30f2" kind="variable"><name>m_advanceable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ad76aa77723280099e887de1569bb9a70" kind="variable"><name>m_input</name></member>
@@ -914,9 +914,9 @@
   <compound refid="classBipedalLocomotion_1_1System_1_1IClock" kind="class"><name>BipedalLocomotion::System::IClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a99a28837fb84b2a1df959890ec561f82" kind="function"><name>IClock</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a77e56163bf5079bd23380849f69266aa" kind="function"><name>~IClock</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a0e89b562a22f1290761787be01084145" kind="function"><name>now</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a67693d3efb397f36a29a3cd293a3b254" kind="function"><name>sleepFor</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a24adc25ba8b11d0a01bcde4eeb4fd91b" kind="function"><name>sleepUntil</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1abed28e22693ceef75f3b4815e5e8b161" kind="function"><name>now</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a763f3c55d3f4f7a5dd25bb8e7617aa15" kind="function"><name>sleepFor</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a674205e7d1abc851e26f165b5e14b7f9" kind="function"><name>sleepUntil</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a220afc1ddc1f19474cb0da08a3cd3640" kind="function"><name>yield</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" kind="struct"><name>BipedalLocomotion::IK::IKLinearTask</name>
@@ -1019,7 +1019,7 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info" kind="struct"><name>BipedalLocomotion::System::AdvanceableRunner::Info</name>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a93014ed6d870ae71421d3f0f41414107" kind="variable"><name>deadlineMiss</name></member>
-    <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a0898353dc375b8db868b4fd8fb4b8e10" kind="variable"><name>dT</name></member>
+    <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1af47ce8cf941c42871069b6d377918795" kind="variable"><name>dT</name></member>
     <member refid="structBipedalLocomotion_1_1System_1_1AdvanceableRunner_1_1Info_1a4827c731c7b02fbc85845286ef79841f" kind="variable"><name>name</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1InputPort" kind="class"><name>BipedalLocomotion::System::InputPort</name>
@@ -1842,9 +1842,9 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1RosClock" kind="class"><name>BipedalLocomotion::System::RosClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a3b23aa454ce04b972b292200b59e7ea3" kind="variable"><name>m_clock</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a012f7ae6a37f527b7503fe8b6dd7c1ef" kind="function"><name>now</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a572a7c94b44c3b6bc3f044612c729d6d" kind="function"><name>sleepFor</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a703b948c60e1349843412579983683db" kind="function"><name>sleepUntil</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1afad84061b03358d6e54913de7950990b" kind="function"><name>now</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1ab4b5c3b29e6a87b0fa0b58fa2775a2d7" kind="function"><name>sleepFor</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a83ef5bcadd2f848d5d32aa1a0a031c33" kind="function"><name>sleepUntil</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a962c94da417af69dd731a193acdc0f26" kind="function"><name>yield</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1RosClockFactory" kind="class"><name>BipedalLocomotion::System::RosClockFactory</name>
@@ -2046,7 +2046,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a579b4993a006677a5c10ffdf2e33b72f" kind="variable"><name>m_mutex</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1afd833ee6aea0106f1cc1d240cd05de20" kind="function"><name>SharedResource</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1adc2faa280bc4029f14f8dc160fe8fc2b" kind="function"><name>set</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a6cb23b5de9e57b6586460b1be49dfad4" kind="function"><name>get</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1af7e1d61049e352471050c97cf37dee9a" kind="function"><name>get</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a949d5cf552ad49941e7b9a34c6a6a825" kind="function"><name>create</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1Sink" kind="class"><name>BipedalLocomotion::System::Sink</name>
@@ -2165,9 +2165,9 @@
     <member refid="structBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimators_1_1StateStdDev_1ac9dc8fd6b89151375aed71bd4297c2b4" kind="variable"><name>landmarkPose</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1StdClock" kind="class"><name>BipedalLocomotion::System::StdClock</name>
-    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1adf4aa071022036e199f19daf693eb042" kind="function"><name>now</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa4ab82f30a91e6bf7f98fb001c97e135" kind="function"><name>sleepFor</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa49d0bb14a7cc40704c197456d90241e" kind="function"><name>sleepUntil</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a5471595a2f6413c2728266960de8335b" kind="function"><name>now</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a88fcacd5a6be8e802f58224dcd4600e8" kind="function"><name>sleepFor</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a0559fc93c09b6add2ed2e264c9be81fd" kind="function"><name>sleepUntil</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1abb868d54c2b5daff1970ad552a4536f4" kind="function"><name>yield</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1StdClockFactory" kind="class"><name>BipedalLocomotion::System::StdClockFactory</name>
@@ -2622,9 +2622,9 @@
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1YarpClock" kind="class"><name>BipedalLocomotion::System::YarpClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a972d871317528763d2a8db37803c5e67" kind="variable"><name>m_network</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a6d9d80e3c3c123455bed534c2565082a" kind="function"><name>now</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a97ff209b7f7b79aa04ef227a0f8aca2c" kind="function"><name>sleepFor</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1af889336071d6371103749346e3dbcdf9" kind="function"><name>sleepUntil</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1aa4b3eafecc3bb1de45f91af47849b8c4" kind="function"><name>now</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1aa5c194f89f9d0f6ea39a69e1c981b76a" kind="function"><name>sleepFor</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a7dd493f2e9c1ac2fa8856fafeaeacab9" kind="function"><name>sleepUntil</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a1223985052e0b22e18f2ce3851c2e884" kind="function"><name>yield</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" kind="class"><name>BipedalLocomotion::System::YarpClockFactory</name>

@@ -38,7 +38,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/SharedResource.h" line="28" column="7" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="28" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1SharedResource_1a579b4993a006677a5c10ffdf2e33b72f" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1SharedResource_1a579b4993a006677a5c10ffdf2e33b72f" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
         <definition>std::mutex BipedalLocomotion::System::SharedResource&lt; T &gt;::m_mutex</definition>
         <argsstring></argsstring>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/SharedResource.h" line="29" column="16" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="29" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/SharedResource.h" line="29" column="24" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="29" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -69,7 +69,7 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1SharedResource_1adc2faa280bc4029f14f8dc160fe8fc2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1SharedResource_1adc2faa280bc4029f14f8dc160fe8fc2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void BipedalLocomotion::System::SharedResource&lt; T &gt;::set</definition>
         <argsstring>(const T &amp;resource)</argsstring>
@@ -85,12 +85,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/SharedResource.h" line="39" column="10" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="54" bodyend="58"/>
+        <location file="BipedalLocomotion/System/SharedResource.h" line="39" column="17" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="54" bodyend="58"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1SharedResource_1a6cb23b5de9e57b6586460b1be49dfad4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1SharedResource_1af7e1d61049e352471050c97cf37dee9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>T</type>
         <definition>T BipedalLocomotion::System::SharedResource&lt; T &gt;::get</definition>
-        <argsstring>()</argsstring>
+        <argsstring>() const</argsstring>
         <name>get</name>
         <briefdescription>
 <para>Get the resource. </para>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/SharedResource.h" line="45" column="7" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="60" bodyend="64"/>
+        <location file="BipedalLocomotion/System/SharedResource.h" line="45" column="14" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="60" bodyend="64"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -153,7 +153,7 @@
     <location file="BipedalLocomotion/System/SharedResource.h" line="26" column="12" bodyfile="BipedalLocomotion/System/SharedResource.h" bodystart="27" bodyend="52"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a949d5cf552ad49941e7b9a34c6a6a825" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>create</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a6cb23b5de9e57b6586460b1be49dfad4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>get</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1af7e1d61049e352471050c97cf37dee9a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>get</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a579b4993a006677a5c10ffdf2e33b72f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>m_mutex</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1a6aa9255814e89a73a459888675feca07" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>m_resource</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1SharedResource_1ab7be89aa23cc1ae79a1b72e5eb7ba200" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::SharedResource</scope><name>Ptr</name></member>

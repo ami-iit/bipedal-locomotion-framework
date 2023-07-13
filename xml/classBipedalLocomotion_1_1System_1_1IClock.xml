@@ -38,38 +38,38 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/IClock.h" line="39" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1a0e89b562a22f1290761787be01084145" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
-        <type>std::chrono::duration&lt; double &gt;</type>
-        <definition>virtual std::chrono::duration&lt;double&gt; BipedalLocomotion::System::IClock::now</definition>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1abed28e22693ceef75f3b4815e5e8b161" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>virtual std::chrono::nanoseconds BipedalLocomotion::System::IClock::now</definition>
         <argsstring>()=0</argsstring>
         <name>now</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1adf4aa071022036e199f19daf693eb042">now</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a012f7ae6a37f527b7503fe8b6dd7c1ef">now</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a6d9d80e3c3c123455bed534c2565082a">now</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1a5471595a2f6413c2728266960de8335b">now</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1afad84061b03358d6e54913de7950990b">now</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1aa4b3eafecc3bb1de45f91af47849b8c4">now</reimplementedby>
         <briefdescription>
 <para>Get the current time. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>The current time. The output of the function depends on the concrete implementation. </para>
 </simplesect>
-<simplesect kind="note"><para><computeroutput><ref refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kindref="member">BipedalLocomotion::clock()</ref>.<ref refid="classBipedalLocomotion_1_1System_1_1IClock_1a0e89b562a22f1290761787be01084145" kindref="member">now()</ref>.count()</computeroutput> returns a double containing the seconds since epoch. </para>
+<simplesect kind="note"><para><computeroutput><ref refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kindref="member">BipedalLocomotion::clock()</ref>.<ref refid="classBipedalLocomotion_1_1System_1_1IClock_1abed28e22693ceef75f3b4815e5e8b161" kindref="member">now()</ref>.count()</computeroutput> returns a double containing the seconds since epoch. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/IClock.h" line="47" column="35"/>
+        <location file="BipedalLocomotion/System/IClock.h" line="47" column="38"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1a67693d3efb397f36a29a3cd293a3b254" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1a763f3c55d3f4f7a5dd25bb8e7617aa15" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
         <definition>virtual void BipedalLocomotion::System::IClock::sleepFor</definition>
-        <argsstring>(const std::chrono::duration&lt; double &gt; &amp;sleepDuration)=0</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;sleepDuration)=0</argsstring>
         <name>sleepFor</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa4ab82f30a91e6bf7f98fb001c97e135">sleepFor</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a572a7c94b44c3b6bc3f044612c729d6d">sleepFor</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a97ff209b7f7b79aa04ef227a0f8aca2c">sleepFor</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1a88fcacd5a6be8e802f58224dcd4600e8">sleepFor</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1ab4b5c3b29e6a87b0fa0b58fa2775a2d7">sleepFor</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1aa5c194f89f9d0f6ea39a69e1c981b76a">sleepFor</reimplementedby>
         <param>
-          <type>const std::chrono::duration&lt; double &gt; &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>sleepDuration</declname>
         </param>
         <briefdescription>
@@ -91,16 +91,16 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/IClock.h" line="53" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1a24adc25ba8b11d0a01bcde4eeb4fd91b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1IClock_1a674205e7d1abc851e26f165b5e14b7f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
         <definition>virtual void BipedalLocomotion::System::IClock::sleepUntil</definition>
-        <argsstring>(const std::chrono::duration&lt; double &gt; &amp;time)=0</argsstring>
+        <argsstring>(const std::chrono::nanoseconds &amp;time)=0</argsstring>
         <name>sleepUntil</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa49d0bb14a7cc40704c197456d90241e">sleepUntil</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a703b948c60e1349843412579983683db">sleepUntil</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1af889336071d6371103749346e3dbcdf9">sleepUntil</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1StdClock_1a0559fc93c09b6add2ed2e264c9be81fd">sleepUntil</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1RosClock_1a83ef5bcadd2f848d5d32aa1a0a031c33">sleepUntil</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1System_1_1YarpClock_1a7dd493f2e9c1ac2fa8856fafeaeacab9">sleepUntil</reimplementedby>
         <param>
-          <type>const std::chrono::duration&lt; double &gt; &amp;</type>
+          <type>const std::chrono::nanoseconds &amp;</type>
           <declname>time</declname>
         </param>
         <briefdescription>
@@ -144,7 +144,7 @@
 <para><ref refid="classBipedalLocomotion_1_1System_1_1IClock" kindref="compound">IClock</ref> is the interface to the clock. </para>
     </briefdescription>
     <detaileddescription>
-<para>The Clock is considered as a singleton. Please use the <ref refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" kindref="compound">ClockBuilder</ref> to create a clock. The default clock is the <ref refid="classBipedalLocomotion_1_1System_1_1StdClock" kindref="compound">System::StdClock</ref> which uses only the std methods. To get the current time you can simply use the following line of code <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kindref="member">BipedalLocomotion::clock</ref>().<ref refid="classBipedalLocomotion_1_1System_1_1IClock_1a0e89b562a22f1290761787be01084145" kindref="member">now</ref>();</highlight></codeline>
+<para>The Clock is considered as a singleton. Please use the <ref refid="classBipedalLocomotion_1_1System_1_1ClockBuilder" kindref="compound">ClockBuilder</ref> to create a clock. The default clock is the <ref refid="classBipedalLocomotion_1_1System_1_1StdClock" kindref="compound">System::StdClock</ref> which uses only the std methods. To get the current time you can simply use the following line of code <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kindref="member">BipedalLocomotion::clock</ref>().<ref refid="classBipedalLocomotion_1_1System_1_1IClock_1abed28e22693ceef75f3b4815e5e8b161" kindref="member">now</ref>();</highlight></codeline>
 </programlisting> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -174,9 +174,9 @@
     <location file="BipedalLocomotion/System/IClock.h" line="26" column="1" bodyfile="BipedalLocomotion/System/IClock.h" bodystart="27" bodyend="66"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a99a28837fb84b2a1df959890ec561f82" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>IClock</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a0e89b562a22f1290761787be01084145" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>now</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a67693d3efb397f36a29a3cd293a3b254" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>sleepFor</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a24adc25ba8b11d0a01bcde4eeb4fd91b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>sleepUntil</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1abed28e22693ceef75f3b4815e5e8b161" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>now</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a763f3c55d3f4f7a5dd25bb8e7617aa15" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>sleepFor</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a674205e7d1abc851e26f165b5e14b7f9" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>sleepUntil</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a220afc1ddc1f19474cb0da08a3cd3640" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::System::IClock</scope><name>yield</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a77e56163bf5079bd23380849f69266aa" prot="public" virt="virtual"><scope>BipedalLocomotion::System::IClock</scope><name>~IClock</name></member>
     </listofallmembers>

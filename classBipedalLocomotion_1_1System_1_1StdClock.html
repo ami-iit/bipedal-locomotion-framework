@@ -97,15 +97,15 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#adf4aa071022036e199f19daf693eb042" class="m-doc">now</a>(</span><span class="m-doc-wrap">) -&gt; std::chrono::duration&lt;double&gt; <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5471595a2f6413c2728266960de8335b" class="m-doc">now</a>(</span><span class="m-doc-wrap">) -&gt; std::chrono::nanoseconds <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Get the system current time.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#aa4ab82f30a91e6bf7f98fb001c97e135" class="m-doc">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; sleepDuration) <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">void <a href="#a88fcacd5a6be8e802f58224dcd4600e8" class="m-doc">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; sleepDuration) <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Blocks the execution of the current thread for at least the specified sleepDuration.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#aa49d0bb14a7cc40704c197456d90241e" class="m-doc">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; sleepTime) <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">void <a href="#a0559fc93c09b6add2ed2e264c9be81fd" class="m-doc">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; sleepTime) <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Blocks the execution of the current thread until specified sleepTime has been reached.</dd>
             <dt id="abb868d54c2b5daff1970ad552a4536f4">
@@ -116,9 +116,9 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="adf4aa071022036e199f19daf693eb042"><div>
+          <section class="m-doc-details" id="a5471595a2f6413c2728266960de8335b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">std::chrono::duration&lt;double&gt; BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#adf4aa071022036e199f19daf693eb042" class="m-doc-self">now</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">std::chrono::nanoseconds BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5471595a2f6413c2728266960de8335b" class="m-doc-self">now</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Get the system current time.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -129,18 +129,18 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p><code><a href="namespaceBipedalLocomotion.html#a5927a6bb897f521070adfb6ca866668f" class="m-doc">BipedalLocomotion::<wbr />clock()</a>.<a href="classBipedalLocomotion_1_1System_1_1StdClock.html#adf4aa071022036e199f19daf693eb042" class="m-doc">now()</a>.count()</code> returns a double containing the seconds since epoch</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p><code><a href="namespaceBipedalLocomotion.html#a5927a6bb897f521070adfb6ca866668f" class="m-doc">BipedalLocomotion::<wbr />clock()</a>.<a href="classBipedalLocomotion_1_1System_1_1StdClock.html#a5471595a2f6413c2728266960de8335b" class="m-doc">now()</a>.count()</code> returns a double containing the seconds since epoch</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa4ab82f30a91e6bf7f98fb001c97e135"><div>
+          <section class="m-doc-details" id="a88fcacd5a6be8e802f58224dcd4600e8"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa4ab82f30a91e6bf7f98fb001c97e135" class="m-doc-self">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; sleepDuration) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a88fcacd5a6be8e802f58224dcd4600e8" class="m-doc-self">sleepFor</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; sleepDuration) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Blocks the execution of the current thread for at least the specified sleepDuration.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>std::this_tread::sleep_for() function is used.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa49d0bb14a7cc40704c197456d90241e"><div>
+          <section class="m-doc-details" id="a0559fc93c09b6add2ed2e264c9be81fd"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa49d0bb14a7cc40704c197456d90241e" class="m-doc-self">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::duration&lt;double&gt;&amp; sleepTime) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />System::<wbr />StdClock::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0559fc93c09b6add2ed2e264c9be81fd" class="m-doc-self">sleepUntil</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; sleepTime) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Blocks the execution of the current thread until specified sleepTime has been reached.</p>
 <aside class="m-note m-info"><h4>Note</h4><p>sleepTime is the duration since epoch</p></aside>
