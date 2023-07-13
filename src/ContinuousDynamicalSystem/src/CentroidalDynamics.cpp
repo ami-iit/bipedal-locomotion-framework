@@ -43,7 +43,8 @@ bool CentroidalDynamics::initialize(std::weak_ptr<const IParametersHandler> hand
     return true;
 }
 
-bool CentroidalDynamics::dynamics(const std::chrono::nanoseconds& time, StateDerivative& stateDerivative)
+bool CentroidalDynamics::dynamics(const std::chrono::nanoseconds& time,
+                                  StateDerivative& stateDerivative)
 {
     using namespace BipedalLocomotion::GenericContainer::literals;
 
@@ -52,13 +53,16 @@ bool CentroidalDynamics::dynamics(const std::chrono::nanoseconds& time, StateDer
 
     comVelocityOut = comVelocity;
     comAcceleration = m_gravity;
-    angularMomentumRate.setZero();
 
     const auto& contacts = m_controlInput.get_from_hash<"contacts"_h>();
-    const auto& externalDisturbance = m_controlInput.get_from_hash<"external_force"_h>();
+    const auto& externalDisturbance = m_controlInput.get_from_hash<"external_wrench"_h>();
     if (externalDisturbance)
     {
-        comAcceleration += externalDisturbance.value();
+        comAcceleration += externalDisturbance.value().force();
+        angularMomentumRate = externalDisturbance.value().torque();
+    } else
+    {
+        angularMomentumRate.setZero();
     }
 
     for (const auto& [key, contact] : contacts)
