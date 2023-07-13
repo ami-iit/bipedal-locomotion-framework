@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
+- Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
 
 ### Fixed
 
