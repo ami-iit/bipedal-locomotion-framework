@@ -26,17 +26,17 @@ class IClockTrampoline : public IClockBase
 public:
     using IClockBase::IClockBase;
 
-    std::chrono::duration<double> now() override
+    std::chrono::nanoseconds now() override
     {
-        PYBIND11_OVERLOAD_PURE(std::chrono::duration<double>, IClockBase, now);
+        PYBIND11_OVERLOAD_PURE(std::chrono::nanoseconds, IClockBase, now);
     }
 
-    void sleepFor(const std::chrono::duration<double>& sleepDuration) override
+    void sleepFor(const std::chrono::nanoseconds& sleepDuration) override
     {
         PYBIND11_OVERLOAD_PURE_NAME(void, IClockBase, "sleep_for", sleepFor);
     }
 
-    void sleepUntil(const std::chrono::duration<double>& time) override
+    void sleepUntil(const std::chrono::nanoseconds& time) override
     {
         PYBIND11_OVERLOAD_PURE_NAME(void, IClockBase, "sleep_until", seepUntil);
     }

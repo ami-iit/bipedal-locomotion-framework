@@ -26,7 +26,7 @@ namespace System
 template <class T> class SharedResource
 {
     T m_resource; /**< The resource */
-    std::mutex m_mutex; /**< The mutex used to protect the resource */
+    mutable std::mutex m_mutex; /**< The mutex used to protect the resource */
 
     SharedResource() = default;
 
@@ -36,13 +36,13 @@ public:
     /**
      * Set the resource
      */
-    void set(const T& resource);
+    inline void set(const T& resource);
 
     /**
      * Get the resource.
      * @return the copy of the object inside the shared resource.
      */
-    T get();
+    inline T get() const;
 
     /**
      * Method used to create a shared resource.
@@ -53,13 +53,13 @@ public:
 
 template <class T> void SharedResource<T>::set(const T& resource)
 {
-    const std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mutex);
     m_resource = resource;
 }
 
-template <class T> T SharedResource<T>::get()
+template <class T> T SharedResource<T>::get() const
 {
-    const std::lock_guard<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mutex);
     return m_resource;
 }
 

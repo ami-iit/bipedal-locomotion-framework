@@ -1018,13 +1018,14 @@ bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
 
 void YarpRobotLoggerDevice::lookForNewLogs()
 {
+    using namespace std::chrono_literals;
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
     constexpr auto textLoggingPortPrefix = "/log/";
 
     auto time = BipedalLocomotion::clock().now();
     auto oldTime = time;
     auto wakeUpTime = time;
-    const auto lookForNewLogsPeriod = std::chrono::duration<double>(2);
+    const auto lookForNewLogsPeriod = 2s;
     m_lookForNewLogsIsRunning = true;
 
     while (m_lookForNewLogsIsRunning)
@@ -1072,7 +1073,9 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     auto oldTime = time;
     auto wakeUpTime = time;
     writer.recordVideoIsRunning = true;
-    const auto recordVideoPeriod = std::chrono::duration<double>(1 / double(writer.fps));
+    const auto recordVideoPeriod = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::duration<double>(1.0 / double(writer.fps)));
+
     unsigned int imageIndex = 0;
 
     while (writer.recordVideoIsRunning)

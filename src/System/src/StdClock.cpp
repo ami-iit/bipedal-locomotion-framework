@@ -12,17 +12,17 @@
 
 using namespace BipedalLocomotion::System;
 
-std::chrono::duration<double> StdClock::now()
+std::chrono::nanoseconds StdClock::now()
 {
     return std::chrono::system_clock::now().time_since_epoch();
 }
 
-void StdClock::sleepFor(const std::chrono::duration<double>& sleepDuration)
+void StdClock::sleepFor(const std::chrono::nanoseconds& sleepDuration)
 {
     std::this_thread::sleep_for(sleepDuration);
 }
 
-void StdClock::sleepUntil(const std::chrono::duration<double>& time)
+void StdClock::sleepUntil(const std::chrono::nanoseconds& time)
 {
     std::this_thread::sleep_for(time - std::chrono::system_clock::now().time_since_epoch());
 }
