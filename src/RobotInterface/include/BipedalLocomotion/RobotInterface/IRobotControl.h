@@ -100,6 +100,13 @@ public:
     virtual std::vector<std::string> getJointList() const = 0;
 
     /**
+     * Check if the class is valid.
+     * @note If it is valid you can directly control the robot
+     * @return True if it is valid, false otherwise.
+     */
+    virtual bool isValid() const = 0;
+
+    /**
      * Destructor.
      */
     virtual ~IRobotControl() = default;

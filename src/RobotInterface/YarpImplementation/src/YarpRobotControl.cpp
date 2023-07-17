@@ -714,3 +714,8 @@ std::vector<std::string> YarpRobotControl::getJointList() const
 {
     return m_pimpl->axesName;
 }
+
+bool YarpRobotControl::isValid() const
+{
+    return m_pimpl->robotDevice != nullptr;
+}

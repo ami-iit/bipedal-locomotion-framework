@@ -74,7 +74,8 @@ void CreateYarpRobotControl(pybind11::module& module)
                  &YarpRobotControl::setReferences),
              py::arg("joints_value"),
              py::arg("control_mode"))
-        .def("get_joint_list", &YarpRobotControl::getJointList);
+        .def("get_joint_list", &YarpRobotControl::getJointList)
+        .def("is_valid", &YarpRobotControl::isValid);
 }
 
 } // namespace RobotInterface

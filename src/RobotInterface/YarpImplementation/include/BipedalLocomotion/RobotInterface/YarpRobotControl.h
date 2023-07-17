@@ -113,6 +113,13 @@ public:
     std::vector<std::string> getJointList() const final;
 
     /**
+     * Check if the class is valid.
+     * @note If it is valid you can directly control the robot
+     * @return True if it is valid, false otherwise.
+     */
+    bool isValid() const final;
+
+    /**
      * Destructor
      */
     ~YarpRobotControl();
