@@ -646,7 +646,7 @@ bool YarpRobotControl::setControlMode(const IRobotControl::ControlMode& mode)
         std::fill(m_pimpl->controlModes.begin(), m_pimpl->controlModes.end(), mode);
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
+            log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
             return false;
         }
     }
