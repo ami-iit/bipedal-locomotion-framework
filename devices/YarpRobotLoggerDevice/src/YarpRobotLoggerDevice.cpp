@@ -1202,7 +1202,7 @@ void YarpRobotLoggerDevice::run()
         log()->error("{} Could not advance sensor bridge.", logPrefix);
     }
 
-    const double time = BipedalLocomotion::clock().now().count();
+    const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
 
     std::lock_guard lock(m_bufferManagerMutex);
     // collect the data
