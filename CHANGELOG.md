@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 - Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
 
 ### Fixed
+- Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
 
 ## [0.14.1] - 2023-07-07
 ### Fixed

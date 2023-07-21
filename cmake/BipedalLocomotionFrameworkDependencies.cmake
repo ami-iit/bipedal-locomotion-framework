@@ -114,10 +114,6 @@ checkandset_dependency(UnicyclePlanner)
 find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
 
-find_package(BayesFilters QUIET)
-checkandset_dependency(BayesFilters)
-dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
-
 ##########################      Components       ##############################
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
