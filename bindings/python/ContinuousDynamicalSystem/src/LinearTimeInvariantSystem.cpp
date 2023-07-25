@@ -43,6 +43,7 @@ void CreateLinearTimeInvariantSystem(pybind11::module& module)
              py::arg("B"));
 
     CreateForwardEulerIntegrator<LinearTimeInvariantSystem>(module, name);
+    CreateRK4Integrator<LinearTimeInvariantSystem>(module, name);
 }
 } // namespace ContinuousDynamicalSystem
 } // namespace bindings

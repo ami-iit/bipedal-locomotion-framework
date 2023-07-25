@@ -14,7 +14,7 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
                            ${H_PREFIX}/FloatingBaseSystemKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h ${H_PREFIX}/FixedBaseDynamics.h ${H_PREFIX}/FirstOrderSmoother.h
                            ${H_PREFIX}/CentroidalDynamics.h
                            ${H_PREFIX}/LieGroupDynamics.h ${H_PREFIX}/SO3Dynamics.h
-                           ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h
+                           ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h ${H_PREFIX}/RK4.h
                            ${H_PREFIX}/CompliantContactWrench.h
                            ${H_PREFIX}/MultiStateWeightProvider.h
     PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
