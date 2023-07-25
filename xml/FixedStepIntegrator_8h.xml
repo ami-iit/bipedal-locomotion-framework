@@ -7,6 +7,7 @@
     <includes refid="Integrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includes>
     <includes refid="Logger_8h" local="no">BipedalLocomotion/TextLogging/Logger.h</includes>
     <includedby refid="ForwardEuler_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</includedby>
+    <includedby refid="RK4_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/RK4.h</includedby>
     <incdepgraph>
       <node id="9">
         <label>BipedalLocomotion/GenericContainer/NamedTuple.h</label>
@@ -132,6 +133,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="5">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/RK4.h</label>
+        <link refid="RK4_8h"/>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
         <link refid="FirstOrderSmoother_8h"/>
@@ -142,6 +147,8 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
         <link refid="FixedStepIntegrator_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="4">

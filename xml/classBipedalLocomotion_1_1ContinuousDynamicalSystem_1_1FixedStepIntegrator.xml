@@ -189,6 +189,19 @@
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
         </childnode>
       </node>
+      <node id="7">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; RK4&lt; _DynamicalSystem &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; RK4&lt; _DynamicalSystem &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::RK4&lt; _DynamicalSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="6">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler&lt; _DynamicalSystem &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler"/>

@@ -3,6 +3,7 @@
   <compounddef id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" kind="class" language="C++" prot="public">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem::Integrator</compoundname>
     <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public" virt="non-virtual">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; RK4&lt; _DynamicalSystem &gt; &gt;</derivedcompoundref>
     <includes local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includes>
     <templateparamlist>
       <param>
@@ -185,7 +186,7 @@
 <para>f$. Please inherit publicly from this class in order to define your custom integrator. Just be sure to call after your class definition <ref refid="traits_8h_1a0f84fde07f0a6fd9fd13de1c9c7c8a16" kindref="member">BLF_DEFINE_INTEGRATOR_STRUCTURE()</ref> </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::Integrator&lt; FixedStepIntegrator&lt; _Derived &gt; &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator"/>
         <childnode refid="1" relation="template-instance">
@@ -198,7 +199,7 @@
         <childnode refid="3" relation="template-instance">
           <edgelabel>&lt; BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem &gt;</edgelabel>
         </childnode>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -206,8 +207,23 @@
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-        <childnode refid="6" relation="template-instance">
+        <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; RK4&lt; _DynamicalSystem &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="template-instance">
+          <edgelabel>&lt; RK4&lt; _DynamicalSystem &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::RK4&lt; _DynamicalSystem &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4"/>
+        <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -216,10 +232,10 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator&lt; _Derived &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">

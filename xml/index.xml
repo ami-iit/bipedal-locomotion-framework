@@ -1840,6 +1840,24 @@
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1_1Ref_1adefaeb0ff580fa8e0df37cc02e98dd7c" kind="function"><name>operator=</name></member>
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1_1Ref_1a6993d73d90962d5a71ee726cf3d95355" kind="function"><name>operator=</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::RK4</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a42d104e0ff7b7bf12c2f75c42e82e87d" kind="typedef"><name>DynamicalSystem</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a9af12c29d47925c9a7f57c51effff55a" kind="typedef"><name>State</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1af063cf16b7c0056eac636fe19fce5806" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a1f306f8b3027ee9ff1b09a8f1bf6b9b7" kind="variable"><name>m_k1</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a9495f31debfc965cf37ab31408b33720" kind="variable"><name>m_k2</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a4a28e516e398a0d1ab4d5c54ab93572e" kind="variable"><name>m_k3</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a132976b9ce59a31cbce1ab7ef8753406" kind="variable"><name>m_k4</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a33bdcffbb0b1ac0a3d3a376ccdb3efbc" kind="variable"><name>m_computationalBufferState1</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a71ca27452122cfd450a3fca64ff4f838" kind="variable"><name>m_computationalBufferState2</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a65ace2e10572424f19e3fecdaf494a66" kind="variable"><name>m_computationalBufferState3</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a398262782640f4955e2489bf5dc36093" kind="variable"><name>m_computationalBufferState4</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1aeba9a5c16cefb4b95563020fa6998d89" kind="function"><name>computeNextState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1af5c9b57cabea15e79eae7b472514d7e7" kind="function"><name>computeNextState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a0d28cb2687898c1f3bbf116e6f02700d" kind="function"><name>integrateRK4</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a43b447f29545b9b691d8bf75a74f0805" kind="function"><name>integrateRK4</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4_1a775b2d987974c10292bbf71f79dc787f" kind="function"><name>oneStepIntegration</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1RosClock" kind="class"><name>BipedalLocomotion::System::RosClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1a3b23aa454ce04b972b292200b59e7ea3" kind="variable"><name>m_clock</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1RosClock_1afad84061b03358d6e54913de7950990b" kind="function"><name>now</name></member>
@@ -3023,6 +3041,8 @@
   </compound>
   <compound refid="MultiStateWeightProvider_8h" kind="file"><name>MultiStateWeightProvider.h</name>
     <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
+  </compound>
+  <compound refid="RK4_8h" kind="file"><name>RK4.h</name>
   </compound>
   <compound refid="SO3Dynamics_8h" kind="file"><name>SO3Dynamics.h</name>
     <member refid="SO3Dynamics_8h_1a2a95bad6633e51f39dea49b316f16b43" kind="typedef"><name>SO3Dynamics</name></member>

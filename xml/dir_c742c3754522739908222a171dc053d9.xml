@@ -16,6 +16,7 @@
     <innerfile refid="LieGroupDynamics_8h">LieGroupDynamics.h</innerfile>
     <innerfile refid="LinearTimeInvariantSystem_8h">LinearTimeInvariantSystem.h</innerfile>
     <innerfile refid="MultiStateWeightProvider_8h">MultiStateWeightProvider.h</innerfile>
+    <innerfile refid="RK4_8h">RK4.h</innerfile>
     <innerfile refid="SO3Dynamics_8h">SO3Dynamics.h</innerfile>
     <briefdescription>
     </briefdescription>

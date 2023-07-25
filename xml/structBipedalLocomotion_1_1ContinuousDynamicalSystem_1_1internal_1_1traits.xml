@@ -30,6 +30,13 @@
           <edgelabel>&lt; ForwardEuler&lt; _DynamicalSystem &gt; &gt;</edgelabel>
         </childnode>
       </node>
+      <node id="4">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; RK4&lt; _DynamicalSystem &gt; &gt;</label>
+        <link refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; RK4&lt; _DynamicalSystem &gt; &gt;</edgelabel>
+        </childnode>
+      </node>
     </inheritancegraph>
     <location file="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" line="83" column="12" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h" bodystart="83" bodyend="-1"/>
     <listofallmembers>
