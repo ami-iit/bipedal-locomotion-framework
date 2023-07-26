@@ -5,13 +5,13 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
 
+#include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/CentroidalDynamics.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/DynamicalSystem.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/Integrator.h>
 #include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
-#include <BipedalLocomotion/bindings/ContinuousDynamicalSystem/CentroidalDynamics.h>
 
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
@@ -40,6 +40,7 @@ void CreateCentroidalDynamics(pybind11::module& module)
         .def(py::init());
 
     CreateForwardEulerIntegrator<CentroidalDynamics>(module, name);
+    CreateRK4Integrator<CentroidalDynamics>(module, name);
 }
 } // namespace ContinuousDynamicalSystem
 } // namespace bindings

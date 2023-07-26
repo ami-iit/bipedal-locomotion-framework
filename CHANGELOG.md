@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
+- Implement `RK4` integrator in `ContinuousDynamicalSystem` component and expose the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/711)
 - Implement `blf-balancing-torque-control` in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/707)
 - Implement `setControlMode` in `IRobotControl` and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/707)
 
@@ -12,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
 
 ### Fixed
+- Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
 
 ## [0.14.1] - 2023-07-07
 ### Fixed
