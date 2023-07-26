@@ -77,6 +77,22 @@ public:
                          std::vector<std::pair<std::string, double>>& info) final;
 
     /**
+     * Set the control mode.
+     * @param controlModes vector containing the control mode for each joint.
+     * @return True/False in case of success/failure.
+     * @warning At the current stage only revolute joints are supported.
+     */
+    bool setControlMode(const std::vector<IRobotControl::ControlMode>& controlModes) final;
+
+    /**
+     * Set the desired control mode.
+     * @param controlMode a control mode for all the joints.
+     * @return True/False in case of success/failure.
+     * @warning Call this function if you want to control all the joint with the same control mode.
+     */
+    bool setControlMode(const IRobotControl::ControlMode& mode) final;
+
+    /**
      * Set the desired reference.
      * @param jointValues desired joint values.
      * @param controlModes vector containing the control mode for each joint.
@@ -111,6 +127,13 @@ public:
      * @return A vector containing the name of the controlled joints.
      */
     std::vector<std::string> getJointList() const final;
+
+    /**
+     * Check if the class is valid.
+     * @note If it is valid you can directly control the robot
+     * @return True if it is valid, false otherwise.
+     */
+    bool isValid() const final;
 
     /**
      * Destructor

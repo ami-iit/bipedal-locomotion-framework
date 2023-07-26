@@ -621,26 +621,23 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
     return ok;
 }
 
-bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                                     const std::vector<IRobotControl::ControlMode>& controlModes)
+bool YarpRobotControl::setControlMode(const std::vector<IRobotControl::ControlMode>& controlModes)
 {
     if (controlModes != m_pimpl->controlModes)
     {
         m_pimpl->controlModes = controlModes;
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
+            log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
             return false;
         }
     }
 
-    return m_pimpl->setReferences(jointValues);
+    return true;
 }
 
-bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                                     const IRobotControl::ControlMode& mode)
+bool YarpRobotControl::setControlMode(const IRobotControl::ControlMode& mode)
 {
-
     // check if all the joints are controlled in the desired control mode
     if (!std::all_of(m_pimpl->controlModes.begin(),
                      m_pimpl->controlModes.end(),
@@ -649,9 +646,32 @@ bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJo
         std::fill(m_pimpl->controlModes.begin(), m_pimpl->controlModes.end(), mode);
         if (!m_pimpl->setControlModes(m_pimpl->controlModes))
         {
-            log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
+            log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
             return false;
         }
+    }
+    return true;
+}
+
+bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
+                                     const std::vector<IRobotControl::ControlMode>& controlModes)
+{
+   if (!this->setControlMode(controlModes))
+   {
+       log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
+       return false;
+   }
+
+   return m_pimpl->setReferences(jointValues);
+}
+
+bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                                     const IRobotControl::ControlMode& mode)
+{
+    if (!this->setControlMode(mode))
+    {
+        log()->error("[YarpRobotControl::setReferences] Unable to set the control mode.");
+        return false;
     }
 
     return m_pimpl->setReferences(desiredJointValues);
@@ -713,4 +733,9 @@ bool YarpRobotControl::checkMotionDone(bool& motionDone,
 std::vector<std::string> YarpRobotControl::getJointList() const
 {
     return m_pimpl->axesName;
+}
+
+bool YarpRobotControl::isValid() const
+{
+    return m_pimpl->robotDevice != nullptr;
 }
