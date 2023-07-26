@@ -29,7 +29,8 @@ void CreateCentroidalMPC(pybind11::module& module)
     py::class_<CentroidalMPCOutput>(module, "CentroidalMPCState")
         .def(py::init())
         .def_readwrite("contacts", &CentroidalMPCOutput::contacts)
-        .def_readwrite("next_planned_contact", &CentroidalMPCOutput::nextPlannedContact);
+        .def_readwrite("next_planned_contact", &CentroidalMPCOutput::nextPlannedContact)
+        .def_readwrite("com_trajectory", &CentroidalMPCOutput::comTrajectory);
 
     BipedalLocomotion::bindings::System::CreateSource<CentroidalMPCOutput>(module,
                                                                            "CentroidalMPCOutput");
