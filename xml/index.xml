@@ -1143,7 +1143,10 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1d8c631649d6111f17a9ba821f550497" kind="function"><name>checkMotionDone</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1adbbafcb80056c18f40e25cf4865dfe56" kind="function"><name>setReferences</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1abaeb6208365c23fe845893b6e59e84ac" kind="function"><name>setReferences</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" kind="function"><name>setControlMode</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" kind="function"><name>setControlMode</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a039679ebcb7f4317aebdc1218410639c" kind="function"><name>getJointList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1af76dce642b0d3e6a2e54c5a82da8061b" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a137aaccf768f40582b2df587e55657eb" kind="function"><name>~IRobotControl</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1GenericContainer_1_1is__span__constructible" kind="struct"><name>BipedalLocomotion::GenericContainer::is_span_constructible</name>
@@ -2700,9 +2703,12 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a85dbd7d4b6312bf184bb03054a0240b5" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a37085e21adddb1bc55193d452623fc82" kind="function"><name>setDriver</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a69d3aac94055729d5fbff666ae1ceb83" kind="function"><name>checkMotionDone</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1afe135a4312087eb0b666ddbbe3dc25bf" kind="function"><name>setControlMode</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1acdbfb92bd7a2a6bc31ba156600a4ffc9" kind="function"><name>setControlMode</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1ab229c5fe700419a24550d89f042e68b1" kind="function"><name>setReferences</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a94bc2f427bffa43aa1bd4da7ff0a9ad8" kind="function"><name>setReferences</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a4968e571c4433e54b89a7c83fdfeace2" kind="function"><name>getJointList</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a3aa8d45bff0791af4143ab65f0cbd75c" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a2fc36acedb0eb8d541d20a720247f83f" kind="function"><name>~YarpRobotControl</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge" kind="class"><name>BipedalLocomotion::RobotInterface::YarpSensorBridge</name>

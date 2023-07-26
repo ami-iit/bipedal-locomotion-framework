@@ -149,9 +149,21 @@
             </dt>
             <dd>Set the desired reference.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1510d2b72ba39e075a078b2275c7a988" class="m-doc">setControlMode</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the control mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a5ae1dad766c79a234c67b53823bbd77a" class="m-doc">setControlMode</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the desired control mode.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get the list of the controlled joints.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#af76dce642b0d3e6a2e54c5a82da8061b" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Check if the class is valid.</dd>
           </dl>
         </section>
         <section>
@@ -271,6 +283,45 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. @warining Call this function if you want to control all the joint with the same control mode. Otherwise call setReferences(Eigen::Ref&lt;const Eigen::VectorXd&gt;, const std::vector&lt;IRobotControl::ControlMode&gt;&amp;).</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a1510d2b72ba39e075a078b2275c7a988"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1510d2b72ba39e075a078b2275c7a988" class="m-doc-self">setControlMode</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the control mode.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">controlModes</td>
+                  <td>vector containing the control mode for each joint.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>At the current stage only revolute joints are supported.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a5ae1dad766c79a234c67b53823bbd77a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5ae1dad766c79a234c67b53823bbd77a" class="m-doc-self">setControlMode</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the desired control mode.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a039679ebcb7f4317aebdc1218410639c"><div>
             <h3>
               <span class="m-doc-wrap-bumper">std::vector&lt;std::string&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc-self">getJointList</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
@@ -284,6 +335,21 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="af76dce642b0d3e6a2e54c5a82da8061b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af76dce642b0d3e6a2e54c5a82da8061b" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Check if the class is valid.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if it is valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>If it is valid you can directly control the robot</p></aside>
           </div></section>
         </section>
       </div>

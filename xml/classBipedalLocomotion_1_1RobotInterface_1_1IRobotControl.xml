@@ -292,6 +292,72 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="93" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::RobotInterface::IRobotControl::setControlMode</definition>
+        <argsstring>(const std::vector&lt; IRobotControl::ControlMode &gt; &amp;controlModes)=0</argsstring>
+        <name>setControlMode</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1afe135a4312087eb0b666ddbbe3dc25bf">setControlMode</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" kindref="member">IRobotControl::ControlMode</ref> &gt; &amp;</type>
+          <declname>controlModes</declname>
+        </param>
+        <briefdescription>
+<para>Set the control mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>controlModes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector containing the control mode for each joint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True/False in case of success/failure. </para>
+</simplesect>
+<simplesect kind="warning"><para>At the current stage only revolute joints are supported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="102" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::RobotInterface::IRobotControl::setControlMode</definition>
+        <argsstring>(const IRobotControl::ControlMode &amp;mode)=0</argsstring>
+        <name>setControlMode</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1acdbfb92bd7a2a6bc31ba156600a4ffc9">setControlMode</reimplementedby>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" kindref="member">IRobotControl::ControlMode</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Set the desired control mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>controlMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a control mode for all the joints. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True/False in case of success/failure. </para>
+</simplesect>
+<simplesect kind="warning"><para>Call this function if you want to control all the joint with the same control mode. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="110" column="18"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a039679ebcb7f4317aebdc1218410639c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>virtual std::vector&lt;std::string&gt; BipedalLocomotion::RobotInterface::IRobotControl::getJointList</definition>
@@ -308,7 +374,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="100" column="25"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="116" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1af76dce642b0d3e6a2e54c5a82da8061b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::RobotInterface::IRobotControl::isValid</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isValid</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a3aa8d45bff0791af4143ab65f0cbd75c">isValid</reimplementedby>
+        <briefdescription>
+<para>Check if the class is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>If it is valid you can directly control the robot </para>
+</simplesect>
+<simplesect kind="return"><para>True if it is valid, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="123" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a137aaccf768f40582b2df587e55657eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -322,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="105" column="13"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="128" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -342,12 +428,15 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="25" column="1" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="26" bodyend="107"/>
+    <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="25" column="1" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="26" bodyend="130"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1d8c631649d6111f17a9ba821f550497" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>checkMotionDone</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>ControlMode</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a039679ebcb7f4317aebdc1218410639c" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>getJointList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ae6bb2f00cd191a0cc65c062928b65327" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1af76dce642b0d3e6a2e54c5a82da8061b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlMode</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlMode</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1adbbafcb80056c18f40e25cf4865dfe56" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setReferences</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1abaeb6208365c23fe845893b6e59e84ac" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setReferences</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5f3690c4c924d5e5fbf590a102bd4234" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>shared_ptr</name></member>
