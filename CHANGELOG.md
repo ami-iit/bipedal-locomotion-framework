@@ -5,6 +5,9 @@ All notable changes to this project are documented in this file.
 ### Added
 - 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
 - Implement `RK4` integrator in `ContinuousDynamicalSystem` component and expose the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/711)
+- Expose `ContactBase` methods for `DiscreteGeometryContact` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
+- Expose the CoM trajectory and angular momentum trajectory in `MANNTrajectoryGenerator` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
+- Expose the CoM trajectory computed by the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
 
 ### Changed
 - Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
