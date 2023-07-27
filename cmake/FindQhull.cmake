@@ -9,7 +9,7 @@ FindQhull
 This is just a simple compatibility script that ensures that Qhull
 provided by apt on Ubuntu 20.04 works fine with blf. It is not meant
 to work fine in general (it only defines the imported targets required by blf).
-Please remove as soon as Ubuntu 20.04 apt compatibiliy is dropped.
+Please remove as soon as Ubuntu 20.04 apt compatibility is dropped.
 
 #]=======================================================================]
 
@@ -21,7 +21,7 @@ find_package(Qhull CONFIG)
 if(Qhull_FOUND)
   find_package_handle_standard_args(Qhull CONFIG_MODE)
 else()
-  find_path(qhull_INCLUDE_DIR linqhull_r/libqhull_r.h)
+  find_path(qhull_INCLUDE_DIR libqhull_r/libqhull_r.h)
   mark_as_advanced(qhull_INCLUDE_DIR)
   find_library(qhull_r_LIBRARY qhull_r)
   mark_as_advanced(qhull_r_LIBRARY)
