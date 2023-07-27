@@ -31,6 +31,7 @@ template <typename T> void CreateBufferedPort(pybind11::module& module, const st
              py::overload_cast<const std::string&>(&::yarp::os::BufferedPort<T>::open),
              py::arg("name"))
         .def("close", &::yarp::os::BufferedPort<T>::close)
+        .def("is_closed", &::yarp::os::BufferedPort<T>::isClosed)
     .def("prepare",
          &::yarp::os::BufferedPort<T>::prepare,
          py::return_value_policy::reference_internal)
