@@ -37,9 +37,9 @@ checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
                       COMPONENTS companion profiler dev os idl_tools PUBLIC)
 
-find_package(Qhull 8.0.0 QUIET)
-checkandset_dependency(Qhull MINIMUM_VERSION 8.0.0)
-dependency_classifier(Qhull MINIMUM_VERSION 8.0.0 IS_USED ${FRAMEWORK_USE_Qhull} PUBLIC)
+find_package(Qhull QUIET)
+checkandset_dependency(Qhull MINIMUM_VERSION)
+dependency_classifier(Qhull MINIMUM_VERSION IS_USED ${FRAMEWORK_USE_Qhull} PRIVATE)
 
 find_package(casadi QUIET)
 checkandset_dependency(casadi)
