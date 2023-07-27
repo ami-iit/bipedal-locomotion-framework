@@ -32,7 +32,6 @@ if (FRAMEWORK_COMPILE_Planners)
     BipedalLocomotion::Contacts
     PRIVATE_LINK_LIBRARIES
     Qhull::qhull_r
-    Qhull::libqhull
     casadi
     iDynTree::idyntree-core
     BipedalLocomotion::Math
