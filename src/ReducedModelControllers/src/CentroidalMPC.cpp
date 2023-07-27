@@ -521,6 +521,9 @@ struct CentroidalMPC::Impl
         constexpr int vector3Size = 3;
         const int stateHorizon = this->optiSettings.horizon + 1;
 
+        // resize the CoM Trajectory
+        this->output.comTrajectory.resize(stateHorizon);
+
         // In case of no warmstart the variables are:
         // - centroidalVariables = 7: external force + external torque + com current + dcom current
         //                            + current angular momentum + com reference
@@ -960,6 +963,8 @@ struct CentroidalMPC::Impl
             }
         }
 
+        concatenateOutput(this->optiVariables.com, "com");
+
         casadi::Dict toFunctionOptions;
         if (casadiVersionIsAtLeast360())
         {
@@ -1120,6 +1125,11 @@ bool CentroidalMPC::advance()
         }
     }
 
+    for (int i = 0; i < m_pimpl->output.comTrajectory.size(); i++)
+    {
+        using namespace BipedalLocomotion::Conversions;
+        m_pimpl->output.comTrajectory[i] = toEigen(*it).col(i);
+    }
     // advance the time
     m_pimpl->currentTime += m_pimpl->optiSettings.samplingTime;
 

@@ -39,7 +39,9 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
         .def(py::init())
         .def_readwrite("joint_positions", &ML::MANNTrajectoryGeneratorOutput::jointPositions)
         .def_readwrite("base_pose", &ML::MANNTrajectoryGeneratorOutput::basePoses)
-        .def_readwrite("phase_list", &ML::MANNTrajectoryGeneratorOutput::phaseList);
+        .def_readwrite("phase_list", &ML::MANNTrajectoryGeneratorOutput::phaseList)
+        .def_readwrite("com_trajectory" , &ML::MANNTrajectoryGeneratorOutput::comTrajectory)
+        .def_readwrite("angular_momentum_trajectory" , &ML::MANNTrajectoryGeneratorOutput::angularMomentumTrajectory);
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<ML::MANNTrajectoryGeneratorInput, //
                                                            ML::MANNTrajectoryGeneratorOutput> //
