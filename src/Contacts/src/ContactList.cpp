@@ -231,6 +231,19 @@ ContactList::getPresentContact(const std::chrono::nanoseconds& time) const
                                       // iterator to the next element.
 }
 
+ContactList::const_iterator
+ContactList::getNextContact(const std::chrono::nanoseconds& time) const
+{
+    // With the reverse iterator we find the last step such that the activation time is smaller
+    // equal than time
+    ContactList::const_iterator nextContact
+        = std::find_if(begin(), end(), [time](const PlannedContact& a) -> bool {
+              return a.activationTime >= time;
+          });
+
+    return nextContact;
+}
+
 bool ContactList::keepOnlyPresentContact(const std::chrono::nanoseconds& time)
 {
     ContactList::const_iterator dropPoint = getPresentContact(time);

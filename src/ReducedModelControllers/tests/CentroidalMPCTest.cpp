@@ -91,7 +91,7 @@ void writeResultsToFile(const CentroidalMPC& mpc,
 TEST_CASE("CentroidalMPC")
 {
 
-    constexpr bool saveDataset = false;
+    constexpr bool saveDataset = true;
 
     using namespace std::chrono_literals;
     constexpr std::chrono::nanoseconds dT = 100ms;

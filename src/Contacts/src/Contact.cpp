@@ -13,14 +13,17 @@ using namespace BipedalLocomotion::Contacts;
 
 bool PlannedContact::operator==(const PlannedContact& other) const
 {
-    bool eq = true;
-    eq = eq && this->activationTime == other.activationTime;
-    eq = eq && this->name == other.name;
+    bool eq = this->name == other.name;
     eq = eq && this->type == other.type;
     eq = eq && this->pose.coeffs() == other.pose.coeffs();
     eq = eq && this->activationTime == other.activationTime;
     eq = eq && this->deactivationTime == other.deactivationTime;
     return eq;
+}
+
+bool PlannedContact::operator!=(const PlannedContact& other) const
+{
+    return !(*this == other);
 }
 
 bool PlannedContact::isContactActive(const std::chrono::nanoseconds& t) const

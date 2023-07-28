@@ -54,8 +54,9 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
     std::chrono::nanoseconds m_staringTimeOfCurrentSO3Traj{std::chrono::nanoseconds::zero()};
 
     Contacts::ContactList m_contactList; /**< List of the contacts */
-    Contacts::ContactList::const_iterator m_currentContactPtr; /**< Pointer to the current contact.
-                                                        (internal use) */
+    Contacts::PlannedContact m_lastValidContact; /**< This contains the current contact if 
+                                                      the contact is active otherwise the last contact
+                                                      before the current swing phase. */
 
     SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
     std::unique_ptr<Spline> m_planarPlanner; /**< Trajectory planner for the x y coordinates of the
@@ -91,7 +92,8 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                        Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalVelocity,
                        Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalAcceleration,
                        const manif::SO3d::Tangent& initialAngularVelocity,
-                       const manif::SO3d::Tangent& initialAngularAcceleration);
+                       const manif::SO3d::Tangent& initialAngularAcceleration,
+                       const std::chrono::nanoseconds& dT);
 
 public:
     /**

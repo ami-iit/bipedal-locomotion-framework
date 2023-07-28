@@ -220,6 +220,17 @@ public:
     const_iterator getPresentContact(const std::chrono::nanoseconds& time) const;
 
     /**
+     * @brief Get the next contact given the time.
+     *
+     * It returns the contact with the lowest activation time higher than time.
+     * If no contacts have an activation time higher than time, it returns an iterator to the end.
+     * @param time The present time.
+     * @return an iterator to the first contact having an activation time higher than time.
+     * If no contact satisfy this condition, it returns a pointer to the end.
+     */
+    const_iterator getNextContact(const std::chrono::nanoseconds& time) const;    
+
+    /**
      * @brief Clear all the steps, except the one returned by getPresentContact
      * @param time The present time.
      * @return false if no contact is available at this time.

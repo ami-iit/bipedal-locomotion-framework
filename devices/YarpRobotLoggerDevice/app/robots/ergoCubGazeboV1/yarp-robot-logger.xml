@@ -16,22 +16,15 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">()</param>
+    <param name="vectors_collection_exogenous_inputs">(Walking)</param>
     <param name="vectors_exogenous_inputs">()</param>
 
-    <!--group name="Balancing">
-      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing:i"</param>
-      <param name="remote">"/balancing_controller/logger/data:o"</param>
-      <param name="signal_name">"balancing"</param>
-      <param name="carrier">"udp"</param>
-    </group-->
-
-    <!--<group name="Walking">
+    <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
-      <param name="remote">"/walking-coordinator/logger/data:o"</param>
+      <param name="remote">"/centroidal-mpc/log:o"</param>
       <param name="signal_name">"walking"</param>
       <param name="carrier">"udp"</param>
-    </group>-->
+    </group>
 
     <!--<group name="RobotDynamicsEstimator">
       <param name="local">"/yarp-robot-logger/exogenous_signals/rde:i"</param>
@@ -60,7 +53,7 @@ BSD-3-Clause license. -->
     <param name="stream_joint_states">true</param>
     <param name="stream_inertials">false</param>
     <param name="stream_cartesian_wrenches">false</param>
-    <param name="stream_forcetorque_sensors">true</param>
+    <param name="stream_forcetorque_sensors">false</param>
     <param name="stream_pids">false</param>
     <param name="stream_motor_PWM">false</param>
     <param name="stream_temperatures">false</param>
@@ -79,8 +72,7 @@ BSD-3-Clause license. -->
   <action phase="startup" level="15" type="attach">
     <paramlist name="networks">
       <elem name="all_joints">all_joints_mc</elem>
-      <elem name="mas-remapper">mas-remapper</elem>
-
+      <!-- <elem name="mas-remapper">mas-remapper</elem> -->
     </paramlist>
   </action>
 
