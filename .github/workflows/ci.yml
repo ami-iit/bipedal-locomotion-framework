@@ -57,11 +57,11 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-2019, macos-latest]
+        os: [ubuntu-20.04, windows-2019, ubuntu-22.04]
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
 
     # Print environment variables to simplify development and debugging
     - name: Environment Variables
@@ -97,25 +97,6 @@ jobs:
         # Install tomlplusplus
         ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
 
-    - name: Fixup brew [macOS]
-      if: matrix.os == 'macos-latest'
-      run: |
-          # Unlink and re-link to prevent errors when github mac runner images
-          # install python outside of brew, for example:
-          # https://github.com/orgs/Homebrew/discussions/3895
-          # https://github.com/actions/setup-python/issues/577
-          # https://github.com/actions/runner-images/issues/6459
-          # https://github.com/actions/runner-images/issues/6507
-          # https://github.com/actions/runner-images/issues/2322
-          brew list -1 | grep python | while read formula; do brew unlink $formula; brew link --overwrite $formula; done
-
-    - name: Dependencies [macOS]
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew update
-        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 \
-                     libmatio spdlog librealsense nlohmann-json numpy assimp
-
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
@@ -148,17 +129,12 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu')
       run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
 
-    - name: Get number of cores to speed up cmake build [macOS]
-      if: matrix.os == 'macos-latest'
-      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`sysctl -n hw.logicalcpu`" >> $GITHUB_ENV
-
     - name: Cache Source-based Dependencies
       id: cache-source-deps
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
         key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}
-
 
     - name: Source-based Dependencies [Windows]
       if: steps.cache-source-deps.outputs.cache-hit != 'true' && matrix.os == 'windows-2019'
@@ -174,7 +150,6 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
 
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
-
 
         # YARP
         cd ${GITHUB_WORKSPACE}
@@ -330,8 +305,8 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: Source-based Dependencies [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
+    - name: Source-based Dependencies [Ubuntu]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
 
@@ -416,7 +391,7 @@ jobs:
         git checkout ${manif_TAG}
         mkdir build
         cd build
-        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -BUILD_PYTHON_BINDINGS=BOOL:ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
@@ -484,14 +459,6 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: Install manifpy [Ubuntu/macOS]
-      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
-      run: |
-        git clone https://github.com/artivis/manif.git manifpy
-        cd manifpy
-        git checkout ${manif_TAG}
-        python3 -m pip install .
-
     - name: Check Python setup
       shell: bash
       run: |
@@ -536,22 +503,8 @@ jobs:
               -DENABLE_YarpRobotLoggerDevice:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
 
-    - name: Configure [macOS]
-      if: matrix.os == 'macos-latest'
-      shell: bash
-      run: |
-        mkdir -p build
-        cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
-              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
-              -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
-              -DBUILD_TESTING:BOOL=ON ..
-
     - name: Check build if some dependencies are not enabled [Ubuntu]
-      if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
+      if: github.event_name != 'push' && github.event_name != 'release' && startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
         cd build
