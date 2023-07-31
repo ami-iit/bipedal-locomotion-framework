@@ -54,7 +54,7 @@ bool ConvexHullHelper::buildConvexHull(Eigen::Ref<const Eigen::MatrixXd> points)
 
     // set the input
     char flags[250];
-    sprintf(flags, "qhull");
+    sprintf(flags, "qhull ");
     int exitCode = qh_new_qhull(qh,
                                 numberOfCoordinates,
                                 numberOfPoints,
