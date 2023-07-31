@@ -16,8 +16,8 @@
 
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
-#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/GenericContainer/NamedTuple.h>
+#include <BipedalLocomotion/Math/Constants.h>
 
 #include <Eigen/Dense>
 
@@ -32,17 +32,17 @@ template <> struct traits<CentroidalDynamics>
 {
     using Contacts = std::map<std::string, //
                               BipedalLocomotion::Contacts::DiscreteGeometryContact>;
-    using ExternalForce = std::optional<Eigen::Vector3d>;
+    using ExternalWrench = std::optional<BipedalLocomotion::Math::Wrenchd>;
 
     using State = GenericContainer::named_tuple<BLF_NAMED_PARAM(com_pos, Eigen::Vector3d),
-                                      BLF_NAMED_PARAM(com_vel, Eigen::Vector3d),
-                                      BLF_NAMED_PARAM(angular_momentum, Eigen::Vector3d)>;
+                                                BLF_NAMED_PARAM(com_vel, Eigen::Vector3d),
+                                                BLF_NAMED_PARAM(angular_momentum, Eigen::Vector3d)>;
     using StateDerivative
         = GenericContainer::named_tuple<BLF_NAMED_PARAM(com_vel, Eigen::Vector3d),
-                              BLF_NAMED_PARAM(com_acc, Eigen::Vector3d),
-                              BLF_NAMED_PARAM(angular_momentum_rate, Eigen::Vector3d)>;
+                                        BLF_NAMED_PARAM(com_acc, Eigen::Vector3d),
+                                        BLF_NAMED_PARAM(angular_momentum_rate, Eigen::Vector3d)>;
     using Input = GenericContainer::named_tuple<BLF_NAMED_PARAM(contacts, Contacts),
-                                      BLF_NAMED_PARAM(external_force, ExternalForce)>;
+                                                BLF_NAMED_PARAM(external_wrench, ExternalWrench)>;
     using DynamicalSystem = CentroidalDynamics;
 };
 } // namespace BipedalLocomotion::ContinuousDynamicalSystem::internal
@@ -52,6 +52,7 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 
+// clang-format off
 /**
  * CentroidalDynamics describes the centroidal dynamics of a multi-body system.
  * The centroidal momentum \f${}_{\bar{G}} h ^\top= \begin{bmatrix} {}_{\bar{G}} h^{p\top} & {}_{\bar{G}} h^{\omega\top} \end{bmatrix} \in \mathbb{R}^6\f$
@@ -91,13 +92,13 @@ namespace ContinuousDynamicalSystem
  * |`angular_momentum_rate` | `Eigen::Vector3d` | The centroidal angular momentum rate of change written respect the inertial frame. |
  *
  * The `Input` is described by a BipedalLocomotion::GenericContainer::named_tuple
- * |       Name       |                                          Type                                           |                                                         Description                                                         |
- * |:----------------:|:---------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
- * |    `contacts`    | `std::unordered_map<std::string, BipedalLocomotion::Contacts::DiscreteGeometryContact>` |  List of contact where each force applied in the discere geometry contact is expressed with respect to the inertial frame   |
- * | `external_force` |                           `std::optional<Eigen::Vector3d>`                              |          Optional force applied to the robot center of mass. The coordinates are expressed in the inertial frame            |
+ * |        Name       |                                          Type                                           |                                                         Description                                                         |
+ * |:-----------------:|:---------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+ * |     `contacts`    | `std::unordered_map<std::string, BipedalLocomotion::Contacts::DiscreteGeometryContact>` |  List of contact where each force applied in the discrete geometry contact is expressed with respect to the inertial frame  |
+ * | `external_wrench` |               `std::optional<BipedalLocomotion::Math::Wrenchd>`                         |         Optional wrench applied to the robot center of mass. The coordinates are expressed in the inertial frame            |
  */
 class CentroidalDynamics : public DynamicalSystem<CentroidalDynamics>
-
+// clang-format on
 {
     /** Gravity vector expressed in the inertial frame*/
     Eigen::Vector3d m_gravity{0, 0, -Math::StandardAccelerationOfGravitation};
@@ -107,7 +108,7 @@ class CentroidalDynamics : public DynamicalSystem<CentroidalDynamics>
     Input m_controlInput; /**< Input of the dynamical system */
 
 public:
-
+    // clang-format off
     /**
      * Initialize the CentroidalDynamics system.
      * @param handler pointer to the parameter handler.
@@ -119,6 +120,7 @@ public:
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
+    // clang-format on
 
     /**
      * Computes the centroidal momentum dynamics. It return \f$f(x, u, t)\f$.

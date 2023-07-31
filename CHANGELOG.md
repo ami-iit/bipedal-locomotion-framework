@@ -3,13 +3,24 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
+- Implement `RK4` integrator in `ContinuousDynamicalSystem` component and expose the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/711)
+- Implement `blf-balancing-torque-control` in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/707)
+- Implement `setControlMode` in `IRobotControl` and the associated python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/707)
+- Expose `ContactBase` methods for `DiscreteGeometryContact` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
+- Expose the CoM trajectory and angular momentum trajectory in `MANNTrajectoryGenerator` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
+- Expose the CoM trajectory computed by the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
 - Implement python bindings for `CameraBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 - Implement `constructRDGBSensorClient()` in `RobotInterface` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 
 ### Changed
+- Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
+- Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
+- Use c version of `qhull` in the Planner component. This fixes the compatibility with PCL in ubuntu 20.04 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/
 - Make `ICameraBridge::isValid()` virtual function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 
 ### Fixed
+- Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
 
 ## [0.14.1] - 2023-07-07
 ### Fixed

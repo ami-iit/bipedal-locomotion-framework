@@ -5,11 +5,13 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <libqhullcpp/PointCoordinates.h>
-#include <libqhullcpp/Qhull.h>
-#include <libqhullcpp/QhullFacetList.h>
+extern "C"
+{
+#include <libqhull_r/libqhull_r.h>
+}
 
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::Planners;
 
@@ -24,66 +26,105 @@ ConvexHullHelper::ConvexHullHelper()
 {
     m_pimpl = std::make_unique<Impl>();
 
-    m_pimpl->A.resize(0,0);
+    m_pimpl->A.resize(0, 0);
     m_pimpl->b.resize(0);
 }
 
-ConvexHullHelper::~ConvexHullHelper()
-{
-}
+ConvexHullHelper::~ConvexHullHelper() = default;
 
 bool ConvexHullHelper::buildConvexHull(Eigen::Ref<const Eigen::MatrixXd> points)
 {
+    constexpr auto logPrefix = "[ConvexHullHelper::buildConvexHull]";
+
     const std::size_t numberOfPoints = points.cols();
     const std::size_t numberOfCoordinates = points.rows();
 
-    // the qhull object can be called only once
-    orgQhull::Qhull qhull;
+    // required since qh_new_qhull expects a non const pointer to a double
+    Eigen::Matrix<coordT, Eigen::Dynamic, Eigen::Dynamic> pointsCoordinates = points;
 
-    // it seems that the pointCoordinates element cannot be cleaned so a new point coordinates has to be instantiate
-    orgQhull::PointCoordinates pointCoordinates;
-    pointCoordinates.setDimension(numberOfCoordinates);
+    facetT* facet = nullptr;
+    vertexT* vertex = nullptr;
 
-    std::vector<double> allCoordinates(numberOfPoints * numberOfCoordinates);
-    Eigen::Map<Eigen::MatrixXd>(allCoordinates.data(), numberOfCoordinates, numberOfPoints) = points;
+    // Qhull's data structure.
+    qhT qh_qh;
+    qhT* qh = &qh_qh;
 
-    // map = points;
-    pointCoordinates.append(allCoordinates);
+    // initialize qhull
+    qh_zero(qh, nullptr);
 
-    // find the convex hull
-    qhull.runQhull(pointCoordinates.comment().c_str(),
-                   pointCoordinates.dimension(),
-                   pointCoordinates.count(),
-                   &*pointCoordinates.coordinates(),
-                   "Qt");
+    // set the input
+    char flags[250];
+    sprintf(flags, "qhull ");
+    int exitCode = qh_new_qhull(qh,
+                                numberOfCoordinates,
+                                numberOfPoints,
+                                pointsCoordinates.data(),
+                                false,
+                                flags,
+                                nullptr,
+                                nullptr);
 
-    auto facetList = qhull.facetList();
-    const std::size_t numberOfFacet = facetList.count();
+    if (exitCode != 0)
+    {
+        log()->error("{} Unable to build the convex hull.", logPrefix);
+        return false;
+    }
 
-    // resize matrix and vectors
-    m_pimpl->A.resize(numberOfFacet, numberOfCoordinates);
-    m_pimpl->b.resize(numberOfFacet);
+    // Traverse the facets to count non-upper-Delaunay facets
+    int numNonUpperDelaunay = 0;
+    FORALLfacets
+    {
+        if (!facet->upperdelaunay)
+        {
+            numNonUpperDelaunay++;
+        }
+    }
 
-    // fill the A matrix and the b vector
-    std::size_t row = 0;
-    for (const auto& facet : facetList)
+    // resize the matrix A and the vector b
+    m_pimpl->A.resize(numNonUpperDelaunay, numberOfCoordinates);
+    m_pimpl->b.resize(numNonUpperDelaunay);
+
+    int i = 0;
+    FORALLfacets
     {
         // hyperplane contains d normal coefficients and an offset. The length of the normal is one.
         // The hyperplane defines a halfspace. If V is a normal, b is an offset, and x is a point
         // inside the convex hull, then V x + b < 0.
-        const auto hyperplane = facet.hyperplane();
-        if (hyperplane.isValid())
-        {
-            const auto coord = hyperplane.coordinates();
-            for (std::size_t column = 0; column < numberOfCoordinates; column++)
-            {
-                m_pimpl->A(row, column) = coord[column];
-            }
 
-            m_pimpl->b[row] = -hyperplane.offset();
-            row++;
+        // check if the facet is not an upper delaunay
+        if (!facet->upperdelaunay)
+        {
+            // get the normal
+            m_pimpl->A.row(i)
+                = Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, 1>>(facet->normal,
+                                                                             numberOfCoordinates,
+                                                                             1);
+
+            // now get the offset
+            m_pimpl->b(i) = -facet->offset;
+
+            i++;
         }
     }
+
+    // check if the number of non upper delaunay facets is equal to the number of rows of A
+    assert(i == numNonUpperDelaunay);
+
+#ifdef qh_NOmem
+    qh_freeqhull(qh, qh_ALL);
+#else
+    int curlong, totlong; /* memory remaining after qh_memfreeshort, used if !qh_NOmem  */
+    qh_freeqhull(qh, !qh_ALL); /* free long memory  */
+    qh_memfreeshort(qh, &curlong, &totlong); /* free short memory and memory allocator */
+    if (curlong || totlong)
+    {
+
+        log()->warn("{} qhull internal warning. Did not free {} bytes of long memory ({} pieces).",
+                    logPrefix,
+                    totlong,
+                    curlong);
+    }
+#endif
 
     return true;
 }
@@ -102,16 +143,14 @@ bool ConvexHullHelper::doesPointBelongToConvexHull(Eigen::Ref<const Eigen::Vecto
 {
     if (point.size() != m_pimpl->A.cols())
     {
-        std::cerr << "[ConvexHullHelper::doesPointBelongToConvexHull] Unexpected size of the point."
-                  << std::endl;
+        log()->error("[ConvexHullHelper::doesPointBelongToConvexHull] Unexpected size of the "
+                     "point.");
+
         return false;
     }
 
-    Eigen::VectorXd tmp = m_pimpl->A * point;
+    const Eigen::VectorXd tmp = m_pimpl->A * point;
 
-    for(std::size_t i = 0; i < m_pimpl->b.size(); i++)
-        if(tmp[i] > m_pimpl->b[i])
-            return false;
-
-    return true;
+    // check if all the elements of tmp are less or equal than the elements of b
+    return (tmp.array() <= m_pimpl->b.array()).all();
 }

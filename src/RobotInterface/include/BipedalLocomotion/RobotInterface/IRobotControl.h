@@ -94,10 +94,33 @@ public:
                                const IRobotControl::ControlMode& controlMode) = 0;
 
     /**
+     * Set the control mode.
+     * @param controlModes vector containing the control mode for each joint.
+     * @return True/False in case of success/failure.
+     * @warning At the current stage only revolute joints are supported.
+     */
+    virtual bool setControlMode(const std::vector<IRobotControl::ControlMode>& controlModes) = 0;
+
+    /**
+     * Set the desired control mode.
+     * @param controlMode a control mode for all the joints.
+     * @return True/False in case of success/failure.
+     * @warning Call this function if you want to control all the joint with the same control mode.
+     */
+    virtual bool setControlMode(const IRobotControl::ControlMode& mode) = 0;
+
+    /**
      * Get the list of the controlled joints
      * @return A vector containing the name of the controlled joints.
      */
     virtual std::vector<std::string> getJointList() const = 0;
+
+    /**
+     * Check if the class is valid.
+     * @note If it is valid you can directly control the robot
+     * @return True if it is valid, false otherwise.
+     */
+    virtual bool isValid() const = 0;
 
     /**
      * Destructor.

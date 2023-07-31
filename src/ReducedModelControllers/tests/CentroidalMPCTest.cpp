@@ -367,7 +367,8 @@ TEST_CASE("CentroidalMPC")
                                centroidalMPCData);
         }
 
-        system->setControlInput({mpc.getOutput().contacts, Eigen::Vector3d::Zero()});
+        system->setControlInput({mpc.getOutput().contacts, //
+                                 BipedalLocomotion::Math::Wrenchd::Zero()});
         REQUIRE(integrator.integrate(0s, integratorStepTime));
 
         controllerIndex++;

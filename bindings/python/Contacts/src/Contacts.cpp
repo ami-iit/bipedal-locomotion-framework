@@ -86,7 +86,7 @@ void CreateContact(pybind11::module& module)
     py::class_<ContactWrench, ContactBase>(module, "ContactWrench")
         .def(py::init())
         .def_readwrite("wrench", &ContactWrench::wrench);
-    py::class_<DiscreteGeometryContact>(module, "DiscreteGeometryContact")
+    py::class_<DiscreteGeometryContact, ContactBase>(module, "DiscreteGeometryContact")
         .def(py::init())
         .def_readwrite("corners", &DiscreteGeometryContact::corners);
     py::class_<Corner>(module, "Corner")

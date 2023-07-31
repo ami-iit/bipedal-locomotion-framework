@@ -11,22 +11,24 @@
 
 using namespace BipedalLocomotion::System;
 
-std::chrono::duration<double> YarpClock::now()
+std::chrono::nanoseconds YarpClock::now()
 {
-    // The yarp now function  returns the time in seconds
-    return std::chrono::duration<double>(yarp::os::Time::now());
+    // The yarp now function returns the time in seconds
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::duration<double>(yarp::os::Time::now()));
 }
 
-void YarpClock::sleepFor(const std::chrono::duration<double>& sleepDuration)
+void YarpClock::sleepFor(const std::chrono::nanoseconds& sleepDuration)
 {
     // std::chrono::duration store the time in second
-    yarp::os::Time::delay(sleepDuration.count());
+    yarp::os::Time::delay(std::chrono::duration<double>(sleepDuration).count());
 }
 
-void YarpClock::sleepUntil(const std::chrono::duration<double>& sleepTime)
+void YarpClock::sleepUntil(const std::chrono::nanoseconds& sleepTime)
 {
-    yarp::os::Time::delay(
-        (sleepTime - std::chrono::duration<double>(yarp::os::Time::now())).count());
+    yarp::os::Time::delay((std::chrono::duration<double>(sleepTime)
+                           - std::chrono::duration<double>(yarp::os::Time::now()))
+                              .count());
 }
 
 void YarpClock::yield()

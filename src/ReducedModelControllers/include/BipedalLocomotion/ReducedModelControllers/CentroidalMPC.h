@@ -31,6 +31,7 @@ struct CentroidalMPCOutput
 {
     std::map<std::string, Contacts::DiscreteGeometryContact> contacts;
     std::map<std::string, Contacts::PlannedContact> nextPlannedContact;
+    std::vector<Eigen::Vector3d> comTrajectory;
 };
 
 /**

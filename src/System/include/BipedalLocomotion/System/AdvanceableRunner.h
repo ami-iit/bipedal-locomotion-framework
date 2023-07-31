@@ -50,9 +50,7 @@ public:
 
 private:
     bool m_isInitialized{false}; /**< True if the runner is initialized */
-    std::chrono::duration<double> m_dT{std::chrono::duration_values<double>::zero()}; /**< Period of
-                                                                                         the runner
-                                                                                       */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Period of the runner */
     std::atomic<bool> m_isRunning{false}; /**> If True the runner is running */
 
     std::unique_ptr<_Advanceable> m_advanceable; /**< Advanceable contained in the runner */
@@ -63,25 +61,26 @@ private:
     struct Info
     {
         unsigned int deadlineMiss{0}; /**< Number of deadline miss */
-        double dT{-1.0}; /**< Period of the runner */
+        std::chrono::nanoseconds dT{std::chrono::nanoseconds::zero()}; /**< Period of the runner */
         std::string name{}; /**< Name associated to the runner */
     };
     std::mutex m_infoMutex; /**< Mutex used to protect the information struct */
     Info m_info; /**< Information struct */
 
 public:
+    // clang-format off
     /**
      * Initialize the AdvanceableRunner class
      * @param handler pointer to a parameter handler
      * @note The following parameters are required
-     * |   Parameter Name   |   Type   |                              Description | Mandatory |
+     * |   Parameter Name   |   Type   |                              Description                              | Mandatory |
      * |:------------------:|:--------:|:---------------------------------------------------------------------:|:---------:|
-     * |   `sampling_time`  | `double` |   Strictly positive number rapresenting the sampling time
-     * in seconds  |    Yes    | | `enable_telemetry` |  `bool`  | If True some additional
-     * information are stored. Default value `false` |     No    |
+     * |   `sampling_time`  | `double` |   Strictly positive number representing the sampling time in seconds  |    Yes    |
+     * | `enable_telemetry` |  `bool`  | If True some additional information are stored. Default value `false` |     No    |
      * @return true in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
+    // clang-format on
 
     /**
      * Set the advanceable inside the runner.
@@ -164,13 +163,7 @@ bool AdvanceableRunner<_Advanceable>::initialize(
         return false;
     }
 
-    if (m_info.dT <= 0)
-    {
-        log()->error("{} The sampling time must be a strictly positive number.", errorPrefix);
-        return false;
-    }
-
-    m_dT = std::chrono::duration<double>(m_info.dT);
+    m_dT = m_info.dT;
 
     if (!ptr->getParameter("enable_telemetry", m_isTelemetryEnabled))
     {
@@ -335,7 +328,7 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
         }
 
         log()->info("{} - {}: Closing the AdvanceableRunner.", logPrefix, m_info.name);
-        if(m_isTelemetryEnabled)
+        if (m_isTelemetryEnabled)
         {
             unsigned int deadlineMiss = 0;
 
