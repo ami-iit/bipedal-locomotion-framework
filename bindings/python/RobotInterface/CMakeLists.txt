@@ -30,7 +30,7 @@ if(TARGET BipedalLocomotion::RobotInterface
     FetchContent_Declare(
       cvnp
       GIT_REPOSITORY https://github.com/pthom/cvnp
-      GIT_TAG        e91b2f04e7b7e8c2858ef4d45b434591aa6c0e25
+      GIT_TAG        6aeac770ccff122abf82573da1ae03e18e7a4707
       )
     FetchContent_MakeAvailable(cvnp)
     set(cvnp_target_link cvnp)
