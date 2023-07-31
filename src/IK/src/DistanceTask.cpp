@@ -48,8 +48,8 @@ bool DistanceTask::setVariablesHandler(const System::VariablesHandler& variables
     // get the variable
     if (m_robotVelocityVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize)
     {
-        log()->error("[DistanceTask::setVariablesHandler] The size of the robot velocity variable is "
-                     "different from the one expected. Expected size: {}. Given size: {}.",
+        log()->error("[DistanceTask::setVariablesHandler] The size of the robot velocity variable "
+                     "is different from the one expected. Expected size: {}. Given size: {}.",
                      m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize,
                      m_robotVelocityVariable.size);
         return false;
@@ -60,10 +60,12 @@ bool DistanceTask::setVariablesHandler(const System::VariablesHandler& variables
     m_A.setZero();
     m_b.resize(m_DoFs);
     m_b.setZero();
-    m_jacobian.resize(6, 6 + m_kinDyn->getNrOfDegreesOfFreedom()); //?
+    m_jacobian.resize(m_spatialVelocitySize,
+                      m_spatialVelocitySize + m_kinDyn->getNrOfDegreesOfFreedom());
     m_jacobian.setZero();
-    m_relativeJacobian.resize(6, m_kinDyn->getNrOfDegreesOfFreedom());
+    m_relativeJacobian.resize(m_spatialVelocitySize, m_kinDyn->getNrOfDegreesOfFreedom());
     m_relativeJacobian.setZero();
+    m_framePosition.setZero();
 
     return true;
 }
@@ -100,17 +102,27 @@ bool DistanceTask::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("robot_velocity_variable_name", m_robotVelocityVariable.name))
+    {
+        log()->error("{} [{}] Failed to retrieve the robot velocity variable.",
+                     errorPrefix,
+                     m_description);
+        return false;
+    }
+
     // set the gains for the controllers
     if (!ptr->getParameter("kp", m_kp))
     {
-        log()->error("{} [{}] to get the proportional linear gain.", errorPrefix, m_description);
+        log()->error("{} [{}] Failed to get the proportional linear gain.",
+                     errorPrefix,
+                     m_description);
         return false;
     }
 
     // set the base frame name
     if (!ptr->getParameter("base_name", m_baseName))
     {
-        log()->debug("{} [{}] to get the base name. Using default \"\"",
+        log()->debug("{} [{}] No base_name specified. Using default \"\"",
                      errorPrefix,
                      m_description);
     }
@@ -118,7 +130,9 @@ bool DistanceTask::initialize(
     // set the finger tip frame Name
     if (!ptr->getParameter("target_frame_name", m_targetFrameName))
     {
-        log()->error("{} [{}] to get the end effector frame name.", errorPrefix, m_description);
+        log()->error("{} [{}] Failed to get the end effector frame name.",
+                     errorPrefix,
+                     m_description);
         return false;
     }
 
@@ -127,14 +141,25 @@ bool DistanceTask::initialize(
         m_baseIndex = m_kinDyn->getFrameIndex(m_baseName);
 
         if (m_baseIndex == iDynTree::FRAME_INVALID_INDEX)
+        {
+            log()->error("{} [{}] The specified base name ({}) does not seem to exist.",
+                         errorPrefix,
+                         m_description,
+                         m_baseName);
             return false;
+        }
     }
 
     m_targetFrameIndex = m_kinDyn->getFrameIndex(m_targetFrameName);
-    
-    // here you need to get the indexes of the frames and check that they exists
-    
-    m_world_T_framePosition.resize(3,1);
+
+    if (m_targetFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} [{}] The specified target name ({}) does not seem to exist.",
+                     errorPrefix,
+                     m_description,
+                     m_targetFrameName);
+        return false;
+    }
 
     m_isInitialized = true;
 
@@ -147,26 +172,22 @@ bool DistanceTask::update()
     using namespace iDynTree;
 
     m_isValid = false;
-    
-    // here to compute the distance, you need to get the transform.
-    
+
     if (m_baseName == "")
     {
-    	m_world_T_framePosition = toEigen(m_kinDyn->getWorldTransform(m_targetFrameName).getPosition());
+        m_framePosition = toEigen(m_kinDyn->getWorldTransform(m_targetFrameIndex).getPosition());
 
-            // get the jacobian
-        if (!m_kinDyn->getFrameFreeFloatingJacobian(m_targetFrameName, m_jacobian))
+        if (!m_kinDyn->getFrameFreeFloatingJacobian(m_targetFrameIndex, m_jacobian))
         {
             log()->error("[DistanceTask::update] Unable to get the jacobian.");
             return m_isValid;
         }
 
-    }
-    else
+    } else
     {
-    	m_world_T_framePosition = toEigen(m_kinDyn->getRelativeTransform(m_baseName, m_targetFrameName).getPosition());
+        m_framePosition = toEigen(
+            m_kinDyn->getRelativeTransform(m_baseIndex, m_targetFrameIndex).getPosition());
 
-            // get the jacobian
         if (!m_kinDyn->getRelativeJacobian(m_baseIndex, m_targetFrameIndex, m_relativeJacobian))
         {
             log()->error("[DistanceTask::update] Unable to get the relative jacobian.");
@@ -174,13 +195,15 @@ bool DistanceTask::update()
         }
 
         m_jacobian.topRightCorner(3, m_kinDyn->getNrOfDegreesOfFreedom()) = m_relativeJacobian;
-
     }
 
-    m_computedDistance = sqrt(pow(m_world_T_framePosition(0),2) + pow(m_world_T_framePosition(1),2) + pow(m_world_T_framePosition(2),2));
-    
-    m_A.resize(1, 6 + m_kinDyn->getNrOfDegreesOfFreedom()); //the jacobian matrix 1x(6+ndofs)
-    m_A = (m_world_T_framePosition.transpose() * m_jacobian.topRightCorner(3, 6 + m_kinDyn->getNrOfDegreesOfFreedom())) / (std::max(0.001, m_computedDistance));
+    m_computedDistance = sqrt(pow(m_framePosition(0), 2) + pow(m_framePosition(1), 2)
+                              + pow(m_framePosition(2), 2));
+
+    m_A = (m_framePosition.transpose()
+           * m_jacobian.topRightCorner(3,
+                                       m_spatialVelocitySize + m_kinDyn->getNrOfDegreesOfFreedom()))
+          / (std::max(0.001, m_computedDistance));
     m_b << m_kp * (m_desiredDistance - m_computedDistance);
 
     // A and b are now valid
@@ -188,11 +211,14 @@ bool DistanceTask::update()
     return m_isValid;
 }
 
-bool DistanceTask::setDesiredDistance(double desiredDistance)
+void DistanceTask::setDesiredDistance(double desiredDistance)
 {
-    m_desiredDistance = desiredDistance;
+    m_desiredDistance = std::abs(desiredDistance);
+}
 
-    return true;
+double DistanceTask::getDistance() const
+{
+    return m_computedDistance;
 }
 
 std::size_t DistanceTask::size() const
