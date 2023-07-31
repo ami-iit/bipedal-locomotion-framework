@@ -111,8 +111,9 @@ public:
      * @brief setDesiredDistance
      * @param desiredDistance The desired distance expressed in meters
      * @note The desired distance is considered without sign.
+     * @return True in case of success, false otherwise.
      */
-    void setDesiredDistance(double desiredDistance);
+    bool setDesiredDistance(double desiredDistance);
 
     /**
      * @brief Get the computed distance between the target frame and either the world origin, or the

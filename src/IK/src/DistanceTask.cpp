@@ -120,7 +120,7 @@ bool DistanceTask::initialize(
     }
 
     // set the base frame name
-    if (!ptr->getParameter("base_name", m_baseName))
+    if (!ptr->getParameter("base_frame_name", m_baseName))
     {
         log()->debug("{} [{}] No base_name specified. Using default \"\"",
                      errorPrefix,
@@ -194,26 +194,25 @@ bool DistanceTask::update()
             return m_isValid;
         }
 
-        m_jacobian.topRightCorner(3, m_kinDyn->getNrOfDegreesOfFreedom()) = m_relativeJacobian;
+        m_jacobian.rightCols(m_kinDyn->getNrOfDegreesOfFreedom()) = m_relativeJacobian;
     }
 
     m_computedDistance = sqrt(pow(m_framePosition(0), 2) + pow(m_framePosition(1), 2)
                               + pow(m_framePosition(2), 2));
 
-    m_A = (m_framePosition.transpose()
-           * m_jacobian.topRightCorner(3,
-                                       m_spatialVelocitySize + m_kinDyn->getNrOfDegreesOfFreedom()))
+    toEigen(this->subA(m_robotVelocityVariable))
+        = (m_framePosition.transpose() * m_jacobian.topRows<3>())
           / (std::max(0.001, m_computedDistance));
-    m_b << m_kp * (m_desiredDistance - m_computedDistance);
+    m_b(0) = m_kp * (m_desiredDistance - m_computedDistance);
 
-    // A and b are now valid
     m_isValid = true;
     return m_isValid;
 }
 
-void DistanceTask::setDesiredDistance(double desiredDistance)
+bool DistanceTask::setDesiredDistance(double desiredDistance)
 {
     m_desiredDistance = std::abs(desiredDistance);
+    return true;
 }
 
 double DistanceTask::getDistance() const

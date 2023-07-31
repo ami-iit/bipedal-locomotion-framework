@@ -6,6 +6,7 @@
  */
 
 // Catch2
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 // std
@@ -21,9 +22,10 @@
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/IK/CoMTask.h>
+#include <BipedalLocomotion/IK/DistanceTask.h>
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
-#include <BipedalLocomotion/IK/JointTrackingTask.h>
 #include <BipedalLocomotion/IK/JointLimitsTask.h>
+#include <BipedalLocomotion/IK/JointTrackingTask.h>
 #include <BipedalLocomotion/IK/QPInverseKinematics.h>
 #include <BipedalLocomotion/IK/SE3Task.h>
 
@@ -50,13 +52,17 @@ struct InverseKinematicsAndTasks
     std::shared_ptr<CoMTask> comTask;
     std::shared_ptr<JointTrackingTask> regularizationTask;
     std::shared_ptr<JointLimitsTask> jointLimitsTask;
+    std::shared_ptr<DistanceTask> distanceTask;
 };
 
 struct DesiredSetPoints
 {
     Eigen::Vector3d CoMPosition;
+    std::string endEffectorFrame;
     manif::SE3d endEffectorPose;
     Eigen::VectorXd joints;
+    std::string targetFrameDistance;
+    double targetDistance;
 };
 
 struct System
@@ -78,7 +84,8 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
                                    std::vector<std::string>{"SE3_TASK",
                                                             "COM_TASK",
                                                             "REGULARIZATION_TASK",
-                                                            "JOINT_LIMITS_TASK"});
+                                                            "JOINT_LIMITS_TASK",
+                                                            "DISTANCE_TASK"});
 
     /////// SE3 Task
     auto SE3ParameterHandler = std::make_shared<StdImplementation>();
@@ -105,7 +112,7 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
     jointRegularizationHandler->setParameter("priority", 1);
     parameterHandler->setGroup("REGULARIZATION_TASK", jointRegularizationHandler);
 
-
+    /////// Joint limits task
     auto jointLimitsHandler = std::make_shared<StdImplementation>();
     jointLimitsHandler->setParameter("robot_velocity_variable_name", robotVelocity);
     jointLimitsHandler->setParameter("sampling_time", dT);
@@ -113,6 +120,14 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
     jointLimitsHandler->setParameter("type", "JointLimitsTask");
     jointLimitsHandler->setParameter("priority", 0);
     parameterHandler->setGroup("JOINT_LIMITS_TASK", jointLimitsHandler);
+
+    /////// Distance task
+    auto distanceTaskHandler = std::make_shared<StdImplementation>();
+    distanceTaskHandler->setParameter("robot_velocity_variable_name", robotVelocity);
+    distanceTaskHandler->setParameter("type", "DistanceTask");
+    distanceTaskHandler->setParameter("priority", 0);
+    distanceTaskHandler->setParameter("kp", gain);
+    parameterHandler->setGroup("DISTANCE_TASK", distanceTaskHandler);
 
     return parameterHandler;
 }
@@ -166,7 +181,9 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     REQUIRE(out.ik->addTask(out.comTask, "com_task", highPriority));
 
     REQUIRE(handler->getGroup("REGULARIZATION_TASK").lock()->getParameter("kp", kpRegularization));
-    REQUIRE(handler->getGroup("REGULARIZATION_TASK").lock()->getParameter("weight", weightRegularization));
+    REQUIRE(handler->getGroup("REGULARIZATION_TASK")
+                .lock()
+                ->getParameter("weight", weightRegularization));
     out.regularizationTask = std::make_shared<JointTrackingTask>();
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
     REQUIRE(out.regularizationTask->initialize(handler->getGroup("REGULARIZATION_TASK")));
@@ -181,7 +198,8 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     REQUIRE(out.ik->addTask(out.jointLimitsTask, "joint_limits_task", highPriority));
 
     const Eigen::VectorXd newWeight = 10 * weightRegularization;
-    auto newWeightProvider = std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(newWeight);
+    auto newWeightProvider
+        = std::make_shared<BipedalLocomotion::System::ConstantWeightProvider>(newWeight);
     REQUIRE(out.ik->setTaskWeight("regularization_task", newWeightProvider));
 
     auto outWeightProvider = out.ik->getTaskWeightProvider("regularization_task").lock();
@@ -189,6 +207,11 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     REQUIRE(outWeightProvider->getOutput().isApprox(newWeight));
 
     REQUIRE(out.ik->setTaskWeight("regularization_task", weightRegularization));
+
+    out.distanceTask = std::make_shared<DistanceTask>();
+    REQUIRE(out.distanceTask->setKinDyn(kinDyn));
+    REQUIRE(out.distanceTask->initialize(handler->getGroup("DISTANCE_TASK")));
+    REQUIRE(out.ik->addTask(out.distanceTask, "distance_task", highPriority));
 
     REQUIRE(out.ik->finalize(variables));
 
@@ -226,10 +249,17 @@ DesiredSetPoints getDesiredReference(std::shared_ptr<iDynTree::KinDynComputation
 
     // getCoMPosition and velocity
     out.CoMPosition = iDynTree::toEigen(kinDyn->getCenterOfMassPosition());
-    const std::string controlledFrame = kinDyn->model().getFrameName(numberOfJoints);
-    out.endEffectorPose = toManifPose(kinDyn->getWorldTransform(controlledFrame));
+    out.endEffectorFrame = kinDyn->model().getFrameName(numberOfJoints);
+    out.endEffectorPose = toManifPose(kinDyn->getWorldTransform(out.endEffectorFrame));
     out.joints.resize(jointsPos.size());
     out.joints = iDynTree::toEigen(jointsPos);
+    do
+    {
+        out.targetFrameDistance = iDynTree::getRandomLinkOfModel(kinDyn->model());
+    } while (out.targetFrameDistance == out.endEffectorFrame);
+
+    out.targetDistance
+        = toManifPose(kinDyn->getWorldTransform(out.targetFrameDistance)).translation().norm();
 
     return out;
 }
@@ -250,7 +280,8 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     Eigen::VectorXd jointPositions(kinDyn->getNrOfDegreesOfFreedom());
     Eigen::Vector3d gravity;
 
-    REQUIRE(kinDyn->getRobotState(basePose, jointPositions, baseVelocity, jointVelocities, gravity));
+    REQUIRE(
+        kinDyn->getRobotState(basePose, jointPositions, baseVelocity, jointVelocities, gravity));
 
     // perturb the joint position
     for (int i = 0; i < kinDyn->getNrOfDegreesOfFreedom(); i++)
@@ -298,10 +329,13 @@ TEST_CASE("QP-IK")
             auto system = getSystem(kinDyn);
 
             // Set the frame name
-            const std::string controlledFrame = model.getFrameName(numberOfJoints);
             parameterHandler->getGroup("SE3_TASK")
                 .lock()
-                ->setParameter("frame_name", controlledFrame);
+                ->setParameter("frame_name", desiredSetPoints.endEffectorFrame);
+
+            parameterHandler->getGroup("DISTANCE_TASK")
+                .lock()
+                ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
             // create the IK
             constexpr double jointLimitDelta = 0.5;
@@ -318,8 +352,10 @@ TEST_CASE("QP-IK")
                                                     Eigen::Vector3d::Zero()));
             REQUIRE(ikAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
+            REQUIRE(ikAndTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
+
             // propagate the inverse kinematics for
-            constexpr std::size_t iterations = 30;
+            constexpr std::size_t iterations = 35;
             Eigen::Vector3d gravity;
             gravity << 0, 0, -9.81;
             Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -353,19 +389,25 @@ TEST_CASE("QP-IK")
             }
 
             // check the CoM position
-            REQUIRE(desiredSetPoints.CoMPosition.isApprox(toEigen(kinDyn->getCenterOfMassPosition()),
-                                                          tolerance));
+            REQUIRE(
+                desiredSetPoints.CoMPosition.isApprox(toEigen(kinDyn->getCenterOfMassPosition()),
+                                                      tolerance));
 
             // Check the end-effector pose error
-            const manif::SE3d endEffectorPose  = toManifPose(kinDyn->getWorldTransform(controlledFrame));
+            const manif::SE3d endEffectorPose
+                = toManifPose(kinDyn->getWorldTransform(desiredSetPoints.endEffectorFrame));
 
             // please read it as (log(desiredSetPoints.endEffectorPose^-1 * endEffectorPose))^v
             const manif::SE3d::Tangent error = endEffectorPose - desiredSetPoints.endEffectorPose;
             REQUIRE(error.coeffs().isZero(tolerance));
+
+            REQUIRE(toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameDistance))
+                        .translation()
+                        .norm()
+                    == Catch::Approx(desiredSetPoints.targetDistance).epsilon(tolerance * 0.1));
         }
     }
 }
-
 
 TEST_CASE("QP-IK [With strict limits]")
 {
@@ -393,8 +435,13 @@ TEST_CASE("QP-IK [With strict limits]")
     auto system = getSystem(kinDyn);
 
     // Set the frame name
-    const std::string controlledFrame = model.getFrameName(numberOfJoints);
-    parameterHandler->getGroup("SE3_TASK").lock()->setParameter("frame_name", controlledFrame);
+    parameterHandler->getGroup("SE3_TASK")
+        .lock()
+        ->setParameter("frame_name", desiredSetPoints.endEffectorFrame);
+
+    parameterHandler->getGroup("DISTANCE_TASK")
+        .lock()
+        ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
     // create the IK
     constexpr double jointLimitDelta = 0.5;
@@ -413,8 +460,10 @@ TEST_CASE("QP-IK [With strict limits]")
     REQUIRE(ikAndTasks.comTask->setSetPoint(desiredSetPoints.CoMPosition, Eigen::Vector3d::Zero()));
     REQUIRE(ikAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
+    REQUIRE(ikAndTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
+
     // propagate the inverse kinematics for
-    constexpr std::size_t iterations = 30;
+    constexpr std::size_t iterations = 35;
     Eigen::Vector3d gravity;
     gravity << 0, 0, -9.81;
     Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -459,7 +508,6 @@ TEST_CASE("QP-IK [With strict limits]")
     }
 }
 
-
 TEST_CASE("QP-IK [With builder]")
 {
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
@@ -496,8 +544,13 @@ TEST_CASE("QP-IK [With builder]")
     auto system = getSystem(kinDyn);
 
     // Set the frame name
-    const std::string controlledFrame = model.getFrameName(numberOfJoints);
-    parameterHandler->getGroup("SE3_TASK").lock()->setParameter("frame_name", controlledFrame);
+    parameterHandler->getGroup("SE3_TASK")
+        .lock()
+        ->setParameter("frame_name", desiredSetPoints.endEffectorFrame);
+
+    parameterHandler->getGroup("DISTANCE_TASK")
+        .lock()
+        ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
     // finalize the parameter handler
     constexpr double jointLimitDelta = 0.5;
@@ -510,7 +563,6 @@ TEST_CASE("QP-IK [With builder]")
     // automatic build the IK from parameter handler
     auto [variablesHandler, weights, ik] = QPInverseKinematics::build(parameterHandler, kinDyn);
     REQUIRE_FALSE(ik == nullptr);
-
 
     auto se3Task = std::dynamic_pointer_cast<SE3Task>(ik->getTask("SE3_TASK").lock());
     REQUIRE_FALSE(se3Task == nullptr);
@@ -525,8 +577,13 @@ TEST_CASE("QP-IK [With builder]")
     REQUIRE_FALSE(regularizationTask == nullptr);
     REQUIRE(regularizationTask->setSetPoint(desiredSetPoints.joints));
 
+    auto distanceTask
+        = std::dynamic_pointer_cast<DistanceTask>(ik->getTask("DISTANCE_TASK").lock());
+    REQUIRE_FALSE(distanceTask == nullptr);
+    REQUIRE(distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
+
     // propagate the inverse kinematics for
-    constexpr std::size_t iterations = 30;
+    constexpr std::size_t iterations = 35;
     Eigen::Vector3d gravity;
     gravity << 0, 0, -9.81;
     Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -551,7 +608,7 @@ TEST_CASE("QP-IK [With builder]")
 
         // get the output of the IK
         baseVelocity = ik->getOutput().baseVelocity.coeffs();
-        jointVelocity =ik->getOutput().jointVelocity;
+        jointVelocity = ik->getOutput().jointVelocity;
 
         // propagate the dynamical system
         system.dynamics->setControlInput({baseVelocity, jointVelocity});
@@ -562,7 +619,6 @@ TEST_CASE("QP-IK [With builder]")
         = std::dynamic_pointer_cast<const BipedalLocomotion::System::ConstantWeightProvider>(
             ik->getTaskWeightProvider("REGULARIZATION_TASK").lock());
 
-
     REQUIRE(weightProvider != nullptr);
 
     // check the CoM position
@@ -570,9 +626,15 @@ TEST_CASE("QP-IK [With builder]")
                                                   tolerance));
 
     // Check the end-effector pose error
-    const manif::SE3d endEffectorPose = toManifPose(kinDyn->getWorldTransform(controlledFrame));
+    const manif::SE3d endEffectorPose
+        = toManifPose(kinDyn->getWorldTransform(desiredSetPoints.endEffectorFrame));
 
     // please read it as (log(desiredSetPoints.endEffectorPose^-1 * endEffectorPose))^v
     const manif::SE3d::Tangent error = endEffectorPose - desiredSetPoints.endEffectorPose;
     REQUIRE(error.coeffs().isZero(tolerance));
+
+    REQUIRE(toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameDistance))
+                .translation()
+                .norm()
+            == Catch::Approx(desiredSetPoints.targetDistance).epsilon(tolerance * 0.1));
 }
