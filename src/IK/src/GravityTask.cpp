@@ -47,8 +47,8 @@ bool GravityTask::setVariablesHandler(const System::VariablesHandler& variablesH
     // get the variable
     if (m_robotVelocityVariable.size != m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize)
     {
-        log()->error("[GravityTask::setVariablesHandler] The size of the robot velocity variable is "
-                     "different from the one expected. Expected size: {}. Given size: {}.",
+        log()->error("[GravityTask::setVariablesHandler] The size of the robot velocity variable "
+                     "is different from the one expected. Expected size: {}. Given size: {}.",
                      m_kinDyn->getNrOfDegreesOfFreedom() + m_spatialVelocitySize,
                      m_robotVelocityVariable.size);
         return false;
@@ -59,25 +59,19 @@ bool GravityTask::setVariablesHandler(const System::VariablesHandler& variablesH
     m_A.setZero();
     m_b.resize(m_DoFs);
     m_b.setZero();
-    m_Angularjacobian.resize(3, variablesHandler.getNumberOfVariables());
-    m_Angularjacobian.setZero();
-    m_relativeJacobian.resize(6, m_kinDyn->getNrOfDegreesOfFreedom());
-    m_relativeJacobian.setZero();
-    m_currentAcc.setZero(3);
-    m_currentGyro.setZero(3);
-    m_currentAccNorm.setZero(3);
-    m_Am.resize(2,3);
-    m_Am << 1, 0, 0,
-            0, 1, 0;
-    m_bm.resize(2,3);
-    m_bm << 0 ,1, 0,
-            -1, 0, 0;
+    m_jacobian.resize(m_spatialVelocitySize, m_kinDyn->getNrOfDegreesOfFreedom());
+    m_jacobian.setZero();
+    m_desiredZDirectionBody.setZero();
+    m_feedForwardBody.setZero();
+    m_Am.resize(2, 3);
+    m_Am << 1, 0, 0, 0, 1, 0;
+    m_bm.resize(2, 3);
+    m_bm << 0, -1, 0, 1, 0, 0;
 
     return true;
 }
 
-bool GravityTask::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool GravityTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[GravityTask::initialize]";
 
@@ -124,33 +118,23 @@ bool GravityTask::initialize(
         return false;
     }
 
-    // set the base frame name
-    if (!ptr->getParameter("base_name", m_baseName))
-    {
-        log()->debug("{} [{}] to get the base name. Using default \"\"",
-                     errorPrefix,
-                     m_description);
-    }
-
-    if (m_baseName != "")
-    {
-        m_baseIndex = m_kinDyn->getFrameIndex(m_baseName);
-
-        if (m_baseIndex == iDynTree::FRAME_INVALID_INDEX)
-            return false;
-    }
-
-    // set the finger tip frame Name
-    if (!ptr->getParameter("target_frame_name", m_targetFrameName))
+    std::string targetFrameName;
+    if (!ptr->getParameter("target_frame_name", targetFrameName))
     {
         log()->error("{} [{}] to get the end effector frame name.", errorPrefix, m_description);
         return false;
     }
 
-    m_targetFrameIndex = m_kinDyn->getFrameIndex(m_targetFrameName);
+    m_targetFrameIndex = m_kinDyn->getFrameIndex(targetFrameName);
 
     if (m_targetFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} [{}] The specified target name ({}) does not seem to exist.",
+                     errorPrefix,
+                     m_description,
+                     targetFrameName);
         return false;
+    }
 
     m_isInitialized = true;
 
@@ -163,46 +147,35 @@ bool GravityTask::update()
 
     m_isValid = false;
 
-    // Normalize Accelerometer vector
-    m_accDenomNorm = sqrt(pow(m_currentAcc(0),2) + pow(m_currentAcc(1),2) + pow(m_currentAcc(2),2));
+    auto targetRotation = toEigen(m_kinDyn->getWorldTransform(m_targetFrameIndex).getRotation());
 
-    for (size_t i = 0; i < m_currentAcc.size(); i++)
+    Eigen::Vector3d desiredZDirectionAbsolute = targetRotation * m_desiredZDirectionBody;
+    Eigen::Vector3d feedforwardAbsolute = targetRotation * m_feedForwardBody;
+
+    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_targetFrameIndex, m_jacobian))
     {
-        m_currentAccNorm(i) = m_currentAcc(i) / m_accDenomNorm;
-    }
-
-    m_currentAccNorm = toEigen(m_kinDyn->getWorldTransform(m_targetFrameName).getRotation()) * m_currentAccNorm;
-
-    // get the relative jacobian
-    if (!m_kinDyn->getRelativeJacobian(m_baseIndex, m_targetFrameIndex, m_relativeJacobian))
-    {
-        log()->error("[GravityTask::update] Unable to get the relative jacobian.");
+        log()->error("[GravityTask::update] Unable to get the frame jacobian.");
         return m_isValid;
     }
 
-    // get the angular part of the jacobian
-    m_Angularjacobian.bottomRightCorner(3, m_kinDyn->getNrOfDegreesOfFreedom()) = m_relativeJacobian.bottomRightCorner(3, m_kinDyn->getNrOfDegreesOfFreedom());
+    m_A = m_Am * m_jacobian.bottomRows<3>();
+    m_b << m_kp * m_bm * desiredZDirectionAbsolute + feedforwardAbsolute.topRows<2>();
 
-    m_A = m_Am * m_Angularjacobian;
-    m_b << ( m_kp * m_bm * m_currentAccNorm) + 1000 * m_currentGyro.block<2,1>(1,0);
-
-    // A and b are now valid
     m_isValid = true;
     return m_isValid;
 }
 
-bool GravityTask::setEstimateGravityDir(const Eigen::Ref<const Eigen::VectorXd> currentGravityDir)
+void GravityTask::setDesiredGravityDirectionInTargetFrame(
+    const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection)
 {
-    m_currentAcc = currentGravityDir;
-
-    return true;
+    m_desiredZDirectionBody = desiredGravityDirection;
+    m_desiredZDirectionBody.normalize();
 }
 
-bool GravityTask::setGyroscope(const Eigen::Ref<const Eigen::VectorXd> currentGyro)
+void GravityTask::setFeedForwardVelocityInTargetFrame(
+    const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
 {
-    m_currentGyro = currentGyro * (M_PI)/180;
-
-    return true;
+    m_feedForwardBody = feedforwardVelocity;
 }
 
 std::size_t GravityTask::size() const
