@@ -5,7 +5,10 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+extern "C"
+{
 #include <libqhull_r/libqhull_r.h>
+}
 
 #include <BipedalLocomotion/Planners/ConvexHullHelper.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
