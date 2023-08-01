@@ -6,6 +6,11 @@ import idyntree.swig as idyn
 
 
 class WBC:
-    def __init__(self, param_handler: blf.parameters_handler.IParametersHandler, kindyn: idyn.KinDynComputations):
-        self.solver, self.tasks, self.variables_handler = blf.utils.create_ik(kindyn=kindyn,
-                                                                              param_handler=param_handler)
+    def __init__(
+        self,
+        param_handler: blf.parameters_handler.IParametersHandler,
+        kindyn: idyn.KinDynComputations,
+    ):
+        self.solver, self.tasks, self.variables_handler = blf.utils.create_ik(
+            kindyn=kindyn, param_handler=param_handler
+        )
