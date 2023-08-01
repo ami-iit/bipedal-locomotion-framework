@@ -177,7 +177,7 @@ bool RealSense::initialize(
     return true;
 }
 
-bool RealSense::isValid()
+bool RealSense::isValid() const
 {
     if (!m_pimpl->isStreaming)
     {

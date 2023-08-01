@@ -158,6 +158,28 @@ PolyDriverDescriptor constructMultipleAnalogSensorsRemapper(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler,
     const yarp::dev::PolyDriverList& polydriverList);
 
+/**
+ * Helper function that can be used to build a `RGBDSensorClient` device.
+ * @param handler pointer to a parameter handler interface.
+ * @note The following parameters are taken into consideration
+ * |         Parameter Name       |   Type   |                                                  Description                                         | Mandatory |
+ * |:----------------------------:|:--------:|:----------------------------------------------------------------------------------------------------:|:---------:|
+ * |            `name`            | `string` |                                           Name of the camera client                                  |    Yes    |
+ * |       `local_prefix`         | `string` |                         Prefix of the local port (e.g. the application name)                         |    Yes    |
+ * |  `local_image_port_postfix`  | `string` | Postfix of the local image port. The local port name is `/<local_prefix><local_image_port_postfix>`  |    Yes    |
+ * |  `local_depth_port_postfix`  | `string` | Postfix of the local depth port. The local port name is `/<local_prefix><local_depth_port_postfix>`  |    Yes    |
+ * |   `local_rpc_port_postfix`   | `string` |    Postfix of the local rpc port. The local port name is `/<local_prefix><local_rpc_port_postfix>`   |    Yes    |
+ * |      `remote_image_port`     | `string` |                                  Name of the port associate to the RGB image.                        |    Yes    |
+ * |      `remote_depth_port`     | `string` |                                 Name of the port associate to the depth image.                       |    Yes    |
+ * |      `remote_rpc_port`       | `string` |                                  Name of the port associate to the rpc port.                         |    Yes    |
+ * |       `image_carrier`        | `string` |                                          Carrier for the RGB image.                                  |    Yes    |
+ * |       `depth_carrier`        | `string` |                                         Carrier for the depth image.                                 |    Yes    |
+ * @note The `RGBDSensorClient` device is implement in [yarp](https://yarp.it/git-master/classRGBDSensorClient.html).
+ * @return A PolyDriverDescriptor. In case of error an invalid `PolyDriverDescriptor` is returned.
+ */
+PolyDriverDescriptor constructRDGBSensorClient(
+    std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler);
+
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
 

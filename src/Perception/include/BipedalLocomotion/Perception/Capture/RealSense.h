@@ -45,7 +45,11 @@ public:
     bool initialize(
         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler) final;
 
-    bool isValid();
+   /**
+     * @brief Determines the validity of the object retrieved with getMetadata()
+     * @return True if the object is valid, false otherwise.
+     */
+    bool isValid() const final;
 
     bool getRGBCamerasList(std::vector<std::string>& rgbCamerasList) final;
 

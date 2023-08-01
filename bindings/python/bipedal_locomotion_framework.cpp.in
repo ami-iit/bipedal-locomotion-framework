@@ -58,6 +58,10 @@
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
 @endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
 
+@cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::PerceptionInterface && BipedalLocomotion::RobotInterfaceYarpImplementation && BipedalLocomotion::PerceptionInterfaceYarpImplementation
+#include <BipedalLocomotion/bindings/RobotInterface/PerceptionModule.h>
+@endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::PerceptionInterface && BipedalLocomotion::RobotInterfaceYarpImplementation && BipedalLocomotion::PerceptionInterfaceYarpImplementation
+
 @cmakeiftarget BipedalLocomotion::FloatingBaseEstimators
 #include <BipedalLocomotion/bindings/FloatingBaseEstimators/Module.h>
 @endcmakeiftarget BipedalLocomotion::FloatingBaseEstimators
@@ -160,6 +164,10 @@ PYBIND11_MODULE(bindings, m)
     py::module robotInterfaceModule = m.def_submodule("robot_interface");
     bindings::RobotInterface::CreateModule(robotInterfaceModule);
     @endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
+
+    @cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::PerceptionInterface && BipedalLocomotion::RobotInterfaceYarpImplementation && BipedalLocomotion::PerceptionInterfaceYarpImplementation
+    bindings::RobotInterface::CreatePerceptionModule(robotInterfaceModule);
+    @endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::PerceptionInterface && BipedalLocomotion::RobotInterfaceYarpImplementation && BipedalLocomotion::PerceptionInterfaceYarpImplementation
 
     @cmakeiftarget BipedalLocomotion::FloatingBaseEstimators
     py::module floatingBaseEstimatorModule = m.def_submodule("floating_base_estimators");

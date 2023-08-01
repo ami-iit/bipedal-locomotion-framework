@@ -10,11 +10,14 @@ All notable changes to this project are documented in this file.
 - Expose `ContactBase` methods for `DiscreteGeometryContact` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
 - Expose the CoM trajectory and angular momentum trajectory in `MANNTrajectoryGenerator` bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
 - Expose the CoM trajectory computed by the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
+- Implement python bindings for `CameraBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
+- Implement `constructRDGBSensorClient()` in `RobotInterface` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 
 ### Changed
 - Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
 - Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
 - Use c version of `qhull` in the Planner component. This fixes the compatibility with PCL in ubuntu 20.04 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/713)
+- Make `ICameraBridge::isValid()` virtual function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 
 ### Fixed
 - Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
