@@ -235,6 +235,29 @@ def test_distance_task():
     # Set desired distance
     assert distance_task.set_desired_distance(desired_distance=np.random.uniform(-0.5,0.5))
 
+def test_gravity_task():
+    # create KinDynComputationsDescriptor
+    joints_list, kindyn = get_kindyn()
+
+    # Set the parameters
+    gravity_task_param_handler = blf.parameters_handler.StdParametersHandler()
+    gravity_task_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+    gravity_task_param_handler.set_parameter_string(name="target_frame_name", value="chest")
+    gravity_task_param_handler.set_parameter_string(name="base_frame_name", value="root_link")
+    gravity_task_param_handler.set_parameter_float(name="kp",value=5.0)
+
+    # Initialize the task
+    gravity_task = blf.ik.GravityTask()
+    assert gravity_task.set_kin_dyn(kindyn)
+    assert gravity_task.initialize(param_handler=gravity_task_param_handler)
+    gravity_task_var_handler = blf.system.VariablesHandler()
+    assert gravity_task_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
+    assert gravity_task.set_variables_handler(variables_handler=gravity_task_var_handler)
+
+    # Set desired distance
+    assert gravity_task.set_desired_gravity_direction_in_target_frame(desired_gravity_direction=[np.random.uniform(-0.5,0.5) for _ in range(3)])
+    assert gravity_task.set_feedforward_velocity_in_target_frame(feedforward_velocity=[np.random.uniform(-0.5,0.5) for _ in range(3)])
+
 def test_integration_based_ik_state():
 
     state = blf.ik.IntegrationBasedIKState()
