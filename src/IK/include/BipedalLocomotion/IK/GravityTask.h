@@ -20,7 +20,6 @@ namespace BipedalLocomotion
 {
 namespace IK
 {
-
 // clang-format off
 /**
  * The GravityTask class aligns the z axis of a frame to a desired gravity direction.
@@ -31,7 +30,7 @@ namespace IK
  * \begin{bmatrix}
  * 1 & 0 & 0 \\
  * 0 & 1 & 0
- * \end{bmatrix} J_\omega \nu = k \begin{bmatrix}
+ * \end{bmatrix} J_\omega \nu = -k \begin{bmatrix}
  * 0 &-1 & 0 \\
  * 1 & 0 & 0
  * \end{bmatrix} {} ^ W R_f {} ^ f g ^ * + {} ^ W R_f {} ^ f \omega_{ff}
@@ -40,8 +39,65 @@ namespace IK
  * \f$k\f$ is the controller gain.
  * \f${} ^ W R_f\f$ is the frame rotation.
  * \f${} ^ W g ^ *\f$ is the desired z axis direction expressed in the frame coordinates.
- * \f${} ^ W \omega_{ff}\f$ is the feed forward velocity expressed in the frame coordinates.
- * A more through explanation is provided in https://github.com/ami-iit/bipedal-locomotion-framework/issues/651
+ * \f${} ^ W \omega_{ff}\f$ is the feed-forward velocity expressed in the frame coordinates.
+ * The explanation is as follows.
+ *
+ * We define ${}^wR_b$ as the orientation of the frame $b$ we want to move,
+ * and ${}^b\hat{V}$ as the unitary vector fixed in frame $b$ that we want to align to ${}^wz = e_3 = [0 0 1]^\top$.
+ *
+ * We define the following Lyapunov function:
+ * \f[
+ * V = 1 - \cos(\theta) \geq 0.
+ * \f]
+ *
+ * Since \f$ a^\top b = ||a|| ~||b|| \cos(\theta) \f$, we have:
+ * \f[
+ * V = 1 - \left({}^wR_b{}^b\hat{V}\right)^\top e_3,
+ * \f]
+ * given that both vectors are unitary.
+ *
+ * The time derivative of the Lyapunov function is as follows:
+ * \f[
+ * \dot{V} = - \left({}^w\dot{R}_b{}^b\hat{V}\right)^\top e_3,
+ * \f]
+ * where \f$ {}^w\dot{R}_b = S({}^w\omega){}^w{R}_b \f$, with \f$ S(\cdot) \f$ being a skew symmetric matrix,
+ * and \f$ {}^w\omega \in \mathbb{R}^3 \f$ is the right-trivialized angular velocity. Hence,
+ * \f[
+ * \dot{V} = - \left(S({}^w\omega){}^w{R}_b{}^b\hat{V}\right)^\top e_3.
+ * \f]
+ *
+ * Exploiting \f$ S(\cdot)^\top = -S(\cdot) \f$, we have:
+ * \f[
+ * \dot{V} = {}^b\hat{V}^\top{}^w{R}_b^\top  S({}^w\omega) e_3,
+ * \f]
+ * and \f$ S(a)b = -S(b)a \f$:
+ * \f[
+ * \dot{V} = -{}^b\hat{V}^\top{}^w{R}_b^\top  S(e_3){}^w\omega.
+ * \f]
+ *
+ * Then, if we choose:
+ * \f[
+ * {}^w\omega = k \left({}^b\hat{V}^\top{}^w{R}_b^\top  S(e_3)\right)^\top + \lambda e_3,
+ * \f]
+ * with \f$ k, \lambda \in \mathbb{R}^3 \f$, we have that \f$ \dot{V} \leq 0 \f$. Then,
+ * \f[
+ * {}^w\omega = -k S(e_3) {}^w{R}_b{}^b\hat{V} + \lambda e_3.
+ * \f]
+ *
+ * We can introduce the right-trivialized Jacobian \f$ {}^wJ \f$ such that \f$ {}^wJ\dot{\nu} = {}^w\omega \f$:
+ * \f[
+ * {}^wJ\dot{\nu} =  -k S(e_3) {}^w{R}_b{}^b\hat{V} + \lambda e_3.
+ * \f]
+ *
+ * We can filter out the rotation around the world Z-axis, thus obtaining:
+ * \f[
+ * \begin{bmatrix}
+ *   e_1 & e_2
+ * \end{bmatrix}^\top {}^wJ\dot{\nu} = -k \begin{bmatrix}
+ *                                              0 & -1 & 0\\
+ *                                              1 & 0 & 0
+ *                                           \end{bmatrix} {}^w{R}_b{}^b\hat{V}.
+ * \f]
  */
 // clang-format on
 class GravityTask : public IKLinearTask
@@ -119,7 +175,7 @@ public:
      *
      * The input is normalized, unless the norm is too small.
      */
-    void setDesiredGravityDirectionInTargetFrame(
+    bool setDesiredGravityDirectionInTargetFrame(
         const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection);
 
     /**
@@ -128,7 +184,7 @@ public:
      *
      * Only the first two components are used.
      */
-    void
+    bool
     setFeedForwardVelocityInTargetFrame(const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity);
 
     /**

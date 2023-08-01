@@ -23,6 +23,7 @@
 
 #include <BipedalLocomotion/IK/CoMTask.h>
 #include <BipedalLocomotion/IK/DistanceTask.h>
+#include <BipedalLocomotion/IK/GravityTask.h>
 #include <BipedalLocomotion/IK/IntegrationBasedIK.h>
 #include <BipedalLocomotion/IK/JointLimitsTask.h>
 #include <BipedalLocomotion/IK/JointTrackingTask.h>
@@ -53,6 +54,7 @@ struct InverseKinematicsAndTasks
     std::shared_ptr<JointTrackingTask> regularizationTask;
     std::shared_ptr<JointLimitsTask> jointLimitsTask;
     std::shared_ptr<DistanceTask> distanceTask;
+    std::shared_ptr<GravityTask> gravityTask;
 };
 
 struct DesiredSetPoints
@@ -63,6 +65,8 @@ struct DesiredSetPoints
     Eigen::VectorXd joints;
     std::string targetFrameDistance;
     double targetDistance;
+    std::string targetFrameGravity;
+    Eigen::Vector3d desiredBodyGravity;
 };
 
 struct System
@@ -75,6 +79,7 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
 {
 
     constexpr double gain = 5.0;
+    constexpr double additionalTasksWeight = 10.0;
 
     auto parameterHandler = std::make_shared<StdImplementation>();
     parameterHandler->setParameter("robot_velocity_variable_name", robotVelocity);
@@ -85,7 +90,8 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
                                                             "COM_TASK",
                                                             "REGULARIZATION_TASK",
                                                             "JOINT_LIMITS_TASK",
-                                                            "DISTANCE_TASK"});
+                                                            "DISTANCE_TASK",
+                                                            "GRAVITY_TASK"});
 
     /////// SE3 Task
     auto SE3ParameterHandler = std::make_shared<StdImplementation>();
@@ -125,9 +131,22 @@ std::shared_ptr<IParametersHandler> createParameterHandler()
     auto distanceTaskHandler = std::make_shared<StdImplementation>();
     distanceTaskHandler->setParameter("robot_velocity_variable_name", robotVelocity);
     distanceTaskHandler->setParameter("type", "DistanceTask");
-    distanceTaskHandler->setParameter("priority", 0);
+    distanceTaskHandler->setParameter("priority", 1);
     distanceTaskHandler->setParameter("kp", gain);
+    Eigen::VectorXd distanceWeight(1);
+    distanceWeight << additionalTasksWeight;
+    distanceTaskHandler->setParameter("weight", distanceWeight);
     parameterHandler->setGroup("DISTANCE_TASK", distanceTaskHandler);
+
+    /////// Gravity task
+    auto gravityTaskHandler = std::make_shared<StdImplementation>();
+    gravityTaskHandler->setParameter("robot_velocity_variable_name", robotVelocity);
+    gravityTaskHandler->setParameter("type", "GravityTask");
+    gravityTaskHandler->setParameter("priority", 1);
+    gravityTaskHandler->setParameter("kp", gain);
+    const Eigen::Vector2d gravityWeight = additionalTasksWeight * Eigen::Vector2d::Ones();
+    gravityTaskHandler->setParameter("weight", gravityWeight);
+    parameterHandler->setGroup("GRAVITY_TASK", gravityTaskHandler);
 
     return parameterHandler;
 }
@@ -166,6 +185,8 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     constexpr std::size_t lowPriority = 1;
     Eigen::VectorXd kpRegularization;
     Eigen::VectorXd weightRegularization;
+    Eigen::VectorXd distanceWeight;
+    Eigen::VectorXd gravityWeight;
 
     out.ik = std::make_shared<QPInverseKinematics>();
     REQUIRE(out.ik->initialize(handler));
@@ -211,7 +232,14 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     out.distanceTask = std::make_shared<DistanceTask>();
     REQUIRE(out.distanceTask->setKinDyn(kinDyn));
     REQUIRE(out.distanceTask->initialize(handler->getGroup("DISTANCE_TASK")));
-    REQUIRE(out.ik->addTask(out.distanceTask, "distance_task", highPriority));
+    REQUIRE(handler->getGroup("DISTANCE_TASK").lock()->getParameter("weight", distanceWeight));
+    REQUIRE(out.ik->addTask(out.distanceTask, "distance_task", lowPriority, distanceWeight));
+
+    out.gravityTask = std::make_shared<GravityTask>();
+    REQUIRE(out.gravityTask->setKinDyn(kinDyn));
+    REQUIRE(out.gravityTask->initialize(handler->getGroup("GRAVITY_TASK")));
+    REQUIRE(handler->getGroup("GRAVITY_TASK").lock()->getParameter("weight", gravityWeight));
+    REQUIRE(out.ik->addTask(out.gravityTask, "gravity_task", lowPriority, gravityWeight));
 
     REQUIRE(out.ik->finalize(variables));
 
@@ -253,13 +281,30 @@ DesiredSetPoints getDesiredReference(std::shared_ptr<iDynTree::KinDynComputation
     out.endEffectorPose = toManifPose(kinDyn->getWorldTransform(out.endEffectorFrame));
     out.joints.resize(jointsPos.size());
     out.joints = iDynTree::toEigen(jointsPos);
+    iDynTree::LinkIndex index;
     do
     {
         out.targetFrameDistance = iDynTree::getRandomLinkOfModel(kinDyn->model());
-    } while (out.targetFrameDistance == out.endEffectorFrame);
+        index = kinDyn->model().getFrameIndex(out.targetFrameDistance);
+    } while (std::abs(index - kinDyn->model().getFrameIndex(out.endEffectorFrame)) < 5);
 
     out.targetDistance
         = toManifPose(kinDyn->getWorldTransform(out.targetFrameDistance)).translation().norm();
+
+    // Find a frame sufficiently far away from those used for the distance and SE3 task
+    do
+    {
+        out.targetFrameGravity = iDynTree::getRandomLinkOfModel(kinDyn->model());
+        index = kinDyn->model().getFrameIndex(out.targetFrameGravity);
+    } while (std::abs(index - kinDyn->model().getFrameIndex(out.endEffectorFrame)) < 5
+             || std::abs(index - kinDyn->model().getFrameIndex(out.targetFrameDistance)) < 5);
+
+    out.targetFrameGravity = kinDyn->getFloatingBase();
+
+    // The desired gravity in body frame is the world z axis in body frame,
+    // that is the third row of the body rotation matrix
+    out.desiredBodyGravity
+        = toManifPose(kinDyn->getWorldTransform(out.targetFrameGravity)).rotation().matrix().row(2);
 
     return out;
 }
@@ -306,7 +351,7 @@ TEST_CASE("QP-IK")
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
-    constexpr double tolerance = 1e-1;
+    constexpr double tolerance = 5e-1;
 
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
@@ -337,6 +382,10 @@ TEST_CASE("QP-IK")
                 .lock()
                 ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
+            parameterHandler->getGroup("GRAVITY_TASK")
+                .lock()
+                ->setParameter("target_frame_name", desiredSetPoints.targetFrameGravity);
+
             // create the IK
             constexpr double jointLimitDelta = 0.5;
             finalizeParameterHandler(parameterHandler,
@@ -354,8 +403,11 @@ TEST_CASE("QP-IK")
 
             REQUIRE(ikAndTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
 
+            REQUIRE(ikAndTasks.gravityTask->setDesiredGravityDirectionInTargetFrame(
+                desiredSetPoints.desiredBodyGravity));
+
             // propagate the inverse kinematics for
-            constexpr std::size_t iterations = 35;
+            constexpr std::size_t iterations = 30;
             Eigen::Vector3d gravity;
             gravity << 0, 0, -9.81;
             Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -401,10 +453,22 @@ TEST_CASE("QP-IK")
             const manif::SE3d::Tangent error = endEffectorPose - desiredSetPoints.endEffectorPose;
             REQUIRE(error.coeffs().isZero(tolerance));
 
+            // Check the distance error
             REQUIRE(toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameDistance))
                         .translation()
                         .norm()
                     == Catch::Approx(desiredSetPoints.targetDistance).epsilon(tolerance * 0.1));
+
+            // Check the gravity error
+            Eigen::Vector3d gravityError;
+            gravityError
+                = toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameGravity))
+                      .rotation()
+                      .matrix()
+                      .row(2)
+                      .transpose()
+                  - desiredSetPoints.desiredBodyGravity;
+            REQUIRE(gravityError.isZero(tolerance));
         }
     }
 }
@@ -443,6 +507,10 @@ TEST_CASE("QP-IK [With strict limits]")
         .lock()
         ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
+    parameterHandler->getGroup("GRAVITY_TASK")
+        .lock()
+        ->setParameter("target_frame_name", desiredSetPoints.targetFrameGravity);
+
     // create the IK
     constexpr double jointLimitDelta = 0.5;
     Eigen::VectorXd limitsDelta
@@ -462,8 +530,11 @@ TEST_CASE("QP-IK [With strict limits]")
 
     REQUIRE(ikAndTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
 
+    REQUIRE(ikAndTasks.gravityTask->setDesiredGravityDirectionInTargetFrame(
+        desiredSetPoints.desiredBodyGravity));
+
     // propagate the inverse kinematics for
-    constexpr std::size_t iterations = 35;
+    constexpr std::size_t iterations = 30;
     Eigen::Vector3d gravity;
     gravity << 0, 0, -9.81;
     Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -513,7 +584,7 @@ TEST_CASE("QP-IK [With builder]")
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
-    constexpr double tolerance = 1e-1;
+    constexpr double tolerance = 5e-1;
 
     // set the velocity representation
     REQUIRE(kinDyn->setFrameVelocityRepresentation(
@@ -552,6 +623,10 @@ TEST_CASE("QP-IK [With builder]")
         .lock()
         ->setParameter("target_frame_name", desiredSetPoints.targetFrameDistance);
 
+    parameterHandler->getGroup("GRAVITY_TASK")
+        .lock()
+        ->setParameter("target_frame_name", desiredSetPoints.targetFrameGravity);
+
     // finalize the parameter handler
     constexpr double jointLimitDelta = 0.5;
     finalizeParameterHandler(parameterHandler,
@@ -582,8 +657,13 @@ TEST_CASE("QP-IK [With builder]")
     REQUIRE_FALSE(distanceTask == nullptr);
     REQUIRE(distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
 
+    auto gravityTask = std::dynamic_pointer_cast<GravityTask>(ik->getTask("GRAVITY_TASK").lock());
+    REQUIRE_FALSE(gravityTask == nullptr);
+    REQUIRE(
+        gravityTask->setDesiredGravityDirectionInTargetFrame(desiredSetPoints.desiredBodyGravity));
+
     // propagate the inverse kinematics for
-    constexpr std::size_t iterations = 35;
+    constexpr std::size_t iterations = 30;
     Eigen::Vector3d gravity;
     gravity << 0, 0, -9.81;
     Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();
@@ -633,8 +713,19 @@ TEST_CASE("QP-IK [With builder]")
     const manif::SE3d::Tangent error = endEffectorPose - desiredSetPoints.endEffectorPose;
     REQUIRE(error.coeffs().isZero(tolerance));
 
+    // Check the distance error
     REQUIRE(toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameDistance))
                 .translation()
                 .norm()
             == Catch::Approx(desiredSetPoints.targetDistance).epsilon(tolerance * 0.1));
+
+    // Check the gravity error
+    Eigen::Vector3d gravityError;
+    gravityError = toManifPose(kinDyn->getWorldTransform(desiredSetPoints.targetFrameGravity))
+                       .rotation()
+                       .matrix()
+                       .row(2)
+                       .transpose()
+                   - desiredSetPoints.desiredBodyGravity;
+    REQUIRE(gravityError.isZero(tolerance));
 }

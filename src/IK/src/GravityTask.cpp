@@ -59,14 +59,19 @@ bool GravityTask::setVariablesHandler(const System::VariablesHandler& variablesH
     m_A.setZero();
     m_b.resize(m_DoFs);
     m_b.setZero();
-    m_jacobian.resize(m_spatialVelocitySize, m_kinDyn->getNrOfDegreesOfFreedom());
+    m_jacobian.resize(m_spatialVelocitySize,
+                      m_spatialVelocitySize + m_kinDyn->getNrOfDegreesOfFreedom());
     m_jacobian.setZero();
     m_desiredZDirectionBody.setZero();
     m_feedForwardBody.setZero();
     m_Am.resize(2, 3);
-    m_Am << 1, 0, 0, 0, 1, 0;
     m_bm.resize(2, 3);
-    m_bm << 0, -1, 0, 1, 0, 0;
+    // clang-format off
+    m_Am << 1, 0, 0,
+            0, 1, 0;
+    m_bm << 0, -1, 0,
+            1, 0, 0;
+    // clang-format on
 
     return true;
 }
@@ -158,24 +163,26 @@ bool GravityTask::update()
         return m_isValid;
     }
 
-    m_A = m_Am * m_jacobian.bottomRows<3>();
-    m_b << m_kp * m_bm * desiredZDirectionAbsolute + feedforwardAbsolute.topRows<2>();
+    toEigen(this->subA(m_robotVelocityVariable)) = m_Am * m_jacobian.bottomRows<3>();
+    m_b = -m_kp * m_bm * desiredZDirectionAbsolute + feedforwardAbsolute.topRows<2>();
 
     m_isValid = true;
     return m_isValid;
 }
 
-void GravityTask::setDesiredGravityDirectionInTargetFrame(
+bool GravityTask::setDesiredGravityDirectionInTargetFrame(
     const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection)
 {
     m_desiredZDirectionBody = desiredGravityDirection;
     m_desiredZDirectionBody.normalize();
+    return true;
 }
 
-void GravityTask::setFeedForwardVelocityInTargetFrame(
+bool GravityTask::setFeedForwardVelocityInTargetFrame(
     const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
 {
     m_feedForwardBody = feedforwardVelocity;
+    return true;
 }
 
 std::size_t GravityTask::size() const
