@@ -146,6 +146,14 @@
               std::optional&lt;std::reference_wrapper&lt;double&gt;&gt; receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Get depth image.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9e9e6eb606d25b2fff1d5c77c348aafa" class="m-doc">getMetaData</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a>&amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Get the stored metadata.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad029283df1539db6fae56c9b0ea50ad2" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Determines the validity of the object retrieved with getMetadata()</dd>
           </dl>
         </section>
         <section id="pro-methods">
@@ -167,10 +175,6 @@
               <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a>&amp; cameraBridgeMetaData) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Helper method to maintain <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a> struct by populating it from the configuration parameters.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9e9e6eb606d25b2fff1d5c77c348aafa" class="m-doc">getMetaData</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a>&amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
-            </dt>
-            <dd>Get the stored metadata.</dd>
           </dl>
         </section>
         <section>
@@ -306,6 +310,34 @@
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;depthImg&quot; to this method</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a9e9e6eb606d25b2fff1d5c77c348aafa"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a>&amp; BipedalLocomotion::<wbr />RobotInterface::<wbr />ICameraBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9e9e6eb606d25b2fff1d5c77c348aafa" class="m-doc-self">getMetaData</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Get the stored metadata.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a const reference to the metadata</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ad029283df1539db6fae56c9b0ea50ad2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ICameraBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad029283df1539db6fae56c9b0ea50ad2" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Determines the validity of the object retrieved with getMetadata()</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>True if the object is valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="ab3512211fe40a0ef2bad6c8354dd581d"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ICameraBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab3512211fe40a0ef2bad6c8354dd581d" class="m-doc-self">populateCameraBridgeOptionsFromConfig</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">BipedalLocomotion::<wbr />ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
@@ -379,20 +411,6 @@
               </tbody>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the user may choose to use/not use this method depending on their requirements for the implementation if the user chooses to not use the method, the implementation must simply contain &quot;return true;&quot;</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a9e9e6eb606d25b2fff1d5c77c348aafa"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">const <a href="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData.html" class="m-doc">CameraBridgeMetaData</a>&amp; BipedalLocomotion::<wbr />RobotInterface::<wbr />ICameraBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9e9e6eb606d25b2fff1d5c77c348aafa" class="m-doc-self">getMetaData</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">pure virtual</span> <span class="m-label m-warning">protected</span></span></span>
-            </h3>
-            <p>Get the stored metadata.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <tfoot>
-                <tr>
-                  <th style="width: 1%">Returns</th>
-                  <td>a const reference to the metadata</td>
-                </tr>
-              </tfoot>
-            </table>
           </div></section>
         </section>
       </div>

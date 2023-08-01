@@ -107,13 +107,14 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/YarpCameraBridge.h" line="74" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acb11554bb43a8c3a48ce6019cc7701a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a331bd024381ed5c2a879d03ac75614de" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpCameraBridge::isValid</definition>
-        <argsstring>() const</argsstring>
+        <argsstring>() const final</argsstring>
         <name>isValid</name>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad029283df1539db6fae56c9b0ea50ad2">isValid</reimplements>
         <briefdescription>
-<para>Determines the validity of the object retrieved with <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a8705abc70daf7e47fb9808f513958a80" kindref="member">get()</ref> </para>
+<para>Determines the validity of the object retrieved with getMetadata() </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
@@ -446,7 +447,7 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a5bcc48a9687e55fff28e3eb3d530631c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>getRGBCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a3608f3f85a736e7cfe24e7aa0fc8b9f6" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>getRGBDCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1ab940d3cdfaa1a4096142c762e1e74868" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acb11554bb43a8c3a48ce6019cc7701a4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a331bd024381ed5c2a879d03ac75614de" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a81693f83366dd6337bcd8db4253467ba" prot="private" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>populateCameraBridgeMetaDataFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab3512211fe40a0ef2bad6c8354dd581d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpCameraBridge</scope><name>populateCameraBridgeOptionsFromConfig</name></member>

@@ -906,11 +906,12 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a4157fc5df74981423dc29fe3afb27558" kind="function"><name>getRGBDCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a06408daf35fede203127d24e05a219a9" kind="function"><name>getColorImage</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad267af952a3bd668f0b2bf83e72b9396" kind="function"><name>getDepthImage</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" kind="function"><name>getMetaData</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad029283df1539db6fae56c9b0ea50ad2" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1af72e9dd0ee0391e93ce4b56733c25757" kind="function"><name>~ICameraBridge</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab3512211fe40a0ef2bad6c8354dd581d" kind="function"><name>populateCameraBridgeOptionsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a558cc51658fe940823573793e0aea396" kind="function"><name>populateCameraListsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" kind="function"><name>populateCameraBridgeMetaDataFromConfig</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" kind="function"><name>getMetaData</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1IClock" kind="class"><name>BipedalLocomotion::System::IClock</name>
     <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a99a28837fb84b2a1df959890ec561f82" kind="function"><name>IClock</name></member>
@@ -1796,7 +1797,7 @@
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a0b17adbe7b3840f0f30f8ebba491f961" kind="function"><name>RealSense</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a7bf48c316a6b1e29781b40f38c1930f0" kind="function"><name>~RealSense</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab62c959a67d07050e32e4268de97855e" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab694f3e94475b9443f3a71463f3b403a" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a799b8b65d9cd38bcdd02566b2ab4dc92" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1af1ca4cd8209134751b367bc50e8c0188" kind="function"><name>getRGBCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1aa74ffa2259745453e3967698ba57b1ad" kind="function"><name>getRGBDCamerasList</name></member>
     <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a1f97c5afeb17b3f7da3a99a85fc44baf" kind="function"><name>getPCLDevicesList</name></member>
@@ -2634,7 +2635,7 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a450a60a8f09823c072747140896f91e9" kind="function"><name>~YarpCameraBridge</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1ab940d3cdfaa1a4096142c762e1e74868" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1af2a0c66486efeff01f86401837a95585" kind="function"><name>setDriversList</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acb11554bb43a8c3a48ce6019cc7701a4" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a331bd024381ed5c2a879d03ac75614de" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a8705abc70daf7e47fb9808f513958a80" kind="function"><name>get</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acf9b48bab358a0d307312a102bbb6f78" kind="function"><name>getMetaData</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a5bcc48a9687e55fff28e3eb3d530631c" kind="function"><name>getRGBCamerasList</name></member>
@@ -2921,6 +2922,7 @@
     <member refid="YarpHelper_8h_1a3428753b80de7ab5cd7b5a38f1feba18" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
     <member refid="YarpHelper_8h_1abc32625d98993ca36028defbabe9dc62" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
     <member refid="YarpHelper_8h_1ad992949f2120fc211c0af9d296631ec5" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1a90efd8763c28720edded7499b94b9753" kind="function"><name>constructRDGBSensorClient</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1SimplifiedModelControllers" kind="namespace"><name>BipedalLocomotion::SimplifiedModelControllers</name>
     <member refid="CoMZMPController_8h_1aea0587a8a1455adf243098d002c87811" kind="typedef"><name>CoMZMPControllerOutput</name></member>
@@ -3279,6 +3281,7 @@
     <member refid="YarpHelper_8h_1a3428753b80de7ab5cd7b5a38f1feba18" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
     <member refid="YarpHelper_8h_1abc32625d98993ca36028defbabe9dc62" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
     <member refid="YarpHelper_8h_1ad992949f2120fc211c0af9d296631ec5" kind="function"><name>constructMultipleAnalogSensorsRemapper</name></member>
+    <member refid="YarpHelper_8h_1a90efd8763c28720edded7499b94b9753" kind="function"><name>constructRDGBSensorClient</name></member>
   </compound>
   <compound refid="YarpRobotControl_8h" kind="file"><name>YarpRobotControl.h</name>
   </compound>

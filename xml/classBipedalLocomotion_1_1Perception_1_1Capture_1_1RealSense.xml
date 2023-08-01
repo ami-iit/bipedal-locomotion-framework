@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="88" column="21" bodyfile="BipedalLocomotion/Perception/Capture/RealSense.h" bodystart="87" bodyend="-1"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="92" column="21" bodyfile="BipedalLocomotion/Perception/Capture/RealSense.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -76,18 +76,23 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="45" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab694f3e94475b9443f3a71463f3b403a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a799b8b65d9cd38bcdd02566b2ab4dc92" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Perception::Capture::RealSense::isValid</definition>
-        <argsstring>()</argsstring>
+        <argsstring>() const final</argsstring>
         <name>isValid</name>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad029283df1539db6fae56c9b0ea50ad2">isValid</reimplements>
         <briefdescription>
+<para>Determines the validity of the object retrieved with getMetadata() </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="48" column="10"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="52" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1af1ca4cd8209134751b367bc50e8c0188" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -118,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="50" column="10"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="54" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1aa74ffa2259745453e3967698ba57b1ad" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -149,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="52" column="10"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="56" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a1f97c5afeb17b3f7da3a99a85fc44baf" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -180,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="54" column="10"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="58" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a1a499f3c2393f12d95706544db1fe735" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -238,7 +243,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="57" column="5"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="61" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a5a0ac5b5c10b4960f63448b9c4d51e95" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -296,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="62" column="5"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="66" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ac71fa2e23352736c009de41d7c3ddf06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -322,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="67" column="5"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="71" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3ad2630b863bfe3b8e84051c624eb844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -348,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="71" column="10"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="75" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a8848e401a6d46ee456f6b55e9bc7740c" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -375,7 +380,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="76" column="5"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="80" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a4f5b5a2361719920b803c936326a5092" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData" kindref="compound">BipedalLocomotion::RobotInterface::CameraBridgeMetaData</ref> &amp;</type>
@@ -393,7 +398,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="84" column="67"/>
+        <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="88" column="67"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -510,7 +515,7 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="37" column="1" bodyfile="BipedalLocomotion/Perception/Capture/RealSense.h" bodystart="39" bodyend="89"/>
+    <location file="BipedalLocomotion/Perception/Capture/RealSense.h" line="37" column="1" bodyfile="BipedalLocomotion/Perception/Capture/RealSense.h" bodystart="39" bodyend="93"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a1a499f3c2393f12d95706544db1fe735" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>getColorImage</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ac71fa2e23352736c009de41d7c3ddf06" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>getColorizedDepthImage</name></member>
@@ -522,7 +527,7 @@
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1af1ca4cd8209134751b367bc50e8c0188" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>getRGBCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1aa74ffa2259745453e3967698ba57b1ad" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>getRGBDCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab62c959a67d07050e32e4268de97855e" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>initialize</name></member>
-      <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1ab694f3e94475b9443f3a71463f3b403a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>isValid</name></member>
+      <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a799b8b65d9cd38bcdd02566b2ab4dc92" prot="public" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a3f194396f0831ef9592e5e511769187a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" prot="protected" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>populateCameraBridgeMetaDataFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab3512211fe40a0ef2bad6c8354dd581d" prot="protected" virt="virtual"><scope>BipedalLocomotion::Perception::Capture::RealSense</scope><name>populateCameraBridgeOptionsFromConfig</name></member>

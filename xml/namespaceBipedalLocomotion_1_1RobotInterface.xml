@@ -485,6 +485,107 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="157" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="157" declcolumn="22"/>
       </memberdef>
+      <memberdef kind="function" id="YarpHelper_8h_1a90efd8763c28720edded7499b94b9753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></type>
+        <definition>PolyDriverDescriptor BipedalLocomotion::RobotInterface::constructRDGBSensorClient</definition>
+        <argsstring>(std::weak_ptr&lt; const BipedalLocomotion::ParametersHandler::IParametersHandler &gt; handler)</argsstring>
+        <name>constructRDGBSensorClient</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">BipedalLocomotion::ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Helper function that can be used to build a <computeroutput>RGBDSensorClient</computeroutput> device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a parameter handler interface. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The following parameters are taken into consideration <table rows="11" cols="4"><row>
+<entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>name</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the camera client   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>local_prefix</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Prefix of the local port (e.g. the application name)   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>local_image_port_postfix</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Postfix of the local image port. The local port name is <computeroutput>/&lt;local_prefix&gt;&lt;local_image_port_postfix&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>local_depth_port_postfix</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Postfix of the local depth port. The local port name is <computeroutput>/&lt;local_prefix&gt;&lt;local_depth_port_postfix&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>local_rpc_port_postfix</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Postfix of the local rpc port. The local port name is <computeroutput>/&lt;local_prefix&gt;&lt;local_rpc_port_postfix&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>remote_image_port</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the port associate to the RGB image.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>remote_depth_port</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the port associate to the depth image.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>remote_rpc_port</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the port associate to the rpc port.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>image_carrier</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Carrier for the RGB image.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>depth_carrier</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Carrier for the depth image.   </para>
+</entry><entry thead="no" align='center'><para>Yes   </para>
+</entry></row>
+</table>
+</para>
+</simplesect>
+<simplesect kind="note"><para>The <computeroutput>RGBDSensorClient</computeroutput> device is implement in <ulink url="https://yarp.it/git-master/classRGBDSensorClient.html">yarp</ulink>. </para>
+</simplesect>
+<simplesect kind="return"><para>A <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref>. In case of error an invalid <computeroutput><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></computeroutput> is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpHelper.h" line="180" column="22" declfile="BipedalLocomotion/RobotInterface/YarpHelper.h" declline="180" declcolumn="22"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>

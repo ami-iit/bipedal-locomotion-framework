@@ -259,6 +259,44 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="132" column="5" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="132" bodyend="137"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData" kindref="compound">CameraBridgeMetaData</ref> &amp;</type>
+        <definition>virtual const CameraBridgeMetaData&amp; BipedalLocomotion::RobotInterface::ICameraBridge::getMetaData</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getMetaData</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a4f5b5a2361719920b803c936326a5092">getMetaData</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acf9b48bab358a0d307312a102bbb6f78">getMetaData</reimplementedby>
+        <briefdescription>
+<para>Get the stored metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a const reference to the metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="143" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad029283df1539db6fae56c9b0ea50ad2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool BipedalLocomotion::RobotInterface::ICameraBridge::isValid</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isValid</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a799b8b65d9cd38bcdd02566b2ab4dc92">isValid</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a331bd024381ed5c2a879d03ac75614de">isValid</reimplementedby>
+        <briefdescription>
+<para>Determines the validity of the object retrieved with getMetadata() </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the object is valid, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="149" column="18"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1af72e9dd0ee0391e93ce4b56733c25757" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
         <definition>virtual BipedalLocomotion::RobotInterface::ICameraBridge::~ICameraBridge</definition>
@@ -271,7 +309,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="142" column="13"/>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="154" column="13"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -315,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="156" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="156" bodyend="161"/>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="168" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="168" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a558cc51658fe940823573793e0aea396" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -369,7 +407,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="174" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="174" bodyend="180"/>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="186" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="186" bodyend="192"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>bool</type>
@@ -411,26 +449,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="192" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="192" bodyend="197"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>const <ref refid="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData" kindref="compound">CameraBridgeMetaData</ref> &amp;</type>
-        <definition>virtual const CameraBridgeMetaData&amp; BipedalLocomotion::RobotInterface::ICameraBridge::getMetaData</definition>
-        <argsstring>() const =0</argsstring>
-        <name>getMetaData</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1Capture_1_1RealSense_1a4f5b5a2361719920b803c936326a5092">getMetaData</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1acf9b48bab358a0d307312a102bbb6f78">getMetaData</reimplementedby>
-        <briefdescription>
-<para>Get the stored metadata. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>a const reference to the metadata </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="203" column="40"/>
+        <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="204" column="18" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="204" bodyend="209"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -456,14 +475,15 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="64" column="1" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="65" bodyend="204"/>
+    <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="64" column="1" bodyfile="BipedalLocomotion/RobotInterface/ICameraBridge.h" bodystart="65" bodyend="210"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a06408daf35fede203127d24e05a219a9" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getColorImage</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad267af952a3bd668f0b2bf83e72b9396" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getDepthImage</name></member>
-      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" prot="protected" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getMetaData</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a9e9e6eb606d25b2fff1d5c77c348aafa" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getMetaData</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a18d604a503f9ba409aa1351de5fc7f1f" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getRGBCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a4157fc5df74981423dc29fe3afb27558" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>getRGBDCamerasList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1abb42ab89afe8f0eb1f0cc3120f5bc4b3" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ad029283df1539db6fae56c9b0ea50ad2" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a79f70ac178d2c60151483e84c000c5cb" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>populateCameraBridgeMetaDataFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1ab3512211fe40a0ef2bad6c8354dd581d" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>populateCameraBridgeOptionsFromConfig</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ICameraBridge_1a558cc51658fe940823573793e0aea396" prot="protected" virt="virtual"><scope>BipedalLocomotion::RobotInterface::ICameraBridge</scope><name>populateCameraListsFromConfig</name></member>
