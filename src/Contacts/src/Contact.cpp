@@ -13,7 +13,7 @@ using namespace BipedalLocomotion::Contacts;
 
 bool PlannedContact::operator==(const PlannedContact& other) const
 {
-    bool eq = this->name == other.name;
+    bool eq = true;
     eq = eq && this->type == other.type;
     eq = eq && this->pose.coeffs() == other.pose.coeffs();
     eq = eq && this->activationTime == other.activationTime;
