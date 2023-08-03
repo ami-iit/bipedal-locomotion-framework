@@ -33,6 +33,7 @@ struct SwingFootPlannerState
     manif::SE3d::Tangent mixedVelocity; /**< 6D-velocity written in mixed representation */
     manif::SE3d::Tangent mixedAcceleration; /**< 6D-acceleration written in mixed representation */
     bool isInContact{true}; /** < If true the link is in contact with the environment */
+    std::chrono::nanoseconds time; /**< Time associated to the planned trajectory */
 };
 
 /**
@@ -79,21 +80,22 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
 
     /**
      * Update the SE3 Trajectory.
+     * @param state state of the planner you want to update.
      * @return True in case of success/false otherwise.
      */
-    bool updateSE3Traj();
+    bool evaluateSE3Traj(SwingFootPlannerState& state);
 
     /**
      * Create a new SE3Trajectory considering the previous and next contact
      * @return True in case of success/false otherwise.
      */
-    bool createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
+    bool createSE3Traj(const manif::SE3d& initialPose,
+                       Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
                        Eigen::Ref<const Eigen::Vector2d> initialPlanarAcceleration,
                        Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalVelocity,
                        Eigen::Ref<const Eigen::Matrix<double, 1, 1>> initialVerticalAcceleration,
                        const manif::SO3d::Tangent& initialAngularVelocity,
-                       const manif::SO3d::Tangent& initialAngularAcceleration,
-                       const std::chrono::nanoseconds& dT);
+                       const manif::SO3d::Tangent& initialAngularAcceleration);
 
 public:
     /**

@@ -130,10 +130,10 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         return false;
     }
 
-    // if m_contactList is empty, then it is the first time the contact list is added to the planner
-    // so we can:
+    // if m_contactList is empty or the output is not valid, then it is the first time the contact
+    // list is added to the planner so we can:
     // 1. take it
-    // 2. Set the current trajectory time  equal to the activationTime of the first element in the
+    // 2. Set the current trajectory time equal to the activationTime of the first element in the
     // contact list
     if (m_contactList.size() == 0)
     {
@@ -147,6 +147,7 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         m_state.mixedVelocity.setZero();
         m_state.mixedAcceleration.setZero();
         m_state.isInContact = true;
+        m_state.time = m_lastValidContact.activationTime;
 
         return true;
     }
@@ -167,24 +168,25 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     // Here the case where the contact is active
 
     // get the contact active at the given time
-    auto newContactAtCurrentTime = contactList.getPresentContact(m_currentTrajectoryTime - m_dT);
-    auto newNextContactAtCurrentTime = contactList.getNextContact(m_currentTrajectoryTime - m_dT);
-    auto currentContactAtCurrentTime
-        = m_contactList.getPresentContact(m_currentTrajectoryTime - m_dT);
-    const bool isCurrentContactActive
-        = currentContactAtCurrentTime->isContactActive(m_currentTrajectoryTime - m_dT);
+    auto newContactAtCurrentTime = contactList.getPresentContact(m_currentTrajectoryTime);
+    auto newNextContactAtCurrentTime = contactList.getNextContact(m_currentTrajectoryTime);
+    auto currentContactAtCurrentTime = m_contactList.getPresentContact(m_currentTrajectoryTime);
+    bool isCurrentContactActive
+        = currentContactAtCurrentTime->isContactActive(m_currentTrajectoryTime);
 
     // if the contact is active and the new contact list has an active contact at the give time
     // instant that is the same we update the contact list since new contact in the future may be
     // added
     if (isCurrentContactActive && newContactAtCurrentTime != contactList.cend()
-        && newContactAtCurrentTime->isContactActive(m_currentTrajectoryTime - m_dT)
-        && (*newContactAtCurrentTime) == (m_lastValidContact))
+        && newContactAtCurrentTime->isContactActive(m_currentTrajectoryTime)
+        && (*newContactAtCurrentTime) == (*currentContactAtCurrentTime))
     {
+        // the list of the contact must be updated since a new contact in the future may appear
         m_contactList = contactList;
 
-        // TODO this line may not be needed
-        m_lastValidContact = *m_contactList.getPresentContact(m_currentTrajectoryTime - m_dT);
+        // // TODO this line may not be needed
+        // m_lastValidContact = *m_contactList.getPresentContact(m_state.time);
+        // log()->warn("caso 1");
 
         return true;
     }
@@ -192,70 +194,41 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     // if the contact is active and the new contact list has an active contact at the give time
     // instant that is different we update the contact
     if (isCurrentContactActive && newContactAtCurrentTime != contactList.cend()
-        && newContactAtCurrentTime->isContactActive(m_currentTrajectoryTime - m_dT)
-        && (*newContactAtCurrentTime) != (m_lastValidContact))
+        && newContactAtCurrentTime->isContactActive(m_currentTrajectoryTime)
+        && (*newContactAtCurrentTime) != (*currentContactAtCurrentTime))
     {
         // we need to check that the pose is the same
         // pose is an SE3 manif object so we cannot use the == operator
         // Read it as
         // log(m_currentContactPtr->pose.inverse() * newContactAtCurrentTime->pose).vee()
         constexpr double tolerance = 1e-6;
-        if (!(newContactAtCurrentTime->pose - m_lastValidContact.pose).coeffs().isZero(tolerance))
+        if (!(newContactAtCurrentTime->pose - currentContactAtCurrentTime->pose)
+                 .coeffs()
+                 .isZero(tolerance))
         {
             log()->error("{} The pose of the contact active at the current time instant is "
                          "different from the one of the current contact. This is not supported. "
                          "Original contact: {}, new contact: {}. Error {}",
                          logPrefix,
-                         m_lastValidContact.pose.coeffs().transpose(),
+                         currentContactAtCurrentTime->pose.coeffs().transpose(),
                          newContactAtCurrentTime->pose.coeffs().transpose(),
-                         (newContactAtCurrentTime->pose - m_lastValidContact.pose)
+                         (newContactAtCurrentTime->pose - currentContactAtCurrentTime->pose)
                              .coeffs()
                              .transpose());
             return false;
         }
 
+        // since the pose did not change we suppose that the only change is in the timing
         m_contactList = contactList;
-        m_lastValidContact = *m_contactList.getPresentContact(m_currentTrajectoryTime - m_dT);
+        m_lastValidContact = *m_contactList.getPresentContact(m_state.time);
+        log()->warn("caso 2 {}", m_lastValidContact.name);
 
         return true;
     }
 
     // if the contact is not active and the new contact list has an active contact at the give time
     // instant
-
-    log()->info("{} is current state active? {} does next contact exists? {}. Current time: {}",
-                logPrefix,
-                isCurrentContactActive,
-                newNextContactAtCurrentTime != contactList.cend(),
-                std::chrono::duration_cast<std::chrono::milliseconds>(m_currentTrajectoryTime
-                                                                      - m_dT));
-
-    // print the contacts phases
-    for (const auto& contact : m_contactList)
-    {
-        BipedalLocomotion::log()->debug("{} Stored {} activation {} "
-                                        "deactivation {}.",
-                                        logPrefix,
-                                        contact.name,
-                                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                            contact.activationTime),
-                                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                            contact.deactivationTime));
-    }
-
-    // print the contacts phases
-    for (const auto& contact : contactList)
-    {
-        BipedalLocomotion::log()->debug("{} New {} activation {} "
-                                        "deactivation {}.",
-                                        logPrefix,
-                                        contact.name,
-                                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                            contact.activationTime),
-                                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                            contact.deactivationTime));
-    }
-
+    
     if (!isCurrentContactActive && newNextContactAtCurrentTime != contactList.cend())
     {
         // we take the next contact of the new contact list and we check:
@@ -268,7 +241,7 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         // 2. the swing foot trajectory duration didn't change
 
         // we are sure that this will exist since we are in swing phase
-        auto nextContactAtCurrentTime = m_contactList.getNextContact(m_currentTrajectoryTime - m_dT);
+        auto nextContactAtCurrentTime = m_contactList.getNextContact(m_currentTrajectoryTime);
         assert(nextContactAtCurrentTime != m_contactList.cend());
 
         // evaluate the duration of the two swing foot trajectories
@@ -280,7 +253,7 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
                          "New Orientation {}, original orientation {}. New activation {}, original "
                          "activation {}.",
                          logPrefix,
-                         m_currentTrajectoryTime - m_dT,
+                         m_currentTrajectoryTime,
                          newNextContactAtCurrentTime->pose.quat().coeffs().transpose(),
                          nextContactAtCurrentTime->pose.quat().coeffs().transpose(),
                          newNextContactAtCurrentTime->activationTime,
@@ -288,45 +261,33 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
             return false;
         }
 
-        // // update the contact list and the pointer
-        // m_contactList.keepOnlyPresentContact(m_currentTrajectoryTime);
-        // for (const auto& contact : contactList)
-        // {
-        //     if (!m_contactList.addContact(contact))
-        //     {
-        //         log()->error("{} Unable to add the contact {} to the contact list.",
-        //                      logPrefix,
-        //                      contact.name);
-        //         return false;
-        //     }
-        // }
 
         m_contactList = contactList;
 
         // update the SE(3) trajectory only if the foot was not in contact at the previous time step
         if (!m_state.isInContact)
         {
-            log()->info("{} The foot was not in contact at the previous time step. Updating the "
-                        "SE(3) trajectory.",
-                        logPrefix);
-
-            if (!this->createSE3Traj(m_state.mixedVelocity.lin().head<2>(),
-                                     m_state.mixedAcceleration.lin().head<2>(),
-                                     m_state.mixedVelocity.lin().tail<1>(),
-                                     m_state.mixedAcceleration.lin().tail<1>(),
-                                     m_state.mixedVelocity.ang(),
-                                     m_state.mixedAcceleration.ang(),
-                                     m_dT))
-            {
-                log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
-                return false;
-            }
-
-            // if (!this->updateSE3Traj())
+            // // we need to update the SE(3) trajectory to attach the new trajectory to the current
+            // // time evaluateSE3Traj is called before create to evaluate the initial point of the new
+            // // trajectory
+            // SwingFootPlannerState dummyState;
+            // if (!this->evaluateSE3Traj(dummyState))
             // {
             //     log()->error("{} Unable to update the SE(3) trajectory.", logPrefix);
             //     return false;
             // }
+
+            if (!this->createSE3Traj(m_state.transform,
+                                     m_state.mixedVelocity.lin().head<2>(),
+                                     m_state.mixedAcceleration.lin().head<2>(),
+                                     m_state.mixedVelocity.lin().tail<1>(),
+                                     m_state.mixedAcceleration.lin().tail<1>(),
+                                     m_state.mixedVelocity.ang(),
+                                     m_state.mixedAcceleration.ang()))
+            {
+                log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
+                return false;
+            }
         }
         return true;
     }
@@ -350,39 +311,39 @@ void SwingFootPlanner::setTime(const std::chrono::nanoseconds& time)
     m_currentTrajectoryTime = time;
 }
 
-bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
+bool SwingFootPlanner::createSE3Traj(const manif::SE3d& initialPose,
+                                     Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
                                      Eigen::Ref<const Eigen::Vector2d> initialPlanarAcceleration,
                                      Eigen::Ref<const Vector1d> initialVerticalVelocity,
                                      Eigen::Ref<const Vector1d> initialVerticalAcceleration,
                                      const manif::SO3d::Tangent& initialAngularVelocity,
-                                     const manif::SO3d::Tangent& initialAngularAcceleration,
-                                     const std::chrono::nanoseconds& dT)
+                                     const manif::SO3d::Tangent& initialAngularAcceleration)
 {
     constexpr auto logPrefix = "[SwingFootPlanner::createSE3Traj]";
 
     // create a new trajectory in SE(3)
-    const auto nextContactPtr = m_contactList.getNextContact(m_currentTrajectoryTime - dT);
+    const auto nextContactPtr = m_contactList.getNextContact(m_state.time);
     assert(nextContactPtr != m_contactList.cend());
 
     log()->error("{} Creating a new SE(3) trajectory. Initial time {}, final time {}. Pose {}",
                  logPrefix,
-                 m_currentTrajectoryTime,
+                 m_state.time,
                  nextContactPtr->activationTime,
                  nextContactPtr->pose.coeffs().transpose());
 
     if (nextContactPtr == m_contactList.cend())
     {
-        log()->error("{} Invalid next contact. Time {}.", logPrefix, m_currentTrajectoryTime);
+        log()->error("{} Invalid next contact. Time {}.", logPrefix, m_state.time);
         return false;
     }
 
     // The rotation cannot change when the contact list is updated. For this reason we can build the
     // trajectory considering the initial and the final conditions
-    m_staringTimeOfCurrentSO3Traj = m_currentTrajectoryTime - dT;
+    m_staringTimeOfCurrentSO3Traj = m_state.time;
     const auto T = nextContactPtr->activationTime - m_staringTimeOfCurrentSO3Traj;
     m_SO3Planner.setInitialConditions(initialAngularVelocity, initialAngularAcceleration);
     m_SO3Planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero());
-    if (!m_SO3Planner.setRotations(m_state.transform.quat(), nextContactPtr->pose.asSO3(), T))
+    if (!m_SO3Planner.setRotations(initialPose.quat(), nextContactPtr->pose.asSO3(), T))
     {
         log()->error("{} Unable to set the initial and final rotations for the SO(3) planner.",
                      logPrefix);
@@ -401,9 +362,9 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
     }
 
     // for the planar case we start at the current state at the given time
-    if (!m_planarPlanner->setKnots({m_state.transform.translation().head<2>(),
+    if (!m_planarPlanner->setKnots({initialPose.translation().head<2>(),
                                     nextContactPtr->pose.translation().head<2>()},
-                                   {m_currentTrajectoryTime-dT, nextContactPtr->activationTime}))
+                                   {m_state.time, nextContactPtr->activationTime}))
     {
         log()->error("{} Unable to set the knots for the planar planner.", logPrefix);
         return false;
@@ -417,9 +378,10 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
           + m_stepHeight;
 
     // the cast is required since m_footApexTime is a floating point number between 0 and 1
+    const std::chrono::nanoseconds swingFootDuration = nextContactPtr->activationTime - m_lastValidContact.deactivationTime;
     const std::chrono::nanoseconds footHeightViaPointTime
         = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            m_footApexTime * T + m_lastValidContact.deactivationTime);
+            m_footApexTime * swingFootDuration + m_lastValidContact.deactivationTime);
 
     if (!m_heightPlanner->setInitialConditions(initialVerticalVelocity,
                                                initialVerticalAcceleration))
@@ -434,12 +396,12 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
         return false;
     }
 
-    if (m_currentTrajectoryTime-dT < footHeightViaPointTime)
+    if (m_state.time < footHeightViaPointTime)
     {
-        if (!m_heightPlanner->setKnots({m_state.transform.translation().tail<1>(),
+        if (!m_heightPlanner->setKnots({initialPose.translation().tail<1>(),
                                         Vector1d::Constant(footHeightViaPointPos),
                                         nextContactPtr->pose.translation().tail<1>()},
-                                       {m_currentTrajectoryTime-dT,
+                                       {m_state.time,
                                         footHeightViaPointTime,
                                         nextContactPtr->activationTime}))
         {
@@ -449,9 +411,9 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
         }
     } else
     {
-        if (!m_heightPlanner->setKnots({m_state.transform.translation().tail<1>(),
+        if (!m_heightPlanner->setKnots({initialPose.translation().tail<1>(),
                                         nextContactPtr->pose.translation().tail<1>()},
-                                       {m_currentTrajectoryTime-dT, nextContactPtr->activationTime}))
+                                       {m_state.time, nextContactPtr->activationTime}))
         {
             log()->error("{} Unable to set the knots for the knots for the height planner.",
                          logPrefix);
@@ -462,7 +424,7 @@ bool SwingFootPlanner::createSE3Traj(Eigen::Ref<const Eigen::Vector2d> initialPl
     return true;
 }
 
-bool SwingFootPlanner::updateSE3Traj()
+bool SwingFootPlanner::evaluateSE3Traj(BipedalLocomotion::Planners::SwingFootPlannerState& state)
 {
     constexpr auto logPrefix = "[SwingFootPlanner::updateSE3Traj]";
 
@@ -480,8 +442,8 @@ bool SwingFootPlanner::updateSE3Traj()
 
     // Note that here we use asSO3() to access to the angular velocity stored in the 6d-vector. (A
     // similar consideration can be done also for the acceleration.)
-    auto angularVelocity(m_state.mixedVelocity.asSO3());
-    auto angularAcceleration(m_state.mixedAcceleration.asSO3());
+    auto angularVelocity(state.mixedVelocity.asSO3());
+    auto angularAcceleration(state.mixedAcceleration.asSO3());
     if (!m_SO3Planner.evaluatePoint(shiftedTime, rotation, angularVelocity, angularAcceleration))
     {
         log()->error("{} Unable to get the SO(3) trajectory at time t = {}.",
@@ -493,8 +455,8 @@ bool SwingFootPlanner::updateSE3Traj()
     manif::SE3d::Translation position;
     if (!m_planarPlanner->evaluatePoint(m_currentTrajectoryTime,
                                         position.head<2>(),
-                                        m_state.mixedVelocity.coeffs().head<2>(),
-                                        m_state.mixedAcceleration.coeffs().head<2>()))
+                                        state.mixedVelocity.coeffs().head<2>(),
+                                        state.mixedAcceleration.coeffs().head<2>()))
     {
         log()->error("{} Unable to get the planar trajectory at time t = {}.",
                      logPrefix,
@@ -504,8 +466,8 @@ bool SwingFootPlanner::updateSE3Traj()
 
     if (!m_heightPlanner->evaluatePoint(m_currentTrajectoryTime,
                                         position.segment<1>(2),
-                                        m_state.mixedVelocity.coeffs().segment<1>(2),
-                                        m_state.mixedAcceleration.coeffs().segment<1>(2)))
+                                        state.mixedVelocity.coeffs().segment<1>(2),
+                                        state.mixedAcceleration.coeffs().segment<1>(2)))
     {
         log()->error("{} Unable to the height trajectory at time t = {}.",
                      logPrefix,
@@ -514,13 +476,7 @@ bool SwingFootPlanner::updateSE3Traj()
     }
 
     // set the transform
-    m_state.transform = manif::SE3d(position, rotation);
-    log()->debug("{} Current trajectory time {} Current transform: {}",
-                 logPrefix,
-                 m_currentTrajectoryTime,
-                 m_state.transform.coeffs().transpose());
-
-    m_state.isInContact = false;
+    state.transform = manif::SE3d(position, rotation);
 
     return true;
 }
@@ -530,6 +486,9 @@ bool SwingFootPlanner::advance()
     constexpr auto logPrefix = "[SwingFootPlanner::advance]";
 
     m_isOutputValid = false;
+
+    // update the time
+    m_state.time = m_currentTrajectoryTime;
 
     if (m_contactList.size() == 0)
     {
@@ -553,12 +512,6 @@ bool SwingFootPlanner::advance()
     if (m_state.isInContact
         && m_currentTrajectoryTime >= m_contactList.lastContact()->deactivationTime)
     {
-        log()->debug("{} The time stored in the planner is greater equal than the last "
-                     "deactivation time. This is currently handled by this block but it may crate "
-                     "issues. Last deactivation time: {}, Inner time {}.",
-                     logPrefix,
-                     std::chrono::duration<double>(m_contactList.lastContact()->deactivationTime),
-                     std::chrono::duration<double>(m_currentTrajectoryTime));
         m_isOutputValid = true;
 
         // update the internal time
@@ -579,24 +532,26 @@ bool SwingFootPlanner::advance()
     // This is the case (2)
     if (m_state.isInContact && m_currentTrajectoryTime >= m_lastValidContact.deactivationTime)
     {
-        if (!this->createSE3Traj(Eigen::Vector2d::Zero(),
+        if (!this->createSE3Traj(m_state.transform,
+                                 Eigen::Vector2d::Zero(),
                                  Eigen::Vector2d::Zero(),
                                  Vector1d::Constant(m_footTakeOffVelocity),
                                  Vector1d::Constant(m_footTakeOffAcceleration),
                                  manif::SO3d::Tangent::Zero(),
-                                 manif::SO3d::Tangent::Zero(),
-                                 std::chrono::nanoseconds(0)))
+                                 manif::SO3d::Tangent::Zero()))
         {
             log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
             return false;
         }
 
-        if (!this->updateSE3Traj())
+        if (!this->evaluateSE3Traj(m_state))
         {
             log()->error("{} Unable to update the SE(3) trajectory.", logPrefix);
             return false;
         }
 
+        // the input was in contact but now it is not
+        m_state.isInContact = false;
         m_isOutputValid = true;
 
         // update the internal time
@@ -615,11 +570,14 @@ bool SwingFootPlanner::advance()
     if (!m_state.isInContact && m_currentTrajectoryTime > m_lastValidContact.deactivationTime
         && m_currentTrajectoryTime < nextContact->activationTime)
     {
-        if (!this->updateSE3Traj())
+        if (!this->evaluateSE3Traj(m_state))
         {
             log()->error("{} Unable to update the SE(3) trajectory.", logPrefix);
             return false;
         }
+
+        // now the contact is broken
+        m_state.isInContact = false;
 
         m_isOutputValid = true;
 
@@ -629,10 +587,20 @@ bool SwingFootPlanner::advance()
     }
 
     // This is the case (4)
+    log()->error("m_state.isInContact {}, m_currentTrajectoryTime {} "
+                 "m_lastValidContact.deactivationTime {} nextContact->activationTime {}",
+                 m_state.isInContact,
+                 m_currentTrajectoryTime,
+                 m_lastValidContact.deactivationTime,
+                 nextContact->activationTime);
+
+
+    // m_state.isInContact false, m_currentTrajectoryTime 9000000000ns m_lastValidContact.deactivationTime 13700000000ns nextContact->activationTime 9000000000ns
     if (!m_state.isInContact && m_currentTrajectoryTime > m_lastValidContact.deactivationTime
         && m_currentTrajectoryTime >= nextContact->activationTime)
     {
         m_lastValidContact = *nextContact;
+        log()->warn("caso 3");
 
         m_state.transform = m_lastValidContact.pose;
         m_state.mixedVelocity.setZero();
