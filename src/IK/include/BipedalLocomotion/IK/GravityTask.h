@@ -180,7 +180,7 @@ public:
 
     /**
      * @brief Set the feedforward angular velocity expressed in the target frame.
-     * @param feedforwardVelocity The desired feedforward velocity
+     * @param feedforwardVelocity The desired feedforward velocity in rad/s.
      *
      * Only the first two components are used.
      */
