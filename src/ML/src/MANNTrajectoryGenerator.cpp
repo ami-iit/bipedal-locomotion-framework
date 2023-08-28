@@ -50,6 +50,7 @@ struct MANNTrajectoryGenerator::Impl
                            const Contacts::EstimatedContact& estimatedContact);
 
     bool resetContactList(const Contacts::EstimatedContact& estimatedContact,
+                          const std::chrono::nanoseconds& time,
                           const std::string& contactName);
 
     static double extactYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R);
@@ -74,13 +75,45 @@ double MANNTrajectoryGenerator::Impl::extactYawAngle(const Eigen::Ref<const Eige
 }
 
 bool MANNTrajectoryGenerator::Impl::resetContactList(
-    const Contacts::EstimatedContact& estimatedContact, const std::string& contactName)
+    const Contacts::EstimatedContact& estimatedContact,
+    const std::chrono::nanoseconds& time,
+    const std::string& contactName)
 {
-    // if the contact is not active we do not have to add in the contact list
+    auto& contactList = this->contactListMap[contactName];
+
+    // if the contact is not active we store the previous valid contact in the contact list
     if (!estimatedContact.isActive)
     {
-        return true;
+
+        // if the contact is not active we keep the previous contact in the contact list
+        const auto latestActiveContact = contactList.getPresentContact(time);
+
+        if (latestActiveContact == contactList.cend())
+        {
+            log()->error("[MANNTrajectoryGenerator::Impl::resetContactList] Unable to find the "
+                         "latest active contact for the contact named {}. Time {}.",
+                         contactName,
+                         std::chrono::duration_cast<std::chrono::milliseconds>(time));
+
+            for (const auto& contact : contactList)
+            {
+                log()->error("[MANNTrajectoryGenerator::Impl::resetContactList] Contact {} is "
+                             "active between {} and {}.",
+                             contact.name,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 contact.activationTime),
+                             std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 contact.deactivationTime));
+            }
+            return false;
+        }
+
+        Contacts::PlannedContact temp = *latestActiveContact;
+        this->contactListMap[contactName].clear();
+        return this->contactListMap[contactName].addContact(temp);
     }
+
+    // if the contact is active we add a new contact to the list
     Contacts::PlannedContact temp;
     temp.activationTime = estimatedContact.switchTime * slowDownFactor;
     temp.deactivationTime = std::chrono::nanoseconds::max();
@@ -93,6 +126,8 @@ bool MANNTrajectoryGenerator::Impl::resetContactList(
     temp.pose.quat(Eigen::AngleAxis(yaw, Eigen::Vector3d::UnitZ()));
 
     temp.type = Contacts::ContactType::FULL;
+
+    this->contactListMap[contactName].clear();
     return this->contactListMap[contactName].addContact(temp);
 }
 
@@ -303,13 +338,13 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
         return false;
     }
 
-    // clean the contact list map this will also create the two values in the dictionary
-    m_pimpl->contactListMap["left_foot"].clear();
-    m_pimpl->contactListMap["right_foot"].clear();
-
     // add the first contact if needed
-    return m_pimpl->resetContactList(mergePointState.leftFoot, "left_foot")
-           && m_pimpl->resetContactList(mergePointState.rightFoot, "right_foot");
+    return m_pimpl->resetContactList(mergePointState.leftFoot,
+                                     mergePointState.time * m_pimpl->slowDownFactor,
+                                     "left_foot")
+           && m_pimpl->resetContactList(mergePointState.rightFoot,
+                                        mergePointState.time * m_pimpl->slowDownFactor,
+                                        "right_foot");
 }
 
 bool MANNTrajectoryGenerator::advance()
