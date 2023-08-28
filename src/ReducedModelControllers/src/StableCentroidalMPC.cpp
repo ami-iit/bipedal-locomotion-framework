@@ -1,9 +1,9 @@
 /**
- * @file CentroidalMPC.cpp
- * @authors Giulio Romualdi
+ * @file StableCentroidalMPC.cpp
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
+
 #include <chrono>
 #include <string>
 #include <unordered_map>
@@ -14,14 +14,14 @@
 #include <BipedalLocomotion/Conversions/CasadiConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Math/LinearizedFrictionCone.h>
-#include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
+#include <BipedalLocomotion/ReducedModelControllers/StableCentroidalMPC.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ReducedModelControllers;
 using namespace BipedalLocomotion::Contacts;
 
 
-struct CentroidalMPC::Impl
+struct StableCentroidalMPC::Impl
 {
     casadi::Opti opti; /**< CasADi opti stack */
     casadi::Function controller;
@@ -40,6 +40,13 @@ struct CentroidalMPC::Impl
     };
 
     FSM fsm{FSM::Idle};
+
+    struct StableConstants
+    {
+        const double alpha = 0.3;
+        const double k1 = 10.0;
+    };
+    StableConstants stableConstants;
 
     struct CasadiCorner
     {
@@ -157,6 +164,10 @@ struct CentroidalMPC::Impl
         casadi::MX angularMomentum;
         std::map<std::string, CasadiContactWithConstraints> contacts;
 
+        /**< Optimization variables from the adaptive redesign*/
+        casadi::MX z1;
+        casadi::MX z2;
+
         casadi::MX comReference;
         casadi::MX angularMomentumReference;
         casadi::MX comCurrent;
@@ -164,6 +175,7 @@ struct CentroidalMPC::Impl
         casadi::MX angularMomentumCurrent;
         casadi::MX externalForce;
         casadi::MX externalTorque;
+
     };
     OptimizationVariables optiVariables; /**< Optimization variables */
 
@@ -467,9 +479,6 @@ struct CentroidalMPC::Impl
         constexpr int vector3Size = 3;
         const int stateHorizon = this->optiSettings.horizon + 1;
 
-        // resize the CoM Trajectory
-        this->output.comTrajectory.resize(stateHorizon);
-
         // In case of no warmstart the variables are:
         // - centroidalVariables = 7: external force + external torque + com current + dcom current
         //                            + current angular momentum + com reference
@@ -585,6 +594,11 @@ struct CentroidalMPC::Impl
         this->optiVariables.dcom = this->opti.variable(vector3Size, stateHorizon);
         this->optiVariables.angularMomentum = this->opti.variable(vector3Size, stateHorizon);
 
+        // create the variables for the stability
+        this->optiVariables.z1 = this->opti.variable(vector3Size);
+        this->optiVariables.z2 = this->opti.variable(vector3Size);
+
+
         // the casadi contacts depends on the maximum number of contacts
         for (const auto& [key, contact] : this->output.contacts)
         {
@@ -685,6 +699,9 @@ struct CentroidalMPC::Impl
         auto& externalForce = this->optiVariables.externalForce;
         auto& externalTorque = this->optiVariables.externalTorque;
 
+        auto& z1 = this->optiVariables.z1;
+        auto& z2 = this->optiVariables.z2;
+
         // prepare the input of the ode
         std::vector<casadi::MX> odeInput;
         odeInput.push_back(externalForce);
@@ -710,6 +727,29 @@ struct CentroidalMPC::Impl
         this->opti.subject_to(this->optiVariables.dcomCurrent == dcom(Sl(), 0));
         this->opti.subject_to(this->optiVariables.angularMomentumCurrent
                               == angularMomentum(Sl(), 0));
+
+        // stability constraint
+
+        this->opti.subject_to(z1 == com(Sl(),1) - this->optiVariables.comReference(Sl(), 1));
+        this->opti.subject_to(z2 == dcom(Sl(),1) + this->stableConstants.k1 * (com(Sl(),1) - this->optiVariables.comReference(Sl(), 1)));
+
+
+        for (const auto& [key, contact] : this->optiVariables.contacts)
+        {
+            for (const auto& corner : contact.corners)
+            {
+                this->opti.subject_to(
+                    -casadi::MX::mtimes(z1(Sl(), 0).T(), z1(Sl(), 0))
+                        - casadi::MX::mtimes(z2(Sl(), 0).T(), z2(Sl(), 0))
+                        + casadi::MX::mtimes(z1(Sl(), 0).T(), z2(Sl(), 0))
+                        + casadi::MX::mtimes(z2(Sl(), 0).T(), corner.force(Sl(), 0))
+                    <= 0.0);
+            }
+        }
+
+
+        this->opti.subject_to(angularMomentum(Sl(),1)  <= this->stableConstants.alpha * casadi::MX::ones(3));
+
         for (const auto& [key, contact] : this->optiVariables.contacts)
         {
             this->opti.subject_to(this->optiVariables.contacts.at(key).currentPosition
@@ -909,8 +949,6 @@ struct CentroidalMPC::Impl
             }
         }
 
-        concatenateOutput(this->optiVariables.com, "com");
-
         casadi::Dict toFunctionOptions;
         if (casadiVersionIsAtLeast360())
         {
@@ -922,7 +960,7 @@ struct CentroidalMPC::Impl
     }
 };
 
-bool CentroidalMPC::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) 
+bool StableCentroidalMPC::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::initialize]";
     auto ptr = handler.lock();
@@ -946,26 +984,26 @@ bool CentroidalMPC::initialize(std::weak_ptr<const ParametersHandler::IParameter
     return true;
 }
 
-CentroidalMPC::~CentroidalMPC() = default;
+StableCentroidalMPC::~StableCentroidalMPC() = default;
 
-CentroidalMPC::CentroidalMPC()
+StableCentroidalMPC::StableCentroidalMPC()
 {
     m_pimpl = std::make_unique<Impl>();
 }
 
-const CentroidalMPCOutput& CentroidalMPC::getOutput() const 
+const CentroidalMPCOutput& StableCentroidalMPC::getOutput() const
 {
     return m_pimpl->output;
 }
 
 
 
-bool CentroidalMPC::isOutputValid() const 
+bool StableCentroidalMPC::isOutputValid() const
 {
     return m_pimpl->fsm == Impl::FSM::OutputValid;
 }
 
-bool CentroidalMPC::advance() 
+bool StableCentroidalMPC::advance()
 {
     constexpr auto errorPrefix = "[CentroidalMPC::advance]";
     assert(m_pimpl);
@@ -1073,11 +1111,6 @@ bool CentroidalMPC::advance()
         }
     }
 
-    for (int i = 0; i < m_pimpl->output.comTrajectory.size(); i++)
-    {
-        using namespace BipedalLocomotion::Conversions;
-        m_pimpl->output.comTrajectory[i] = toEigen(*it).col(i);
-    }
     // advance the time
     m_pimpl->currentTime += m_pimpl->optiSettings.samplingTime;
 
@@ -1087,8 +1120,8 @@ bool CentroidalMPC::advance()
     return true;
 }
 
-bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
-                                           const std::vector<Eigen::Vector3d>& angularMomentum) 
+bool StableCentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
+                                           const std::vector<Eigen::Vector3d>& angularMomentum)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setReferenceTrajectory]";
 
@@ -1144,18 +1177,18 @@ bool CentroidalMPC::setReferenceTrajectory(const std::vector<Eigen::Vector3d>& c
     return true;
 }
 
-bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
+bool StableCentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
                              Eigen::Ref<const Eigen::Vector3d> dcom,
-                             Eigen::Ref<const Eigen::Vector3d> angularMomentum) 
+                             Eigen::Ref<const Eigen::Vector3d> angularMomentum)
 {
     const Math::Wrenchd dummy = Math::Wrenchd::Zero();
     return this->setState(com, dcom, angularMomentum, dummy);
 }
 
-bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
+bool StableCentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
                              Eigen::Ref<const Eigen::Vector3d> dcom,
                              Eigen::Ref<const Eigen::Vector3d> angularMomentum,
-                             const Math::Wrenchd& externalWrench) 
+                             const Math::Wrenchd& externalWrench)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setState]";
     assert(m_pimpl);
@@ -1183,7 +1216,7 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
     return true;
 }
 
-bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList) 
+bool StableCentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setContactPhaseList]";
     assert(m_pimpl);

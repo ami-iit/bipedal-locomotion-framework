@@ -18,21 +18,12 @@
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Source.h>
+#include <BipedalLocomotion/ReducedModelControllers/BaseCentroidalMPC.h>
 
 namespace BipedalLocomotion
 {
 namespace ReducedModelControllers
 {
-
-/**
- * CentroidalMPCOutput contains the output of the CentroidalMPC class
- */
-struct CentroidalMPCOutput
-{
-    std::map<std::string, Contacts::DiscreteGeometryContact> contacts;
-    std::map<std::string, Contacts::PlannedContact> nextPlannedContact;
-    std::vector<Eigen::Vector3d> comTrajectory;
-};
 
 /**
  * CentroidalMPC implements a Non-Linear Model Predictive Controller for humanoid robot locomotion
@@ -48,7 +39,7 @@ struct CentroidalMPCOutput
  * Locomotion with Step Adjustment," 2022 International Conference on Robotics and Automation
  * (ICRA), Philadelphia, PA, USA, 2022, pp. 10412-10419, doi: 10.1109/ICRA46639.2022.9811670.
  */
-class CentroidalMPC : public System::Source<CentroidalMPCOutput>
+class CentroidalMPC : public  BaseCentroidalMPC
 {
 public:
     /**
@@ -93,7 +84,7 @@ public:
      * |        `corner_<j>`        | `vector<double>` |                 Position of the corner expressed in the foot frame. I must be from 0 to number_of_corners - 1.                   |    Yes    |
      * @return true in case of success/false otherwise.
      */
-    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
     // clang-format on
 
     /**
@@ -102,7 +93,7 @@ public:
      * @return True in case of success, false otherwise.
      * @note This function needs to be called before advance.
      */
-    bool setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList);
+    bool setContactPhaseList(const Contacts::ContactPhaseList& contactPhaseList) override;
 
     /**
      * Set the state of the centroidal dynamics.
@@ -116,7 +107,7 @@ public:
      */
     bool setState(Eigen::Ref<const Eigen::Vector3d> com,
                   Eigen::Ref<const Eigen::Vector3d> dcom,
-                  Eigen::Ref<const Eigen::Vector3d> angularMomentum);
+                  Eigen::Ref<const Eigen::Vector3d> angularMomentum) override;
 
     /**
      * Set the state of the centroidal dynamics.
@@ -132,7 +123,7 @@ public:
     bool setState(Eigen::Ref<const Eigen::Vector3d> com,
                   Eigen::Ref<const Eigen::Vector3d> dcom,
                   Eigen::Ref<const Eigen::Vector3d> angularMomentum,
-                  const Math::Wrenchd& externalWrench);
+                  const Math::Wrenchd& externalWrench) override;
 
     /**
      * Set the reference trajectories for the CoM and the centroidal angular momentum.
@@ -147,25 +138,25 @@ public:
      * controller sampling period
      */
     bool setReferenceTrajectory(const std::vector<Eigen::Vector3d>& com,
-                                const std::vector<Eigen::Vector3d>& angularMomentum);
+                                const std::vector<Eigen::Vector3d>& angularMomentum) override;
 
     /**
      * Get the output of the controller
      * @return a const reference of the output of the controller.
      */
-    const CentroidalMPCOutput& getOutput() const final;
+    const CentroidalMPCOutput& getOutput() const override;
 
     /**
      * Determines the validity of the object retrieved with getOutput()
      * @return True if the object is valid, false otherwise.
      */
-    bool isOutputValid() const final;
+    bool isOutputValid() const override;
 
     /**
      * Perform one control cycle.
      * @return True if the advance is successfull.
      */
-    bool advance() final;
+    bool advance() override;  
 
 private:
     /**
@@ -177,5 +168,6 @@ private:
 };
 } // namespace ReducedModelControllers
 } // namespace BipedalLocomotion
+
 
 #endif // BIPEDAL_LOCOMOTION_REDUCE_MODEL_CONTROLLERS_CENTROIDAL_MPC_H
