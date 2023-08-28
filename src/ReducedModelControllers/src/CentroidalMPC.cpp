@@ -724,6 +724,49 @@ struct CentroidalMPC::Impl
         casadiOptions["error_on_fail"] = true;
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
+
+        //         casadi::Dict casadiOptions;
+        //         casadi::Dict ipoptOptions;
+        //         casadi::Dict osqpOptions;
+
+        //         if (this->optiSettings.solverVerbosity != 0)
+        //         {
+        //             casadi_int ipoptVerbosity = static_cast<long
+        //             long>(optiSettings.solverVerbosity - 1);
+        //             // ipoptOptions["print_level"] = ipoptVerbosity;
+        //             casadiOptions["print_time"] = true;
+        //         } else
+        //         {
+        //             // ipoptOptions["print_level"] = 0;
+        //             casadiOptions["print_time"] = false;
+        //         }
+        //         casadiOptions["print_header"] = false;
+        //         casadiOptions["print_iteration"] = false;
+        //         casadiOptions["print_status"] = false;
+        //         // casadiOptions["error_on_fail"] = false;
+        //         // casadiOptions["hessian_approximation"] = "limited_memory";
+        // /*         ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
+        //         ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
+        //         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver; */
+        //         casadiOptions["expand"] = true;
+        // /*         casadiOptions["error_on_fail"] = false; */
+        //         casadiOptions["qpsol"] = "osqp";
+        //         ipoptOptions["error_on_fail"] = false;
+        //         ipoptOptions["verbose"] = false;
+        //         ipoptOptions["osqp"] = osqpOptions;
+        //         casadiOptions["qpsol_options"] = ipoptOptions;
+        //         // casadiOptions["max_iter"] = 10;
+        //         // casadiOptions["elastic_mode"] = true;
+        //         //casadiOptions["convexify_strategy"] = "regularize";
+        //         casadiOptions["jit"] = true;
+        //         casadiOptions["compiler"] = "shell";
+
+        //         casadi::Dict jitOptions;
+        //         jitOptions["flags"] = {"-O3"};
+        //         jitOptions["verbose"] = true;
+        //         casadiOptions["jit_options"] = jitOptions;
+
+        //         this->opti.solver("sqpmethod", casadiOptions);
     }
 
     casadi::Function createController()
@@ -965,11 +1008,19 @@ struct CentroidalMPC::Impl
 
         concatenateOutput(this->optiVariables.com, "com");
 
-        casadi::Dict toFunctionOptions;
+        casadi::Dict toFunctionOptions, jitOptions;
         if (casadiVersionIsAtLeast360())
         {
             toFunctionOptions["cse"] = this->optiSettings.isCseEnabled;
         }
+        /* toFunctionOptions["jit"] = true;
+        toFunctionOptions["compiler"] = "shell";
+        jitOptions["flags"] = std::vector<std::string>{"-O3", "-I",
+        "/home/gromualdi/robot-code/robotology-superbuild/build/install/include/"};
+        jitOptions["verbose"] = true;
+        jitOptions["compiler"] = "gcc";
+        toFunctionOptions["jit_options"] = jitOptions;
+         */
 
         return this->opti
             .to_function("controller", input, output, inputName, outputName, toFunctionOptions);
