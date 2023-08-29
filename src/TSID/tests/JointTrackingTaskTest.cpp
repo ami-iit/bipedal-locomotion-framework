@@ -62,9 +62,9 @@ TEST_CASE("Joint Regularization task")
                 joint = iDynTree::getRandomDouble();
             }
 
-            for (auto& joint : gravity)
+            for (auto& element : gravity)
             {
-                joint = iDynTree::getRandomDouble();
+                element = iDynTree::getRandomDouble();
             }
 
             for (auto& element : feedforwardDesiredJointAcc)
