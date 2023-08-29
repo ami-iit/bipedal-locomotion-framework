@@ -21,7 +21,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
-- Fix handling of feedforward acceleration in `BipedalLocomotion::TSID::JointTrackingTask::setSetPoint` ()
+- Fix handling of feedforward acceleration in `BipedalLocomotion::TSID::JointTrackingTask::setSetPoint` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/719)
 
 ## [0.14.1] - 2023-07-07
 ### Fixed
