@@ -50,7 +50,7 @@ TEST_CASE("Joint Regularization task")
             iDynTree::VectorDynSize jointsPos(model.getNrOfDOFs());
             iDynTree::VectorDynSize jointsVel(model.getNrOfDOFs());
             iDynTree::Vector3 gravity;
-            Eigen::VectorXd feedforwardDesiredJointAcc = Eigen::VectorXd::Random(model.getNrOfDOFs();
+            Eigen::VectorXd feedforwardDesiredJointAcc = Eigen::VectorXd::Random(model.getNrOfDOFs());
 
             for (auto& joint : jointsPos)
             {
