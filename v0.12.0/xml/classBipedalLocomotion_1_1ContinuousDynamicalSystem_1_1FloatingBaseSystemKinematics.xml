@@ -159,7 +159,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="13">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="21">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -194,7 +194,7 @@
 <para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kindref="compound">FloatingBaseSystemKinematics</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where:<itemizedlist>
 <listitem><para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> is described by an std::tuple containing:<itemizedlist>
 <listitem><para>Eigen::Vector3d: position of the base w.r.t. the inertial frame</para>
-</listitem><listitem><para>manif::SO3d: rotation matrix <formula id="22">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>manif::SO3d: rotation matrix <formula id="30">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint positions [in rad].</para>
 </listitem></itemizedlist>
 </para>
