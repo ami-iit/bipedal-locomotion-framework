@@ -50,6 +50,7 @@ TEST_CASE("Joint Regularization task")
             iDynTree::VectorDynSize jointsPos(model.getNrOfDOFs());
             iDynTree::VectorDynSize jointsVel(model.getNrOfDOFs());
             iDynTree::Vector3 gravity;
+            Eigen::VectorXd feedforwardDesiredJointAcc(model.getNrOfDOFs());
 
             for (auto& joint : jointsPos)
             {
@@ -61,7 +62,12 @@ TEST_CASE("Joint Regularization task")
                 joint = iDynTree::getRandomDouble();
             }
 
-            for (auto& element : gravity)
+            for (auto& joint : gravity)
+            {
+                joint = iDynTree::getRandomDouble();
+            }
+
+            for (auto& element : feedforwardDesiredJointAcc)
             {
                 element = iDynTree::getRandomDouble();
             }
@@ -88,7 +94,9 @@ TEST_CASE("Joint Regularization task")
             REQUIRE(task.initialize(parameterHandler));
             REQUIRE(task.setVariablesHandler(variablesHandler));
 
-            REQUIRE(task.setSetPoint(Eigen::VectorXd::Zero(model.getNrOfDOFs())));
+            REQUIRE(task.setSetPoint(Eigen::VectorXd::Zero(model.getNrOfDOFs()),
+                                     Eigen::VectorXd::Zero(model.getNrOfDOFs()),
+                                     feedforwardDesiredJointAcc));
 
             REQUIRE(task.update());
             REQUIRE(task.isValid());
@@ -114,7 +122,8 @@ TEST_CASE("Joint Regularization task")
             // check the vector b
             Eigen::VectorXd expectedB(model.getNrOfDOFs());
             expectedB = -(kp.asDiagonal() * iDynTree::toEigen(jointsPos))
-                        - (kd.asDiagonal() * iDynTree::toEigen(jointsVel));
+                        - (kd.asDiagonal() * iDynTree::toEigen(jointsVel))
+                        + feedforwardDesiredJointAcc;
             REQUIRE(b.isApprox(expectedB));
         }
     }

@@ -179,7 +179,7 @@ bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosit
 
     m_desiredJointPosition = jointPosition;
     m_desiredJointVelocity = jointVelocity;
-    m_desiredJointAcceleration = jointVelocity;
+    m_desiredJointAcceleration = jointAcceleration;
 
     return true;
 }
