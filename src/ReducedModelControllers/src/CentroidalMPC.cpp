@@ -725,48 +725,52 @@ struct CentroidalMPC::Impl
 
         this->opti.solver("ipopt", casadiOptions, ipoptOptions);
 
-        //         casadi::Dict casadiOptions;
-        //         casadi::Dict ipoptOptions;
-        //         casadi::Dict osqpOptions;
+        // casadi::Dict casadiOptions;
+        // casadi::Dict qpSolOptions;
+        // casadi::Dict osqpOptions;
 
-        //         if (this->optiSettings.solverVerbosity != 0)
-        //         {
-        //             casadi_int ipoptVerbosity = static_cast<long
-        //             long>(optiSettings.solverVerbosity - 1);
-        //             // ipoptOptions["print_level"] = ipoptVerbosity;
-        //             casadiOptions["print_time"] = true;
-        //         } else
-        //         {
-        //             // ipoptOptions["print_level"] = 0;
-        //             casadiOptions["print_time"] = false;
-        //         }
-        //         casadiOptions["print_header"] = false;
-        //         casadiOptions["print_iteration"] = false;
-        //         casadiOptions["print_status"] = false;
-        //         // casadiOptions["error_on_fail"] = false;
-        //         // casadiOptions["hessian_approximation"] = "limited_memory";
+        // if (this->optiSettings.solverVerbosity != 0)
+        // {
+        //     casadi_int ipoptVerbosity = static_cast<long long>(optiSettings.solverVerbosity - 1);
+        //     // ipoptOptions["print_level"] = ipoptVerbosity;
+        //     casadiOptions["print_time"] = true;
+        // } else
+        // {
+        //     // ipoptOptions["print_level"] = 0;
+        //     casadiOptions["print_time"] = false;
+        // }
+        // casadiOptions["print_header"] = false;
+        // casadiOptions["print_iteration"] = false;
+        // casadiOptions["print_status"] = false;
+        // // casadiOptions["error_on_fail"] = false;
+        // // casadiOptions["hessian_approximation"] = "limited_memory";
         // /*         ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
         //         ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
         //         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver; */
-        //         casadiOptions["expand"] = true;
+        // casadiOptions["expand"] = true;
         // /*         casadiOptions["error_on_fail"] = false; */
-        //         casadiOptions["qpsol"] = "osqp";
-        //         ipoptOptions["error_on_fail"] = false;
-        //         ipoptOptions["verbose"] = false;
-        //         ipoptOptions["osqp"] = osqpOptions;
-        //         casadiOptions["qpsol_options"] = ipoptOptions;
-        //         // casadiOptions["max_iter"] = 10;
-        //         // casadiOptions["elastic_mode"] = true;
-        //         //casadiOptions["convexify_strategy"] = "regularize";
-        //         casadiOptions["jit"] = true;
+        // casadiOptions["qpsol"] = "osqp";
+
+        // qpSolOptions["error_on_fail"] = false;
+        // // qpSolOptions["verbose"] = false;
+
+        // osqpOptions["verbose"] = false;
+        // qpSolOptions["osqp"] = osqpOptions;
+
+        // casadiOptions["qpsol_options"] = qpSolOptions;
+        // casadiOptions["max_iter"] = 15;
+
+        // casadiOptions["elastic_mode"] = true;
+        // casadiOptions["convexify_strategy"] = "regularize";
+        // casadiOptions["jit"] = true;
         //         casadiOptions["compiler"] = "shell";
 
-        //         casadi::Dict jitOptions;
-        //         jitOptions["flags"] = {"-O3"};
-        //         jitOptions["verbose"] = true;
-        //         casadiOptions["jit_options"] = jitOptions;
+        // casadi::Dict jitOptions;
+        // jitOptions["flags"] = {"-O3"};
+        // jitOptions["verbose"] = true;
+        // casadiOptions["jit_options"] = jitOptions;
 
-        //         this->opti.solver("sqpmethod", casadiOptions);
+        // this->opti.solver("sqpmethod", casadiOptions);
     }
 
     casadi::Function createController()
