@@ -18,10 +18,10 @@
     (rfeimu_eul, l_arm_ft_eul, r_arm_ft_eul, l_leg_ft_eul, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_leg_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul)
   </param>
   <param name="SixAxisForceTorqueSensorsNames">
-    (l_arm_ft_sensor, r_arm_ft_sensor, l_leg_ft_sensor, l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_leg_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)
+    (l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)
   </param>
   <param name="TemperatureSensorsNames">
-    (l_arm_ft_sensor, r_arm_ft_sensor, l_leg_ft_sensor, l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_leg_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)
+    (l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)
   </param>
 
   <action phase="startup" level="5" type="attach">

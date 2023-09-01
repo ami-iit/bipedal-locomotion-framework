@@ -82,11 +82,11 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <param name="sixaxis_forcetorque_sensors_list">(l_arm_ft_sensor, r_arm_ft_sensor, l_leg_ft_sensor, l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_leg_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)</param>
+      <param name="sixaxis_forcetorque_sensors_list">(l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)</param>
     </group>
 
     <group name="TemperatureSensors">
-      <param name="temperature_sensors_list">(l_arm_ft_sensor, r_arm_ft_sensor, l_leg_ft_sensor, l_foot_front_ft_sensor, l_foot_rear_ft_sensor, r_leg_ft_sensor, r_foot_front_ft_sensor, r_foot_rear_ft_sensor)</param>
+      <param name="temperature_sensors_list">(l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)</param>
     </group>
 
     <group name="CartesianWrenches">
