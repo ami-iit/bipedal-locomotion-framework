@@ -30,7 +30,7 @@ namespace ReducedModelControllers
 struct CentroidalMPCOutput
 {
     std::map<std::string, Contacts::DiscreteGeometryContact> contacts;
-    std::map<std::string, Contacts::PlannedContact> nextPlannedContact;
+    Contacts::ContactPhaseList contactPhaseList; /**< Modified contact phase list. */
     std::vector<Eigen::Vector3d> comTrajectory;
 };
 

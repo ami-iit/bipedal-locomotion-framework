@@ -1104,9 +1104,12 @@ bool CentroidalMPC::advance()
 
     // get the solution
     auto it = controllerOutput.begin();
-    m_pimpl->output.nextPlannedContact.clear();
+
+    ContactListMap contactListMap = m_pimpl->output.contactPhaseList.lists();
     for (auto& [key, contact] : m_pimpl->output.contacts)
     {
+        ContactList& contactList = contactListMap.at(key);
+
         // this is required for toEigen
         using namespace BipedalLocomotion::Conversions;
 
@@ -1114,12 +1117,16 @@ bool CentroidalMPC::advance()
         const int size = toEigen(*it).size();
         for (int i = 0; i < size; i++)
         {
+            // read it as: "if the contact is active at a given time instant"
             if (toEigen(*it)(i) > 0.5)
             {
+                // if the contact is active now
                 if (i == 0)
                 {
                     break;
-                } else if (toEigen(*it)(i - 1) < 0.5)
+                } // in this case we break if the contact is active and at the previous time
+                  // step it was not active
+                else if (toEigen(*it)(i - 1) < 0.5)
                 {
                     index = i;
                     break;
@@ -1127,48 +1134,54 @@ bool CentroidalMPC::advance()
             }
         }
 
-        double isEnabled = toEigen(*it)(0);
+        // check if now we are in contact
+        const double isEnabled = toEigen(*it)(0);
+
+        /// Position
         std::advance(it, 1);
         contact.pose.translation(toEigen(*it).leftCols<1>());
 
+        // In this case the contact is not active and there will be a next planned contact
         if (index < size)
         {
-            m_pimpl->output.nextPlannedContact[key].name = key;
-            m_pimpl->output.nextPlannedContact[key].pose.translation(toEigen(*it).col(index));
-        }
-
-        std::advance(it, 1);
-        contact.pose.quat(Eigen::Quaterniond(
-            Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
-
-        if (index < size)
-        {
-            m_pimpl->output.nextPlannedContact[key].pose.quat(Eigen::Quaterniond(
-                Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
-
             const std::chrono::nanoseconds nextPlannedContactTime
                 = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
 
-            auto nextPlannedContact = m_pimpl->contactPhaseList.lists().at(key).getPresentContact(
-                nextPlannedContactTime);
-            if (nextPlannedContact == m_pimpl->contactPhaseList.lists().at(key).end())
+            auto nextPlannedContact = contactList.getPresentContact(nextPlannedContactTime);
+
+            if (nextPlannedContact == contactList.end())
             {
                 log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
                 return false;
             }
 
-            auto& contact = m_pimpl->output.nextPlannedContact[key];
-            contact.activationTime = nextPlannedContact->activationTime;
-            contact.deactivationTime = nextPlannedContact->deactivationTime;
-            contact.index = nextPlannedContact->index;
-            contact.type = nextPlannedContact->type;
+            PlannedContact modifiedNextPlannedContact = *nextPlannedContact;
+
+
+            // only the position is modified by the MPC
+            modifiedNextPlannedContact.pose.translation(toEigen(*it).col(index));
+
+
+            log()->error("{} adjusted translation {}", key, toEigen(*it).col(index).transpose());
+
+            if (!contactList.editContact(nextPlannedContact, modifiedNextPlannedContact))
+            {
+                log()->error("[CentroidalMPC::advance] Unable to edit the next planned contact");
+                return false;
+            }
         }
 
         std::advance(it, 1);
 
+        // get the orientation
+        contact.pose.quat(Eigen::Quaterniond(
+            Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
+
+        // get the forces
+        std::advance(it, 1);
+
         for (auto& corner : contact.corners)
         {
-            // isEnabled == 1 means that the contact is active
             if (isEnabled > 0.5)
             {
                 corner.force = toEigen(*it).leftCols<1>();
@@ -1179,6 +1192,9 @@ bool CentroidalMPC::advance()
             std::advance(it, 1);
         }
     }
+
+    // update the contact phase list
+    m_pimpl->output.contactPhaseList.setLists(contactListMap);
 
     for (int i = 0; i < m_pimpl->output.comTrajectory.size(); i++)
     {
@@ -1427,6 +1443,64 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         toEigen(*contact.upperLimitPosition).colwise() = boundingBox.upperLimit;
         toEigen(*contact.lowerLimitPosition).colwise() = boundingBox.lowerLimit;
     }
+
+    // we store the contact phase list for the output
+    m_pimpl->output.contactPhaseList = contactPhaseList;
+
+
+    for (auto& [key, contact] : m_pimpl->output.contacts)
+    {
+        const ContactList& contactList = m_pimpl->output.contactPhaseList.lists().at(key);
+        auto inputContact = inputs.contacts.find(key);
+
+
+        // this is required for toEigen
+        using namespace BipedalLocomotion::Conversions;
+        
+        int index = toEigen(*(inputContact->second.isEnabled)).size();
+        const int size = toEigen(*(inputContact->second.isEnabled)).size();
+        for (int i = 0; i < size; i++)
+        {
+            // read it as: "if the contact is active at a given time instant"
+            if (toEigen(*(inputContact->second.isEnabled))(i) > 0.5)
+            {
+                // if the contact is active now
+                if (i == 0)
+                {
+                    break;
+                } // in this case we break if the contact is active and at the previous time
+                  // step it was not active
+                else if (toEigen(*(inputContact->second.isEnabled))(i - 1) < 0.5)
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        // In this case the contact is not active and there will be a next planned contact
+        if (index < size)
+        {
+            const std::chrono::nanoseconds nextPlannedContactTime
+                = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
+
+            auto nextPlannedContact = contactList.getPresentContact(nextPlannedContactTime);
+
+            if (nextPlannedContact == contactList.end())
+            {
+                log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
+                return false;
+            }
+
+
+
+            // only the position is modified by the MPC
+        
+
+            log()->error("{} nominal translation {}", key, toEigen(*(inputContact->second.nominalPosition)).col(index).transpose());
+        }
+    }
+        
 
     return true;
 }
