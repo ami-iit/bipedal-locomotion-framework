@@ -471,8 +471,6 @@ bool SwingFootPlanner::evaluateSE3Traj(BipedalLocomotion::Planners::SwingFootPla
         return false;
     }
 
-    log()->info("height {}.", position.tail<1>()(0));
-
     // set the transform
     state.transform = manif::SE3d(position, rotation);
 
