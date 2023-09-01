@@ -167,12 +167,11 @@ bool MANNTrajectoryGenerator::Impl::updateContactList(
 
         // force the foot to be attached to a flat terrain
         const double yaw = Impl::extactYawAngle(estimatedContact.pose.quat().toRotationMatrix());
-        temp.pose.translation({estimatedContact.pose.translation()[0],
-                               estimatedContact.pose.translation()[1],
-                               0.0});
+        temp.pose.translation(
+            {estimatedContact.pose.translation()[0], estimatedContact.pose.translation()[1], 0.0});
         // temp.pose.translation({estimatedContact.pose.translation()[0] / 3,
-        //                        estimatedContact.pose.translation()[1],
-        //                        0.0});
+        //                         estimatedContact.pose.translation()[1],
+        //                         0.0});
         temp.pose.quat(Eigen::AngleAxis(yaw, Eigen::Vector3d::UnitZ()));
 
         temp.type = Contacts::ContactType::FULL;
