@@ -28,7 +28,7 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <param name="sixaxis_forcetorque_sensors_list">("l_leg_ft_sensor", "l_foot_ft_sensor", "r_leg_ft_sensor", "r_foot_ft_sensor")</param>
+      <param name="sixaxis_forcetorque_sensors_list">("l_leg_ft", "l_foot_ft", "r_leg_ft", "r_foot_ft")</param>
       <!--           <param name="sixaxis_forcetorque_sensors_list">("left_leg-eb6-j0_3-strain", "left_leg-eb7-j4_5-strain", "right_leg-eb8-j0_3-strain", "right_leg-eb9-j4_5-strain")</param>-->
     </group>
 

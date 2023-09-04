@@ -44,9 +44,9 @@ TEST_CASE("Zero Velocity Dynamics")
     REQUIRE(variableHandler.addVariable("ds", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor_bias", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_foot_front_ft_sensor", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
 
     ZeroVelocityStateDynamics tau_m;
 

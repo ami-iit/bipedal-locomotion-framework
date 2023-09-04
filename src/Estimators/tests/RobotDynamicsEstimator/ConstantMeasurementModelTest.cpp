@@ -32,15 +32,15 @@ TEST_CASE("Constant Measurement Model")
     REQUIRE(variableHandler.addVariable("ds", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_sensor_bias", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_foot_front_ft_sensor", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
+    REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
 
     Eigen::VectorXd state;
     state.resize(sizeVariable * variableHandler.getNumberOfVariables());
     state.setZero();
 
-    const std::string name = "r_leg_ft_sensor";
+    const std::string name = "r_leg_ft";
     Eigen::VectorXd covariance(6);
     covariance << 1e-7, 1e-2, 5e0, 5e-3, 5e-1, 5e-10;
     const std::string model = "ConstantMeasurementModel";
@@ -65,13 +65,13 @@ TEST_CASE("Constant Measurement Model")
         bias(index) = GENERATE(take(1, random(-100, 100)));
     }
 
-    state.segment(variableHandler.getVariable("r_leg_ft_sensor_bias").offset, variableHandler.getVariable("r_leg_ft_sensor_bias").size) = bias;
+    state.segment(variableHandler.getVariable("r_leg_ft_bias").offset, variableHandler.getVariable("r_leg_ft_bias").size) = bias;
 
     ft.setState(state);
     REQUIRE(ft.update());
 
     Eigen::VectorXd updatedVariable = ft.getUpdatedVariable();
-    Eigen::VectorXd ftPre = state.segment(variableHandler.getVariable("r_leg_ft_sensor").offset, variableHandler.getVariable("r_leg_ft_sensor").size);
+    Eigen::VectorXd ftPre = state.segment(variableHandler.getVariable("r_leg_ft").offset, variableHandler.getVariable("r_leg_ft").size);
 
     REQUIRE((ftPre+bias).isApprox(updatedVariable));
 }

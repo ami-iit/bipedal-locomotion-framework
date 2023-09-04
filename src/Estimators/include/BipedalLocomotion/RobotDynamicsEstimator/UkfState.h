@@ -82,7 +82,7 @@ public:
      * |`DYNAMICS_NAME`|          `friction_k2`         |   `vector<double>`   | Vector of double containing the coefficient k2 of the friction model of each element.          |    No     |
      * `DYNAMICS_NAME` is a placeholder for the name of the dynamics contained in the
      * `dynamics_list` list. `name` can contain only the following values ("ds", "tau_m", "tau_F",
-     * "*_ft_sensor", "*_ft_sensor_bias", "*_ft_acc_bias", "*_ftgyro_bias").
+     * "*_ft", "*_ft_bias", "*_ft_acc_bias", "*_ftgyro_bias").
      * @note The following `ini` file presents an example of the configuration that can be used to
      * build the UkfState.
      *
@@ -107,7 +107,7 @@ public:
      * friction_k2                     (1.767, 5.64, 0.27, 2.0, 3.0, 0.0)
      *
      * [RIGHT_LEG_FT]
-     * name                            "r_leg_ft_sensor"
+     * name                            "r_leg_ft"
      * elements                        ("fx", "fy", "fz", "mx", "my", "mz")
      * covariance                      (1e-3, 1e-3, 1e-3, 1e-4, 1e-4, 1e-4)
      * dynamic_model                   "ZeroVelocityStateDynamics"

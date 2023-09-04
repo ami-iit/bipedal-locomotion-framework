@@ -24,10 +24,10 @@ BSD-3-Clause license. -->
            r_foot_ft_eul_3b14)
         </param>
         <param name="SixAxisForceTorqueSensorsNames">
-          (l_leg_ft_sensor
-           l_foot_ft_sensor
-           r_leg_ft_sensor
-           r_foot_ft_sensor)
+          (l_leg_ft
+           l_foot_ft
+           r_leg_ft
+           r_foot_ft)
         </param>
     <action phase="startup" level="5" type="attach">
             <paramlist name="networks">

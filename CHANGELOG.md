@@ -18,6 +18,8 @@ All notable changes to this project are documented in this file.
 - Give the possibility to set an external wrench in the `CentroidalDynamics` instead of a pure force (https://github.com/ami-iit/bipedal-locomotion-framework/pull/705)
 - Use c version of `qhull` in the Planner component. This fixes the compatibility with PCL in ubuntu 20.04 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/713)
 - Make `ICameraBridge::isValid()` virtual function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
+- icub-models 2.0.0 changed the name of the FT sensors in the iCub's URDF from being named `<identifier>_ft_sensor` (like `l_arm_ft_sensor`, `l_leg_ft_sensor`, ...) to `<identifier>_ft` (like `l_arm_ft`, `l_leg_ft`, ...). However, the yarprobotinterface configuration files in blf continued to refer to the sensors as `<identifier>_ft_sensor`, creating errors for software that was trying to match sensors find in URDF and sensors as exposed by the YARP's multipleanalogsensorsserver device. This PR changes all the instances of FT sensor names in iCub-related configuration files contained in blf to `<identifier>_ft`, restoring compatibility with icub-models 2.0.0, robots-configuration releases >= 2.5.0 and ergocub-software >= 0.3.4, see https://github.com/robotology/robots-configuration/pull/562 for more details (https://github.com/ami-iit/bipedal-locomotion-framework/pull/720)
+
 
 ### Fixed
 - Remove duplicated `find_package` in `BipedalLocomotionFrameworkDependencies.cmake` file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/709)
