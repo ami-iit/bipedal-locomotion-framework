@@ -3,6 +3,11 @@ main_page = "docs/pages/main-page.dox"
 additional_pages = ["docs/pages/python-additional-info.md", "docs/pages/so3-minjerk.md"]
 src_folder = "src"
 
+['v0.15.0']
+main_page = "docs/pages/main-page.dox"
+additional_pages = ["docs/pages/python-additional-info.md", "docs/pages/so3-minjerk.md"]
+src_folder = "src"
+
 ['v0.14.1']
 main_page = "docs/pages/main-page.dox"
 additional_pages = ["docs/pages/python-additional-info.md", "docs/pages/so3-minjerk.md"]
@@ -13,10 +18,10 @@ main_page = "docs/pages/main-page.dox"
 additional_pages = ["docs/pages/python-additional-info.md"]
 src_folder = "src"
 
-['v0.12.0']
-main_page = "docs/pages/main-page.dox"
-additional_pages = ["docs/pages/python-additional-info.md"]
-src_folder = "src"
+# ['v0.12.0']
+# main_page = "docs/pages/main-page.dox"
+# additional_pages = ["docs/pages/python-additional-info.md"]
+# src_folder = "src"
 
 # ['v0.11.1']
 # main_page = "docs/pages/main-page.dox"
