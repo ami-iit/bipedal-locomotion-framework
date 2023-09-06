@@ -1157,12 +1157,8 @@ bool CentroidalMPC::advance()
 
             PlannedContact modifiedNextPlannedContact = *nextPlannedContact;
 
-
             // only the position is modified by the MPC
             modifiedNextPlannedContact.pose.translation(toEigen(*it).col(index));
-
-
-            log()->error("{} adjusted translation {}", key, toEigen(*it).col(index).transpose());
 
             if (!contactList.editContact(nextPlannedContact, modifiedNextPlannedContact))
             {
@@ -1447,16 +1443,14 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     // we store the contact phase list for the output
     m_pimpl->output.contactPhaseList = contactPhaseList;
 
-
     for (auto& [key, contact] : m_pimpl->output.contacts)
     {
         const ContactList& contactList = m_pimpl->output.contactPhaseList.lists().at(key);
         auto inputContact = inputs.contacts.find(key);
 
-
         // this is required for toEigen
         using namespace BipedalLocomotion::Conversions;
-        
+
         int index = toEigen(*(inputContact->second.isEnabled)).size();
         const int size = toEigen(*(inputContact->second.isEnabled)).size();
         for (int i = 0; i < size; i++)
@@ -1491,16 +1485,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
                 log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
                 return false;
             }
-
-
-
-            // only the position is modified by the MPC
-        
-
-            log()->error("{} nominal translation {}", key, toEigen(*(inputContact->second.nominalPosition)).col(index).transpose());
         }
     }
-        
 
     return true;
 }

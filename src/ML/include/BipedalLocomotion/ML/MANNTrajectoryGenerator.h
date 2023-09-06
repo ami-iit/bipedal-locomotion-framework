@@ -161,6 +161,7 @@ public:
                          const Contacts::EstimatedContact& leftFoot,
                          const Contacts::EstimatedContact& rightFoot,
                          const manif::SE3d& basePose,
+                         Eigen::Ref<const Eigen::Vector3d> comPosition,
                          const std::chrono::nanoseconds& time);
 
 private:

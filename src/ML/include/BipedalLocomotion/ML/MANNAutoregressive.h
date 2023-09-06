@@ -14,6 +14,9 @@
 
 #include <Eigen/Dense>
 
+#include <manif/SO2.h>
+#include <manif/SO3.h>
+
 #include <BipedalLocomotion/Contacts/Contact.h>
 #include <BipedalLocomotion/ML/MANN.h>
 #include <BipedalLocomotion/Math/SchmittTrigger.h>
@@ -66,6 +69,19 @@ struct MANNAutoregressiveOutput
     Math::SchmittTriggerState leftFootSchmittTriggerState;
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
     Math::SchmittTriggerState rightFootSchmittTriggerState;
+
+    /** Planar position of the previous left foot contact*/
+    Eigen::Vector2d I_p_left_previous;
+
+    /** Planar position of the previous right foot contact*/
+    Eigen::Vector2d I_p_right_previous;
+
+    /** Planar position of the com computed at the previous step */
+    Eigen::Vector2d I_p_com_previous;
+
+    /** Planar position of the base computed at the previous step */
+    Eigen::Vector2d I_p_base_previous;
+
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
 
@@ -207,10 +223,14 @@ public:
     bool reset(const MANNInput& input,
                const Contacts::EstimatedContact& leftFoot,
                const Math::SchmittTriggerState& leftFootSchimittTriggerState,
+               Eigen::Ref<const Eigen::Vector2d> I_p_left_previous,
                const Contacts::EstimatedContact& rightFoot,
                const Math::SchmittTriggerState& rightFootSchimittTriggerState,
+               Eigen::Ref<const Eigen::Vector2d> I_p_right_previous,
                const manif::SE3d& basePosition,
                const manif::SE3Tangentd& baseVelocity,
+               Eigen::Ref<const Eigen::Vector2d> I_p_com_previous,
+               Eigen::Ref<const Eigen::Vector2d> I_p_base_previous,
                const AutoregressiveState& autoregressiveState,
                const std::chrono::nanoseconds& time);
 

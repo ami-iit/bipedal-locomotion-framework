@@ -82,13 +82,15 @@ struct MANNAutoregressive::Impl
     void updateContact(const double referenceHeight,
                        Math::SchmittTrigger& trigger,
                        Math::SchmittTriggerState& triggerState,
-                       Contacts::EstimatedContact& contact);
+                       Contacts::EstimatedContact& contact,
+                       Eigen::Ref<Eigen::Vector2d> I_p_contact_previous);
 };
 
 void MANNAutoregressive::Impl::updateContact(const double referenceHeight,
                                              Math::SchmittTrigger& trigger,
                                              Math::SchmittTriggerState& triggerState,
-                                             Contacts::EstimatedContact& contact)
+                                             Contacts::EstimatedContact& contact,
+                                             Eigen::Ref<Eigen::Vector2d> I_p_contact_previous)
 {
     Math::SchmittTriggerInput footSchmittInput;
     footSchmittInput.rawValue = referenceHeight;
@@ -98,13 +100,17 @@ void MANNAutoregressive::Impl::updateContact(const double referenceHeight,
     trigger.advance();
     triggerState = trigger.getState();
 
+    // it was not in active and now yes
     if (!contact.isActive && triggerState.state)
     {
         using namespace BipedalLocomotion::Conversions;
         contact.isActive = true;
         contact.switchTime = this->currentTime;
-        contact.pose = toManifPose(this->kinDyn.getWorldTransform(contact.index));
 
+        // this contains the information of the previous contact that will be needed in case we need
+        // to scale the step size
+        I_p_contact_previous = contact.pose.translation().head<2>();
+        contact.pose = toManifPose(this->kinDyn.getWorldTransform(contact.index));
     } else if (contact.isActive && !triggerState.state)
     {
         contact.isActive = false;
@@ -349,6 +355,8 @@ bool MANNAutoregressive::reset(const MANNInput& input,
                                const manif::SE3d& basePosition,
                                const manif::SE3Tangentd& baseVelocity)
 {
+    constexpr auto logPrefix = "[MANNAutoregressive::reset]";
+
     AutoregressiveState state;
 
     // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
@@ -371,13 +379,28 @@ bool MANNAutoregressive::reset(const MANNInput& input,
     Math::SchmittTriggerState dummyStateRight;
     dummyStateRight.state = rightFoot.isActive;
 
+    // evaluate the CoM
+    if (!m_pimpl->kinDyn.setRobotState(basePosition.transform(),
+                                       input.jointPositions,
+                                       baseVelocity.coeffs(),
+                                       input.jointVelocities,
+                                       m_pimpl->gravity))
+    {
+        log()->error("{} Unable to set the robot state.", logPrefix);
+        return false;
+    }
+
     return this->reset(input,
                        leftFoot,
                        dummyStateLeft,
+                       leftFoot.pose.translation().head<2>(),
                        rightFoot,
                        dummyStateRight,
+                       rightFoot.pose.translation().head<2>(),
                        basePosition,
                        baseVelocity,
+                       iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition()).head<2>(),
+                       basePosition.translation().head<2>(),
                        state,
                        std::chrono::nanoseconds::zero());
 }
@@ -385,10 +408,14 @@ bool MANNAutoregressive::reset(const MANNInput& input,
 bool MANNAutoregressive::reset(const MANNInput& input,
                                const Contacts::EstimatedContact& leftFoot,
                                const Math::SchmittTriggerState& leftFootSchimittTriggerState,
+                               Eigen::Ref<const Eigen::Vector2d> I_p_left_previous,
                                const Contacts::EstimatedContact& rightFoot,
                                const Math::SchmittTriggerState& rightFootSchimittTriggerState,
+                               Eigen::Ref<const Eigen::Vector2d> I_p_right_previous,
                                const manif::SE3d& basePosition,
                                const manif::SE3Tangentd& baseVelocity,
+                               Eigen::Ref<const Eigen::Vector2d> I_p_com_previous,
+                               Eigen::Ref<const Eigen::Vector2d> I_p_base_previous,
                                const AutoregressiveState& autoregressiveState,
                                const std::chrono::nanoseconds& time)
 {
@@ -423,6 +450,12 @@ bool MANNAutoregressive::reset(const MANNInput& input,
     {
         return false;
     }
+
+    m_pimpl->output.I_p_left_previous = I_p_left_previous;
+    m_pimpl->output.I_p_right_previous = I_p_right_previous;
+    m_pimpl->output.I_p_com_previous = I_p_com_previous; // TODO useless
+    m_pimpl->output.I_p_base_previous = I_p_base_previous;
+    m_pimpl->output.comPosition.head<2>() = I_p_com_previous; // TODO this is not correct
 
     m_pimpl->mannInput = input;
     m_pimpl->currentTime = time;
@@ -716,8 +749,9 @@ bool MANNAutoregressive::advance()
     // changed
     // TODO(Giulio): In case you want to update the projected contact position if the support foot
     // did not change but the lower corner yes you should add this condition in the following if
-    // "|| (supportFootPtr == m_pimpl->supportFootPtr && supportCornerIndex != m_pimpl->supportCornerIndex)""
-    // In the original version of Adherent this behaviour was enabled.
+    // "|| (supportFootPtr == m_pimpl->supportFootPtr && supportCornerIndex !=
+    // m_pimpl->supportCornerIndex)"" In the original version of Adherent this behaviour was
+    // enabled.
     if (supportFootPtr != m_pimpl->supportFootPtr)
     {
         m_pimpl->supportCornerIndex = supportCornerIndex;
@@ -791,16 +825,22 @@ bool MANNAutoregressive::advance()
     m_pimpl->updateContact(-leftFootHeight,
                            m_pimpl->leftFootSchmittTrigger,
                            m_pimpl->output.leftFootSchmittTriggerState,
-                           m_pimpl->output.leftFoot);
+                           m_pimpl->output.leftFoot,
+                           m_pimpl->output.I_p_left_previous);
     m_pimpl->updateContact(-rightFootHeight,
                            m_pimpl->rightFootSchmittTrigger,
                            m_pimpl->output.rightFootSchmittTriggerState,
-                           m_pimpl->output.rightFoot);
+                           m_pimpl->output.rightFoot,
+                           m_pimpl->output.I_p_right_previous);
 
     m_pimpl->output.jointsPosition = mannOutput.jointPositions;
+    m_pimpl->output.I_p_base_previous = m_pimpl->output.basePose.translation().head<2>();
     m_pimpl->output.basePose = I_H_base;
     m_pimpl->output.currentTime = m_pimpl->currentTime;
+    m_pimpl->output.I_p_com_previous = m_pimpl->output.comPosition.head<2>();
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+
+
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
 
