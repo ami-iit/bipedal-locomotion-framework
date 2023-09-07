@@ -77,7 +77,7 @@ public:
     // clang-format off
     /**
      * Initialize the BaseEstimatorFromFootIMU block.
-     * The setModel and setStanceFootRF methods must be called before initialization.
+     * The setModel method must be called before initialization.
      * @param handler pointer to the parameter handler.
      * @note The following parameters are required
      * |   Parameter Name    |   Type   |                Description               | Mandatory |
@@ -169,7 +169,8 @@ private:
                                                 measured Pitch, desired Yaw */
     manif::SE3d m_measuredFootPose; /**< the final foot pose matrix obtained through measured and
                                        desired quantities */
-    manif::SE3d m_frame_H_link; /**< coordinate change matrix from foot link frame to foot sole frame
+    manif::SE3d m_frame_H_link; /**< coordinate change matrix from foot link frame to foot sole
+                                 * frame
                                  */
     Eigen::Vector3d m_gravity;
     iDynTree::KinDynComputations m_kinDyn;

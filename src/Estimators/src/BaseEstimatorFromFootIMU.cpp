@@ -113,13 +113,15 @@ bool BaseEstimatorFromFootIMU::initialize(
 
     // Base link of the robot (whose pose must be estimated)
     std::string baseFrameName;
-    bool ok = populateParameter(ptr->getGroup("MODEL_INFO"), "base_frame", baseFrameName);
+    auto baseEstimatorPtr = ptr->getGroup("BASE_ESTIMATOR").lock();
+    bool ok
+        = populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"), "base_frame", baseFrameName);
 
     // Frame associated to the foot of the robot (whose orientation is measured)
-    ok = populateParameter(ptr->getGroup("MODEL_INFO"), "foot_frame", m_footFrameName);
+    ok = populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"), "foot_frame", m_footFrameName);
 
-    ok = ok && populateParameter(ptr, "foot_width_in_m", m_footWidth);
-    ok = ok && populateParameter(ptr, "foot_length_in_m", m_footLength);
+    ok = ok && populateParameter(baseEstimatorPtr, "foot_width_in_m", m_footWidth);
+    ok = ok && populateParameter(baseEstimatorPtr, "foot_length_in_m", m_footLength);
 
     // Set the 4 foot vertices in World reference frame [dimensions in meters]
     m_cornersInLocalFrame.emplace_back(+m_footWidth / 2, +m_footLength / 2, 0);
@@ -204,6 +206,9 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // finding the positions of the foot corners in world frame given `T_foot_raw`
     // pose matrix.
+
+    // resetting the vector of transformed foot corners from previous iteration.
+    m_transformedFootCorners.clear();
 
     // for each corner we compute the position in the inertial frame
     for (const auto& corner : m_cornersInLocalFrame)

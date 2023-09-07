@@ -10,9 +10,9 @@
 #include <iomanip>
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 #include <Eigen/Dense>
 
@@ -113,27 +113,27 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     auto parametersHandler = std::make_shared<ParametersHandler::YarpImplementation>(rf);
 
     std::string name;
-    if(!parametersHandler->getParameter("name", name))
+    if (!parametersHandler->getParameter("name", name))
         return false;
     this->setName(name.c_str());
 
-    if(!parametersHandler->getParameter("sampling_time", m_dT))
+    if (!parametersHandler->getParameter("sampling_time", m_dT))
         return false;
 
     double maxValue = 0;
-    if(!parametersHandler->getParameter("max_angle_deg", maxValue))
+    if (!parametersHandler->getParameter("max_angle_deg", maxValue))
         return false;
 
     maxValue *= M_PI / 180;
 
     double minValue = 0;
-    if(!parametersHandler->getParameter("min_angle_deg", minValue))
+    if (!parametersHandler->getParameter("min_angle_deg", minValue))
         return false;
 
     minValue *= M_PI / 180;
 
     double trajectoryDuration = 5;
-    if(!parametersHandler->getParameter("trajectory_duration", trajectoryDuration))
+    if (!parametersHandler->getParameter("trajectory_duration", trajectoryDuration))
         return false;
 
     this->createPolydriver(parametersHandler);
