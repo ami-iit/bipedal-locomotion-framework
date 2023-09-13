@@ -101,6 +101,38 @@ bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
+bool JointDynamicsTask::setMassMatrixRegularization(
+    const Eigen::Ref<const Eigen::MatrixXd>& matrix)
+{
+    constexpr auto logPrefix = "[JointDynamicsTask::"
+                               "setMassMatrixRegularization]";
+
+    if (!m_kinDyn.isValid())
+    {
+        log()->error("{} Please call setKinDyn() before.", logPrefix);
+        return false;
+    }
+
+    if ((m_kinDyn->getNrOfDegreesOfFreedom() != matrix.rows()) || (matrix.cols() != matrix.rows()))
+    {
+        const auto rightSize = m_kinDyn->getNrOfDegreesOfFreedom();
+
+        log()->error("{} The size of the regularization matrix is not correct. The correct size "
+                     "is:  {} x {}. While the input of the function is a {} x {} matrix.",
+                     logPrefix,
+                     rightSize,
+                     rightSize,
+                     matrix.rows(),
+                     matrix.cols());
+        return false;
+    }
+
+    m_massMatrixReglarizationTerm = matrix;
+    m_useMassMatrixRegularizationTerm = true;
+
+    return true;
+}
+
 bool JointDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointDynamicsTask::initialize]";
@@ -211,8 +243,18 @@ bool JointDynamicsTask::update()
     }
 
     m_b = m_generalizedBiasForces.tail(m_kinDyn->getNrOfDegreesOfFreedom());
-    iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
+    
+    if (m_useMassMatrixRegularizationTerm)
+        {
+            iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
+                    = -(m_massMatrix+m_massMatrixReglarizationTerm).bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+        } else
+        {
+               iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
         = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+        }
+
+
 
     for (const auto& contactWrench : m_contactWrenches)
     {
