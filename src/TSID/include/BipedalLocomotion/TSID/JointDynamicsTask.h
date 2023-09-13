@@ -47,6 +47,7 @@ class JointDynamicsTask : public TSIDLinearTask
                                                                              describing the joint
                                                                              torques */
     bool m_useMassMatrixRegularizationTerm{false};
+    Eigen::MatrixXd m_massMatrixReglarizationTerm;
     struct ContactWrench
     {
         iDynTree::FrameIndex frameIndex; /**< Frame used to express the contact wrench */
