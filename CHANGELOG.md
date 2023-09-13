@@ -473,6 +473,7 @@ All notable changes to this project are documented in this file.
 - Implement `ContactDetectors` library. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/142)
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
+- Added possibility to add regularization on the mass matrix for the TSID `JointDynamicsTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/722)
 
 [unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.15.0...master
 [0.15.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...v0.15.0
