@@ -107,7 +107,7 @@ bool JointDynamicsTask::setMassMatrixRegularization(
     constexpr auto logPrefix = "[JointDynamicsTask::"
                                "setMassMatrixRegularization]";
 
-    if (!m_kinDyn.isValid())
+    if ((m_kinDyn == nullptr) || (!m_kinDyn->isValid()))
     {
         log()->error("{} Please call setKinDyn() before.", logPrefix);
         return false;
