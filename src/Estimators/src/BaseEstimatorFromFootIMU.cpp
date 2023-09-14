@@ -14,9 +14,9 @@ using namespace BipedalLocomotion;
 Eigen::Vector3d toZYX(const Eigen::Matrix3d& r)
 {
     Eigen::Vector3d output;
-    double& thetaZ = output[0]; // Roll
+    double& thetaZ = output[0]; // Yaw
     double& thetaY = output[1]; // Pitch
-    double& thetaX = output[2]; // Yaw
+    double& thetaX = output[2]; // Roll
 
     if (r(2, 0) < +1)
     {
@@ -194,11 +194,11 @@ bool BaseEstimatorFromFootIMU::advance()
     m_measuredRPY = toZYX(m_measuredRotation);
 
     // desired Yaw is used instead of measured Yaw.
-    m_measuredRPY(2) = m_desiredRPY(2);
+    // m_measuredRPY(2) = m_desiredRPY(2);
 
     // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
     // desired Yaw.
-    m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), m_measuredRPY(2));
+    m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(2), m_measuredRPY(1), m_measuredRPY(0));
 
     // manif::SE3d pose matrix that employs: desired Position, measured Roll,
     // measured Pitch, desired Yaw.
