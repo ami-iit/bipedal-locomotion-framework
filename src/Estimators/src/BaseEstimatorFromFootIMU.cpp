@@ -194,7 +194,7 @@ bool BaseEstimatorFromFootIMU::advance()
     m_measuredRPY = toZYX(m_measuredRotation);
 
     // desired Yaw is used instead of measured Yaw.
-    // m_measuredRPY(2) = m_desiredRPY(2);
+    m_measuredRPY(2) = m_desiredRPY(2);
 
     // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
     // desired Yaw.
