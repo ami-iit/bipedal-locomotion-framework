@@ -11,12 +11,12 @@
 
 using namespace BipedalLocomotion;
 
-Eigen::Vector3d toZYX(const Eigen::Matrix3d& r)
+Eigen::Vector3d toXYZ(const Eigen::Matrix3d& r)
 {
     Eigen::Vector3d output;
-    double& thetaZ = output[0]; // Yaw
+    double& thetaX = output[0]; // Roll
     double& thetaY = output[1]; // Pitch
-    double& thetaX = output[2]; // Roll
+    double& thetaZ = output[2]; // Yaw
 
     if (r(2, 0) < +1)
     {
@@ -123,11 +123,14 @@ bool BaseEstimatorFromFootIMU::initialize(
     ok = ok && populateParameter(baseEstimatorPtr, "foot_width_in_m", m_footWidth);
     ok = ok && populateParameter(baseEstimatorPtr, "foot_length_in_m", m_footLength);
 
+    // resetting the vector of foot corners to be sure it is correctly initialized.
+    m_cornersInLocalFrame.clear();
+
     // Set the 4 foot vertices in World reference frame [dimensions in meters]
-    m_cornersInLocalFrame.emplace_back(+m_footWidth / 2, +m_footLength / 2, 0);
-    m_cornersInLocalFrame.emplace_back(-m_footWidth / 2, +m_footLength / 2, 0);
-    m_cornersInLocalFrame.emplace_back(-m_footWidth / 2, -m_footLength / 2, 0);
-    m_cornersInLocalFrame.emplace_back(+m_footWidth / 2, -m_footLength / 2, 0);
+    m_cornersInLocalFrame.emplace_back(+m_footLength / 2, -m_footWidth / 2, 0);
+    m_cornersInLocalFrame.emplace_back(+m_footLength / 2, +m_footWidth / 2, 0);
+    m_cornersInLocalFrame.emplace_back(-m_footLength / 2, +m_footWidth / 2, 0);
+    m_cornersInLocalFrame.emplace_back(-m_footLength / 2, -m_footWidth / 2, 0);
 
     m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
     m_frameIndex = m_kinDyn.getFrameIndex(m_footFrameName);
@@ -186,19 +189,19 @@ bool BaseEstimatorFromFootIMU::advance()
     // extracting the orientation part of the `desiredFootPose` and expressing it
     // through RPY Euler angles.
     m_desiredRotation = m_input.desiredFootPose.rotation();
-    m_desiredRPY = toZYX(m_desiredRotation);
+    m_desiredRPY = toXYZ(m_desiredRotation);
 
     // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
     m_measuredRotation = m_input.measuredRotation.rotation();
     // expressing this orientation through RPY Euler angles.
-    m_measuredRPY = toZYX(m_measuredRotation);
+    m_measuredRPY = toXYZ(m_measuredRotation);
 
     // desired Yaw is used instead of measured Yaw.
-    // m_measuredRPY(0) = m_desiredRPY(0);
+    // m_measuredRPY(2) = m_desiredRPY(2);
 
     // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
     // desired Yaw.
-    m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(2), m_measuredRPY(1), m_measuredRPY(0));
+    m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), m_measuredRPY(2));
 
     // manif::SE3d pose matrix that employs: desired Position, measured Roll,
     // measured Pitch, desired Yaw.
