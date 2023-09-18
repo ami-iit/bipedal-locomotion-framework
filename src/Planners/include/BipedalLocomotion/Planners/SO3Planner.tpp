@@ -34,7 +34,7 @@ bool SO3Planner<trivialization>::computeCoefficients()
     constexpr auto logPrefix = "[SO3Planner::computeCoefficients]";
 
     // no need to compute the coefficients again
-    if (areCoefficientsComputed)
+    if (this->areCoefficientsComputed)
     {
         return true;
     }
