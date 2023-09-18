@@ -128,6 +128,7 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
 bool SwingFootPlanner::setContactList(const ContactList& contactList)
 {
     constexpr auto logPrefix = "[SwingFootPlanner::setContactList]";
+    using namespace std::chrono_literals;
 
     ///// Initial checks
     if (contactList.size() == 0)
@@ -160,7 +161,6 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
                                                       // contact
     )
     {
-        // check if the pose is the same
         if (!(activeContact->pose - activeContactNewList->pose).coeffs().isZero(tolerance))
         {
             log()->error("{} The pose of the contact in the new contact list is different from the "
@@ -175,7 +175,6 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
             return false;
         }
 
-        // the pose is the same. We can update the contact list
         m_contactList = contactList;
         return true;
     }
@@ -251,11 +250,8 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     }
 
     //// Case 3: both the contacts are deactivated. In this case we can update the contact list if
-    ///          the next contact in the new contact list has the same activation time of the next
-    ///          contact stored in the original contact list.
+    ///          the next contact in the new contact exists.
     auto nextContactNewList = contactList.getNextContact(m_currentTrajectoryTime);
-    auto nextContact = m_contactList.getNextContact(m_currentTrajectoryTime);
-
     if (nextContactNewList == contactList.cend())
     {
         log()->error("{} The new contact list does not contain a contact after the current time "
@@ -265,30 +261,7 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
         return false;
     }
 
-    if (nextContact == m_contactList.cend())
-    {
-        log()->error("{} The original contact list does not contain a contact after the current "
-                     "time instant. Current time {}.",
-                     logPrefix,
-                     toMilliseconds(m_currentTrajectoryTime));
-        return false;
-    }
-
-    if (nextContact->activationTime != nextContactNewList->activationTime)
-    {
-         log()->error("{} The activation time of the next contact in the new contact list is "
-                      "different from the activation time of the next contact in the original "
-                      "contact list. Current time {}. Original contact activation time {}. New "
-                      "contact activation time {}.",
-                      logPrefix,
-                      toMilliseconds(m_currentTrajectoryTime),
-                      toMilliseconds(nextContact->activationTime),
-                      toMilliseconds(nextContactNewList->activationTime));
-    }
-
-    // the activation time is the same. We can update the contact list
     m_contactList = contactList;
-
     return true;
 }
 
@@ -336,7 +309,8 @@ bool SwingFootPlanner::createSE3Traj(const manif::SE3d& initialPose,
     const auto SO3TrajectoryDuration = nextContact->activationTime - m_staringTimeOfCurrentSO3Traj;
     m_SO3Planner.setInitialConditions(initialAngularVelocity, initialAngularAcceleration);
     m_SO3Planner.setFinalConditions(manif::SO3d::Tangent::Zero(), manif::SO3d::Tangent::Zero());
-    if (!m_SO3Planner.setRotations(initialPose.quat(),
+
+    if (!m_SO3Planner.setRotations(initialPose.asSO3(),
                                    nextContact->pose.asSO3(),
                                    SO3TrajectoryDuration))
     {
@@ -426,7 +400,6 @@ bool SwingFootPlanner::evaluateSE3Traj(BipedalLocomotion::Planners::SwingFootPla
 
     // compute the trajectory at the current time
     const auto shiftedTime = m_currentTrajectoryTime - m_staringTimeOfCurrentSO3Traj;
-
     manif::SO3d rotation;
 
     // note here we assume that the velocity is expressed using the mixed representation.
@@ -451,8 +424,8 @@ bool SwingFootPlanner::evaluateSE3Traj(BipedalLocomotion::Planners::SwingFootPla
     manif::SE3d::Translation position;
     if (!m_planarPlanner->evaluatePoint(m_currentTrajectoryTime,
                                         position.head<2>(),
-                                        state.mixedVelocity.coeffs().head<2>(),
-                                        state.mixedAcceleration.coeffs().head<2>()))
+                                        state.mixedVelocity.lin().head<2>(),
+                                        state.mixedAcceleration.lin().head<2>()))
     {
         log()->error("{} Unable to get the planar trajectory at time t = {}.",
                      logPrefix,
@@ -462,8 +435,8 @@ bool SwingFootPlanner::evaluateSE3Traj(BipedalLocomotion::Planners::SwingFootPla
 
     if (!m_heightPlanner->evaluatePoint(m_currentTrajectoryTime,
                                         position.tail<1>(),
-                                        state.mixedVelocity.coeffs().tail<1>(),
-                                        state.mixedAcceleration.coeffs().tail<1>()))
+                                        state.mixedVelocity.lin().tail<1>(),
+                                        state.mixedAcceleration.lin().tail<1>()))
     {
         log()->error("{} Unable to the height trajectory at time t = {}.",
                      logPrefix,
@@ -518,12 +491,12 @@ bool SwingFootPlanner::advance()
 
     // create a new trajectory in SE(3)
     if (!this->createSE3Traj(m_state.transform,
-                             m_state.mixedVelocity.coeffs().head<2>(),
-                             m_state.mixedAcceleration.coeffs().head<2>(),
-                             m_state.mixedVelocity.coeffs().tail<1>(),
-                             m_state.mixedAcceleration.coeffs().tail<1>(),
-                             m_state.mixedVelocity.asSO3(),
-                             m_state.mixedAcceleration.asSO3()))
+                             m_state.mixedVelocity.lin().head<2>(),
+                             m_state.mixedAcceleration.lin().head<2>(),
+                             m_state.mixedVelocity.lin().tail<1>(),
+                             m_state.mixedAcceleration.lin().tail<1>(),
+                             m_state.mixedVelocity.ang(),
+                             m_state.mixedAcceleration.ang()))
     {
         log()->error("{} Unable to create the new SE(3) trajectory.", logPrefix);
         return false;
