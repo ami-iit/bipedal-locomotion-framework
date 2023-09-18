@@ -197,6 +197,10 @@ struct CentroidalMPC::Impl
                                            momentum and contact. */
         bool isCseEnabled{false}; /**< True if the Common subexpression elimination casadi option is
                                        enabled. */
+
+        std::string solverName{"ipopt"}; /**< Name of the solver used by the MPC. */
+        bool isJITEnabled{false}; /**< True if the JIT compilation is enabled. */
+        int numberOFQPIteration{10}; /**< Number of QP iteration. */
     };
 
     OptimizationSettings optiSettings; /**< Settings */
@@ -244,9 +248,15 @@ struct CentroidalMPC::Impl
     };
     ControllerInputs controllerInputs; /**< The pointers will point to the vectorized input */
 
+    struct ContactInitialGuess
+    {
+        casadi::DM* contactLocation;
+        std::vector<casadi::DM*> contactForce;
+    };
+
     struct InitialGuess
     {
-        std::map<std::string, casadi::DM*> contactsLocation;
+        std::map<std::string, ContactInitialGuess> contactsInitialGuess;
 
         casadi::DM* com;
         casadi::DM* angularMomentum;
@@ -406,10 +416,32 @@ struct CentroidalMPC::Impl
 
         // initialize the friction cone
         ok = ok && frictionCone.initialize(ptr);
+        ok = ok && getParameter(ptr, "solver_name", this->optiSettings.solverName);
+        if (!ok)
+        {
+            return false;
+        }
+        if (this->optiSettings.solverName != "ipopt" && this->optiSettings.solverName != "sqp")
+        {
+            log()->error("{} The solver name '{}' is not supported. The supported solvers are "
+                         "'ipopt' and 'sqp'.",
+                         logPrefix,
+                         this->optiSettings.solverName);
+            return false;
+        }
 
-        getOptionalParameter(ptr, "linear_solver", this->optiSettings.ipoptLinearSolver);
-        getOptionalParameter(ptr, "ipopt_tolerance", this->optiSettings.ipoptTolerance);
-        getOptionalParameter(ptr, "ipopt_max_iteration", this->optiSettings.ipoptMaxIteration);
+        if (this->optiSettings.solverName == "ipopt")
+        {
+            getOptionalParameter(ptr, "linear_solver", this->optiSettings.ipoptLinearSolver);
+            getOptionalParameter(ptr, "ipopt_tolerance", this->optiSettings.ipoptTolerance);
+            getOptionalParameter(ptr, "ipopt_max_iteration", this->optiSettings.ipoptMaxIteration);
+        } else
+        {
+            getOptionalParameter(ptr, "jit_compilation", this->optiSettings.isJITEnabled);
+            getOptionalParameter(ptr, "number_of_qp_iterations", this->optiSettings.numberOFQPIteration);
+
+        }
+
         getOptionalParameter(ptr, "solver_verbosity", this->optiSettings.solverVerbosity);
         getOptionalParameter(ptr, "is_warm_start_enabled", this->optiSettings.isWarmStartEnabled);
         getOptionalParameter(ptr, "is_cse_enabled", this->optiSettings.isCseEnabled);
@@ -544,6 +576,15 @@ struct CentroidalMPC::Impl
             constexpr std::size_t contactVariablesWarmStart = 1;
             vectorizedOptiInputsSize += centroidalVariablesWarmStart + //
                                         (this->output.contacts.size() * contactVariablesWarmStart);
+
+            for (const auto& [key, contact] : this->output.contacts)
+            {
+                for (const auto& corner : contact.corners)
+                {
+                    // for each corner we have the force
+                    vectorizedOptiInputsSize += 1;
+                }
+            }
         }
 
         // we reserve in advance so the push_back will not invalidate the pointers
@@ -622,7 +663,16 @@ struct CentroidalMPC::Impl
             if (this->optiSettings.isWarmStartEnabled)
             {
                 this->vectorizedOptiInputs.push_back(casadi::DM::zeros(vector3Size, stateHorizon));
-                this->initialGuess.contactsLocation[key] = &this->vectorizedOptiInputs.back();
+                this->initialGuess.contactsInitialGuess[key].contactLocation
+                    = &this->vectorizedOptiInputs.back();
+
+                for (const auto& corner : contact.corners)
+                {
+                    this->vectorizedOptiInputs.push_back(
+                        casadi::DM::zeros(vector3Size, this->optiSettings.horizon));
+                    this->initialGuess.contactsInitialGuess[key].contactForce.push_back(
+                        &this->vectorizedOptiInputs.back());
+                }
             }
         }
 
@@ -704,73 +754,76 @@ struct CentroidalMPC::Impl
     void setupOptiOptions()
     {
         casadi::Dict casadiOptions;
-        casadi::Dict ipoptOptions;
+        casadi::Dict solverOptions;
+        if (this->optiSettings.solverName == "ipopt")
+        {
+            if (this->optiSettings.solverVerbosity != 0)
+            {
+                casadi_int ipoptVerbosity
+                    = static_cast<long long>(optiSettings.solverVerbosity - 1);
+                solverOptions["print_level"] = ipoptVerbosity;
+                casadiOptions["print_time"] = true;
+            } else
+            {
+                solverOptions["print_level"] = 0;
+                casadiOptions["print_time"] = false;
+            }
 
-        if (this->optiSettings.solverVerbosity != 0)
-        {
-            casadi_int ipoptVerbosity = static_cast<long long>(optiSettings.solverVerbosity - 1);
-            ipoptOptions["print_level"] = ipoptVerbosity;
-            casadiOptions["print_time"] = true;
-        } else
-        {
-            ipoptOptions["print_level"] = 0;
-            casadiOptions["print_time"] = false;
+            solverOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
+            solverOptions["tol"] = this->optiSettings.ipoptTolerance;
+            solverOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
+            casadiOptions["expand"] = true;
+            casadiOptions["error_on_fail"] = true;
+
+            this->opti.solver("ipopt", casadiOptions, solverOptions);
+            return;
         }
 
-        ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
-        ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
-        ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
+        // if not ipopt is sqpmethod
+        casadi::Dict osqpOptions;
+        if (this->optiSettings.solverVerbosity != 0)
+        {
+            casadiOptions["print_header"] = true;
+            casadiOptions["print_iteration"] = true;
+            casadiOptions["print_status"] = true;
+            casadiOptions["print_time"] = true;
+            osqpOptions["verbose"] = true;
+        } else
+        {
+            casadiOptions["print_header"] = false;
+            casadiOptions["print_iteration"] = false;
+            casadiOptions["print_status"] = false;
+            casadiOptions["print_time"] = false;
+            osqpOptions["verbose"] = false;
+        }
+        casadiOptions["error_on_fail"] = false;
         casadiOptions["expand"] = true;
-        casadiOptions["error_on_fail"] = true;
+        casadiOptions["qpsol"] = "osqp";
 
-        this->opti.solver("ipopt", casadiOptions, ipoptOptions);
+        solverOptions["error_on_fail"] = false;
 
-        // casadi::Dict casadiOptions;
-        // casadi::Dict qpSolOptions;
-        // casadi::Dict osqpOptions;
+        osqpOptions["verbose"] = false;
+        solverOptions["osqp"] = osqpOptions;
 
-        // if (this->optiSettings.solverVerbosity != 0)
-        // {
-        //     casadi_int ipoptVerbosity = static_cast<long long>(optiSettings.solverVerbosity - 1);
-        //     // ipoptOptions["print_level"] = ipoptVerbosity;
-        //     casadiOptions["print_time"] = true;
-        // } else
-        // {
-        //     // ipoptOptions["print_level"] = 0;
-        //     casadiOptions["print_time"] = false;
-        // }
-        // casadiOptions["print_header"] = false;
-        // casadiOptions["print_iteration"] = false;
-        // casadiOptions["print_status"] = false;
-        // // casadiOptions["error_on_fail"] = false;
-        // // casadiOptions["hessian_approximation"] = "limited_memory";
-        // /*         ipoptOptions["max_iter"] = this->optiSettings.ipoptMaxIteration;
-        //         ipoptOptions["tol"] = this->optiSettings.ipoptTolerance;
-        //         ipoptOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver; */
-        // casadiOptions["expand"] = true;
-        // /*         casadiOptions["error_on_fail"] = false; */
-        // casadiOptions["qpsol"] = "osqp";
-
-        // qpSolOptions["error_on_fail"] = false;
-        // // qpSolOptions["verbose"] = false;
-
-        // osqpOptions["verbose"] = false;
-        // qpSolOptions["osqp"] = osqpOptions;
-
-        // casadiOptions["qpsol_options"] = qpSolOptions;
-        // casadiOptions["max_iter"] = 15;
+        casadiOptions["qpsol_options"] = solverOptions;
+        casadiOptions["max_iter"] = this->optiSettings.numberOFQPIteration;
 
         // casadiOptions["elastic_mode"] = true;
         // casadiOptions["convexify_strategy"] = "regularize";
-        // casadiOptions["jit"] = true;
-        //         casadiOptions["compiler"] = "shell";
+        // casadiOptions["hessian_approximation"] = "limited_memory";
+        // casadiOptions["error_on_fail"] = false;
 
-        // casadi::Dict jitOptions;
-        // jitOptions["flags"] = {"-O3"};
-        // jitOptions["verbose"] = true;
-        // casadiOptions["jit_options"] = jitOptions;
+        if (this->optiSettings.isJITEnabled)
+        {
+            casadiOptions["jit"] = true;
+            casadiOptions["compiler"] = "shell";
 
-        // this->opti.solver("sqpmethod", casadiOptions);
+            casadi::Dict jitOptions;
+            jitOptions["flags"] = {"-O3"};
+            jitOptions["verbose"] = true;
+            casadiOptions["jit_options"] = jitOptions;
+        }
+        this->opti.solver("sqpmethod", casadiOptions);
     }
 
     casadi::Function createController()
@@ -994,6 +1047,15 @@ struct CentroidalMPC::Impl
             if (this->optiSettings.isWarmStartEnabled)
             {
                 concatenateInput(contact.position, "contact_" + key + "_position_warmstart");
+
+                std::size_t cornerIndex = 0;
+                for (const auto& corner : contact.corners)
+                {
+                    concatenateInput(corner.force,
+                                     "contact_" + key + "_corner_" + std::to_string(cornerIndex)
+                                         + "_force_warmstart");
+                    cornerIndex++;
+                }
             }
 
             concatenateOutput(contact.isEnabled, "contact_" + key + "_is_enable");
@@ -1017,14 +1079,6 @@ struct CentroidalMPC::Impl
         {
             toFunctionOptions["cse"] = this->optiSettings.isCseEnabled;
         }
-        /* toFunctionOptions["jit"] = true;
-        toFunctionOptions["compiler"] = "shell";
-        jitOptions["flags"] = std::vector<std::string>{"-O3", "-I",
-        "/home/gromualdi/robot-code/robotology-superbuild/build/install/include/"};
-        jitOptions["verbose"] = true;
-        jitOptions["compiler"] = "gcc";
-        toFunctionOptions["jit_options"] = jitOptions;
-         */
 
         return this->opti
             .to_function("controller", input, output, inputName, outputName, toFunctionOptions);
@@ -1176,15 +1230,25 @@ bool CentroidalMPC::advance()
         // get the forces
         std::advance(it, 1);
 
-        for (auto& corner : contact.corners)
+        for (std::size_t cornerIndex = 0; cornerIndex < contact.corners.size(); cornerIndex++)
         {
+            if (m_pimpl->optiSettings.isWarmStartEnabled)
+            {
+                toEigen(*m_pimpl->initialGuess.contactsInitialGuess[key].contactForce[cornerIndex])
+                    .leftCols(m_pimpl->optiSettings.horizon - 1)
+                    = toEigen(*it).rightCols(m_pimpl->optiSettings.horizon - 1);
+                toEigen(*m_pimpl->initialGuess.contactsInitialGuess[key].contactForce[cornerIndex])
+                    .rightCols<1>()
+                    = toEigen(*it).rightCols<1>();
+            }
             if (isEnabled > 0.5)
             {
-                corner.force = toEigen(*it).leftCols<1>();
+                contact.corners[cornerIndex].force = toEigen(*it).leftCols<1>();
             } else
             {
-                corner.force.setZero();
+                contact.corners[cornerIndex].force.setZero();
             }
+
             std::advance(it, 1);
         }
     }
@@ -1425,7 +1489,7 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         // problem
         if (m_pimpl->optiSettings.isWarmStartEnabled)
         {
-            toEigen(*(m_pimpl->initialGuess.contactsLocation[key]))
+            toEigen(*(m_pimpl->initialGuess.contactsInitialGuess[key].contactLocation))
                 = toEigen(*contact.nominalPosition);
         }
     }
