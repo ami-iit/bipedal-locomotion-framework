@@ -220,48 +220,47 @@ bool BaseEstimatorFromFootIMU::advance()
     }
 
     // The center of the foot sole is at ground level --> some corners may be
-    // under ground level. The foot may need to be lifted by an offset value.
+    // under ground level. The foot may need to be translated by a 3D offset value.
 
     // extracting the vertical quotes of the foot corners and finding the lowest
     // corner.
-    auto lowestCorner = std::min_element(m_transformedFootCorners.begin(),
-                                         m_transformedFootCorners.end(),
-                                         [](const Eigen::Vector3d& a, const Eigen::Vector3d& b) {
-                                             return a[2] < b[2];
-                                         });
+    Eigen::VectorXd cornersZ;
+    cornersZ.resize(m_transformedFootCorners.size());
+    cornersZ.setZero();
+    int index = 0;
+    for (const auto& corner : m_transformedFootCorners)
+    {
+        cornersZ[index] = corner[2];
+        index++;
+    }
 
     // finding the index of the lowest corner.
-    int supportCornerIndex = std::distance(m_transformedFootCorners.begin(), lowestCorner);
-
-    Eigen::Vector3d p_desired(0, 0, 0);
-    Eigen::Vector3d vertexOffset(0, 0, 0);
-
-    // finding the offset vector needed to bring the lowest corner back to its
-    // desired position.
-    switch (supportCornerIndex)
+    double minZ = cornersZ[0];
+    int supportCornerIndex = 0;
+    for (int i = 1; i < cornersZ.size(); i++)
     {
-    case 0:
-        p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
-        vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
-        break;
-    case 1:
-        p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
-        vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
-        break;
-    case 2:
-        p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
-        vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
-        break;
-    case 3:
-        p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
-        vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
-        break;
-    default:
+        if (cornersZ[i] < minZ)
+        {
+            minZ = cornersZ[i];
+            supportCornerIndex = i;
+        }
+    }
+
+    // checking that the index of the lowest corner is within the range [0, 3].
+    if (!(0 <= supportCornerIndex <= 3))
+    {
         log()->error("{} Foot vertex index out of bounds (0, 3): {}.",
                      logPrefix,
                      supportCornerIndex);
         return false;
     }
+
+    // finding the offset vector needed to bring the lowest corner back to its
+    // desired position.
+    Eigen::Vector3d p_desired(0, 0, 0);
+    Eigen::Vector3d vertexOffset(0, 0, 0);
+    p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
+    vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
 
     // transforming the offset vector into a translation matrix.
     manif::SE3d T_vertexOffset(vertexOffset, manif::SO3d::Identity());
