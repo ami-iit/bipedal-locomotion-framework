@@ -124,13 +124,13 @@ bool BaseEstimatorFromFootIMU::initialize(
     ok = ok && populateParameter(baseEstimatorPtr, "foot_length_in_m", m_footLength);
 
     // resetting the vector of foot corners to be sure it is correctly initialized.
-    m_cornersInLocalFrame.clear();
+    m_cornersInInertialFrame.clear();
 
     // Set the 4 foot vertices in World reference frame [dimensions in meters]
-    m_cornersInLocalFrame.emplace_back(+m_footLength / 2, -m_footWidth / 2, 0);
-    m_cornersInLocalFrame.emplace_back(+m_footLength / 2, +m_footWidth / 2, 0);
-    m_cornersInLocalFrame.emplace_back(-m_footLength / 2, +m_footWidth / 2, 0);
-    m_cornersInLocalFrame.emplace_back(-m_footLength / 2, -m_footWidth / 2, 0);
+    m_cornersInInertialFrame.emplace_back(+m_footLength / 2, -m_footWidth / 2, 0);
+    m_cornersInInertialFrame.emplace_back(+m_footLength / 2, +m_footWidth / 2, 0);
+    m_cornersInInertialFrame.emplace_back(-m_footLength / 2, +m_footWidth / 2, 0);
+    m_cornersInInertialFrame.emplace_back(-m_footLength / 2, -m_footWidth / 2, 0);
 
     m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
     m_frameIndex = m_kinDyn.getFrameIndex(m_footFrameName);
@@ -214,7 +214,7 @@ bool BaseEstimatorFromFootIMU::advance()
     m_transformedFootCorners.clear();
 
     // for each corner we compute the position in the inertial frame
-    for (const auto& corner : m_cornersInLocalFrame)
+    for (const auto& corner : m_cornersInInertialFrame)
     {
         m_transformedFootCorners.emplace_back(T_foot_raw.act(corner));
     }
@@ -246,6 +246,21 @@ bool BaseEstimatorFromFootIMU::advance()
         }
     }
 
+    // finding the index of the highest corner.
+    double maxZ = cornersZ[0];
+    int highestCornerIndex = 0;
+    for (int i = 1; i < cornersZ.size(); i++)
+    {
+        if (cornersZ[i] > maxZ)
+        {
+            maxZ = cornersZ[i];
+            highestCornerIndex = i;
+        }
+    }
+
+    double deltaZ = cornersZ[highestCornerIndex] - cornersZ[supportCornerIndex];
+    // std::cerr << "Foot deltaZ: " << deltaZ << std::endl;
+
     // checking that the index of the lowest corner is within the range [0, 3].
     if (!(0 <= supportCornerIndex <= 3))
     {
@@ -259,7 +274,7 @@ bool BaseEstimatorFromFootIMU::advance()
     // desired position.
     Eigen::Vector3d p_desired(0, 0, 0);
     Eigen::Vector3d vertexOffset(0, 0, 0);
-    p_desired = m_input.desiredFootPose.act(m_cornersInLocalFrame[supportCornerIndex]);
+    p_desired = m_input.desiredFootPose.act(m_cornersInInertialFrame[supportCornerIndex]);
     vertexOffset = p_desired - m_transformedFootCorners[supportCornerIndex];
 
     // transforming the offset vector into a translation matrix.
@@ -268,6 +283,7 @@ bool BaseEstimatorFromFootIMU::advance()
     // obtaining the final foot pose using both measured and desired quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
     m_measuredFootPose = T_vertexOffset * T_foot_raw * m_frame_H_link;
+    m_resetFootCorners = T_vertexOffset * T_foot_raw;
 
     Eigen::VectorXd baseVelocity(6);
     baseVelocity.setZero();
@@ -285,6 +301,33 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // calculating the pose of the root link given the robot state.
     m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrame));
+
+    // updating m_cornersInLocalFrame when the foot is nearly flat
+    double flatnessThreshold = 0.0001;
+    if (deltaZ <= flatnessThreshold)
+    {
+        // extracting the position part of the reset corners pose.
+        auto tras = m_resetFootCorners.translation();
+        // foot z is completely canceled
+        tras(2) = 0.0;
+        // extracting the orientation part of the reset corners pose and expressing it through RPY
+        // Euler angles.
+        auto rot = m_resetFootCorners.rotation();
+        auto rpy = toXYZ(rot);
+        // Roll and Pitch are completely canceled.
+        rpy(0) = 0.0;
+        rpy(1) = 0.0;
+        // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw.
+        auto rotFlat = manif::SO3d(rpy(0), rpy(1), rpy(2));
+        // manif::SE3d reser corners pose matrix.
+        manif::SE3d T_reset_corners(tras, rotFlat);
+        int j = 0;
+        for (const auto& corner : m_cornersInInertialFrame)
+        {
+            m_cornersInInertialFrame[j] = T_reset_corners.act(corner);
+            j++;
+        }
+    }
 
     m_isOutputValid = true;
 

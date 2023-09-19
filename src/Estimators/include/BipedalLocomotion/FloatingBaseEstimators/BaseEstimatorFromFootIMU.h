@@ -152,7 +152,7 @@ private:
      *       WIDTH
      *
      */
-    std::vector<Eigen::Vector3d> m_cornersInLocalFrame; /**< this implementation is considering
+    std::vector<Eigen::Vector3d> m_cornersInInertialFrame; /**< this implementation is considering
                                                            rectangular feet (4 corners) */
     std::vector<Eigen::Vector3d> m_transformedFootCorners; /**< vector of the foot corners
                                                               transformed into the inertial frame */
@@ -169,6 +169,8 @@ private:
                                                 measured Pitch, desired Yaw */
     manif::SE3d m_measuredFootPose; /**< the final foot pose matrix obtained through measured and
                                        desired quantities */
+    manif::SE3d m_resetFootCorners; /**< the final foot pose matrix used to reset corners positions
+                                       in inertial frame when the foot is flat */
     manif::SE3d m_frame_H_link; /**< coordinate change matrix from foot link frame to foot sole
                                  * frame
                                  */
