@@ -57,6 +57,10 @@ class CoMTask : public TSIDLinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
+    /** Mask used to select the DoFs controlled by the task */
+    std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
+    std::size_t m_DoFs{m_linearVelocitySize}; /**< DoFs associated to the task */
+    Eigen::MatrixXd m_jacobian; /**< CoM Jacobian matrix in MIXED representation */
 public:
 
     /**
@@ -68,6 +72,7 @@ public:
      * | `robot_acceleration_variable_name` |            `string`          | Name of the variable contained in `VariablesHandler` describing the robot acceleration |    Yes    |
      * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
      * |             `kd_linear`            | `double` or `vector<double>` |                         Gain of the linear velocity controller                         |    Yes    |
+     * |               `mask`               |         `vector<bool>`       |  Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])   |    No     |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.

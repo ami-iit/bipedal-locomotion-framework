@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Added
+- Add the possibility to control a subset of coordinates in `TSID::CoMTask` ()
+
 ## [0.15.0] - 2023-09-05
 ### Added
 - 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
