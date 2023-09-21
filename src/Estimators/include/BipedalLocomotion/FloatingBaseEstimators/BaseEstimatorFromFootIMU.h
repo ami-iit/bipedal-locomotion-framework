@@ -30,6 +30,9 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
+    std::vector<Eigen::Vector3d> sphereShadowCorners;
+    std::vector<Eigen::Vector3d> sphereFootCorners;
+    int supportCornerIndex;
 };
 
 /**
@@ -139,17 +142,17 @@ private:
     /**
      * Define the 4 foot vertices in World reference frame:
      *
-     *        +
-     *  m_p2 __|__ m_p1   __
-     *      |  |  |         |
-     *   ___|__|__|___+     | FOOT
-     *      |  |  |         | LENGTH
-     *      |__|__|       __|
-     *  m_p3   |   m_p4
-     *
-     *      |_____|
-     *       FOOT
-     *       WIDTH
+     *         +x              FRONT
+     *   m_p2 __|__ m_p1   __
+     *       |  |  |         |
+     *  +y___|__|__|___      | FOOT
+     *       |  |  |         | LENGTH
+     *       |__|__|       __|
+     *   m_p3   |   m_p4
+     *                         REAR
+     *       |_____|
+     *        FOOT
+     *        WIDTH
      *
      */
     std::vector<Eigen::Vector3d> m_cornersInInertialFrame; /**< this implementation is considering
@@ -171,6 +174,9 @@ private:
                                        desired quantities */
     manif::SE3d m_resetFootCorners; /**< the final foot pose matrix used to reset corners positions
                                        in inertial frame when the foot is flat */
+    manif::SE3d m_yawDrift;
+    Eigen::Vector3d m_trasOld;
+    Eigen::Vector3d m_rpyOld;
     manif::SE3d m_frame_H_link; /**< coordinate change matrix from foot link frame to foot sole
                                  * frame
                                  */
