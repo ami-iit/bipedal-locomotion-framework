@@ -58,7 +58,7 @@
           <declname>points</declname>
         </param>
         <briefdescription>
-<para>Given a set of points in <formula id="149">$ \mathbb{R} ^ n$</formula> the function build the convex hull. </para>
+<para>Given a set of points in <formula id="113">$ \mathbb{R} ^ n$</formula> the function build the convex hull. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="warning"><para>the points must belong to the same vectorial space. </para>
@@ -86,10 +86,10 @@
         <argsstring>() const</argsstring>
         <name>getA</name>
         <briefdescription>
-<para>Return the <formula id="150">$A$</formula> constraint matrix, such that <formula id="151">$ Ax \le b$</formula> iff the point <formula id="152">$x$</formula> is in the convex hull. </para>
+<para>Return the <formula id="54">$A$</formula> constraint matrix, such that <formula id="114">$ Ax \le b$</formula> iff the point <formula id="45">$x$</formula> is in the convex hull. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="warning"><para>Please call buildConvexHull before asking for <formula id="150">$A$</formula>. If the convex hull has not be built yet a reference to a 0-size matrix is returned. </para>
+<para><simplesect kind="warning"><para>Please call buildConvexHull before asking for <formula id="54">$A$</formula>. If the convex hull has not be built yet a reference to a 0-size matrix is returned. </para>
 </simplesect>
 <simplesect kind="return"><para>the constraint matrix. </para>
 </simplesect>
@@ -105,10 +105,10 @@
         <argsstring>() const</argsstring>
         <name>getB</name>
         <briefdescription>
-<para>Return the <formula id="148">$b$</formula> constraint vector, such that <formula id="151">$ Ax \le b$</formula> iff the point <formula id="152">$x$</formula> is in the convex hull. </para>
+<para>Return the <formula id="58">$b$</formula> constraint vector, such that <formula id="114">$ Ax \le b$</formula> iff the point <formula id="45">$x$</formula> is in the convex hull. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="warning"><para>Please call buildConvexHull before asking for <formula id="148">$b$</formula>. If the convex hull has not be built yet a reference to a 0-size vector is returned. </para>
+<para><simplesect kind="warning"><para>Please call buildConvexHull before asking for <formula id="58">$b$</formula>. If the convex hull has not be built yet a reference to a 0-size vector is returned. </para>
 </simplesect>
 <simplesect kind="return"><para>the constraint vector. </para>
 </simplesect>
@@ -141,10 +141,10 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" kindref="compound">ConvexHullHelper</ref> is an helper class that simplifies the building of a convex hull given a set of points that belongs to <formula id="146">$\mathbb{R} ^n$</formula>. </para>
+<para><ref refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" kindref="compound">ConvexHullHelper</ref> is an helper class that simplifies the building of a convex hull given a set of points that belongs to <formula id="111">$\mathbb{R} ^n$</formula>. </para>
     </briefdescription>
     <detaileddescription>
-<para>The helper computes the vertex enumeration of the convex hull. Then it converts the V-representation of the convex polyhedron in the H-representation, i.e. it performs the convex-hull computation. The class can be used to retrieve the matrices and vectors that describes the Half space representation of the form: <formula id="147">\[ P = \left \{ x= \begin{bmatrix} x_1 &amp; ... &amp; x_d \end{bmatrix} ^ \top : b - A x \ge 0 \right \}. \]</formula> Where <formula id="148">$b$</formula> is a m-vector and A is a m x n real matrix. <simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" kindref="compound">ConvexHullHelper</ref> is based on the qhull library <ulink url="https://github.com/qhull/qhull">https://github.com/qhull/qhull</ulink> </para>
+<para>The helper computes the vertex enumeration of the convex hull. Then it converts the V-representation of the convex polyhedron in the H-representation, i.e. it performs the convex-hull computation. The class can be used to retrieve the matrices and vectors that describes the Half space representation of the form: <formula id="112">\[ P = \left \{ x= \begin{bmatrix} x_1 &amp; ... &amp; x_d \end{bmatrix} ^ \top : b - A x \ge 0 \right \}. \]</formula> Where <formula id="58">$b$</formula> is a m-vector and A is a m x n real matrix. <simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" kindref="compound">ConvexHullHelper</ref> is based on the qhull library <ulink url="https://github.com/qhull/qhull">https://github.com/qhull/qhull</ulink> </para>
 </simplesect>
 </para>
     </detaileddescription>

@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.13.0/index.html">v0.13.0</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
                 <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
+                <li><a href="./v0.13.0/index.html">v0.13.0</a></li>
               </ol>
             </li>
             <li>
@@ -250,7 +250,7 @@ $R^3$
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>kp_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the position controller</td><td>Yes</td></tr><tr><td><code>kd_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the linear velocity controller</td><td>Yes</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>kp_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the position controller</td><td>Yes</td></tr><tr><td><code>kd_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the linear velocity controller</td><td>Yes</td></tr><tr><td><code>mask</code></td><td><code>vector&lt;bool&gt;</code></td><td>Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])</td><td>No</td></tr></tbody></table></aside>
           </div></section>
           <section class="m-doc-details" id="a2662893646184c5116ca58361769bd45"><div>
             <h3>

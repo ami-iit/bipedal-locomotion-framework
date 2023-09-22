@@ -301,7 +301,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>spline implement an interface for a <ref refid="classBipedalLocomotion_1_1Planners_1_1Spline" kindref="compound">Spline</ref> in <formula id="88">$\mathbb{R}^n$</formula> </para>
+<para>spline implement an interface for a <ref refid="classBipedalLocomotion_1_1Planners_1_1Spline" kindref="compound">Spline</ref> in <formula id="101">$\mathbb{R}^n$</formula> </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>

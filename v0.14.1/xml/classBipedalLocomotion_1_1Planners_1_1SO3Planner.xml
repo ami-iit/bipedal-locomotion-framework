@@ -24,7 +24,7 @@
 <para>Initial rotation from the inertial frame to the body frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Namely <formula id="153">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
+<para>Namely <formula id="115">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -231,7 +231,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="154">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="116">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -239,7 +239,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="155">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="117">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -344,7 +344,7 @@
 <parametername>rotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><formula id="153">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
+<para><formula id="115">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -576,7 +576,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="154">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="116">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -584,7 +584,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="155">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="117">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>

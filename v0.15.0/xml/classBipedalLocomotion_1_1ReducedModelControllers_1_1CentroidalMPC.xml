@@ -135,7 +135,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>ipopt_tolerance</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Determines the convergence tolerance for the algorithm (default value is <formula id="28">$10^{-8}$</formula> (<ulink url="https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol">https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol</ulink>).   </para>
+</entry><entry thead="no" align='center'><para>Determines the convergence tolerance for the algorithm (default value is <formula id="65">$10^{-8}$</formula> (<ulink url="https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol">https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol</ulink>).   </para>
 </entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
@@ -165,7 +165,7 @@
 </table>
 </para>
 </simplesect>
-Moreover for each contact <formula id="29">$i$</formula> where <formula id="30">$ 0 \le i \le $</formula> <computeroutput>number_of_maximum_contacts-1</computeroutput> it is required to define a group <computeroutput>CONTACT_&lt;i&gt;</computeroutput> that contains the following parameters <table rows="6" cols="4"><row>
+Moreover for each contact <formula id="66">$i$</formula> where <formula id="67">$ 0 \le i \le $</formula> <computeroutput>number_of_maximum_contacts-1</computeroutput> it is required to define a group <computeroutput>CONTACT_&lt;i&gt;</computeroutput> that contains the following parameters <table rows="6" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>

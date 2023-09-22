@@ -268,7 +268,7 @@
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" kindref="compound">VariableRegularizationTask</ref> is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to regularize a variable to a given value. The task represents the following equation <formula id="183">\[ x = x_{des} \]</formula> where <formula id="152">$x$</formula> are the elements of the variable you want to regularize to a given value. </para>
+<para>Please use this element if you want to regularize a variable to a given value. The task represents the following equation <formula id="151">\[ x = x_{des} \]</formula> where <formula id="45">$x$</formula> are the elements of the variable you want to regularize to a given value. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">

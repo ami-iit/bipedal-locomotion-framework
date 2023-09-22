@@ -403,7 +403,7 @@
 <para>JointsTrackingTask is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="79">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \dot{s} ^ * \]</formula> where <formula id="65">$0_6$</formula> and <formula id="66">$I_n$</formula> are the zero and the identity matrix. The desired joint velocity is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="47">$\mathbb{R}^n$</formula>. </para>
+<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="119">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \dot{s} ^ * \]</formula> where <formula id="88">$0_6$</formula> and <formula id="89">$I_n$</formula> are the zero and the identity matrix. The desired joint velocity is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="52">$\mathbb{R}^n$</formula>. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

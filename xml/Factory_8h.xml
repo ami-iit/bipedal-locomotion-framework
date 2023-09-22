@@ -86,7 +86,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
@@ -136,7 +136,7 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</label>
         <link refid="ConstantMeasurementModel_8h"/>
       </node>
-      <node id="27">
+      <node id="24">
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>
@@ -148,17 +148,17 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="26">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="26" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="19">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h"/>
       </node>
-      <node id="24">
+      <node id="25">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -179,11 +179,11 @@
         <link refid="WeightProvider_8h"/>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="12">

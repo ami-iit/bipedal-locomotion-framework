@@ -140,7 +140,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>settling_time</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>5% settling time (The settling time, <formula id="37">$T_s$</formula>, is the time required for the system output to fall within a certain percentage (i.e. 5%) of the steady-state value for a step input.)   </para>
+</entry><entry thead="no" align='center'><para>5% settling time (The settling time, <formula id="42">$T_s$</formula>, is the time required for the system output to fall within a certain percentage (i.e. 5%) of the steady-state value for a step input.)   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
@@ -273,7 +273,7 @@
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother" kindref="compound">FirstOrderSmoother</ref> smoother implements a simple smoother based on a first order linear system. </para>
     </briefdescription>
     <detaileddescription>
-<para>The system is described by the following ode <formula id="33">\[ \dot{x} = a (-x + u) \]</formula> where the <formula id="34">$a$</formula> is given by <formula id="35">$a = 3.0/T_{s_5}$</formula>. <formula id="36">$T_{s_5}$</formula> is the settling time at 5%. The linear system is propagated with a Forward Euler integrator. </para>
+<para>The system is described by the following ode <formula id="38">\[ \dot{x} = a (-x + u) \]</formula> where the <formula id="39">$a$</formula> is given by <formula id="40">$a = 3.0/T_{s_5}$</formula>. <formula id="41">$T_{s_5}$</formula> is the settling time at 5%. The linear system is propagated with a Forward Euler integrator. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="3">

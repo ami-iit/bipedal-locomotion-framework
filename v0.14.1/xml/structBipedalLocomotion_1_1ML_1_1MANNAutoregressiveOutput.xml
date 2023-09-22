@@ -24,7 +24,7 @@
         <argsstring></argsstring>
         <name>basePose</name>
         <briefdescription>
-<para>Base pose with respect to the inertial frame, i.e., <formula id="109">${}^I H_B$</formula>. </para>
+<para>Base pose with respect to the inertial frame, i.e., <formula id="39">${}^I H_B$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

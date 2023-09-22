@@ -59,6 +59,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/ICameraBridge.h" line="20" column="1"/>
+    <location file="BipedalLocomotion/TextLogging/RosLogger.h" line="22" column="1"/>
   </compounddef>
 </doxygen>
