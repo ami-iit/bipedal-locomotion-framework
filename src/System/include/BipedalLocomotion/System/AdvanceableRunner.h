@@ -52,6 +52,7 @@ private:
     bool m_isInitialized{false}; /**< True if the runner is initialized */
     std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Period of the runner */
     std::atomic<bool> m_isRunning{false}; /**> If True the runner is running */
+    int m_maximumNumberOfAcceptedDeadlineMiss{-1}; /**< Maximum number of accepted deadline miss */
 
     std::unique_ptr<_Advanceable> m_advanceable; /**< Advanceable contained in the runner */
     typename SharedResource<Input>::Ptr m_input; /**< Input shared resource */
@@ -73,10 +74,11 @@ public:
      * Initialize the AdvanceableRunner class
      * @param handler pointer to a parameter handler
      * @note The following parameters are required
-     * |   Parameter Name   |   Type   |                              Description                              | Mandatory |
-     * |:------------------:|:--------:|:---------------------------------------------------------------------:|:---------:|
-     * |   `sampling_time`  | `double` |   Strictly positive number representing the sampling time in seconds  |    Yes    |
-     * | `enable_telemetry` |  `bool`  | If True some additional information are stored. Default value `false` |     No    |
+     * |                Parameter Name              |   Type   |                                             Description                                       | Mandatory |
+     * |:------------------------------------------:|:--------:|:---------------------------------------------------------------------------------------------:|:---------:|
+     * |               `sampling_time`              | `double` |            Strictly positive number representing the sampling time in seconds                 |    Yes    |
+     * |             `enable_telemetry`             |  `bool`  |           If True some additional information are stored. Default value `false`               |     No    |
+     * | `maximum_number_of_accepted_deadline_miss` |  `int`   | Number of accepted deadline miss. if negative the check is not considered. Default value `-1` |     No    |
      * @return true in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
@@ -171,6 +173,15 @@ bool AdvanceableRunner<_Advanceable>::initialize(
                     "{}.",
                     errorPrefix,
                     m_isTelemetryEnabled);
+    }
+
+    if (!ptr->getParameter("maximum_number_of_accepted_deadline_miss",
+                           m_maximumNumberOfAcceptedDeadlineMiss))
+    {
+        log()->info("{} maximum_number_of_accepted_deadline_miss parameter not found. The default "
+                    "parameter will be used: {}.",
+                    errorPrefix,
+                    m_maximumNumberOfAcceptedDeadlineMiss);
     }
 
     m_isInitialized = true;
@@ -314,15 +325,29 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
             // set the output
             this->m_output->set(this->m_advanceable->getOutput());
 
-            // release the CPU
-            BipedalLocomotion::clock().yield();
-
             // this is enabled only if telemetry is set to true.
             if (m_isTelemetryEnabled && wakeUpTime < BipedalLocomotion::clock().now())
             {
                 std::lock_guard<std::mutex> guard(m_infoMutex);
                 m_info.deadlineMiss++;
+                if (m_maximumNumberOfAcceptedDeadlineMiss >= 0
+                    && m_info.deadlineMiss > m_maximumNumberOfAcceptedDeadlineMiss)
+                {
+                    log()->error("{} - {} Experienced {} deadline misses. The maximum accepted "
+                                 "number is {}.",
+                                 logPrefix,
+                                 m_info.name,
+                                 m_info.deadlineMiss,
+                                 m_maximumNumberOfAcceptedDeadlineMiss);
+
+                    // we have to close the runner
+                    this->m_isRunning = false;
+                    break;
+                }
             }
+
+            // release the CPU
+            BipedalLocomotion::clock().yield();
 
             BipedalLocomotion::clock().sleepUntil(wakeUpTime);
         }
