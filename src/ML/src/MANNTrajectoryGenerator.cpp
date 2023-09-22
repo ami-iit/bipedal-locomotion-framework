@@ -485,7 +485,7 @@ bool MANNTrajectoryGenerator::advance()
 
         if (i < m_pimpl->mergePointStates.size() - 1)
         {
-            m_pimpl->mergePointStates[i + 1].I_p_base_scaled_previous = tempPosition.head<2>();
+            m_pimpl->mergePointStates[i].I_p_base_scaled_previous = tempPosition.head<2>();
         }
 
         // scale the Com
