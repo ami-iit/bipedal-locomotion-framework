@@ -140,7 +140,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
     else
     {
-        // covert an std::vector in a std::array
+        // convert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
         // compute the DoFs associated to the task
         m_DoFs = std::count(m_mask.begin(), m_mask.end(), true);
