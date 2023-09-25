@@ -18,7 +18,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
 
 /**
  * BLF_REGISTER_UKF_DYNAMICS is a macro that can be used to register a Dynamics. The key of
@@ -132,12 +132,12 @@ public:
     virtual bool finalize(const System::VariablesHandler& handler);
 
     /**
-     * Set the SubModelKinDynWrapper object.
+     * Set the KinDynWrapper object.
      * @param subModelList list of SubModel objects
-     * @param kinDynWrapperList list of pointers to SubModelKinDynWrapper objects.
+     * @param kinDynWrapperList list of pointers to KinDynWrapper objects.
      * @return True in case of success, false otherwise.
      */
-    virtual bool setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList);
+    virtual bool setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList);
 
     /**
      * Update the dynamics of the variable.

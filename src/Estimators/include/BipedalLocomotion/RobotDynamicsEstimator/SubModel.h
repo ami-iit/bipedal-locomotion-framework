@@ -35,6 +35,7 @@ struct Sensor
 {
     std::string name; /**< Name of the sensor in the URDF */
     std::string frame; /**< Frame of the sensor in the URDF */
+    int index; /**< Index of the sensor. */
 };
 
 /**
@@ -72,7 +73,7 @@ class SubModel
     std::unordered_map<std::string, FT> m_ftList; /**< List of force/torque sensors in the submodel */
     std::unordered_map<std::string, Sensor> m_accelerometerList; /**< List of accelerometers in the submodel */
     std::unordered_map<std::string, Sensor> m_gyroscopeList; /**< List of gyroscopes in the submodel */
-    std::vector<std::string> m_externalContactList; /**< List of the additional external contacts */
+    std::unordered_map<std::string, int> m_externalContactList; /**< List of the additional external contacts */
 
 public:
     /**
@@ -121,7 +122,7 @@ public:
      * @brief Access the `std::vector<std::string>` list of frame names.
      * @return a list of strings describing frame names of the external contacts for the sub-model.
      */
-    const std::vector<std::string>& getExternalContactList() const;
+    const std::unordered_map<std::string, int>& getExternalContactList() const;
 
     /**
      * @brief access the length of force/torque sensor list.
@@ -194,7 +195,7 @@ public:
      * @param index is the index of the external contact in the submodel.
      * @return a string corresponding to the external contact frame associated with the specified index.
      */
-    const std::string& getExternalContact(const int index) const;
+    int getExternalContactIndex(const std::string& name);
 
     friend class SubModelCreator;
 };
@@ -275,7 +276,7 @@ class SubModelCreator
      * @param subModel iDynTree Model object.
      * @return a vector of strings describing the contact frame names.
      */
-    std::vector<std::string>
+    std::unordered_map<std::string, int>
     attachExternalContactsToSubModel(const std::vector<std::string>& contactsFromConfig,
                                      const iDynTree::Model& subModel);
 

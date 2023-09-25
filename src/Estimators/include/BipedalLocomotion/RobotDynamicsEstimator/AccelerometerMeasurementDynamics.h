@@ -38,10 +38,11 @@ class AccelerometerMeasurementDynamics : public Dynamics
     std::string m_biasVariableName; /**< Name of the variable containing the bias in the variable
                                        handler. */
     std::vector<SubModel> m_subModelList; /** List of SubModel objects. */
-    std::vector<std::shared_ptr<SubModelKinDynWrapper>> m_kinDynWrapperList; /**< List of pointers
+    std::vector<std::shared_ptr<KinDynWrapper>> m_kinDynWrapperList; /**< List of pointers
                                                                                 to
-                                                                                SubModelKinDynWrapper
+                                                                                KinDynWrapper
                                                                                 objects. */
+    std::string m_accelerometerFrameName; /**< Name of the frame associated to the accelerometer in the model. */
     bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
     std::vector<Eigen::VectorXd> m_subModelJointAcc; /**< Updated joint acceleration of each
                                                         sub-model. */
@@ -55,14 +56,17 @@ class AccelerometerMeasurementDynamics : public Dynamics
                                                         and the sizes in the ukf state vector. */
     Eigen::VectorXd m_covSingleVar; /**< Covariance of the accelerometer measurement from
                                        configuration. */
+    Eigen::VectorXd m_subModelBaseAcceleration; /**< Base acceleration of the sub-model. */
+    manif::SE3d::Tangent m_accelerometerFameVelocity; /** Velocity of the accelerometer given by the forward dynamics. */
+    manif::SE3d::Tangent m_accelerometerFameAcceleration; /** Acceleration of the accelerometer given by the forward dynamics. */
+    manif::SO3d m_imuRworld; /**< Rotation matrix of the inertial frame with respect to the imu frame expressed in the imu frame. */
+
     Eigen::VectorXd m_JdotNu; /**< Jdot nu. */
-    Eigen::VectorXd m_JvdotBase; /**< Jacobian times the base acceleration. */
+    Eigen::VectorXd m_Jvdot; /**< Jacobian times the base acceleration. */
     Eigen::VectorXd m_Jsdotdot; /**< Jacobian times the joint acceleration. */
     Eigen::Vector3d m_accRg; /**< Gravity rotated in the accelerometer frame. */
     Eigen::Vector3d m_vCrossW; /**< Accelerometer linear velocity cross accelerometer angular
                                   velocity. */
-    Eigen::Vector3d m_linVel; /**< Accelerometer linear velocity. */
-    Eigen::Vector3d m_angVel; /**< Accelerometer angular velocity. */
 
 public:
     /*
@@ -100,14 +104,14 @@ public:
     bool finalize(const System::VariablesHandler& stateVariableHandler) override;
 
     /**
-     * Set the SubModelKinDynWrapper object.
+     * Set the KinDynWrapper object.
      * @param subModelList list of SubModel objects
-     * @param kinDynWrapperList list of pointers to SubModelKinDynWrapper objects.
+     * @param kinDynWrapperList list of pointers to KinDynWrapper objects.
      * @return True in case of success, false otherwise.
      */
     bool setSubModels(
         const std::vector<SubModel>& subModelList,
-        const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList) override;
+        const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList) override;
 
     /**
      * Controls whether the variable handler contains the variables on which the dynamics depend.

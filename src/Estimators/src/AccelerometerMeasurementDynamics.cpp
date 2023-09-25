@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
@@ -56,7 +57,7 @@ bool RDE::AccelerometerMeasurementDynamics::initialize(
     m_gravity[2] = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
     m_JdotNu.resize(6);
-    m_JvdotBase.resize(6);
+    m_Jvdot.resize(6);
     m_Jsdotdot.resize(6);
 
     m_description = "Accelerometer measurement dynamics";
@@ -103,6 +104,7 @@ bool RDE::AccelerometerMeasurementDynamics::finalize(
         if (m_subModelList[submodelIndex].hasAccelerometer(m_name))
         {
             m_subModelsWithAccelerometer.push_back(submodelIndex);
+            m_accelerometerFrameName = m_subModelList[submodelIndex].getAccelerometer(m_name).frame;
         }
     }
 
@@ -129,15 +131,12 @@ bool RDE::AccelerometerMeasurementDynamics::finalize(
     m_updatedVariable.resize(m_size);
     m_updatedVariable.setZero();
 
-    m_linVel.setZero();
-    m_angVel.setZero();
-
     return true;
 }
 
 bool RDE::AccelerometerMeasurementDynamics::setSubModels(
     const std::vector<SubModel>& subModelList,
-    const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList)
+    const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList)
 {
     m_subModelList = subModelList;
     m_kinDynWrapperList = kinDynWrapperList;
@@ -167,69 +166,49 @@ bool RDE::AccelerometerMeasurementDynamics::checkStateVariableHandler()
 
 bool RDE::AccelerometerMeasurementDynamics::update()
 {
+    constexpr auto errorPrefix = "[AccelerometerMeasurementDynamics::update]";
+
     // compute joint acceleration per each sub-model containing the accelerometer
-    for (int arrayIdx = 0; arrayIdx < m_subModelsWithAccelerometer.size(); arrayIdx++)
+    for (int subDynamicsIdx = 0; subDynamicsIdx < m_subModelList.size(); subDynamicsIdx++)
     {
-        if (m_subModelList[m_subModelsWithAccelerometer[arrayIdx]].getModel().getNrOfDOFs() > 0)
+        if (m_subModelList[subDynamicsIdx].getModel().getNrOfDOFs() > 0)
         {
-            for (int jointIdx = 0;
-                 jointIdx
-                 < m_subModelList[m_subModelsWithAccelerometer[arrayIdx]].getJointMapping().size();
-                 jointIdx++)
+            for (int jointIdx = 0; jointIdx < m_subModelList[subDynamicsIdx].getJointMapping().size(); jointIdx++)
             {
-                m_subModelJointAcc[m_subModelsWithAccelerometer[arrayIdx]][jointIdx]
-                    = m_ukfInput.robotJointAccelerations
-                          [m_subModelList[m_subModelsWithAccelerometer[arrayIdx]]
-                               .getJointMapping()[jointIdx]];
+                m_subModelJointAcc[subDynamicsIdx][jointIdx] = m_ukfInput.robotJointAccelerations[m_subModelList[subDynamicsIdx].getJointMapping()[jointIdx]];
             }
         }
     }
 
-    // J_dot nu + base_J v_dot_base + joint_J s_dotdot - acc_Rot_world gravity + bias
+
     for (int index = 0; index < m_subModelsWithAccelerometer.size(); index++)
     {
-        m_JdotNu = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                       ->getAccelerometerBiasAcceleration(m_name);
+        m_subModelBaseAcceleration = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getNuDot().head(6);
 
-        m_JvdotBase.noalias() = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                                    ->getAccelerometerJacobian(m_name)
-                                    .leftCols<6>()
-                                * m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                                      ->getBaseAcceleration()
-                                      .coeffs();
+        if (!m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getFrameAcc(m_accelerometerFrameName,
+                                                     m_subModelBaseAcceleration,
+                                                     m_subModelJointAcc[m_subModelsWithAccelerometer[index]],
+                                                     iDynTree::make_span(
+                                                         m_accelerometerFameAcceleration)))
+        {
+            log()->error("{} Failed while getting the accelerometer frame acceleration.",
+                         errorPrefix);
+            return false;
+        }
 
-        m_accRg.noalias() = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                                ->getAccelerometerRotation(m_name)
-                                .act(m_gravity);
+        m_imuRworld = Conversions::toManifRot(m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getWorldTransform(m_accelerometerFrameName).getRotation().inverse());
 
-        m_linVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                       ->getAccelerometerVelocity(m_name)
-                       .lin();
-        m_angVel = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                       ->getAccelerometerVelocity(m_name)
-                       .ang();
+        m_accRg = m_imuRworld.act(m_gravity);
 
-        m_vCrossW.noalias() = m_linVel.cross(m_angVel);
+        m_accelerometerFameVelocity = Conversions::toManifTwist(m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getFrameVel(m_accelerometerFrameName));
 
-        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()).noalias()
-            = m_JdotNu.segment(0, 3) + m_JvdotBase.segment(0, 3) - m_vCrossW - m_accRg;
+        m_vCrossW = m_accelerometerFameVelocity.lin().cross(m_accelerometerFameVelocity.ang());
+
+        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_accelerometerFameAcceleration.lin() - m_vCrossW - m_accRg;
 
         if (m_useBias)
         {
-            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-                += m_bias;
-        }
-
-        if (m_subModelList[m_subModelsWithAccelerometer[index]].getJointMapping().size() > 0)
-        {
-            m_Jsdotdot.noalias()
-                = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
-                      ->getAccelerometerJacobian(m_name)
-                      .rightCols(m_subModelJointAcc[m_subModelsWithAccelerometer[index]].size())
-                  * m_subModelJointAcc[m_subModelsWithAccelerometer[index]];
-
-            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-                += m_Jsdotdot.segment(0, 3);
+            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) += m_bias;
         }
     }
 

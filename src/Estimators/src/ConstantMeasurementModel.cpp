@@ -51,7 +51,7 @@ bool RDE::ConstantMeasurementModel::initialize(std::weak_ptr<const ParametersHan
         m_biasVariableName = m_name + "_bias";
     }
 
-    m_description = "Zero velocity dynamics";
+    m_description = "Constant measurement dynamics";
 
     m_isInitialized = true;
 
@@ -100,7 +100,7 @@ bool RDE::ConstantMeasurementModel::finalize(const System::VariablesHandler &sta
     return true;
 }
 
-bool RDE::ConstantMeasurementModel::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::SubModelKinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::ConstantMeasurementModel::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
@@ -110,12 +110,6 @@ bool RDE::ConstantMeasurementModel::checkStateVariableHandler()
     constexpr auto errorPrefix = "[ConstantMeasurementModel::checkStateVariableHandler]";
 
     // Check if the variable handler contains the variables used by this dynamics
-    if (!m_stateVariableHandler.getVariable(m_name).isValid())
-    {
-        log()->error("{} The variable handler does not contain the expected state with name `{}`.", errorPrefix, m_name);
-        return false;
-    }
-
     if (m_useBias)
     {
         if (!m_stateVariableHandler.getVariable(m_biasVariableName).isValid())
@@ -132,7 +126,7 @@ bool RDE::ConstantMeasurementModel::update()
 {
     if (m_useBias)
     {
-        m_updatedVariable.noalias() = m_currentState + m_bias;
+        m_updatedVariable = m_currentState + m_bias;
     }
     else
     {

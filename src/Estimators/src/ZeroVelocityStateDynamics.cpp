@@ -90,7 +90,7 @@ bool RDE::ZeroVelocityStateDynamics::finalize(const System::VariablesHandler &st
     return true;
 }
 
-bool RDE::ZeroVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::SubModelKinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::ZeroVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
