@@ -52,12 +52,12 @@ private:
     bool m_isInitialized{false}; /**< True if the runner is initialized */
     std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Period of the runner */
     std::atomic<bool> m_isRunning{false}; /**> If True the runner is running */
+    int m_maximumNumberOfAcceptedDeadlineMiss{-1}; /**< Maximum number of accepted deadline miss */
 
     std::unique_ptr<_Advanceable> m_advanceable; /**< Advanceable contained in the runner */
     typename SharedResource<Input>::Ptr m_input; /**< Input shared resource */
     typename SharedResource<Output>::Ptr m_output; /**< Output shared resource */
 
-    bool m_isTelemetryEnabled{false}; /**< If true some additional information will be stored */
     struct Info
     {
         unsigned int deadlineMiss{0}; /**< Number of deadline miss */
@@ -73,10 +73,10 @@ public:
      * Initialize the AdvanceableRunner class
      * @param handler pointer to a parameter handler
      * @note The following parameters are required
-     * |   Parameter Name   |   Type   |                              Description                              | Mandatory |
-     * |:------------------:|:--------:|:---------------------------------------------------------------------:|:---------:|
-     * |   `sampling_time`  | `double` |   Strictly positive number representing the sampling time in seconds  |    Yes    |
-     * | `enable_telemetry` |  `bool`  | If True some additional information are stored. Default value `false` |     No    |
+     * |                Parameter Name              |   Type   |                                             Description                                       | Mandatory |
+     * |:------------------------------------------:|:--------:|:---------------------------------------------------------------------------------------------:|:---------:|
+     * |               `sampling_time`              | `double` |            Strictly positive number representing the sampling time in seconds                 |    Yes    |
+     * | `maximum_number_of_accepted_deadline_miss` |  `int`   | Number of accepted deadline miss. if negative the check is not considered. Default value `-1` |     No    |
      * @return true in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
@@ -165,12 +165,13 @@ bool AdvanceableRunner<_Advanceable>::initialize(
 
     m_dT = m_info.dT;
 
-    if (!ptr->getParameter("enable_telemetry", m_isTelemetryEnabled))
+    if (!ptr->getParameter("maximum_number_of_accepted_deadline_miss",
+                           m_maximumNumberOfAcceptedDeadlineMiss))
     {
-        log()->info("{} enable_telemetry parameter not found. The default parameter will be used: "
-                    "{}.",
+        log()->info("{} maximum_number_of_accepted_deadline_miss parameter not found. The default "
+                    "parameter will be used: {}.",
                     errorPrefix,
-                    m_isTelemetryEnabled);
+                    m_maximumNumberOfAcceptedDeadlineMiss);
     }
 
     m_isInitialized = true;
@@ -314,35 +315,51 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
             // set the output
             this->m_output->set(this->m_advanceable->getOutput());
 
+            // check if the deadline is missed
+            if (wakeUpTime < BipedalLocomotion::clock().now())
+            {
+                unsigned int deadlineMiss = 0;
+
+                // scope to reduce the amount of time in which the mutex is locked
+                {
+                    std::lock_guard<std::mutex> guard(m_infoMutex);
+                    m_info.deadlineMiss++;
+                    deadlineMiss = m_info.deadlineMiss;
+                }
+
+                if (m_maximumNumberOfAcceptedDeadlineMiss >= 0
+                    && deadlineMiss > m_maximumNumberOfAcceptedDeadlineMiss)
+                {
+                    // we have to close the runner
+                    m_isRunning = false;
+                    log()->error("{} - {} Experienced {} deadline misses. The maximum accepted "
+                                 "number is {}.",
+                                 logPrefix,
+                                 m_info.name,
+                                 deadlineMiss,
+                                 m_maximumNumberOfAcceptedDeadlineMiss);
+                    break;
+                }
+            }
+
             // release the CPU
             BipedalLocomotion::clock().yield();
-
-            // this is enabled only if telemetry is set to true.
-            if (m_isTelemetryEnabled && wakeUpTime < BipedalLocomotion::clock().now())
-            {
-                std::lock_guard<std::mutex> guard(m_infoMutex);
-                m_info.deadlineMiss++;
-            }
 
             BipedalLocomotion::clock().sleepUntil(wakeUpTime);
         }
 
-        log()->info("{} - {}: Closing the AdvanceableRunner.", logPrefix, m_info.name);
-        if (m_isTelemetryEnabled)
+        unsigned int deadlineMiss = 0;
+        // scope to reduce the amount of time in which the mutex is locked
         {
-            unsigned int deadlineMiss = 0;
-
-            // scope to reduce the amount of time in which the mutex is locked
-            {
-                std::lock_guard<std::mutex> guard(m_infoMutex);
-                deadlineMiss = m_info.deadlineMiss;
-            }
-
-            log()->info("{} - {}: Number of deadline miss {}.",
-                        logPrefix,
-                        m_info.name,
-                        deadlineMiss);
+            std::lock_guard<std::mutex> guard(m_infoMutex);
+            deadlineMiss = m_info.deadlineMiss;
         }
+
+        log()->info("{} - {}: Closing the AdvanceableRunner. Number of deadline miss {}.",
+                    logPrefix,
+                    m_info.name,
+                    deadlineMiss);
+
         return this->m_advanceable->close();
     };
 
