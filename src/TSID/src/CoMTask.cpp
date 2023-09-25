@@ -58,9 +58,9 @@ bool CoMTask::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // resize the matrices
-    m_A.resize(m_linearVelocitySize, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_DoFs, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_linearVelocitySize);
+    m_b.resize(m_DoFs);
     m_b.setZero();
     m_jacobian.resize(m_linearVelocitySize, m_robotAccelerationVariable.size);
 
