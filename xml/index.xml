@@ -50,10 +50,10 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aeafea8568191190a6d326ce5de57f4e6" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ac4ff36df03bedeb9f68cc35369526082" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3c04c2ef54987b3a9ca47eaa30ce0205" kind="variable"><name>m_isRunning</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3c530347c944a52babbdc025a6951cef" kind="variable"><name>m_maximumNumberOfAcceptedDeadlineMiss</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64c5013701d957c58f9db8f0244d30f2" kind="variable"><name>m_advanceable</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1ad76aa77723280099e887de1569bb9a70" kind="variable"><name>m_input</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64ab2872819c0cbb9bbad389780eb8e1" kind="variable"><name>m_output</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2bd11ddd94e1f70a1184cc845fda93a6" kind="variable"><name>m_isTelemetryEnabled</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a29f9ec0419a2e41694d00aaf7410a493" kind="variable"><name>m_infoMutex</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a6331d923d5411c659f3db0d5f68b1021" kind="variable"><name>m_info</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aad337626fe1769b56e334e2cb27ea300" kind="function"><name>initialize</name></member>
