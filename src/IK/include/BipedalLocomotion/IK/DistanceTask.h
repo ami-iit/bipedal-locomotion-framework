@@ -108,12 +108,23 @@ public:
     bool update() override;
 
     /**
-     * @brief setDesiredDistance
+     * @brief setDesiredDistance Set the desired distance between the target and the reference frame
      * @param desiredDistance The desired distance expressed in meters
      * @note The desired distance is considered without sign.
      * @return True in case of success, false otherwise.
      */
     bool setDesiredDistance(double desiredDistance);
+
+    /**
+     * @brief setSetPoint Set the desired distance between the target and the reference frame
+     * @param desiredDistance The desired distance expressed in meters
+     *
+     * It is equivalent to setDesiredDistance
+     *
+     * @note The desired distance is considered without sign.
+     * @return True in case of success, false otherwise.
+     */
+    bool setSetPoint(double desiredDistance);
 
     /**
      * @brief Get the computed distance between the target frame and either the world origin, or the

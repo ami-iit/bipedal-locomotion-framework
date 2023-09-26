@@ -234,6 +234,7 @@ def test_distance_task():
 
     # Set desired distance
     assert distance_task.set_desired_distance(desired_distance=np.random.uniform(-0.5,0.5))
+    assert distance_task.set_set_point(desired_distance=np.random.uniform(-0.5,0.5))
 
 def test_gravity_task():
     # create KinDynComputationsDescriptor

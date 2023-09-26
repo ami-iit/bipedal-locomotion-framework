@@ -30,6 +30,7 @@ void CreateDistanceTask(pybind11::module& module)
     py::class_<DistanceTask, std::shared_ptr<DistanceTask>, IKLinearTask>(module, "DistanceTask")
         .def(py::init())
         .def("set_desired_distance", &DistanceTask::setDesiredDistance, py::arg("desired_distance"))
+        .def("set_set_point", &DistanceTask::setSetPoint, py::arg("desired_distance"))
         .def("get_distance", &DistanceTask::getDistance);
 }
 

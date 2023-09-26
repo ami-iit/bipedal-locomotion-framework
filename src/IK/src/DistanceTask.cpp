@@ -217,6 +217,11 @@ bool DistanceTask::setDesiredDistance(double desiredDistance)
     return true;
 }
 
+bool DistanceTask::setSetPoint(double desiredDistance)
+{
+    return setDesiredDistance(desiredDistance);
+}
+
 double DistanceTask::getDistance() const
 {
     return m_computedDistance;
