@@ -86,9 +86,9 @@ TEST_CASE("Distance task")
 
             Eigen::Vector3d desiredDirection({1.0, 2.0, 3.0});
             desiredDirection.normalize();
-            REQUIRE(task.setDesiredGravityDirectionInTargetFrame(desiredDirection));
             Eigen::Vector3d feedforward({0.1, 0.2, 0.3});
-            REQUIRE(task.setFeedForwardVelocityInTargetFrame(feedforward));
+
+            REQUIRE(task.setSetPoint(desiredDirection, feedforward));
 
             REQUIRE(task.update());
             REQUIRE(task.isValid());

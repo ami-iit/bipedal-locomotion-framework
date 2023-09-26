@@ -185,6 +185,13 @@ bool GravityTask::setFeedForwardVelocityInTargetFrame(
     return true;
 }
 
+bool GravityTask::setSetPoint(const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection,
+                              const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
+{
+    return setDesiredGravityDirectionInTargetFrame(desiredGravityDirection)
+           && setFeedForwardVelocityInTargetFrame(feedforwardVelocity);
+}
+
 std::size_t GravityTask::size() const
 {
     return m_DoFs;

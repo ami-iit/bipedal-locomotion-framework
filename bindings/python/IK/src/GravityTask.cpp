@@ -34,7 +34,11 @@ void CreateGravityTask(pybind11::module& module)
              py::arg("desired_gravity_direction"))
         .def("set_feedforward_velocity_in_target_frame",
              &GravityTask::setFeedForwardVelocityInTargetFrame,
-             py::arg("feedforward_velocity"));
+             py::arg("feedforward_velocity"))
+        .def("set_set_point",
+             &GravityTask::setSetPoint,
+             py::arg("desired_gravity_direction"),
+             py::arg("feedforward_velocity") = Eigen::Vector3d::Zero());
 }
 
 } // namespace IK
