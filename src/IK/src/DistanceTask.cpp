@@ -120,7 +120,7 @@ bool DistanceTask::initialize(
     }
 
     // set the base frame name
-    if (!ptr->getParameter("base_frame_name", m_baseName))
+    if (!ptr->getParameter("reference_frame_name", m_referenceName))
     {
         log()->debug("{} [{}] No base_name specified. Using default \"\"",
                      errorPrefix,
@@ -136,16 +136,16 @@ bool DistanceTask::initialize(
         return false;
     }
 
-    if (m_baseName != "")
+    if (m_referenceName != "")
     {
-        m_baseIndex = m_kinDyn->getFrameIndex(m_baseName);
+        m_referenceFrameIndex = m_kinDyn->getFrameIndex(m_referenceName);
 
-        if (m_baseIndex == iDynTree::FRAME_INVALID_INDEX)
+        if (m_referenceFrameIndex == iDynTree::FRAME_INVALID_INDEX)
         {
             log()->error("{} [{}] The specified base name ({}) does not seem to exist.",
                          errorPrefix,
                          m_description,
-                         m_baseName);
+                         m_referenceName);
             return false;
         }
     }
@@ -173,7 +173,7 @@ bool DistanceTask::update()
 
     m_isValid = false;
 
-    if (m_baseName == "")
+    if (m_referenceName == "")
     {
         m_framePosition = toEigen(m_kinDyn->getWorldTransform(m_targetFrameIndex).getPosition());
 
@@ -186,9 +186,11 @@ bool DistanceTask::update()
     } else
     {
         m_framePosition = toEigen(
-            m_kinDyn->getRelativeTransform(m_baseIndex, m_targetFrameIndex).getPosition());
+            m_kinDyn->getRelativeTransform(m_referenceFrameIndex, m_targetFrameIndex).getPosition());
 
-        if (!m_kinDyn->getRelativeJacobian(m_baseIndex, m_targetFrameIndex, m_relativeJacobian))
+        if (!m_kinDyn->getRelativeJacobian(m_referenceFrameIndex,
+                                           m_targetFrameIndex,
+                                           m_relativeJacobian))
         {
             log()->error("[DistanceTask::update] Unable to get the relative jacobian.");
             return m_isValid;

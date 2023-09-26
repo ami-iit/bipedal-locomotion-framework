@@ -89,10 +89,10 @@ TEST_CASE("Distance task")
                     baseName = iDynTree::getRandomLinkOfModel(model);
                 } while (baseName == targetName);
 
-                parameterHandler->setParameter("base_frame_name", baseName);
+                parameterHandler->setParameter("reference_frame_name", baseName);
             } else
             {
-                parameterHandler->setParameter("base_frame_name", "");
+                parameterHandler->setParameter("reference_frame_name", "");
             }
 
             DistanceTask task;

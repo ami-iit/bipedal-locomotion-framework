@@ -221,7 +221,7 @@ def test_distance_task():
     distance_task_param_handler = blf.parameters_handler.StdParametersHandler()
     distance_task_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
     distance_task_param_handler.set_parameter_string(name="target_frame_name", value="chest")
-    distance_task_param_handler.set_parameter_string(name="base_frame_name", value="root_link")
+    distance_task_param_handler.set_parameter_string(name="reference_frame_name", value="root_link")
     distance_task_param_handler.set_parameter_float(name="kp",value=5.0)
 
     # Initialize the task

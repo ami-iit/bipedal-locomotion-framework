@@ -56,10 +56,10 @@ class DistanceTask : public IKLinearTask
     double m_kp; /**< Controller gain. */
     double m_desiredDistance{0.0}; /**< Desired distance. */
 
-    std::string m_baseName; /**< Base frame name. */
+    std::string m_referenceName; /**< Reference frame name. */
     std::string m_targetFrameName; /**< Target frame name. */
-    iDynTree::FrameIndex m_baseIndex, m_targetFrameIndex; /**< Base and target frame name indexes.
-                                                           */
+    iDynTree::FrameIndex m_referenceFrameIndex, m_targetFrameIndex; /**< Base and target frame name
+                                                                       indexes. */
 
     double m_computedDistance{0.0}; /**< Computed distance. */
 
@@ -74,7 +74,7 @@ public:
      * |   `robot_velocity_variable_name`   |            `string`          |                            Name of the variable contained in `VariablesHandler` describing the robot velocity                            |    Yes    |
      * |                `kp`                |            `double`          |                                               Gain of the distance controller                                                            |    Yes    |
      * |         `target_frame_name`        |            `string`          |                                       Name of the frame of which computing the distance                                                  |    Yes    |
-     * |          `base_frame_name`         |            `string`          |          Name of the frame with respect to which computing the distance. If empty, the world frame will be used (Default = "")           |    No     |
+     * |       `reference_frame_name`       |            `string`          |          Name of the frame with respect to which computing the distance. If empty, the world frame will be used (Default = "")           |    No     |
      * @return True in case of success, false otherwise.
      */
     // clang-format on
