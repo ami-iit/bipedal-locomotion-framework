@@ -385,16 +385,39 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        m_vectorsCollectionSignals[remote].signalName = signalName;
-        m_vectorsCollectionSignals[remote].remote = remote;
-        m_vectorsCollectionSignals[remote].local = local;
-        m_vectorsCollectionSignals[remote].carrier = carrier;
+        // check if already exists a signal with the given name.
+        // No need to check in the vectors signals since it is empty at this point
+        if (m_vectorsCollectionSignals.find(signalName) != m_vectorsCollectionSignals.end())
+        {
+            log()->error("{} A signal with the name {} already exists.", logPrefix, signalName);
+            return false;
+        }
 
-        if (!m_vectorsCollectionSignals[remote].port.open(m_vectorsCollectionSignals[remote].local))
+        // populate the vectors collection signal
+        m_vectorsCollectionSignals[signalName].signal.remote = remote + "/measures:o";
+        m_vectorsCollectionSignals[signalName].signal.local = local + "/measures:i";
+        m_vectorsCollectionSignals[signalName].signal.carrier = carrier;
+
+        if (!m_vectorsCollectionSignals[signalName].signal.port.open(
+                m_vectorsCollectionSignals[signalName].signal.local))
         {
             log()->error("{} Unable to open the port named: {}.",
                          logPrefix,
-                         m_vectorsCollectionSignals[remote].local);
+                         m_vectorsCollectionSignals[signalName].signal.local);
+            return false;
+        }
+
+        // populate the metadata signal
+        m_vectorsCollectionSignals[signalName].metadataClient.remote = remote + "/rpc:o";
+        m_vectorsCollectionSignals[signalName].metadataClient.local = local + "/rpc:i";
+        m_vectorsCollectionSignals[signalName].metadataClient.carrier = "tcp";
+
+        if (!m_vectorsCollectionSignals[signalName].metadataClient.rpcPort.open(
+                m_vectorsCollectionSignals[signalName].metadataClient.local))
+        {
+            log()->error("{} Unable to open the port named: {}.",
+                         logPrefix,
+                         m_vectorsCollectionSignals[signalName].metadataClient.local);
             return false;
         }
     }
@@ -419,16 +442,23 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        m_vectorSignals[remote].signalName = signalName;
-        m_vectorSignals[remote].remote = remote;
-        m_vectorSignals[remote].local = local;
-        m_vectorSignals[remote].carrier = carrier;
+        // check if already exists a signal with the given name.
+        if (m_vectorSignals.find(signalName) != m_vectorSignals.end()
+            || m_vectorsCollectionSignals.find(signalName) != m_vectorsCollectionSignals.end())
+        {
+            log()->error("{} A signal with the name {} already exists.", logPrefix, signalName);
+            return false;
+        }
 
-        if (!m_vectorSignals[remote].port.open(m_vectorSignals[remote].local))
+        m_vectorSignals[signalName].remote = remote;
+        m_vectorSignals[signalName].local = local;
+        m_vectorSignals[signalName].carrier = carrier;
+
+        if (!m_vectorSignals[signalName].port.open(m_vectorSignals[signalName].local))
         {
             log()->error("{} Unable to open the port named: {}.",
                          logPrefix,
-                         m_vectorSignals[remote].local);
+                         m_vectorSignals[signalName].local);
             return false;
         }
     }
@@ -967,17 +997,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     const std::chrono::nanoseconds lookForExogenousSignalPeriod = 1s;
     m_lookForNewExogenousSignalIsRunning = true;
 
-    auto connectToExogeneous = [](auto& signals) -> void {
-        for (auto& [name, signal] : signals)
-        {
-            if (!signal.connected && yarp::os::Network::exists(name))
-            {
-                std::lock_guard<std::mutex> lock(signal.mutex);
-                signal.connected = signal.connect();
-            }
-        }
-    };
-
     while (m_lookForNewExogenousSignalIsRunning)
     {
         // detect if a clock has been reset
@@ -992,8 +1011,69 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         wakeUpTime += lookForExogenousSignalPeriod;
 
         // try to connect to the exogenous signals
-        connectToExogeneous(m_vectorsCollectionSignals);
-        connectToExogeneous(m_vectorSignals);
+        for (auto& [name, signal] : m_vectorsCollectionSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+
+            // the connection is established
+            if (signal.signal.connected && signal.metadataClient.connected)
+            {
+                continue;
+            }
+
+            // try to connect the signal
+            if (!signal.signal.connected && yarp::os::Network::exists(signal.signal.remote))
+            {
+                // connect the rpc port from remote to local
+                signal.signal.connected = yarp::os::Network::connect(signal.signal.remote,
+                                                                     signal.signal.local,
+                                                                     signal.signal.carrier);
+            }
+
+            // try to connect the metadata
+            if (!signal.metadataClient.connected
+                && yarp::os::Network::exists(signal.metadataClient.remote))
+            {
+                // connect the rpc port from local to remote
+                signal.metadataClient.connected
+                    = yarp::os::Network::connect(signal.metadataClient.local,
+                                                 signal.metadataClient.remote,
+                                                 signal.metadataClient.carrier);
+
+                // if the connection is established, get the metadata
+                if (signal.metadataClient.connected)
+                {
+                    if (!signal.metadataClient.rpcInterface.yarp().attachAsClient(
+                            signal.metadataClient.rpcPort))
+                    {
+                        log()->error("Unable to attach as client to the rpc port {}",
+                                     signal.metadataClient.rpcPort.getName());
+                        signal.metadataClient.connected = false;
+                    }
+
+                    // get the metadata
+                    signal.metadataClient.metadata
+                        = signal.metadataClient.rpcInterface.getMetadata();
+                }
+            }
+        }
+
+        for (auto& [name, signal] : m_vectorSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            if (signal.connected)
+            {
+                continue;
+            }
+
+            // here the signal is not connected
+            if (yarp::os::Network::exists(signal.remote))
+            {
+                // the connection is from remote to local
+                signal.connected
+                    = yarp::os::Network::connect(signal.remote, signal.local, signal.carrier);
+            }
+        }
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -1340,24 +1420,54 @@ void YarpRobotLoggerDevice::run()
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        BipedalLocomotion::YarpUtilities::VectorsCollection* collection = signal.port.read(false);
-        if (collection != nullptr)
-        {
-            if (!signal.dataArrived)
-            {
-                for (const auto& [key, vector] : collection->vectors)
-                {
-                    signalFullName = signal.signalName + "::" + key;
-                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
-                }
-                signal.dataArrived = true;
-            }
 
+        // check if the port is active and connected
+        if (!signal.signal.connected || !signal.metadataClient.connected)
+        {
+            continue;
+        }
+
+        // from now on the port is assumed to be connected
+        BipedalLocomotion::YarpUtilities::VectorsCollection* collection
+            = signal.signal.port.read(false);
+
+        if (collection == nullptr)
+        {
+            continue;
+        }
+
+        // if it is the first time this signal is seen by the device the channel is added
+        if (!signal.signal.dataArrived)
+        {
             for (const auto& [key, vector] : collection->vectors)
             {
-                signalFullName = signal.signalName + "::" + key;
-                m_bufferManager.push_back(vector, time, signalFullName);
+                signalFullName = name + "::" + key;
+
+                // we now get the associated metadata
+                const auto& metadata = signal.metadataClient.metadata.vectors.find(key);
+                if (metadata == signal.metadataClient.metadata.vectors.cend())
+                {
+                    log()->warn("{} Unable to find the metadata for the signal named {}. The "
+                                "default one will be used.",
+                                logPrefix,
+                                signalFullName);
+                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+
+                } else
+                {
+                    // if the metadata is found we use it
+                    m_bufferManager.addChannel(
+                        {signalFullName, {vector.size(), 1}, metadata->second});
+                }
+                signal.signal.dataArrived = true;
             }
+        }
+
+        // we populate the numerical buffer
+        for (const auto& [key, vector] : collection->vectors)
+        {
+            signalFullName = name + "::" + key;
+            m_bufferManager.push_back(vector, time, signalFullName);
         }
     }
 
@@ -1365,15 +1475,22 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
-        if (vector != nullptr)
+
+        // check if the data is valid
+        if (vector == nullptr)
         {
-            if (!signal.dataArrived)
-            {
-                m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
-                signal.dataArrived = true;
-            }
-            m_bufferManager.push_back(*vector, time, signal.signalName);
+            continue;
         }
+
+        // if it is the first time this signal is seen by the device the channel is added
+        if (!signal.dataArrived)
+        {
+            m_bufferManager.addChannel({name, {vector->size(), 1}});
+            signal.dataArrived = true;
+        }
+
+        // we populate the numerical buffer
+        m_bufferManager.push_back(*vector, time, name);
     }
 
     int bufferportSize = m_textLoggingPort.getPendingReads();
@@ -1610,6 +1727,38 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 
 bool YarpRobotLoggerDevice::detachAll()
 {
+    // Disconnect all the exogenous signals
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+
+        // disconnect the signal
+        if (signal.signal.connected)
+        {
+            signal.signal.connected
+                = !yarp::os::Network::disconnect(signal.signal.remote, signal.signal.local);
+        }
+
+        // disconnect the metadata
+        if (signal.metadataClient.connected)
+        {
+            signal.metadataClient.connected
+                = !yarp::os::Network::disconnect(signal.metadataClient.local,
+                                                 signal.metadataClient.remote);
+        }
+    }
+
+    for (auto& [name, signal] : m_vectorSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+
+        // disconnect the signal
+        if (signal.connected)
+        {
+            signal.connected = !yarp::os::Network::disconnect(signal.remote, signal.local);
+        }
+    }
+
     if (isRunning())
     {
         stop();

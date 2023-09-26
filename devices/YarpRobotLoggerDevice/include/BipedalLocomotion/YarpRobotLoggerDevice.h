@@ -31,6 +31,8 @@
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadataService.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h>
 
 namespace BipedalLocomotion
 {
@@ -63,37 +65,47 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
-    template <typename T>
-    struct ExogenousSignal
+    struct Signal
     {
-        std::mutex mutex;
         std::string remote;
         std::string local;
         std::string carrier;
-        std::string signalName;
-        yarp::os::BufferedPort<T> port;
-        bool dataArrived{false};
         bool connected{false};
 
-        bool connect()
-        {
-            return yarp::os::Network::connect(remote, local, carrier);
-        }
-
-        void disconnect()
-        {
-            if (connected)
-            {
-                yarp::os::Network::disconnect(remote, local);
-            }
-        }
+        virtual ~Signal() = default;
     };
 
-    std::unordered_map<std::string,
-                       ExogenousSignal<BipedalLocomotion::YarpUtilities::VectorsCollection>>
-        m_vectorsCollectionSignals;
+    template <typename T>
+    struct ExogenousSignal : public Signal
+    {
+        yarp::os::BufferedPort<T> port;
+        bool dataArrived{false}; 
+    };
 
-    std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
+    /**
+     * Metadata associated to the VectorsCollection exogenous signal.
+     */
+    struct VectorsCollectionMetadataClient : public Signal
+    {
+        yarp::os::Port rpcPort;
+        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadataService rpcInterface;
+        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+    };
+
+    struct VectorsCollectionSignal
+    {
+        std::mutex mutex;
+        ExogenousSignal<BipedalLocomotion::YarpUtilities::VectorsCollection> signal;
+        VectorsCollectionMetadataClient metadataClient;
+    };
+
+    struct VectorsSignal : public ExogenousSignal<yarp::sig::Vector>
+    {
+        std::mutex mutex;
+    };
+
+    std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
+    std::unordered_map<std::string, VectorsSignal> m_vectorSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
