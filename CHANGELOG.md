@@ -2,6 +2,7 @@
 All notable changes to this project are documented in this file.
 
 ## [Unreleased]
+- Added the ``DistanceTask`` and ``GravityTask`` to the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/717)
 
 ### Added
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
@@ -21,7 +22,6 @@ All notable changes to this project are documented in this file.
 - Expose the CoM trajectory computed by the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/712)
 - Implement python bindings for `CameraBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
 - Implement `constructRDGBSensorClient()` in `RobotInterface` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/695)
-- Added the ``DistanceTask`` and ``GravityTask`` to the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/717)
 
 ### Changed
 - Use `std::chorno::nanoseconds` in `clock` and `AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/702)
