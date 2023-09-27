@@ -67,7 +67,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="27">
+      <node id="28">
         <label>BipedalLocomotion/IK/JointLimitsTask.h</label>
         <link refid="JointLimitsTask_8h"/>
       </node>
@@ -75,7 +75,7 @@
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
-      <node id="39">
+      <node id="40">
         <label>BipedalLocomotion/TSID/SO3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h"/>
       </node>
@@ -97,15 +97,13 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h</label>
         <link refid="GyroscopeMeasurementDynamics_8h"/>
       </node>
-      <node id="31">
+      <node id="32">
         <label>BipedalLocomotion/IK/SO3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h"/>
       </node>
-      <node id="32">
+      <node id="33">
         <label>BipedalLocomotion/TSID/TSIDLinearTask.h</label>
         <link refid="TSIDLinearTask_8h"/>
-        <childnode refid="33" relation="include">
-        </childnode>
         <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
@@ -118,9 +116,11 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -135,7 +135,7 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h</label>
         <link refid="MotorCurrentMeasurementDynamics_8h"/>
       </node>
-      <node id="29">
+      <node id="30">
         <label>BipedalLocomotion/IK/R3Task.h</label>
         <link refid="R3Task_8h"/>
       </node>
@@ -145,7 +145,11 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="27">
+        <label>BipedalLocomotion/IK/DistanceTask.h</label>
+        <link refid="DistanceTask_8h"/>
+      </node>
+      <node id="31">
         <label>BipedalLocomotion/IK/SE3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h"/>
       </node>
@@ -153,7 +157,7 @@
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="34">
+      <node id="35">
         <label>BipedalLocomotion/TSID/BaseDynamicsTask.h</label>
         <link refid="BaseDynamicsTask_8h"/>
       </node>
@@ -206,11 +210,11 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
         <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
@@ -227,7 +231,7 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
         <link refid="ZeroVelocityStateDynamics_8h"/>
       </node>
-      <node id="36">
+      <node id="37">
         <label>BipedalLocomotion/TSID/FeasibleContactWrenchTask.h</label>
         <link refid="FeasibleContactWrenchTask_8h"/>
       </node>
@@ -238,7 +242,7 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -247,7 +251,7 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h</label>
         <link refid="FrictionTorqueStateDynamics_8h"/>
       </node>
-      <node id="38">
+      <node id="39">
         <label>BipedalLocomotion/TSID/SE3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h"/>
       </node>
@@ -261,7 +265,7 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="35">
+      <node id="36">
         <label>BipedalLocomotion/TSID/CoMTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h"/>
       </node>
@@ -287,11 +291,11 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="33">
+      <node id="34">
         <label>BipedalLocomotion/TSID/AngularMomentumTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h"/>
       </node>
@@ -307,7 +311,7 @@
         <label>BipedalLocomotion/IK/AngularMomentumTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h"/>
       </node>
-      <node id="37">
+      <node id="38">
         <label>BipedalLocomotion/TSID/JointDynamicsTask.h</label>
         <link refid="JointDynamicsTask_8h"/>
       </node>
@@ -318,9 +322,9 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
         <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
@@ -330,8 +334,10 @@
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
       </node>
-      <node id="40">
+      <node id="41">
         <label>BipedalLocomotion/TSID/VariableRegularizationTask.h</label>
         <link refid="VariableRegularizationTask_8h"/>
       </node>

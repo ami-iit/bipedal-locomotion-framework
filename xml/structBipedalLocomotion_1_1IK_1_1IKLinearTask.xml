@@ -5,6 +5,8 @@
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1LinearTask" prot="public" virt="non-virtual">BipedalLocomotion::System::LinearTask</basecompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::AngularMomentumTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::CoMTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1DistanceTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::DistanceTask</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1GravityTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::GravityTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::JointLimitsTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public" virt="non-virtual">BipedalLocomotion::IK::JointTrackingTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1IK_1_1R3Task" prot="public" virt="non-virtual">BipedalLocomotion::IK::R3Task</derivedcompoundref>
@@ -32,6 +34,8 @@
         <name>setKinDyn</name>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106">setKinDyn</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a5547bc6b5727fbec9947d6d4ede197b9">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a37d5ce15f2ffc3ea8f46a4a05b935cae">setKinDyn</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1GravityTask_1a016ae22fd0db3071cada8f090380fd6b">setKinDyn</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask_1a2d8c474f9fd61b45fb96473caad89d7a">setKinDyn</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask_1a37f0c2c72f2f8a5f8217247e21c3ed7a">setKinDyn</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1R3Task_1a9d265e17235b7193f14cd77587c613b0">setKinDyn</reimplementedby>
@@ -75,33 +79,45 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>BipedalLocomotion::IK::JointLimitsTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="9">
         <label>BipedalLocomotion::IK::R3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1R3Task"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="10">
         <label>BipedalLocomotion::IK::SE3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SE3Task"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>BipedalLocomotion::IK::JointTrackingTask</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>BipedalLocomotion::IK::SO3Task</label>
         <link refid="classBipedalLocomotion_1_1IK_1_1SO3Task"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::IK::GravityTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1GravityTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion::IK::DistanceTask</label>
+        <link refid="classBipedalLocomotion_1_1IK_1_1DistanceTask"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

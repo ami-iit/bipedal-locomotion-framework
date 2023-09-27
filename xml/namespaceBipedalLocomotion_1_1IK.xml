@@ -4,6 +4,8 @@
     <compoundname>BipedalLocomotion::IK</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" prot="public">BipedalLocomotion::IK::AngularMomentumTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1CoMTask" prot="public">BipedalLocomotion::IK::CoMTask</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1DistanceTask" prot="public">BipedalLocomotion::IK::DistanceTask</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1GravityTask" prot="public">BipedalLocomotion::IK::GravityTask</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IKLinearTask" prot="public">BipedalLocomotion::IK::IKLinearTask</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKState" prot="public">BipedalLocomotion::IK::IntegrationBasedIKState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1IntegrationBasedIK" prot="public">BipedalLocomotion::IK::IntegrationBasedIK</innerclass>
@@ -62,6 +64,38 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/IK/CoMTask.h" line="142" column="1" declfile="BipedalLocomotion/IK/CoMTask.h" declline="142" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="DistanceTask_8h_1ac2b1c12c6c6d0f5ac4f674740abec9f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
+        <argsstring>(DistanceTask)</argsstring>
+        <name>BLF_REGISTER_IK_TASK</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1IK_1_1DistanceTask" kindref="compound">DistanceTask</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="158" column="1" declfile="BipedalLocomotion/IK/DistanceTask.h" declline="158" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="GravityTask_8h_1a66f963ba444d2ce629f1c33616f9d897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
+        <argsstring>(GravityTask)</argsstring>
+        <name>BLF_REGISTER_IK_TASK</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1IK_1_1GravityTask" kindref="compound">GravityTask</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/GravityTask.h" line="227" column="1" declfile="BipedalLocomotion/IK/GravityTask.h" declline="227" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="JointLimitsTask_8h_1ade53115ca185227c77634f864e25cc4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

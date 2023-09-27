@@ -4,6 +4,8 @@
     <compoundname>BipedalLocomotion/IK</compoundname>
     <innerfile refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h">AngularMomentumTask.h</innerfile>
     <innerfile refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h">CoMTask.h</innerfile>
+    <innerfile refid="DistanceTask_8h">DistanceTask.h</innerfile>
+    <innerfile refid="GravityTask_8h">GravityTask.h</innerfile>
     <innerfile refid="IKLinearTask_8h">IKLinearTask.h</innerfile>
     <innerfile refid="IntegrationBasedIK_8h">IntegrationBasedIK.h</innerfile>
     <innerfile refid="JointLimitsTask_8h">JointLimitsTask.h</innerfile>

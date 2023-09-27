@@ -114,11 +114,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="8">
+      <node id="9">
         <label>BipedalLocomotion/IK/JointLimitsTask.h</label>
         <link refid="JointLimitsTask_8h"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
@@ -126,17 +126,17 @@
         <label>BipedalLocomotion/IK/CoMTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion/IK/SO3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>BipedalLocomotion/IK/R3Task.h</label>
         <link refid="R3Task_8h"/>
       </node>
@@ -146,19 +146,23 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="5">
+        <label>BipedalLocomotion/IK/DistanceTask.h</label>
+        <link refid="DistanceTask_8h"/>
+      </node>
+      <node id="12">
         <label>BipedalLocomotion/IK/SE3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
         <link refid="IntegrationBasedIK_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h"/>
       </node>
@@ -175,7 +179,7 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -184,6 +188,8 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
