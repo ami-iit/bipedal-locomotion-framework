@@ -199,10 +199,9 @@ bool DistanceTask::update()
         m_jacobian.rightCols(m_kinDyn->getNrOfDegreesOfFreedom()) = m_relativeJacobian;
     }
 
-    m_computedDistance = sqrt(pow(m_framePosition(0), 2) + pow(m_framePosition(1), 2)
-                              + pow(m_framePosition(2), 2));
+    m_computedDistance = m_framePosition.norm();
 
-    toEigen(this->subA(m_robotVelocityVariable))
+    toEigen(this->subA(m_robotVelocityVariable)).noalias()
         = (m_framePosition.transpose() * m_jacobian.topRows<3>())
           / (std::max(0.001, m_computedDistance));
     m_b(0) = m_kp * (m_desiredDistance - m_computedDistance);

@@ -164,7 +164,8 @@ bool GravityTask::update()
     }
 
     toEigen(this->subA(m_robotVelocityVariable)) = m_Am * m_jacobian.bottomRows<3>();
-    m_b = -m_kp * m_bm * desiredZDirectionAbsolute + feedforwardAbsolute.topRows<2>();
+    m_b = feedforwardAbsolute.topRows<2>();
+    m_b.noalias() -= m_kp * m_bm * desiredZDirectionAbsolute;
 
     m_isValid = true;
     return m_isValid;
