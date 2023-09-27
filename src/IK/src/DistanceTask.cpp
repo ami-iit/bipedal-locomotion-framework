@@ -136,6 +136,15 @@ bool DistanceTask::initialize(
         return false;
     }
 
+    // set the gains for the controllers
+    if (!ptr->getParameter("distance_numeric_threshold", m_distanceNumericThreshold))
+    {
+        log()->debug("{} [{}] No distance_numeric_threshold specified. Using default {}",
+                     errorPrefix,
+                     m_description,
+                     m_distanceNumericThreshold);
+    }
+
     if (m_referenceName != "")
     {
         m_referenceFrameIndex = m_kinDyn->getFrameIndex(m_referenceName);
@@ -203,7 +212,7 @@ bool DistanceTask::update()
 
     toEigen(this->subA(m_robotVelocityVariable)).noalias()
         = (m_framePosition.transpose() * m_jacobian.topRows<3>())
-          / (std::max(0.001, m_computedDistance));
+          / (std::max(m_distanceNumericThreshold, m_computedDistance));
     m_b(0) = m_kp * (m_desiredDistance - m_computedDistance);
 
     m_isValid = true;

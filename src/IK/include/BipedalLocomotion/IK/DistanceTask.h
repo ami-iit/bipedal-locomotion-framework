@@ -62,6 +62,8 @@ class DistanceTask : public IKLinearTask
                                                                        indexes. */
 
     double m_computedDistance{0.0}; /**< Computed distance. */
+    double m_distanceNumericThreshold{0.001}; /**< Numeric threshold when inverting the computed
+                                                 distance in the Jacobian computation. */
 
 public:
     // clang-format off
@@ -75,6 +77,7 @@ public:
      * |                `kp`                |            `double`          |                                               Gain of the distance controller                                                            |    Yes    |
      * |         `target_frame_name`        |            `string`          |                                       Name of the frame of which computing the distance                                                  |    Yes    |
      * |       `reference_frame_name`       |            `string`          |          Name of the frame with respect to which computing the distance. If empty, the world frame will be used (Default = "")           |    No     |
+     * |    `distance_numeric_threshold`    |            `double`          |                     Lowerbound for the computed distance when inverting it in the task Jacobian (Default = 0.001)                        |    No     |
      * @return True in case of success, false otherwise.
      */
     // clang-format on
