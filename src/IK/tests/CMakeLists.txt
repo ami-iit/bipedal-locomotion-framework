@@ -37,6 +37,16 @@ add_bipedal_test(
   SOURCES AngularMomentumTaskTest.cpp
   LINKS BipedalLocomotion::IK)
 
+add_bipedal_test(
+  NAME DistanceTaskIK
+  SOURCES DistanceTaskTest.cpp
+  LINKS BipedalLocomotion::IK)
+
+add_bipedal_test(
+  NAME GravityTaskIK
+  SOURCES GravityTaskTest.cpp
+  LINKS BipedalLocomotion::IK)
+
 if (FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
 
   add_bipedal_test(

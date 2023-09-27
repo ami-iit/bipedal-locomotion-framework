@@ -2,6 +2,7 @@
 All notable changes to this project are documented in this file.
 
 ## [Unreleased]
+- Added the ``DistanceTask`` and ``GravityTask`` to the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/717)
 
 ### Added
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
