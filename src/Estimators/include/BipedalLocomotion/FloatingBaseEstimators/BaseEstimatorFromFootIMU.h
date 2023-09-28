@@ -170,6 +170,8 @@ private:
     Eigen::Vector3d m_measuredRPY; /**< the measured foot orientation converted into Euler angles */
     manif::SO3d m_measuredRotationCorrected; /**< rotation matrix that employs: measured Roll,
                                                 measured Pitch, desired Yaw */
+    manif::SO3d m_desiredRotationCasted;
+    manif::SO3d m_measuredTilt;
     manif::SE3d m_measuredFootPose; /**< the final foot pose matrix obtained through measured and
                                        desired quantities */
     manif::SE3d m_resetFootCorners; /**< the final foot pose matrix used to reset corners positions

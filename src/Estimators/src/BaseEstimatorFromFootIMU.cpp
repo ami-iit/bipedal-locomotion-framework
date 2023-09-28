@@ -196,6 +196,7 @@ bool BaseEstimatorFromFootIMU::advance()
     // through RPY Euler angles.
     m_desiredRotation = m_input.desiredFootPose.rotation();
     m_desiredRPY = toXYZ(m_desiredRotation);
+    m_desiredRotationCasted = manif::SO3d(m_desiredRPY(0), m_desiredRPY(1), m_desiredRPY(2));
 
     // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
     m_measuredRotation = m_input.measuredRotation.rotation();
@@ -208,10 +209,14 @@ bool BaseEstimatorFromFootIMU::advance()
     // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
     // desired Yaw.
     m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), m_measuredRPY(2));
+    m_measuredTilt = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), 0.0);
 
     // manif::SE3d pose matrix that employs: desired Position, measured Roll,
     // measured Pitch, desired Yaw.
-    manif::SE3d T_foot_raw(m_desiredTranslation, m_measuredRotationCorrected);
+    Eigen::Vector3d noTras(0, 0, 0);
+    manif::SE3d T_foot_raw(noTras, m_measuredRotationCorrected);
+    manif::SE3d T_foot_tilt(noTras, m_measuredTilt);
+    manif::SE3d T_foot(m_desiredTranslation, m_desiredRotationCasted);
 
     // finding the positions of the foot corners in world frame given `T_foot_raw`
     // pose matrix.
@@ -222,7 +227,7 @@ bool BaseEstimatorFromFootIMU::advance()
     // for each corner we compute the position in the inertial frame
     for (const auto& corner : m_cornersInInertialFrame)
     {
-        m_transformedFootCorners.emplace_back(T_foot_raw.act(corner));
+        m_transformedFootCorners.emplace_back(T_foot_tilt.act(corner));
     }
 
     // The center of the foot sole is at ground level --> some corners may be
@@ -280,8 +285,13 @@ bool BaseEstimatorFromFootIMU::advance()
     // desired position.
     Eigen::Vector3d p_desired(0, 0, 0);
     Eigen::Vector3d vertexOffset(0, 0, 0);
-    p_desired = m_yawDrift.act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
-    vertexOffset = p_desired - m_yawDrift.act(m_transformedFootCorners[m_state.supportCornerIndex]);
+    // p_desired = m_yawDrift.act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
+    // vertexOffset = p_desired -
+    // m_yawDrift.act(m_transformedFootCorners[m_state.supportCornerIndex]);
+
+    p_desired = (m_cornersInInertialFrame[m_state.supportCornerIndex]);
+    vertexOffset = p_desired - (m_transformedFootCorners[m_state.supportCornerIndex]);
+
     // std::cerr << "shadowCorners: " << p_desired.transpose() << std::endl;
     // std::cerr << "footCorners: "
     //           << m_yawDrift.act(m_transformedFootCorners[m_state.supportCornerIndex]).transpose()
@@ -304,7 +314,7 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // obtaining the final foot pose using both measured and desired quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
-    m_measuredFootPose = m_yawDrift * T_vertexOffset * T_foot_raw * m_frame_H_link;
+    m_measuredFootPose = T_foot * m_yawDrift * T_vertexOffset * T_foot_tilt * m_frame_H_link;
     m_resetFootCorners = T_foot_raw;
 
     Eigen::VectorXd baseVelocity(6);
@@ -348,7 +358,10 @@ bool BaseEstimatorFromFootIMU::advance()
     // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw.
     auto deltaYaw = manif::SO3d(deltaRPY(0), deltaRPY(1), deltaRPY(2));
     // manif::SE3d reset corners pose matrix.
-    manif::SE3d T_reset_corners(deltaTras, deltaYaw);
+    // manif::SE3d T_reset_corners(deltaTras, deltaYaw);
+    Eigen::Vector3d tr(0, 0, 0);
+    manif::SE3d T_reset_corners(tr, deltaYaw);
+
     std::vector<Eigen::Vector3d> tempCorners;
     tempCorners.resize(m_cornersInInertialFrame.size());
     int j = 0;
@@ -361,7 +374,9 @@ bool BaseEstimatorFromFootIMU::advance()
     resetOffset = m_cornersInInertialFrame[m_state.supportCornerIndex]
                   - tempCorners[m_state.supportCornerIndex];
     // std::cerr << "resetOffset: " << resetOffset.transpose() << std::endl;
-    manif::SE3d T_resetOffset(resetOffset, manif::SO3d::Identity());
+    // manif::SE3d T_resetOffset(resetOffset, manif::SO3d::Identity());
+    manif::SE3d T_resetOffset(resetOffset, deltaYaw);
+
     manif::SE3d temp;
     temp = T_resetOffset * m_yawDrift;
     m_yawDrift = temp;
