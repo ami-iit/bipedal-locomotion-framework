@@ -302,15 +302,15 @@ bool BaseEstimatorFromFootIMU::advance()
     //     log()->error("{} Foot vertex offset too large: {}.", logPrefix, vertexOffset.norm());
     //     return false;
     // }
-    for (int i = 0; i < m_cornersInInertialFrame.size(); i++)
-    {
-        m_state.sphereShadowCorners[i] = m_yawDrift.act(m_cornersInInertialFrame[i]);
-        m_state.sphereFootCorners[i] = m_yawDrift.act(m_transformedFootCorners[i]);
-    }
-
     // transforming the offset vector into a translation matrix.
     manif::SE3d T_vertexOffset(vertexOffset, manif::SO3d::Identity());
     // manif::SE3d T_vertexOffset(manif::SE3d::Identity());
+    for (int i = 0; i < m_cornersInInertialFrame.size(); i++)
+    {
+        m_state.sphereShadowCorners[i] = m_yawDrift.act(m_cornersInInertialFrame[i]);
+        m_state.sphereFootCorners[i]
+            = T_vertexOffset.act(m_yawDrift.act(m_transformedFootCorners[i]));
+    }
 
     // obtaining the final foot pose using both measured and desired quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
