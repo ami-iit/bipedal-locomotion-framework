@@ -330,6 +330,7 @@ bool BaseEstimatorFromFootIMU::advance()
     // extracting the position part of the reset corners pose.
     Eigen::Vector3d deltaTras(0, 0, 0);
     Eigen::Vector3d deltaRPY(0, 0, 0);
+
     auto tras = m_resetFootCorners.translation();
     // foot z is completely canceled
     tras(2) = 0.0;
@@ -346,7 +347,7 @@ bool BaseEstimatorFromFootIMU::advance()
     m_rpyOld = rpy;
     // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw.
     auto deltaYaw = manif::SO3d(deltaRPY(0), deltaRPY(1), deltaRPY(2));
-    // manif::SE3d reser corners pose matrix.
+    // manif::SE3d reset corners pose matrix.
     manif::SE3d T_reset_corners(deltaTras, deltaYaw);
     std::vector<Eigen::Vector3d> tempCorners;
     tempCorners.resize(m_cornersInInertialFrame.size());
