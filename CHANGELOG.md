@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Added the ``BaseCentroidalMPC`` and ``StableCentroidalMPC`` to the ReducedModelControllers component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/703)
 - 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
 - Implement `RK4` integrator in `ContinuousDynamicalSystem` component and expose the python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/711)
 - Implement `blf-balancing-torque-control` in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/707)
