@@ -205,6 +205,8 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // desired Yaw is used instead of measured Yaw.
     // m_measuredRPY(2) = m_desiredRPY(2);
+
+    // Manual correction of the measured Roll, Pitch and Yaw.
     // double temp_roll = -m_measuredRPY(1);
     // double temp_pitch = -m_measuredRPY(0);
     // m_measuredRPY(0) = temp_roll;
