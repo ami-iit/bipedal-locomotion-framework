@@ -205,11 +205,20 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // desired Yaw is used instead of measured Yaw.
     // m_measuredRPY(2) = m_desiredRPY(2);
+    // double temp_roll = -m_measuredRPY(1);
+    // double temp_pitch = -m_measuredRPY(0);
+    // m_measuredRPY(0) = temp_roll;
+    // m_measuredRPY(1) = temp_pitch;
+    // m_measuredRPY(2) = -m_measuredRPY(2);
 
     // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
     // desired Yaw.
     m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), m_measuredRPY(2));
     m_measuredTilt = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), 0.0);
+    // Dani's idea:
+    // consider either roll or pitch, whichever is larger in magnitude, and set the
+    // other to zero.
+    // m_measuredTilt = manif::SO3d(m_measuredRPY(0), 0.0, 0.0);
 
     // manif::SE3d pose matrix that employs: desired Position, measured Roll,
     // measured Pitch, desired Yaw.
