@@ -210,8 +210,8 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         std::copy(mask.begin(), mask.end(), m_mask.begin());
         // compute the DoFs associated to the task
         m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
-
-        m_DoFs = m_linearDoFs + m_linearVelocitySize;
+ 
+        m_DoFs = m_linearDoFs + m_angularVelocitySize;
 
         // Update the mask description
         maskDescription.clear();
@@ -264,15 +264,19 @@ bool SE3Task::update()
     bFullDoF.head<3>() += getControllerOutupt(m_R3Controller);
     bFullDoF.tail<3>() += getControllerOutupt(m_SO3Controller);
 
+    m_b.tail<3>() = bFullDoF.tail<3>();
+
     if (m_DoFs == m_linearVelocitySize)
     {
+        m_b.head<3>() = bFullDoF.head<3>();
+
         if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                 this->subA(m_robotAccelerationVariable)))
         {
             log()->error("[SE3Task::update] Unable to get the jacobian.");
             return m_isValid;
         }
-    }else
+    } else
     {
         if(!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
         {
@@ -290,7 +294,12 @@ bool SE3Task::update()
                 index++;
             }
         }
+
+        // take the all angular part
+        iDynTree::toEigen(this->subA(m_robotAccelerationVariable)).bottomRows<3>() = m_jacobian.bottomRows<3>();
     }  
+
+
 
     m_isValid = true;
     return m_isValid;
