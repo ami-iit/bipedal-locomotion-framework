@@ -203,8 +203,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                     descriptionPrefix,
                     frameName,
                     maskDescription);
-    }
-    else
+    } else
     {
         // covert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
