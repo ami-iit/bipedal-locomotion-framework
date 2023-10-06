@@ -189,7 +189,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         // compute the DoFs associated to the task
         m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
 
-        m_DoFs = m_linearDoFs + m_linearVelocitySize;
+        m_DoFs = m_linearDoFs + m_angularVelocitySize;
 
         // Update the mask description
         maskDescription.clear();
