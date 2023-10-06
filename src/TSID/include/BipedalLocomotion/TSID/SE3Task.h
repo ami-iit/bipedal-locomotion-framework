@@ -63,12 +63,22 @@ private:
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
 
     static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
+    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector. */
+
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
+
+    /** Mask used to select the DoFs controlled by the task */
+    std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
+    std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
+    std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
+
+    Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */                                                               
 
     /** State of the proportional derivative controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
@@ -86,6 +96,7 @@ public:
      * |             `kd_linear`            | `double` or `vector<double>` |                         Gains of the linear velocity controller                         |    Yes    |
      * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * |            `kd_angular`            | `double` or `vector<double>` |                         Gain of the angular velocity controller                        |    Yes    |
+     * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
