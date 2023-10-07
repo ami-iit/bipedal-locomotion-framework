@@ -78,7 +78,7 @@ private:
     std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
     std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
 
-    Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */                                                               
+    Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 
     /** State of the proportional derivative controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};

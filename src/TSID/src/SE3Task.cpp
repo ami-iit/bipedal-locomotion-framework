@@ -209,7 +209,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         std::copy(mask.begin(), mask.end(), m_mask.begin());
         // compute the DoFs associated to the task
         m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
- 
+
         m_DoFs = m_linearDoFs + m_angularVelocitySize;
 
         // Update the mask description
@@ -296,7 +296,7 @@ bool SE3Task::update()
 
         // take the all angular part
         iDynTree::toEigen(this->subA(m_robotAccelerationVariable)).bottomRows<3>() = m_jacobian.bottomRows<3>();
-    }  
+    }
 
 
 

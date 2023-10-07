@@ -156,7 +156,7 @@ TEST_CASE("SE3 Task")
             const auto DoFs = std::count(mask.begin(), mask.end(), true) + 3;
 
             parameterHandler->setParameter("mask", mask);
-            
+
             SE3Task task;
             REQUIRE(task.setKinDyn(kinDyn));
             REQUIRE(task.initialize(parameterHandler));
