@@ -66,6 +66,7 @@ private:
 
     static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
     static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
+    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector. */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */

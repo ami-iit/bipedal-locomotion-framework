@@ -46,9 +46,10 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // resize the matrices
-    m_A.resize(m_spatialVelocitySize, variablesHandler.getNumberOfVariables());
+    m_A.resize(m_DoFs, variablesHandler.getNumberOfVariables());
     m_A.setZero();
-    m_b.resize(m_spatialVelocitySize);
+    m_b.resize(m_DoFs);
+    m_jacobian.resize(m_spatialVelocitySize, m_robotAccelerationVariable.size);
 
     return true;
 }
@@ -71,6 +72,13 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     std::string frameName = "Unknown";
     constexpr auto descriptionPrefix = "SE3Task Optimal Control Element - Frame name: ";
+
+    std::string maskDescription = "";
+    auto boolToString = [](bool b) { return b ? " true" : " false"; };
+    for(const auto flag : m_mask)
+    {
+        maskDescription += boolToString(flag);
+    }
 
     if(m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -187,8 +195,32 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     m_SO3Controller.setGains(kpAngular, kdAngular);
 
-    // set the description
-    m_description = std::string(descriptionPrefix) + frameName + ".";
+    std::vector<bool> mask;
+    if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
+    {
+        log()->info("{} [{} {}] Unable to find the mask parameter. The default value is used:{}.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName,
+                    maskDescription);
+    } else
+    {
+        // covert an std::vector in a std::array
+        std::copy(mask.begin(), mask.end(), m_mask.begin());
+        // compute the DoFs associated to the task
+        m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
+
+        m_DoFs = m_linearDoFs + m_angularVelocitySize;
+
+        // Update the mask description
+        maskDescription.clear();
+        for(const auto flag : m_mask)
+        {
+            maskDescription += boolToString(flag);
+        }
+    }
+
+    m_description = descriptionPrefix + frameName + " Mask:" + maskDescription + ".";
 
     m_isInitialized = true;
 
@@ -212,7 +244,7 @@ bool SE3Task::update()
             return controller.getFeedForward().coeffs();
     };
 
-    m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
+    Eigen::Matrix<double, 6, 1> bFullDoF = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex));
 
     m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
                                  m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
@@ -223,20 +255,50 @@ bool SE3Task::update()
                                 m_kinDyn->getWorldTransform(m_frameIndex).getPosition()),
                             iDynTree::toEigen(m_kinDyn->getFrameVel(m_frameIndex).getLinearVec3()));
 
-    // update the controller ouptut
+    // update the controller output
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
     // get the output
-    m_b.head<3>() += getControllerOutupt(m_R3Controller);
-    m_b.tail<3>() += getControllerOutupt(m_SO3Controller);
+    bFullDoF.head<3>() += getControllerOutupt(m_R3Controller);
+    bFullDoF.tail<3>() += getControllerOutupt(m_SO3Controller);
 
-    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
-                                                this->subA(m_robotAccelerationVariable)))
+    m_b.tail<3>() = bFullDoF.tail<3>();
+
+    if (m_DoFs == m_linearVelocitySize)
     {
-        log()->error("[SE3Task::update] Unable to get the jacobian.");
-        return m_isValid;
+        m_b.head<3>() = bFullDoF.head<3>();
+
+        if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
+                                                this->subA(m_robotAccelerationVariable)))
+        {
+            log()->error("[SE3Task::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+    } else
+    {
+        if(!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
+        {
+            log()->error("[SE3Task::update] Unable to get the jacobian.");
+            return m_isValid;
+        }
+
+        int index = 0;
+        for (std::size_t i = 0; i < m_linearVelocitySize; i++)
+        {
+            if (m_mask[i])
+            {
+                m_b(index) = bFullDoF(i);
+                toEigen(this->subA(m_robotAccelerationVariable)).row(index) = m_jacobian.row(i);
+                index++;
+            }
+        }
+
+        // take the all angular part
+        iDynTree::toEigen(this->subA(m_robotAccelerationVariable)).bottomRows<3>() = m_jacobian.bottomRows<3>();
     }
+
+
 
     m_isValid = true;
     return m_isValid;
@@ -258,7 +320,7 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F,
 
 std::size_t SE3Task::size() const
 {
-    return m_spatialVelocitySize;
+    return m_DoFs;
 }
 
 SE3Task::Type SE3Task::type() const
