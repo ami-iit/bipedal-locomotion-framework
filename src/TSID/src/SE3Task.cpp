@@ -50,6 +50,7 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     m_A.setZero();
     m_b.resize(m_DoFs);
     m_jacobian.resize(m_spatialVelocitySize, m_robotAccelerationVariable.size);
+    m_controllerOutput.resize(m_spatialVelocitySize); 
 
     return true;
 }
@@ -260,8 +261,9 @@ bool SE3Task::update()
     m_R3Controller.computeControlLaw();
 
     // get the output
-    bFullDoF.head<3>() += getControllerOutupt(m_R3Controller);
-    bFullDoF.tail<3>() += getControllerOutupt(m_SO3Controller);
+    m_controllerOutput.head<3>() = getControllerOutupt(m_R3Controller);
+    m_controllerOutput.tail<3>() = getControllerOutupt(m_SO3Controller);
+    bFullDoF += m_controllerOutput;
 
     m_b.tail<3>() = bFullDoF.tail<3>();
 
@@ -341,4 +343,9 @@ void SE3Task::setTaskControllerMode(Mode mode)
 SE3Task::Mode SE3Task::getTaskControllerMode() const
 {
     return m_controllerMode;
+}
+
+Eigen::Ref<const Eigen::VectorXd> SE3Task::getControllerOutput() const
+{
+    return m_controllerOutput;
 }
