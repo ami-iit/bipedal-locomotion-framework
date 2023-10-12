@@ -8,7 +8,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
 - Add the possibility to set the maximum number of accepted deadline miss in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
-- Add the `getControllerOutput` method to the `TSID::SE3Task` class ()
+- Add the `getControllerOutput` method to the `TSID::SE3Task` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/740)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
