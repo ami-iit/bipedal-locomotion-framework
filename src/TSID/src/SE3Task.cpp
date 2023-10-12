@@ -50,7 +50,7 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     m_A.setZero();
     m_b.resize(m_DoFs);
     m_jacobian.resize(m_spatialVelocitySize, m_robotAccelerationVariable.size);
-    m_controllerOutput.resize(m_spatialVelocitySize); 
+    m_controllerOutput.resize(m_spatialVelocitySize);
 
     return true;
 }
