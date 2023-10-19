@@ -238,7 +238,7 @@ bool SE3Task::update()
         return m_isValid;
     }
 
-    auto getControllerOutupt = [&](const auto& controller) {
+    auto getGenericControllerOutput = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
             return controller.getControl().coeffs();
         else
@@ -261,8 +261,8 @@ bool SE3Task::update()
     m_R3Controller.computeControlLaw();
 
     // get the output
-    m_controllerOutput.head<3>() = getControllerOutupt(m_R3Controller);
-    m_controllerOutput.tail<3>() = getControllerOutupt(m_SO3Controller);
+    m_controllerOutput.head<3>() = getGenericControllerOutput(m_R3Controller);
+    m_controllerOutput.tail<3>() = getGenericControllerOutput(m_SO3Controller);
     bFullDoF += m_controllerOutput;
 
     m_b.tail<3>() = bFullDoF.tail<3>();
