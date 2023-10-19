@@ -137,6 +137,11 @@ def test_se3_task():
     assert se3_task.set_set_point(I_H_F=I_H_F,
                                   mixed_velocity=mixed_velocity,
                                   mixed_acceleration=mixed_acceleration)
+    # Update the task
+    assert se3_task.update()
+
+    # Check get_controller_output
+    assert se3_task.get_controller_output().size == 6
 
 def test_so3_task():
 

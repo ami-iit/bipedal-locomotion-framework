@@ -101,6 +101,7 @@ TEST_CASE("SE3 Task")
             // get A and b
             Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
             Eigen::Ref<const Eigen::VectorXd> b = task.getB();
+            Eigen::Ref<const Eigen::VectorXd> controllerOutput = task.getControllerOutput();
 
             // check the matrix A
             REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
@@ -143,11 +144,16 @@ TEST_CASE("SE3 Task")
             R3Controller.computeControlLaw();
 
             Eigen::VectorXd expectedB(6);
+            Eigen::VectorXd expectedControllerOutput(6);
             expectedB = -iDynTree::toEigen(kinDyn->getFrameBiasAcc(controlledFrame));
             expectedB.head<3>() += R3Controller.getControl().coeffs();
             expectedB.tail<3>() += SO3Controller.getControl().coeffs();
 
+            expectedControllerOutput.head<3>() = R3Controller.getControl().coeffs();
+            expectedControllerOutput.tail<3>() = SO3Controller.getControl().coeffs();
+
             REQUIRE(b.isApprox(expectedB));
+            REQUIRE(controllerOutput.isApprox(expectedControllerOutput));
         }
 
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints - [mask]")
@@ -175,6 +181,7 @@ TEST_CASE("SE3 Task")
             // get A and b
             Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
             Eigen::Ref<const Eigen::VectorXd> b = task.getB();
+            Eigen::Ref<const Eigen::VectorXd> controllerOutput = task.getControllerOutput();
 
             // check the matrix A
             REQUIRE(A.middleCols(variablesHandler.getVariable("dummy1").offset,
@@ -230,9 +237,17 @@ TEST_CASE("SE3 Task")
             R3Controller.computeControlLaw();
 
             Eigen::VectorXd expectedBFull(6);
+            Eigen::VectorXd expectedControllerOutput(6);
+
+
             expectedBFull = -iDynTree::toEigen(kinDyn->getFrameBiasAcc(controlledFrame));
             expectedBFull.head<3>() += R3Controller.getControl().coeffs();
             expectedBFull.tail<3>() += SO3Controller.getControl().coeffs();
+
+            expectedControllerOutput.head<3>() = R3Controller.getControl().coeffs();
+            expectedControllerOutput.tail<3>() = SO3Controller.getControl().coeffs();
+
+            REQUIRE(controllerOutput.isApprox(expectedControllerOutput));
 
             Eigen::VectorXd expectedB(DoFs);
 

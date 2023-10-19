@@ -41,7 +41,10 @@ void CreateSE3Task(pybind11::module& module)
              &SE3Task::setSetPoint,
              py::arg("I_H_F"),
              py::arg("mixed_velocity"),
-             py::arg("mixed_acceleration"));
+             py::arg("mixed_acceleration"))
+        .def("get_controller_output",
+             &SE3Task::getControllerOutput);
+
 }
 
 } // namespace TSID

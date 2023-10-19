@@ -79,6 +79,7 @@ private:
     std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
+    Eigen::VectorXd m_controllerOutput; /**< Controller output */
 
     /** State of the proportional derivative controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
@@ -168,6 +169,14 @@ public:
      * @return the state of the controller
      */
     Mode getTaskControllerMode() const override;
+
+    /**
+     * Get the controller output.
+     * @note the value of the controller output is changed by the update method.
+     * @return a const reference to the controller output.
+     */
+    Eigen::Ref<const Eigen::VectorXd> getControllerOutput() const;
+
 };
 
 } // namespace TSID
