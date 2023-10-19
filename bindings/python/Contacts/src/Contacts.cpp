@@ -85,7 +85,9 @@ void CreateContact(pybind11::module& module)
 
     py::class_<ContactWrench, ContactBase>(module, "ContactWrench")
         .def(py::init())
-        .def_readwrite("wrench", &ContactWrench::wrench);
+        .def_readwrite("wrench", &ContactWrench::wrench)
+        .def("get_local_zmp", &ContactWrench::getLocalZMP)
+        .def("get_global_zmp", &ContactWrench::getGlobalZMP);
     py::class_<DiscreteGeometryContact, ContactBase>(module, "DiscreteGeometryContact")
         .def(py::init())
         .def_readwrite("corners", &DiscreteGeometryContact::corners);

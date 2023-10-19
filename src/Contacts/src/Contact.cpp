@@ -38,3 +38,18 @@ void EstimatedContact::setContactStateStamped(const std::pair<bool, std::chrono:
     isActive = pair.first;
     switchTime = pair.second;
 }
+
+Eigen::Vector3d ContactWrench::getLocalZMP() const
+{
+    Eigen::Vector3d zmp;
+    zmp(0) = -wrench.torque()(1) / wrench.force()(2);
+    zmp(1) = wrench.torque()(0) / wrench.force()(2);
+    zmp(2) = 0.0;
+    return zmp;
+}
+
+Eigen::Vector3d ContactWrench::getGlobalZMP() const
+{
+    const Eigen::Vector3d zmp = this->getLocalZMP();
+    return this->pose.act(zmp);
+}
