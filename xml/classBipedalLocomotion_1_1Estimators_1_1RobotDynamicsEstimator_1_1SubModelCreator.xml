@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="209" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="209" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="210" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="210" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4f8c62da3f591fa866d0d440fbd6405f" prot="private" static="no" mutable="no">
         <type>iDynTree::SensorsList</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="210" column="27" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="210" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="211" column="27" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a29e7abbf2606612b6510ae21c587a3ae" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="211" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="211" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="212" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="212" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a7feb7a16d53a832c7f16f46479bc6ded" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt;</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="213" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="213" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="214" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="214" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="223" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="224" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afb68758496733e5ff03950355592d837" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref></type>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="235" column="14"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="236" column="14"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1acb96415fd3e2c2f35502cdb30215fe93" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" kindref="compound">FT</ref> &gt;</type>
@@ -198,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="247" column="24"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="248" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a1d8dccf1c06c8f6bc899766509cad310" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="257" column="24"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="258" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a412e1a0745fd7eca587807d610e76603" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, <ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kindref="compound">Sensor</ref> &gt;</type>
@@ -282,11 +282,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="268" column="24"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="269" column="24"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4c48aa4c2e008137d3e2a1bfeaef4a72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt;std::string&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::attachExternalContactsToSubModel</definition>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ae2bcbd44f3dafe6d86b22986e27c076d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator::attachExternalContactsToSubModel</definition>
         <argsstring>(const std::vector&lt; std::string &gt; &amp;contactsFromConfig, const iDynTree::Model &amp;subModel)</argsstring>
         <name>attachExternalContactsToSubModel</name>
         <param>
@@ -324,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="279" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="280" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; int &gt;</type>
@@ -354,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="289" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="290" column="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -422,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="301" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="302" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73828f2a439573513bf7954926b4d233" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -452,7 +452,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="313" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="314" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1afab781b0d7011b64fb7b19bd88c60431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -492,7 +492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="325" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="326" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a73a29919131da15e0ce5d98160b3de62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -522,7 +522,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="333" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="334" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1abaaa04118553c52cbb448dd19972cf22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -539,7 +539,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="343" column="17"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="344" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1adc775628561c65af1c0267f9abd03eca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
@@ -556,7 +556,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="349" column="23"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="350" column="23"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ab7647e9a3165857e29d4fe923d214ade" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &amp;</type>
@@ -577,7 +577,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="355" column="20"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="356" column="20"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -585,10 +585,10 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="207" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="208" bodyend="356"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="208" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="209" bodyend="357"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a1d8dccf1c06c8f6bc899766509cad310" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachAccelerometersToSubModel</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a4c48aa4c2e008137d3e2a1bfeaef4a72" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachExternalContactsToSubModel</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1ae2bcbd44f3dafe6d86b22986e27c076d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachExternalContactsToSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1acb96415fd3e2c2f35502cdb30215fe93" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachFTsToSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a412e1a0745fd7eca587807d610e76603" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>attachGyroscopesToSubModel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator_1a149cb98c99eb1ee6beae25c04f07f528" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</scope><name>createJointMapping</name></member>

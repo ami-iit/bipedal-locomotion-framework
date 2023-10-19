@@ -71,7 +71,6 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
@@ -117,6 +116,10 @@
             </dt>
             <dd>The JointVelocityDynamics class is a concrete implementation of the <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics.html" class="m-doc">Dynamics</a>.</dd>
             <dt>
+              class <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper.html" class="m-doc">KinDynWrapper</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper.html" class="m-doc">KinDynWrapper</a> is a concrete class and implements a wrapper of the KinDynComputation class from iDynTree.</dd>
+            <dt>
               class <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics.html" class="m-doc">MotorCurrentMeasurementDynamics</a>
             </dt>
             <dd>The <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics.html" class="m-doc">MotorCurrentMeasurementDynamics</a> class is a concrete implementation of the <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics.html" class="m-doc">Dynamics</a>.</dd>
@@ -137,27 +140,9 @@
             </dt>
             <dd><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator.html" class="m-doc">SubModelCreator</a> is a concrete class and splits a model into sub-models along the force/torque sensors specified as configuration parameters.</dd>
             <dt>
-              class <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper.html" class="m-doc">SubModelKinDynWrapper</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper.html" class="m-doc">SubModelKinDynWrapper</a> is a concrete class and implements a wrapper of the KinDynComputation class from iDynTree.</dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState.html" class="m-doc">UkfState</a>
-            </dt>
-            <dd><a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState.html" class="m-doc">UkfState</a> is a concrete class that represents the State of the estimator.</dd>
-            <dt>
               class <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics.html" class="m-doc">ZeroVelocityStateDynamics</a>
             </dt>
             <dd>The <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics.html" class="m-doc">ZeroVelocityStateDynamics</a> class is a concrete implementation of the <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics.html" class="m-doc">Dynamics</a>.</dd>
-          </dl>
-        </section>
-        <section id="enum-members">
-          <h2><a href="#enum-members">Enums</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">enum class <a href="SubModelKinDynWrapper_8h.html#a65b1a505bf046e1cb16a2f5601ac1cca" class="m-doc">UpdateMode</a> { </span><span class="m-doc-wrap"><a href="#a65b1a505bf046e1cb16a2f5601ac1ccaabbd47109890259c0127154db1af26c75" class="m-doc">Full</a>,
-              <a href="#a65b1a505bf046e1cb16a2f5601ac1ccaaf3f79d701c70ecc9019e86038e787614" class="m-doc">RobotDynamicsOnly</a> }</span>
-            </dt>
-            <dd>The enum class UpdateMode says if the updateState method should update only the information related to the robot dynamics used to compute the forward dynamics (i.e.</dd>
           </dl>
         </section>
         <section id="func-members">

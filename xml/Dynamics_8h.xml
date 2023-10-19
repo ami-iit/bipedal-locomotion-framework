@@ -10,14 +10,13 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includes refid="SubModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</includes>
-    <includes refid="SubModelKinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</includes>
+    <includes refid="KinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h</includes>
     <includedby refid="AccelerometerMeasurementDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h</includedby>
     <includedby refid="ConstantMeasurementModel_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</includedby>
     <includedby refid="FrictionTorqueStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h</includedby>
     <includedby refid="GyroscopeMeasurementDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h</includedby>
     <includedby refid="JointVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</includedby>
     <includedby refid="MotorCurrentMeasurementDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h</includedby>
-    <includedby refid="UkfState_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</includedby>
     <includedby refid="ZeroVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</includedby>
     <incdepgraph>
       <node id="18">
@@ -40,7 +39,7 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>iDynTree/Core/EigenHelpers.h</label>
       </node>
       <node id="9">
@@ -76,11 +75,14 @@
       <node id="21">
         <label>iDynTree/ModelIO/ModelLoader.h</label>
       </node>
-      <node id="24">
-        <label>iDynTree/Model/FreeFloatingState.h</label>
+      <node id="30">
+        <label>manif/SE3.h</label>
       </node>
       <node id="3">
         <label>string</label>
+      </node>
+      <node id="23">
+        <label>map</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</label>
@@ -135,26 +137,6 @@
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
-      <node id="22">
-        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</label>
-        <link refid="SubModelKinDynWrapper_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
       <node id="19">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
@@ -163,6 +145,16 @@
       </node>
       <node id="13">
         <label>vector</label>
+      </node>
+      <node id="29">
+        <label>BipedalLocomotion/Math/Wrench.h</label>
+        <link refid="Wrench_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
       </node>
       <node id="8">
         <label>utility</label>
@@ -173,13 +165,31 @@
       <node id="25">
         <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
         <link refid="ManifConversions_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h</label>
+        <link refid="KinDynWrapper_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -194,6 +204,9 @@
       </node>
       <node id="7">
         <label>unordered_map</label>
+      </node>
+      <node id="31">
+        <label>manif/SO3.h</label>
       </node>
       <node id="12">
         <label>chrono</label>
@@ -239,10 +252,8 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
       </node>
-      <node id="9">
+      <node id="8">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
         <link refid="ZeroVelocityStateDynamics_8h"/>
       </node>
@@ -253,10 +264,6 @@
       <node id="3">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h</label>
         <link refid="ConstantMeasurementModel_8h"/>
-      </node>
-      <node id="8">
-        <label>BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</label>
-        <link refid="UkfState_8h"/>
       </node>
       <node id="6">
         <label>BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</label>

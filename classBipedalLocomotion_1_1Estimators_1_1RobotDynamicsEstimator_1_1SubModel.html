@@ -104,7 +104,7 @@
             </dt>
             <dd>Access the <code>std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;</code> list of gyroscope sensors.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a94610f026cd8fa5b0ae69057c145f594" class="m-doc">getExternalContactList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;std::string&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a464551186ff446d0f157514cee7d99ae" class="m-doc">getExternalContactList</a>(</span><span class="m-doc-wrap">) const -&gt; const std::unordered_map&lt;std::string, int&gt;&amp;</span>
             </dt>
             <dd>Access the <code>std::vector&lt;std::string&gt;</code> list of frame names.</dd>
             <dt>
@@ -148,7 +148,7 @@
             </dt>
             <dd>hasAccelerometer check if the gyroscope is part of the sub-model</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a86c3ef09affb0e03dbfe232f388b0fd2" class="m-doc">getExternalContact</a>(</span><span class="m-doc-wrap">const int index) const -&gt; const std::string&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a381a7cda166b9b44c1e39f49b3946c5e" class="m-doc">getExternalContactIndex</a>(</span><span class="m-doc-wrap">const std::string&amp; name) -&gt; int</span>
             </dt>
             <dd>access an element of the contact frame list.</dd>
           </dl>
@@ -240,9 +240,9 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a94610f026cd8fa5b0ae69057c145f594"><div>
+          <section class="m-doc-details" id="a464551186ff446d0f157514cee7d99ae"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const std::vector&lt;std::string&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a94610f026cd8fa5b0ae69057c145f594" class="m-doc-self">getExternalContactList</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">const std::unordered_map&lt;std::string, int&gt;&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a464551186ff446d0f157514cee7d99ae" class="m-doc-self">getExternalContactList</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Access the <code>std::vector&lt;std::string&gt;</code> list of frame names.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -421,24 +421,15 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a86c3ef09affb0e03dbfe232f388b0fd2"><div>
+          <section class="m-doc-details" id="a381a7cda166b9b44c1e39f49b3946c5e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const std::string&amp; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a86c3ef09affb0e03dbfe232f388b0fd2" class="m-doc-self">getExternalContact</a>(</span><span class="m-doc-wrap">const int index) const</span></span>
+              <span class="m-doc-wrap-bumper">int BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a381a7cda166b9b44c1e39f49b3946c5e" class="m-doc-self">getExternalContactIndex</a>(</span><span class="m-doc-wrap">const std::string&amp; name)</span></span>
             </h3>
             <p>access an element of the contact frame list.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">index</td>
-                  <td>is the index of the external contact in the submodel.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
                   <td>a string corresponding to the external contact frame associated with the specified index.</td>
                 </tr>
               </tfoot>

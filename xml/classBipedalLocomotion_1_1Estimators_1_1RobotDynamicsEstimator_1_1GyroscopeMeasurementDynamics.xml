@@ -78,13 +78,13 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="38" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="38" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1aa638bbfaab66ea8faaa93b4ff88c918d" prot="private" static="no" mutable="no">
-        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> &gt; &gt;</type>
-        <definition>std::vector&lt;std::shared_ptr&lt;SubModelKinDynWrapper&gt; &gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_subModelKinDynList</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a98c59fa11b143311e5ea39abb922c6ae" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;KinDynWrapper&gt; &gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_subModelKinDynList</definition>
         <argsstring></argsstring>
         <name>m_subModelKinDynList</name>
         <briefdescription>
-<para>Vector of <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> objects. </para>
+<para>Vector of <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> objects. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -219,47 +219,19 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="54" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="54" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a9e6f8425ebfaad7f5782992e7cbe4c6f" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1acabca9196f74847f20da7f7454c11869" prot="private" static="no" mutable="no">
         <type>manif::SE3d::Tangent</type>
-        <definition>manif::SE3d::Tangent BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_subModelBaseVel</definition>
+        <definition>manif::SE3d::Tangent BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_accelerometerVelocity</definition>
         <argsstring></argsstring>
-        <name>m_subModelBaseVel</name>
+        <name>m_accelerometerVelocity</name>
         <briefdescription>
-<para>Submodel base velocity. </para>
+<para>Accelerometer velocity. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="56" column="26" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="56" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a0c860a4c91c8092b1e8e8b031aca5d17" prot="private" static="no" mutable="no">
-        <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_JvBase</definition>
-        <argsstring></argsstring>
-        <name>m_JvBase</name>
-        <briefdescription>
-<para>Jacobian times base velocity. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="57" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="57" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a3f43860970d9f771cba3fee451787b63" prot="private" static="no" mutable="no">
-        <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::m_Jsdot</definition>
-        <argsstring></argsstring>
-        <name>m_Jsdot</name>
-        <briefdescription>
-<para>Jacobian times joint velocity. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="58" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -274,7 +246,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="64" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="62" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a7824edb0b3b15aa2a6e18dd1ffa75ab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -287,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="69" column="13"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="67" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a89334c44c6f08dea8663020d9f42ef25" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -351,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="84" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="82" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ae6eb978878989961b83885831d2e6648" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -384,24 +356,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="93" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="91" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a07e6af2730f150500e8651329ede39a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a868e63b7edb2c3416613f722ca8d2f12" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics::setSubModels</definition>
-        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; SubModelKinDynWrapper &gt;&gt; &amp;kinDynWrapperList) override</argsstring>
+        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; KinDynWrapper &gt;&gt; &amp;kinDynWrapperList) override</argsstring>
         <name>setSubModels</name>
-        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a5eebce9bf3502af823458bbbcfc38133">setSubModels</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ad150cc229cc82083a713ed2ba453e82a">setSubModels</reimplements>
         <param>
           <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
           <declname>subModelList</declname>
         </param>
         <param>
-          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> &gt;&gt; &amp;</type>
+          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> &gt;&gt; &amp;</type>
           <declname>kinDynWrapperList</declname>
         </param>
         <briefdescription>
-<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> object. </para>
+<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> object. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -417,7 +389,7 @@
 <parametername>kinDynWrapperList</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> objects. </para>
+<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> objects. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -427,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="101" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="99" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac94fa671ce2b4fcbb999fe448027f2a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -445,7 +417,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="108" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a11ea2b1a7f5e305afea1cced7dd225c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -463,7 +435,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="116" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="114" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a46d021b5133041f9a29575969ad91e17" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -492,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="121" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a607541a61a5a73d8c0cd6f49c43b2dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -521,7 +493,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="129" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="127" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -565,7 +537,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="31" bodyend="131"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" bodystart="31" bodyend="129"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac94fa671ce2b4fcbb999fe448027f2a3" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>checkStateVariableHandler</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ae6eb978878989961b83885831d2e6648" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>finalize</name></member>
@@ -574,6 +546,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac7ad9601f0f1b7f6516e1117e4845ae2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>getUpdatedVariable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a0d95b291a21712935fe703b622ef4417" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>GyroscopeMeasurementDynamics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a89334c44c6f08dea8663020d9f42ef25" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1acabca9196f74847f20da7f7454c11869" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_accelerometerVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a1f99520c1c3db117473ee113cf77c255" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_bias</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a252cb543b890364753a64bcb48c05f62" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_biasVariableName</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1adda3fb21d2afc618efa3b5da736f8a65" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_covariances</name></member>
@@ -584,15 +557,12 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a57fe02624c1ae50c1d839b6ad0e67d8a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_isInitialized</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a6d882ebdebcfda120b5aeec20e0289e6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_isSubModelListSet</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ab51a2db3072f88dbc959cc6e154ef199" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_jointVelocityFullModel</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a3f43860970d9f771cba3fee451787b63" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_Jsdot</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a0c860a4c91c8092b1e8e8b031aca5d17" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_JvBase</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a5dcb5aff89feb6d295817b013efc701f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_name</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ad902ad04911f26984965c58ea1502a29" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_nrOfSubDynamics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a6f6ab82393f65792c50a2f267e2d2235" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_size</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a8095b9422de1dce39587fe8dfc78220f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_stateVariableHandler</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a9e6f8425ebfaad7f5782992e7cbe4c6f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelBaseVel</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a4b672bcc7c161a7ee93913116cb9029e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelJointVel</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1aa638bbfaab66ea8faaa93b4ff88c918d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelKinDynList</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a98c59fa11b143311e5ea39abb922c6ae" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelKinDynList</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a2c4c7e76398161ae566d7ae689b9cb83" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelList</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac2093fec3a4b1d6d8aa78a274ce42984" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_subModelWithGyro</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1aa46481efe7f3493df666d440eec67f92" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_ukfInput</name></member>
@@ -600,7 +570,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a39a613ca2c216fe47a463e07d4d4224f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>m_useBias</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a607541a61a5a73d8c0cd6f49c43b2dbd" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a46d021b5133041f9a29575969ad91e17" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>setState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a07e6af2730f150500e8651329ede39a6" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>setSubModels</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a868e63b7edb2c3416613f722ca8d2f12" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>setSubModels</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a7570b0d3691c7838e5108b13d36196f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a11ea2b1a7f5e305afea1cced7dd225c9" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>update</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aa21073a31262bbbc161f0f36130e8273" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</scope><name>~Dynamics</name></member>

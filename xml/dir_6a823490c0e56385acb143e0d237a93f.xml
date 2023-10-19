@@ -8,10 +8,9 @@
     <innerfile refid="FrictionTorqueStateDynamics_8h">FrictionTorqueStateDynamics.h</innerfile>
     <innerfile refid="GyroscopeMeasurementDynamics_8h">GyroscopeMeasurementDynamics.h</innerfile>
     <innerfile refid="JointVelocityStateDynamics_8h">JointVelocityStateDynamics.h</innerfile>
+    <innerfile refid="KinDynWrapper_8h">KinDynWrapper.h</innerfile>
     <innerfile refid="MotorCurrentMeasurementDynamics_8h">MotorCurrentMeasurementDynamics.h</innerfile>
     <innerfile refid="SubModel_8h">SubModel.h</innerfile>
-    <innerfile refid="SubModelKinDynWrapper_8h">SubModelKinDynWrapper.h</innerfile>
-    <innerfile refid="UkfState_8h">UkfState.h</innerfile>
     <innerfile refid="ZeroVelocityStateDynamics_8h">ZeroVelocityStateDynamics.h</innerfile>
     <briefdescription>
     </briefdescription>

@@ -19,11 +19,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="39" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" bodystart="39" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a2bd3f9d99573b0ca6427abb7ac2a6af0" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01c5852e4eb5bfde90f55cd7933fc32e" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_k0</definition>
+        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_Fc</definition>
         <argsstring></argsstring>
-        <name>m_k0</name>
+        <name>m_Fc</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -32,11 +32,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="40" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" bodystart="40" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a70135b9881052dee26c5aae881761b7d" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01409c82508b6bced9c2131079c8b726" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_k1</definition>
+        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_Fs</definition>
         <argsstring></argsstring>
-        <name>m_k1</name>
+        <name>m_Fs</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -45,11 +45,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="40" column="26" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" bodystart="40" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a6abe930e1c069dbcd1b4ec3a4b56e7c2" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3a61a7d47644a4877c2313c7189ad2d7" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_k2</definition>
+        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_Fv</definition>
         <argsstring></argsstring>
-        <name>m_k2</name>
+        <name>m_Fv</name>
         <briefdescription>
 <para>Friction parameters (see class description). </para>
         </briefdescription>
@@ -169,11 +169,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="49" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" bodystart="49" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abd4e7ce65ba0f4a22fafad176bc29557" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a52424c570d88dccc11c12bfd5c4653ed" prot="private" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_k0k1</definition>
+        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::m_FcFs</definition>
         <argsstring></argsstring>
-        <name>m_k0k1</name>
+        <name>m_FcFs</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -350,22 +350,22 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h" line="91" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1add44c7999e65687d61bfc90ffc4c47f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a02740370d48335e0907feab599cb65fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics::setSubModels</definition>
-        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; SubModelKinDynWrapper &gt;&gt; &amp;kinDynWrapperList) override</argsstring>
+        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; KinDynWrapper &gt;&gt; &amp;kinDynWrapperList) override</argsstring>
         <name>setSubModels</name>
-        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a5eebce9bf3502af823458bbbcfc38133">setSubModels</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ad150cc229cc82083a713ed2ba453e82a">setSubModels</reimplements>
         <param>
           <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
           <declname>subModelList</declname>
         </param>
         <param>
-          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> &gt;&gt; &amp;</type>
+          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> &gt;&gt; &amp;</type>
           <declname>kinDynWrapperList</declname>
         </param>
         <briefdescription>
-<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> object. </para>
+<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> object. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -381,7 +381,7 @@
 <parametername>kinDynWrapperList</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> objects. </para>
+<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> objects. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -545,14 +545,14 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a533d49ef981e6e0b2239ce6ad81ff41a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_dotTauF</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a4729c4d3405a941e9d96edefd6b09dd3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_dT</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a51aeff70fb6384048587c413424d7403" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_elements</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01c5852e4eb5bfde90f55cd7933fc32e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_Fc</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a52424c570d88dccc11c12bfd5c4653ed" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_FcFs</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1afa1454f5b15bf6fb1e4eba84c21f03d7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_frictionTorqueFullModel</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01409c82508b6bced9c2131079c8b726" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_Fs</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3a61a7d47644a4877c2313c7189ad2d7" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_Fv</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac80148fa7320566717a83ca303a40057" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_initialCovariances</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a57fe02624c1ae50c1d839b6ad0e67d8a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_isInitialized</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a446c189e5143bbc98c43f04af4151901" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_jointVelocityFullModel</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a2bd3f9d99573b0ca6427abb7ac2a6af0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_k0</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abd4e7ce65ba0f4a22fafad176bc29557" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_k0k1</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a70135b9881052dee26c5aae881761b7d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_k1</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a6abe930e1c069dbcd1b4ec3a4b56e7c2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_k2</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abf57420ff35525ab2f24a49763a3522e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_name</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a6f6ab82393f65792c50a2f267e2d2235" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_size</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abeadd6870aad54b7c896ef4a88913548" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_stateVariableHandler</name></member>
@@ -560,7 +560,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1af79b12fb9a01f2eb05db0c59a639bad9" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>m_updatedVariable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3264f63d1907b0264c9dfcdc76afb8d5" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a8cb61f5f0955f05aea2499eb49cc64c5" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>setState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1add44c7999e65687d61bfc90ffc4c47f7" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>setSubModels</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a02740370d48335e0907feab599cb65fa" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>setSubModels</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a7570b0d3691c7838e5108b13d36196f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a9e1171fa33e155e5701f15f647ebb838" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>update</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aa21073a31262bbbc161f0f36130e8273" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</scope><name>~Dynamics</name></member>

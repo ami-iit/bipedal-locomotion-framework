@@ -201,28 +201,28 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h" line="132" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a5eebce9bf3502af823458bbbcfc38133" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ad150cc229cc82083a713ed2ba453e82a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>virtual bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics::setSubModels</definition>
-        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; SubModelKinDynWrapper &gt;&gt; &amp;kinDynWrapperList)</argsstring>
+        <argsstring>(const std::vector&lt; SubModel &gt; &amp;subModelList, const std::vector&lt; std::shared_ptr&lt; KinDynWrapper &gt;&gt; &amp;kinDynWrapperList)</argsstring>
         <name>setSubModels</name>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a49867c92d4a27555f8207a71cd260863">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a276c97c689d15bc63ab03addcf206946">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1add44c7999e65687d61bfc90ffc4c47f7">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a07e6af2730f150500e8651329ede39a6">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a2dccec9ac370303a4bba055f55596795">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a98013e3d0f1021d80351213bb9d4a3c8">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1abb1f86a9f4f04bca5b3082d76e230bd8">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a59ee50a8a1cac780673603b5aee1f294">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a553453efa7e0372872ff475029c7921f">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a02740370d48335e0907feab599cb65fa">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a868e63b7edb2c3416613f722ca8d2f12">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1ab264380260105b177da374166e925075">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a80dca8690f6c780adcc692ad81b05df1">setSubModels</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a3ff27c086b4a7ad86176d5d3bb508664">setSubModels</reimplementedby>
         <param>
           <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kindref="compound">SubModel</ref> &gt; &amp;</type>
           <declname>subModelList</declname>
         </param>
         <param>
-          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> &gt;&gt; &amp;</type>
+          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> &gt;&gt; &amp;</type>
           <declname>kinDynWrapperList</declname>
         </param>
         <briefdescription>
-<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> object. </para>
+<para>Set the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> object. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -238,7 +238,7 @@
 <parametername>kinDynWrapperList</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelKinDynWrapper" kindref="compound">SubModelKinDynWrapper</ref> objects. </para>
+<para>list of pointers to <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper" kindref="compound">KinDynWrapper</ref> objects. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -514,7 +514,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1af79b12fb9a01f2eb05db0c59a639bad9" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>m_updatedVariable</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a53c4861a09cd78e7c7548cd46a28b6e3" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a3874e314d326424d9f9514e218badb86" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>setState</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a5eebce9bf3502af823458bbbcfc38133" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>setSubModels</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ad150cc229cc82083a713ed2ba453e82a" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>setSubModels</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a7570b0d3691c7838e5108b13d36196f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aafd426248fbbf4a93405b9f4b321d821" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>update</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1aa21073a31262bbbc161f0f36130e8273" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</scope><name>~Dynamics</name></member>

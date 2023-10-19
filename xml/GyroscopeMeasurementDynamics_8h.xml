@@ -25,7 +25,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>iDynTree/Core/EigenHelpers.h</label>
       </node>
       <node id="10">
@@ -69,11 +69,14 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="25">
-        <label>iDynTree/Model/FreeFloatingState.h</label>
+      <node id="31">
+        <label>manif/SE3.h</label>
       </node>
       <node id="4">
         <label>string</label>
+      </node>
+      <node id="24">
+        <label>map</label>
       </node>
       <node id="3">
         <label>BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</label>
@@ -128,26 +131,6 @@
       <node id="5">
         <label>Eigen/Dense</label>
       </node>
-      <node id="23">
-        <label>BipedalLocomotion/RobotDynamicsEstimator/SubModelKinDynWrapper.h</label>
-        <link refid="SubModelKinDynWrapper_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-      </node>
       <node id="20">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
@@ -156,6 +139,16 @@
       </node>
       <node id="14">
         <label>vector</label>
+      </node>
+      <node id="30">
+        <label>BipedalLocomotion/Math/Wrench.h</label>
+        <link refid="Wrench_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>utility</label>
@@ -166,13 +159,31 @@
       <node id="26">
         <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
         <link refid="ManifConversions_8h"/>
-        <childnode refid="24" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h</label>
+        <link refid="KinDynWrapper_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -187,6 +198,9 @@
       </node>
       <node id="8">
         <label>unordered_map</label>
+      </node>
+      <node id="32">
+        <label>manif/SO3.h</label>
       </node>
       <node id="13">
         <label>chrono</label>
@@ -224,7 +238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="133" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" declline="133" declcolumn="1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="131" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" declline="131" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
