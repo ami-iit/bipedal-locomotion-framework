@@ -180,6 +180,20 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/SE3Task.h" line="81" column="21" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="81" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ace3b3273231975b5f3b32fa11ccdf9a0" prot="private" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::TSID::SE3Task::m_controllerOutput</definition>
+        <argsstring></argsstring>
+        <name>m_controllerOutput</name>
+        <briefdescription>
+<para>Controller output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="82" column="21" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1affe3b8fd4541d8e0b6f1a4912d14bcb3" prot="private" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kindref="member">Mode</ref></type>
         <definition>Mode BipedalLocomotion::TSID::SE3Task::m_controllerMode</definition>
@@ -193,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="84" column="10" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="84" bodyend="-1"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="85" column="10" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
@@ -324,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="102" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="103" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a41f2fc817641302f84354938a12b69cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -354,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="109" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="110" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ae8d7bb9e44fe6a1dc30d4f721f7d398b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -387,7 +401,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="122" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="123" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -405,7 +419,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="128" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="129" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a919b042e697db5ed00e442a10e5fcb24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -459,7 +473,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="137" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="138" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa160bbc967e85bb412ff7ef6d8166e92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -477,7 +491,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="145" column="17"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="146" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad9ef25356e0e2b5ab19db56f46c06014" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -495,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="151" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="152" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ac6d22ed01a62f5b8809939d5d272c4a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -513,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="157" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="158" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -542,7 +556,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="164" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="165" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kindref="member">Mode</ref></type>
@@ -560,7 +574,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="170" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="171" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a7730e223936cfdd3d2fdcc45d1201f51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+        <definition>Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::TSID::SE3Task::getControllerOutput</definition>
+        <argsstring>() const</argsstring>
+        <name>getControllerOutput</name>
+        <briefdescription>
+<para>Get the controller output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>the value of the controller output is changed by the update method. </para>
+</simplesect>
+<simplesect kind="return"><para>a const reference to the controller output. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="178" column="16"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -632,10 +665,11 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/SE3Task.h" line="47" column="1" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="48" bodyend="171"/>
+    <location file="BipedalLocomotion/TSID/SE3Task.h" line="47" column="1" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="48" bodyend="180"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getB</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a7730e223936cfdd3d2fdcc45d1201f51" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getControllerOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a1d152be26f750d933bc07baf1344e97d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getDescription</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a591be3a0f92c9e1c40ccadf85c21f739" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getResidual</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getTaskControllerMode</name></member>
@@ -645,6 +679,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a44bdcaedbd37982290a7131a0055a3cd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_angularVelocitySize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a0e86b8ecde78a0d6e87fcb2c373b2151" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_b</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1affe3b8fd4541d8e0b6f1a4912d14bcb3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_controllerMode</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ace3b3273231975b5f3b32fa11ccdf9a0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_controllerOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_description</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aea2f84d0b02b6ee7ec23ca96ddc2c9e6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_DoFs</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad832ede3ab9ab4e84192af08ca13f291" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_frameIndex</name></member>

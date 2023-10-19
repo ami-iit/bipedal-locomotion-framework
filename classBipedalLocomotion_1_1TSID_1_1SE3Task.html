@@ -294,6 +294,10 @@ $SO(3) \times \mathbb{R}^3$
               <span class="m-doc-wrap-bumper">auto <a href="#a95920083d0e9566673a2dbe0fbd60243" class="m-doc">getTaskControllerMode</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the task controller mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7730e223936cfdd3d2fdcc45d1201f51" class="m-doc">getControllerOutput</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt;</span>
+            </dt>
+            <dd>Get the controller output.</dd>
           </dl>
         </section>
         <section>
@@ -479,6 +483,21 @@ $SO(3) \times \mathbb{R}^3$
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a7730e223936cfdd3d2fdcc45d1201f51"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />TSID::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7730e223936cfdd3d2fdcc45d1201f51" class="m-doc-self">getControllerOutput</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the controller output.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a const reference to the controller output.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the value of the controller output is changed by the update method.</p></aside>
           </div></section>
         </section>
       </div>

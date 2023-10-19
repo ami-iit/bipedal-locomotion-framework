@@ -2073,6 +2073,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ac9a596d36889fd2c291c9e88913bb6e4" kind="variable"><name>m_linearDoFs</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aea2f84d0b02b6ee7ec23ca96ddc2c9e6" kind="variable"><name>m_DoFs</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a0b6660824c00701d11a1dc238e0efdeb" kind="variable"><name>m_jacobian</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ace3b3273231975b5f3b32fa11ccdf9a0" kind="variable"><name>m_controllerOutput</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1affe3b8fd4541d8e0b6f1a4912d14bcb3" kind="variable"><name>m_controllerMode</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9f9f102be69d1f42dee154efda1b51a1" kind="variable"><name>m_spatialVelocitySize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa304a8761af6ce6a05f8ee12abb9796e" kind="variable"><name>m_linearVelocitySize</name></member>
@@ -2087,6 +2088,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ac6d22ed01a62f5b8809939d5d272c4a7" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c" kind="function"><name>setTaskControllerMode</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243" kind="function"><name>getTaskControllerMode</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a7730e223936cfdd3d2fdcc45d1201f51" kind="function"><name>getControllerOutput</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a08e2ce535c0ece8ff1ddbb27a1611192" kind="variable"><name>name</name></member>
