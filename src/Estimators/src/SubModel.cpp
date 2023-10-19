@@ -28,8 +28,7 @@ bool RDE::SubModel::isValid() const
 bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameList,
                                       std::vector<iDynTree::Model>& idynSubModels)
 {
-    constexpr auto logPrefix = "[BipedalLocomotion::RobotDynamicsEstimator::SubModelCreator::"
-                               "splitModel]";
+    constexpr auto logPrefix = "[SubModelCreator::splitModel]";
 
     iDynTree::SubModelDecomposition subModelDecomp;
     iDynTree::Traversal fullModelTraversal;
@@ -107,6 +106,8 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 ft.forceDirection = RDE::FT::Direction::Negative;
             }
 
+            ft.index = idynSubModel.getFrameIndex(ft.frame);
+
             ftList[ftName] = std::move(ft);
         } else
         {
@@ -146,6 +147,8 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
                 ft.name = ftName;
                 ft.frame = ftName;
 
+                ft.index = idynSubModel.getFrameIndex(ft.frame);
+
                 if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
                 {
                     ft.forceDirection = RDE::FT::Direction::Positive;
@@ -174,6 +177,7 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachAcceler
             RDE::Sensor acc;
             acc.name = accListFromConfig[idx].name;
             acc.frame = accListFromConfig[idx].frame;
+            acc.index = subModel.getFrameIndex(acc.frame);
             accList[acc.name] = std::move(acc);
         }
     }
@@ -193,6 +197,7 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachGyrosco
             RDE::Sensor gyro;
             gyro.name = gyroListFromConfig[idx].name;
             gyro.frame = gyroListFromConfig[idx].frame;
+            gyro.index = subModel.getFrameIndex(gyro.frame);
             gyroList[gyro.name] = std::move(gyro);
         }
     }
@@ -200,16 +205,16 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachGyrosco
     return gyroList;
 }
 
-std::vector<std::string> RDE::SubModelCreator::attachExternalContactsToSubModel(
+std::unordered_map<std::string, int> RDE::SubModelCreator::attachExternalContactsToSubModel(
         const std::vector<std::string>& contactsFromConfig, const iDynTree::Model& subModel)
 {
-    std::vector<std::string> contactList;
+    std::unordered_map<std::string, int> contactList;
 
     for (int idx = 0; idx < contactsFromConfig.size(); idx++)
     {
         if (subModel.isFrameNameUsed(contactsFromConfig[idx]))
         {
-            contactList.push_back(contactsFromConfig[idx]);
+            contactList[contactsFromConfig[idx]] = subModel.getFrameIndex(contactsFromConfig[idx]);
         }
     }
 
@@ -262,8 +267,7 @@ bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorL
                                            const std::vector<RDE::Sensor>& gyroList,
                                            const std::vector<std::string>& externalContacts)
 {
-    constexpr auto logPrefix = "[BipedalLocomotion::RobotDynamicsEstimator::SubModelCreator::"
-                               "createSubModels]";
+    constexpr auto logPrefix = "[SubModelCreator::createSubModels]";
 
     // Split model in submodels
     std::vector<std::string> ftList;
@@ -305,8 +309,7 @@ bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorL
 bool RDE::SubModelCreator::createSubModels(
     std::weak_ptr<const blf::ParametersHandler::IParametersHandler> parameterHandler)
 {
-    constexpr auto logPrefix = "[BipedalLocomotion::Estimators::RobotDynamicsEstimator::"
-                               "getSubModels]";
+    constexpr auto logPrefix = "[SubModelCreator::getSubModels]";
 
     auto ptr = parameterHandler.lock();
     if (ptr == nullptr)
@@ -424,7 +427,7 @@ bool RDE::SubModelCreator::setKinDyn(std::shared_ptr<iDynTree::KinDynComputation
 {
     if ((kinDyn == nullptr) || (!kinDyn->isValid()))
     {
-        log()->error("[FeasibleContactWrenchTask::setKinDyn] Invalid kinDyn object.");
+        log()->error("[SubModelCreator::setKinDyn] Invalid kinDyn object.");
         return false;
     }
 
@@ -473,7 +476,7 @@ const std::unordered_map<std::string, RDE::Sensor>& RDE::SubModel::getGyroscopeL
     return this->m_gyroscopeList;
 }
 
-const std::vector<std::string>& RDE::SubModel::getExternalContactList() const
+const std::unordered_map<std::string, int>& RDE::SubModel::getExternalContactList() const
 {
     return this->m_externalContactList;
 }
@@ -507,8 +510,8 @@ const RDE::FT& RDE::SubModel::getFTSensor(const std::string& name)
         return ftIterator->second;
     }
 
-    log()->error("[RobotDynamicsEstimator::getFTSensor] Sensor `{}` not found.", name);
-    static const RDE::FT ft;
+    log()->error("[SubModel::getFTSensor] Sensor `{}` not found.", name);
+    static const RDE::FT ft{};
 
     return ft;
 }
@@ -527,8 +530,8 @@ const RDE::Sensor& RDE::SubModel::getAccelerometer(const std::string& name)
         return accIterator->second;
     }
 
-    log()->error("[RobotDynamicsEstimator::getAccelerometer] Sensor `{}` not found.", name);
-    static const RDE::Sensor acc;
+    log()->error("[SubModel::getAccelerometer] Sensor `{}` not found.", name);
+    static const RDE::Sensor acc{};
 
     return acc;
 }
@@ -547,8 +550,8 @@ const RDE::Sensor& RDE::SubModel::getGyroscope(const std::string& name)
         return gyroIterator->second;
     }
 
-    log()->error("[RobotDynamicsEstimator::getGyroscope] Sensor `{}` not found.", name);
-    static const RDE::Sensor gyro;
+    log()->error("[SubModel::getGyroscope] Sensor `{}` not found.", name);
+    static const RDE::Sensor gyro{};
 
     return gyro;
 }
@@ -558,7 +561,7 @@ bool RDE::SubModel::hasGyroscope(const std::string& name) const
     return m_gyroscopeList.find(name) != m_gyroscopeList.end();
 }
 
-const std::string& RDE::SubModel::getExternalContact(const int index) const
+int RDE::SubModel::getExternalContactIndex(const std::string& name)
 {
-    return m_externalContactList.at(index);
+    return m_externalContactList[name];
 }

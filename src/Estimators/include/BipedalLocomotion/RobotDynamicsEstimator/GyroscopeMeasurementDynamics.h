@@ -37,8 +37,8 @@ class GyroscopeMeasurementDynamics : public Dynamics
     bool m_isSubModelListSet{false}; /**< Boolean flag saying if the sub-model list has been set. */
     int m_nrOfSubDynamics; /**< Number of sub-dynamics which corresponds to the number of
                               sub-models. */
-    std::vector<std::shared_ptr<SubModelKinDynWrapper>> m_subModelKinDynList; /**< Vector of
-                                                                                 SubModelKinDynWrapper
+    std::vector<std::shared_ptr<KinDynWrapper>> m_subModelKinDynList; /**< Vector of
+                                                                                 KinDynWrapper
                                                                                  objects. */
     std::vector<SubModel> m_subModelList; /**< Vector of SubModel objects. */
     std::vector<Eigen::VectorXd> m_subModelJointVel; /**< Updated joint velocities of each
@@ -53,9 +53,7 @@ class GyroscopeMeasurementDynamics : public Dynamics
                                                         and the sizes in the ukf state vector. */
     Eigen::VectorXd m_covSingleVar; /**< Covariance of the gyroscope measurement from configuration.
                                      */
-    manif::SE3d::Tangent m_subModelBaseVel; /**< Submodel base velocity. */
-    Eigen::VectorXd m_JvBase; /**< Jacobian times base velocity. */
-    Eigen::VectorXd m_Jsdot; /**< Jacobian times joint velocity. */
+    manif::SE3d::Tangent m_accelerometerVelocity; /**< Accelerometer velocity. */
 
 public:
     /*
@@ -93,14 +91,14 @@ public:
     bool finalize(const System::VariablesHandler& stateVariableHandler) override;
 
     /**
-     * Set the SubModelKinDynWrapper object.
+     * Set the KinDynWrapper object.
      * @param subModelList list of SubModel objects
-     * @param kinDynWrapperList list of pointers to SubModelKinDynWrapper objects.
+     * @param kinDynWrapperList list of pointers to KinDynWrapper objects.
      * @return True in case of success, false otherwise.
      */
     bool setSubModels(
         const std::vector<SubModel>& subModelList,
-        const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList) override;
+        const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList) override;
 
     /**
      * Controls whether the variable handler contains the variables on which the dynamics depend.

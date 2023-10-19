@@ -80,14 +80,14 @@ public:
     bool finalize(const System::VariablesHandler& measurementVariableHandler) override;
 
     /**
-     * Set the SubModelKinDynWrapper object.
+     * Set the KinDynWrapper object.
      * @param subModelList list of SubModel objects
-     * @param kinDynWrapperList list of pointers to SubModelKinDynWrapper objects.
+     * @param kinDynWrapperList list of pointers to KinDynWrapper objects.
      * @return True in case of success, false otherwise.
      */
     bool setSubModels(
         const std::vector<SubModel>& subModelList,
-        const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList) override;
+        const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList) override;
 
     /**
      * Controls whether the variable handler contains the variables on which the dynamics depend.

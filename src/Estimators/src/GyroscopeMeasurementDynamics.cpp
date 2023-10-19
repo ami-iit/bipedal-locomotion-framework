@@ -124,7 +124,7 @@ bool RDE::GyroscopeMeasurementDynamics::finalize(
 
 bool RDE::GyroscopeMeasurementDynamics::setSubModels(
     const std::vector<SubModel>& subModelList,
-    const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList)
+    const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList)
 {
     constexpr auto errorPrefix = "[GyroscopeMeasurementDynamics::setSubModels]";
 
@@ -173,35 +173,19 @@ bool RDE::GyroscopeMeasurementDynamics::checkStateVariableHandler()
 
 bool RDE::GyroscopeMeasurementDynamics::update()
 {
-    // base_J v_base + joint_J s_dot + bias
     for (int index = 0; index < m_subModelWithGyro.size(); index++)
     {
-        m_subModelBaseVel = m_subModelKinDynList[m_subModelWithGyro[index]]->getBaseVelocity();
-
-        m_JvBase.noalias() = m_subModelKinDynList[m_subModelWithGyro[index]]
-                                 ->getGyroscopeJacobian(m_name)
-                                 .leftCols<6>()
-                             * m_subModelBaseVel.coeffs();
+        m_accelerometerVelocity = Conversions::toManifTwist(
+            m_subModelKinDynList[m_subModelWithGyro[index]]->getFrameVel(
+                m_subModelList[m_subModelWithGyro[index]].getGyroscope(m_name).index));
 
         m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-            = m_JvBase.segment(3, 3);
+            = m_accelerometerVelocity.ang();
 
         if (m_useBias)
         {
             m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
                 += m_bias;
-        }
-
-        if (m_subModelList[m_subModelWithGyro[index]].getJointMapping().size() > 0)
-        {
-            m_Jsdot.noalias()
-                = m_subModelKinDynList[m_subModelWithGyro[index]]
-                      ->getGyroscopeJacobian(m_name)
-                      .rightCols(m_subModelList[m_subModelWithGyro[index]].getModel().getNrOfDOFs())
-                  * m_subModelJointVel[m_subModelWithGyro[index]];
-
-            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
-                += m_Jsdot.segment(3, 3);
         }
     }
 

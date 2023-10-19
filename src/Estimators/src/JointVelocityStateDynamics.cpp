@@ -15,7 +15,7 @@ RDE::JointVelocityStateDynamics::JointVelocityStateDynamics() = default;
 
 RDE::JointVelocityStateDynamics::~JointVelocityStateDynamics() = default;
 
-bool RDE::JointVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::SubModelKinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::JointVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
@@ -108,7 +108,7 @@ bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &s
 
 bool RDE::JointVelocityStateDynamics::update()
 {
-    m_updatedVariable.noalias() = m_jointVelocityFullModel + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
+    m_updatedVariable = m_jointVelocityFullModel + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
 
     return true;
 }

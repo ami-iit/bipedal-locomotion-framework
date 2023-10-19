@@ -71,12 +71,12 @@ public:
     bool finalize(const System::VariablesHandler& stateVariableHandler) override;
 
     /**
-     * Set the SubModelKinDynWrapper object.
+     * Set the KinDynWrapper object.
      * @param subModelList list of SubModel objects
-     * @param kinDynWrapperList list of pointers to SubModelKinDynWrapper objects.
+     * @param kinDynWrapperList list of pointers to KinDynWrapper objects.
      * @return True in case of success, false otherwise.
      */
-    bool setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<SubModelKinDynWrapper>>& kinDynWrapperList) override;
+    bool setSubModels(const std::vector<SubModel>& subModelList, const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList) override;
 
     /**
      * Update the content of the element.

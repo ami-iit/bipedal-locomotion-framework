@@ -46,7 +46,6 @@ bool RDE::MotorCurrentMeasurementDynamics::initialize(
     if (!ptr->getParameter("elements", m_elements))
     {
         log()->info("{} Variable elements not found.", errorPrefix);
-        m_elements = {};
     }
 
     // Set the torque constants
@@ -108,7 +107,7 @@ bool RDE::MotorCurrentMeasurementDynamics::finalize(
 
 bool RDE::MotorCurrentMeasurementDynamics::setSubModels(
     const std::vector<RDE::SubModel>& /*subModelList*/,
-    const std::vector<std::shared_ptr<RDE::SubModelKinDynWrapper>>& /*kinDynWrapperList*/)
+    const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
