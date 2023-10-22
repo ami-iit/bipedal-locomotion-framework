@@ -77,11 +77,11 @@ endif()
 # `-- bindings.<cpython_extension>
 # `-- utils.py
 
-install(TARGETS pybind11_blf DESTINATION ${FRAMEWORK_PYTHON_INSTALL_DIR})
+install(TARGETS pybind11_blf DESTINATION ${PYTHON_INSTDIR})
 
 # Install the __init__.py file
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/all.py"
-  DESTINATION ${FRAMEWORK_PYTHON_INSTALL_DIR})
+  DESTINATION ${PYTHON_INSTDIR})
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/utils.py"
-  DESTINATION ${FRAMEWORK_PYTHON_INSTALL_DIR})
+  DESTINATION ${PYTHON_INSTDIR})
