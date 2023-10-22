@@ -31,14 +31,16 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
     if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR)
       if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
-        set(FRAMEWORK_PYTHON_INSTALL_DIR ${Python3_SITELIB}/bipedal_locomotion_framework)
+        set(FRAMEWORK_PYTHON_INSTALL_DIR ${Python3_SITELIB})
       else()
         execute_process(COMMAND ${Python3_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
                         OUTPUT_VARIABLE _PYTHON_INSTDIR)
         string(STRIP ${_PYTHON_INSTDIR} _PYTHON_INSTDIR_CLEAN)
-        set(FRAMEWORK_PYTHON_INSTALL_DIR ${_PYTHON_INSTDIR_CLEAN}/bipedal_locomotion_framework)
+        set(FRAMEWORK_PYTHON_INSTALL_DIR ${_PYTHON_INSTDIR_CLEAN})
       endif()
     endif()
+    set(PYTHON_INSTDIR ${FRAMEWORK_PYTHON_INSTALL_DIR}/bipedal_locomotion_framework)
+
 
     # Folder of the Python package within the build tree.
     # It is used for the Python tests.
@@ -54,7 +56,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
     # Install the __init__.py file
     install(FILES "${BLF_PYTHON_PACKAGE}/__init__.py"
-            DESTINATION ${FRAMEWORK_PYTHON_INSTALL_DIR})
+            DESTINATION ${PYTHON_INSTDIR})
 
     # Install pip metadata files to ensure that blf installed via CMake is listed by pip list
     # See https://packaging.python.org/specifications/recording-installed-packages/
@@ -64,7 +66,6 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
     set(BLF_PYTHON_PIP_METADATA_INSTALLER "cmake" CACHE STRING "Specify the string to identify the pip Installer. Default: cmake, change this if you are using another tool.")
     mark_as_advanced(BLF_PYTHON_PIP_METADATA_INSTALLER)
     if(BLF_PYTHON_PIP_METADATA_INSTALL)
-      get_filename_component(PYTHON_METADATA_PARENT_DIR ${FRAMEWORK_PYTHON_INSTALL_DIR} DIRECTORY)
       file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/METADATA "")
       file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/METADATA "Metadata-Version: 2.1${NEW_LINE}")
       file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/METADATA "Name: bipedal_locomotion_framework${NEW_LINE}")
@@ -72,7 +73,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
       file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/INSTALLER "${BLF_PYTHON_PIP_METADATA_INSTALLER}${NEW_LINE}")
       install(
         FILES "${CMAKE_CURRENT_BINARY_DIR}/METADATA" "${CMAKE_CURRENT_BINARY_DIR}/INSTALLER"
-        DESTINATION ${PYTHON_METADATA_PARENT_DIR}/bipedal_locomotion_framework-${BipedalLocomotionFramework_VERSION}.dist-info)
+        DESTINATION ${FRAMEWORK_PYTHON_INSTALL_DIR}/bipedal_locomotion_framework-${BipedalLocomotionFramework_VERSION}.dist-info)
     endif()
 
 endif()
