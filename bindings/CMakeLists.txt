@@ -31,7 +31,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
 
     # Install the resulting Python package for the active interpreter
     if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
-      if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR) 
+      if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR)
         set(FRAMEWORK_PYTHON_INSTALL_DIR ${Python3_SITELIB}/bipedal_locomotion_framework)
       endif()
     else()
