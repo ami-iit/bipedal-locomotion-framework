@@ -29,13 +29,10 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
         "Do you want BLF to detect and use the active site-package directory? (it could be a system dir)"
         FALSE)
 
-    # Install the resulting Python package for the active interpreter
-    if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
-      if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR)
+    if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR)
+      if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
         set(FRAMEWORK_PYTHON_INSTALL_DIR ${Python3_SITELIB}/bipedal_locomotion_framework)
-      endif()
-    else()
-      if(NOT DEFINED FRAMEWORK_PYTHON_INSTALL_DIR)
+      else()
         execute_process(COMMAND ${Python3_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
                         OUTPUT_VARIABLE _PYTHON_INSTDIR)
         string(STRIP ${_PYTHON_INSTDIR} _PYTHON_INSTDIR_CLEAN)
