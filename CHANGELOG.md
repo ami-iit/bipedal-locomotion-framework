@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
 - Change implementation of classes used in `RobotDynamicsEstimator` to optimize performance (https://github.com/ami-iit/bipedal-locomotion-framework/pull/731)
+- CMake: Permit to explictly specify Python installation directory by setting the `FRAMEWORK_PYTHON_INSTALL_DIR` CMake variable (https://github.com/ami-iit/bipedal-locomotion-framework/pull/741)
 
 ## [0.15.0] - 2023-09-05
 ### Added
