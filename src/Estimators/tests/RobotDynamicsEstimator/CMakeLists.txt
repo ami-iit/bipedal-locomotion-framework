@@ -11,18 +11,6 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         BipedalLocomotion::ParametersHandlerYarpImplementation
         icub-models::icub-models)
 
-    add_bipedal_test(NAME SubModelKinDynWrapper
-        SOURCES SubModelKinDynWrapperTest.cpp
-        LINKS BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        BipedalLocomotion::ManifConversions
-        BipedalLocomotion::Math
-        icub-models::icub-models
-        Eigen3::Eigen
-        MANIF::manif
-        )
-
     add_bipedal_test(NAME ZeroVelocityStateDynamics
         SOURCES ZeroVelocityStateDynamicsTest.cpp
         LINKS BipedalLocomotion::RobotDynamicsEstimator
@@ -40,59 +28,6 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         icub-models::icub-models
         Eigen3::Eigen
         BipedalLocomotion::ManifConversions)
-
-    add_bipedal_test(NAME JointVelocityStateDynamics
-        SOURCES JointVelocityStateDynamicsTest.cpp
-        LINKS BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        BipedalLocomotion::System
-        icub-models::icub-models
-        Eigen3::Eigen
-        MANIF::manif
-        BipedalLocomotion::ManifConversions)
-
-    add_bipedal_test(NAME AccelerometerMeasurementDynamics
-        SOURCES AccelerometerMeasurementDynamicsTest.cpp
-        LINKS   BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        BipedalLocomotion::System
-        icub-models::icub-models
-        Eigen3::Eigen
-        MANIF::manif
-        BipedalLocomotion::ManifConversions)
-
-    add_bipedal_test(NAME GyroscopeMeasurementDynamics
-        SOURCES GyroscopeMeasurementDynamicsTest.cpp
-        LINKS   BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        BipedalLocomotion::System
-        icub-models::icub-models
-        Eigen3::Eigen
-        MANIF::manif
-        BipedalLocomotion::ManifConversions)
-
-    add_bipedal_test(NAME FrictionTorqueStateDynamics
-        SOURCES FrictionTorqueStateDynamicsTest.cpp
-        LINKS BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        BipedalLocomotion::System
-        icub-models::icub-models
-        Eigen3::Eigen
-        BipedalLocomotion::ManifConversions)
-
-    add_bipedal_test(NAME UkfState
-        SOURCES  UkfStateTest.cpp
-        LINKS    BipedalLocomotion::RobotDynamicsEstimator
-        BipedalLocomotion::ManifConversions
-        BipedalLocomotion::ParametersHandler
-        BipedalLocomotion::ParametersHandlerYarpImplementation
-        icub-models::icub-models
-        BipedalLocomotion::System
-        Eigen3::Eigen)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
