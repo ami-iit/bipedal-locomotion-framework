@@ -42,8 +42,17 @@ struct SO3PlannerState
 
 /**
  * SO3Planner implements a minimum jerk trajectory planner for object belonging to SO(3). The
- * planner assumes initial and final angular acceleration and velocity of the object equal to zero.
- * The generated velocity and acceleration are written in the inertial or in body-fixed frame
+ * planner assumes initial and final angular acceleration and velocity proportional to the error
+ * between the initial and final rotation. Where the error formulation depends on the trivialization
+ * used. In details, for left trivialized - body frame
+ * \f[
+ * \epsilon = \text{log} \left(R_0^\top R_f \right)
+ * \f]
+ * for right trivialized - inertial frame
+ * \f[
+ * \epsilon = \text{log} \left(R_f^\top R_0 \right)
+ * \f]
+ * @note The generated velocity and acceleration are written in the inertial or in body-fixed frame
  * accordingly to the chosen trivialization.
  * @tparam chosen trivialization:
  * - The right trivialization planner generates a velocity and an acceleration expressed in the
