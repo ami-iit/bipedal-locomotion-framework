@@ -18,7 +18,7 @@
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Source.h>
-#include <BipedalLocomotion/ReducedModelControllers/BaseCentroidalMPC.h>
+#include <BipedalLocomotion/ReducedModelControllers/ICentroidalMPC.h>
 
 namespace BipedalLocomotion
 {
@@ -39,7 +39,7 @@ namespace ReducedModelControllers
  * Locomotion with Step Adjustment," 2022 International Conference on Robotics and Automation
  * (ICRA), Philadelphia, PA, USA, 2022, pp. 10412-10419, doi: 10.1109/ICRA46639.2022.9811670.
  */
-class CentroidalMPC : public  BaseCentroidalMPC
+class CentroidalMPC : public  ICentroidalMPC
 {
 public:
     /**
