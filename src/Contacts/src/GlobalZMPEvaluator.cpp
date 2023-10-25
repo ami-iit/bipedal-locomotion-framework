@@ -73,7 +73,6 @@ bool GlobalZMPEvaluator::setInput(const std::vector<Contacts::ContactWrench>& in
     return true;
 }
 
-
 bool GlobalZMPEvaluator::isOutputValid() const
 {
     return m_isOutputValid;
@@ -138,7 +137,7 @@ bool GlobalZMPEvaluator::advance()
     if (numberOfActiveSupports > 1 && m_constantZMPMaxCounter > 0)
     {
         const double zmpDifference = (globalZMP - m_zmp).norm();
-        
+
         // check if the ZMP is constant
         if (zmpDifference < m_constantZMPTolerance)
         {
