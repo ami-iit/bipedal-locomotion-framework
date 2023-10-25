@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="94" column="30" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="94" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="103" column="30" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a9cc94457d7efe3a508e74c35527f334c" prot="public" static="no" mutable="no">
         <type>manif::SO3d::Tangent</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="95" column="30" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="95" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="104" column="30" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a11f8604ebe2fba4be4f2ecde55a1042b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="96" column="14" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="96" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SO3Planner.h" line="105" column="14" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="105" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="92" column="5" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="93" bodyend="97"/>
+    <location file="BipedalLocomotion/Planners/SO3Planner.h" line="101" column="5" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="102" bodyend="106"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a9cc94457d7efe3a508e74c35527f334c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner::BoundaryConditions</scope><name>acceleration</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1SO3Planner_1_1BoundaryConditions_1a11f8604ebe2fba4be4f2ecde55a1042b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SO3Planner::BoundaryConditions</scope><name>isSet</name></member>
