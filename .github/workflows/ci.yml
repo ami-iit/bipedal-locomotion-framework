@@ -158,7 +158,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}-bayes-filters-${{ env.bayes_filters_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
@@ -578,9 +578,9 @@ jobs:
       shell: bash
       run: |
         cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models; do
+        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models BayesFilters; do
             echo "Testing ${missing_dep} as missing dependency."
-            # Deselect missing dependency and build
+            # Deselect missing dependencies and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
             cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
             # Enable again dependency
