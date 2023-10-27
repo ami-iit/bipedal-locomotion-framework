@@ -334,7 +334,7 @@ jobs:
        # bayes-filters
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/bayes-filters-lib
-        cd BayesFilters
+        cd bayes-filters-lib
         git checkout ${bayes_filters_TAG}
         mkdir build
         cd build
@@ -485,7 +485,7 @@ jobs:
         # bayes-filters
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/bayes-filters-lib
-        cd BayesFilters
+        cd bayes-filters-lib
         git checkout ${bayes_filters_TAG}
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
