@@ -331,7 +331,7 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-       # bayes-filters
+        # bayes-filters
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/bayes-filters-lib
         cd bayes-filters-lib
