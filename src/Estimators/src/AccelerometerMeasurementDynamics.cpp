@@ -7,10 +7,10 @@
 
 #include <Eigen/Dense>
 
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
-#include <BipedalLocomotion/Conversions/ManifConversions.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
@@ -173,42 +173,55 @@ bool RDE::AccelerometerMeasurementDynamics::update()
     {
         if (m_subModelList[subDynamicsIdx].getModel().getNrOfDOFs() > 0)
         {
-            for (int jointIdx = 0; jointIdx < m_subModelList[subDynamicsIdx].getJointMapping().size(); jointIdx++)
+            for (int jointIdx = 0;
+                 jointIdx < m_subModelList[subDynamicsIdx].getJointMapping().size();
+                 jointIdx++)
             {
-                m_subModelJointAcc[subDynamicsIdx][jointIdx] = m_ukfInput.robotJointAccelerations[m_subModelList[subDynamicsIdx].getJointMapping()[jointIdx]];
+                m_subModelJointAcc[subDynamicsIdx][jointIdx]
+                    = m_ukfInput.robotJointAccelerations[m_subModelList[subDynamicsIdx]
+                                                             .getJointMapping()[jointIdx]];
             }
         }
     }
 
-
     for (int index = 0; index < m_subModelsWithAccelerometer.size(); index++)
     {
-        m_subModelBaseAcceleration = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getNuDot().head(6);
+        m_subModelBaseAcceleration
+            = m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getNuDot().head(6);
 
-        if (!m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getFrameAcc(m_accelerometerFrameName,
-                                                     m_subModelBaseAcceleration,
-                                                     m_subModelJointAcc[m_subModelsWithAccelerometer[index]],
-                                                     iDynTree::make_span(
-                                                         m_accelerometerFameAcceleration)))
+        if (!m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
+                 ->getFrameAcc(m_accelerometerFrameName,
+                               m_subModelBaseAcceleration,
+                               m_subModelJointAcc[m_subModelsWithAccelerometer[index]],
+                               iDynTree::make_span(m_accelerometerFameAcceleration.data(),
+                                                   m_accelerometerFameAcceleration.size())))
         {
             log()->error("{} Failed while getting the accelerometer frame acceleration.",
                          errorPrefix);
             return false;
         }
 
-        m_imuRworld = Conversions::toManifRot(m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getWorldTransform(m_accelerometerFrameName).getRotation().inverse());
+        m_imuRworld
+            = Conversions::toManifRot(m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
+                                          ->getWorldTransform(m_accelerometerFrameName)
+                                          .getRotation()
+                                          .inverse());
 
         m_accRg = m_imuRworld.act(m_gravity);
 
-        m_accelerometerFameVelocity = Conversions::toManifTwist(m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getFrameVel(m_accelerometerFrameName));
+        m_accelerometerFameVelocity = Conversions::toManifTwist(
+            m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]->getFrameVel(
+                m_accelerometerFrameName));
 
         m_vCrossW = m_accelerometerFameVelocity.lin().cross(m_accelerometerFameVelocity.ang());
 
-        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) = m_accelerometerFameAcceleration.lin() - m_vCrossW - m_accRg;
+        m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
+            = m_accelerometerFameAcceleration.lin() - m_vCrossW - m_accRg;
 
         if (m_useBias)
         {
-            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size()) += m_bias;
+            m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
+                += m_bias;
         }
     }
 
