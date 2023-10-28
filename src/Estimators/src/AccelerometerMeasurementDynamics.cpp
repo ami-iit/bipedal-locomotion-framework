@@ -11,6 +11,7 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
@@ -183,6 +184,7 @@ bool RDE::AccelerometerMeasurementDynamics::update()
             }
         }
     }
+
 
     for (int index = 0; index < m_subModelsWithAccelerometer.size(); index++)
     {
