@@ -194,7 +194,7 @@ bool RDE::AccelerometerMeasurementDynamics::update()
                                m_subModelBaseAcceleration,
                                m_subModelJointAcc[m_subModelsWithAccelerometer[index]],
                                iDynTree::make_span(m_accelerometerFameAcceleration.data(),
-                                                   m_accelerometerFameAcceleration.size())))
+                                                   manif::SE3d::Tangent::DoF)))
         {
             log()->error("{} Failed while getting the accelerometer frame acceleration.",
                          errorPrefix);
