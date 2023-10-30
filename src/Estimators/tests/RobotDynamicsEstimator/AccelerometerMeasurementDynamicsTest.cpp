@@ -94,7 +94,7 @@ bool setStaticState(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
                                  iDynTree::make_span(gravity.data(), gravity.size()));
 }
 
-IParametersHandler::shared_ptr createModelVariableHandler()
+IParametersHandler::shared_ptr createModelParameterHandler()
 {
     // Create model variable handler to load the robot model
     auto modelParamHandler = std::make_shared<StdImplementation>();
@@ -191,8 +191,6 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
                           VariablesHandler& stateVariableHandler)
 {
     manif::SE3d worldTBase;
-    manif::SE3d::Tangent subModelBaseVel;
-    subModelBaseVel.setZero();
     std::vector<Eigen::VectorXd> subModelJointPos(subModelList.size()); /**< List of sub-model joint
                                                                            velocities. */
     std::vector<Eigen::VectorXd> subModelJointVel(subModelList.size()); /**< List of sub-model joint
@@ -250,12 +248,10 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
         // Set the sub-model state
         kinDynWrapperList[subModelIdx]
             ->setRobotState(worldTBase.transform(),
-                            iDynTree::make_span(subModelJointPos[subModelIdx].data(),
-                                                subModelJointPos[subModelIdx].size()),
-                            iDynTree::make_span(subModelBaseVel.data(), subModelBaseVel.size()),
-                            iDynTree::make_span(subModelJointVel[subModelIdx].data(),
-                                                subModelJointVel[subModelIdx].size()),
-                            iDynTree::make_span(gravity.data(), gravity.size()));
+                            subModelJointPos[subModelIdx],
+                            iDynTree::make_span(input.robotBaseVelocity.data(), manif::SE3d::Tangent::DoF),
+                            subModelJointVel[subModelIdx],
+                            gravity);
 
         // Forward dynamics
         int offset = stateVariableHandler.getVariable("tau_m").offset;
@@ -299,7 +295,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     REQUIRE(stateVariableHandler.addVariable("r_leg_ft_acc_bias", 3));
 
     // Create parameter handler to load the model
-    auto modelParamHandler = createModelVariableHandler();
+    auto modelParamHandler = createModelParameterHandler();
 
     // Load model
     iDynTree::ModelLoader modelLoader;
@@ -323,6 +319,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
         REQUIRE(kinDynWrapperList[idx]->setModel(subModelList[idx]));
     }
 
+    // Create the dynamics
     AccelerometerMeasurementDynamics accDynamics;
     REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
     REQUIRE(accDynamics.initialize(accHandler));
