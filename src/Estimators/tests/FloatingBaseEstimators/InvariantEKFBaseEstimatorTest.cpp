@@ -119,7 +119,7 @@ TEST_CASE("Invariant EKF Base Estimator")
     REQUIRE(populateConfig(parameterHandler,nr_joints));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5_plus");
+    const std::string model_path = iCubModels::getModelFile("iCubGenova02");
     std::cout << model_path << std::endl;
 
     // load model using modelComputationsHelper
