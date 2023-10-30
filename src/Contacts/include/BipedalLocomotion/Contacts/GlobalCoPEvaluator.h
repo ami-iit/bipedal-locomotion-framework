@@ -68,7 +68,7 @@ public:
      * |       Parameter Name       |       Type       |                                                     Description                                              | Mandatory |
      * |:--------------------------:|:----------------:|:------------------------------------------------------------------------------------------------------------:|:---------:|
      * |   `minimum_normal_force`   |     `double`     |                     Minimum normal force required to consider a contact active (in N)                        |    Yes    |
-     * |   `cop_admissible_limits`  | `vector<double>` |         2D vector defines CoP region, comparing absolute CoP x and y to the 1st and 2nd elements             |    Yes    |
+     * |   `cop_admissible_limits`  | `vector<double>` |         2D vector defines CoP region, comparing the local CoP x and y to the 1st and 2nd elements            |    Yes    |
      * |  `constant_cop_tolerance`  |     `double`     |                 Radius (in m) of a sphere used to considered if the global CoP is constant                   |    Yes    |
      * | `constant_cop_max_counter` |      `int`       | Maximum number of samples after which a constant CoP generates an error. If negative the check is disabled.  |    Yes    |
      * @return true in case of success, false otherwise.
