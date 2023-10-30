@@ -126,7 +126,7 @@ bool GlobalCoPEvaluator::advance()
 
     if (numberOfActiveSupports == 0)
     {
-        log()->error("{} Zero contacts are active the CoP is not valid.", logPrefix);
+        log()->error("{} Zero contacts are active, the CoP is not valid.", logPrefix);
         return false;
     }
 
