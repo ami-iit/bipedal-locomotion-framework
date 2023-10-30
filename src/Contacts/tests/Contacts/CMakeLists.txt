@@ -12,4 +12,9 @@ add_bipedal_test(
   SOURCES ContactPhaseListTest.cpp
   LINKS BipedalLocomotion::Contacts)
 
+add_bipedal_test(
+  NAME GlobalCoPEvaluator
+  SOURCES GlobalCoPEvaluatorTest.cpp
+  LINKS BipedalLocomotion::Contacts)
+
 

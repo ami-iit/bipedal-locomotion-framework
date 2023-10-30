@@ -9,6 +9,7 @@
 
 #include <BipedalLocomotion/bindings/Contacts/ContactDetectors.h>
 #include <BipedalLocomotion/bindings/Contacts/Contacts.h>
+#include <BipedalLocomotion/bindings/Contacts/GlobalCoPEvaluator.h>
 #include <BipedalLocomotion/bindings/Contacts/Module.h>
 
 namespace BipedalLocomotion
@@ -30,6 +31,8 @@ void CreateModule(pybind11::module& module)
     CreateContactDetector(module);
     CreateSchmittTriggerDetector(module);
     CreateFixedFootDetector(module);
+
+    CreateGlobalCoPEvaluator(module);
 }
 } // namespace Contacts
 } // namespace bindings

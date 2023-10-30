@@ -103,7 +103,6 @@ struct PlannedContact : ContactBase
  */
 struct EstimatedContact : ContactBase
 {
-
     /**
      * Instant at which the contact state was toggled.
      */
@@ -130,6 +129,7 @@ struct EstimatedContact : ContactBase
  */
 struct ContactWrench : public ContactBase
 {
+    /**< Wrench acting on the contact */
     BipedalLocomotion::Math::Wrenchd wrench{BipedalLocomotion::Math::Wrenchd::Zero()};
 };
 

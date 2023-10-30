@@ -17,7 +17,7 @@ using namespace BipedalLocomotion::Math;
 
 TEST_CASE("Wrench test")
 {
-    const Wrenchd wrench = Wrenchd::Random();
+    Wrenchd wrench = Wrenchd::Random();
 
     SECTION("Get force and torque")
     {
@@ -55,5 +55,18 @@ TEST_CASE("Wrench test")
 
         REQUIRE(rotatedWrench.force().isApprox(rotation.rotation() * wrench.force()));
         REQUIRE(rotatedWrench.torque().isApprox(rotation.rotation() * wrench.torque()));
+    }
+
+    SECTION("Local CoP")
+    {
+        // ensure that the force is positive
+        wrench.force()[2] = 10;
+
+        Eigen::Vector3d expectedCoP;
+        expectedCoP[0] = -wrench.torque()[1] / wrench.force()[2];
+        expectedCoP[1] = wrench.torque()[0] / wrench.force()[2];
+        expectedCoP[2] = 0;
+
+        REQUIRE(wrench.getLocalCoP().isApprox(expectedCoP));
     }
 }

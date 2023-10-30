@@ -9,7 +9,9 @@ if (FRAMEWORK_COMPILE_Contact)
     NAME                  Contacts
     SUBDIRECTORIES        tests/Contacts
     PUBLIC_HEADERS        ${H_PREFIX}/Contact.h ${H_PREFIX}/ContactList.h ${H_PREFIX}/ContactPhase.h ${H_PREFIX}/ContactPhaseList.h ${H_PREFIX}/ContactListJsonParser.h
+                          ${H_PREFIX}/GlobalCoPEvaluator.h
     SOURCES               src/Contact.cpp src/ContactList.cpp src/ContactPhase.cpp src/ContactPhaseList.cpp src/ContactListJsonParser.cpp
+                          src/GlobalCoPEvaluator.cpp
     PUBLIC_LINK_LIBRARIES MANIF::manif BipedalLocomotion::Math BipedalLocomotion::TextLogging
     PRIVATE_LINK_LIBRARIES nlohmann_json::nlohmann_json
     INSTALLATION_FOLDER   Contacts)

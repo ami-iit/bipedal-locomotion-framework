@@ -8,8 +8,8 @@ if(TARGET BipedalLocomotion::Contacts AND TARGET BipedalLocomotion::ContactDetec
 
   add_bipedal_locomotion_python_module(
     NAME ContactsBindings
-    SOURCES src/Contacts.cpp src/ContactDetectors.cpp  src/Module.cpp
-    HEADERS ${H_PREFIX}/Contacts.h ${H_PREFIX}/ContactDetectors.h ${H_PREFIX}/Module.h
+    SOURCES src/Contacts.cpp src/ContactDetectors.cpp src/GlobalCoPEvaluator.cpp src/Module.cpp
+    HEADERS ${H_PREFIX}/Contacts.h ${H_PREFIX}/ContactDetectors.h ${H_PREFIX}/GlobalCoPEvaluator.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::Contacts BipedalLocomotion::ContactDetectors
     TESTS tests/test_contact.py tests/test_fixed_foot_detector.py tests/test_schmitt_trigger_detector.py)
 

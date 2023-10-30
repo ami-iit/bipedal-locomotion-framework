@@ -66,6 +66,31 @@ public:
     {
         return this->Base::template tail<3>();
     }
+
+    /**
+     * Get the local CoP associated with the wrench.
+     * The center of pressure (CoP) is defined is a dynamic point defined in between two
+     * bodies in contact. The CoP is a local quantity defined from interaction forces at the contact
+     * surface.
+     * @note A more detailed explanation can be found in: P. Sardain and G. Bessonnet, "Forces
+     * acting on a biped robot. Center of pressure-zero moment point," in IEEE Transactions on
+     * Systems, Man, and Cybernetics - Part A: Systems and Humans, vol. 34, no. 5, pp. 630-637,
+     * Sept. 2004, doi: 10.1109/TSMCA.2004.832811. An interested reader can also check the following
+     * https://scaron.info/robotics/zero-tilting-moment-point.html
+     * @warning This function assumes that the wrench is expressed in the body frame. I.e., a frame
+     * attached to the body belonging to the contact area and the z-component of the contact force
+     * is the resultant pressure force.
+     * @warning This function assumes that the z-component of the contact force is non-zero.
+     * @return the CoP expressed in the local frame
+     */
+    Eigen::Matrix<Scalar, 3, 1> getLocalCoP() const
+    {
+        Eigen::Matrix<Scalar, 3, 1> localCoP;
+        localCoP[0] = -this->torque()[1] / this->force()[2];
+        localCoP[1] = this->torque()[0] / this->force()[2];
+        localCoP[2] = Scalar(0);
+        return localCoP;
+    }
 };
 
 /**
