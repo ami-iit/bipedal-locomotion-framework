@@ -27,6 +27,27 @@ namespace Contacts
  * pressure-zero moment point," in IEEE Transactions on Systems, Man, and Cybernetics,
  * we defined the global CoP as the weighted average of the CoP of each contact, with the weight
  * determined by the normal force of the contact.
+ * In detail, given \f$n\f$ contacts, with \f$n > 0\f$, the global CoP is defined as
+ * \f[
+ * {}^{I} x_{\text{CoP}}^{\text{global}} = \frac{1}{\sum_{i=1}^{n} f_{z,i}} \sum_{i=1}^{n} ({}^I f_{z,i} \; \; x_{\text{CoP},i})
+ * \f]
+ * where \f${}^I x_{\text{CoP}}^{\text{global}}\f$ is the global CoP expressed in the inertial frame
+ * \f$I\f$, \f${}^I f_{z,i}\f$ is the z component of the contact force expressed in the inertial
+ * frame \f$I\f$, \f${}^I x_{\text{CoP},i}\f$ is the CoP of the \f$i\f$-th contact expressed in the
+ * inertial frame \f$I\f$.
+ * The local CoP \f${}^I x_{\text{CoP},i}\f$ can be computed as follows
+ * \f[
+ * {}^I x_{\text{CoP},i} = {}^I x_{\text{C},i} + {}^I R_{\text{C},i} \; {}^C x_{\text{CoP},i}
+ * \f]
+ * where \f${}^I x_{\text{C},i}\f$ is the contact position in the inertial frame \f$I\f$,
+ * \f${}^I R_{\text{C},i}\f$ is the rotation matrix from the inertial frame \f$I\f$ to the contact
+ * frame \f$C\f$, and \f${}^C x_{\text{CoP},i}\f$ is the CoP of the \f$i\f$-th contact expressed in
+ * the contact frame \f$C\f$ that can be computed as follows
+ * \f[
+ * {}^C x_{\text{CoP},i} = \frac{1}{f_{z,i}} \begin{bmatrix} -\mu_{y,i} \\ \mu_{x,i} \\ 0 \end{bmatrix}
+ * \f]
+ * with \f$\mu_{x,i}\f$ and \f$\mu_{y,i}\f$ being the x and y component of the moment of the contact
+ * wrench expressed in the contact frame \f$C\f$.
  * @note This class assumes that the contact wrenches stored in Contacts::ContactWrench list are
  * expressed in the body frame (left trivialized).
  * @note This class assumes that all the contacts are coplanar, that the normal of the common
