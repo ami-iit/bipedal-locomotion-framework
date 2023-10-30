@@ -29,6 +29,8 @@ namespace Contacts
  * determined by the normal force of the contact.
  * @note This class assumes that the contact wrenches stored in Contacts::ContactWrench list are
  * expressed in the body frame (left trivialized).
+ * @note This class assumes that all the contacts are coplanar, that the normal of the common
+ * plane is the z axis, and that the contact force on the z axis is positive.
  * @note In addition to evaluating the CoP, this class checks that at least one contact is active
  * and that the CoP is not constant for a given number of iterations.
  */
