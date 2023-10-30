@@ -903,6 +903,23 @@
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a7593449baa647417680c7302749593b1" kind="variable"><name>forceDirection</name></member>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT_1a8b7861ecc10cd97627136fc6b3256d9b" kind="variable"><name>associatedJoint</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator" kind="class"><name>BipedalLocomotion::Contacts::GlobalCoPEvaluator</name>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a94b564db201920799474c484fba5ff09" kind="variable"><name>m_cop</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1af399b11c83124fc7faf6f12f11b7abea" kind="variable"><name>m_contacts</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1adbb9a9c97fa0d976b78e8435c2d48a22" kind="variable"><name>m_isInitialized</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1ad73c2c214481ab9e3e0e26149f9b1464" kind="variable"><name>m_isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a3ce508a7abee40fff5e76f0159a0f611" kind="variable"><name>m_constantCoPCounter</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a8c2b8c4c039b6c1374a35edbce2a1cb0" kind="variable"><name>m_CoPAdmissibleLimits</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1ab8274922d40000158c8d537aa656310e" kind="variable"><name>m_constantCoPMaxCounter</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1ad07bff5693075a4c354c1f12e7184142" kind="variable"><name>m_minimumNormalForce</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a4a78bf9ee8f30285b771451f4d979949" kind="variable"><name>m_constantCoPTolerance</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a32dc8780c5a1c961a592b539a677ff6f" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a346a6b5c8cb8599bf689dd9371806152" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a16e26308ee38e693dabdb6e82f92a86c" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1adb8883c7fa5675374b0be90e43deabda" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1a9068c56c8edc37f99efc542e87be16cf" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator_1ac15c3d40385d07b06f752b0e49c04ae5" kind="function"><name>getOutput</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1IK_1_1GravityTask" kind="class"><name>BipedalLocomotion::IK::GravityTask</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1GravityTask_1a60ba99cdf4cbfe0cea05de06e3208076" kind="variable"><name>m_robotVelocityVariable</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1GravityTask_1af73de74172ffb257e8cbdc9bdd515c61" kind="variable"><name>m_isInitialized</name></member>
@@ -2655,6 +2672,7 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1aabde2aff016f3ae78350c5a29f7302bf" kind="function"><name>torque</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1a2bb453c44dfac424f6809bf649d76998" kind="function"><name>force</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1a4adedab6995d5948d46b5933548867a3" kind="function"><name>torque</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1Wrench_1ab202d045ab49e84c07f410b3a7239465" kind="function"><name>getLocalCoP</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge" kind="class"><name>BipedalLocomotion::RobotInterface::YarpCameraBridge</name>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpCameraBridge_1a81693f83366dd6337bcd8db4253467ba" kind="variable"><name>m_pimpl</name></member>
@@ -3041,6 +3059,8 @@
   <compound refid="ContactPhase_8h" kind="file"><name>ContactPhase.h</name>
   </compound>
   <compound refid="ContactPhaseList_8h" kind="file"><name>ContactPhaseList.h</name>
+  </compound>
+  <compound refid="GlobalCoPEvaluator_8h" kind="file"><name>GlobalCoPEvaluator.h</name>
   </compound>
   <compound refid="CentroidalDynamics_8h" kind="file"><name>CentroidalDynamics.h</name>
   </compound>

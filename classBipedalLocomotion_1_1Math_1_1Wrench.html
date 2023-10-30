@@ -107,6 +107,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a4adedab6995d5948d46b5933548867a3" class="m-doc">torque</a>(</span><span class="m-doc-wrap">) -&gt; Eigen::Block&lt;Base, 3, 1&gt;</span>
             </dt>
             <dd>Get the angular torque part of the wrench.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab202d045ab49e84c07f410b3a7239465" class="m-doc">getLocalCoP</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Matrix&lt;Scalar, 3, 1&gt;</span>
+            </dt>
+            <dd>Get the local CoP associated with the wrench.</dd>
           </dl>
         </section>
         <section>
@@ -178,6 +182,25 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="ab202d045ab49e84c07f410b3a7239465"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">Eigen::Matrix&lt;Scalar, 3, 1&gt; BipedalLocomotion::<wbr />Math::<wbr />Wrench&lt;Scalar&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab202d045ab49e84c07f410b3a7239465" class="m-doc-self">getLocalCoP</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the local CoP associated with the wrench.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the CoP expressed in the local frame</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>The center of pressure (CoP) is defined is a dynamic point defined in between two bodies in contact. The CoP is a local quantity defined from interaction forces at the contact surface.</p><aside class="m-note m-info"><h4>Note</h4><p>A more detailed explanation can be found in: P. Sardain and G. Bessonnet, &quot;Forces
+acting on a biped robot. Center of pressure-zero moment point,&quot; in IEEE Transactions on Systems, Man, and Cybernetics - Part A: Systems and Humans, vol. 34, no. 5, pp. 630-637, Sept. 2004, doi: 10.1109/TSMCA.2004.832811. An interested reader can also check the following <a href="https://scaron.info/robotics/zero-tilting-moment-point.html">https:/<wbr />/<wbr />scaron.info/<wbr />robotics/<wbr />zero-tilting-moment-point.html</a></p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>This function assumes that the wrench is expressed in the body frame. I.e., a frame attached to the body belonging to the contact area and the z-component of the contact force is the resultant pressure force.</p><p>This function assumes that the z-component of the contact force is non-zero.</p></aside>
           </div></section>
         </section>
       </div>

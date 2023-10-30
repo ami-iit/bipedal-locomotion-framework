@@ -14,6 +14,7 @@
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactList" prot="public">BipedalLocomotion::Contacts::ContactList</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactPhase" prot="public">BipedalLocomotion::Contacts::ContactPhase</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" prot="public">BipedalLocomotion::Contacts::ContactPhaseList</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1GlobalCoPEvaluator" prot="public">BipedalLocomotion::Contacts::GlobalCoPEvaluator</innerclass>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="Contact_8h_1a34ae1b101a919e7e1b42ddf2193c51b0" prot="public" static="no" strong="yes">
         <type></type>

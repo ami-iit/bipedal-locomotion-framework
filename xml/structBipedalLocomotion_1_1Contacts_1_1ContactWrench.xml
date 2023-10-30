@@ -12,6 +12,7 @@
         <name>wrench</name>
         <initializer>{BipedalLocomotion::Math::Wrenchd::Zero()}</initializer>
         <briefdescription>
+<para>&lt; Wrench acting on the contact </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -60,7 +61,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="131" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="132" bodyend="134"/>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="130" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="131" bodyend="134"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactWrench</scope><name>index</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactWrench</scope><name>name</name></member>

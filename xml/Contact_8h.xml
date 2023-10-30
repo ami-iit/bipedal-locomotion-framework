@@ -17,6 +17,7 @@
     <includedby refid="ContactList_8h" local="no">BipedalLocomotion/Contacts/ContactList.h</includedby>
     <includedby refid="ContactPhase_8h" local="no">BipedalLocomotion/Contacts/ContactPhase.h</includedby>
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
+    <includedby refid="GlobalCoPEvaluator_8h" local="no">BipedalLocomotion/Contacts/GlobalCoPEvaluator.h</includedby>
     <includedby refid="CentroidalMPC_8h" local="no">BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</includedby>
     <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
     <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
@@ -77,6 +78,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="17">
+        <label>BipedalLocomotion/Contacts/GlobalCoPEvaluator.h</label>
+        <link refid="GlobalCoPEvaluator_8h"/>
+      </node>
       <node id="12">
         <label>BipedalLocomotion/Contacts/ContactList.h</label>
         <link refid="ContactList_8h"/>
@@ -95,7 +100,7 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="18">
         <label>BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</label>
         <link refid="CentroidalMPC_8h"/>
       </node>
@@ -132,12 +137,14 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>BipedalLocomotion/ML/MANNAutoregressiveInputBuilder.h</label>
         <link refid="MANNAutoregressiveInputBuilder_8h"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
@@ -169,20 +176,20 @@
         <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
         <link refid="ContactListJsonParser_8h"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="4">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -193,7 +200,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="19">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
         <link refid="CentroidalDynamics_8h"/>
       </node>

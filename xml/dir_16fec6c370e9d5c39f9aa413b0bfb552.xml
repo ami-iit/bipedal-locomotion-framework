@@ -7,6 +7,7 @@
     <innerfile refid="ContactListJsonParser_8h">ContactListJsonParser.h</innerfile>
     <innerfile refid="ContactPhase_8h">ContactPhase.h</innerfile>
     <innerfile refid="ContactPhaseList_8h">ContactPhaseList.h</innerfile>
+    <innerfile refid="GlobalCoPEvaluator_8h">GlobalCoPEvaluator.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
