@@ -96,7 +96,7 @@ bool GlobalCoPEvaluator::advance()
         return false;
     }
 
-    Eigen::Vector3d globalCoP;
+    Eigen::Vector3d globalCoP = Eigen::Vector3d::Zero();
     Eigen::Vector3d localCoP;
     double totalForce = 0;
     int numberOfActiveSupports = 0;
@@ -172,7 +172,7 @@ bool GlobalCoPEvaluator::advance()
     }
 
     // the CoP is valid
-    m_cop = globalCoP;
+    m_cop = std::move(globalCoP);
     m_isOutputValid = true;
     return m_isOutputValid;
 }
