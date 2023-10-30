@@ -79,7 +79,7 @@ public:
      * https://scaron.info/robotics/zero-tilting-moment-point.html
      * @warning This function assumes that the wrench is expressed in the body frame. I.e., a frame
      * attached to the body belonging to the contact area and the z-component of the contact force
-     * is resultant pressure force.
+     * is the resultant pressure force.
      * @warning This function assumes that the z-component of the contact force is non-zero.
      * @return the CoP expressed in the local frame
      */
