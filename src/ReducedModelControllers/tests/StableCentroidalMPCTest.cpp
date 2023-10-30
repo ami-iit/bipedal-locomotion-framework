@@ -81,7 +81,7 @@ TEST_CASE("StableCentroidalMPC")
     constexpr bool saveDataset = true;
 
     using namespace std::chrono_literals;
-    constexpr std::chrono::nanoseconds dT = 100ms;
+    constexpr std::chrono::nanoseconds dT = 200ms;
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("sampling_time", dT);
