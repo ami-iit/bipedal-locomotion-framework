@@ -1,5 +1,5 @@
 /**
- * @file GlobalZMPEvaluatorTest.cpp
+ * @file GlobalCoPEvaluatorTest.cpp
  * @authors Giulio Romualdi
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -10,21 +10,21 @@
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
-#include <BipedalLocomotion/Contacts/GlobalZMPEvaluator.h>
+#include <BipedalLocomotion/Contacts/GlobalCoPEvaluator.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 using namespace BipedalLocomotion::Contacts;
 using namespace BipedalLocomotion::ParametersHandler;
 
-TEST_CASE("GlobalZMPEvaluator")
+TEST_CASE("GlobalCoPEvaluator")
 {
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("minimum_normal_force", 1.0);
-    handler->setParameter("zmp_admissible_limits", std::vector<double>{0.1, 0.1});
-    handler->setParameter("constant_zmp_tolerance", 0.01);
-    handler->setParameter("constant_zmp_max_counter", 10);
+    handler->setParameter("cop_admissible_limits", std::vector<double>{0.1, 0.1});
+    handler->setParameter("constant_cop_tolerance", 0.01);
+    handler->setParameter("constant_cop_max_counter", 10);
 
-    GlobalZMPEvaluator evaluator;
+    GlobalCoPEvaluator evaluator;
     REQUIRE(evaluator.initialize(handler));
     REQUIRE_FALSE(evaluator.isOutputValid());
 

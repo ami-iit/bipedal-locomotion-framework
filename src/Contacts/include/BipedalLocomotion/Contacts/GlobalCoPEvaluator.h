@@ -1,12 +1,12 @@
 /**
- * @file GlobalZMPEvaluator.h
+ * @file GlobalCoPEvaluator.h
  * @authors Giulio Romualdi
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_ZMP_EVALUATOR_H
-#define BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_ZMP_EVALUATOR_H
+#ifndef BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_COP_EVALUATOR_H
+#define BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_COP_EVALUATOR_H
 
 #include <initializer_list>
 #include <vector>
@@ -22,17 +22,17 @@ namespace Contacts
 {
 
 /**
- * GlobalZMPEvaluator is a class that computes the global ZMP given a set of contact wrenches.
- * The ZMP is computed as the weighted average of the ZMP of each contact, with the weight
+ * GlobalCoPEvaluator is a class that computes the global CoP given a set of contact wrenches.
+ * Following P. Sardain and G. Bessonnet, "Forces acting on a biped robot. Center of
+ * pressure-zero moment point," in IEEE Transactions on Systems, Man, and Cybernetics,
+ * we defined the global CoP as the weighted average of the CoP of each contact, with the weight
  * determined by the normal force of the contact.
  * @note This class assumes that the contact wrenches stored in Contacts::ContactWrench list are
  * expressed in the body frame (left trivialized).
- * @note In addition to evaluating the ZMP, this class checks that at least one contact is active
- * and that the ZMP is not constant for a given number of iterations. Moreover, the class verifies
- * that the local ZMP belongs to a given region; otherwise, the associated local ZMP is not
- * considered in the computation of the global ZMP.
+ * @note In addition to evaluating the CoP, this class checks that at least one contact is active
+ * and that the CoP is not constant for a given number of iterations.
  */
-class GlobalZMPEvaluator
+class GlobalCoPEvaluator
     : public BipedalLocomotion::System::Advanceable<std::vector<Contacts::ContactWrench>,
                                                     Eigen::Vector3d>
 {
@@ -45,9 +45,9 @@ public:
      * |       Parameter Name       |       Type       |                                           Description                                     | Mandatory |
      * |:--------------------------:|:----------------:|:-----------------------------------------------------------------------------------------:|:---------:|
      * |   `minimum_normal_force`   |     `double`     |           Minimum normal force required to consider a contact active (in N)               |    Yes    |
-     * |   `zmp_admissible_limits`  | `vector<double>` |  2D vector defines ZMP region, comparing absolute ZMP x and y to the 1st and 2nd elements |    Yes    |
-     * |  `constant_zmp_tolerance`  |     `double`     |        Radius (in m) of a sphere used to considered if the global ZMP is constant         |    Yes    |
-     * | `constant_zmp_max_counter` |      `int`       |         Maximum number of samples after which a constant ZMP generates an error           |    Yes    |
+     * |   `cop_admissible_limits`  | `vector<double>` |  2D vector defines CoP region, comparing absolute CoP x and y to the 1st and 2nd elements |    Yes    |
+     * |  `constant_cop_tolerance`  |     `double`     |        Radius (in m) of a sphere used to considered if the global CoP is constant         |    Yes    |
+     * | `constant_cop_max_counter` |      `int`       |         Maximum number of samples after which a constant CoP generates an error           |    Yes    |
      * @return true in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
@@ -72,43 +72,43 @@ public:
     bool setInput(const std::vector<Contacts::ContactWrench>& input) override;
 
     /**
-     * Compute the global ZMP.
+     * Compute the global CoP.
      * @return true in case of success and false otherwise
      */
     bool advance() override;
 
     /**
-     * Check if the ZMP evaluated by the class is valid.
+     * Check if the CoP evaluated by the class is valid.
      * @return true if valid, false otherwise.
      */
     bool isOutputValid() const override;
 
     /**
-     * Get the global ZMP
-     * @return a 3D vector containing the position of the global ZMP expressed respect to the global
+     * Get the global CoP
+     * @return a 3D vector containing the position of the global CoP expressed respect to the global
      * (inertial) frame.
      */
     const Eigen::Vector3d& getOutput() const override;
 
 private:
-    Eigen::Vector3d m_zmp{Eigen::Vector3d::Zero()}; /**< Global ZMP position in the inertial frame
+    Eigen::Vector3d m_cop{Eigen::Vector3d::Zero()}; /**< Global CoP position in the inertial frame
                                                      */
-    std::vector<Contacts::ContactWrench> m_contacts; /**< */
+    std::vector<Contacts::ContactWrench> m_contacts; /**< Vector containing the contacts */
     bool m_isInitialized{false}; /**< True if the object is initialized */
     bool m_isOutputValid{false}; /**< True if the output is valid */
 
-    int m_constantZMPCounter{0}; /**< Counter used to store the number of constant ZMP over time */
+    int m_constantCoPCounter{0}; /**< Counter used to store the number of constant CoP over time */
 
-    Eigen::Vector2d m_zmpAdmissibleLimits; /**< Vector containing the local admissible limits for
-                                              the ZMP  */
-    int m_constantZMPMaxCounter{-1}; /**< Maximum number of samples after which a constant ZMP
+    Eigen::Vector2d m_CoPAdmissibleLimits; /**< Vector containing the local admissible limits for
+                                              the CoP  */
+    int m_constantCoPMaxCounter{-1}; /**< Maximum number of samples after which a constant CoP
                                         generates an error   */
     double m_minimumNormalForce{0.0}; /**< Minimum required contact force */
-    double m_constantZMPTolerance{0.0}; /**< Radius (in m) of a sphere used to considered if the
-                                           global ZMP is constant */
+    double m_constantCoPTolerance{0.0}; /**< Radius (in m) of a sphere used to considered if the
+                                           global CoP is constant */
 };
 
 } // namespace Contacts
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_ZMP_EVALUATOR_H
+#endif // BIPEDAL_LOCOMOTION_CONTACTS_GLOBAL_COP_EVALUATOR_H

@@ -1,5 +1,5 @@
 /**
- * @file GlobalZMPEvaluator.cpp
+ * @file GlobalCoPEvaluator.cpp
  * @authors Giulio Romualdi
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -9,9 +9,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/Contacts/GlobalZMPEvaluator.h>
+#include <BipedalLocomotion/Contacts/GlobalCoPEvaluator.h>
 
-#include <BipedalLocomotion/bindings/Contacts/GlobalZMPEvaluator.h>
+#include <BipedalLocomotion/bindings/Contacts/GlobalCoPEvaluator.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
@@ -21,7 +21,7 @@ namespace bindings
 namespace Contacts
 {
 
-void CreateGlobalZMPEvaluator(pybind11::module& module)
+void CreateGlobalCoPEvaluator(pybind11::module& module)
 {
     namespace py = ::pybind11;
     namespace Contacts = ::BipedalLocomotion::Contacts;
@@ -29,10 +29,10 @@ void CreateGlobalZMPEvaluator(pybind11::module& module)
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<std::vector<Contacts::ContactWrench>, //
                                                            Eigen::Vector3d>(module,
-                                                                            "GlobalZMPEvaluator");
-    py::class_<Contacts::GlobalZMPEvaluator,
+                                                                            "GlobalCoPEvaluator");
+    py::class_<Contacts::GlobalCoPEvaluator,
                System::Advanceable<std::vector<Contacts::ContactWrench>, //
-                                   Eigen::Vector3d>>(module, "GlobalZMPEvaluator")
+                                   Eigen::Vector3d>>(module, "GlobalCoPEvaluator")
         .def(py::init());
 }
 
