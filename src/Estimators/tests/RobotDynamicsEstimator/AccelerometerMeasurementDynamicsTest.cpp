@@ -6,15 +6,17 @@
  */
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators_all.hpp>
 
 #include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
-#include <iDynTree/Model/FreeFloatingState.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
-#include <iDynTree/Model/Model.h>
 #include <iDynTree/KinDynComputations.h>
+#include <iDynTree/Model/FreeFloatingState.h>
+#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
@@ -92,35 +94,14 @@ bool setStaticState(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
                                  iDynTree::make_span(gravity.data(), gravity.size()));
 }
 
-TEST_CASE("Accelerometer Measurement Dynamics")
+IParametersHandler::shared_ptr createModelVariableHandler()
 {
-    // Create parameter handler
-    auto parameterHandler = std::make_shared<StdImplementation>();
-
-    const std::string name = "r_leg_ft_acc";
-    Eigen::VectorXd covariance(3);
-    covariance << 2.3e-3, 1.9e-3, 3.1e-3;
-    const std::string model = "AccelerometerMeasurementDynamics";
-    const bool useBias = true;
+    // Create model variable handler to load the robot model
+    auto modelParamHandler = std::make_shared<StdImplementation>();
 
     const std::vector<std::string> jointList
         = {"r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll"};
 
-    parameterHandler->setParameter("name", name);
-    parameterHandler->setParameter("covariance", covariance);
-    parameterHandler->setParameter("dynamic_model", model);
-    parameterHandler->setParameter("use_bias", useBias);
-
-    // Create state variable handler
-    constexpr size_t sizeVariable = 6;
-    VariablesHandler variableHandler;
-    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(variableHandler.addVariable("r_leg_ft_acc_bias", 3));
-
-    // Create model variable handler to load the robot model
-    auto modelParamHandler = std::make_shared<StdImplementation>();
     auto emptyGroupNamesFrames = std::make_shared<StdImplementation>();
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
@@ -141,6 +122,184 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupFrames));
 
     modelParamHandler->setParameter("joint_list", jointList);
+
+    return modelParamHandler;
+}
+
+void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
+{
+    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    input.robotJointPositions = jointPos;
+
+    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    input.robotJointAccelerations = jointAcc;
+
+    manif::SE3d basePose
+        = BipedalLocomotion::Conversions::toManifPose(iDynTree::getRandomTransform());
+    input.robotBasePose = basePose;
+
+    manif::SE3Tangentd baseVel
+        = BipedalLocomotion::Conversions::toManifTwist(iDynTree::getRandomTwist());
+    input.robotBaseVelocity = baseVel;
+
+    manif::SE3Tangentd baseAcc
+        = BipedalLocomotion::Conversions::toManifTwist(iDynTree::getRandomTwist());
+    input.robotBaseAcceleration = baseAcc;
+}
+
+Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
+                                              VariablesHandler& stateVariableHandler,
+                                              std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
+
+    state.setZero();
+
+    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+
+    int offset = stateVariableHandler.getVariable("ds").offset;
+    int size = stateVariableHandler.getVariable("ds").size;
+    for (int jointIndex = 0; jointIndex < size; jointIndex++)
+    {
+        state[offset + jointIndex] = jointVel(jointIndex);
+    }
+
+    // Compute joint torques from inverse dynamics on the full model
+    offset = stateVariableHandler.getVariable("tau_m").offset;
+    size = stateVariableHandler.getVariable("tau_m").size;
+    iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
+    extWrench.zero();
+    iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
+    kinDyn->inverseDynamics(iDynTree::make_span(input.robotBaseAcceleration.data(),
+                                                manif::SE3d::Tangent::DoF),
+                            input.robotJointAccelerations,
+                            extWrench,
+                            jointTorques);
+    for (int jointIndex = 0; jointIndex < size; jointIndex++)
+    {
+        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
+    }
+
+    return state;
+}
+
+void setRandomKinDynState(std::vector<SubModel>& subModelList,
+                          std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList,
+                          std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                          UKFInput& input,
+                          Eigen::VectorXd& state,
+                          VariablesHandler& stateVariableHandler)
+{
+    manif::SE3d worldTBase;
+    manif::SE3d::Tangent subModelBaseVel;
+    subModelBaseVel.setZero();
+    std::vector<Eigen::VectorXd> subModelJointPos(subModelList.size()); /**< List of sub-model joint
+                                                                           velocities. */
+    std::vector<Eigen::VectorXd> subModelJointVel(subModelList.size()); /**< List of sub-model joint
+                                                                           velocities. */
+    Eigen::Vector3d gravity;
+    gravity.setZero();
+    gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+
+    int offset = stateVariableHandler.getVariable("ds").offset;
+    int size = stateVariableHandler.getVariable("ds").size;
+
+    Eigen::VectorXd jointVel = Eigen::VectorXd(size);
+    for (int jointIndex = 0; jointIndex < size; jointIndex++)
+    {
+        jointVel(jointIndex) = state[offset + jointIndex];
+    }
+
+    REQUIRE(kinDyn->setRobotState(input.robotBasePose.transform(),
+                                  input.robotJointPositions,
+                                  iDynTree::make_span(input.robotBaseVelocity.data(),
+                                                      manif::SE3d::Tangent::DoF),
+                                  jointVel,
+                                  gravity));
+
+    manif::SO3d imuRworld = BipedalLocomotion::Conversions::toManifRot(
+        kinDyn->getWorldTransform("r_leg_ft").getRotation().inverse());
+
+    for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
+    {
+        // Get sub-model base pose
+        worldTBase = BipedalLocomotion::Conversions::toManifPose(
+            kinDyn->getWorldTransform(kinDynWrapperList[subModelIdx]->getFloatingBase()));
+
+        subModelJointPos[subModelIdx].resize(subModelList[subModelIdx].getModel().getNrOfDOFs());
+
+        // Get sub-model joint position
+        for (int jointIdx = 0; jointIdx < subModelList[subModelIdx].getModel().getNrOfDOFs();
+             jointIdx++)
+        {
+            subModelJointPos[subModelIdx](jointIdx)
+                = input.robotJointPositions[subModelList[subModelIdx].getJointMapping()[jointIdx]];
+        }
+
+        // Get sub-model joint velocities
+        subModelJointVel[subModelIdx].resize(subModelList[subModelIdx].getModel().getNrOfDOFs());
+        offset = stateVariableHandler.getVariable("ds").offset;
+        size = stateVariableHandler.getVariable("ds").size;
+        for (int jointIdx = 0; jointIdx < subModelList[subModelIdx].getModel().getNrOfDOFs();
+             jointIdx++)
+        {
+            subModelJointVel[subModelIdx](jointIdx)
+                = state[offset + subModelList[subModelIdx].getJointMapping()[jointIdx]];
+        }
+
+        // Set the sub-model state
+        kinDynWrapperList[subModelIdx]
+            ->setRobotState(worldTBase.transform(),
+                            iDynTree::make_span(subModelJointPos[subModelIdx].data(),
+                                                subModelJointPos[subModelIdx].size()),
+                            iDynTree::make_span(subModelBaseVel.data(), subModelBaseVel.size()),
+                            iDynTree::make_span(subModelJointVel[subModelIdx].data(),
+                                                subModelJointVel[subModelIdx].size()),
+                            iDynTree::make_span(gravity.data(), gravity.size()));
+
+        // Forward dynamics
+        int offset = stateVariableHandler.getVariable("tau_m").offset;
+        int size = stateVariableHandler.getVariable("tau_m").size;
+
+        Eigen::VectorXd jointTrq = Eigen::VectorXd(size);
+        for (int jointIndex = 0; jointIndex < size; jointIndex++)
+        {
+            jointTrq(jointIndex) = state[offset + jointIndex];
+        }
+
+        Eigen::VectorXd jointAcc = Eigen::VectorXd(size);
+        REQUIRE(kinDynWrapperList[subModelIdx]->forwardDynamics(jointTrq,
+                                                                Eigen::VectorXd().Zero(size),
+                                                                Eigen::VectorXd().Zero(size),
+                                                                input.robotBaseAcceleration,
+                                                                jointAcc));
+    }
+}
+
+TEST_CASE("Accelerometer Measurement Dynamics")
+{
+    // Create accelerometer parameter handler
+    auto accHandler = std::make_shared<StdImplementation>();
+    const std::string name = "r_leg_ft_acc";
+    Eigen::VectorXd covariance(3);
+    covariance << 2.3e-3, 1.9e-3, 3.1e-3;
+    const std::string model = "AccelerometerMeasurementDynamics";
+    const bool useBias = true;
+    accHandler->setParameter("name", name);
+    accHandler->setParameter("covariance", covariance);
+    accHandler->setParameter("dynamic_model", model);
+    accHandler->setParameter("use_bias", useBias);
+
+    // Create state variable handler
+    constexpr size_t sizeVariable = 6;
+    VariablesHandler stateVariableHandler;
+    REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_acc_bias", 3));
+
+    // Create parameter handler to load the model
+    auto modelParamHandler = createModelVariableHandler();
 
     // Load model
     iDynTree::ModelLoader modelLoader;
@@ -166,102 +325,56 @@ TEST_CASE("Accelerometer Measurement Dynamics")
 
     AccelerometerMeasurementDynamics accDynamics;
     REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(accDynamics.initialize(parameterHandler));
-    REQUIRE(accDynamics.finalize(variableHandler));
-
-    manif::SE3d::Tangent robotBaseAcceleration;
-    robotBaseAcceleration.setZero();
-
-    Eigen::VectorXd robotJointAcceleration(kinDyn->model().getNrOfDOFs());
-    robotJointAcceleration.setZero();
-
-    iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
-    extWrench.zero();
-
-    // Compute joint torques in static configuration from inverse dynamics on the full model
-    iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
-
-    kinDyn->inverseDynamics(iDynTree::make_span(robotBaseAcceleration.data(),
-                                                manif::SE3d::Tangent::DoF),
-                            robotJointAcceleration,
-                            extWrench,
-                            jointTorques);
-
-    Eigen::VectorXd state;
-    state.resize(variableHandler.getNumberOfVariables());
-    state.setZero();
-
-    int offset = variableHandler.getVariable("tau_m").offset;
-    int size = variableHandler.getVariable("tau_m").size;
-    for (int jointIndex = 0; jointIndex < size; jointIndex++)
-    {
-        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
-    }
+    REQUIRE(accDynamics.initialize(accHandler));
+    REQUIRE(accDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state
     UKFInput input;
+    createUkfInput(stateVariableHandler, input);
 
-    // Define joint positions
-    Eigen::VectorXd jointPos;
-    jointPos.resize(kinDyn->model().getNrOfDOFs());
-    jointPos.setZero();
-    input.robotJointPositions = jointPos;
+    // Create the state vector
+    Eigen::VectorXd state = createStateVector(input, stateVariableHandler, kinDyn);
 
-    // Define base pose
-    manif::SE3d basePose;
-    basePose.setIdentity();
-    input.robotBasePose = basePose;
+    // Set the kindyn submodel state
+    setRandomKinDynState(subModelList,
+                         kinDynWrapperList,
+                         kinDyn,
+                         input,
+                         state,
+                         stateVariableHandler);
 
-    // Define base velocity and acceleration
-    manif::SE3d::Tangent baseVelocity, baseAcceleration;
-    baseVelocity.setZero();
-    baseAcceleration.setZero();
-    input.robotBaseVelocity = baseVelocity;
-    input.robotBaseAcceleration = baseAcceleration;
-
-    input.robotJointAccelerations = Eigen::VectorXd(kinDyn->model().getNrOfDOFs()).setZero();
-
+    // Set input and state to the dynamics
     accDynamics.setInput(input);
     accDynamics.setState(state);
 
-    manif::SE3d worldTBase;
-    manif::SE3d::Tangent subModelBaseVel;
-    subModelBaseVel.setZero();
-    std::vector<Eigen::VectorXd> subModelJointPos(subModelList.size()); /**< List of sub-model joint velocities. */
+    // Update the dynamics
+    REQUIRE(accDynamics.update());
+
+    manif::SE3Tangentd accelerometerFameAcceleration;
+    REQUIRE(kinDyn->getFrameAcc("r_leg_ft",
+                                input.robotBaseAcceleration,
+                                input.robotJointAccelerations,
+                                iDynTree::make_span(accelerometerFameAcceleration.data(),
+                                                    manif::SE3d::Tangent::DoF)));
+
+    manif::SO3d imuRworld = BipedalLocomotion::Conversions::toManifRot(
+        kinDyn->getWorldTransform("r_leg_ft").getRotation().inverse());
+
     Eigen::Vector3d gravity;
     gravity.setZero();
     gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    
+    Eigen::Vector3d accRg = imuRworld.act(gravity);
 
-    for (int subModelIdx = 0; subModelIdx < subModelList.size(); subModelIdx++)
-    {
-        // Get sub-model base pose
-        worldTBase = BipedalLocomotion::Conversions::toManifPose(kinDyn->getWorldTransform(
-            kinDynWrapperList[subModelIdx]->getFloatingBase()));
+    manif::SE3Tangentd accFrameVel
+        = BipedalLocomotion::Conversions::toManifTwist(kinDyn->getFrameVel("r_leg_ft"));
 
-        subModelJointPos[subModelIdx].resize(subModelList[subModelIdx].getModel().getNrOfDOFs());
+    Eigen::VectorXd m_vCrossW = accFrameVel.lin().cross(accFrameVel.ang());
 
-        // Get sub-model joint position
-        for (int jointIdx = 0; jointIdx < subModelList[subModelIdx].getModel().getNrOfDOFs();
-             jointIdx++)
-        {
-            subModelJointPos[subModelIdx](jointIdx)
-                = input
-                      .robotJointPositions[subModelList[subModelIdx].getJointMapping()[jointIdx]];
-        }
-
-        // Set the sub-model state
-        kinDynWrapperList[subModelIdx]->setRobotState(
-                                 worldTBase.transform(),
-                                 iDynTree::make_span(subModelJointPos[subModelIdx].data(), subModelJointPos[subModelIdx].size()),
-                                 iDynTree::make_span(subModelBaseVel.data(), subModelBaseVel.size()),
-                                 iDynTree::make_span(subModelJointPos[subModelIdx].data(), subModelJointPos[subModelIdx].size()),
-                                 iDynTree::make_span(gravity.data(), gravity.size()));
-    }
-
-    REQUIRE(accDynamics.update());
+    // Check the output
     for (int idx = 0; idx < accDynamics.getUpdatedVariable().size(); idx++)
     {
-        REQUIRE(std::abs(accDynamics.getUpdatedVariable()(idx)) < 10);
+        REQUIRE(std::abs(accDynamics.getUpdatedVariable()(idx) + accRg(idx) + m_vCrossW(idx)
+                         - accelerometerFameAcceleration.coeffs()(idx))
+                < 0.2);
     }
 }

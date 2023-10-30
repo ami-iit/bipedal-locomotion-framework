@@ -52,6 +52,20 @@ void UkfModel::unpackState()
                 = m_currentState.segment(m_stateVariableHandler.getVariable(key).offset,
                                          m_stateVariableHandler.getVariable(key).size);
         }
+
+        for (auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
+        {
+            m_accBiasMap[key + "_bias"]
+                = m_currentState.segment(m_stateVariableHandler.getVariable(key).offset,
+                                         m_stateVariableHandler.getVariable(key).size);
+        }
+
+        for (auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
+        {
+            m_gyroBiasMap[key + "_bias"]
+                = m_currentState.segment(m_stateVariableHandler.getVariable(key).offset,
+                                         m_stateVariableHandler.getVariable(key).size);
+        }
     }
 }
 

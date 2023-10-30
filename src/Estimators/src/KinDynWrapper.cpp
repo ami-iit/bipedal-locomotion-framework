@@ -124,7 +124,7 @@ bool KinDynWrapper::forwardDynamics(Eigen::Ref<const Eigen::VectorXd> motorTorqu
 
     if (tauExt.size() != (6 + this->getNrOfDegreesOfFreedom()))
     {
-        log()->error("{} The size of the parameter `tauExt` should match the number of joints.",
+        log()->error("{} The size of the parameter `tauExt` should match the number of joints + 6.",
                      errorPrefix);
         return false;
     }

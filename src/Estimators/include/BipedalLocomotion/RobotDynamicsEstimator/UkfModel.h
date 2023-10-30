@@ -72,9 +72,13 @@ protected:
                                                               torques. */
     std::vector<Eigen::VectorXd> m_subModelFrictionTorque; /**< List of sub-model friction torques. */
     std::map<std::string, Math::Wrenchd> m_FTMap; /**< The map contains names of the ft sensors and
-                                                   values of the wrench */
+                                                   values of the wrench. */
+    std::map<std::string, Math::Wrenchd> m_accBiasMap; /**< The map contains names of the accelerometer sensor bias and
+                                                       values of the bias. */
+    std::map<std::string, Math::Wrenchd> m_gyroBiasMap; /**< The map contains names of the gyroscope sensor bias and
+                                                        values of the bias. */
     std::map<std::string, Math::Wrenchd> m_extContactMap; /**< The map contains names of the ft
-                                                           sensors and values of the wrench */
+                                                           sensors and values of the wrench. */
     std::vector<Eigen::VectorXd> m_totalTorqueFromContacts; /**< Joint torques due to known and
                                                              unknown contacts on the sub-model. */
     Math::Wrenchd m_wrench; /**< Joint torques due to a specific contact. */
