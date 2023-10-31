@@ -324,8 +324,9 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     gyroDynamics.setState(state);
 
     // Get bias
-    Eigen::Vector3d bias = state.segment(stateVariableHandler.getVariable("r_leg_ft_gyro_bias").offset,
-                                         stateVariableHandler.getVariable("r_leg_ft_gyro_bias").size);
+    Eigen::Vector3d bias
+        = state.segment(stateVariableHandler.getVariable("r_leg_ft_gyro_bias").offset,
+                        stateVariableHandler.getVariable("r_leg_ft_gyro_bias").size);
 
     // Update the dynamics
     REQUIRE(gyroDynamics.update());
@@ -337,7 +338,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     for (int idx = 0; idx < gyroDynamics.getUpdatedVariable().size(); idx++)
     {
         REQUIRE(std::abs(gyroDynamics.getUpdatedVariable()(idx) - bias(idx)
-                         - gyroFrameVel.coeffs()(idx+3))
+                         - gyroFrameVel.coeffs()(idx + 3))
                 < 0.1);
     }
 }

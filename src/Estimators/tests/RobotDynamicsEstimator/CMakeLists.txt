@@ -11,6 +11,13 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         BipedalLocomotion::ParametersHandlerYarpImplementation
         icub-models::icub-models)
 
+    add_bipedal_test(NAME KinDynWrapper
+        SOURCES KinDynWrapperTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        icub-models::icub-models)
+
     add_bipedal_test(NAME ZeroVelocityStateDynamics
         SOURCES ZeroVelocityStateDynamicsTest.cpp
         LINKS BipedalLocomotion::RobotDynamicsEstimator
