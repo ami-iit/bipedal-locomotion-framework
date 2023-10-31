@@ -1,5 +1,5 @@
 /**
- * @file FrictionTorqueDynamicsTest.cpp
+ * @file JointVelocityStateDynamicsTest.cpp
  * @authors Ines Sorrentino
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -15,15 +15,18 @@
 
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model/FreeFloatingState.h>
+#include <iDynTree/Model/Model.h>
 #include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
 
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
-#include <BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h>
 
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -106,8 +109,15 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
     emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
-    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
+
+    auto accGroup = std::make_shared<StdImplementation>();
+    std::vector<std::string> accNameList = {"r_leg_ft_acc"};
+    std::vector<std::string> accFrameList = {"r_leg_ft"};
+    accGroup->setParameter("names", accNameList);
+    accGroup->setParameter("frames", accFrameList);
+    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));
+
     auto emptyGroupFrames = std::make_shared<StdImplementation>();
     emptyGroupFrames->setParameter("frames", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupFrames));
@@ -140,8 +150,7 @@ void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
 
 Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                                               VariablesHandler& stateVariableHandler,
-                                              std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                              IParametersHandler::shared_ptr frictionParamHandler)
+                                              std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
 
@@ -154,23 +163,6 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         state[offset + jointIndex] = jointVel(jointIndex);
-    }
-
-    // Compute friction torques from coefficients and state
-    offset = stateVariableHandler.getVariable("tau_F").offset;
-    size = stateVariableHandler.getVariable("tau_F").size;
-    Eigen::VectorXd k0;
-    REQUIRE(frictionParamHandler->getParameter("friction_k0", k0));
-    Eigen::VectorXd k1;
-    REQUIRE(frictionParamHandler->getParameter("friction_k1", k1));
-    Eigen::VectorXd k2;
-    REQUIRE(frictionParamHandler->getParameter("friction_k2", k2));
-    Eigen::VectorXd friction
-        = k0.array() * (k1.array() * jointVel.array()).tanh() + k2.array() * jointVel.array();
-
-    for (int jointIndex = 0; jointIndex < size; jointIndex++)
-    {
-        state[offset + jointIndex] = friction(jointIndex);
     }
 
     // Compute joint torques from inverse dynamics on the full model
@@ -186,93 +178,38 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                             jointTorques);
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
-        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex] + friction(jointIndex);
+        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
 
     return state;
 }
 
-IParametersHandler::shared_ptr createFrictionParameterHandler()
+TEST_CASE("Joint Velocity State Dynamics")
 {
     // Create parameter handler
-    auto parameterHandler = std::make_shared<StdImplementation>();
+    auto jointVelHandler = std::make_shared<StdImplementation>();
 
-    const std::string name = "tau_F";
+    const std::string name = "ds";
     Eigen::VectorXd covariance(6);
     covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
-    const std::string model = "FrictionTorqueStateDynamics";
-    const std::vector<std::string> elements
-        = {"r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll"};
-    Eigen::VectorXd k0(6);
-    k0 << 9.106, 5.03, 4.93, 12.88, 14.34, 1.12;
-    Eigen::VectorXd k1(6);
-    k1 << 20.0, 6.9, 20.0, 5.87, 20.0, 20.0;
-    Eigen::VectorXd k2(6);
-    k2 << 1.767, 5.64, 0.27, 2.0, 3.0, 0.0;
+    const std::string model = "JointVelocityStateDynamics";
     using namespace std::chrono_literals;
     constexpr std::chrono::nanoseconds dT = 10ms;
 
-    parameterHandler->setParameter("name", name);
-    parameterHandler->setParameter("covariance", covariance);
-    parameterHandler->setParameter("initial_covariance", covariance);
-    parameterHandler->setParameter("dynamic_model", model);
-    parameterHandler->setParameter("elements", elements);
-    parameterHandler->setParameter("friction_k0", k0);
-    parameterHandler->setParameter("friction_k1", k1);
-    parameterHandler->setParameter("friction_k2", k2);
-    parameterHandler->setParameter("sampling_time", dT);
+    jointVelHandler->setParameter("name", name);
+    jointVelHandler->setParameter("covariance", covariance);
+    jointVelHandler->setParameter("initial_covariance", covariance);
+    jointVelHandler->setParameter("dynamic_model", model);
+    jointVelHandler->setParameter("sampling_time", dT);
 
-    return parameterHandler;
-}
-
-void computeTauFNext(UKFInput& input,
-                     Eigen::Ref<Eigen::VectorXd> state,
-                     VariablesHandler& stateVariableHandler,
-                     IParametersHandler::shared_ptr frictionParamHandler,
-                     Eigen::Ref<Eigen::VectorXd> tauFNext)
-{
-    Eigen::VectorXd jointVel = Eigen::VectorXd(stateVariableHandler.getVariable("ds").size);
-
-    int offsetVel = stateVariableHandler.getVariable("ds").offset;
-
-    for (int jointIndex = 0; jointIndex < stateVariableHandler.getVariable("ds").size; jointIndex++)
-    {
-        jointVel(jointIndex) = state[offsetVel + jointIndex];
-    }
-
-    Eigen::VectorXd k0;
-    REQUIRE(frictionParamHandler->getParameter("friction_k0", k0));
-    Eigen::VectorXd k1;
-    REQUIRE(frictionParamHandler->getParameter("friction_k1", k1));
-    Eigen::VectorXd k2;
-    REQUIRE(frictionParamHandler->getParameter("friction_k2", k2));
-
-    Eigen::VectorXd tempVar = k1.array() * jointVel.array();
-    tempVar = tempVar.array().cosh().array() * tempVar.array().cosh().array();
-    Eigen::VectorXd k0k1 = k0.array() * k1.array();
-    k0k1 = (k0k1.array() / tempVar.array()).eval();
-    Eigen::VectorXd dotTauF = (k0k1 + k2).array() * input.robotJointAccelerations.array();
-
-    std::chrono::nanoseconds dT;
-    REQUIRE(frictionParamHandler->getParameter("sampling_time", dT));
-
-    tauFNext = state.segment(stateVariableHandler.getVariable("tau_F").offset,
-                             stateVariableHandler.getVariable("tau_F").size)
-               + std::chrono::duration<double>(dT).count() * dotTauF;
-}
-
-TEST_CASE("Friction Torque Dynamics")
-{
-    auto frictionParameterHandler = createFrictionParameterHandler();
-
-    // Create variable handler
+    // Create state variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler stateVariableHandler;
     REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
 
-    // Create model parameter handler
+    // Create parameter handler to load the model
     auto modelParamHandler = createModelParameterHandler();
 
     // Load model
@@ -290,39 +227,43 @@ TEST_CASE("Friction Torque Dynamics")
 
     std::vector<std::shared_ptr<KinDynWrapper>> kinDynWrapperList;
     std::vector<SubModel> subModelList = subModelCreator.getSubModelList();
+
     for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
     {
         kinDynWrapperList.emplace_back(std::make_shared<KinDynWrapper>());
         REQUIRE(kinDynWrapperList[idx]->setModel(subModelList[idx]));
     }
 
-    // Create friction torque dynamics
-    FrictionTorqueStateDynamics tauFDynamics;
-    REQUIRE(tauFDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(tauFDynamics.initialize(frictionParameterHandler));
-    REQUIRE(tauFDynamics.finalize(stateVariableHandler));
+    // Create the dynamics
+    JointVelocityStateDynamics dsDynamics;
+    REQUIRE(dsDynamics.setSubModels(subModelList, kinDynWrapperList));
+    REQUIRE(dsDynamics.initialize(jointVelHandler));
+    REQUIRE(dsDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state
     UKFInput input;
     createUkfInput(stateVariableHandler, input);
 
     // Create the state vector
-    Eigen::VectorXd state
-        = createStateVector(input, stateVariableHandler, kinDyn, frictionParameterHandler);
+    Eigen::VectorXd state = createStateVector(input, stateVariableHandler, kinDyn);
 
     // Set input and state to the dynamics
-    tauFDynamics.setInput(input);
-    tauFDynamics.setState(state);
-
-    Eigen::VectorXd tauFNext = Eigen::VectorXd(input.robotJointPositions.size());
-    computeTauFNext(input, state, stateVariableHandler, frictionParameterHandler, tauFNext);
+    dsDynamics.setInput(input);
+    dsDynamics.setState(state);
 
     // Update the dynamics
-    REQUIRE(tauFDynamics.update());
+    REQUIRE(dsDynamics.update());
+
+    // Compute joint velocity at step k+1 by using the numerical integration
+    Eigen::VectorXd jointVel = state.segment(stateVariableHandler.getVariable("ds").offset,
+                                             stateVariableHandler.getVariable("ds").size);
+    jointVel = jointVel + std::chrono::duration<double>(dT).count() * input.robotJointAccelerations;
 
     // Check the output
-    for (int idx = 0; idx < tauFDynamics.getUpdatedVariable().size(); idx++)
+    for (int idx = 0; idx < dsDynamics.getUpdatedVariable().size(); idx++)
     {
-        REQUIRE(std::abs(tauFDynamics.getUpdatedVariable()(idx) - tauFNext(idx)) < 0.1);
+        REQUIRE(std::abs(dsDynamics.getUpdatedVariable()(idx)
+                         - jointVel(idx))
+                < 0.1);
     }
 }

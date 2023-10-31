@@ -65,6 +65,18 @@ if(FRAMEWORK_USE_icub-models AND FRAMEWORK_COMPILE_YarpImplementation)
         BipedalLocomotion::ManifConversions
         ${iDynTree_LIBRARIES})
 
+    add_bipedal_test(NAME JointVelocityStateDynamics
+        SOURCES JointVelocityStateDynamicsTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        BipedalLocomotion::ParametersHandlerYarpImplementation
+        BipedalLocomotion::System
+        icub-models::icub-models
+        Eigen3::Eigen
+        MANIF::manif
+        BipedalLocomotion::ManifConversions
+        ${iDynTree_LIBRARIES})
+
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
