@@ -8,7 +8,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
@@ -22,7 +21,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h>
@@ -151,9 +149,7 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                                               VariablesHandler& stateVariableHandler,
                                               std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
-    Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
-
-    state.setZero();
+    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 
@@ -205,7 +201,7 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
     int offset = stateVariableHandler.getVariable("ds").offset;
     int size = stateVariableHandler.getVariable("ds").size;
 
-    Eigen::VectorXd jointVel = Eigen::VectorXd(size);
+    Eigen::VectorXd jointVel(size);
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         jointVel(jointIndex) = state[offset + jointIndex];

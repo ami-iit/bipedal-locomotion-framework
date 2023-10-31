@@ -9,7 +9,6 @@
 #include <catch2/generators/catch_generators_all.hpp>
 #include <chrono>
 
-#include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
@@ -23,7 +22,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h>
@@ -152,9 +150,7 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                                               VariablesHandler& stateVariableHandler,
                                               std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
-    Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
-
-    state.setZero();
+    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 

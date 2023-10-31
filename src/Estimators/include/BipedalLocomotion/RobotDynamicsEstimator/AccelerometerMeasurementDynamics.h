@@ -56,7 +56,7 @@ class AccelerometerMeasurementDynamics : public Dynamics
                                                         and the sizes in the ukf state vector. */
     Eigen::VectorXd m_covSingleVar; /**< Covariance of the accelerometer measurement from
                                        configuration. */
-    Eigen::VectorXd m_subModelBaseAcceleration; /**< Base acceleration of the sub-model. */
+    manif::SE3d::Tangent m_subModelBaseAcceleration; /**< Base acceleration of the sub-model. */
     manif::SE3d::Tangent m_accelerometerFameVelocity; /** Velocity of the accelerometer given by the forward dynamics. */
     manif::SE3d::Tangent m_accelerometerFameAcceleration; /** Acceleration of the accelerometer given by the forward dynamics. */
     manif::SO3d m_imuRworld; /**< Rotation matrix of the inertial frame with respect to the imu frame expressed in the imu frame. */

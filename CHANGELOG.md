@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to control a subset of linear coordinates in `TSID::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/738)
 - Implement `GlobalCoPEvaluator` in `Contacts` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
 - Implement `Wrench::getLocalCoP()` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
+- Add tests for classes of `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/743)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)

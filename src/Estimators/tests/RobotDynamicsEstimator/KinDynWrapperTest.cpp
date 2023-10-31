@@ -8,7 +8,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
@@ -22,7 +21,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
@@ -66,7 +64,7 @@ bool setStaticState(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
     size_t dofs = kinDyn->getNrOfDegreesOfFreedom();
     iDynTree::Transform worldTbase;
-    Eigen::VectorXd baseVel(6);
+    manif::SE3Tangentd baseVel;
     Eigen::Vector3d gravity;
 
     Eigen::VectorXd qj(dofs), dqj(dofs), ddqj(dofs);
@@ -88,10 +86,10 @@ bool setStaticState(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     }
 
     return kinDyn->setRobotState(transform,
-                                 iDynTree::make_span(qj.data(), qj.size()),
-                                 iDynTree::make_span(baseVel.data(), baseVel.size()),
-                                 iDynTree::make_span(dqj.data(), dqj.size()),
-                                 iDynTree::make_span(gravity.data(), gravity.size()));
+                                 qj,
+                                 iDynTree::make_span(baseVel.data(), manif::SE3d::Tangent::DoF),
+                                 dqj,
+                                 gravity);
 }
 
 IParametersHandler::shared_ptr createModelParameterHandler()
@@ -198,7 +196,7 @@ TEST_CASE("KinDynWrapper Test")
                                         gravity);
 
     // Forward dynamics
-    Eigen::VectorXd jointAccFD = Eigen::VectorXd(numJoints);
+    Eigen::VectorXd jointAccFD(numJoints);
     REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
                                                   Eigen::VectorXd::Zero(numJoints),
                                                   Eigen::VectorXd::Zero(numJoints),
@@ -219,7 +217,7 @@ TEST_CASE("KinDynWrapper Test")
     tempVec += massMatrix.topRightCorner(6, numJoints) * jointAcc;
     trqExt.head(6) = tempVec + genTrq.head(6);
 
-    Eigen::VectorXd nuDot = Eigen::VectorXd(6 + numJoints);
+    Eigen::VectorXd nuDot(6 + numJoints);
     REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
                                                   Eigen::VectorXd::Zero(numJoints),
                                                   trqExt,

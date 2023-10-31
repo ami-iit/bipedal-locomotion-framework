@@ -8,7 +8,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
@@ -22,7 +21,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
@@ -151,9 +149,7 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                                               VariablesHandler& stateVariableHandler,
                                               std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 {
-    Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
-
-    state.setZero();
+    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 
@@ -250,16 +246,16 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
     offset = stateVariableHandler.getVariable("tau_m").offset;
     size = stateVariableHandler.getVariable("tau_m").size;
 
-    Eigen::VectorXd jointTrq = Eigen::VectorXd(size);
+    Eigen::VectorXd jointTrq(size);
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         jointTrq(jointIndex) = state[offset + jointIndex];
     }
 
-    Eigen::VectorXd jointAcc = Eigen::VectorXd(size);
+    Eigen::VectorXd jointAcc(size);
     REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
-                                                  Eigen::VectorXd().Zero(size),
-                                                  Eigen::VectorXd().Zero(size),
+                                                  Eigen::VectorXd::Zero(size),
+                                                  Eigen::VectorXd::Zero(size),
                                                   input.robotBaseAcceleration,
                                                   jointAcc));
 }
@@ -341,7 +337,8 @@ TEST_CASE("Accelerometer Measurement Dynamics")
 
     manif::SE3Tangentd accelerometerFameAcceleration;
     REQUIRE(kinDyn->getFrameAcc("r_leg_ft",
-                                input.robotBaseAcceleration,
+                                iDynTree::make_span(input.robotBaseAcceleration.data(),
+                                                    manif::SE3d::Tangent::DoF),
                                 input.robotJointAccelerations,
                                 iDynTree::make_span(accelerometerFameAcceleration.data(),
                                                     manif::SE3d::Tangent::DoF)));

@@ -9,7 +9,6 @@
 #include <catch2/generators/catch_generators_all.hpp>
 #include <chrono>
 
-#include <ConfigFolderPath.h>
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
@@ -20,7 +19,6 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h>
@@ -143,9 +141,7 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                                               std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
                                               IParametersHandler::shared_ptr frictionParamHandler)
 {
-    Eigen::VectorXd state = Eigen::VectorXd(stateVariableHandler.getNumberOfVariables());
-
-    state.setZero();
+    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 
@@ -231,7 +227,7 @@ void computeTauFNext(UKFInput& input,
                      IParametersHandler::shared_ptr frictionParamHandler,
                      Eigen::Ref<Eigen::VectorXd> tauFNext)
 {
-    Eigen::VectorXd jointVel = Eigen::VectorXd(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel(stateVariableHandler.getVariable("ds").size);
 
     int offsetVel = stateVariableHandler.getVariable("ds").offset;
 
@@ -314,7 +310,7 @@ TEST_CASE("Friction Torque Dynamics")
     tauFDynamics.setInput(input);
     tauFDynamics.setState(state);
 
-    Eigen::VectorXd tauFNext = Eigen::VectorXd(input.robotJointPositions.size());
+    Eigen::VectorXd tauFNext(input.robotJointPositions.size());
     computeTauFNext(input, state, stateVariableHandler, frictionParameterHandler, tauFNext);
 
     // Update the dynamics

@@ -36,6 +36,7 @@ if(FRAMEWORK_COMPILE_RobotDynamicsEstimator)
                             ${H_PREFIX}/GyroscopeMeasurementDynamics.h ${H_PREFIX}/FrictionTorqueStateDynamics.h ${H_PREFIX}/MotorCurrentMeasurementDynamics.h
     PUBLIC_LINK_LIBRARIES   BipedalLocomotion::ParametersHandler MANIF::manif BipedalLocomotion::System BipedalLocomotion::Math iDynTree::idyntree-high-level
                             iDynTree::idyntree-core iDynTree::idyntree-model iDynTree::idyntree-modelio Eigen3::Eigen BayesFilters::BayesFilters
-    PRIVATE_LINK_LIBRARIES  BipedalLocomotion::TextLogging BipedalLocomotion::ManifConversions
+                            BipedalLocomotion::ManifConversions
+    PRIVATE_LINK_LIBRARIES  BipedalLocomotion::TextLogging
     )
 endif()
