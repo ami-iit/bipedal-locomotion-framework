@@ -1,5 +1,5 @@
 /**
- * @file AccelerometerMeasurementDynamicsTest.cpp
+ * @file GyroscopeMeasurementDynamicsTest.cpp
  * @authors Ines Sorrentino
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -25,7 +25,7 @@
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 
-#include <BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h>
 
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -108,14 +108,14 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
     emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
-    REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
+    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
 
-    auto accGroup = std::make_shared<StdImplementation>();
-    std::vector<std::string> accNameList = {"r_leg_ft_acc"};
-    std::vector<std::string> accFrameList = {"r_leg_ft"};
-    accGroup->setParameter("names", accNameList);
-    accGroup->setParameter("frames", accFrameList);
-    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));
+    auto gyroGroup = std::make_shared<StdImplementation>();
+    std::vector<std::string> gyroNameList = {"r_leg_ft_gyro"};
+    std::vector<std::string> gyroFrameList = {"r_leg_ft"};
+    gyroGroup->setParameter("names", gyroNameList);
+    gyroGroup->setParameter("frames", gyroFrameList);
+    REQUIRE(modelParamHandler->setGroup("GYROSCOPE", gyroGroup));
 
     auto emptyGroupFrames = std::make_shared<StdImplementation>();
     emptyGroupFrames->setParameter("frames", emptyVectorString);
@@ -179,6 +179,10 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
     {
         state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
+
+    state.segment(stateVariableHandler.getVariable("r_leg_ft_gyro_bias").offset,
+                  stateVariableHandler.getVariable("r_leg_ft_gyro_bias").size)
+        = Eigen::VectorXd::Random(stateVariableHandler.getVariable("r_leg_ft_gyro_bias").size);
 
     return state;
 }
@@ -245,38 +249,21 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
                                                             manif::SE3d::Tangent::DoF),
                                         subModelJointVel[0],
                                         gravity);
-
-    // Forward dynamics
-    offset = stateVariableHandler.getVariable("tau_m").offset;
-    size = stateVariableHandler.getVariable("tau_m").size;
-
-    Eigen::VectorXd jointTrq = Eigen::VectorXd(size);
-    for (int jointIndex = 0; jointIndex < size; jointIndex++)
-    {
-        jointTrq(jointIndex) = state[offset + jointIndex];
-    }
-
-    Eigen::VectorXd jointAcc = Eigen::VectorXd(size);
-    REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
-                                                  Eigen::VectorXd().Zero(size),
-                                                  Eigen::VectorXd().Zero(size),
-                                                  input.robotBaseAcceleration,
-                                                  jointAcc));
 }
 
-TEST_CASE("Accelerometer Measurement Dynamics")
+TEST_CASE("Gyroscope Measurement Dynamics")
 {
-    // Create accelerometer parameter handler
-    auto accHandler = std::make_shared<StdImplementation>();
-    const std::string name = "r_leg_ft_acc";
+    // Create gyroscope parameter handler
+    auto gyroHandler = std::make_shared<StdImplementation>();
+    const std::string name = "r_leg_ft_gyro";
     Eigen::VectorXd covariance(3);
-    covariance << 2.3e-3, 1.9e-3, 3.1e-3;
-    const std::string model = "AccelerometerMeasurementDynamics";
+    covariance << 2.3e-3, 1.9e-3, 1.8e-3;
+    const std::string model = "GyroscopeMeasurementDynamics";
     const bool useBias = true;
-    accHandler->setParameter("name", name);
-    accHandler->setParameter("covariance", covariance);
-    accHandler->setParameter("dynamic_model", model);
-    accHandler->setParameter("use_bias", useBias);
+    gyroHandler->setParameter("name", name);
+    gyroHandler->setParameter("covariance", covariance);
+    gyroHandler->setParameter("dynamic_model", model);
+    gyroHandler->setParameter("use_bias", useBias);
 
     // Create state variable handler
     constexpr size_t sizeVariable = 6;
@@ -284,7 +271,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_acc_bias", 3));
+    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_gyro_bias", 3));
 
     // Create parameter handler to load the model
     auto modelParamHandler = createModelParameterHandler();
@@ -312,10 +299,10 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     }
 
     // Create the dynamics
-    AccelerometerMeasurementDynamics accDynamics;
-    REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(accDynamics.initialize(accHandler));
-    REQUIRE(accDynamics.finalize(stateVariableHandler));
+    GyroscopeMeasurementDynamics gyroDynamics;
+    REQUIRE(gyroDynamics.setSubModels(subModelList, kinDynWrapperList));
+    REQUIRE(gyroDynamics.initialize(gyroHandler));
+    REQUIRE(gyroDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state
     UKFInput input;
@@ -333,37 +320,24 @@ TEST_CASE("Accelerometer Measurement Dynamics")
                          stateVariableHandler);
 
     // Set input and state to the dynamics
-    accDynamics.setInput(input);
-    accDynamics.setState(state);
+    gyroDynamics.setInput(input);
+    gyroDynamics.setState(state);
+
+    // Get bias
+    Eigen::Vector3d bias = state.segment(stateVariableHandler.getVariable("r_leg_ft_gyro_bias").offset,
+                                         stateVariableHandler.getVariable("r_leg_ft_gyro_bias").size);
 
     // Update the dynamics
-    REQUIRE(accDynamics.update());
+    REQUIRE(gyroDynamics.update());
 
-    manif::SE3Tangentd accelerometerFameAcceleration;
-    REQUIRE(kinDyn->getFrameAcc("r_leg_ft",
-                                input.robotBaseAcceleration,
-                                input.robotJointAccelerations,
-                                iDynTree::make_span(accelerometerFameAcceleration.data(),
-                                                    manif::SE3d::Tangent::DoF)));
-
-    manif::SO3d imuRworld = BipedalLocomotion::Conversions::toManifRot(
-        kinDyn->getWorldTransform("r_leg_ft").getRotation().inverse());
-
-    Eigen::Vector3d gravity;
-    gravity.setZero();
-    gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    Eigen::Vector3d accRg = imuRworld.act(gravity);
-
-    manif::SE3Tangentd accFrameVel
+    manif::SE3Tangentd gyroFrameVel
         = BipedalLocomotion::Conversions::toManifTwist(kinDyn->getFrameVel("r_leg_ft"));
 
-    Eigen::VectorXd m_vCrossW = accFrameVel.lin().cross(accFrameVel.ang());
-
     // Check the output
-    for (int idx = 0; idx < accDynamics.getUpdatedVariable().size(); idx++)
+    for (int idx = 0; idx < gyroDynamics.getUpdatedVariable().size(); idx++)
     {
-        REQUIRE(std::abs(accDynamics.getUpdatedVariable()(idx) + accRg(idx) + m_vCrossW(idx)
-                         - accelerometerFameAcceleration.coeffs()(idx))
+        REQUIRE(std::abs(gyroDynamics.getUpdatedVariable()(idx) - bias(idx)
+                         - gyroFrameVel.coeffs()(idx+3))
                 < 0.1);
     }
 }
