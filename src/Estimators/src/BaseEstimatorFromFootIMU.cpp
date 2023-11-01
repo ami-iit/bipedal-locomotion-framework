@@ -133,8 +133,8 @@ bool BaseEstimatorFromFootIMU::initialize(
     m_cornersInInertialFrame.emplace_back(-m_footLength / 2, -m_footWidth / 2, 0);
 
     m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    m_frameIndex = m_kinDyn.getFrameIndex(m_footFrameName);
-    if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX)
+    m_footFrameIndex = m_kinDyn.getFrameIndex(m_footFrameName);
+    if (m_footFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Invalid frame named: {}", logPrefix, m_footFrameName);
         return false;
@@ -146,8 +146,8 @@ bool BaseEstimatorFromFootIMU::initialize(
         return false;
     }
 
-    m_frameName = m_kinDyn.getFrameName(m_frameIndex);
-    m_linkIndex = m_model.getFrameLink(m_frameIndex);
+    m_frameName = m_kinDyn.getFrameName(m_footFrameIndex);
+    m_linkIndex = m_model.getFrameLink(m_footFrameIndex);
 
     if (!m_kinDyn.setFloatingBase(m_model.getLinkName(m_linkIndex)))
     {
@@ -155,7 +155,7 @@ bool BaseEstimatorFromFootIMU::initialize(
         return false;
     }
 
-    iDynTree::Transform frame_H_link = m_model.getFrameTransform(m_frameIndex).inverse();
+    iDynTree::Transform frame_H_link = m_model.getFrameTransform(m_footFrameIndex).inverse();
     m_frame_H_link = Conversions::toManifPose(frame_H_link);
 
     m_trasOld.setZero();
@@ -171,7 +171,17 @@ bool BaseEstimatorFromFootIMU::initialize(
 
 bool BaseEstimatorFromFootIMU::setInput(const BaseEstimatorFromFootIMUInput& input)
 {
+    constexpr auto logPrefix = "[BaseEstimatorFromFootIMU::setInput]";
+    m_isInputSet = false;
     m_input = input;
+
+    if (!m_isInitialized)
+    {
+        log()->error("{} The estimator is not initialized.", logPrefix);
+        return false;
+    }
+
+    m_isInputSet = true;
     return true;
 }
 
@@ -181,9 +191,9 @@ bool BaseEstimatorFromFootIMU::advance()
 
     m_isOutputValid = false;
 
-    if (!m_isInitialized)
+    if (!m_isInputSet)
     {
-        log()->error("{} The estimator is not initialized.", logPrefix);
+        log()->error("{} The estimator input has not been set.", logPrefix);
         return false;
     }
 
@@ -258,15 +268,16 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // finding the index of the lowest corner.
     double minZ = cornersZ[0];
-    m_state.supportCornerIndex = 0;
+    int indexMinZ = 0;
     for (int i = 1; i < cornersZ.size(); i++)
     {
         if (cornersZ[i] < minZ)
         {
             minZ = cornersZ[i];
-            m_state.supportCornerIndex = i;
+            indexMinZ = i;
         }
     }
+    m_state.supportCornerIndex = indexMinZ;
 
     // finding the index of the highest corner.
     // double maxZ = cornersZ[0];
@@ -344,6 +355,7 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // calculating the pose of the root link given the robot state.
     m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrame));
+    m_kinDyn.getCenterOfMassPosition(m_state.centerOfMassPosition);
 
     // updating m_cornersInLocalFrame when the foot is nearly flat
     // double flatnessThreshold = 0.0001;

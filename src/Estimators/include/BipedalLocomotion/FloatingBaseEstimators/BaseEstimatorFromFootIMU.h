@@ -30,6 +30,7 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
+    iDynTree::Span<double> centerOfMassPosition;
     std::vector<Eigen::Vector3d> sphereShadowCorners;
     std::vector<Eigen::Vector3d> sphereFootCorners;
     int supportCornerIndex;
@@ -186,14 +187,15 @@ private:
     iDynTree::KinDynComputations m_kinDyn;
     iDynTree::Model m_model;
     iDynTree::LinkIndex m_linkIndex;
-    int m_frameIndex;
+    int m_footFrameIndex;
     std::string m_frameName;
     int m_baseFrame; /**< Index of the frame whose pose needs to be estimated */
     std::string m_footFrameName; /**< reference frames of the possible stance feet (whose
                                     orientations are measured)*/
-    bool m_isOutputValid{false};
     bool m_isModelSet{false};
     bool m_isInitialized{false};
+    bool m_isInputSet{false};
+    bool m_isOutputValid{false};
 };
 
 } // namespace Estimators
