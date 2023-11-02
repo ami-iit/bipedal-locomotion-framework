@@ -136,12 +136,13 @@ void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
     input.robotBaseAcceleration = baseAcc;
 }
 
-Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
-                                              VariablesHandler& stateVariableHandler,
-                                              std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
-                                              IParametersHandler::shared_ptr frictionParamHandler)
+void createStateVector(UKFInput& input,
+                       VariablesHandler& stateVariableHandler,
+                       std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                       IParametersHandler::shared_ptr frictionParamHandler,
+                       Eigen::Ref<Eigen::VectorXd> state)
 {
-    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
+    state.setZero();
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 
@@ -150,23 +151,6 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         state[offset + jointIndex] = jointVel(jointIndex);
-    }
-
-    // Compute friction torques from coefficients and state
-    offset = stateVariableHandler.getVariable("tau_F").offset;
-    size = stateVariableHandler.getVariable("tau_F").size;
-    Eigen::VectorXd k0;
-    REQUIRE(frictionParamHandler->getParameter("friction_k0", k0));
-    Eigen::VectorXd k1;
-    REQUIRE(frictionParamHandler->getParameter("friction_k1", k1));
-    Eigen::VectorXd k2;
-    REQUIRE(frictionParamHandler->getParameter("friction_k2", k2));
-    Eigen::VectorXd friction
-        = k0.array() * (k1.array() * jointVel.array()).tanh() + k2.array() * jointVel.array();
-
-    for (int jointIndex = 0; jointIndex < size; jointIndex++)
-    {
-        state[offset + jointIndex] = friction(jointIndex);
     }
 
     // Compute joint torques from inverse dynamics on the full model
@@ -182,10 +166,8 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
                             jointTorques);
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
-        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex] + friction(jointIndex);
+        state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
-
-    return state;
 }
 
 IParametersHandler::shared_ptr createFrictionParameterHandler()
@@ -303,8 +285,9 @@ TEST_CASE("Friction Torque Dynamics")
     createUkfInput(stateVariableHandler, input);
 
     // Create the state vector
-    Eigen::VectorXd state
-        = createStateVector(input, stateVariableHandler, kinDyn, frictionParameterHandler);
+    Eigen::VectorXd state;
+    state.resize(stateVariableHandler.getNumberOfVariables());
+    createStateVector(input, stateVariableHandler, kinDyn, frictionParameterHandler, state);
 
     // Set input and state to the dynamics
     tauFDynamics.setInput(input);

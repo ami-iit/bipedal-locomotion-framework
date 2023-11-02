@@ -146,11 +146,12 @@ void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
     input.robotBaseAcceleration = baseAcc;
 }
 
-Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
-                                              VariablesHandler& stateVariableHandler,
-                                              std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+void createStateVector(UKFInput& input,
+                       VariablesHandler& stateVariableHandler,
+                       std::shared_ptr<iDynTree::KinDynComputations> kinDyn,
+                       Eigen::Ref<Eigen::VectorXd> state)
 {
-    Eigen::VectorXd state = Eigen::VectorXd::Zero(stateVariableHandler.getNumberOfVariables());
+    state.setZero();
 
     Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
 
@@ -176,8 +177,6 @@ Eigen::Ref<Eigen::VectorXd> createStateVector(UKFInput& input,
     {
         state[offset + jointIndex] = jointTorques.jointTorques()[jointIndex];
     }
-
-    return state;
 }
 
 TEST_CASE("Joint Velocity State Dynamics")
@@ -241,7 +240,9 @@ TEST_CASE("Joint Velocity State Dynamics")
     createUkfInput(stateVariableHandler, input);
 
     // Create the state vector
-    Eigen::VectorXd state = createStateVector(input, stateVariableHandler, kinDyn);
+    Eigen::VectorXd state;
+    state.resize(stateVariableHandler.getNumberOfVariables());
+    createStateVector(input, stateVariableHandler, kinDyn, state);
 
     // Set input and state to the dynamics
     dsDynamics.setInput(input);
