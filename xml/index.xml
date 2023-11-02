@@ -15,7 +15,7 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a76f252ea0c1bf35d900e040a6cf3da0b" kind="variable"><name>m_name</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aadafa52a332ca551d0d7273079d588a5" kind="variable"><name>m_stateVariableHandler</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ac935cd44d408e5c82762ebd9327b7126" kind="variable"><name>m_covSingleVar</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ad3550e939f379afc74c788d18ea34b63" kind="variable"><name>m_subModelBaseAcceleration</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1afb0c7180be652db7cda11040823b0a93" kind="variable"><name>m_subModelBaseAcceleration</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ab7916830695aa8d54dad02eb62e865e8" kind="variable"><name>m_accelerometerFameVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a7e4f315b9429fcf759b4c5d3ed78628e" kind="variable"><name>m_accelerometerFameAcceleration</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a669f2e1a4a5f80f1afa8a3b6014e6ec6" kind="variable"><name>m_imuRworld</name></member>
@@ -875,7 +875,7 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01c5852e4eb5bfde90f55cd7933fc32e" kind="variable"><name>m_Fc</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01409c82508b6bced9c2131079c8b726" kind="variable"><name>m_Fs</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3a61a7d47644a4877c2313c7189ad2d7" kind="variable"><name>m_Fv</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a4729c4d3405a941e9d96edefd6b09dd3" kind="variable"><name>m_dT</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a0f3dd591e0d9dda25f247b789c2c66e6" kind="variable"><name>m_dT</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1afa1454f5b15bf6fb1e4eba84c21f03d7" kind="variable"><name>m_frictionTorqueFullModel</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1aa9a01a5c86f03b39f18436f745eef4b0" kind="variable"><name>m_ukfInput</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abf57420ff35525ab2f24a49763a3522e" kind="variable"><name>m_name</name></member>
