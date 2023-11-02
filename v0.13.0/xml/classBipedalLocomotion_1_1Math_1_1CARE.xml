@@ -209,7 +209,7 @@
 <para>Computes the unique stabilizing solution S to the continuous-time algebraic equation. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="126">\[ S A + A&apos; S - S B R^{-1} B&apos; S + Q = 0 \]</formula> <simplesect kind="note"><para>This class implements the algorithm presented in the paper: Solving the algebraic Riccati equation with the matrix sign function <ulink url="https://www.sciencedirect.com/science/article/pii/0024379587902229">https://www.sciencedirect.com/science/article/pii/0024379587902229</ulink> </para>
+<para><formula id="102">\[ S A + A&apos; S - S B R^{-1} B&apos; S + Q = 0 \]</formula> <simplesect kind="note"><para>This class implements the algorithm presented in the paper: Solving the algebraic Riccati equation with the matrix sign function <ulink url="https://www.sciencedirect.com/science/article/pii/0024379587902229">https://www.sciencedirect.com/science/article/pii/0024379587902229</ulink> </para>
 </simplesect>
 </para>
     </detaileddescription>

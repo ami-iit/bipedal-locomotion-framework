@@ -82,9 +82,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="202">$H$</formula> is <formula id="203">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="204">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="205">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="178">$H$</formula> is <formula id="179">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="180">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="181">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>transform</parametername>
 </parameternamelist>
@@ -131,9 +131,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="202">$H$</formula> is <formula id="206">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="204">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="207">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="178">$H$</formula> is <formula id="182">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="180">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="183">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>rotation</parametername>
 </parameternamelist>

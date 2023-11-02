@@ -10,8 +10,8 @@
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includedby refid="ILinearTaskFactory_8h" local="no">BipedalLocomotion/System/ILinearTaskFactory.h</includedby>
     <includedby refid="ILinearTaskSolver_8h" local="no">BipedalLocomotion/System/ILinearTaskSolver.h</includedby>
-    <includedby refid="TSIDLinearTask_8h" local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includedby>
     <includedby refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includedby>
+    <includedby refid="TSIDLinearTask_8h" local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includedby>
     <incdepgraph>
       <node id="6">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -158,11 +158,11 @@
       <node id="15">
         <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
         <link refid="ILinearTaskSolver_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="23">
@@ -176,9 +176,9 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="25">

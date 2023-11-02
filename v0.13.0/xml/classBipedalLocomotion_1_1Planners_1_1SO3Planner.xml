@@ -22,7 +22,7 @@
 <para>Initial rotation from the inertial frame to the body frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Namely <formula id="59">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
+<para>Namely <formula id="132">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -132,7 +132,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="60">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="133">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -140,7 +140,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="61">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="134">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -245,7 +245,7 @@
 <parametername>rotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><formula id="59">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
+<para><formula id="132">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>

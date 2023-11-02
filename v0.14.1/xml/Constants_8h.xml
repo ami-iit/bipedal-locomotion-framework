@@ -2,10 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="Constants_8h" kind="file" language="C++">
     <compoundname>Constants.h</compoundname>
-    <includedby refid="BaseEstimatorFromFootIMU_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/BaseEstimatorFromFootIMU.h</includedby>
     <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
     <includedby refid="FixedBaseDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</includedby>
     <includedby refid="FloatingBaseDynamicsWithCompliantContacts_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</includedby>
+    <includedby refid="BaseEstimatorFromFootIMU_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/BaseEstimatorFromFootIMU.h</includedby>
     <includedby refid="SchmittTrigger_8h" local="no">BipedalLocomotion/Math/SchmittTrigger.h</includedby>
     <invincdepgraph>
       <node id="9">
@@ -20,11 +20,11 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
         <link refid="CentroidalDynamics_8h"/>
       </node>
-      <node id="4">
+      <node id="3">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedBaseDynamics.h</label>
         <link refid="FixedBaseDynamics_8h"/>
       </node>
@@ -32,11 +32,11 @@
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
-      <node id="2">
+      <node id="5">
         <label>BipedalLocomotion/FloatingBaseEstimators/BaseEstimatorFromFootIMU.h</label>
         <link refid="BaseEstimatorFromFootIMU_8h"/>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
         <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
       </node>

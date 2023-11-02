@@ -2,10 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1System" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::System</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClock" prot="public">BipedalLocomotion::System::RosClock</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClockFactory" prot="public">BipedalLocomotion::System::RosClockFactory</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public">BipedalLocomotion::System::YarpClock</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public">BipedalLocomotion::System::Advanceable</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner" prot="public">BipedalLocomotion::System::AdvanceableRunner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1Barrier" prot="public">BipedalLocomotion::System::Barrier</innerclass>
@@ -28,6 +24,10 @@
     <innerclass refid="classBipedalLocomotion_1_1System_1_1VariablesHandler" prot="public">BipedalLocomotion::System::VariablesHandler</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1System_1_1WeightProvider" prot="public">BipedalLocomotion::System::WeightProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory" prot="public">BipedalLocomotion::System::WeightProviderFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClock" prot="public">BipedalLocomotion::System::RosClock</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1RosClockFactory" prot="public">BipedalLocomotion::System::RosClockFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClock" prot="public">BipedalLocomotion::System::YarpClock</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1System_1_1YarpClockFactory" prot="public">BipedalLocomotion::System::YarpClockFactory</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="Advanceable_8h_1a1558f6843cd1a0f40215a6364b0af652" prot="public" static="no">
         <type>std::monostate</type>
@@ -130,6 +130,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/System/RosClock.h" line="19" column="1"/>
+    <location file="BipedalLocomotion/System/Advanceable.h" line="19" column="1"/>
   </compounddef>
 </doxygen>

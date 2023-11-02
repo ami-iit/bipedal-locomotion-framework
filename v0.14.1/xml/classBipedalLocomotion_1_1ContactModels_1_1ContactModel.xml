@@ -86,7 +86,7 @@
 <para>Autonomous dynamics of the contact model rate of change (i.e. </para>
         </briefdescription>
         <detaileddescription>
-<para>given a non linear system <formula id="51">$\dot{x} = f + g u$</formula> the autonomous dynamics is <emphasis>f</emphasis> </para>
+<para>given a non linear system <formula id="72">$\dot{x} = f + g u$</formula> the autonomous dynamics is <emphasis>f</emphasis> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -101,7 +101,7 @@
 <para>Control matrix of the contact model rate of change (i.e. </para>
         </briefdescription>
         <detaileddescription>
-<para>given a non linear system <formula id="51">$\dot{x} = f + g u$</formula> the control matrix is <emphasis>g</emphasis> </para>
+<para>given a non linear system <formula id="72">$\dot{x} = f + g u$</formula> the control matrix is <emphasis>g</emphasis> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -116,7 +116,7 @@
 <para>Contains the regressor of the contact model. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="52">$f = A \theta$</formula>, where <formula id="53">$f$</formula> is the contact wrench, <formula id="54">$A$</formula> the regressor and <formula id="55">$\theta$</formula> the parameters </para>
+<para><formula id="73">$f = A \theta$</formula>, where <formula id="74">$f$</formula> is the contact wrench, <formula id="75">$A$</formula> the regressor and <formula id="76">$\theta$</formula> the parameters </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

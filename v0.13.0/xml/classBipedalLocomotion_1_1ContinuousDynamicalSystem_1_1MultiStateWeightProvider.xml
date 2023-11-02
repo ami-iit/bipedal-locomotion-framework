@@ -97,7 +97,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>settling_time</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>5% settling time (The settling time, <formula id="42">$T_s$</formula>, is the time required for the system output to fall within a certain percentage (i.e. 5%) of the steady-state value for a step input.)   </para>
+</entry><entry thead="no" align='center'><para>5% settling time (The settling time, <formula id="17">$T_s$</formula>, is the time required for the system output to fall within a certain percentage (i.e. 5%) of the steady-state value for a step input.)   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>

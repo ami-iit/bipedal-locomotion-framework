@@ -446,7 +446,7 @@
 <parametername>angle</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the yaw angle (in radians) represents the <formula id="10">${}^I R_B$</formula> rotation matrix. The rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the inertial frame (I). The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>
+<para>the yaw angle (in radians) represents the <formula id="127">${}^I R_B$</formula> rotation matrix. The rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the inertial frame (I). The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -461,7 +461,7 @@
 <para><ref refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController" kindref="compound">CoMZMPController</ref> implements the following control law. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="4">\[ \dot{x} = \dot{x}^* - K _ {zmp} (r^*_{zmp} - r_{zmp}) + K _ {com} (x^* - x) \]</formula> where <formula id="5">$x$</formula> is the CoM position and <formula id="6">$r_{zmp}$</formula> the ZMP position. The gains <formula id="7">$K_{zmp}$</formula> and <formula id="8">$K_{com}$</formula> depends on the orientation of a frame rigidly attached to the CoM (B) w.r.t. the inertial frame (I). The rotation matrix <formula id="9">${}^I R _ B$</formula> depends only on the yaw angle. <image type="html" name="https://user-images.githubusercontent.com/16744101/128683430-f63c3c34-404a-42d9-b864-2437445abe38.png" alt="CoMZMPController" inline="yes"></image>
+<para><formula id="122">\[ \dot{x} = \dot{x}^* - K _ {zmp} (r^*_{zmp} - r_{zmp}) + K _ {com} (x^* - x) \]</formula> where <formula id="38">$x$</formula> is the CoM position and <formula id="123">$r_{zmp}$</formula> the ZMP position. The gains <formula id="124">$K_{zmp}$</formula> and <formula id="125">$K_{com}$</formula> depends on the orientation of a frame rigidly attached to the CoM (B) w.r.t. the inertial frame (I). The rotation matrix <formula id="126">${}^I R _ B$</formula> depends only on the yaw angle. <image type="html" name="https://user-images.githubusercontent.com/16744101/128683430-f63c3c34-404a-42d9-b864-2437445abe38.png" alt="CoMZMPController" inline="yes"></image>
  <simplesect kind="note"><para>Since the controller is based on the assumption of the Linear Inverted Pendulum Model (LIPM), the CoM height velocity is always equal to zero. </para>
 </simplesect>
 <simplesect kind="note"><para>The yaw angle allows the user to have different gains on the forward and lateral walking direction. </para>

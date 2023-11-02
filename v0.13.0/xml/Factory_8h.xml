@@ -52,9 +52,9 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="8">
@@ -71,7 +71,7 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="15">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -93,7 +93,7 @@
         <label>BipedalLocomotion/IK/CoMTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h"/>
       </node>
-      <node id="15">
+      <node id="16">
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>

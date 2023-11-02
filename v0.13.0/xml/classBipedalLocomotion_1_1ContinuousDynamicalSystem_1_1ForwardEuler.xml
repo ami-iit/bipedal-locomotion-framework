@@ -207,7 +207,7 @@
 </parameterlist>
 <simplesect kind="warning"><para>We assume that the operator + is defined for the objects contained in the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> and <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" kindref="member">DynamicalSystem::StateDerivative</ref>. </para>
 </simplesect>
-<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="48">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="49">$X$</formula> belongs to a Lie group and <formula id="50">$\psi$</formula> belongs to the tangent space. </para>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator is compatible with Lie groups defined by the <computeroutput>manif</computeroutput> library. Since the <emphasis>box-plus</emphasis> operator is not commutative for a Lie group, here we consider only manifold left plus <formula id="23">\[ X + \psi = X \circ \exp(\psi) \]</formula> where <formula id="24">$X$</formula> belongs to a Lie group and <formula id="25">$\psi$</formula> belongs to the tangent space. </para>
 </simplesect>
 </para>
     </detaileddescription>

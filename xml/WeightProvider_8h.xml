@@ -4,10 +4,10 @@
     <compoundname>WeightProvider.h</compoundname>
     <includes refid="Factory_8h" local="no">BipedalLocomotion/System/Factory.h</includes>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
-    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <includedby refid="MultiStateWeightProvider_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</includedby>
-    <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
+    <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <includedby refid="IntegrationBasedIK_8h" local="no">BipedalLocomotion/IK/IntegrationBasedIK.h</includedby>
+    <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
     <incdepgraph>
       <node id="9">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -95,39 +95,39 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="5">
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
-      <node id="8">
+      <node id="6">
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
-        <link refid="QPFixedBaseTSID_8h"/>
-      </node>
-      <node id="2">
-        <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
-        <link refid="ConstantWeightProvider_8h"/>
-      </node>
-      <node id="6">
-        <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
-        <link refid="IntegrationBasedIK_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>BipedalLocomotion/TSID/QPTSID.h</label>
-        <link refid="QPTSID_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
+        <link refid="QPFixedBaseTSID_8h"/>
+      </node>
       <node id="3">
+        <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
+        <link refid="ConstantWeightProvider_8h"/>
+      </node>
+      <node id="4">
+        <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
+        <link refid="IntegrationBasedIK_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>BipedalLocomotion/TSID/QPTSID.h</label>
+        <link refid="QPTSID_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -140,7 +140,7 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

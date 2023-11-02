@@ -8,8 +8,8 @@
     <includes local="no">initializer_list</includes>
     <includes local="no">vector</includes>
     <includedby refid="MANNTrajectoryGenerator_8h" local="no">BipedalLocomotion/ML/MANNTrajectoryGenerator.h</includedby>
-    <includedby refid="FixedFootDetector_8h" local="no">BipedalLocomotion/ContactDetectors/FixedFootDetector.h</includedby>
     <includedby refid="CentroidalMPC_8h" local="no">BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</includedby>
+    <includedby refid="FixedFootDetector_8h" local="no">BipedalLocomotion/ContactDetectors/FixedFootDetector.h</includedby>
     <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
     <incdepgraph>
       <node id="14">
@@ -145,7 +145,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
       </node>
@@ -155,7 +155,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="3">
         <label>BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</label>
         <link refid="CentroidalMPC_8h"/>
       </node>
