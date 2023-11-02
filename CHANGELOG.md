@@ -11,6 +11,8 @@ All notable changes to this project are documented in this file.
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
 - Add the possibility to set the maximum number of accepted deadline miss in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
 - Add the `getControllerOutput` method to the `TSID::SE3Task` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/740)
+- Implement the python bindings for the `Wrench` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
+- Implement the python bindings for the `SimplifiedModelControllers` components (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
@@ -18,6 +20,7 @@ All notable changes to this project are documented in this file.
 - CMake: Permit to explictly specify Python installation directory by setting the `FRAMEWORK_PYTHON_INSTALL_DIR` CMake variable (https://github.com/ami-iit/bipedal-locomotion-framework/pull/741)
 - Remove outdated tests for `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/742)
 - Modify CI to install `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/746)
+- Restructure the balancing-position-control script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 
 ## [0.15.0] - 2023-09-05
 ### Added
