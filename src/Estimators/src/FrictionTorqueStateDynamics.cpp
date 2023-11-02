@@ -183,7 +183,8 @@ bool RDE::FrictionTorqueStateDynamics::update()
 
     m_dotTauF = (m_FcFs + m_Fv).array() * m_ukfInput.robotJointAccelerations.array();
 
-    m_updatedVariable = m_frictionTorqueFullModel.array() + m_dT * m_dotTauF.array();
+    m_updatedVariable = m_frictionTorqueFullModel.array()
+                        + std::chrono::duration<double>(m_dT).count() * m_dotTauF.array();
 
     return true;
 }

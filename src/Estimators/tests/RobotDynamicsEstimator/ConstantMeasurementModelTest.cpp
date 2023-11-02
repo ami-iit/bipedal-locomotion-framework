@@ -8,12 +8,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <ConfigFolderPath.h>
-#include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h>
@@ -36,9 +32,7 @@ TEST_CASE("Constant Measurement Model")
     REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
 
-    Eigen::VectorXd state;
-    state.resize(sizeVariable * variableHandler.getNumberOfVariables());
-    state.setZero();
+    Eigen::VectorXd state = Eigen::VectorXd::Zero(sizeVariable * variableHandler.getNumberOfVariables());
 
     const std::string name = "r_leg_ft";
     Eigen::VectorXd covariance(6);

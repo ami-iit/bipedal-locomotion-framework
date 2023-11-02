@@ -191,7 +191,8 @@ bool RDE::AccelerometerMeasurementDynamics::update()
 
         if (!m_kinDynWrapperList[m_subModelsWithAccelerometer[index]]
                  ->getFrameAcc(m_accelerometerFrameName,
-                               m_subModelBaseAcceleration,
+                               iDynTree::make_span(m_subModelBaseAcceleration.data(),
+                                                   manif::SE3d::Tangent::DoF),
                                m_subModelJointAcc[m_subModelsWithAccelerometer[index]],
                                iDynTree::make_span(m_accelerometerFameAcceleration.data(),
                                                    manif::SE3d::Tangent::DoF)))

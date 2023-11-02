@@ -38,7 +38,7 @@ class FrictionTorqueStateDynamics : public Dynamics
 {
     Eigen::VectorXd m_jointVelocityFullModel; /**< Vector of joint velocities. */
     Eigen::VectorXd m_Fc, m_Fs, m_Fv; /**< Friction parameters (see class description). */
-    double m_dT; /**< Sampling time. */
+    std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Sampling time. */
     Eigen::VectorXd m_frictionTorqueFullModel; /**< Friction torque vector of full-model. */
     UKFInput m_ukfInput;
     std::string m_name; /**< Name of dynamics. */

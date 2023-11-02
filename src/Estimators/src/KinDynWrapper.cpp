@@ -83,7 +83,7 @@ bool KinDynWrapper::forwardDynamics(Eigen::Ref<const Eigen::VectorXd> motorTorqu
         return false;
     }
 
-    m_FTvBaseDot = m_massMatrix.block(6, 0, this->getNrOfDegreesOfFreedom(), 6) * baseAcceleration.coeffs();
+    m_FTvBaseDot = m_massMatrix.bottomLeftCorner(this->getNrOfDegreesOfFreedom(), 6) * baseAcceleration.coeffs();
 
     m_totalJointTorques = motorTorqueAfterGearbox - frictionTorques + tauExt
                           - m_generalizedBiasForces.tail(this->getNrOfDegreesOfFreedom())
@@ -124,7 +124,7 @@ bool KinDynWrapper::forwardDynamics(Eigen::Ref<const Eigen::VectorXd> motorTorqu
 
     if (tauExt.size() != (6 + this->getNrOfDegreesOfFreedom()))
     {
-        log()->error("{} The size of the parameter `tauExt` should match the number of joints.",
+        log()->error("{} The size of the parameter `tauExt` should match the number of joints + 6.",
                      errorPrefix);
         return false;
     }
