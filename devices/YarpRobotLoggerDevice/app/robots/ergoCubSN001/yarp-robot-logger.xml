@@ -1,0 +1,110 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
+  <param name="robot">ergocub</param>
+  <param name="sampling_period_in_s">0.01</param>
+
+  <param name="rgb_cameras_fps">()</param>
+  <param name="rgb_cameras_rgb_save_mode">()</param>
+
+  <param name="rgbd_cameras_fps">()</param>
+  <param name="rgbd_cameras_depth_scale">()</param>
+  <param name="rgbd_cameras_depth_save_mode">()</param>
+  <param name="rgbd_cameras_rgb_save_mode">()</param>
+
+  <param name="video_codec_code">mp4v</param>
+  <param name="port_prefix">/yarp-robot-logger</param>
+  <param name="text_logging_subnames">("ergoCubSN001/yarprobotinterface")</param>
+  <param name="code_status_cmd_prefixes">("ssh ergocub@10.0.2.2" "ssh ergocub@10.0.2.3")</param>
+
+  <group name="Telemetry">
+    <param name="save_period">1800.0</param>
+  </group>
+
+  <group name="ExogenousSignals">
+    <param name="vectors_collection_exogenous_inputs">("Walking")</param>
+    <param name="vectors_exogenous_inputs">()</param>
+
+    <group name="Walking">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/walking:i"</param>
+      <param name="remote">"/walking-coordinator/logger/data:o"</param>
+      <param name="signal_name">"walking"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="RobotDynamicsEstimator">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/rde:i"</param>
+      <param name="remote">"/robot-dynamics-estimator/data:o"</param>
+      <param name="signal_name">"rde"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+  </group>
+
+  <group name="RobotCameraBridge">
+      <param name="stream_cameras">false</param>
+      <group name="Cameras">
+        <param name="rgb_cameras_list">()</param>
+        <param name="rgbd_cameras_list">()</param>
+      </group>
+  </group>
+
+  <group name="RobotSensorBridge">
+    <param name="check_for_nan">false</param>
+    <param name="stream_joint_states">true</param>
+    <param name="stream_motor_states">true</param>
+    <param name="stream_inertials">true</param>
+    <param name="stream_cartesian_wrenches">true</param>
+    <param name="stream_forcetorque_sensors">true</param>
+    <param name="stream_pids">false</param>
+    <param name="stream_motor_PWM">true</param>
+    <param name="stream_temperatures">true</param>
+
+    <group name="RemoteControlBoardRemapper">
+      <param name="joints_list">("neck_pitch", "neck_roll", "neck_yaw", "camera_tilt", "torso_roll", "torso_yaw", "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",  "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll", "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
+    </group>
+
+    <group name="SixAxisForceTorqueSensors">
+      <param name="sixaxis_forcetorque_sensors_list">(l_arm_ft, r_arm_ft, l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft)</param>
+    </group>
+
+    <group name="TemperatureSensors">
+      <param name="temperature_sensors_list">(l_arm_ft, r_arm_ft, l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft)</param>
+    </group>
+
+    <group name="CartesianWrenches">
+      <!-- <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client", "left_arm_wrench_client", "right_arm_wrench_client")</param> -->
+      <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client")</param>
+    </group>
+
+    <group name="InertialSensors">
+      <param name="accelerometers_list">(rfeimu_acc, l_arm_ft_acc, r_arm_ft_acc, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)</param>
+      <param name="gyroscopes_list">(rfeimu_gyro, l_arm_ft_gyro, r_arm_ft_gyro, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)</param>
+      <param name="magnetometers_list">(rfeimu_mag, l_arm_ft_mag, r_arm_ft_mag, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)</param>
+      <param name="orientation_sensors_list">(rfeimu_eul, l_arm_ft_eul, r_arm_ft_eul, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)</param>
+    </group>
+
+  </group>
+
+  <!-- ATTACH -->
+  <action phase="startup" level="15" type="attach">
+    <paramlist name="networks">
+      <elem name="all_joints">all_joints_mc</elem>
+      <elem name="left_front_wrench_client">left_front_wrench_client</elem>
+      <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
+      <elem name="right_front_wrench_client">right_front_wrench_client</elem>
+      <elem name="right_rear_wrench_client">right_rear_wrench_client</elem>
+      <!-- <elem name="right_arm_wrench_client">right_arm_wrench_client</elem> -->
+      <!-- <elem name="left_arm_wrench_client">left_arm_wrench_client</elem> -->
+      <elem name="mas-remapper">mas-remapper</elem>
+      <!-- <elem name="realsense">realsense</elem> -->
+      <!-- <elem name="jabra">jabra</elem> -->
+    </paramlist>
+  </action>
+
+  <action phase="shutdown" level="2" type="detach" />
+  <!-- FINISH ATTACH-->
+
+</device>
