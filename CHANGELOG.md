@@ -2,11 +2,6 @@
 All notable changes to this project are documented in this file.
 
 ## [Unreleased]
-- Added the ``DistanceTask`` and ``GravityTask`` to the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/717)
-- Add the possibility to control a subset of linear coordinates in `TSID::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/738)
-- Implement `GlobalCoPEvaluator` in `Contacts` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
-- Implement `Wrench::getLocalCoP()` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
-
 ### Added
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
 - Add the possibility to set the maximum number of accepted deadline miss in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
@@ -14,6 +9,10 @@ All notable changes to this project are documented in this file.
 - Implement the python bindings for the `Wrench` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 - Implement the python bindings for the `SimplifiedModelControllers` components (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 - 🤖 Add the configuration files to use `YarpRobotLoggerDevice` with `ergoCubSN001` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/747)
+- Added the ``DistanceTask`` and ``GravityTask`` to the IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/717)
+- Add the possibility to control a subset of linear coordinates in `TSID::SE3Task` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/738)
+- Implement `GlobalCoPEvaluator` in `Contacts` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
+- Implement `Wrench::getLocalCoP()` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
