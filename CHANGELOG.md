@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Add the `getControllerOutput` method to the `TSID::SE3Task` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/740)
 - Implement the python bindings for the `Wrench` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 - Implement the python bindings for the `SimplifiedModelControllers` components (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
+- 🤖 Add the configuration files to use `YarpRobotLoggerDevice` with `ergoCubSN001` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/747)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
