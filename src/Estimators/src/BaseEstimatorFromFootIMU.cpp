@@ -279,6 +279,15 @@ bool BaseEstimatorFromFootIMU::advance()
     }
     m_state.supportCornerIndex = indexMinZ;
 
+    // checking that the index of the lowest corner is within the range [0, 3].
+    if (!(0 <= m_state.supportCornerIndex <= 3))
+    {
+        log()->error("{} Foot vertex index out of bounds (0, 3): {}.",
+                     logPrefix,
+                     m_state.supportCornerIndex);
+        return false;
+    }
+
     // finding the index of the highest corner.
     // double maxZ = cornersZ[0];
     // int highestCornerIndex = 0;
@@ -293,15 +302,6 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // double deltaZ = cornersZ[highestCornerIndex] - cornersZ[m_state.supportCornerIndex];
     // std::cerr << "Foot deltaZ: " << deltaZ << std::endl;
-
-    // checking that the index of the lowest corner is within the range [0, 3].
-    if (!(0 <= m_state.supportCornerIndex <= 3))
-    {
-        log()->error("{} Foot vertex index out of bounds (0, 3): {}.",
-                     logPrefix,
-                     m_state.supportCornerIndex);
-        return false;
-    }
 
     // finding the offset vector needed to bring the lowest corner back to its
     // desired position.
@@ -336,7 +336,12 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // obtaining the final foot pose using both measured and desired quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
+
     m_measuredFootPose = T_foot * m_yawDrift * T_vertexOffset * T_foot_tilt * m_frame_H_link;
+
+    // Example if we want to switch off the yaw drift correction
+    // m_measuredFootPose = T_foot * T_vertexOffset * T_foot_tilt * m_frame_H_link;
+
     m_resetFootCorners = T_foot_raw;
 
     Eigen::VectorXd baseVelocity(6);

@@ -30,7 +30,8 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
-    iDynTree::Span<double> centerOfMassPosition;
+    // iDynTree::Span<double> centerOfMassPosition;
+    Eigen::Vector3d centerOfMassPosition;
     std::vector<Eigen::Vector3d> sphereShadowCorners;
     std::vector<Eigen::Vector3d> sphereFootCorners;
     int supportCornerIndex;
@@ -54,13 +55,17 @@ struct BaseEstimatorFromFootIMUInput
  * kinematic chain given by the leg joints positions.
  *
  * This class assumes that the foot has a rectangular shape as shown in the following schematics
- *          +
- *    p2 __|__   p1   __
- *      |  |  |         |
- *   ___|__|__|___+     | FOOT
- *      |  |  |         | LENGTH
- *      |__|__|       __|
- *    p3   |     p4
+ *
+ *       FRONT
+ *          +X
+ *    p1 __|__  p0   __
+ *      |  |  |        |
+ * +Y___|__|__|___     | FOOT
+ *      |  |  |        | LENGTH
+ *      |__|__|      __|
+ *    p2   |    p3
+ *
+ *       HIND
  *
  *      |_____|
  *       FOOT
@@ -144,13 +149,13 @@ private:
      * Define the 4 foot vertices in World reference frame:
      *
      *         +x              FRONT
-     *   m_p2 __|__ m_p1   __
+     *   m_p1 __|__ m_p0   __
      *       |  |  |         |
      *  +y___|__|__|___      | FOOT
      *       |  |  |         | LENGTH
      *       |__|__|       __|
-     *   m_p3   |   m_p4
-     *                         REAR
+     *   m_p2   |   m_p3
+     *                         HIND
      *       |_____|
      *        FOOT
      *        WIDTH
