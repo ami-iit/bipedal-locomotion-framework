@@ -23,6 +23,9 @@ All notable changes to this project are documented in this file.
 - Modify CI to install `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/746)
 - Restructure the balancing-position-control script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 
+### Fixed
+- Fix timestamp logging for the cameras (https://github.com/ami-iit/bipedal-locomotion-framework/pull/748)
+
 ## [0.15.0] - 2023-09-05
 ### Added
 - 🤖 Add the configuration files to use `YarpRobotLogger` with  `ergoCubGazeboV1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/690)
