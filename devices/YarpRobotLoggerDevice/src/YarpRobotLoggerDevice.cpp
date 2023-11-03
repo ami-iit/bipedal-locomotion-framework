@@ -63,7 +63,7 @@ VISITABLE_STRUCT(TextLoggingEntry,
                  yarprun_timestamp,
                  local_timestamp);
 
-void findAndReplaceAll(std::string& data, std::string toSearch, std::string replaceStr)
+void findAndReplaceAll(std::string& data, const std::string& toSearch, const std::string& replaceStr)
 {
     // Get the first occurrence
     size_t pos = data.find(toSearch);
@@ -1120,8 +1120,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 std::lock_guard lock(m_bufferManagerMutex);
 
                 // TODO here we may save the frame itself
-                m_bufferManager.push_back(time.count(),
-                                          time.count(),
+                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                          std::chrono::duration<double>(time).count(),
                                           "camera::" + cameraName + "::rgb");
             }
         }
@@ -1167,8 +1167,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 std::lock_guard lock(m_bufferManagerMutex);
 
                 // TODO here we may save the frame itself
-                m_bufferManager.push_back(time.count(),
-                                          time.count(),
+                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                          std::chrono::duration<double>(time).count(),
                                           "camera::" + cameraName + "::depth");
             }
         }
