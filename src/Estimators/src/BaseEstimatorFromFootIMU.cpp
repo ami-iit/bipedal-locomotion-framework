@@ -360,6 +360,10 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // calculating the pose of the root link given the robot state.
     m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrame));
+    m_state.footPose_R = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex));
+    m_state.footPose_L = Conversions::toManifPose(
+        m_kinDyn.getWorldTransform(m_kinDyn.getFrameIndex("l_sole"))); // TODO: make it generic
+
     m_kinDyn.getCenterOfMassPosition(m_state.centerOfMassPosition);
 
     // updating m_cornersInLocalFrame when the foot is nearly flat

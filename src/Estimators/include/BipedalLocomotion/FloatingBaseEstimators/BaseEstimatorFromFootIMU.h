@@ -30,6 +30,8 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
+    manif::SE3d footPose_R; /**< pose of the right foot */
+    manif::SE3d footPose_L; /**< pose of the left foot */
     // iDynTree::Span<double> centerOfMassPosition;
     Eigen::Vector3d centerOfMassPosition;
     std::vector<Eigen::Vector3d> sphereShadowCorners;
