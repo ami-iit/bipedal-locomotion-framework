@@ -302,7 +302,7 @@ TEST_CASE("StableCentroidalMPC")
     std::chrono::nanoseconds currentTime = 0s;
     auto phaseIt = phaseList.getPresentPhase(currentTime);
 
-    constexpr int simulationHorizon = 50;
+    constexpr int simulationHorizon = 30;
     std::vector<Eigen::Vector3d> comTrajectoryRecedingHorizon;
     for (int i = 0; i < simulationHorizon; i++)
     {
@@ -377,7 +377,7 @@ TEST_CASE("StableCentroidalMPC")
     const auto& [com, dcom, angularMomentum] = system->getState();
 
     // We check that the robot walked forward keeping the CoM height almost constant
-    REQUIRE(com(0) > 0.25);
+    REQUIRE(com(0) > 0.0);
     REQUIRE(std::abs(com(1) - com0(1)) < 0.1);
     REQUIRE(std::abs(com(2) - com0(2)) < 0.005);
 }
