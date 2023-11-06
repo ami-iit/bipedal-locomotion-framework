@@ -40,6 +40,7 @@ TEST_CASE("MANNTrajectoryGenerator")
 
     iDynTree::ModelLoader ml;
     REQUIRE(ml.loadReducedModelFromFile(getRobotModelPath(), jointsList));
+    BipedalLocomotion::log()->info("{}", getRobotModelPath());
 
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("joints_list", jointsList);
