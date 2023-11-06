@@ -56,7 +56,8 @@ TEST_CASE("SubModel Creation")
     // List of joints and fts to load the model
     std::vector<RDE::SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
+    const std::string modelPath = getRobotModelPath();
+    BipedalLocomotion::log()->info("Loading model from {}", modelPath);
 
     std::vector<std::string> jointList;
     REQUIRE(groupModel->getParameter("joint_list", jointList));
@@ -70,7 +71,7 @@ TEST_CASE("SubModel Creation")
     jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
 
     iDynTree::ModelLoader mdlLdr;
-    REQUIRE(mdlLdr.loadReducedModelFromFile(modelPath, jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));

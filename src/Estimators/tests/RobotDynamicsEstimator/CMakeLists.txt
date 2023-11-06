@@ -2,6 +2,9 @@
 # This software may be modified and distributed under the terms of the
 # GNU Lesser General Public License v2.1 or any later version.
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
+
 add_bipedal_test(NAME ZeroVelocityStateDynamics
                 SOURCES ZeroVelocityStateDynamicsTest.cpp
                 LINKS BipedalLocomotion::RobotDynamicsEstimator
@@ -15,10 +18,23 @@ add_bipedal_test(NAME ConstantMeasurementModel
                 Eigen3::Eigen)
 
 if(FRAMEWORK_USE_icub-models)
-    if(FRAMEWORK_COMPILE_YarpImplementation)
-        include_directories(${CMAKE_CURRENT_BINARY_DIR})
-        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
+    set(CUSTOM_MODEL_EXPECTED_MD5 33b903fe87939e2e4932564e45741047)
+    if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
+    file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.urdf" CUSTOM_MODEL_CHECKSUM_VARIABLE)
+    string(COMPARE EQUAL ${CUSTOM_MODEL_CHECKSUM_VARIABLE} ${CUSTOM_MODEL_EXPECTED_MD5} CUSTOM_MODEL_UPDATED)
+    else()
+    set(CUSTOM_MODEL_UPDATED FALSE)
+    endif()
+
+    if(NOT ${CUSTOM_MODEL_UPDATED})
+    message(STATUS "Fetching CUSTOM model from github.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/...")
+    file(DOWNLOAD https://raw.githubusercontent.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/577c9d734ff0cb7128274b3880106da11678538c/urdf/four_joints_two_sensors.urdf
+        ${CMAKE_CURRENT_BINARY_DIR}/model.urdf
+        EXPECTED_MD5 ${CUSTOM_MODEL_EXPECTED_MD5})
+    endif()
+    
+    if(FRAMEWORK_COMPILE_YarpImplementation)
         add_bipedal_test(NAME SubModelCreator
             SOURCES SubModelCreatorTest.cpp
             LINKS BipedalLocomotion::RobotDynamicsEstimator
@@ -71,7 +87,34 @@ if(FRAMEWORK_USE_icub-models)
             Eigen3::Eigen
             MANIF::manif
             BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
+            iDynTree::idyntree-model
+            BipedalLocomotion::ParametersHandlerYarpImplementation)
     endif()
 
+    if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_ManifConversions)
+        set(DATASET_EXPECTED_MD5 6905495ed29ba00b6fb570d46774c7c1)
+        if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/dataset.mat")
+            file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/dataset.mat" MAT_DATASET_CHECKSUM_VARIABLE)
+            string(COMPARE EQUAL ${MAT_DATASET_CHECKSUM_VARIABLE} ${DATASET_EXPECTED_MD5} DATASET_UPDATED)
+        else()
+                set(DATASET_UPDATED FALSE)
+        endif()
+
+        if(NOT ${DATASET_UPDATED})
+        message(STATUS "Fetching synthetic dataset from https://github.com/ami-iit/paper_...")
+        file(DOWNLOAD https://github.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/raw/main/python/dataset/synthetic_data/four_joints_one_ft_one_imu_1000_samples.mat
+            ${CMAKE_CURRENT_BINARY_DIR}/dataset.mat
+            EXPECTED_MD5 ${DATASET_EXPECTED_MD5})
+        endif()
+
+        add_bipedal_test(NAME RobotDynamicsEstimation
+            SOURCES RobotDynamicsEstimationTest.cpp
+            LINKS   BipedalLocomotion::RobotDynamicsEstimator
+            BipedalLocomotion::ParametersHandler
+            icub-models::icub-models
+            Eigen3::Eigen
+            MANIF::manif
+            BipedalLocomotion::ManifConversions
+            iDynTree::idyntree-model)
+    endif()
 endif()

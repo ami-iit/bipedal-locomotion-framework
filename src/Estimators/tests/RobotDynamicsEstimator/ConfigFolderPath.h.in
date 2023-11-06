@@ -17,4 +17,14 @@ inline std::string getConfigPath()
     return std::string(SOURCE_CONFIG_DIR) + "/config/config.ini";
 }
 
+inline std::string getRobotModelPath()
+{
+    return std::string(SOURCE_CONFIG_DIR) + "/model.urdf";
+}
+
+inline std::string getDatasetPath()
+{
+    return std::string(SOURCE_CONFIG_DIR) + "/dataset.mat";
+}
+
 #endif // CONFIG_FOLDERPATH_H_IN
