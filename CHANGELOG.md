@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Implement `GlobalCoPEvaluator` in `Contacts` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
 - Implement `Wrench::getLocalCoP()` method (https://github.com/ami-iit/bipedal-locomotion-framework/pull/745)
 - Add tests for classes of `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/743)
+- Implement inequality operator for the `PlannedContact` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/750)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
