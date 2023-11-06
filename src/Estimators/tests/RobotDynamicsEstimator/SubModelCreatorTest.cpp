@@ -56,9 +56,6 @@ TEST_CASE("SubModel Creation")
     // List of joints and fts to load the model
     std::vector<RDE::SubModel> subModelList;
 
-    const std::string modelPath = getRobotModelPath();
-    BipedalLocomotion::log()->info("Loading model from {}", modelPath);
-
     std::vector<std::string> jointList;
     REQUIRE(groupModel->getParameter("joint_list", jointList));
 
