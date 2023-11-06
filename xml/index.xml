@@ -1745,6 +1745,7 @@
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1aa589c04446c7d15276c447a94dad913f" kind="variable"><name>activationTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2ca83c6e9583c581057b4f46dfeda9a2" kind="variable"><name>deactivationTime</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1ad65cd0f8bb51507f321d5da8bdb575ce" kind="function"><name>operator==</name></member>
+    <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2a98817b1f6b0eeebfb61da5c5a28abb" kind="function"><name>operator!=</name></member>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1af760613841d055a39784a2c0efeb3abc" kind="function"><name>isContactActive</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1Perception_1_1Features_1_1PointCloudProcessor" kind="class"><name>BipedalLocomotion::Perception::Features::PointCloudProcessor</name>
