@@ -90,6 +90,14 @@ struct PlannedContact : ContactBase
     bool operator==(const PlannedContact& other) const;
 
     /**
+     * @brief The inequality operator.
+     *
+     * @param other The other object used for the comparison.
+     * @return True if the contacts are the different, false otherwise.
+     */
+    bool operator!=(const PlannedContact& other) const;
+
+    /**
      * @brief Check if the contact is active at a give time instant
      *
      * @param t time instant at which we check if the contact is active.
