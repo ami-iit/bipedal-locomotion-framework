@@ -33,7 +33,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
       if(FRAMEWORK_DETECT_ACTIVE_PYTHON_SITEPACKAGES)
         set(FRAMEWORK_PYTHON_INSTALL_DIR ${Python3_SITELIB})
       else()
-        execute_process(COMMAND ${Python3_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(1,0,prefix=''))"
+        execute_process(COMMAND ${Python3_EXECUTABLE} -c "import os;import sysconfig;relative_site_packages = sysconfig.get_path('purelib').replace(sysconfig.get_path('data'), '').lstrip(os.path.sep);print(relative_site_packages)"
                         OUTPUT_VARIABLE _PYTHON_INSTDIR)
         string(STRIP ${_PYTHON_INSTDIR} _PYTHON_INSTDIR_CLEAN)
         set(FRAMEWORK_PYTHON_INSTALL_DIR ${_PYTHON_INSTDIR_CLEAN})

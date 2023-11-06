@@ -24,7 +24,7 @@ All notable changes to this project are documented in this file.
 - Modify CI to install `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/746)
 - Restructure the balancing-position-control script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/716)
 - Avoid to download the robot and the network models if the tests are not enabled in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/749)
-
+- Update the CMakeLists.txt to be compliant with `Python 3.12` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/752)
 
 ### Fixed
 - Fix timestamp logging for the cameras (https://github.com/ami-iit/bipedal-locomotion-framework/pull/748)
