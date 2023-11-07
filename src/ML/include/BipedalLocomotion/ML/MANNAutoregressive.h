@@ -31,6 +31,19 @@ namespace ML
 {
 
 /**
+ * MANNFootState contains the state of a foot in contact with the ground.
+ */
+struct MANNFootState
+{
+    Contacts::EstimatedContact contact; /**< Contact state */
+    Math::SchmittTriggerState schmittTriggerState; /**< Schmitt trigger state */
+
+    static MANNFootState generateFootState(iDynTree::KinDynComputations& kindyn,
+                                           const std::string& footName,
+                                           int footIndex);
+};
+
+/**
  * MANNAutoregressiveInput contains the unput to MANN network when used in autoregressive fashion.
  * The base position trajectory, facing direction trajectory and base velocity trajectories are
  * written in a bidimensional local reference frame L in which we assume all the quantities related
@@ -63,24 +76,10 @@ struct MANNAutoregressiveOutput
     Eigen::VectorXd jointsPosition; /**< Joint positions in radians */
     manif::SE3d basePose; /**< Base pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
     manif::SE3d::Tangent baseVelocity; /**< Base velocity in mixed representation */
-    Eigen::Vector3d comPosition;
-    Eigen::Vector3d angularMomentum;
-    Contacts::EstimatedContact leftFoot; /**< Left foot contact */
-    Math::SchmittTriggerState leftFootSchmittTriggerState;
-    Contacts::EstimatedContact rightFoot; /**< Right foot contact */
-    Math::SchmittTriggerState rightFootSchmittTriggerState;
-
-    /** Planar position of the previous left foot contact*/
-    Eigen::Vector2d I_p_left_previous;
-
-    /** Planar position of the previous right foot contact*/
-    Eigen::Vector2d I_p_right_previous;
-
-    /** Planar position of the com computed at the previous step */
-    Eigen::Vector2d I_p_com_previous;
-
-    /** Planar position of the base computed at the previous step */
-    Eigen::Vector2d I_p_base_previous;
+    Eigen::Vector3d comPosition; /**< Position of the CoM with respect to the inertial frame */
+    Eigen::Vector3d angularMomentum; /**< Centroidal angular momentum */
+    MANNFootState leftFoot; /**< Left foot contact */
+    MANNFootState rightFoot; /**< Right foot contact */
 
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
@@ -112,7 +111,9 @@ public:
      */
     struct AutoregressiveState
     {
-        MANNInput previousMannInput; /**< Mann Input at the previous time instant */
+        MANNInput previousMannInput; /**< Mann Input at the previous time instant. Required for
+                                        checking if two subsequent inputs of the network are similar
+                                        enough to consider the robot stopped. */
         manif::SE2d I_H_FD; /**< SE(2) transformation of the facing direction respect to the
                                inertial frame*/
 
@@ -127,6 +128,15 @@ public:
         /** Past projected base velocity, Each element of the deque contains the x and y velocity
          * projected into the ground. */
         std::deque<Eigen::Vector2d> pastProjectedBaseVelocity;
+
+        /**
+         * Generate the autoregressive state from the input.
+         * @param input input to the autoregressive model.
+         * @return the autoregressive state.
+         * @warning the autoregressive state is generated assuming that the robot is not moving and
+         * facing forward.
+         */
+        static AutoregressiveState generateAutoregressiveState(const MANNInput& input);
     };
 
     /**
@@ -192,20 +202,16 @@ public:
 
     /**
      * Reset the autoregressive model
-     * @param input raw mann input.
-     * @param leftFoot state of the left foot.
-     * @param rightFoot state of the right foot.
-     * @param basePosition current base position.
-     * @param baseVelocity current base velocity expressed in mixed representation.
+     * @param jointPositions joint position.
+     * @param basePose base pose.
      * @return true in case of success, false otherwise.
      * @note please call this function the before calling MANNAutoregressive::advance the first time
      * time.
+     * @warning This function assumes that both the feet are in contact with the ground, the joint
+     * and base velocities equal to zero.
+     * @warning This function reset also the internal time to zero.
      */
-    bool reset(const MANNInput& input,
-               const Contacts::EstimatedContact& leftFoot,
-               const Contacts::EstimatedContact& rightFoot,
-               const manif::SE3d& basePose,
-               const manif::SE3Tangentd& baseVelocity);
+    bool reset(Eigen::Ref<const Eigen::VectorXd> jointPositions, const manif::SE3d& basePose);
 
     /**
      * Reset the autoregressive model
@@ -221,16 +227,10 @@ public:
      * time.
      */
     bool reset(const MANNInput& input,
-               const Contacts::EstimatedContact& leftFoot,
-               const Math::SchmittTriggerState& leftFootSchimittTriggerState,
-               Eigen::Ref<const Eigen::Vector2d> I_p_left_previous,
-               const Contacts::EstimatedContact& rightFoot,
-               const Math::SchmittTriggerState& rightFootSchimittTriggerState,
-               Eigen::Ref<const Eigen::Vector2d> I_p_right_previous,
+               const MANNFootState& leftFoot,
+               const MANNFootState& rightFoot,
                const manif::SE3d& basePosition,
                const manif::SE3Tangentd& baseVelocity,
-               Eigen::Ref<const Eigen::Vector2d> I_p_com_previous,
-               Eigen::Ref<const Eigen::Vector2d> I_p_base_previous,
                const AutoregressiveState& autoregressiveState,
                const std::chrono::nanoseconds& time);
 

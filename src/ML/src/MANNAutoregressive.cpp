@@ -22,10 +22,52 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
+MANNFootState MANNFootState::generateFootState(iDynTree::KinDynComputations& kinDyn,
+                                               const std::string& footName,
+                                               int footIndex)
+{
+    MANNFootState dummyState;
+    dummyState.schmittTriggerState.state = true;
+    dummyState.contact.name = footName;
+    dummyState.contact.index = footIndex;
+    dummyState.contact.isActive = dummyState.schmittTriggerState.state;
+    dummyState.contact.switchTime = std::chrono::nanoseconds::zero();
+    dummyState.contact.pose
+        = BipedalLocomotion::Conversions::toManifPose(kinDyn.getWorldTransform(footIndex));
+
+    // we need to force the height of the foot to be zero.
+    dummyState.contact.pose.translation(Eigen::Vector3d{dummyState.contact.pose.translation()[0],
+                                                        dummyState.contact.pose.translation()[1],
+                                                        0.0});
+    return dummyState;
+}
+
+MANNAutoregressive::AutoregressiveState
+MANNAutoregressive::AutoregressiveState::generateAutoregressiveState(const MANNInput& input)
+{
+    MANNAutoregressive::AutoregressiveState autoregressiveState;
+    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
+    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
+    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
+    // Along with the present datapoint, they sum up to 51!
+    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
+    autoregressiveState.pastProjectedBasePositions
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
+    autoregressiveState.pastProjectedBaseVelocity
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
+    autoregressiveState.pastFacingDirection
+        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
+    autoregressiveState.I_H_FD = manif::SE2d::Identity();
+    autoregressiveState.previousMannInput = input;
+
+    return autoregressiveState;
+}
+
 struct MANNAutoregressive::Impl
 {
     MANN mann;
     MANNInput mannInput;
+    int projectedBaseHorizon;
     iDynTree::KinDynComputations kinDyn;
     MANNAutoregressiveOutput output;
 
@@ -35,7 +77,7 @@ struct MANNAutoregressive::Impl
     std::shared_ptr<ContinuousDynamicalSystem::SO3Dynamics> baseOrientationDynamics;
     ContinuousDynamicalSystem::ForwardEuler<ContinuousDynamicalSystem::SO3Dynamics> integrator;
 
-    Eigen::Vector3d gravity;
+    Eigen::Vector3d gravity; // This is requiered by the kindyncomputations object
 
     AutoregressiveState state;
 
@@ -79,44 +121,48 @@ struct MANNAutoregressive::Impl
                             const double& tau,
                             Eigen::Ref<Eigen::Matrix2Xd> out);
 
-    void updateContact(const double referenceHeight,
+    bool updateContact(const double referenceHeight,
                        Math::SchmittTrigger& trigger,
-                       Math::SchmittTriggerState& triggerState,
-                       Contacts::EstimatedContact& contact,
-                       Eigen::Ref<Eigen::Vector2d> I_p_contact_previous);
+                       Contacts::EstimatedContact& contact);
 };
 
-void MANNAutoregressive::Impl::updateContact(const double referenceHeight,
+bool MANNAutoregressive::Impl::updateContact(const double referenceHeight,
                                              Math::SchmittTrigger& trigger,
-                                             Math::SchmittTriggerState& triggerState,
-                                             Contacts::EstimatedContact& contact,
-                                             Eigen::Ref<Eigen::Vector2d> I_p_contact_previous)
+                                             Contacts::EstimatedContact& contact)
 {
+    constexpr auto logPrefix = "[MANNAutoregressive::Impl::updateContact]";
     Math::SchmittTriggerInput footSchmittInput;
     footSchmittInput.rawValue = referenceHeight;
     footSchmittInput.time = this->currentTime;
 
-    trigger.setInput(footSchmittInput);
-    trigger.advance();
-    triggerState = trigger.getState();
+    if (!trigger.setInput(footSchmittInput))
+    {
+        log()->error("{} Unable to set the input to the Schmitt trigger.", logPrefix);
+        return false;
+    }
 
-    // it was not in active and now yes
-    if (!contact.isActive && triggerState.state)
+    if (!trigger.advance())
+    {
+        log()->error("{} Unable to advance the Schmitt trigger.", logPrefix);
+        return false;
+    }
+
+    // if the contact was not active and the trigger is active, then we need to update the contact
+    if (!contact.isActive && trigger.getState().state)
     {
         using namespace BipedalLocomotion::Conversions;
         contact.isActive = true;
         contact.switchTime = this->currentTime;
-
-        // this contains the information of the previous contact that will be needed in case we need
-        // to scale the step size
-        I_p_contact_previous = contact.pose.translation().head<2>();
         contact.pose = toManifPose(this->kinDyn.getWorldTransform(contact.index));
-    } else if (contact.isActive && !triggerState.state)
+    }
+    // if the contact was active and the trigger is not active, then we need to update the contact
+    else if (contact.isActive && !(trigger.getState().state))
     {
         contact.isActive = false;
     }
 
     contact.lastUpdateTime = this->currentTime;
+    return true;
 }
 
 MANNAutoregressive::MANNAutoregressive()
@@ -157,8 +203,8 @@ bool MANNAutoregressive::initialize(
     }
 
     // populate the left and right contact info
-    m_pimpl->leftFoot.estimatedContactPtr = &m_pimpl->output.leftFoot;
-    m_pimpl->rightFoot.estimatedContactPtr = &m_pimpl->output.rightFoot;
+    m_pimpl->leftFoot.estimatedContactPtr = &m_pimpl->output.leftFoot.contact;
+    m_pimpl->rightFoot.estimatedContactPtr = &m_pimpl->output.rightFoot.contact;
 
     // the following lambda function is useful to get the name of the indexes of all the frames
     // required by the class
@@ -231,6 +277,7 @@ bool MANNAutoregressive::initialize(
         return true;
     };
 
+    // the following lambda function is useful to initialize the Schmitt trigger
     auto initializeSchmittTrigger
         = [logPrefix](std::shared_ptr<const ParametersHandler::IParametersHandler> paramHandler,
                       const std::string& footGroupName,
@@ -282,17 +329,26 @@ bool MANNAutoregressive::initialize(
         return true;
     };
 
-    // TODO should we reset the base orientation to identity
+    // The dynamical system state is set in the reset function. Here we only need to set the
+    // dynamical system in the integrator
     m_pimpl->baseOrientationDynamics = std::make_shared<ContinuousDynamicalSystem::SO3Dynamics>();
-    m_pimpl->baseOrientationDynamics->setState({manif::SO3d::Identity()});
-    m_pimpl->integrator.setDynamicalSystem(m_pimpl->baseOrientationDynamics);
+    if (!m_pimpl->integrator.setDynamicalSystem(m_pimpl->baseOrientationDynamics))
+    {
+        log()->error("{} Unable to set the dynamical system in the integrator.", logPrefix);
+        return false;
+    }
 
     if (!ptr->getParameter("sampling_time", m_pimpl->dT))
     {
         log()->error("{} Unable to find the parameter named '{}'.", logPrefix, "sampling_time");
         return false;
     }
-    m_pimpl->integrator.setIntegrationStep(m_pimpl->dT);
+
+    if (!m_pimpl->integrator.setIntegrationStep(m_pimpl->dT))
+    {
+        log()->error("{} Unable to set the integration step.", logPrefix);
+        return false;
+    }
 
     std::string forwardDirection;
     if (!ptr->getParameter("forward_direction", forwardDirection) || forwardDirection != "x")
@@ -335,6 +391,14 @@ bool MANNAutoregressive::initialize(
     cloneHandler->setParameter("number_of_joints", int(m_pimpl->kinDyn.getNrOfDegreesOfFreedom()));
     ok = ok && m_pimpl->mann.initialize(cloneHandler);
 
+    if (!cloneHandler->getParameter("projected_base_horizon", m_pimpl->projectedBaseHorizon))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.",
+                     logPrefix,
+                     "projected_base_horizon");
+        return false;
+    }
+
     ok = ok && initializeSchmittTrigger(ptr, "LEFT_FOOT", m_pimpl->leftFootSchmittTrigger);
     ok = ok && initializeSchmittTrigger(ptr, "RIGHT_FOOT", m_pimpl->rightFootSchmittTrigger);
     if (ok)
@@ -349,73 +413,51 @@ bool MANNAutoregressive::initialize(
     return ok;
 }
 
-bool MANNAutoregressive::reset(const MANNInput& input,
-                               const Contacts::EstimatedContact& leftFoot,
-                               const Contacts::EstimatedContact& rightFoot,
-                               const manif::SE3d& basePosition,
-                               const manif::SE3Tangentd& baseVelocity)
+bool MANNAutoregressive::reset(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                               const manif::SE3d& basePosition)
 {
     constexpr auto logPrefix = "[MANNAutoregressive::reset]";
+    Eigen::Matrix<double, 6, 1> baseVelocity;
+    baseVelocity.setZero();
 
-    AutoregressiveState state;
+    // generate the input of the network we assume that the robot is stopped and the facing
+    // direction is the x axis
+    const MANNInput input = MANNInput::generateMANNInput(jointPositions, m_pimpl->projectedBaseHorizon);
 
-    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
-    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
-    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
-    // Along with the present datapoint, they sum up to 51!
-    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
-    state.pastProjectedBasePositions
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
-    state.pastProjectedBaseVelocity
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
-    state.pastFacingDirection
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
-    state.I_H_FD = manif::SE2d::Identity();
-    state.previousMannInput = input;
-
-    Math::SchmittTriggerState dummyStateLeft;
-    dummyStateLeft.state = leftFoot.isActive;
-
-    Math::SchmittTriggerState dummyStateRight;
-    dummyStateRight.state = rightFoot.isActive;
-
-    // evaluate the CoM
     if (!m_pimpl->kinDyn.setRobotState(basePosition.transform(),
                                        input.jointPositions,
-                                       baseVelocity.coeffs(),
+                                       baseVelocity,
                                        input.jointVelocities,
                                        m_pimpl->gravity))
     {
-        log()->error("{} Unable to set the robot state.", logPrefix);
+        log()->error("{} Unable to reset the kindyncomputations object.", logPrefix);
         return false;
     }
 
-    return this->reset(input,
-                       leftFoot,
-                       dummyStateLeft,
-                       leftFoot.pose.translation().head<2>(),
-                       rightFoot,
-                       dummyStateRight,
-                       rightFoot.pose.translation().head<2>(),
-                       basePosition,
-                       baseVelocity,
-                       iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition()).head<2>(),
-                       basePosition.translation().head<2>(),
-                       state,
-                       std::chrono::nanoseconds::zero());
+    AutoregressiveState autoregressiveState
+        = AutoregressiveState::generateAutoregressiveState(input);
+
+    // This function assume that the time is equal to zero
+    constexpr auto time = std::chrono::nanoseconds::zero();
+    return this
+        ->reset(input,
+                MANNFootState::generateFootState(m_pimpl->kinDyn,
+                                                 "left_foot",
+                                                 m_pimpl->leftFoot.discreteGeometryContact.index),
+                MANNFootState::generateFootState(m_pimpl->kinDyn,
+                                                 "right_foot",
+                                                 m_pimpl->rightFoot.discreteGeometryContact.index),
+                basePosition,
+                baseVelocity,
+                autoregressiveState,
+                time);
 }
 
 bool MANNAutoregressive::reset(const MANNInput& input,
-                               const Contacts::EstimatedContact& leftFoot,
-                               const Math::SchmittTriggerState& leftFootSchimittTriggerState,
-                               Eigen::Ref<const Eigen::Vector2d> I_p_left_previous,
-                               const Contacts::EstimatedContact& rightFoot,
-                               const Math::SchmittTriggerState& rightFootSchimittTriggerState,
-                               Eigen::Ref<const Eigen::Vector2d> I_p_right_previous,
+                               const MANNFootState& leftFoot,
+                               const MANNFootState& rightFoot,
                                const manif::SE3d& basePosition,
                                const manif::SE3Tangentd& baseVelocity,
-                               Eigen::Ref<const Eigen::Vector2d> I_p_com_previous,
-                               Eigen::Ref<const Eigen::Vector2d> I_p_base_previous,
                                const AutoregressiveState& autoregressiveState,
                                const std::chrono::nanoseconds& time)
 {
@@ -433,7 +475,7 @@ bool MANNAutoregressive::reset(const MANNInput& input,
                                   Contacts::EstimatedContact& out) -> bool {
         if (out.index != newContact.index)
         {
-            log()->error("{} The index of the left {} is different from the one provided. "
+            log()->error("{} The index of the {} foot is different from the one provided. "
                          "Provided: {}, Expected: {}.",
                          logPrefix,
                          footName,
@@ -445,17 +487,14 @@ bool MANNAutoregressive::reset(const MANNInput& input,
         return true;
     };
 
-    if (!updateFoot("left", leftFoot, m_pimpl->output.leftFoot)
-        || !updateFoot("right", rightFoot, m_pimpl->output.rightFoot))
+    // This part of the code is required to update the contact information of the feet. This is done
+    // to ensure that the updateContact function is called correctly. Indeed in updateContact we
+    // check if m_pimpl->leftFoot.contact is active or not to update the contact location.
+    if (!updateFoot("left", leftFoot.contact, m_pimpl->output.leftFoot.contact)
+        || !updateFoot("right", rightFoot.contact, m_pimpl->output.rightFoot.contact))
     {
         return false;
     }
-
-    m_pimpl->output.I_p_left_previous = I_p_left_previous;
-    m_pimpl->output.I_p_right_previous = I_p_right_previous;
-    m_pimpl->output.I_p_com_previous = I_p_com_previous; // TODO useless
-    m_pimpl->output.I_p_base_previous = I_p_base_previous;
-    m_pimpl->output.comPosition.head<2>() = I_p_com_previous; // TODO this is not correct
 
     m_pimpl->mannInput = input;
     m_pimpl->currentTime = time;
@@ -489,8 +528,16 @@ bool MANNAutoregressive::reset(const MANNInput& input,
         return false;
     }
 
-    m_pimpl->leftFootSchmittTrigger.setState(leftFootSchimittTriggerState);
-    m_pimpl->rightFootSchmittTrigger.setState(rightFootSchimittTriggerState);
+    if (!m_pimpl->leftFootSchmittTrigger.setState(leftFoot.schmittTriggerState))
+    {
+        log()->error("{} Unable to set the state of the left foot Schmitt trigger.", logPrefix);
+        return false;
+    }
+    if (!m_pimpl->rightFootSchmittTrigger.setState(rightFoot.schmittTriggerState))
+    {
+        log()->error("{} Unable to set the state of the right foot Schmitt trigger.", logPrefix);
+        return false;
+    }
 
     m_pimpl->fsmState = Impl::FSM::Reset;
 
@@ -562,7 +609,7 @@ bool MANNAutoregressive::setInput(const Input& input)
         }
     };
 
-    const auto current_FD_R_previous_FD = manif::SO2d(current_FD_H_previous_FD.angle());
+    const manif::SO2d current_FD_R_previous_FD = manif::SO2d(current_FD_H_previous_FD.angle());
     updatePreviousInputWithTransform(m_pimpl->state.pastProjectedBasePositions,
                                      current_FD_H_previous_FD,
                                      Eigen::Vector2d::Zero());
@@ -580,19 +627,22 @@ bool MANNAutoregressive::setInput(const Input& input)
     performSubsampling(m_pimpl->state.pastProjectedBaseVelocity,
                        m_pimpl->mannInput.baseVelocitiesTrajectory.leftCols<6>());
 
+    constexpr double tauBasePosition = 1.5;
     m_pimpl->trajectoryBlending(mannOutput.futureBasePositionTrajectory,
                                 input.desiredFutureBaseTrajectory,
-                                1.5,
+                                tauBasePosition,
                                 m_pimpl->mannInput.basePositionTrajectory.rightCols<6>());
 
+    constexpr double tauFacingDirection = 1.3;
     m_pimpl->trajectoryBlending(mannOutput.futureFacingDirectionTrajectory,
                                 input.desiredFutureFacingDirections,
-                                1.3,
+                                tauFacingDirection,
                                 m_pimpl->mannInput.facingDirectionTrajectory.rightCols<6>());
 
+    constexpr double tauBaseVelocity = 1.3;
     m_pimpl->trajectoryBlending(mannOutput.futureBaseVelocitiesTrajectory,
                                 input.desiredFutureBaseVelocities,
-                                1.3,
+                                tauBaseVelocity,
                                 m_pimpl->mannInput.baseVelocitiesTrajectory.rightCols<6>());
 
     if (!m_pimpl->mann.setInput(m_pimpl->mannInput))
@@ -824,22 +874,18 @@ bool MANNAutoregressive::advance()
     // the ground.
     m_pimpl->updateContact(-leftFootHeight,
                            m_pimpl->leftFootSchmittTrigger,
-                           m_pimpl->output.leftFootSchmittTriggerState,
-                           m_pimpl->output.leftFoot,
-                           m_pimpl->output.I_p_left_previous);
+                           m_pimpl->output.leftFoot.contact);
+    m_pimpl->output.leftFoot.schmittTriggerState = m_pimpl->leftFootSchmittTrigger.getState();
+
     m_pimpl->updateContact(-rightFootHeight,
                            m_pimpl->rightFootSchmittTrigger,
-                           m_pimpl->output.rightFootSchmittTriggerState,
-                           m_pimpl->output.rightFoot,
-                           m_pimpl->output.I_p_right_previous);
+                           m_pimpl->output.rightFoot.contact);
+    m_pimpl->output.rightFoot.schmittTriggerState = m_pimpl->rightFootSchmittTrigger.getState();
 
     m_pimpl->output.jointsPosition = mannOutput.jointPositions;
-    m_pimpl->output.I_p_base_previous = m_pimpl->output.basePose.translation().head<2>();
     m_pimpl->output.basePose = I_H_base;
     m_pimpl->output.currentTime = m_pimpl->currentTime;
-    m_pimpl->output.I_p_com_previous = m_pimpl->output.comPosition.head<2>();
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
-
 
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
