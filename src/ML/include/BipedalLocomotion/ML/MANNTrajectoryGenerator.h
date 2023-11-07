@@ -44,6 +44,9 @@ struct MANNTrajectoryGeneratorOutput
 
     std::vector<Eigen::VectorXd> jointPositions; /**< Joints position in radians */
     std::vector<manif::SE3d> basePoses; /**< Vector containing the base pose for each instant. */
+
+    std::vector<std::chrono::nanoseconds> timeStamps; /**< Vector containing the time stamps. */
+
     Contacts::ContactPhaseList phaseList; /**< List of the contact phases */
 };
 
@@ -157,12 +160,8 @@ public:
      * @param basePose pose of the base.
      * @param time initial time of the planner.
      */
-    void setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
-                         const Contacts::EstimatedContact& leftFoot,
-                         const Contacts::EstimatedContact& rightFoot,
-                         const manif::SE3d& basePose,
-                         Eigen::Ref<const Eigen::Vector3d> comPosition,
-                         const std::chrono::nanoseconds& time);
+    bool setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                         const manif::SE3d& basePose);
 
 private:
     struct Impl;
