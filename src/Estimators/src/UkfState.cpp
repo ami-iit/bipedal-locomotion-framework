@@ -96,8 +96,6 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
             = m_dynamicsList[indexDyn2].second->getInitialStateCovariance().asDiagonal();
     }
 
-    //    log()->info("Covariance process\n{}", m_covarianceQ);
-
     m_jointVelocityState.resize(m_kinDynFullModel->model().getNrOfDOFs());
     m_jointAccelerationState.resize(m_kinDynFullModel->model().getNrOfDOFs());
 
@@ -266,9 +264,6 @@ System::VariablesHandler& RDE::UkfState::getStateVariableHandler()
     return m_stateVariableHandler;
 }
 
-// TODO
-// Here the cur_state has size state_size x n_sigma_points
-// this means that the computation can be parallelized
 void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_states,
                               Eigen::Ref<Eigen::MatrixXd> prop_states)
 {
@@ -306,8 +301,6 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
 
         m_ukfInput.robotJointAccelerations = m_jointAccelerationState;
 
-        // TODO
-        // This could be parallelized
         for (int indexDyn = 0; indexDyn < m_dynamicsList.size(); indexDyn++)
         {
             m_dynamicsList[indexDyn].second->setState(m_currentState);

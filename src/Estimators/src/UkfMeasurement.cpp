@@ -24,24 +24,6 @@ using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 using namespace std::chrono;
 
-//struct UkfMeasurement::Impl : public UkfModel {
-//    bfl::VectorDescription measurementDescription;
-//    bfl::VectorDescription inputDescription;
-//    Eigen::MatrixXd covarianceR; /**< Covariance matrix. */
-//    int measurementSize{0}; /**< Length of the measurement vector. */
-//    System::VariablesHandler measurementVariableHandler; /**< Variable handler describing the
-//                                                            measurement vector. */
-//    Eigen::VectorXd tempPredictedMeas;
-//    Eigen::MatrixXd predictedMeasurement; /**< Vector containing the updated measurement. */
-//};
-
-//UkfMeasurement::UkfMeasurement()
-//{
-//    m_pimpl = std::make_unique<UkfMeasurement::Impl>();
-//}
-
-//UkfMeasurement::~UkfMeasurement() = default;
-
 bool UkfMeasurement::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[UkfMeasurement::initialize]";
@@ -272,7 +254,6 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         dynamicsInstance->initialize(dynamicsGroup);
 
         // add dynamics to the list
-        //        measurement->dynamicsList.insert({dynamicsName, dynamicsInstance});
         measurement->m_dynamicsList.emplace_back(dynamicsName, dynamicsInstance);
     }
 
@@ -349,11 +330,6 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
 
         const_cast<UkfMeasurement*>(this)->m_ukfInput.robotJointAccelerations = m_jointAccelerationState;
 
-        //        BipedalLocomotion::log()->info("Joint acceleration\n{}",
-        //        ukfInput.robotJointAccelerations);
-
-        // TODO
-        // This could be parallelized
         for (int indexDyn = 0; indexDyn < m_dynamicsList.size(); indexDyn++)
         {
             m_dynamicsList[indexDyn].second->setState(m_currentState);
@@ -379,9 +355,6 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
         }
         const_cast<UkfMeasurement*>(this)->m_predictedMeasurement.col(sample) = m_tempPredictedMeas;
     }
-
-    //    BipedalLocomotion::log()->info("Predicted measurement sigma points");
-    //    BipedalLocomotion::log()->info(predictedMeasurement.transpose());
 
     return std::make_pair(true, m_predictedMeasurement);
 }

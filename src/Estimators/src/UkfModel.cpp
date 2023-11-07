@@ -67,10 +67,6 @@ bool UkfModel::updateState()
                                      m_jointVelocityState,
                                      m_gravity);
 
-    // TODO
-    // Devi aggiornare lo stato dei kindyn associati ai sottomodelli e devi finire di correggere
-    // il giroscopio misura modello
-
     // compute joint acceleration per each sub-model
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
     {
