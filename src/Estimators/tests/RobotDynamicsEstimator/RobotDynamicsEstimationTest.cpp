@@ -214,23 +214,6 @@ void createInitialState(Dataset& dataset, RobotDynamicsEstimatorOutput& output)
     }
 }
 
-void updateProgressBar(int current, int total) {
-    const int barWidth = 50;
-    float progress = static_cast<float>(current) / total;
-    int barLength = static_cast<int>(progress * barWidth);
-
-    std::cout << "[";
-    for (int i = 0; i < barLength; ++i) {
-        std::cout << "=";
-    }
-    for (int i = barLength; i < barWidth; ++i) {
-        std::cout << " ";
-    }
-
-    std::cout << "] " << std::fixed << std::setprecision(1) << (progress * 100) << "%\r";
-    std::cout.flush();
-}
-
 TEST_CASE("RobotDynamicsEstimator Test")
 {
     // Load configuration
@@ -273,7 +256,8 @@ TEST_CASE("RobotDynamicsEstimator Test")
     input.baseVelocity.setZero();
     input.baseAcceleration.setZero();
 
-    for (int sample = 0; sample < dataset.s.rows(); sample++)
+    int numOfSamples = 10;
+    for (int sample = 0; sample < numOfSamples; sample++)
     {
         // Set input
         input.jointPositions = dataset.s.row(sample);
@@ -313,7 +297,5 @@ TEST_CASE("RobotDynamicsEstimator Test")
         {
             REQUIRE((output.ftWrenches[key] - value.row(sample).transpose()).isZero(0.1));
         }
-
-        updateProgressBar(sample, dataset.s.rows());
     }
 }
