@@ -89,7 +89,8 @@ bool UkfModel::updateState()
 
         // Get sub-model base vel
         if (!m_kinDynFullModel->getFrameVel(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
-                                            m_subModelBaseVelTemp))
+                                            iDynTree::make_span(m_subModelBaseVelTemp.data(),
+                                                                manif::SE3d::Tangent::DoF)))
         {
             log()->error("{} Failed while getting the base frame velocity.", logPrefix);
             return false;

@@ -86,8 +86,7 @@ if(FRAMEWORK_USE_icub-models)
             Eigen3::Eigen
             MANIF::manif
             BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model
-            BipedalLocomotion::ParametersHandlerYarpImplementation)
+            iDynTree::idyntree-model)
     endif()
 endif()
 
