@@ -9,8 +9,8 @@
 #include <catch2/generators/catch_generators_all.hpp>
 
 #include <iCubModels/iCubModels.h>
-#include <yarp/os/ResourceFinder.h>
 #include <matioCpp/matioCpp.h>
+#include <yarp/os/ResourceFinder.h>
 
 #include <ConfigFolderPath.h>
 
@@ -21,6 +21,7 @@
 #include <iDynTree/ModelIO/ModelLoader.h>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
+#include <BipedalLocomotion/Conversions/matioCppConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
@@ -34,6 +35,29 @@
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion;
+
+struct Dataset
+{
+    Eigen::MatrixXd s;
+    Eigen::MatrixXd ds;
+    Eigen::MatrixXd dds;
+    Eigen::MatrixXd im;
+    Eigen::MatrixXd expectedTauj;
+    Eigen::MatrixXd expectedTaum;
+    Eigen::MatrixXd expectedTauF;
+    std::map<std::string, Eigen::MatrixXd> fts;
+    std::map<std::string, Eigen::MatrixXd> accs;
+    std::map<std::string, Eigen::MatrixXd> gyros;
+};
+
+struct Output
+{
+    Eigen::MatrixXd ds;
+    Eigen::MatrixXd tauj;
+    Eigen::MatrixXd taum;
+    Eigen::MatrixXd tauF;
+    std::map<std::string, Eigen::MatrixXd> fts;
+};
 
 ParametersHandler::IParametersHandler::shared_ptr loadConfiguration()
 {
@@ -98,6 +122,115 @@ void loadRobotModel(std::weak_ptr<const ParametersHandler::IParametersHandler> h
     REQUIRE(subModelCreator.createSubModels(groupModel));
 }
 
+Dataset& loadData()
+{
+    matioCpp::File input;
+    REQUIRE(input.open(getDatasetPath()));
+    matioCpp::Struct outStruct = input.read("robot").asStruct();
+
+    std::vector<std::string> listVar = input.variableNames();
+    REQUIRE(listVar.size() > 0);
+
+    REQUIRE(outStruct.numberOfFields() > 0);
+
+    // Unpack data
+    static Dataset dataset;
+    log()->info("Unpacking data...");
+    auto temp = outStruct("s").asMultiDimensionalArray<double>();
+    dataset.s = Conversions::toEigen(temp);
+    log()->info("Size of s: {}x{}", dataset.s.rows(), dataset.s.cols());
+
+    temp = outStruct("ds").asMultiDimensionalArray<double>();
+    dataset.ds = Conversions::toEigen(temp);
+    log()->info("Size of ds: {}x{}", dataset.ds.rows(), dataset.ds.cols());
+
+    temp = outStruct("dds").asMultiDimensionalArray<double>();
+    dataset.dds = Conversions::toEigen(temp);
+    log()->info("Size of dds: {}x{}", dataset.dds.rows(), dataset.dds.cols());
+
+    temp = outStruct("i_m").asMultiDimensionalArray<double>();
+    dataset.im = Conversions::toEigen(temp);
+    log()->info("Size of im: {}x{}", dataset.im.rows(), dataset.im.cols());
+
+    temp = outStruct("tau_j").asMultiDimensionalArray<double>();
+    dataset.expectedTauj = Conversions::toEigen(temp);
+    log()->info("Size of expected_tauj: {}x{}",
+                dataset.expectedTauj.rows(),
+                dataset.expectedTauj.cols());
+
+    temp = outStruct("tau_m").asMultiDimensionalArray<double>();
+    dataset.expectedTaum = Conversions::toEigen(temp);
+    log()->info("Size of expected_taum: {}x{}",
+                dataset.expectedTaum.rows(),
+                dataset.expectedTaum.cols());
+
+    temp = outStruct("tau_F").asMultiDimensionalArray<double>();
+    dataset.expectedTauF = Conversions::toEigen(temp);
+    log()->info("Size of expected_tauF: {}x{}",
+                dataset.expectedTauF.rows(),
+                dataset.expectedTauF.cols());
+
+    matioCpp::Struct outStruct2 = outStruct("fts").asStruct();
+    for (const auto& ft : outStruct2.fields())
+    {
+        temp = outStruct2[ft].asMultiDimensionalArray<double>();
+        dataset.fts[ft] = Conversions::toEigen(temp);
+        log()->info("Size of fts[{}]: {}x{}", ft, dataset.fts[ft].rows(), dataset.fts[ft].cols());
+    }
+
+    matioCpp::Struct outStruct3 = outStruct("accelerometers").asStruct();
+    for (const auto& acc : outStruct3.fields())
+    {
+        temp = outStruct3[acc].asMultiDimensionalArray<double>();
+        dataset.accs[acc] = Conversions::toEigen(temp);
+        log()->info("Size of accs[{}]: {}x{}",
+                    acc,
+                    dataset.accs[acc].rows(),
+                    dataset.accs[acc].cols());
+    }
+
+    matioCpp::Struct outStruct4 = outStruct("gyros").asStruct();
+    for (const auto& gyro : outStruct4.fields())
+    {
+        temp = outStruct4[gyro].asMultiDimensionalArray<double>();
+        dataset.gyros[gyro] = Conversions::toEigen(temp);
+        log()->info("Size of gyros[{}]: {}x{}",
+                    gyro,
+                    dataset.gyros[gyro].rows(),
+                    dataset.gyros[gyro].cols());
+    }
+
+    return dataset;
+}
+
+void createInitialState(Dataset& dataset, RobotDynamicsEstimatorOutput& output)
+{
+    output.ds = dataset.ds.row(0);
+    output.tau_F = dataset.expectedTauF.row(0) * 0.0;
+    output.tau_m = dataset.expectedTaum.row(0);
+    for (auto const& [key, value] : dataset.fts)
+    {
+        output.ftWrenches[key] = value.row(0);
+    }
+}
+
+void updateProgressBar(int current, int total) {
+    const int barWidth = 50;
+    float progress = static_cast<float>(current) / total;
+    int barLength = static_cast<int>(progress * barWidth);
+
+    std::cout << "[";
+    for (int i = 0; i < barLength; ++i) {
+        std::cout << "=";
+    }
+    for (int i = barLength; i < barWidth; ++i) {
+        std::cout << " ";
+    }
+
+    std::cout << "] " << std::fixed << std::setprecision(1) << (progress * 100) << "%\r";
+    std::cout.flush();
+}
+
 TEST_CASE("RobotDynamicsEstimator Test")
 {
     // Load configuration
@@ -118,27 +251,69 @@ TEST_CASE("RobotDynamicsEstimator Test")
     }
 
     // Setup RDE
-    std::unique_ptr<BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator>
-        estimator = BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator::
-            build(parameterHandler, kindyn, subModelList, kinDynWrapperList);
+    std::unique_ptr<RobotDynamicsEstimator> estimator
+        = RobotDynamicsEstimator::build(parameterHandler, kindyn, subModelList, kinDynWrapperList);
     REQUIRE_FALSE(estimator == nullptr);
 
     // Load dataset
-    matioCpp::File input;
-    REQUIRE(input.open(getDatasetPath()));
-    matioCpp::Struct outStruct = input.read("robot").asStruct();
-
-    std::vector<std::string> listVar = input.variableNames();
-    log()->info("Num variables --> {}", listVar.size());
-    for (auto & name : listVar)
-        log()->info("{}", name);
-
-    std::vector<std::string> fields = outStruct.fields();
-
-    log()->info("Number of fields --> {}", outStruct.numberOfFields());
-    
-    for (auto & field : fields)
-        log()->info("{}", field);
+    Dataset dataset = loadData();
 
     // Set estimator initial state
+    RobotDynamicsEstimatorOutput output;
+    createInitialState(dataset, output);
+    REQUIRE(estimator->setInitialState(output));
+
+    // Starting estimation
+    log()->info("Starting estimation...");
+
+    RobotDynamicsEstimatorInput input;
+
+    // Set here input that are constant
+    input.basePose.setIdentity();
+    input.baseVelocity.setZero();
+    input.baseAcceleration.setZero();
+
+    for (int sample = 0; sample < dataset.s.rows(); sample++)
+    {
+        // Set input
+        input.jointPositions = dataset.s.row(sample);
+        input.jointVelocities = dataset.ds.row(sample);
+        input.motorCurrents = dataset.im.row(sample);
+
+        for (auto const& [key, value] : dataset.fts)
+        {
+            input.ftWrenches[key] = value.row(sample);
+        }
+
+        for (auto const& [key, value] : dataset.accs)
+        {
+            input.linearAccelerations[key] = value.row(sample);
+        }
+
+        for (auto const& [key, value] : dataset.gyros)
+        {
+            input.angularVelocities[key] = value.row(sample);
+        }
+
+        // Set input
+        REQUIRE(estimator->setInput(input));
+
+        // Estimate
+        REQUIRE(estimator->advance());
+
+        // Get output
+        output = estimator->getOutput();
+
+        // Check output
+        REQUIRE((output.ds - dataset.ds.row(sample).transpose()).isZero(0.1));
+        REQUIRE((output.tau_F - dataset.expectedTauF.row(sample).transpose()).isZero(0.1));
+        REQUIRE((output.tau_m - dataset.expectedTaum.row(sample).transpose()).isZero(0.1));
+        REQUIRE(((output.tau_m - output.tau_F) - dataset.expectedTauj.row(sample).transpose()).isZero(0.1));
+        for (auto const& [key, value] : dataset.fts)
+        {
+            REQUIRE((output.ftWrenches[key] - value.row(sample).transpose()).isZero(0.1));
+        }
+
+        updateProgressBar(sample, dataset.s.rows());
+    }
 }

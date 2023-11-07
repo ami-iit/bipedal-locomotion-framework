@@ -93,7 +93,7 @@ endif()
 
 if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_ManifConversions AND FRAMEWORK_COMPILE_matioCppConversions)
     set(DATASET_UPDATED FALSE)
-    set(DATASET_EXPECTED_MD5 087854a1882cfa2770d5886147faeea8)
+    set(DATASET_EXPECTED_MD5 ac0c11c75616f71ccd4d8858f9d063d8)
     if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/dataset.mat")
         file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/dataset.mat" MAT_DATASET_CHECKSUM_VARIABLE)
         string(COMPARE EQUAL ${MAT_DATASET_CHECKSUM_VARIABLE} ${DATASET_EXPECTED_MD5} DATASET_UPDATED)
@@ -103,7 +103,7 @@ if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_ManifConversions A
 
     if(NOT ${DATASET_UPDATED})
     message(STATUS "Fetching synthetic dataset from https://github.com/ami-iit/paper_...")
-    file(DOWNLOAD https://github.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/raw/main/python/dataset/synthetic_data/four_joints_one_ft_one_imu_1000_samples.mat?download=
+    file(DOWNLOAD https://github.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/raw/main/python/dataset/synthetic_data/four_joints_two_ft_two_imu.mat?download=
         ${CMAKE_CURRENT_BINARY_DIR}/dataset.mat
         EXPECTED_MD5 ${DATASET_EXPECTED_MD5})
     endif()
@@ -118,5 +118,6 @@ if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_ManifConversions A
         iDynTree::idyntree-model
         BipedalLocomotion::ParametersHandlerYarpImplementation
         matioCpp::matioCpp
+        BipedalLocomotion::matioCppConversions
     )
 endif()
