@@ -54,11 +54,7 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
         .def("set_initial_state",
              &ML::MANNTrajectoryGenerator::setInitialState,
              py::arg("joint_positions"),
-             py::arg("left_foot"),
-             py::arg("right_foot"),
-             py::arg("base_pose"),
-             py::arg("com_position"),
-             py::arg("time"))
+             py::arg("base_pose"))
         .def("set_robot_model", [](ML::MANNTrajectoryGenerator& impl, ::pybind11::object& obj) {
             iDynTree::Model* cls = py::detail::swig_wrapped_pointer_to_pybind<iDynTree::Model>(obj);
 
