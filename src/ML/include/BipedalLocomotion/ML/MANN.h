@@ -45,6 +45,16 @@ struct MANNInput
     Eigen::VectorXd jointPositions; /**< Vector containing the actual joint position in radians. */
     Eigen::VectorXd jointVelocities; /**< Vector containing the actual joint velocity in radians per
                                         seconds. */
+
+    /**
+     * Generate the MANNInput from a given joint configuration
+     * @param jointPositions vector containing the joint position in radians.
+     * @param projectedBaseHorizon number of samples of the base horizon considered in the neural network.
+     * @return the MANNInput.
+     * @warning the function assumes that the robot is not moving and facing forward.
+     */
+    static MANNInput generateMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                       std::size_t projectedBaseHorizon);
 };
 
 /**
