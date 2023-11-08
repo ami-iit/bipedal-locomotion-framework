@@ -11,10 +11,21 @@
 #include <string>
 
 #define SOURCE_CONFIG_DIR "@CMAKE_CURRENT_SOURCE_DIR@"
+#define BIN_DIR "@CMAKE_CURRENT_BINARY_DIR@"
 
 inline std::string getConfigPath()
 {
     return std::string(SOURCE_CONFIG_DIR) + "/config/config.ini";
+}
+
+inline std::string getRobotModelPath()
+{
+    return std::string(BIN_DIR) + "/model.urdf";
+}
+
+inline std::string getDatasetPath()
+{
+    return std::string(BIN_DIR) + "/dataset.mat";
 }
 
 #endif // CONFIG_FOLDERPATH_H_IN
