@@ -10,7 +10,11 @@
     <innerfile refid="JointVelocityStateDynamics_8h">JointVelocityStateDynamics.h</innerfile>
     <innerfile refid="KinDynWrapper_8h">KinDynWrapper.h</innerfile>
     <innerfile refid="MotorCurrentMeasurementDynamics_8h">MotorCurrentMeasurementDynamics.h</innerfile>
+    <innerfile refid="RobotDynamicsEstimator_8h">RobotDynamicsEstimator.h</innerfile>
     <innerfile refid="SubModel_8h">SubModel.h</innerfile>
+    <innerfile refid="UkfMeasurement_8h">UkfMeasurement.h</innerfile>
+    <innerfile refid="UkfModel_8h">UkfModel.h</innerfile>
+    <innerfile refid="UkfState_8h">UkfState.h</innerfile>
     <innerfile refid="ZeroVelocityStateDynamics_8h">ZeroVelocityStateDynamics.h</innerfile>
     <briefdescription>
     </briefdescription>
