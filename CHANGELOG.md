@@ -16,6 +16,7 @@ All notable changes to this project are documented in this file.
 - Add tests for classes of `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/743)
 - Implement inequality operator for the `PlannedContact` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/750)
 - Finalize `RobotDynamicsEstimator` library and add complete library test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/744)
+- Add Python bindings for `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/755)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
