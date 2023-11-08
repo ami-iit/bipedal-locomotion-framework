@@ -73,7 +73,8 @@ public:
      * @note The following `ini` file presents an example of the configuration that can be used to
      * build the UkfState.
      *
-     * UkfState.ini
+     * \code{.ini}
+     * # UkfState.ini
      *
      * dynamics_list                   ("JOINT_VELOCITY", "FRICTION_TORQUE", "RIGHT_LEG_FT", "RIGHT_FOOT_REAR_GYRO_BIAS")
      *
@@ -104,7 +105,7 @@ public:
      * covariance                      (8.2e-8, 1e-2, 9.3e-3)
      * dynamic_model                   "ZeroVelocityStateDynamics"
      *
-     * ~~~~~
+     * \endcode
      * @return a std::unique_ptr to the UkfState.
      * In case of issues, an empty BipedalLocomotion::System::VariablesHandler
      * and an invalid pointer will be returned.
@@ -118,9 +119,9 @@ public:
      * Initialize the ukf state model.
      * @param handler pointer to the IParametersHandler interface.
      * @note the following parameters are required by the class
-     * |         Parameter Name         |       Type      |                                       Description                                              | Mandatory |
-     * |:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
-     * |              `dT`              |     `double`    |                                      Sampling time.                                            |    Yes    |
+     * |         Parameter Name         |              Type                 |                             Description                                       | Mandatory |
+     * |:------------------------------:|:---------------------------------:|:-----------------------------------------------------------------------------:|:---------:|
+     * |       `sampling_time`          |     `std::chrono::nanoseconds`    |                            Sampling time.                                     |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
@@ -143,14 +144,14 @@ public:
      * @brief getStateVariableHandler access the `System::VariablesHandler` instance created during the initialization phase.
      * @return the state variable handler containing all the state variables and their sizes and offsets.
      */
-    System::VariablesHandler& getStateVariableHandler();
+    const System::VariablesHandler& getStateVariableHandler() const;
 
     /**
      * @brief propagate implements the prediction phase of the ukf
      * @param cur_states is the state computed at the previous step
      * @param prop_states is the predicted state
      */
-    void propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_states, Eigen::Ref<Eigen::MatrixXd> prop_states) override;
+    void propagate(const Eigen::Ref<const Eigen::MatrixXd>& currentStates, Eigen::Ref<Eigen::MatrixXd> propagatedStates) override;
 
     /**
      * @brief getNoiseCovarianceMatrix access the `Eigen::MatrixXd` representing the process covariance matrix.
@@ -163,7 +164,7 @@ public:
      * @param property is a string.
      * @return false as it is not implemented.
      */
-    bool setProperty(const std::string& property) override { return false; };
+    bool setProperty(const std::string& property) override;
 
     /**
      * @brief getStateDescription access the `bfl::VectorDescription`.
@@ -181,7 +182,7 @@ public:
      * @brief getInitialStateCovarianceMatrix access the `Eigen::MatrixXd` representing the initial state covariance matrix.
      * @return a Eigen reference to the Eigen Matrix covariance.
      */
-    Eigen::Ref<Eigen::MatrixXd> getInitialStateCovarianceMatrix();
+    Eigen::Ref<const Eigen::MatrixXd> getInitialStateCovarianceMatrix() const;
 
 }; // class UKFModel
 

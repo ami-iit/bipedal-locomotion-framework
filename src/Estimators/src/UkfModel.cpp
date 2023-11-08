@@ -115,12 +115,12 @@ bool UkfModel::updateState()
                 return false;
             }
 
-            m_totalTorqueFromContacts[subModelIdx]
+            m_totalTorqueFromContacts[subModelIdx].noalias()
                 += m_tempJacobianList[subModelIdx].transpose() * m_wrench;
         }
 
         // Contribution of unknown external contacts
-        for (auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
+        for (const auto & [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             if (!m_kinDynWrapperList[subModelIdx]
                      ->getFrameFreeFloatingJacobian(value, m_tempJacobianList[subModelIdx]))

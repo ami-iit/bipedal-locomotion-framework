@@ -86,18 +86,11 @@ bool UkfMeasurement::finalize(const System::VariablesHandler& handler)
             .addVariable(m_dynamicsList[indexDyn2].first,
                          m_dynamicsList[indexDyn2].second->getCovariance().size());
 
-        m_covarianceR.block(m_measurementVariableHandler
-                                       .getVariable(m_dynamicsList[indexDyn2].first)
-                                       .offset,
-                                   m_measurementVariableHandler
-                                       .getVariable(m_dynamicsList[indexDyn2].first)
-                                       .offset,
-                                   m_measurementVariableHandler
-                                       .getVariable(m_dynamicsList[indexDyn2].first)
-                                       .size,
-                                   m_measurementVariableHandler
-                                       .getVariable(m_dynamicsList[indexDyn2].first)
-                                       .size)
+        m_covarianceR
+            .block(m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                   m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                   m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).size,
+                   m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).size)
             = m_dynamicsList[indexDyn2].second->getCovariance().asDiagonal();
     }
 
@@ -295,7 +288,7 @@ bfl::VectorDescription UkfMeasurement::getInputDescription() const
 // Here the cur_state has size state_size x n_sigma_points
 // this means that the computation can be parallelized
 std::pair<bool, bfl::Data>
-UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_states) const
+UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& currentStates) const
 {
     constexpr auto logPrefix = "[UkfMeasurement::propagate]";
 
@@ -315,9 +308,9 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
     // Get input of ukf from provider
     const_cast<UkfMeasurement*>(this)->m_ukfInput = m_ukfInputProvider->getOutput();
 
-    for (int sample = 0; sample < cur_states.cols(); sample++)
+    for (int sample = 0; sample < currentStates.cols(); sample++)
     {
-        const_cast<UkfMeasurement*>(this)->m_currentState = cur_states.col(sample);
+        const_cast<UkfMeasurement*>(this)->m_currentState = currentStates.col(sample);
 
         const_cast<UkfMeasurement*>(this)->unpackState();
 
@@ -328,7 +321,8 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
             throw std::runtime_error("Error");
         }
 
-        const_cast<UkfMeasurement*>(this)->m_ukfInput.robotJointAccelerations = m_jointAccelerationState;
+        const_cast<UkfMeasurement*>(this)->m_ukfInput.robotJointAccelerations
+            = m_jointAccelerationState;
 
         for (int indexDyn = 0; indexDyn < m_dynamicsList.size(); indexDyn++)
         {
@@ -344,13 +338,13 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
                 throw std::runtime_error("Error");
             }
 
-            const_cast<UkfMeasurement*>(this)->m_tempPredictedMeas
-                .segment(m_measurementVariableHandler
-                             .getVariable(m_dynamicsList[indexDyn].first)
-                             .offset,
-                         m_measurementVariableHandler
-                             .getVariable(m_dynamicsList[indexDyn].first)
-                             .size)
+            const_cast<UkfMeasurement*>(this)
+                ->m_tempPredictedMeas.segment(m_measurementVariableHandler
+                                                  .getVariable(m_dynamicsList[indexDyn].first)
+                                                  .offset,
+                                              m_measurementVariableHandler
+                                                  .getVariable(m_dynamicsList[indexDyn].first)
+                                                  .size)
                 = m_dynamicsList[indexDyn].second->getUpdatedVariable();
         }
         const_cast<UkfMeasurement*>(this)->m_predictedMeasurement.col(sample) = m_tempPredictedMeas;
@@ -359,11 +353,11 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_st
     return std::make_pair(true, m_predictedMeasurement);
 }
 
-std::pair<bool, bfl::Data> UkfMeasurement::innovation(const bfl::Data& predicted_measurements,
+std::pair<bool, bfl::Data> UkfMeasurement::innovation(const bfl::Data& predictedMeasurements,
                                                       const bfl::Data& measurements) const
 {
     Eigen::MatrixXd innovation
-        = -(bfl::any::any_cast<Eigen::MatrixXd>(predicted_measurements).colwise()
+        = -(bfl::any::any_cast<Eigen::MatrixXd>(predictedMeasurements).colwise()
             - bfl::any::any_cast<Eigen::VectorXd>(measurements));
 
     return std::make_pair(true, std::move(innovation));
@@ -374,7 +368,7 @@ std::size_t UkfMeasurement::getMeasurementSize()
     return m_measurementSize;
 }
 
-System::VariablesHandler& UkfMeasurement::getMeasurementVariableHandler()
+const System::VariablesHandler& UkfMeasurement::getMeasurementVariableHandler() const
 {
     return m_measurementVariableHandler;
 }
@@ -389,6 +383,11 @@ std::pair<bool, bfl::Data> UkfMeasurement::measure(const bfl::Data& /**data**/) 
     return std::make_pair(true, m_measurement);
 }
 
+bool UkfMeasurement::setProperty(const std::string& property)
+{
+    return false;
+}
+
 bool UkfMeasurement::freeze(const bfl::Data& data)
 {
     constexpr auto logPrefix = "[UkfMeasurement::freeze]";
@@ -398,8 +397,7 @@ bool UkfMeasurement::freeze(const bfl::Data& data)
     for (int index = 0; index < m_dynamicsList.size(); index++)
     {
         m_offsetMeasurement
-            = m_measurementVariableHandler.getVariable(m_dynamicsList[index].first)
-                  .offset;
+            = m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).offset;
 
         if (m_measurementMap.count(m_dynamicsList[index].first) == 0)
         {
@@ -412,20 +410,15 @@ bool UkfMeasurement::freeze(const bfl::Data& data)
         // If more sub-models share the same accelerometer or gyroscope sensor, the measurement
         // vector is concatenated a number of times equal to the number of sub-models using the
         // sensor.
-        while (
-            m_offsetMeasurement
-            < (m_measurementVariableHandler.getVariable(m_dynamicsList[index].first)
-                   .offset
-               + m_measurementVariableHandler.getVariable(m_dynamicsList[index].first)
-                     .size))
+        while (m_offsetMeasurement
+               < (m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).offset
+                  + m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).size))
         {
-            m_measurement
-                .segment(m_offsetMeasurement,
-                         m_measurementMap[m_dynamicsList[index].first].size())
+            m_measurement.segment(m_offsetMeasurement,
+                                  m_measurementMap[m_dynamicsList[index].first].size())
                 = m_measurementMap[m_dynamicsList[index].first];
 
-            m_offsetMeasurement
-                += m_measurementMap[m_dynamicsList[index].first].size();
+            m_offsetMeasurement += m_measurementMap[m_dynamicsList[index].first].size();
         }
     }
 

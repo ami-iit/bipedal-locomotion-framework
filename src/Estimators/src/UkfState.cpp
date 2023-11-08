@@ -81,18 +81,16 @@ bool RDE::UkfState::finalize(const System::VariablesHandler& handler)
 
     for (int indexDyn2 = 0; indexDyn2 < m_dynamicsList.size(); indexDyn2++)
     {
-        m_covarianceQ
-            .block(handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).size,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).size)
+        m_covarianceQ.block(handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                            handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                            handler.getVariable(m_dynamicsList[indexDyn2].first).size,
+                            handler.getVariable(m_dynamicsList[indexDyn2].first).size)
             = m_dynamicsList[indexDyn2].second->getCovariance().asDiagonal();
 
-        m_initialCovariance
-            .block(handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).size,
-                   handler.getVariable(m_dynamicsList[indexDyn2].first).size)
+        m_initialCovariance.block(handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                                  handler.getVariable(m_dynamicsList[indexDyn2].first).offset,
+                                  handler.getVariable(m_dynamicsList[indexDyn2].first).size,
+                                  handler.getVariable(m_dynamicsList[indexDyn2].first).size)
             = m_dynamicsList[indexDyn2].second->getInitialStateCovariance().asDiagonal();
     }
 
@@ -259,13 +257,13 @@ Eigen::MatrixXd RDE::UkfState::getNoiseCovarianceMatrix()
     return m_covarianceQ;
 }
 
-System::VariablesHandler& RDE::UkfState::getStateVariableHandler()
+const System::VariablesHandler& RDE::UkfState::getStateVariableHandler() const
 {
     return m_stateVariableHandler;
 }
 
-void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_states,
-                              Eigen::Ref<Eigen::MatrixXd> prop_states)
+void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& currentStates,
+                              Eigen::Ref<Eigen::MatrixXd> propagatedStates)
 {
     constexpr auto logPrefix = "[UkfState::propagate]";
 
@@ -285,11 +283,11 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
     // Get input of ukf from provider
     m_ukfInput = m_ukfInputProvider->getOutput();
 
-    prop_states.resize(cur_states.rows(), cur_states.cols());
+    propagatedStates.resize(currentStates.rows(), currentStates.cols());
 
-    for (int sample = 0; sample < cur_states.cols(); sample++)
+    for (int sample = 0; sample < currentStates.cols(); sample++)
     {
-        m_currentState = cur_states.col(sample);
+        m_currentState = currentStates.col(sample);
 
         unpackState();
 
@@ -315,16 +313,13 @@ void RDE::UkfState::propagate(const Eigen::Ref<const Eigen::MatrixXd>& cur_state
                 throw std::runtime_error("Error");
             }
 
-            m_nextState.segment(m_stateVariableHandler
-                                           .getVariable(m_dynamicsList[indexDyn].first)
-                                           .offset,
-                                       m_stateVariableHandler
-                                           .getVariable(m_dynamicsList[indexDyn].first)
-                                           .size)
+            m_nextState
+                .segment(m_stateVariableHandler.getVariable(m_dynamicsList[indexDyn].first).offset,
+                         m_stateVariableHandler.getVariable(m_dynamicsList[indexDyn].first).size)
                 = m_dynamicsList[indexDyn].second->getUpdatedVariable();
         }
 
-        prop_states.col(sample) = m_nextState;
+        propagatedStates.col(sample) = m_nextState;
     }
 }
 
@@ -338,7 +333,12 @@ std::size_t RDE::UkfState::getStateSize()
     return m_stateSize;
 }
 
-Eigen::Ref<Eigen::MatrixXd> RDE::UkfState::getInitialStateCovarianceMatrix()
+Eigen::Ref<const Eigen::MatrixXd> RDE::UkfState::getInitialStateCovarianceMatrix() const
 {
     return m_initialCovariance;
 }
+
+ bool RDE::UkfState::setProperty(const std::string& property)
+ {
+    return false;
+ }

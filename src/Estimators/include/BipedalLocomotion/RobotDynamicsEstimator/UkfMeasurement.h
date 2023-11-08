@@ -44,8 +44,6 @@ class UkfMeasurement : public bfl::AdditiveMeasurementModel, UkfModel
     /**
      * Private implementation
      */
-//    struct Impl;
-//    std::unique_ptr<Impl> m_pimpl;
     bfl::VectorDescription m_measurementDescription;
     bfl::VectorDescription m_inputDescription;
     Eigen::MatrixXd m_covarianceR; /**< Covariance matrix. */
@@ -56,16 +54,6 @@ class UkfMeasurement : public bfl::AdditiveMeasurementModel, UkfModel
     Eigen::MatrixXd m_predictedMeasurement; /**< Vector containing the updated measurement. */
 
 public:
-//    /**
-//     * Constructor.
-//     */
-//    UkfMeasurement();
-
-//    /**
-//     * Destructor.
-//     */
-//    virtual ~UkfMeasurement();
-
     /**
      * Build the ukf measurement model
      * @param kinDyn a pointer to an iDynTree::KinDynComputations object that will be shared among
@@ -95,7 +83,8 @@ public:
      * @note The following `ini` file presents an example of the configuration that can be used to
      * build the UkfMeasurement.
      *
-     * UkfMeasurement.ini
+     * \code{.ini}
+     * # UkfMeasurement.ini
      *
      * dynamics_list                   ("JOINT_VELOCITY", "MOTOR_CURRENT", "RIGHT_LEG_FT", "RIGHT_FOOT_REAR_GYRO")
      *
@@ -126,7 +115,7 @@ public:
      * covariance                      (8.2e-8, 1e-2, 9.3e-3)
      * dynamic_model                   "ConstantMeasurementModel"
      *
-     * ~~~~~
+     * \endcode
      * @return a std::unique_ptr to the UkfMeasurement.
      * In case of issues, an empty BipedalLocomotion::System::VariablesHandler
      * and an invalid pointer will be returned.
@@ -141,9 +130,9 @@ public:
      * Initialize the ukf measurement model.
      * @param handler pointer to the IParametersHandler interface.
      * @note the following parameters are required by the class
-     * |         Parameter Name         |       Type      |                                       Description                                              | Mandatory |
-     * |:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
-     * |       `sampling_time`          |     `double`    |                                      Sampling time.                                            |    Yes    |
+     * |         Parameter Name         |              Type                 |                             Description                                       | Mandatory |
+     * |:------------------------------:|:---------------------------------:|:-----------------------------------------------------------------------------:|:---------:|
+     * |       `sampling_time`          |     `std::chrono::nanoseconds`    |                            Sampling time.                                     |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler);
@@ -166,7 +155,7 @@ public:
      * @brief getMeasurementVariableHandler access the `System::VariablesHandler` instance created during the initialization phase.
      * @return the measurement variable handler containing all the measurement variables and their sizes and offsets.
      */
-    System::VariablesHandler& getMeasurementVariableHandler();
+    const System::VariablesHandler& getMeasurementVariableHandler() const;
 
     /**
      * @brief predictedMeasure predict the new measurement depending on the state computed by the predict step.
@@ -174,7 +163,7 @@ public:
      * @return a std::pair<bool, bfl::Data> where the bool value says if the measurement
      * prediciton is done correctly and the bfl::Data is the predicted measure.
      */
-    std::pair<bool, bfl::Data> predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& cur_states) const override;
+    std::pair<bool, bfl::Data> predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& currentState) const override;
 
     /**
      * @brief getNoiseCovarianceMatrix access the `Eigen::MatrixXd` representing the process covariance matrix.
@@ -187,7 +176,7 @@ public:
      * @param property is a string.
      * @return false as it is not implemented.
      */
-    bool setProperty(const std::string& property) override { return false; };
+    bool setProperty(const std::string& property) override;
 
     /**
      * @brief getMeasurementDescription access the `bfl::VectorDescription`.
@@ -220,7 +209,7 @@ public:
      * @param measurements is a `blf::Data` reference representing the measurements coming from the user.
      * @return a `std::pair<bool, bfl::Data>` where the boolean value is always true and the `bfl::Data` is the innovation term.
      */
-    std::pair<bool, bfl::Data> innovation(const bfl::Data& predicted_measurements, const bfl::Data& measurements) const override;
+    std::pair<bool, bfl::Data> innovation(const bfl::Data& predictedMeasurements, const bfl::Data& measurements) const override;
 
     /**
      * @brief measure get the updated measurement.

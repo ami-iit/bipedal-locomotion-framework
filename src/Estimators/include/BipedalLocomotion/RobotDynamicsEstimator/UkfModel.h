@@ -85,7 +85,6 @@ protected:
     std::vector<Eigen::MatrixXd> m_tempJacobianList; /**< List of jacobians per eache submodel. */
     manif::SE3d m_worldTBase; /**< Sub-model base pose wrt the inertial frame */
     int m_offsetMeasurement; /**< Offset used to fill the measurement vector. */
-//    Eigen::VectorXd m_prediction; /**< Vector containing the predicted state or measurement. */
 
 public:
     /**
