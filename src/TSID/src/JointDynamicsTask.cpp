@@ -249,7 +249,6 @@ bool JointDynamicsTask::update()
         iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
             = -(m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom())
                 + m_massMatrixRegularizationTerm);
-        ;
     } else
     {
         iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
