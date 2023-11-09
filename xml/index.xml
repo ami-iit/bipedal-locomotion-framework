@@ -1300,6 +1300,8 @@
   <compound refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::JointDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" kind="variable"><name>m_robotAccelerationVariable</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a86fea8b2a41fdc10df38c2e8b94af96e" kind="variable"><name>m_jointsTorqueVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac2c82e6403278af66d8d053a7ce1fd06" kind="variable"><name>m_useMassMatrixRegularizationTerm</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aadbf06410e80978abe3a180b5c140be6" kind="variable"><name>m_massMatrixRegularizationTerm</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a0d951f3921bc379fbf0bc2ded405eddd" kind="variable"><name>m_contactWrenches</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aee891526f5834eb4772d3c521c156a14" kind="variable"><name>m_massMatrix</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a173811315d5dd0a8ed38e9c9f43e3d36" kind="variable"><name>m_jacobian</name></member>
@@ -1311,6 +1313,7 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa5b22c96299d065460b875567f9c00c1" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a23cf7b6737fffe5af57cc5cdfc404992" kind="function"><name>setKinDyn</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9ec4e8b05e99be884070f03d6cda6fcb" kind="function"><name>setVariablesHandler</name></member>
+    <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1acf0ee93fa4b18091b3f04edb25013839" kind="function"><name>setMassMatrixRegularization</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9df9b3511e48b0f3c0107d022f89f516" kind="function"><name>update</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1add1f2d086949575cf5350d514b12e034" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac7ae4baae1066e6c4884aa4320a9b94a" kind="function"><name>type</name></member>
