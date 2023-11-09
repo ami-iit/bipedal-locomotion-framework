@@ -37,7 +37,8 @@ bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& vari
         return false;
     }
 
-    if (!variablesHandler.getVariable(m_robotAccelerationVariable.name, m_robotAccelerationVariable))
+    if (!variablesHandler.getVariable(m_robotAccelerationVariable.name,
+                                      m_robotAccelerationVariable))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
         return false;
@@ -70,7 +71,7 @@ bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& vari
         return false;
     }
 
-    for(auto& contact : m_contactWrenches)
+    for (auto& contact : m_contactWrenches)
     {
         if (!variablesHandler.getVariable(contact.variable.name, contact.variable))
         {
@@ -101,14 +102,45 @@ bool JointDynamicsTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
-bool JointDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool JointDynamicsTask::setMassMatrixRegularization(const Eigen::Ref<const Eigen::MatrixXd>& matrix)
+{
+    constexpr auto logPrefix = "[JointDynamicsTask::"
+                               "setMassMatrixRegularization]";
+
+    if ((m_kinDyn == nullptr) || (!m_kinDyn->isValid()))
+    {
+        log()->error("{} Please call setKinDyn() before.", logPrefix);
+        return false;
+    }
+
+    if ((m_kinDyn->getNrOfDegreesOfFreedom() != matrix.rows()) || (matrix.cols() != matrix.rows()))
+    {
+        const auto rightSize = m_kinDyn->getNrOfDegreesOfFreedom();
+
+        log()->error("{} The size of the regularization matrix is not correct. The correct size "
+                     "is:  {} x {}. While the input of the function is a {} x {} matrix.",
+                     logPrefix,
+                     rightSize,
+                     rightSize,
+                     matrix.rows(),
+                     matrix.cols());
+        return false;
+    }
+
+    m_massMatrixRegularizationTerm = matrix;
+    m_useMassMatrixRegularizationTerm = true;
+
+    return true;
+}
+
+bool JointDynamicsTask::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointDynamicsTask::initialize]";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
-        log()->error("{} KinDynComputations object is not valid.",
-                     errorPrefix);
+        log()->error("{} KinDynComputations object is not valid.", errorPrefix);
         return false;
     }
 
@@ -211,8 +243,17 @@ bool JointDynamicsTask::update()
     }
 
     m_b = m_generalizedBiasForces.tail(m_kinDyn->getNrOfDegreesOfFreedom());
-    iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
-        = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+
+    if (m_useMassMatrixRegularizationTerm)
+    {
+        iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
+            = -(m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom())
+                + m_massMatrixRegularizationTerm);
+    } else
+    {
+        iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
+            = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+    }
 
     for (const auto& contactWrench : m_contactWrenches)
     {
