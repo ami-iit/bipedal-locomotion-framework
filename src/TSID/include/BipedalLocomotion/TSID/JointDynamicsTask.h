@@ -46,8 +46,8 @@ class JointDynamicsTask : public TSIDLinearTask
     System::VariablesHandler::VariableDescription m_jointsTorqueVariable; /**< Variable
                                                                              describing the joint
                                                                              torques */
-    bool m_useMassMatrixRegularizationTerm{false};
-    Eigen::MatrixXd m_massMatrixReglarizationTerm;
+    bool m_useMassMatrixRegularizationTerm{false}; /**< True if the mass matrix regularization is used*/ 
+    Eigen::MatrixXd m_massMatrixRegularizationTerm; /**< Variable storing mass matrix regularization term*/
     struct ContactWrench
     {
         iDynTree::FrameIndex frameIndex; /**< Frame used to express the contact wrench */

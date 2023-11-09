@@ -127,7 +127,7 @@ bool JointDynamicsTask::setMassMatrixRegularization(
         return false;
     }
 
-    m_massMatrixReglarizationTerm = matrix;
+    m_massMatrixRegularizationTerm = matrix;
     m_useMassMatrixRegularizationTerm = true;
 
     return true;
@@ -247,11 +247,11 @@ bool JointDynamicsTask::update()
     if (m_useMassMatrixRegularizationTerm)
         {
             iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
-                    = -(m_massMatrix+m_massMatrixReglarizationTerm).bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+                   = -(m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom()) + m_massMatrixRegularizationTerm);;
         } else
         {
                iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
-        = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
+                   = -m_massMatrix.bottomRows(m_kinDyn->getNrOfDegreesOfFreedom());
         }
 
 
