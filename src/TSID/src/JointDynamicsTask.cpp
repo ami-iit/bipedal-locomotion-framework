@@ -243,7 +243,7 @@ bool JointDynamicsTask::update()
     }
 
     m_b = m_generalizedBiasForces.tail(m_kinDyn->getNrOfDegreesOfFreedom());
-    
+
     if (m_useMassMatrixRegularizationTerm)
         {
             iDynTree::toEigen(this->subA(m_robotAccelerationVariable))
