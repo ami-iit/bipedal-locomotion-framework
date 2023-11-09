@@ -17,6 +17,7 @@ All notable changes to this project are documented in this file.
 - Implement inequality operator for the `PlannedContact` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/750)
 - Finalize `RobotDynamicsEstimator` library and add complete library test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/744)
 - Add Python bindings for `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/755)
+- Add possibility to set the regularization on the mass matrix for the `TSID::JointDynamicsTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/722)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)
@@ -473,7 +474,6 @@ All notable changes to this project are documented in this file.
 - Implement `ContactDetectors` library. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/142)
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
-- Added possibility to add regularization on the mass matrix for the TSID `JointDynamicsTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/722)
 
 [unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.15.0...master
 [0.15.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...v0.15.0
