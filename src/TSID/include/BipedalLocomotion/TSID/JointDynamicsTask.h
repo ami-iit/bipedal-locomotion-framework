@@ -108,7 +108,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
-    
+
     /**
      * Set the mass matrix regularization term. i.e. \f$\bar{M} = M + M _ {reg}\f$. Where  \f$M\f$
      * is the mass matrix and  \f$M_{reg}\f$ is the matrix regularization term.
