@@ -27,6 +27,7 @@ if(TARGET BipedalLocomotion::RobotInterface
   # https://github.com/pybind/pybind11/commit/74a767d42921001fc4569ecee3b8726383c42ad4
   # https://github.com/pybind/pybind11/pull/2864
   if (${pybind11_VERSION} VERSION_GREATER_EQUAL "2.7.0")
+    include(FetchContent)
     FetchContent_Declare(
       cvnp
       GIT_REPOSITORY https://github.com/pthom/cvnp
