@@ -18,6 +18,7 @@ All notable changes to this project are documented in this file.
 - Finalize `RobotDynamicsEstimator` library and add complete library test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/744)
 - Add Python bindings for `RobotDynamicsEstimator` library (https://github.com/ami-iit/bipedal-locomotion-framework/pull/755)
 - Add possibility to set the regularization on the mass matrix for the `TSID::JointDynamicsTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/722)
+- Implement `RobotDynamicsEstimatorDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/756)
 
 ### Changed
 - Remove the possibility to disable the telemetry in `System::AdvanceableRunner` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/726)

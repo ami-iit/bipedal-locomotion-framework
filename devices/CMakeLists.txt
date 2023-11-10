@@ -3,6 +3,7 @@
 # BSD-3-Clause license.
 
 add_subdirectory(FloatingBaseEstimatorDevice)
+add_subdirectory(RobotDynamicsEstimatorDevice)
 add_subdirectory(YarpRobotLoggerDevice)
 add_subdirectory(VectorsCollectionWrapper)
 
