@@ -31,6 +31,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Fix timestamp logging for the cameras (https://github.com/ami-iit/bipedal-locomotion-framework/pull/748)
+- Fix missing include(FetchContent) in Python bindings CMake code (https://github.com/ami-iit/bipedal-locomotion-framework/pull/757)
 
 ## [0.15.0] - 2023-09-05
 ### Added
