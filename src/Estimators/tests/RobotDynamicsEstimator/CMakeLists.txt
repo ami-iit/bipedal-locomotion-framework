@@ -11,6 +11,12 @@ add_bipedal_test(NAME ZeroVelocityStateDynamics
                 BipedalLocomotion::ParametersHandler
                 Eigen3::Eigen)
 
+add_bipedal_test(NAME ExternalContactStateDynamics
+                SOURCES ExternalContactStateDynamicsTest.cpp
+                LINKS BipedalLocomotion::RobotDynamicsEstimator
+                BipedalLocomotion::ParametersHandler
+                Eigen3::Eigen)
+
 add_bipedal_test(NAME ConstantMeasurementModel
                 SOURCES ConstantMeasurementModelTest.cpp
                 LINKS BipedalLocomotion::RobotDynamicsEstimator
