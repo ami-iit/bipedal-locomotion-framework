@@ -21,8 +21,8 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
-MANNInput MANNInput::generateMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
-                                       std::size_t projectedBaseHorizon)
+MANNInput MANNInput::generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            std::size_t projectedBaseHorizon)
 {
     MANNInput input;
     input.jointPositions = jointPositions;
@@ -33,6 +33,20 @@ MANNInput MANNInput::generateMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPo
     input.facingDirectionTrajectory.row(0).setOnes();
 
     return input;
+}
+
+MANNOutput MANNOutput::generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                               std::size_t futureProjectedBaseHorizon)
+{
+    MANNOutput output;
+    output.jointPositions = jointPositions;
+    output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    output.futureBasePositionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureBaseVelocitiesTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory.row(0).setOnes();
+
+    return output;
 }
 
 struct MANN::Impl

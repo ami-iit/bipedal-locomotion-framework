@@ -27,8 +27,8 @@ namespace ML
  * The base position trajectory, facing direction trajectory and base velocity trajectories are
  * written in a bidimensional local reference frame L in which we assume all the quantities related
  * to the ground-projected base trajectory in xi and yi to be expressed. At each step ti,
- * L is defined to have its origin in the current ground-projected robot base position and orientation defined
- * by the current facing direction (along with its orthogonal vector).
+ * L is defined to have its origin in the current ground-projected robot base position and
+ * orientation defined by the current facing direction (along with its orthogonal vector).
  */
 struct MANNInput
 {
@@ -47,14 +47,15 @@ struct MANNInput
                                         seconds. */
 
     /**
-     * Generate the MANNInput from a given joint configuration
+     * Generate a dummy MANNInput from a given joint configuration
      * @param jointPositions vector containing the joint position in radians.
-     * @param projectedBaseHorizon number of samples of the base horizon considered in the neural network.
+     * @param projectedBaseHorizon number of samples of the base horizon considered in the neural
+     * network.
      * @return the MANNInput.
      * @warning the function assumes that the robot is not moving and facing forward.
      */
-    static MANNInput generateMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
-                                       std::size_t projectedBaseHorizon);
+    static MANNInput generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            std::size_t projectedBaseHorizon);
 };
 
 /**
@@ -83,6 +84,17 @@ struct MANNOutput
     Eigen::VectorXd jointVelocities; /**< Vector containing the next joint velocity in radians per
                                         seconds */
     manif::SE2Tangentd projectedBaseVelocity; /**< Velocity of the base projected on the ground */
+
+    /**
+     * Generate a dummy MANNOutput from a given joint configuration
+     * @param jointPositions vector containing the joint position in radians.
+     * @param futureProjectedBaseHorizon number of samples of the base horizon generated as output by
+     * the neural network.
+     * @return the MANNOutput.
+     * @warning the function assumes that the robot is not moving and facing forward.
+     */
+    static MANNOutput generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                              std::size_t futureProjectedBaseHorizon);
 };
 
 /**
@@ -145,7 +157,6 @@ public:
     bool isOutputValid() const override;
 
 private:
-
     /** Private implementation */
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;
