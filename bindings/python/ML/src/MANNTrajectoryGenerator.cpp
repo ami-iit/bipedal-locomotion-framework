@@ -40,8 +40,9 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
         .def_readwrite("joint_positions", &ML::MANNTrajectoryGeneratorOutput::jointPositions)
         .def_readwrite("base_pose", &ML::MANNTrajectoryGeneratorOutput::basePoses)
         .def_readwrite("phase_list", &ML::MANNTrajectoryGeneratorOutput::phaseList)
-        .def_readwrite("com_trajectory" , &ML::MANNTrajectoryGeneratorOutput::comTrajectory)
-        .def_readwrite("angular_momentum_trajectory" , &ML::MANNTrajectoryGeneratorOutput::angularMomentumTrajectory);
+        .def_readwrite("com_trajectory", &ML::MANNTrajectoryGeneratorOutput::comTrajectory)
+        .def_readwrite("angular_momentum_trajectory",
+                       &ML::MANNTrajectoryGeneratorOutput::angularMomentumTrajectory);
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<ML::MANNTrajectoryGeneratorInput, //
                                                            ML::MANNTrajectoryGeneratorOutput> //
@@ -55,16 +56,18 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
              &ML::MANNTrajectoryGenerator::setInitialState,
              py::arg("joint_positions"),
              py::arg("base_pose"))
-        .def("set_robot_model", [](ML::MANNTrajectoryGenerator& impl, ::pybind11::object& obj) {
-            iDynTree::Model* cls = py::detail::swig_wrapped_pointer_to_pybind<iDynTree::Model>(obj);
+        .def("set_robot_model",
+             [](ML::MANNTrajectoryGenerator& impl, ::pybind11::object& obj) {
+                 iDynTree::Model* cls
+                     = py::detail::swig_wrapped_pointer_to_pybind<iDynTree::Model>(obj);
 
-            if (cls == nullptr)
-            {
-                throw ::pybind11::value_error("Invalid input for the function. Please provide "
-                                              "an iDynTree::Model object.");
-            }
-            return impl.setRobotModel(*cls);
-        });
+                 if (cls == nullptr)
+                 {
+                     throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                   "an iDynTree::Model object.");
+                 }
+                 return impl.setRobotModel(*cls);
+             });
 }
 
 } // namespace ML
