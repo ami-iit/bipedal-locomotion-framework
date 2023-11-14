@@ -37,8 +37,10 @@ struct MANNFootState
 {
     Contacts::EstimatedContact contact; /**< Contact state */
     Math::SchmittTriggerState schmittTriggerState; /**< Schmitt trigger state */
+    std::vector<Eigen::Vector3d> corners; /**< Corners of the foot */
 
     static MANNFootState generateFootState(iDynTree::KinDynComputations& kindyn,
+                                           const std::vector<Eigen::Vector3d>& corners,
                                            const std::string& footName,
                                            int footIndex);
 };
@@ -78,12 +80,13 @@ struct MANNAutoregressiveOutput
     manif::SE3d::Tangent baseVelocity; /**< Base velocity in mixed representation */
     Eigen::Vector3d comPosition; /**< Position of the CoM with respect to the inertial frame */
     Eigen::Vector3d angularMomentum; /**< Centroidal angular momentum */
-    MANNFootState leftFoot; /**< Left foot contact */
-    MANNFootState rightFoot; /**< Right foot contact */
+    Contacts::EstimatedContact leftFoot; /**< Left foot contact */
+    Contacts::EstimatedContact rightFoot; /**< Right foot contact */
 
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
 
+// clang-format off
 /**
  * MANNAutoregressive is a class that allows to perform autoregressive inference with Mode-Adaptive
  * Neural Networks (MANN).
@@ -97,10 +100,18 @@ struct MANNAutoregressiveOutput
  * in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022,
  * doi: 10.1109/LRA.2022.3141658." https://doi.org/10.1109/LRA.2022.3141658
  */
+// clang-format on
 class MANNAutoregressive
     : public System::Advanceable<MANNAutoregressiveInput, MANNAutoregressiveOutput>
 {
 public:
+    enum class SupportFoot
+    {
+        Left,
+        Right,
+        Unknown
+    };
+
     /**
      * AutoregressiveState contains all quantities required to reset the Advanceable
      * The base position trajectory, facing direction trajectory and base velocity trajectories are
@@ -111,9 +122,9 @@ public:
      */
     struct AutoregressiveState
     {
-        MANNInput previousMannInput; /**< Mann Input at the previous time instant. Required for
-                                        checking if two subsequent inputs of the network are similar
-                                        enough to consider the robot stopped. */
+        MANNOutput previousMANNOutput; /**< Output of the MANN network generated at the previous
+                                          iteration */
+        MANNInput previousMANNInput; /**< Input to the MANN network at previous iteration */
         manif::SE2d I_H_FD; /**< SE(2) transformation of the facing direction respect to the
                                inertial frame*/
 
@@ -129,14 +140,32 @@ public:
          * projected into the ground. */
         std::deque<Eigen::Vector2d> pastProjectedBaseVelocity;
 
+        MANNFootState leftFootState; /**< Left foot state */
+        MANNFootState rightFootState; /**< Right foot state */
+        manif::SE3d I_H_B; /**< SE(3) transformation of the base respect to the inertial frame */
+        SupportFoot supportFoot{SupportFoot::Unknown}; /**< Support foot */
+        Eigen::Vector3d projectedContactPositionInWorldFrame; /**< Projected contact position in
+                                                                 world frame */
+        int supportCornerIndex{-1}; /**< Index of the support corner */                                                         
+
+        std::chrono::nanoseconds time; /**< Current time stored in the advanceable */
+
         /**
-         * Generate the autoregressive state from the input.
+         * Generate a dummy autoregressive state from the input.
          * @param input input to the autoregressive model.
+         * @param output output of the autoregressive model.
+         * @param I_H_B SE(3) transformation of the base respect to the inertial frame.
+         @ TODO
          * @return the autoregressive state.
-         * @warning the autoregressive state is generated assuming that the robot is not moving and
-         * facing forward.
+         * @warning the autoregressive state is generated assuming that the robot is not moving
+         * and facing forward.
          */
-        static AutoregressiveState generateAutoregressiveState(const MANNInput& input);
+        static AutoregressiveState
+        generateDummyAutoregressiveState(const MANNInput& input,
+                                         const MANNOutput& output,
+                                         const manif::SE3d& I_H_B,
+                                         const MANNFootState& leftFootState,
+                                         const MANNFootState& rightFootState);
     };
 
     /**
@@ -157,6 +186,7 @@ public:
      */
     bool setRobotModel(const iDynTree::Model& model);
 
+    // clang-format off
     /**
      * Initialize the network.
      * @param paramHandler pointer to the parameters handler.
@@ -186,6 +216,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the input to the autoregressive model.
@@ -215,24 +246,12 @@ public:
 
     /**
      * Reset the autoregressive model
-     * @param input raw mann input.
-     * @param leftFoot state of the left foot.
-     * @param rightFoot state of the right foot.
-     * @param basePosition current base position.
-     * @param baseVelocity current base velocity expressed in mixed representation.
      * @param autoregressiveState the autoregressive state at which you want to reset your model.
-     * @param time time used to reset the system
      * @return true in case of success, false otherwise.
      * @note please call this function the before calling MANNAutoregressive::advance the first time
      * time.
      */
-    bool reset(const MANNInput& input,
-               const MANNFootState& leftFoot,
-               const MANNFootState& rightFoot,
-               const manif::SE3d& basePosition,
-               const manif::SE3Tangentd& baseVelocity,
-               const AutoregressiveState& autoregressiveState,
-               const std::chrono::nanoseconds& time);
+    bool reset(const AutoregressiveState& autoregressiveState);
 
     /**
      * Check if the output is valid.
@@ -257,6 +276,10 @@ public:
      * @return the AutoregressiveState
      */
     const AutoregressiveState& getAutoregressiveState() const;
+
+    bool populateInitialAutoregressiveState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            const manif::SE3d& basePose,
+                                            MANNAutoregressive::AutoregressiveState& state);
 
 private:
     struct Impl;
