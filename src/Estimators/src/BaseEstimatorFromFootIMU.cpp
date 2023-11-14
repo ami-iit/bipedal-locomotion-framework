@@ -111,17 +111,58 @@ bool BaseEstimatorFromFootIMU::initialize(
         return true;
     };
 
-    // Base link of the robot (whose pose must be estimated)
-    std::string baseFrameName;
     auto baseEstimatorPtr = ptr->getGroup("BASE_ESTIMATOR").lock();
-    bool ok
-        = populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"), "base_frame", baseFrameName);
+    if (baseEstimatorPtr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler for the group 'BASE_ESTIMATOR'", logPrefix);
+        return false;
+    }
 
-    // Frame associated to the foot of the robot (whose orientation is measured)
-    ok = populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"), "foot_frame", m_footFrameName);
+    // Frame associated to the base of the robot (whose pose is estimated)
+    bool ok = populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"),
+                                "base_frame",
+                                m_baseFrameName);
 
+    // Frame associated to the left foot of the robot (whose orientation is measured)
+    ok = ok
+         && populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"),
+                              "foot_frame_L",
+                              m_footFrameName_L);
+    // Frame associated to the right foot of the robot (whose orientation is measured)
+    ok = ok
+         && populateParameter(baseEstimatorPtr->getGroup("MODEL_INFO"),
+                              "foot_frame_R",
+                              m_footFrameName_R);
+    // Foot dimensions. Same for both feet.
     ok = ok && populateParameter(baseEstimatorPtr, "foot_width_in_m", m_footWidth);
     ok = ok && populateParameter(baseEstimatorPtr, "foot_length_in_m", m_footLength);
+
+    m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+
+    m_baseFrameIndex = m_kinDyn.getFrameIndex(m_baseFrameName);
+    if (m_baseFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Invalid frame named: {}", logPrefix, m_baseFrameName);
+        return false;
+    }
+
+    m_footFrameIndex_L = m_kinDyn.getFrameIndex(m_footFrameName_L);
+    if (m_footFrameIndex_L == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Invalid frame named: {}", logPrefix, m_footFrameName_L);
+        return false;
+    }
+    iDynTree::Transform frame_H_link_L = m_model.getFrameTransform(m_footFrameIndex_L).inverse();
+    m_footFrame_H_link_L = Conversions::toManifPose(frame_H_link_L);
+
+    m_footFrameIndex_R = m_kinDyn.getFrameIndex(m_footFrameName_R);
+    if (m_footFrameIndex_R == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Invalid frame named: {}", logPrefix, m_footFrameName_R);
+        return false;
+    }
+    iDynTree::Transform frame_H_link_R = m_model.getFrameTransform(m_footFrameIndex_R).inverse();
+    m_footFrame_H_link_R = Conversions::toManifPose(frame_H_link_R);
 
     // resetting the vector of foot corners to be sure it is correctly initialized.
     m_cornersInInertialFrame.clear();
@@ -132,37 +173,12 @@ bool BaseEstimatorFromFootIMU::initialize(
     m_cornersInInertialFrame.emplace_back(-m_footLength / 2, +m_footWidth / 2, 0);
     m_cornersInInertialFrame.emplace_back(-m_footLength / 2, -m_footWidth / 2, 0);
 
-    m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    m_footFrameIndex = m_kinDyn.getFrameIndex(m_footFrameName);
-    if (m_footFrameIndex == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("{} Invalid frame named: {}", logPrefix, m_footFrameName);
-        return false;
-    }
-    m_baseFrame = m_kinDyn.getFrameIndex(baseFrameName);
-    if (m_baseFrame == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("{} Invalid frame named: {}", logPrefix, baseFrameName);
-        return false;
-    }
-
-    m_frameName = m_kinDyn.getFrameName(m_footFrameIndex);
-    m_linkIndex = m_model.getFrameLink(m_footFrameIndex);
-
-    if (!m_kinDyn.setFloatingBase(m_model.getLinkName(m_linkIndex)))
-    {
-        log()->error("{} Unable to set the floating base.", logPrefix);
-        return false;
-    }
-
-    iDynTree::Transform frame_H_link = m_model.getFrameTransform(m_footFrameIndex).inverse();
-    m_frame_H_link = Conversions::toManifPose(frame_H_link);
-
-    m_trasOld.setZero();
-    m_rpyOld.setZero();
-    m_yawDrift.setIdentity();
-    m_state.sphereShadowCorners.resize(m_cornersInInertialFrame.size());
-    m_state.sphereFootCorners.resize(m_cornersInInertialFrame.size());
+    m_yawOld = 0.0;
+    m_T_yawDrift.setIdentity();
+    m_measuredFootPose.setIdentity();
+    m_T_walk.setIdentity();
+    m_state.stanceFootShadowCorners.resize(m_cornersInInertialFrame.size());
+    m_state.stanceFootCorners.resize(m_cornersInInertialFrame.size());
 
     m_isInitialized = true;
 
@@ -173,14 +189,14 @@ bool BaseEstimatorFromFootIMU::setInput(const BaseEstimatorFromFootIMUInput& inp
 {
     constexpr auto logPrefix = "[BaseEstimatorFromFootIMU::setInput]";
     m_isInputSet = false;
-    m_input = input;
 
     if (!m_isInitialized)
     {
-        log()->error("{} The estimator is not initialized.", logPrefix);
+        log()->error("{} The estimator must be initialized before setting the input.", logPrefix);
         return false;
     }
 
+    m_input = input;
     m_isInputSet = true;
     return true;
 }
@@ -197,58 +213,114 @@ bool BaseEstimatorFromFootIMU::advance()
         return false;
     }
 
-    // `desiredFootPose` is intended as the output of the footstep planner.
+    // checking the stance foot
+    if (m_input.isLeftStance && m_input.isRightStance)
+    {
+        log()->error("{} Both feet are stance feet. The estimator accept only one stance foot.",
+                     logPrefix);
+        return false;
+    }
+    if (!m_input.isLeftStance && !m_input.isRightStance)
+    {
+        log()->error("{} No stance foot set. The estimator needs one stance foot in input.",
+                     logPrefix);
+        return false;
+    }
+    manif::SE3d stanceFootFrame_H_link = manif::SE3d::Identity();
+    int stanceFootFrameIndex = iDynTree::FRAME_INVALID_INDEX;
+    if (m_input.isLeftStance)
+    {
+        stanceFootFrame_H_link = m_footFrame_H_link_L;
+        stanceFootFrameIndex = m_footFrameIndex_L;
+        // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
+        m_measuredRotation = m_input.measuredRotation_L.rotation();
+        // has the stance foot just changed?
+        if (m_isLastStanceFoot_R)
+        {
+            // updating the yawOld value.
+            Eigen::Vector3d lastRPY_L = toXYZ(m_state.footPose_L.rotation());
+            m_yawOld = lastRPY_L(2);
 
-    // extracting the position part of the `desiredFootPose`.
-    m_desiredTranslation = m_input.desiredFootPose.translation();
+            // updating the m_T_walk matrix.
+            manif::SE3d T_walk = m_state.footPose_L;
+            manif::SE3d temp = T_walk * m_T_walk;
+            m_T_walk = temp;
+        }
+    }
+    if (m_input.isRightStance)
+    {
+        stanceFootFrame_H_link = m_footFrame_H_link_R;
+        stanceFootFrameIndex = m_footFrameIndex_R;
+        // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
+        m_measuredRotation = m_input.measuredRotation_R.rotation();
+        // has the stance foot just changed?
+        if (m_isLastStanceFoot_L)
+        {
+            // updating the yawOld value.
+            Eigen::Vector3d lastRPY_R = toXYZ(m_state.footPose_R.rotation());
+            m_yawOld = lastRPY_R(2);
 
-    // extracting the orientation part of the `desiredFootPose` and expressing it
+            // updating the m_T_walk matrix.
+            manif::SE3d T_walk = m_state.footPose_R;
+            manif::SE3d temp = T_walk * m_T_walk;
+            m_T_walk = temp;
+        }
+    }
+
+    m_stanceLinkIndex = m_model.getFrameLink(stanceFootFrameIndex);
+    if (!m_kinDyn.setFloatingBase(m_model.getLinkName(m_stanceLinkIndex)))
+    {
+        log()->error("{} Unable to set the stance foot as floating base.", logPrefix);
+        return false;
+    }
+
+    // `offsetStanceFootPose` is intended as the output of the footstep planner.
+
+    // extracting the position part of the `offsetStanceFootPose`.
+    m_offsetTranslation = m_input.offsetStanceFootPose.translation();
+
+    // extracting the orientation part of the `offsetStanceFootPose` and expressing it
     // through RPY Euler angles.
-    m_desiredRotation = m_input.desiredFootPose.rotation();
-    m_desiredRPY = toXYZ(m_desiredRotation);
-    m_desiredRotationCasted = manif::SO3d(m_desiredRPY(0), m_desiredRPY(1), m_desiredRPY(2));
+    m_offsetRotation = m_input.offsetStanceFootPose.rotation();
+    m_offsetRPY = toXYZ(m_offsetRotation);
+    m_offsetRotationCasted = manif::SO3d(m_offsetRPY(0), m_offsetRPY(1), m_offsetRPY(2));
 
-    // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
-    m_measuredRotation = m_input.measuredRotation.rotation();
-    // expressing this orientation through RPY Euler angles.
+    // expressing measured orientation through RPY Euler angles.
     m_measuredRPY = toXYZ(m_measuredRotation);
 
-    // desired Yaw is used instead of measured Yaw.
-    // m_measuredRPY(2) = m_desiredRPY(2);
+    // offset Yaw is used instead of measured Yaw.
+    // m_measuredRPY(2) = m_offsetRPY(2);
 
-    // Manual correction of the measured Roll, Pitch and Yaw.
+    // MANUAL CORRECTION: measured Roll, Pitch and Yaw.
     // double temp_roll = -m_measuredRPY(1);
     // double temp_pitch = -m_measuredRPY(0);
+    // double temp_yaw = -m_measuredRPY(2);
     // m_measuredRPY(0) = temp_roll;
     // m_measuredRPY(1) = temp_pitch;
-    // m_measuredRPY(2) = -m_measuredRPY(2);
+    // m_measuredRPY(2) = temp_yaw;
 
-    // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch,
-    // desired Yaw.
+    // manif::SO3d rotation matrix that employs: measured Roll, measured Pitch, offset Yaw.
     m_measuredRotationCorrected = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), m_measuredRPY(2));
     m_measuredTilt = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), 0.0);
-    // Dani's idea:
-    // consider either roll or pitch, whichever is larger in magnitude, and set the
-    // other to zero.
-    // m_measuredTilt = manif::SO3d(m_measuredRPY(0), 0.0, 0.0);
+    double measuredYaw = m_measuredRPY(2);
 
-    // manif::SE3d pose matrix that employs: desired Position, measured Roll,
-    // measured Pitch, desired Yaw.
-    Eigen::Vector3d noTras(0, 0, 0);
-    manif::SE3d T_foot_raw(noTras, m_measuredRotationCorrected);
+    // manif::SE3d pose matrix that employs: offset Position, measured Roll, measured Pitch, offset
+    // Yaw.
+    const Eigen::Vector3d noTras(0, 0, 0);
+    manif::SE3d T_foot_imu(noTras, m_measuredRotationCorrected);
     manif::SE3d T_foot_tilt(noTras, m_measuredTilt);
-    manif::SE3d T_foot(m_desiredTranslation, m_desiredRotationCasted);
+    manif::SE3d T_foot_offset(m_offsetTranslation, m_offsetRotationCasted);
 
-    // finding the positions of the foot corners in world frame given `T_foot_raw`
+    // finding the positions of the foot corners in world frame given `T_foot_imu`
     // pose matrix.
 
     // resetting the vector of transformed foot corners from previous iteration.
-    m_transformedFootCorners.clear();
+    m_tiltedFootCorners.clear();
 
     // for each corner we compute the position in the inertial frame
     for (const auto& corner : m_cornersInInertialFrame)
     {
-        m_transformedFootCorners.emplace_back(T_foot_tilt.act(corner));
+        m_tiltedFootCorners.emplace_back(T_foot_tilt.act(corner));
     }
 
     // The center of the foot sole is at ground level --> some corners may be
@@ -257,10 +329,10 @@ bool BaseEstimatorFromFootIMU::advance()
     // extracting the vertical quotes of the foot corners and finding the lowest
     // corner.
     Eigen::VectorXd cornersZ;
-    cornersZ.resize(m_transformedFootCorners.size());
+    cornersZ.resize(m_cornersInInertialFrame.size());
     cornersZ.setZero();
     int index = 0;
-    for (const auto& corner : m_transformedFootCorners)
+    for (const auto& corner : m_tiltedFootCorners)
     {
         cornersZ[index] = corner[2];
         index++;
@@ -290,59 +362,37 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // finding the index of the highest corner.
     // double maxZ = cornersZ[0];
-    // int highestCornerIndex = 0;
+    // int indexMaxZ = 0;
     // for (int i = 1; i < cornersZ.size(); i++)
     // {
     //     if (cornersZ[i] > maxZ)
     //     {
     //         maxZ = cornersZ[i];
-    //         highestCornerIndex = i;
+    //         indexMaxZ = i;
     //     }
     // }
 
-    // double deltaZ = cornersZ[highestCornerIndex] - cornersZ[m_state.supportCornerIndex];
+    // double deltaZ = cornersZ[indexMaxZ] - cornersZ[m_state.supportCornerIndex];
     // std::cerr << "Foot deltaZ: " << deltaZ << std::endl;
 
-    // finding the offset vector needed to bring the lowest corner back to its
-    // desired position.
-    Eigen::Vector3d p_desired(0, 0, 0);
-    Eigen::Vector3d vertexOffset(0, 0, 0);
-    // p_desired = m_yawDrift.act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
-    // vertexOffset = p_desired -
-    // m_yawDrift.act(m_transformedFootCorners[m_state.supportCornerIndex]);
+    // finding the translation vector needed to bring the lowest corner back to its
+    // untilted position.
+    Eigen::Vector3d p_untilted(0, 0, 0);
+    Eigen::Vector3d supportCornerTranslation(0, 0, 0);
+    p_untilted = (m_cornersInInertialFrame[m_state.supportCornerIndex]);
+    supportCornerTranslation
+        = p_untilted - (m_tiltedFootCorners[m_state.supportCornerIndex]); // TODO: change if
+                                                                          // flat ground
+                                                                          // assumption is
+                                                                          // removed
 
-    p_desired = (m_cornersInInertialFrame[m_state.supportCornerIndex]);
-    vertexOffset = p_desired - (m_transformedFootCorners[m_state.supportCornerIndex]);
-
-    // std::cerr << "shadowCorners: " << p_desired.transpose() << std::endl;
-    // std::cerr << "footCorners: "
-    //           << m_yawDrift.act(m_transformedFootCorners[m_state.supportCornerIndex]).transpose()
-    //           << std::endl;
-    // std::cerr << "vertexOffset: " << vertexOffset.transpose() << std::endl;
-    // if (vertexOffset.norm() > 0.1)
-    // {
-    //     log()->error("{} Foot vertex offset too large: {}.", logPrefix, vertexOffset.norm());
-    //     return false;
-    // }
     // transforming the offset vector into a translation matrix.
-    manif::SE3d T_vertexOffset(vertexOffset, manif::SO3d::Identity());
-    // manif::SE3d T_vertexOffset(manif::SE3d::Identity());
-    for (int i = 0; i < m_cornersInInertialFrame.size(); i++)
-    {
-        m_state.sphereShadowCorners[i] = m_yawDrift.act(m_cornersInInertialFrame[i]);
-        m_state.sphereFootCorners[i]
-            = T_vertexOffset.act(m_yawDrift.act(m_transformedFootCorners[i]));
-    }
+    manif::SE3d T_supportCornerTranslation(supportCornerTranslation, manif::SO3d::Identity());
 
-    // obtaining the final foot pose using both measured and desired quantities.
+    // obtaining the final foot pose using both measured and offset quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
-
-    m_measuredFootPose = T_foot * m_yawDrift * T_vertexOffset * T_foot_tilt * m_frame_H_link;
-
-    // Example if we want to switch off the yaw drift correction
-    // m_measuredFootPose = T_foot * T_vertexOffset * T_foot_tilt * m_frame_H_link;
-
-    m_resetFootCorners = T_foot_raw;
+    m_measuredFootPose = m_T_walk * T_foot_offset * m_T_yawDrift * T_supportCornerTranslation
+                         * T_foot_tilt * stanceFootFrame_H_link;
 
     Eigen::VectorXd baseVelocity(6);
     baseVelocity.setZero();
@@ -354,71 +404,58 @@ bool BaseEstimatorFromFootIMU::advance()
                                 m_input.jointVelocities,
                                 m_gravity))
     {
-        log()->error("{} Unable to set the robot state.", logPrefix);
+        log()->error("{} Unable to set the robot state from the stance foot pose.", logPrefix);
         return false;
     }
 
-    // calculating the pose of the root link given the robot state.
-    m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrame));
-    m_state.footPose_R = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex));
-    m_state.footPose_L = Conversions::toManifPose(
-        m_kinDyn.getWorldTransform(m_kinDyn.getFrameIndex("l_sole"))); // TODO: make it generic
-
+    // calculating the output of the estimator given the robot state.
+    m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrameIndex));
+    m_state.footPose_L = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex_L));
+    m_state.footPose_R = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex_R));
     m_kinDyn.getCenterOfMassPosition(m_state.centerOfMassPosition);
 
-    // updating m_cornersInLocalFrame when the foot is nearly flat
-    // double flatnessThreshold = 0.0001;
-    // if (deltaZ <= flatnessThreshold)
-    // extracting the position part of the reset corners pose.
-    Eigen::Vector3d deltaTras(0, 0, 0);
-    Eigen::Vector3d deltaRPY(0, 0, 0);
+    for (int i = 0; i < m_cornersInInertialFrame.size(); i++)
+    {
+        m_state.stanceFootShadowCorners[i] = m_T_yawDrift.act(m_cornersInInertialFrame[i]);
+        m_state.stanceFootCorners[i]
+            = T_supportCornerTranslation.act(m_T_yawDrift.act(m_tiltedFootCorners[i]));
+    }
 
-    auto tras = m_resetFootCorners.translation();
-    // foot z is completely canceled
-    tras(2) = 0.0;
-    deltaTras = tras - m_trasOld;
-    m_trasOld = tras;
-    // extracting the orientation part of the reset corners pose and expressing it through RPY
-    // Euler angles.
-    auto rot = m_resetFootCorners.rotation();
-    auto rpy = toXYZ(rot);
-    // Roll and Pitch are completely canceled.
-    rpy(0) = 0.0;
-    rpy(1) = 0.0;
-    deltaRPY = rpy - m_rpyOld;
-    m_rpyOld = rpy;
-    // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw.
-    auto deltaYaw = manif::SO3d(deltaRPY(0), deltaRPY(1), deltaRPY(2));
-    // manif::SE3d reset corners pose matrix.
-    // manif::SE3d T_reset_corners(deltaTras, deltaYaw);
-    Eigen::Vector3d tr(0, 0, 0);
-    manif::SE3d T_reset_corners(tr, deltaYaw);
+    // calculating the yaw drift.
+    double deltaYaw = 0.0;
+    deltaYaw = measuredYaw - m_yawOld;
+    m_yawOld = measuredYaw;
+    // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw variation.
+    auto R_deltaYaw = manif::SO3d(0.0, 0.0, deltaYaw);
+    manif::SE3d T_deltaYaw(noTras, R_deltaYaw);
 
     std::vector<Eigen::Vector3d> tempCorners;
     tempCorners.resize(m_cornersInInertialFrame.size());
     int j = 0;
     for (const auto& corner : m_cornersInInertialFrame)
     {
-        tempCorners[j] = T_reset_corners.act(corner);
+        tempCorners[j] = T_deltaYaw.act(corner);
         j++;
     }
-    Eigen::Vector3d resetOffset(0, 0, 0);
-    resetOffset = m_cornersInInertialFrame[m_state.supportCornerIndex]
-                  - tempCorners[m_state.supportCornerIndex];
-    // std::cerr << "resetOffset: " << resetOffset.transpose() << std::endl;
-    // manif::SE3d T_resetOffset(resetOffset, manif::SO3d::Identity());
-    manif::SE3d T_resetOffset(resetOffset, deltaYaw);
+    Eigen::Vector3d yawDrift(0, 0, 0);
+    yawDrift = m_cornersInInertialFrame[m_state.supportCornerIndex]
+               - tempCorners[m_state.supportCornerIndex];
+    manif::SE3d T_yawDrift(yawDrift, R_deltaYaw);
 
-    manif::SE3d temp;
-    temp = T_resetOffset * m_yawDrift;
-    m_yawDrift = temp;
+    manif::SE3d temp = T_yawDrift * m_T_yawDrift;
+    m_T_yawDrift = temp;
 
-    // j = 0;
-    // for (const auto& corner : tempCorners)
-    // {
-    //     m_cornersInInertialFrame[j] = T_resetOffset.act(corner);
-    //     j++;
-    // }
+    // updating the stance foot flags.
+    if (m_input.isLeftStance)
+    {
+        m_isLastStanceFoot_L = true;
+        m_isLastStanceFoot_R = false;
+    }
+    if (m_input.isRightStance)
+    {
+        m_isLastStanceFoot_L = false;
+        m_isLastStanceFoot_R = true;
+    }
 
     m_isOutputValid = true;
 
