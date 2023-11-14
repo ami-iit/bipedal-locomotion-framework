@@ -20,21 +20,9 @@ using namespace BipedalLocomotion;
 
 struct MANNTrajectoryGenerator::Impl
 {
-    struct MergePointState
-    {
-        MANNInput input;
-        MANNFootState leftFoot;
-        MANNFootState rightFoot;
-        manif::SE3d basePose;
-        manif::SE3Tangentd baseVelocity;
-        MANNAutoregressive::AutoregressiveState autoregressiveState;
-
-        std::chrono::nanoseconds time;
-    };
-
     MANNAutoregressive mann;
     MANNAutoregressiveInput mannAutoregressiveInput;
-    std::vector<MergePointState> mergePointStates;
+    std::vector<MANNAutoregressive::AutoregressiveState> mergePointStates;
     std::chrono::nanoseconds dT;
     bool isOutputValid{false};
     int slowDownFactor{1};
@@ -48,6 +36,7 @@ struct MANNTrajectoryGenerator::Impl
     Eigen::Vector3d gravity;
     int leftFootIndex;
     int rightFootIndex;
+    int mergePoint; // TODO remove me
 
     /**
      * Reset the contact list given an estimated contact from mann autorergressive.
@@ -119,14 +108,14 @@ bool MANNTrajectoryGenerator::Impl::resetContactList(
             return false;
         }
 
-        Contacts::PlannedContact temp = *latestActiveContact;
+        const Contacts::PlannedContact temp = *latestActiveContact;
         this->contactListMap[contactName].clear();
         return this->contactListMap[contactName].addContact(temp);
     }
 
     // if the contact is active we add a new contact to the list
     Contacts::PlannedContact temp;
-    temp.activationTime = estimatedContact.switchTime * slowDownFactor;
+    temp.activationTime = estimatedContact.switchTime * this->slowDownFactor;
     temp.deactivationTime = std::chrono::nanoseconds::max();
     temp.index = estimatedContact.index;
     temp.name = estimatedContact.name;
@@ -298,42 +287,27 @@ bool MANNTrajectoryGenerator::initialize(
 
     m_pimpl->gravity.setZero();
     m_pimpl->gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-
     return m_pimpl->mann.initialize(paramHandler);
 }
 
 bool MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                               const manif::SE3d& basePose)
 {
+    constexpr auto logPrefix = "[MANNTrajectoryGenerator::setInitialState]";
 
-    Impl::MergePointState temp;
-    temp.input = MANNInput::generateMANNInput(jointPositions, m_pimpl->projectedBaseHorizonSize);
-    temp.autoregressiveState
-        = MANNAutoregressive::AutoregressiveState::generateAutoregressiveState(temp.input);
-
-    temp.basePose = basePose;
-    temp.baseVelocity = manif::SE3Tangentd::Zero();
-
-    if (!m_pimpl->kinDyn.setRobotState(temp.basePose.transform(),
-                                       temp.input.jointPositions,
-                                       temp.baseVelocity.coeffs(),
-                                       temp.input.jointVelocities,
-                                       m_pimpl->gravity))
+    MANNAutoregressive::AutoregressiveState autoregressiveState;
+    if (!m_pimpl->mann.populateInitialAutoregressiveState(jointPositions,
+                                                          basePose,
+                                                          autoregressiveState))
     {
-        log()->error("[MANNTrajectoryGenerator::setInitialState] Unable to set the robot state.");
+        log()->error("[MANNAutoregressive::reset] Unable to populate the initial autoregressive "
+                     "state.");
         return false;
     }
 
-    temp.leftFoot
-        = MANNFootState::generateFootState(m_pimpl->kinDyn, "left_foot", m_pimpl->leftFootIndex);
-    temp.rightFoot
-        = MANNFootState::generateFootState(m_pimpl->kinDyn, "right_foot", m_pimpl->rightFootIndex);
-
-    temp.time = std::chrono::nanoseconds::zero();
-
     for (auto& state : m_pimpl->mergePointStates)
     {
-        state = temp;
+        state = autoregressiveState;
     }
     return true;
 }
@@ -342,7 +316,7 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
 {
     constexpr auto logPrefix = "[MANNTrajectoryGenerator::setInput]";
 
-    if (input.mergePointIndex > m_pimpl->mergePointStates.size())
+    if (input.mergePointIndex >= m_pimpl->mergePointStates.size())
     {
         log()->error("{} The index of the merge point is greater than the entire trajectory.  The "
                      "trajectory lasts {}. I cannot attach a new trajectory at {}.",
@@ -354,15 +328,10 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
 
     m_pimpl->mannAutoregressiveInput = input;
     const auto& mergePointState = m_pimpl->mergePointStates[input.mergePointIndex];
+    m_pimpl->mergePoint = input.mergePointIndex;
 
     // reset the MANN
-    if (!m_pimpl->mann.reset(mergePointState.input,
-                             mergePointState.leftFoot,
-                             mergePointState.rightFoot,
-                             mergePointState.basePose,
-                             mergePointState.baseVelocity,
-                             mergePointState.autoregressiveState,
-                             mergePointState.time))
+    if (!m_pimpl->mann.reset(mergePointState))
     {
         log()->error("{} Unable to reset MANN.", logPrefix);
         return false;
@@ -370,10 +339,10 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
 
     // add the first contact if needed
     return m_pimpl->resetContactList("left_foot",
-                                     mergePointState.leftFoot.contact,
+                                     mergePointState.leftFootState.contact,
                                      mergePointState.time * m_pimpl->slowDownFactor)
            && m_pimpl->resetContactList("right_foot",
-                                        mergePointState.rightFoot.contact,
+                                        mergePointState.rightFootState.contact,
                                         mergePointState.time * m_pimpl->slowDownFactor);
 }
 
@@ -389,11 +358,37 @@ bool MANNTrajectoryGenerator::advance()
 
     for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
     {
+        // TODO can we move it after the advance?
+        m_pimpl->mergePointStates[i] = m_pimpl->mann.getAutoregressiveState();
+
         if (!m_pimpl->mann.setInput(m_pimpl->mannAutoregressiveInput))
         {
             log()->error("{} Unable to set the input to MANN.", logPrefix);
             return false;
         }
+
+        // TODO
+        // if (i == 0 || i == m_pimpl->mergePoint)
+        // {
+        //     // print the input of mann
+        //     const auto& mannInput = m_pimpl->mann.getMANNInput();
+        //     log()->error("{} MANN input at iteration {}.", logPrefix, i);
+        //     log()->info("{} base position trajectory: {}.",
+        //                 logPrefix,
+        //                 mannInput.basePositionTrajectory.transpose());
+        //     log()->info("{} base velocity trajectory: {}.",
+        //                 logPrefix,
+        //                 mannInput.baseVelocitiesTrajectory.transpose());
+        //     log()->info("{}  facing direction trajectory: {}.",
+        //                 logPrefix,
+        //                 mannInput.facingDirectionTrajectory.transpose());
+        //     log()->info("{}  joints positions: {}.",
+        //                 logPrefix,
+        //                 mannInput.jointPositions.transpose());
+        //     log()->info("{}  joints velocities: {}.",
+        //                 logPrefix,
+        //                 mannInput.jointVelocities.transpose());
+        // }
 
         if (!m_pimpl->mann.advance())
         {
@@ -404,24 +399,16 @@ bool MANNTrajectoryGenerator::advance()
         const auto& MANNOutput = m_pimpl->mann.getOutput();
 
         // store the status required to reset the system
-        m_pimpl->mergePointStates[i].basePose = MANNOutput.basePose;
-        m_pimpl->mergePointStates[i].autoregressiveState = m_pimpl->mann.getAutoregressiveState();
-        m_pimpl->mergePointStates[i].baseVelocity = MANNOutput.baseVelocity;
-        m_pimpl->mergePointStates[i].input = m_pimpl->mann.getMANNInput();
-        m_pimpl->mergePointStates[i].leftFoot = MANNOutput.leftFoot;
-        m_pimpl->mergePointStates[i].rightFoot = MANNOutput.rightFoot;
-        m_pimpl->mergePointStates[i].time = MANNOutput.currentTime;
 
         // populate the output of the trajectory generator
         m_pimpl->output.jointPositions[i] = MANNOutput.jointsPosition;
         m_pimpl->output.angularMomentumTrajectory[i] = MANNOutput.angularMomentum;
         m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.comTrajectory[i] = MANNOutput.comPosition;
+        m_pimpl->output.timeStamps[i] = MANNOutput.currentTime;
 
         // update the contacts lists
-        if (!m_pimpl->updateContactList("left_foot",
-                                        MANNOutput.leftFoot.contact,
-                                        MANNOutput.currentTime))
+        if (!m_pimpl->updateContactList("left_foot", MANNOutput.leftFoot, MANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the left_foot at iteration "
                          "number {}.",
@@ -430,9 +417,7 @@ bool MANNTrajectoryGenerator::advance()
             return false;
         }
 
-        if (!m_pimpl->updateContactList("right_foot",
-                                        MANNOutput.rightFoot.contact,
-                                        MANNOutput.currentTime))
+        if (!m_pimpl->updateContactList("right_foot", MANNOutput.rightFoot, MANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the right_foot at iteration "
                          "number {}.",
@@ -442,19 +427,14 @@ bool MANNTrajectoryGenerator::advance()
         }
     }
 
-
-    // populate the time stamps
-    for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
-    {
-        m_pimpl->output.timeStamps[i] = m_pimpl->mergePointStates[i].time * m_pimpl->slowDownFactor;
-    }
-
-
+    // // populate the time stamps
+    // for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
+    // {
+    //     m_pimpl->output.timeStamps[i] *= m_pimpl->slowDownFactor;
+    // }
 
     // populate the phase list
     m_pimpl->output.phaseList.setLists(m_pimpl->contactListMap);
-
-
 
     m_pimpl->isOutputValid = true;
 

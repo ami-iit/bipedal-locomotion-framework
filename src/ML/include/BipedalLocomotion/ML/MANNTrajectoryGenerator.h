@@ -99,6 +99,7 @@ public:
      */
     bool setRobotModel(const iDynTree::Model& model);
 
+    // clang-format off
     /**
      * Initialize the trajectory planner.
      * @param paramHandler pointer to the parameters handler.
@@ -126,6 +127,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the input to the planner model.
@@ -160,7 +162,7 @@ public:
      * @param basePose pose of the base.
      * @param time initial time of the planner.
      */
-    bool setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+    bool setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions, //
                          const manif::SE3d& basePose);
 
 private:
