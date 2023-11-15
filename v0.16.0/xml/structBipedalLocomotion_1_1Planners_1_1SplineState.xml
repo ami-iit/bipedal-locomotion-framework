@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structBipedalLocomotion_1_1Planners_1_1SplineState" kind="struct" language="C++" prot="public">
+    <compoundname>BipedalLocomotion::Planners::SplineState</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SplineState_1aa070f24d1636fd05fd15f1460f7d23d9" prot="public" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::Planners::SplineState::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Spline.h" line="26" column="21" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SplineState_1a821f4bd8438a473aa362d6f11a3c1f1f" prot="public" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::Planners::SplineState::velocity</definition>
+        <argsstring></argsstring>
+        <name>velocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Spline.h" line="27" column="21" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1SplineState_1a6ef3083a77f769c4f3d12cfec22ecac9" prot="public" static="no" mutable="no">
+        <type>Eigen::VectorXd</type>
+        <definition>Eigen::VectorXd BipedalLocomotion::Planners::SplineState::acceleration</definition>
+        <argsstring></argsstring>
+        <name>acceleration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Spline.h" line="28" column="21" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="BipedalLocomotion/Planners/Spline.h" line="24" column="1" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1a6ef3083a77f769c4f3d12cfec22ecac9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SplineState</scope><name>acceleration</name></member>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1aa070f24d1636fd05fd15f1460f7d23d9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SplineState</scope><name>position</name></member>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1SplineState_1a821f4bd8438a473aa362d6f11a3c1f1f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SplineState</scope><name>velocity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
