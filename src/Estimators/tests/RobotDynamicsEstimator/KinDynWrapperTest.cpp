@@ -104,13 +104,12 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
+    emptyGroupNamesFrames->setParameter("ukf_names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
-    auto emptyGroupFrames = std::make_shared<StdImplementation>();
-    emptyGroupFrames->setParameter("frames", emptyVectorString);
-    REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupFrames));
+    REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupNamesFrames));
 
     modelParamHandler->setParameter("joint_list", jointList);
 
