@@ -215,7 +215,7 @@ public:
      * If no contacts is active at the given time, it returns an iterator to the end.
      * @param time The present time.
      * @return an iterator to the last contact  having an activation time lower than time.
-     * If no contact satisfy this condition, it returns a pointer to the end.
+     * If no contact satisfies this condition, it returns a pointer to the end.
      * @note Differently from getPresentContact the contact needs to be active.
      */
     const_iterator getActiveContact(const std::chrono::nanoseconds& time) const;
@@ -227,7 +227,7 @@ public:
      * If no contacts have an activation time higher than time, it returns an iterator to the end.
      * @param time The present time.
      * @return an iterator to the first contact having an activation time higher than time.
-     * If no contact satisfy this condition, it returns a pointer to the end.
+     * If no contact satisfies this condition, it returns a pointer to the end.
      */
     const_iterator getNextContact(const std::chrono::nanoseconds& time) const;
 
@@ -239,7 +239,7 @@ public:
      * Notice that the contact may not be active, i.e. the deactivationTime may be lower than time.
      * @param time The present time.
      * @return an iterator to the last contact  having an activation time lower than time.
-     * If no contact satisfy this condition, it returns a pointer to the end.
+     * If no contact satisfies this condition, it returns a pointer to the end.
      */
     const_iterator getPresentContact(const std::chrono::nanoseconds& time) const;
 

@@ -254,8 +254,7 @@ ContactList::getActiveContact(const std::chrono::nanoseconds& time) const
 
 ContactList::const_iterator ContactList::getNextContact(const std::chrono::nanoseconds& time) const
 {
-    // With the reverse iterator we find the last step such that the activation time is smaller
-    // equal than time
+    // We find the last step such that the activation time is smaller equal than time
     ContactList::const_iterator nextContact
         = std::find_if(begin(), end(), [time](const PlannedContact& a) -> bool {
               return a.activationTime > time;
