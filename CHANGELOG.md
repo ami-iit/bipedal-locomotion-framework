@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.16.1] - 2023-11-17
 ### Changed
 - [ergoCubSN000] Update the YarpRobotLogger configuration file to be mpliant with robots-configuration v2.5.2 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/763)
 
@@ -484,7 +484,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...master
+[0.16.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.0...v0.14.1
