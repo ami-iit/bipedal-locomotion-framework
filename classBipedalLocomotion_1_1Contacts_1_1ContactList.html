@@ -186,6 +186,14 @@
             </dt>
             <dd>Edit an existing contact.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a92a52526b36a5eb032dd5d4e893a32fc" class="m-doc">getActiveContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
+            </dt>
+            <dd>Get the active contact given the time.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3515fa9e57884ab8e1a122495ae3ed66" class="m-doc">getNextContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
+            </dt>
+            <dd>Get the next contact given the time.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ad1a6136e4c7f01886a379dc359c6b5f1" class="m-doc">getPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
             </dt>
             <dd>Get the contact given the time.</dd>
@@ -454,6 +462,54 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a92a52526b36a5eb032dd5d4e893a32fc"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const_iterator BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a92a52526b36a5eb032dd5d4e893a32fc" class="m-doc-self">getActiveContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const</span></span>
+            </h3>
+            <p>Get the active contact given the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>The present time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>an iterator to the last contact having an activation time lower than time. If no contact satisfy this condition, it returns a pointer to the end.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>It returns the active contact (i.e., the highest activation time lower than time and the deactivation time strictly higher than time) If no contacts is active at the given time, it returns an iterator to the end.</p><aside class="m-note m-info"><h4>Note</h4><p>Differently from getPresentContact the contact needs to be active.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3515fa9e57884ab8e1a122495ae3ed66"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const_iterator BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3515fa9e57884ab8e1a122495ae3ed66" class="m-doc-self">getNextContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const</span></span>
+            </h3>
+            <p>Get the next contact given the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>The present time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>an iterator to the first contact having an activation time higher than time. If no contact satisfy this condition, it returns a pointer to the end.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>It returns the contact with the lowest activation time higher than time. If no contacts have an activation time higher than time, it returns an iterator to the end.</p>
           </div></section>
           <section class="m-doc-details" id="ad1a6136e4c7f01886a379dc359c6b5f1"><div>
             <h3>

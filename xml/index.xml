@@ -425,6 +425,8 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afd8a456aecdff7cad92a4a502117b0e5" kind="function"><name>firstContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a09ce629f873b5aa12cab37d563f71e4c" kind="function"><name>lastContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a84461637e0570046ef937728593f2d7c" kind="function"><name>editContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a92a52526b36a5eb032dd5d4e893a32fc" kind="function"><name>getActiveContact</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a3515fa9e57884ab8e1a122495ae3ed66" kind="function"><name>getNextContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ad1a6136e4c7f01886a379dc359c6b5f1" kind="function"><name>getPresentContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ab44bbf63b56a9ddc25d70a69da354312" kind="function"><name>keepOnlyPresentContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a56e370cad1add2f78dc27ec49d51b009" kind="function"><name>clear</name></member>

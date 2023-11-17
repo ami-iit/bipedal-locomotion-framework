@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/ContactList.h" line="244" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="244" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="268" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="268" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
