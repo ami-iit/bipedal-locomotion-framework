@@ -601,7 +601,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>an iterator to the last contact having an activation time lower than time. If no contact satisfy this condition, it returns a pointer to the end. </para>
+<simplesect kind="return"><para>an iterator to the last contact having an activation time lower than time. If no contact satisfies this condition, it returns a pointer to the end. </para>
 </simplesect>
 <simplesect kind="note"><para>Differently from getPresentContact the contact needs to be active. </para>
 </simplesect>
@@ -633,7 +633,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>an iterator to the first contact having an activation time higher than time. If no contact satisfy this condition, it returns a pointer to the end. </para>
+<simplesect kind="return"><para>an iterator to the first contact having an activation time higher than time. If no contact satisfies this condition, it returns a pointer to the end. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -663,7 +663,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>an iterator to the last contact having an activation time lower than time. If no contact satisfy this condition, it returns a pointer to the end. </para>
+<simplesect kind="return"><para>an iterator to the last contact having an activation time lower than time. If no contact satisfies this condition, it returns a pointer to the end. </para>
 </simplesect>
 </para>
         </detaileddescription>
