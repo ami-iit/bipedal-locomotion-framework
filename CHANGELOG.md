@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Fixed
+Fixed compilation on Windows of fmt formatter for Eigen types (https://github.com/ami-iit/bipedal-locomotion-framework/pull/762)
+
 ## [0.16.0] - 2023-11-15
 ### Added
 - Add the possibility to control a subset of coordinates in `TSID::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/724, https://github.com/ami-iit/bipedal-locomotion-framework/pull/727)
