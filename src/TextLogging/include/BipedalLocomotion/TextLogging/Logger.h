@@ -17,12 +17,9 @@
 // This is required only for FMT > v9.0.0
 #if (defined(FMT_VERSION) && FMT_VERSION > 90000)
 #include <Eigen/Dense>
-template <typename _Derived>
-struct fmt::formatter<Eigen::DenseBase<_Derived>> : ostream_formatter
-{
-};
-template <typename _Derived>
-struct fmt::formatter<Eigen::Transpose<_Derived>> : ostream_formatter
+template <typename T>
+struct fmt::formatter<T, std::enable_if_t<std::is_base_of_v<Eigen::DenseBase<T>, T>, char>>
+    : ostream_formatter
 {
 };
 #endif
