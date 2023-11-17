@@ -92,6 +92,8 @@ TEST_CASE("ContactList")
         REQUIRE(contactsAreEqual(p2, *list.getPresentContact(1s + 200ms)));
         REQUIRE(contactsAreEqual(p2, *list.getPresentContact(1s + 600ms)));
         REQUIRE(contactsAreEqual(p1, *list.getPresentContact(600ms)));
+        REQUIRE(contactsAreEqual(p1, *list.getActiveContact(200ms)));
+        REQUIRE(contactsAreEqual(p2, *list.getNextContact(200ms)));
         bool same = list.getPresentContact(0s) == list.end();
         REQUIRE(same);
     }

@@ -141,7 +141,36 @@ void CreateContactList(pybind11::module& module)
         .def(
             "get_present_contact",
             [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
-                return *l.getPresentContact(time);
+                auto it = l.getPresentContact(time);
+                if (it == l.end())
+                {
+                    throw py::value_error("Unable to find a contact at the specified time.");
+                }
+                return *it;
+            },
+            py::arg("time"))
+        .def(
+            "get_active_contact",
+            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
+                auto it = l.getActiveContact(time);
+                if (it == l.end())
+                {
+                    throw py::value_error("Unable to find an active contact at the specified "
+                                          "time.");
+                }
+                return *it;
+            },
+            py::arg("time"))
+        .def(
+            "get_next_contact",
+            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
+                auto it = l.getNextContact(time);
+                if (it == l.end())
+                {
+                    throw py::value_error("Unable to find a contact that has an activation time "
+                                          "higher than the specified time.");
+                }
+                return *it;
             },
             py::arg("time"))
         .def("keep_only_present_contact", &ContactList::keepOnlyPresentContact, py::arg("time"))

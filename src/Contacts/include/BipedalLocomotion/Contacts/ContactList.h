@@ -208,6 +208,30 @@ public:
                      const BipedalLocomotion::Contacts::PlannedContact& newContact);
 
     /**
+     * @brief Get the active contact given the time.
+     *
+     * It returns the active contact (i.e., the highest activation time lower than time and the deactivation
+     * time strictly higher than time)
+     * If no contacts is active at the given time, it returns an iterator to the end.
+     * @param time The present time.
+     * @return an iterator to the last contact  having an activation time lower than time.
+     * If no contact satisfy this condition, it returns a pointer to the end.
+     * @note Differently from getPresentContact the contact needs to be active.
+     */
+    const_iterator getActiveContact(const std::chrono::nanoseconds& time) const;
+
+    /**
+     * @brief Get the next contact given the time.
+     *
+     * It returns the contact with the lowest activation time higher than time.
+     * If no contacts have an activation time higher than time, it returns an iterator to the end.
+     * @param time The present time.
+     * @return an iterator to the first contact having an activation time higher than time.
+     * If no contact satisfy this condition, it returns a pointer to the end.
+     */
+    const_iterator getNextContact(const std::chrono::nanoseconds& time) const;
+
+    /**
      * @brief Get the contact given the time.
      *
      * It returns the contact with the highest activation time lower than time.
