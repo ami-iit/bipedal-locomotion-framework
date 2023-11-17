@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Implement `ContactList::getNextContact` and `ContactList::getActiveContact` in `Contact` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/764)
+
 ### Changed
 ### Fixed
 

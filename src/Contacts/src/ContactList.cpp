@@ -8,32 +8,33 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iterator>
 #include <cassert>
+#include <iterator>
 
 using namespace BipedalLocomotion::Contacts;
 
-bool ContactList::ContactCompare::operator()(const PlannedContact &lhs, const PlannedContact &rhs) const
+bool ContactList::ContactCompare::operator()(const PlannedContact& lhs,
+                                             const PlannedContact& rhs) const
 {
     return lhs.deactivationTime < rhs.activationTime;
 }
 
-void ContactList::setDefaultName(const std::string &defaultName)
+void ContactList::setDefaultName(const std::string& defaultName)
 {
     m_defaultName = defaultName;
 }
 
-const std::string &ContactList::defaultName() const
+const std::string& ContactList::defaultName() const
 {
     return m_defaultName;
 }
 
-void ContactList::setDefaultContactType(const ContactType &type)
+void ContactList::setDefaultContactType(const ContactType& type)
 {
     m_defaultContactType = type;
 }
 
-const ContactType &ContactList::defaultContactType() const
+const ContactType& ContactList::defaultContactType() const
 {
     return m_defaultContactType;
 }
@@ -48,7 +49,7 @@ int ContactList::defaultIndex() const
     return m_defaultIndex;
 }
 
-bool ContactList::addContact(const PlannedContact &newContact)
+bool ContactList::addContact(const PlannedContact& newContact)
 {
     constexpr auto errorPrefix = "[ContactList::addContact]";
 
@@ -59,7 +60,7 @@ bool ContactList::addContact(const PlannedContact &newContact)
         return false;
     }
     using iterator = std::set<PlannedContact, ContactCompare>::iterator;
-    std::pair<iterator,bool> res = m_contacts.insert(newContact);
+    std::pair<iterator, bool> res = m_contacts.insert(newContact);
     if (!res.second)
     {
         log()->error("{} Failed to insert new element.", errorPrefix);
@@ -139,17 +140,16 @@ ContactList::const_reverse_iterator ContactList::crend() const
     return m_contacts.crend();
 }
 
-const PlannedContact &ContactList::operator[](size_t index) const
+const PlannedContact& ContactList::operator[](size_t index) const
 {
     assert(index < size());
 
-    if (index > (size() / 2 + (size() % 2 != 0))) //fancy way for doing std::ceil(size() / 2.0)
+    if (index > (size() / 2 + (size() % 2 != 0))) // fancy way for doing std::ceil(size() / 2.0)
     {
         ContactList::const_reverse_iterator it = rbegin();
         std::advance(it, size() - index - 1);
         return *(it);
-    }
-    else
+    } else
     {
         ContactList::const_iterator it = begin();
         std::advance(it, index);
@@ -229,6 +229,39 @@ ContactList::getPresentContact(const std::chrono::nanoseconds& time) const
     return --(presentReverse.base()); // This is to convert a reverse iterator to a forward
                                       // iterator. The -- is because base() returns a forward
                                       // iterator to the next element.
+}
+
+ContactList::const_iterator
+ContactList::getActiveContact(const std::chrono::nanoseconds& time) const
+{
+    // With the reverse iterator we find the last step such that the activation time is smaller
+    // equal than time
+    ContactList::const_reverse_iterator presentReverse
+        = std::find_if(rbegin(), rend(), [time](const PlannedContact& a) -> bool {
+              return a.activationTime <= time && a.deactivationTime > time;
+          });
+
+    if (presentReverse == rend())
+    {
+        // No contact has activation time lower than the specified time.
+        return end();
+    }
+
+    return --(presentReverse.base()); // This is to convert a reverse iterator to a forward
+                                      // iterator. The -- is because base() returns a forward
+                                      // iterator to the next element.
+}
+
+ContactList::const_iterator ContactList::getNextContact(const std::chrono::nanoseconds& time) const
+{
+    // With the reverse iterator we find the last step such that the activation time is smaller
+    // equal than time
+    ContactList::const_iterator nextContact
+        = std::find_if(begin(), end(), [time](const PlannedContact& a) -> bool {
+              return a.activationTime > time;
+          });
+
+    return nextContact;
 }
 
 bool ContactList::keepOnlyPresentContact(const std::chrono::nanoseconds& time)
