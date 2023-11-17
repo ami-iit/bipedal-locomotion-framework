@@ -2,8 +2,11 @@
 All notable changes to this project are documented in this file.
 
 ## [unreleased]
+### Changed
+- [ergoCubSN000] Update the YarpRobotLogger configuration file to be mpliant with robots-configuration v2.5.2 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/763)
+
 ### Fixed
-Fixed compilation on Windows of fmt formatter for Eigen types (https://github.com/ami-iit/bipedal-locomotion-framework/pull/762)
+- Fixed compilation on Windows of fmt formatter for Eigen types (https://github.com/ami-iit/bipedal-locomotion-framework/pull/762)
 
 ## [0.16.0] - 2023-11-15
 ### Added
