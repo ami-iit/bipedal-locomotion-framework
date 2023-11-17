@@ -52,7 +52,8 @@ void CreateSwingFootPlanner(pybind11::module& module)
             [](SwingFootPlannerState& s,
                decltype(SwingFootPlannerState::mixedAcceleration)::DataType& coeffs) {
                 s.mixedAcceleration.coeffs() = coeffs;
-            });
+            })
+        .def_readwrite("time", &SwingFootPlannerState::time);
 
     BipedalLocomotion::bindings::System::CreateSource<SwingFootPlannerState> //
         (module, "SwingFootPlanner");
