@@ -140,7 +140,8 @@ void CreateContactList(pybind11::module& module)
         .def("edit_contact", &ContactList::editContact, py::arg("element"), py::arg("new_contact"))
         .def(
             "get_present_contact",
-            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
+            [](const ContactList& l,
+               const std::chrono::nanoseconds& time) -> const PlannedContact& {
                 auto it = l.getPresentContact(time);
                 if (it == l.end())
                 {
@@ -148,10 +149,12 @@ void CreateContactList(pybind11::module& module)
                 }
                 return *it;
             },
-            py::arg("time"))
+            py::arg("time"),
+            py::return_value_policy::reference_internal)
         .def(
             "get_active_contact",
-            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
+            [](const ContactList& l,
+               const std::chrono::nanoseconds& time) -> const PlannedContact& {
                 auto it = l.getActiveContact(time);
                 if (it == l.end())
                 {
@@ -160,10 +163,12 @@ void CreateContactList(pybind11::module& module)
                 }
                 return *it;
             },
-            py::arg("time"))
+            py::arg("time"),
+            py::return_value_policy::reference_internal)
         .def(
             "get_next_contact",
-            [](const ContactList& l, const std::chrono::nanoseconds& time) -> PlannedContact {
+            [](const ContactList& l,
+               const std::chrono::nanoseconds& time) -> const PlannedContact& {
                 auto it = l.getNextContact(time);
                 if (it == l.end())
                 {
@@ -172,7 +177,8 @@ void CreateContactList(pybind11::module& module)
                 }
                 return *it;
             },
-            py::arg("time"))
+            py::arg("time"),
+            py::return_value_policy::reference_internal)
         .def("keep_only_present_contact", &ContactList::keepOnlyPresentContact, py::arg("time"))
         .def("clear", &ContactList::clear)
         .def("remove_last_contact", &ContactList::removeLastContact)
@@ -192,7 +198,18 @@ void CreateContactList(pybind11::module& module)
                 }
                 return lhs.size() == rhs.size();
             },
-            py::is_operator());
+            py::is_operator())
+        .def(
+            "last_contact",
+            [](const ContactList& l) -> const PlannedContact& {
+                auto ptr = l.lastContact();
+                if (ptr == l.cend())
+                {
+                    throw py::value_error("Unable to find the last contact.");
+                }
+                return *ptr;
+            },
+            py::return_value_policy::reference_internal);
 }
 
 void CreateContactPhase(pybind11::module& module)
