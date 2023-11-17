@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TextLogging/Logger.h" line="60" column="23" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="60" declcolumn="23"/>
+        <location file="BipedalLocomotion/TextLogging/Logger.h" line="57" column="23" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="57" declcolumn="23"/>
       </memberdef>
       <memberdef kind="function" id="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1IClock" kindref="compound">System::IClock</ref> &amp;</type>
