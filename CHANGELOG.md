@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+### Changed
+### Fixed
+
 ## [0.16.1] - 2023-11-17
 ### Changed
 - [ergoCubSN000] Update the YarpRobotLogger configuration file to be mpliant with robots-configuration v2.5.2 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/763)

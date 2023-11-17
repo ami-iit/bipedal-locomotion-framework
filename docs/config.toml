@@ -18,10 +18,10 @@ main_page = "docs/pages/main-page.dox"
 additional_pages = ["docs/pages/python-additional-info.md", "docs/pages/so3-minjerk.md"]
 src_folder = "src"
 
-['v0.13.0']
-main_page = "docs/pages/main-page.dox"
-additional_pages = ["docs/pages/python-additional-info.md"]
-src_folder = "src"
+# ['v0.13.0']
+# main_page = "docs/pages/main-page.dox"
+# additional_pages = ["docs/pages/python-additional-info.md"]
+# src_folder = "src"
 
 # ['v0.12.0']
 # main_page = "docs/pages/main-page.dox"
