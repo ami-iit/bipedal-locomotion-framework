@@ -4,7 +4,7 @@
 
 # Run pytest from the build folder. CMake creates a build/bipedal_locomotion_framework
 # folder with the build-tree Python package. We use it as working directory so that
-# the tests always load the Python package from the build-tree even if BFL is installed
+# the tests always load the Python package from the build-tree even if blf is installed
 # elsewhere.
 
 get_property(bindings_tests GLOBAL PROPERTY BipedalLocomotionFrameworkBindings_TESTS)
