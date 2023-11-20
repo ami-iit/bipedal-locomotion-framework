@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="176" column="21" bodyfile="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" bodystart="174" bodyend="-1"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="179" column="21" bodyfile="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" bodystart="177" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="57" column="5"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="60" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af75524466b061f0594e965798606a863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="62" column="5"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="65" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af0f4177a9f28c839e56fe70e977f1daf" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -208,7 +208,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="96" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="99" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a2fce2bf43ea7b309cd3a31a20bfaf8ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -240,7 +240,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="105" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="108" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af2b0c915edf393922a59032671900760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -298,7 +298,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="117" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="120" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1ae934d8090b0fd0e758c1e99039384569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -366,7 +366,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="132" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="135" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7d5769df43fe3e67f66a6609b8a1dac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -412,7 +412,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="149" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="152" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7462bc4a06678c8029ccd692cb48eea9" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPCOutput" kindref="compound">CentroidalMPCOutput</ref> &amp;</type>
@@ -430,7 +430,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="156" column="31"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="159" column="31"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a053ae0d2488c8c09826f12b15afad527" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -448,7 +448,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="162" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="165" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a769ca3af8290ee3a847226534013153b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -466,7 +466,7 @@ Moreover for each contact <formula id="180">$i$</formula> where <formula id="181
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="168" column="10"/>
+        <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="171" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -578,7 +578,7 @@ Locomotion with Step Adjustment,&quot; 2022 International Conference on Robotics
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="51" column="1" bodyfile="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" bodystart="52" bodyend="177"/>
+    <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="54" column="1" bodyfile="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" bodystart="55" bodyend="180"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a769ca3af8290ee3a847226534013153b" prot="public" virt="virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</scope><name>Advanceable</name></member>
