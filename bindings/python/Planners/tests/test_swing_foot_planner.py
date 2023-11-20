@@ -82,8 +82,7 @@ def test_swing_foot_planner():
     assert planner.initialize(handler=parameters_handler)
     planner.set_contact_list(contact_list=contact_list)
 
-    num_of_iterations = (contact_list[len(contact_list) - 1].deactivation_time.total_seconds() + 1) / dT.total_seconds()
-
+    num_of_iterations = (contact_list.last_contact().deactivation_time.total_seconds() / dT.total_seconds()) - 1
     for i in range(int(num_of_iterations)):
 
         # state = planner.get()
