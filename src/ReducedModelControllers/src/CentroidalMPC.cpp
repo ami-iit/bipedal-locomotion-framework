@@ -809,11 +809,6 @@ struct CentroidalMPC::Impl
         casadiOptions["qpsol_options"] = solverOptions;
         casadiOptions["max_iter"] = this->optiSettings.numberOfQPIterations;
 
-        // casadiOptions["elastic_mode"] = true;
-        // casadiOptions["convexify_strategy"] = "regularize";
-        // casadiOptions["hessian_approximation"] = "limited_memory";
-        // casadiOptions["error_on_fail"] = false;
-
         if (this->optiSettings.isJITEnabled)
         {
             casadiOptions["jit"] = true;
