@@ -2,6 +2,9 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
+# Not-installed library
+add_subdirectory(TestUtils)
+
 add_subdirectory(ContinuousDynamicalSystem)
 add_subdirectory(TextLogging)
 add_subdirectory(GenericContainer)
