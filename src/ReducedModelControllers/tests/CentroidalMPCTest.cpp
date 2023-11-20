@@ -24,20 +24,6 @@ using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::ReducedModelControllers;
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 
-void updateContactPhaseList(
-    const std::map<std::string, BipedalLocomotion::Contacts::PlannedContact>& nextPlannedContacts,
-    BipedalLocomotion::Contacts::ContactPhaseList& phaseList)
-{
-    auto newList = phaseList.lists();
-    for (const auto& [key, contact] : nextPlannedContacts)
-    {
-        auto it = newList.at(key).getPresentContact(contact.activationTime);
-        newList.at(key).editContact(it, contact);
-    }
-
-    phaseList.setLists(newList);
-}
-
 void writeHeaderOfFile(
     const std::map<std::string, BipedalLocomotion::Contacts::DiscreteGeometryContact>& contacts,
     std::ostream& centroidalMPCData)
@@ -65,8 +51,12 @@ void writeResultsToFile(const CentroidalMPC& mpc,
                         const Eigen::Vector3d& angularMomentum,
                         const Eigen::Vector3d& comDes,
                         const std::chrono::nanoseconds& elapsedTime,
+                        const std::chrono::nanoseconds& currentTime,
                         std::ostream& centroidalMPCData)
 {
+
+    const auto& contactLists = mpc.getOutput().contactPhaseList.lists();
+
     for (const auto& [key, contact] : mpc.getOutput().contacts)
     {
         centroidalMPCData << contact.pose.translation().transpose() << " ";
@@ -75,13 +65,16 @@ void writeResultsToFile(const CentroidalMPC& mpc,
             centroidalMPCData << corner.force.transpose() << " ";
         }
 
-        auto nextPlannedContact = mpc.getOutput().nextPlannedContact.find(key);
-        if (nextPlannedContact == mpc.getOutput().nextPlannedContact.end())
+        auto contactList = contactLists.find(key);
+        REQUIRE(contactList != contactLists.end());
+
+        auto contactIt = contactList->second.getNextContact(currentTime);
+        if (contactIt == contactList->second.end())
         {
             centroidalMPCData << 0.0 << " " << 0.0 << " " << 0.0 << " ";
         } else
         {
-            centroidalMPCData << nextPlannedContact->second.pose.translation().transpose() << " ";
+            centroidalMPCData << contactIt->pose.translation().transpose() << " ";
         }
     }
     centroidalMPCData << com.transpose() << " " << comDes.transpose() << " "
@@ -103,6 +96,7 @@ TEST_CASE("CentroidalMPC")
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
     handler->setParameter("solver_verbosity", 0);
+    handler->setParameter("solver_name", "ipopt");
     handler->setParameter("linear_solver", "mumps");
     handler->setParameter("is_warm_start_enabled", true);
 
@@ -329,7 +323,7 @@ TEST_CASE("CentroidalMPC")
                 // check if new contact is established
                 if (phaseIt->activeContacts.size() == 1 && newPhaseIt->activeContacts.size() == 2)
                 {
-                    updateContactPhaseList(mpc.getOutput().nextPlannedContact, phaseList);
+                    phaseList = mpc.getOutput().contactPhaseList;
 
                     // the iterators have been modified we have to compute the new one
                     phaseIt = phaseList.getPresentPhase(currentTime);
@@ -364,6 +358,7 @@ TEST_CASE("CentroidalMPC")
                                angularMomentum,
                                comTrajectoryRecedingHorizon[0],
                                elapsedTime,
+                               currentTime,
                                centroidalMPCData);
         }
 
@@ -376,6 +371,8 @@ TEST_CASE("CentroidalMPC")
         {
             controllerIndex = 0;
         }
+
+        currentTime += integratorStepTime;
     }
 
     if (saveDataset)

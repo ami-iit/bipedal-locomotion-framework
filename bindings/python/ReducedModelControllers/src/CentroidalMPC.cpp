@@ -29,7 +29,7 @@ void CreateCentroidalMPC(pybind11::module& module)
     py::class_<CentroidalMPCOutput>(module, "CentroidalMPCState")
         .def(py::init())
         .def_readwrite("contacts", &CentroidalMPCOutput::contacts)
-        .def_readwrite("next_planned_contact", &CentroidalMPCOutput::nextPlannedContact)
+        .def_readwrite("contact_phase_list", &CentroidalMPCOutput::contactPhaseList)
         .def_readwrite("com_trajectory", &CentroidalMPCOutput::comTrajectory);
 
     BipedalLocomotion::bindings::System::CreateSource<CentroidalMPCOutput>(module,
@@ -39,20 +39,20 @@ void CreateCentroidalMPC(pybind11::module& module)
         .def("set_contact_phase_list",
              py::overload_cast<const Contacts::ContactPhaseList&>(
                  &CentroidalMPC::setContactPhaseList),
-             py::arg("contactPhaseList"))
+             py::arg("contact_phase_list"))
         .def("set_state",
              py::overload_cast<Eigen::Ref<const Eigen::Vector3d>,
                                Eigen::Ref<const Eigen::Vector3d>,
                                Eigen::Ref<const Eigen::Vector3d>>(&CentroidalMPC::setState),
              py::arg("com"),
              py::arg("dcom"),
-             py::arg("angularMomentum"))
+             py::arg("angular_momentum"))
         .def("set_reference_trajectory",
              py::overload_cast<const std::vector<Eigen::Vector3d>&,
                                const std::vector<Eigen::Vector3d>&>(
                  &CentroidalMPC::setReferenceTrajectory),
              py::arg("com"),
-             py::arg("angularMomentum"));
+             py::arg("angular_momentum"));
 }
 
 } // namespace ReducedModelControllers

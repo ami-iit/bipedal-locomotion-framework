@@ -22,6 +22,7 @@ def test_centroidal_mpc():
     mpc_param_handler.set_parameter_int("number_of_slices",1)
     mpc_param_handler.set_parameter_float("static_friction_coefficient", 0.33)
     mpc_param_handler.set_parameter_string("linear_solver", "mumps")
+    mpc_param_handler.set_parameter_string("solver_name", "ipopt")
 
     ## Defining MPC contact handler
     contact_0_handler = blf.parameters_handler.StdParametersHandler()
