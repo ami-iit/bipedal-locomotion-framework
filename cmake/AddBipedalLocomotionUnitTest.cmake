@@ -74,8 +74,32 @@ function(add_bipedal_test)
 
       add_test(NAME ${targetname} COMMAND ${targetname})
 
+      if(FRAMEWORK_RUN_MemoryAllocationMonitor_tests)
+        # When possible use `path_list_prepend` to permit to set other LD_PRELOAD
+        if (CMAKE_MINIMUM_REQUIRED_VERSION VERSION_GREATER_EQUAL 3.22)
+          message(AUTHOR_WARNING "cmake_minimum_required is now 3.22, cleanup the if following this message command.")
+        endif()
+        if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.22)
+          set_tests_properties(${targetname} PROPERTIES
+            ENVIRONMENT_MODIFICATION "LD_PRELOAD=path_list_prepend:$<TARGET_FILE:BipedalLocomotion::MemoryAllocationMonitorPreload>")
+        else()
+          set_tests_properties(${targetname} PROPERTIES
+            ENVIRONMENT "LD_PRELOAD=$<TARGET_FILE:BipedalLocomotion::MemoryAllocationMonitorPreload>")
+        endif()
+      endif()
+
       if(FRAMEWORK_RUN_Valgrind_tests)
         add_test(NAME memcheck_${targetname} COMMAND ${MEMCHECK_COMMAND_COMPLETE} $<TARGET_FILE:${targetname}>)
+
+        if(FRAMEWORK_RUN_MemoryAllocationMonitor_tests)
+          if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.22)
+            set_tests_properties(memcheck_${targetname} PROPERTIES
+              ENVIRONMENT_MODIFICATION "LD_PRELOAD=path_list_prepend:$<TARGET_FILE:BipedalLocomotion::MemoryAllocationMonitorPreload>")
+          else()
+            set_tests_properties(memcheck_${targetname} PROPERTIES
+              ENVIRONMENT "LD_PRELOAD=$<TARGET_FILE:BipedalLocomotion::MemoryAllocationMonitorPreload>")
+          endif()
+        endif()
       endif()
 
     endif()

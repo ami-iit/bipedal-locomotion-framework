@@ -115,6 +115,10 @@ find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
 
 ##########################      Components       ##############################
+framework_dependent_option(FRAMEWORK_RUN_MemoryAllocationMonitor_tests
+  "Run MemoryAllocationMonitor tests?" ON
+  "BUILD_TESTING;UNIX;NOT APPLE" OFF)
+
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
   "BUILD_TESTING;VALGRIND_FOUND" OFF)
