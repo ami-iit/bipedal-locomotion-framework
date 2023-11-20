@@ -79,15 +79,28 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
     bool m_isOutputValid{false}; /**< True if getOutput returns meaningful data */
 
     /**
-     * Update the SE3 Trajectory.
-     * @param state state of the planner you want to update.
+     * Evaluate the SE3 trajectory of the swing foot.
+     * @param state will contain the pose, velocity and acceleration (expressed in mixed
+     * representation) of the swing foot computed at the current time instant.
      * @return True in case of success/false otherwise.
+     * @note This method assumes that the trajectory has been already created with the method
+     * SwingFootPlanner::createSE3Traj.
      */
     bool evaluateSE3Traj(SwingFootPlannerState& state);
 
     /**
-     * Create a new SE3Trajectory considering the previous and next contact
+     * Create a new SE3Trajectory considering the previous and next contact.
+     * @param initialPose initial pose of the foot.
+     * @param initialPlanarVelocity initial planar velocity of the foot.
+     * @param initialPlanarAcceleration initial planar acceleration of the foot.
+     * @param initialVerticalVelocity initial vertical velocity of the foot.
+     * @param initialVerticalAcceleration initial vertical acceleration of the foot.
+     * @param initialAngularVelocity initial angular velocity of the foot.
+     * @param initialAngularAcceleration initial angular acceleration of the foot.
      * @return True in case of success/false otherwise.
+     * @note This method assumes that the final planar and angular velocity and acceleration are
+     * equal to zero, while the final vertical velocity and acceleration are equal to the one
+     * provided by the user.
      */
     bool createSE3Traj(const manif::SE3d& initialPose,
                        Eigen::Ref<const Eigen::Vector2d> initialPlanarVelocity,
