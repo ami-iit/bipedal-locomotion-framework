@@ -2423,7 +2423,7 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a06fddc2be729d1ef4795d12b4bb62eb0" kind="variable"><name>m_currentTrajectoryTime</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a7b438a1964aebbc631655aca706d420c" kind="variable"><name>m_staringTimeOfCurrentSO3Traj</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a11f2f1f64a11a1e80c1e37d8fda93e64" kind="variable"><name>m_contactList</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1abbe64bad1f881b30483dfe2c880a0465" kind="variable"><name>m_currentContactPtr</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a186b5acb5c339c1bb1b8c87ab58d06a8" kind="variable"><name>m_lastValidContact</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" kind="variable"><name>m_SO3Planner</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a23846c39d1f958e505203548f3a4308e" kind="variable"><name>m_planarPlanner</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a45a257e2358aaa3bbe6c02a993d3ea85" kind="variable"><name>m_heightPlanner</name></member>
@@ -2434,8 +2434,8 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" kind="variable"><name>m_footTakeOffVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad6fa5f331bffe3291d5c3a386f5de94f" kind="variable"><name>m_footTakeOffAcceleration</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" kind="variable"><name>m_isOutputValid</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1731ba2669a608b2d5aa8228a7a73a7d" kind="function"><name>updateSE3Traj</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1abae8ae0393182e7a023e962d6fd809e9" kind="function"><name>createSE3Traj</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad672a37849bc692473eb69d56d747e66" kind="function"><name>evaluateSE3Traj</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3b5d237e6b62bb4ddf87b9d164330a3d" kind="function"><name>createSE3Traj</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1aee5c47374eb365a445abf15300ecaea6" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" kind="function"><name>setContactList</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a72eb04436de799dbd282eb4e3cc30a4a" kind="function"><name>setTime</name></member>
@@ -2448,6 +2448,7 @@
     <member refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState_1a6ba93a2aff2f8f7b18ef6b09121cc7d1" kind="variable"><name>mixedVelocity</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState_1a074640a289b1cabb778ffce67cc1a9dc" kind="variable"><name>mixedAcceleration</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState_1a1e1751be736d378d7870e7c0cb1ddcdc" kind="variable"><name>isInContact</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState_1ad8d352e2e1e8285da880c0fc2660dd4e" kind="variable"><name>time</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" kind="class"><name>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_1af67a42286571cd0263af0b22e7b32167" kind="function"><name>~TaskSpaceInverseDynamics</name></member>
