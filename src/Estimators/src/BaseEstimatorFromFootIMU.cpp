@@ -242,7 +242,9 @@ bool BaseEstimatorFromFootIMU::advance()
             m_yawOld = lastRPY_L(2);
 
             // updating the m_T_walk matrix.
-            manif::SE3d T_walk = m_state.footPose_L;
+            manif::SE3d T_walk((m_state.footPose_L.translation()
+                                - m_state.footPose_R.translation()),
+                               manif::SO3d::Identity());
             manif::SE3d temp = T_walk * m_T_walk;
             m_T_walk = temp;
         }
@@ -261,7 +263,9 @@ bool BaseEstimatorFromFootIMU::advance()
             m_yawOld = lastRPY_R(2);
 
             // updating the m_T_walk matrix.
-            manif::SE3d T_walk = m_state.footPose_R;
+            manif::SE3d T_walk((m_state.footPose_R.translation()
+                                - m_state.footPose_L.translation()),
+                               manif::SO3d::Identity());
             manif::SE3d temp = T_walk * m_T_walk;
             m_T_walk = temp;
         }
@@ -421,7 +425,7 @@ bool BaseEstimatorFromFootIMU::advance()
             = T_supportCornerTranslation.act(m_T_yawDrift.act(m_tiltedFootCorners[i]));
     }
 
-    // calculating the yaw drift.
+    // calculating the yaw drift - VALID FOR BOTH FEET ONLY IF FRAMES ARE ORIENTED IN THE SAME WAY.
     double deltaYaw = 0.0;
     deltaYaw = measuredYaw - m_yawOld;
     m_yawOld = measuredYaw;
