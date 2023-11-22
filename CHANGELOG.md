@@ -9,6 +9,7 @@ All notable changes to this project are documented in this file.
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
 - Restructured the swing foot planner to handle corners case that came out while testing DNN-MPC integration (https://github.com/ami-iit/bipedal-locomotion-framework/pull/765)
 - Avoid returning internal references for `get_next_contact` `get_present_contact` and `get_active_contact` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/765)
+- Introducing Metadata Support for `VectorsCollection` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/767)
 
 ### Fixed
 
