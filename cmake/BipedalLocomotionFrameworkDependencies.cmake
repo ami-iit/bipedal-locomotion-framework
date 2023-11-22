@@ -114,14 +114,28 @@ checkandset_dependency(UnicyclePlanner)
 find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
 
-##########################      Components       ##############################
+##########################      Test-related options       ##############################
+
+# MemoryAllocationMonitor require glibc >= 2.35
+set(FRAMEWORK_GLIBC_GEQ_2_35 OFF)
+if(BUILD_TESTING AND UNIX AND NOT APPLE)
+  execute_process(COMMAND ldd --version
+                  OUTPUT_VARIABLE FRAMEWORK_LDD_VERSION_OUTPUT)
+  string(REGEX MATCH "GLIBC ([0-9]+.[0-9]+)" FRAMEWORK_LDD_REGEX_OUTPUT ${FRAMEWORK_LDD_VERSION_OUTPUT})
+  set(FRAMEWORK_LDD_GLIBC_VERSION ${CMAKE_MATCH_1})
+  if(FRAMEWORK_LDD_GLIBC_VERSION VERSION_GREATER_EQUAL "2.35")
+    set(FRAMEWORK_GLIBC_GEQ_2_35 ON)
+  endif()
+endif()
 framework_dependent_option(FRAMEWORK_RUN_MemoryAllocationMonitor_tests
   "Run MemoryAllocationMonitor tests?" ON
-  "BUILD_TESTING;UNIX;NOT APPLE" OFF)
+  "BUILD_TESTING;UNIX;NOT APPLE;FRAMEWORK_GLIBC_GEQ_2_35" OFF)
 
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
   "BUILD_TESTING;VALGRIND_FOUND" OFF)
+
+##########################      Components       ##############################
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
