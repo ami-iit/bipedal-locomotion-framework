@@ -11,7 +11,7 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.10.1
+  vcpkg_robotology_TAG: v0.20.0
   YCM_TAG: v0.14.2
   YARP_TAG: v3.7.0
   iDynTree_TAG: v8.0.0
@@ -88,15 +88,9 @@ jobs:
         # To avoid problems with non-relocatable packages, we unzip the archive exactly in the same C:/robotology/vcpkg
         # that has been used to create the pre-compiled archive
         cd C:/
-        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology-with-gazebo.zip
-        unzip vcpkg-robotology-with-gazebo.zip -d C:/
-        rm vcpkg-robotology-with-gazebo.zip
-        # Also re-bootstrap to avoid problems
-        cd C:/robotology/vcpkg
-        ./bootstrap-vcpkg.bat
-
-        # Install tomlplusplus
-        ./vcpkg.exe --overlay-ports=C:/robotology/robotology-vcpkg-ports install tomlplusplus:x64-windows
+        wget https://github.com/robotology/robotology-superbuild-dependencies-vcpkg/releases/download/${env:vcpkg_robotology_TAG}/vcpkg-robotology.zip
+        unzip vcpkg-robotology.zip -d C:/
+        rm vcpkg-robotology.zip
 
     - name: Fixup brew [macOS]
       if: matrix.os == 'macos-latest'
