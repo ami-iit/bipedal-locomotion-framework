@@ -420,9 +420,10 @@ bool BaseEstimatorFromFootIMU::advance()
 
     for (int i = 0; i < m_cornersInInertialFrame.size(); i++)
     {
-        m_state.stanceFootShadowCorners[i] = m_T_yawDrift.act(m_cornersInInertialFrame[i]);
-        m_state.stanceFootCorners[i]
-            = T_supportCornerTranslation.act(m_T_yawDrift.act(m_tiltedFootCorners[i]));
+        m_state.stanceFootShadowCorners[i]
+            = m_T_walk.act(m_T_yawDrift.act(m_cornersInInertialFrame[i]));
+        m_state.stanceFootCorners[i] = m_T_walk.act(
+            m_T_yawDrift.act(T_supportCornerTranslation.act(m_tiltedFootCorners[i])));
     }
 
     // calculating the yaw drift - VALID FOR BOTH FEET ONLY IF FRAMES ARE ORIENTED IN THE SAME WAY.
