@@ -63,7 +63,9 @@ VISITABLE_STRUCT(TextLoggingEntry,
                  yarprun_timestamp,
                  local_timestamp);
 
-void findAndReplaceAll(std::string& data, const std::string& toSearch, const std::string& replaceStr)
+void findAndReplaceAll(std::string& data,
+                       const std::string& toSearch,
+                       const std::string& replaceStr)
 {
     // Get the first occurrence
     size_t pos = data.find(toSearch);
@@ -74,6 +76,19 @@ void findAndReplaceAll(std::string& data, const std::string& toSearch, const std
         data.replace(pos, toSearch.size(), replaceStr);
         // Get the next occurrence from the current position
         pos = data.find(toSearch, pos + replaceStr.size());
+    }
+}
+
+bool YarpRobotLoggerDevice::VectorsCollectionSignal::connect()
+{
+    return client.connect();
+}
+
+void YarpRobotLoggerDevice::VectorsCollectionSignal::disconnect()
+{
+    if (connected)
+    {
+        client.disconnect();
     }
 }
 
@@ -374,27 +389,36 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     for (const auto& input : inputs)
     {
         auto group = ptr->getGroup(input).lock();
-        std::string local, signalName, remote, carrier;
-        if (group == nullptr || !group->getParameter("local", local)
-            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
-            || !group->getParameter("signal_name", signalName))
+        std::string signalName, remote;
+        if (group == nullptr)
         {
-            log()->error("{} Unable to get the parameters related to the input: {}.",
+            log()->error("{} Unable to get the group named {}.", logPrefix, input);
+            return false;
+        }
+
+        if (!group->getParameter("remote", remote))
+        {
+            log()->error("{} Unable to get the remote parameter for the group named {}.",
+                         logPrefix,
+                         input);
+            return false;
+        }
+
+        if (!group->getParameter("signal_name", signalName))
+        {
+            log()->error("{} Unable to get the signal_name parameter for the group named {}.",
                          logPrefix,
                          input);
             return false;
         }
 
         m_vectorsCollectionSignals[remote].signalName = signalName;
-        m_vectorsCollectionSignals[remote].remote = remote;
-        m_vectorsCollectionSignals[remote].local = local;
-        m_vectorsCollectionSignals[remote].carrier = carrier;
-
-        if (!m_vectorsCollectionSignals[remote].port.open(m_vectorsCollectionSignals[remote].local))
+        if (!m_vectorsCollectionSignals[remote].client.initialize(group))
         {
-            log()->error("{} Unable to open the port named: {}.",
+            log()->error("{} Unable to initialize the vectors collection signal for the group "
+                         "named {}.",
                          logPrefix,
-                         m_vectorsCollectionSignals[remote].local);
+                         signalName);
             return false;
         }
     }
@@ -970,7 +994,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     auto connectToExogeneous = [](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
-            if (!signal.connected && yarp::os::Network::exists(name))
+            if (!signal.connected)
             {
                 std::lock_guard<std::mutex> lock(signal.mutex);
                 signal.connected = signal.connect();
@@ -994,6 +1018,16 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         // try to connect to the exogenous signals
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
+
+        for (auto& [key, signal] : m_vectorsCollectionSignals)
+        {
+            if (signal.metadata.vectors.size() != 0)
+            {
+                continue;
+            }
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            signal.client.getMetadata(signal.metadata);
+        }
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -1340,7 +1374,8 @@ void YarpRobotLoggerDevice::run()
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        BipedalLocomotion::YarpUtilities::VectorsCollection* collection = signal.port.read(false);
+        const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
+            = signal.client.readData(false);
         if (collection != nullptr)
         {
             if (!signal.dataArrived)
@@ -1348,9 +1383,24 @@ void YarpRobotLoggerDevice::run()
                 for (const auto& [key, vector] : collection->vectors)
                 {
                     signalFullName = signal.signalName + "::" + key;
-                    m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalFullName);
+                        m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+                    } else
+                    {
+                        // if the metadata is found we use it
+                        m_bufferManager.addChannel({signalFullName, //
+                                                    {vector.size(), 1},
+                                                    metadata->second});
+                    }
+
+                    signal.dataArrived = true;
                 }
-                signal.dataArrived = true;
             }
 
             for (const auto& [key, vector] : collection->vectors)
@@ -1393,7 +1443,8 @@ void YarpRobotLoggerDevice::run()
                 // matlab does not support the character - as a key of a struct
                 findAndReplaceAll(signalFullName, "-", "_");
 
-                // if it is the first time this signal is seen by the device the channel is added
+                // if it is the first time this signal is seen by the device the channel is
+                // added
                 if (m_textLogsStoredInManager.find(signalFullName)
                     == m_textLogsStoredInManager.end())
                 {
@@ -1568,7 +1619,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         {
             if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
             {
-                log()->error("{} Unable to create the folder associated to the depth frames of the "
+                log()->error("{} Unable to create the folder associated to the depth frames of "
+                             "the "
                              "camera named {}.",
                              logPrefix,
                              camera);

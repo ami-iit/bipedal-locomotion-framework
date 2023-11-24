@@ -13,8 +13,20 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
     SUBDIRECTORIES         tests)
 
   add_bipedal_locomotion_yarp_thrift(
-    NAME VectorsCollection
+    NAME VectorsCollectionMsg
     THRIFT thrifts/BipedalLocomotion/YarpUtilities/VectorsCollection.thrift
     INSTALLATION_FOLDER YarpUtilities)
+
+  add_bipedal_locomotion_library(
+    NAME                   VectorsCollection
+    SOURCES                src/VectorsCollectionServer.cpp src/VectorsCollectionClient.cpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h include/BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h
+    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES}
+                           ${iDynTree_LIBRARIES}
+                           BipedalLocomotion::VectorsCollectionMsg
+                           BipedalLocomotion::GenericContainer
+                           BipedalLocomotion::ParametersHandler
+                           BipedalLocomotion::TextLogging
+    INSTALLATION_FOLDER    YarpUtilities)
 
 endif()

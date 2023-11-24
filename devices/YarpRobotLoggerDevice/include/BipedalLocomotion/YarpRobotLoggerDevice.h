@@ -6,14 +6,13 @@
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
 
+#include <atomic>
 #include <memory>
 #include <mutex>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
-#include <atomic>
-#include <fstream>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -27,10 +26,10 @@
 
 #include <robometry/BufferManager.h>
 
-#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
-
+#include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 
 namespace BipedalLocomotion
 {
@@ -63,8 +62,7 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
-    template <typename T>
-    struct ExogenousSignal
+    template <typename T> struct ExogenousSignal
     {
         std::mutex mutex;
         std::string remote;
@@ -89,10 +87,21 @@ private:
         }
     };
 
-    std::unordered_map<std::string,
-                       ExogenousSignal<BipedalLocomotion::YarpUtilities::VectorsCollection>>
-        m_vectorsCollectionSignals;
+    struct VectorsCollectionSignal
+    {
+        std::mutex mutex;
+        BipedalLocomotion::YarpUtilities::VectorsCollectionClient client;
+        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+        std::string signalName;
+        bool dataArrived{false};
+        bool connected{false};
 
+        bool connect();
+        void disconnect();
+
+    };
+
+    std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
@@ -173,12 +182,15 @@ private:
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
-    bool saveCallback(const std::string& fileName,
-                      const robometry::SaveCallbackSaveMethod& method);
-    bool openVideoWriter(std::shared_ptr<VideoWriter::ImageSaver> imageSaver, const std::string& camera, const std::string& imageType,
-                         const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions);
+    bool saveCallback(const std::string& fileName, const robometry::SaveCallbackSaveMethod& method);
+    bool openVideoWriter(
+        std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
+        const std::string& camera,
+        const std::string& imageType,
+        const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions);
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
-                            const std::string& camera, const std::string& imageType);
+                            const std::string& camera,
+                            const std::string& imageType);
 };
 
 } // namespace BipedalLocomotion
