@@ -3,6 +3,8 @@
   <compounddef id="namespaceBipedalLocomotion_1_1YarpUtilities" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::YarpUtilities</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher" prot="public">BipedalLocomotion::YarpUtilities::RosPublisher</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient" prot="public">BipedalLocomotion::YarpUtilities::VectorsCollectionClient</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer" prot="public">BipedalLocomotion::YarpUtilities::VectorsCollectionServer</innerclass>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceBipedalLocomotion_1_1YarpUtilities_1a574238d46c75541efac18d9a98976b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>

@@ -2778,6 +2778,29 @@
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1ae1488b2f061a0cab4b8f29d574a896ed" kind="function"><name>toEigen</name></member>
     <member refid="classBipedalLocomotion_1_1GenericContainer_1_1Vector_1a7a2101a9a20acfdb75a2b01e2701fb6c" kind="function"><name>toEigen</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient" kind="class"><name>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</name>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a12f788ac0c41c55773d62134a03fc7b0" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1aa72a895a6d81196d062c755720d60a12" kind="function"><name>VectorsCollectionClient</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1ac622aa6c4ab469949271c9e3ac577f98" kind="function"><name>~VectorsCollectionClient</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a44391d83f00acff0c0887d38bf14506c" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a1b8462b0453b3fa6ef1fdb8924550460" kind="function"><name>connect</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a775a57a8dcbdef77362ac739f2831f9f" kind="function"><name>disconnect</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a876e4982c25802f40aae7d679d6a08a9" kind="function"><name>getMetadata</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a852a3bc04e23591dfd9b5485147aa346" kind="function"><name>readData</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer" kind="class"><name>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</name>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a0e8b2b00daf7717db8fe01c0bf74ee12" kind="variable"><name>m_pimpl</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a2fd61e131a5a2ce3aaa8e808bb324fc6" kind="function"><name>VectorsCollectionServer</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a39245425516a34510e4f88489e88f117" kind="function"><name>~VectorsCollectionServer</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a5aa7a1d27b90a8ea57e04787fdae1835" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ac79fdca0811aa249a18c3f2e3c1d16e6" kind="function"><name>populateMetadata</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a8d6c90c7512271ebfa615e465634d6c8" kind="function"><name>finalizeMetadata</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a47e3d8463e7d6ed8bc0b017b23bf1876" kind="function"><name>populateData</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a4e86fc0a34e47a37d548ccc894a3eead" kind="function"><name>getMetadata</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab9bad32b954249921c8b393b29d4890b" kind="function"><name>areMetadataReady</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab664728a5a709297618f9e94b8a3e64b" kind="function"><name>sendData</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a16ede6e865d49cda04bfefcd40b76147" kind="function"><name>clearData</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1WeightProvider" kind="struct"><name>BipedalLocomotion::System::WeightProvider</name>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1WeightProviderFactory" kind="class"><name>BipedalLocomotion::System::WeightProviderFactory</name>
@@ -3572,6 +3595,10 @@
     <member refid="namespaceBipedalLocomotion_1_1YarpUtilities_1a5773cfa7434d8a83e3cdc774c86d5607" kind="function"><name>populateBottleWithStrings</name></member>
   </compound>
   <compound refid="RosPublisher_8h" kind="file"><name>RosPublisher.h</name>
+  </compound>
+  <compound refid="VectorsCollectionClient_8h" kind="file"><name>VectorsCollectionClient.h</name>
+  </compound>
+  <compound refid="VectorsCollectionServer_8h" kind="file"><name>VectorsCollectionServer.h</name>
   </compound>
   <compound refid="python-additional-info" kind="page"><name>python-additional-info</name>
   </compound>
