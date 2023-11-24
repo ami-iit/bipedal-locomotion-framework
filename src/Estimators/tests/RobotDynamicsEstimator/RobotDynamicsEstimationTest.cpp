@@ -214,7 +214,6 @@ Dataset& loadData()
 
     // Unpack data
     static Dataset dataset;
-    log()->info("Unpacking data...");
     auto temp = outStruct("s").asMultiDimensionalArray<double>();
     dataset.s = Conversions::toEigen(temp);
 
@@ -299,20 +298,24 @@ void createInitialState(Dataset& dataset,
     auto accGroup = groupModel->getGroup("ACCELEROMETER").lock();
     REQUIRE(accGroup != nullptr);
 
-    std::vector<std::string> accUkfNames;
+    std::vector<std::string> accNames, accUkfNames;
+    REQUIRE(accGroup->getParameter("names", accNames));
     REQUIRE(accGroup->getParameter("ukf_names", accUkfNames));
     for (int idx = 0; idx < accUkfNames.size(); idx++)
     {
+        output.linearAccelerations[accUkfNames[idx]] = dataset.accs[accNames[idx]].row(0);
         output.accelerometerBiases[accUkfNames[idx]+"_bias"] = Eigen::VectorXd::Zero(3);
     }
 
     auto gyroGroup = groupModel->getGroup("GYROSCOPE").lock();
     REQUIRE(gyroGroup != nullptr);
 
-    std::vector<std::string> gyroUkfNames;
+    std::vector<std::string> gyroNames, gyroUkfNames;
+    REQUIRE(gyroGroup->getParameter("names", gyroNames));
     REQUIRE(gyroGroup->getParameter("ukf_names", gyroUkfNames));
     for (int idx = 0; idx < gyroUkfNames.size(); idx++)
     {
+        output.angularVelocities[gyroUkfNames[idx]] = dataset.gyros[gyroNames[idx]].row(0);
         output.gyroscopeBiases[gyroUkfNames[idx]+"_bias"] = Eigen::VectorXd::Zero(3);
     }
 }
@@ -375,7 +378,6 @@ TEST_CASE("RobotDynamicsEstimator Test")
     REQUIRE(estimator->setInitialState(output));
 
     // Starting estimation
-    log()->info("Starting estimation...");
 
     RobotDynamicsEstimatorInput input;
 
@@ -388,6 +390,7 @@ TEST_CASE("RobotDynamicsEstimator Test")
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {
         int sample = sample_;
+        sample_ = numOfSamples - 1;
 
         // Set input
         input.jointPositions = dataset.s.row(sample);

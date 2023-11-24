@@ -365,6 +365,32 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
         }
     }
 
+    for (auto const& [key, val] : initialState.linearAccelerations)
+    {
+        if (m_pimpl->stateHandler.getVariable(key, variable))
+        {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
+            m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+    }
+
+    for (auto const& [key, val] : initialState.angularVelocities)
+    {
+        if (m_pimpl->stateHandler.getVariable(key, variable))
+        {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                return false;
+            }
+            m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+    }
+
     m_pimpl->estimatorOutput = initialState;
 
     m_pimpl->isInitialStateSet = true;

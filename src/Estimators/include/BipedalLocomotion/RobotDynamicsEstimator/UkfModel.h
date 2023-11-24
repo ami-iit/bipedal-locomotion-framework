@@ -75,6 +75,10 @@ protected:
                                                    values of the wrench */
     std::map<std::string, Math::Wrenchd> m_extContactMap; /**< The map contains names of the ft
                                                            sensors and values of the wrench */
+    std::map<std::string, Eigen::Vector3d> m_accMap; /**< The map contains names of the accelerometer sensors and
+                                                   values of the linear accelerations */
+    std::map<std::string, Eigen::Vector3d> m_gyroMap; /**< The map contains names of the gyroscope sensors and
+                                                    values of the angular velocities */
     std::vector<Eigen::VectorXd> m_totalTorqueFromContacts; /**< Joint torques due to known and
                                                              unknown contacts on the sub-model. */
     Math::Wrenchd m_wrench; /**< Joint torques due to a specific contact. */

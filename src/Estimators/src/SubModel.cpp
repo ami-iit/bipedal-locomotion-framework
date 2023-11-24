@@ -266,6 +266,28 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
 
     subModel.m_jointListMapping = RDE::SubModelCreator::createJointMapping(idynSubModel);
 
+    std::string baseLink = idynSubModel.getLinkName(0);
+
+    // The first IMU found in the model is used as base
+    int frameIdx = 0;
+    bool frameFound = false;
+    while(!frameFound && frameIdx < idynSubModel.getNrOfFrames())
+    {
+        std::string frameName = idynSubModel.getFrameName(frameIdx);
+
+        for (const auto& acc : subModel.m_accelerometerList)
+        {
+            if (acc.second.frame == frameName)
+            {
+                subModel.m_imuBaseFrameIndex = frameIdx;
+                subModel.m_imuBaseFrameName = frameName;
+                frameFound = true;
+                break;
+            }
+        }
+        frameIdx++;
+    }
+
     return subModel;
 }
 
@@ -593,4 +615,14 @@ const RDE::Sensor& RDE::SubModel::getExternalContactIndex(const std::string& nam
     log()->error("[SubModel::getExternalContactIndex] Contact `{}` not found.", name);
 
     return dummySensor;
+}
+
+const std::string RDE::SubModel::getImuBaseFrameName() const
+{
+    return m_imuBaseFrameName;
+}
+
+int RDE::SubModel::getImuBaseFrameIndex() const
+{
+    return m_imuBaseFrameIndex;
 }
