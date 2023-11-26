@@ -80,6 +80,7 @@ bool UkfModel::updateState()
 
     manif::SE3Tangentd baseVelocity, baseAcceleration;
     baseVelocity.setZero();
+    baseAcceleration.setZero();
     // The full model shares the same base as the first submodel
     for (const auto& [key, value] : m_subModelList[0].getGyroscopeList())
     {
@@ -123,28 +124,33 @@ bool UkfModel::updateState()
                       .robotJointPositions[m_subModelList[subModelIdx].getJointMapping()[jointIdx]];
         }
 
-        for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
-        {
-            if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
-            {
-                sensorLinearAcceleration = m_accMap[key];
-            }
-        }
+        baseHimu = Conversions::toManifPose(
+            m_kinDynWrapperList[subModelIdx]
+                ->getRelativeTransform(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
+                                       m_subModelList[subModelIdx].getImuBaseFrameName()));
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
         {
             if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
             {
-                baseVelocity.coeffs().tail(3) = m_gyroMap[key];
+                baseVelocity.coeffs().tail(3) = baseHimu.rotation() * m_gyroMap[key];
             }
         }
 
-        baseHimu = Conversions::toManifPose(
-            m_kinDynFullModel
-                ->getRelativeTransform(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
-                                       m_subModelList[subModelIdx].getImuBaseFrameName()));
+        bOmegaIB = baseVelocity.coeffs().tail(3);
 
-        baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseVelocity.coeffs().tail(3);
+        for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
+        {
+            if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
+            {
+                baseAcceleration.coeffs().head(3).noalias()
+                    = baseHimu.rotation() * m_accMap[key]
+                      - bOmegaIB.cross(bOmegaIB.cross(baseHimu.translation()));
+            }
+        }
+
+        log()->info("{} Base velocity: {}", logPrefix, baseVelocity.coeffs().transpose());
+        log()->info("{} Base acceleration: {}", logPrefix, baseAcceleration.coeffs().transpose());
 
         // Set robot state
         m_kinDynWrapperList[subModelIdx]->setRobotState(m_worldTBase.transform(),
@@ -153,21 +159,6 @@ bool UkfModel::updateState()
                                                         m_subModelJointVel[subModelIdx],
                                                         zeroGravity);
 
-        // The angular acceleration is not considered
-        baseAcceleration.coeffs().segment(3, 3).setZero();
-
-        // Get the linear acceleration of the imu frame and convert it to the base frame
-        baseHimu = Conversions::toManifPose(
-            m_kinDynWrapperList[subModelIdx]
-                ->getRelativeTransform(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
-                                       m_subModelList[subModelIdx].getImuBaseFrameName()));
-
-        // Compute the acceleration of the base frame
-        bOmegaIB = baseVelocity.coeffs().tail(3);
-        baseAcceleration.coeffs().head(3).noalias()
-            = baseHimu.rotation() * sensorLinearAcceleration
-              - bOmegaIB.cross(bOmegaIB.cross(baseHimu.translation()));
-    
         m_totalTorqueFromContacts[subModelIdx].setZero();
 
         // Contribution of FT measurements
@@ -207,18 +198,21 @@ bool UkfModel::updateState()
                 += m_tempJacobianList[subModelIdx].transpose() * m_extContactMap[key];
         }
 
+        log()->info("{} Total torque from contacts: {}",
+                    logPrefix,
+                    m_totalTorqueFromContacts[subModelIdx].transpose());
+
         if (!m_kinDynWrapperList[subModelIdx]
-                     ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
-                                       m_subModelFrictionTorque[subModelIdx],
-                                       m_totalTorqueFromContacts[subModelIdx].tail(
-                                           m_kinDynWrapperList[subModelIdx]
-                                               ->getNrOfDegreesOfFreedom()),
-                                       baseAcceleration,
-                                       m_subModelJointAcc[subModelIdx]))
-            {
-                log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
-                return false;
-            }
+                 ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
+                                   m_subModelFrictionTorque[subModelIdx],
+                                   m_totalTorqueFromContacts[subModelIdx].tail(
+                                       m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom()),
+                                   baseAcceleration,
+                                   m_subModelJointAcc[subModelIdx]))
+        {
+            log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
+            return false;
+        }
 
         // Assign joint acceleration using the correct indeces
         for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getJointMapping().size();
