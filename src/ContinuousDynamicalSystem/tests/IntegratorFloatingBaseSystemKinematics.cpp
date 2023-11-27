@@ -17,8 +17,10 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/TestUtils/MemoryAllocationMonitor.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
+using namespace BipedalLocomotion::TestUtils;
 
 TEST_CASE("Integrator - Linear system")
 {
@@ -73,6 +75,14 @@ TEST_CASE("Integrator - Linear system")
         REQUIRE(basePosition.isApprox(basePositionExact, tolerance));
         REQUIRE(jointPosition.isApprox(jointPositionExact, tolerance));
 
+        if (i >= 1)
+        {
+            MemoryAllocationMonitor::startMonitor();
+        }
         REQUIRE(integrator.integrate(0s, dT));
+        if (i >= 1)
+        {
+            REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+        }
     }
 }

@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Implement `ContactList::getNextContact` and `ContactList::getActiveContact` in `Contact` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/764)
+- Add support for testing if a portion of code allocates memory via `MemoryAllocationMonitor`` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/768)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)

@@ -57,7 +57,7 @@ function(add_bipedal_locomotion_yarp_thrift)
       PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}"       COMPONENT dev
       PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl"  COMPONENT dev)
 
-    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_TARGETS ${name})
+    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_INSTALLED_TARGETS ${name})
 
     message(STATUS "Created target ${name} for export ${PROJECT_NAME}.")
 

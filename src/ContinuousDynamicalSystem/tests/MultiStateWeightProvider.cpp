@@ -14,8 +14,10 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <BipedalLocomotion/TestUtils/MemoryAllocationMonitor.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
+using namespace BipedalLocomotion::TestUtils;
 
 TEST_CASE("Multistate weight provider")
 {
@@ -58,7 +60,15 @@ TEST_CASE("Multistate weight provider")
 
         for (unsigned int i = 0; i < 50; i++)
         {
+            if (i >= 1)
+            {
+                MemoryAllocationMonitor::startMonitor();
+            }
             REQUIRE(provider.advance());
+            if (i >= 1)
+            {
+                REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+            }
         }
 
         REQUIRE(provider.getOutput().isApprox(stanceWeight, tolerance));
@@ -74,7 +84,15 @@ TEST_CASE("Multistate weight provider")
 
         for (unsigned int i = 0; i < 50; i++)
         {
+            if (i >= 1)
+            {
+                MemoryAllocationMonitor::startMonitor();
+            }
             REQUIRE(provider.advance());
+            if (i >= 1)
+            {
+                REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+            }
         }
 
         REQUIRE(provider.getOutput().isApprox(stanceWeight, tolerance));
@@ -84,7 +102,15 @@ TEST_CASE("Multistate weight provider")
         REQUIRE(provider.setState("walking"));
         for (unsigned int i = 0; i < 50; i++)
         {
+            if (i >= 1)
+            {
+                MemoryAllocationMonitor::startMonitor();
+            }
             REQUIRE(provider.advance());
+            if (i >= 1)
+            {
+                REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+            }
         }
 
         REQUIRE(provider.getOutput().isApprox(walkingWeight, tolerance));
