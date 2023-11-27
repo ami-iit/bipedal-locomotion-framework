@@ -21,11 +21,41 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
+MANNInput MANNInput::generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            std::size_t projectedBaseHorizon)
+{
+    MANNInput input;
+    input.jointPositions = jointPositions;
+    input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    input.basePositionTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.baseVelocitiesTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.facingDirectionTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.facingDirectionTrajectory.row(0).setOnes();
+
+    return input;
+}
+
+MANNOutput MANNOutput::generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                               std::size_t futureProjectedBaseHorizon)
+{
+    MANNOutput output;
+    output.jointPositions = jointPositions;
+    output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    output.futureBasePositionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureBaseVelocitiesTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory.row(0).setOnes();
+
+    return output;
+}
+
 struct MANN::Impl
 {
     enum class FSM
     {
-        NotInitialized, Initialized, Running,
+        NotInitialized,
+        Initialized,
+        Running,
     };
 
     struct DataStructured
@@ -82,10 +112,8 @@ bool MANN::Impl::populateInput(const MANNInput& input)
     };
 
     auto populateProjectedData
-        = [&input,
-           this,
-           logPrefix](const std::string& variableName,
-                      Eigen::Ref<const Eigen::Matrix2Xd> data) -> bool {
+        = [&input, this, logPrefix](const std::string& variableName,
+                                    Eigen::Ref<const Eigen::Matrix2Xd> data) -> bool {
         const auto& variable = this->structuredInput.handler.getVariable(variableName);
         if (data.size() != variable.size)
         {
@@ -169,8 +197,10 @@ bool MANN::initialize(
 
     // Ort::Session's constructor is OS-dependent, wants wchar_t* on Windows and char* on other OSs
     // Note: this only works with single-byte characters, such as ASCII or ISO-8859-1,
-    // see https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
-    std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(), networkModelPath.end());
+    // see
+    // https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
+    std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
+                                                             networkModelPath.end());
 
     m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
                                                       networkModelPathAsOrtString.c_str(),
@@ -277,22 +307,24 @@ bool MANN::setInput(const MANNInput& input)
 
 bool MANN::advance()
 {
-    auto unpackMatrix
-        = [this](const std::string& variableName, Eigen::Ref<Eigen::MatrixXd> matrix) {
-              const auto& variable = m_pimpl->structuredOutput.handler.getVariable(variableName);
-              assert(variable.isValid());
+    auto unpackMatrix = [this](const std::string& variableName,
+                               Eigen::Ref<Eigen::MatrixXd> matrix) {
+        const auto& variable = m_pimpl->structuredOutput.handler.getVariable(variableName);
+        assert(variable.isValid());
 
-              // the matrix has been already allocated
-              const std::size_t rows = matrix.rows();
-              const std::size_t cols = matrix.cols();
+        // the matrix has been already allocated
+        const std::size_t rows = matrix.rows();
+        const std::size_t cols = matrix.cols();
 
-              matrix = Eigen::Map<const Eigen::MatrixXf>(
-                  m_pimpl->structuredOutput.rawData.segment(variable.offset, variable.size).data(),
-                  rows,
-                  cols).cast<double>();
+        matrix = Eigen::Map<const Eigen::MatrixXf>(m_pimpl->structuredOutput.rawData
+                                                       .segment(variable.offset, variable.size)
+                                                       .data(),
+                                                   rows,
+                                                   cols)
+                     .cast<double>();
 
-              return;
-          };
+        return;
+    };
 
     const char* inputNames[] = {"input"};
     const char* outputNames[] = {"output"};
