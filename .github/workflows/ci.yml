@@ -179,7 +179,8 @@ jobs:
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DYARP_COMPILE_GUIS:BOOL=OFF \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
         # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
         export IPOPT_DIR=${VCPKG_INSTALLATION_ROOT}/installed/x64-windows
