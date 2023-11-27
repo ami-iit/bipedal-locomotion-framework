@@ -49,7 +49,8 @@ TEST_CASE("MANNTrajectoryGenerator")
     handler->setParameter("right_foot_frame_name", "r_sole");
     handler->setParameter("sampling_time", 20ms);
     handler->setParameter("time_horizon", 10s);
-    handler->setParameter("slow_down_factor", 1);
+    handler->setParameter("slow_down_factor", 1.0);
+    handler->setParameter("scaling_factor", 1.0);
     handler->setParameter("forward_direction", "x");
 
     auto leftFootGroup = std::make_shared<StdImplementation>();
@@ -97,18 +98,6 @@ TEST_CASE("MANNTrajectoryGenerator")
         generatorInput.desiredFutureBaseVelocities.col(i) << 0.4, 0;
     }
 
-    EstimatedContact leftFoot, rightFoot;
-    leftFoot.isActive = true;
-    leftFoot.name = "left_foot";
-    leftFoot.index = ml.model().getFrameIndex("l_sole");
-    leftFoot.switchTime = 0s;
-    leftFoot.pose = manif::SE3d(Eigen::Vector3d{0, 0.08, 0}, manif::SO3d::Identity());
-
-    rightFoot.isActive = true;
-    rightFoot.name = "right_foot";
-    rightFoot.index = ml.model().getFrameIndex("r_sole");
-    rightFoot.switchTime = 0s;
-    rightFoot.pose = manif::SE3d(Eigen::Vector3d{0, -0.08, 0}, manif::SO3d::Identity());
     const manif::SE3d basePose = manif::SE3d(Eigen::Vector3d{0, 0, 0.7748},
                                              Eigen::AngleAxis(0.0, Eigen::Vector3d::UnitY()));
 
@@ -124,7 +113,7 @@ TEST_CASE("MANNTrajectoryGenerator")
     MANNTrajectoryGenerator generator;
     REQUIRE(generator.setRobotModel(ml.model()));
     REQUIRE(generator.initialize(handler));
-    generator.setInitialState(jointPositions, leftFoot, rightFoot, basePose, 0s);
+    REQUIRE(generator.setInitialState(jointPositions, basePose));
     REQUIRE(generator.setInput(generatorInput));
     REQUIRE(generator.advance());
 
@@ -150,5 +139,4 @@ TEST_CASE("MANNTrajectoryGenerator")
     REQUIRE(std::abs(finalCoMPosition[0] - initialCoMPosition[0]) > forwardTolerance);
     REQUIRE(std::abs(finalCoMPosition[1] - initialCoMPosition[1]) < lateralTolerance);
     REQUIRE(std::abs(finalCoMPosition[2] - initialCoMPosition[2]) < verticalTolerance);
-
 }
