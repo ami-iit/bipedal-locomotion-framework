@@ -74,6 +74,137 @@ bool UkfModel::updateState()
 {
     constexpr auto logPrefix = "[UkfModel::updateState]";
 
+    // Run old code to take submodel base angular acceleration
+    // and use it in the new code
+
+    // Update kindyn full model
+    m_gravity = {0, 0, -Math::StandardAccelerationOfGravitation};
+    m_kinDynFullModel->setRobotState(m_ukfInput.robotBasePose.transform(),
+                                     m_ukfInput.robotJointPositions,
+                                     iDynTree::make_span(m_ukfInput.robotBaseVelocity.data(),
+                                                         manif::SE3d::Tangent::DoF),
+                                     m_jointVelocityState,
+                                     m_gravity);
+
+    // compute joint acceleration per each sub-model
+    for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
+    {
+        // Get sub-model base pose
+        m_worldTBase = Conversions::toManifPose(m_kinDynFullModel->getWorldTransform(
+            m_kinDynWrapperList[subModelIdx]->getFloatingBase()));
+
+        // Get sub-model joint position
+        for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getModel().getNrOfDOFs();
+             jointIdx++)
+        {
+            m_subModelJointPos[subModelIdx](jointIdx)
+                = m_ukfInput
+                      .robotJointPositions[m_subModelList[subModelIdx].getJointMapping()[jointIdx]];
+        }
+
+        // Get sub-model base vel
+        if (!m_kinDynFullModel->getFrameVel(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
+                                            iDynTree::make_span(m_subModelBaseVelTemp.data(),
+                                                                manif::SE3d::Tangent::DoF)))
+        {
+            log()->error("{} Failed while getting the base frame velocity.", logPrefix);
+            return false;
+        }
+
+        // Set the sub-model state
+        m_kinDynWrapperList[subModelIdx]
+            ->setRobotState(m_worldTBase.transform(),
+                            m_subModelJointPos[subModelIdx],
+                            iDynTree::make_span(m_subModelBaseVelTemp.data(),
+                                                manif::SE3d::Tangent::DoF),
+                            m_subModelJointVel[subModelIdx],
+                            m_gravity);
+
+        m_totalTorqueFromContacts[subModelIdx].setZero();
+
+        // Contribution of FT measurements
+        for (const auto& [key, value] : m_subModelList[subModelIdx].getFTList())
+        {
+
+            m_wrench = (int)value.forceDirection * m_FTMap[key].array();
+
+            if (!m_kinDynWrapperList[subModelIdx]
+                     ->getFrameFreeFloatingJacobian(value.frameIndex,
+                                                    m_tempJacobianList[subModelIdx]))
+            {
+                log()->error("{} Failed while getting the jacobian for the frame `{}`.",
+                             logPrefix,
+                             value.frame);
+                return false;
+            }
+
+            m_totalTorqueFromContacts[subModelIdx].noalias()
+                += m_tempJacobianList[subModelIdx].transpose() * m_wrench;
+        }
+
+        // Contribution of unknown external contacts
+        for (const auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
+        {
+            if (!m_kinDynWrapperList[subModelIdx]
+                     ->getFrameFreeFloatingJacobian(value.frameIndex,
+                                                    m_tempJacobianList[subModelIdx]))
+            {
+                log()->error("{} Failed while getting the jacobian for the frame `{}`.",
+                             logPrefix,
+                             value.frame);
+                return false;
+            }
+
+            m_totalTorqueFromContacts[subModelIdx]
+                += m_tempJacobianList[subModelIdx].transpose() * m_extContactMap[key];
+        }
+
+        if (subModelIdx == 0)
+        {
+            if (!m_kinDynWrapperList[subModelIdx]
+                     ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
+                                       m_subModelFrictionTorque[subModelIdx],
+                                       m_totalTorqueFromContacts[subModelIdx].tail(
+                                           m_kinDynWrapperList[subModelIdx]
+                                               ->getNrOfDegreesOfFreedom()),
+                                       m_ukfInput.robotBaseAcceleration.coeffs(),
+                                       m_subModelJointAcc[subModelIdx]))
+            {
+                log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
+                return false;
+            }
+
+            m_subModelNuDot[subModelIdx].head(6) = m_ukfInput.robotBaseAcceleration.coeffs();
+            m_subModelNuDot[subModelIdx].tail(
+                m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom())
+                = m_subModelJointAcc[subModelIdx];
+        } else
+        {
+            if (!m_kinDynWrapperList[subModelIdx]
+                     ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
+                                       m_subModelFrictionTorque[subModelIdx],
+                                       m_totalTorqueFromContacts[subModelIdx],
+                                       m_subModelNuDot[subModelIdx]))
+            {
+                log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
+                return false;
+            }
+
+            m_subModelJointAcc[subModelIdx] = m_subModelNuDot[subModelIdx].tail(
+                m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom());
+        }
+
+        // Assign joint acceleration using the correct indeces
+        for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getJointMapping().size();
+             jointIdx++)
+        {
+            m_jointAccelerationState[m_subModelList[subModelIdx].getJointMapping()[jointIdx]]
+                = m_subModelJointAcc[subModelIdx][jointIdx];
+        }
+    }
+
+    // NEW CODE - GOOD FROM HERE
+
     Eigen::Vector3d sensorLinearAcceleration;
     Eigen::Vector3d bOmegaIB;
     Eigen::Vector3d tempLinAcc;
@@ -81,6 +212,7 @@ bool UkfModel::updateState()
     manif::SE3Tangentd baseVelocity, baseAcceleration;
     baseVelocity.setZero();
     baseAcceleration.setZero();
+
     // The full model shares the same base as the first submodel
     for (const auto& [key, value] : m_subModelList[0].getGyroscopeList())
     {
@@ -94,9 +226,8 @@ bool UkfModel::updateState()
 
     // Get the linear acceleration of the imu frame and convert it to the base frame
     baseHimu = Conversions::toManifPose(
-            m_kinDynFullModel
-                ->getRelativeTransform(m_kinDynFullModel->getFloatingBase(),
-                                       m_subModelList[0].getImuBaseFrameName()));
+        m_kinDynFullModel->getRelativeTransform(m_kinDynFullModel->getFloatingBase(),
+                                                m_subModelList[0].getImuBaseFrameName()));
 
     baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseVelocity.coeffs().tail(3);
 
@@ -111,6 +242,8 @@ bool UkfModel::updateState()
                                                          manif::SE3d::Tangent::DoF),
                                      m_jointVelocityState,
                                      zeroGravity);
+
+    Eigen::VectorXd tempJointAcc(m_jointAccelerationState.size());
 
     // Compute acceleration of the submodel bases from imu measurements
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
@@ -139,6 +272,8 @@ bool UkfModel::updateState()
 
         bOmegaIB = baseVelocity.coeffs().tail(3);
 
+        // FIRST COMPUTE THE BASE ACCELERATION WITH ONLY IMUS
+
         for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
         {
             if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
@@ -149,8 +284,8 @@ bool UkfModel::updateState()
             }
         }
 
-        log()->info("{} Base velocity: {}", logPrefix, baseVelocity.coeffs().transpose());
-        log()->info("{} Base acceleration: {}", logPrefix, baseAcceleration.coeffs().transpose());
+        // log()->info("{} Base velocity: {}", logPrefix, baseVelocity.coeffs().transpose());
+        // log()->info("{} Base acceleration: {}", logPrefix, baseAcceleration.coeffs().transpose());
 
         // Set robot state
         m_kinDynWrapperList[subModelIdx]->setRobotState(m_worldTBase.transform(),
@@ -198,9 +333,9 @@ bool UkfModel::updateState()
                 += m_tempJacobianList[subModelIdx].transpose() * m_extContactMap[key];
         }
 
-        log()->info("{} Total torque from contacts: {}",
-                    logPrefix,
-                    m_totalTorqueFromContacts[subModelIdx].transpose());
+        // log()->info("{} Total torque from contacts: {}",
+        //             logPrefix,
+        //             m_totalTorqueFromContacts[subModelIdx].transpose());
 
         if (!m_kinDynWrapperList[subModelIdx]
                  ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
@@ -222,125 +357,38 @@ bool UkfModel::updateState()
                 = m_subModelJointAcc[subModelIdx][jointIdx];
         }
 
-        log()->info("{} Joint acceleration: {}", logPrefix, m_jointAccelerationState.transpose());
+        // RECONMPUTE EVERYTHING WITH OMEGA DOT NOT ZERO
+        Eigen::VectorXd tempVec(m_subModelJointAcc[subModelIdx].size());
+        baseAcceleration.coeffs().tail(3) = m_subModelNuDot[subModelIdx].segment(3, 3);
+        if (!m_kinDynWrapperList[subModelIdx]
+                 ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
+                                   m_subModelFrictionTorque[subModelIdx],
+                                   m_totalTorqueFromContacts[subModelIdx].tail(
+                                       m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom()),
+                                   baseAcceleration,
+                                   tempVec))
+        {
+            log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
+            return false;
+        }
+
+        for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getJointMapping().size();
+             jointIdx++)
+        {
+            tempJointAcc[m_subModelList[subModelIdx].getJointMapping()[jointIdx]]
+                = tempVec[jointIdx];
+        }
     }
 
-    // // compute joint acceleration per each sub-model
-    // for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
-    // {
-    //     // Get sub-model base pose
-    //     m_worldTBase = Conversions::toManifPose(m_kinDynFullModel->getWorldTransform(
-    //         m_kinDynWrapperList[subModelIdx]->getFloatingBase()));
+    log()->info("{} Joint acceleration with omega dot = 0: {}",
+                logPrefix,
+                m_jointAccelerationState.transpose());
 
-    //     // Get sub-model joint position
-    //     for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getModel().getNrOfDOFs();
-    //          jointIdx++)
-    //     {
-    //         m_subModelJointPos[subModelIdx](jointIdx)
-    //             = m_ukfInput
-    //                   .robotJointPositions[m_subModelList[subModelIdx].getJointMapping()[jointIdx]];
-    //     }
+    log()->info("{} Joint acceleration with omega dot equal to other computation: {}",
+                logPrefix,
+                tempJointAcc.transpose());
 
-    //     // Get sub-model base vel
-    //     if (!m_kinDynFullModel->getFrameVel(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
-    //                                         iDynTree::make_span(m_subModelBaseVelTemp.data(),
-    //                                                             manif::SE3d::Tangent::DoF)))
-    //     {
-    //         log()->error("{} Failed while getting the base frame velocity.", logPrefix);
-    //         return false;
-    //     }
-
-    //     // Set the sub-model state
-    //     m_kinDynWrapperList[subModelIdx]
-    //         ->setRobotState(m_worldTBase.transform(),
-    //                         m_subModelJointPos[subModelIdx],
-    //                         iDynTree::make_span(m_subModelBaseVelTemp.data(),
-    //                                             manif::SE3d::Tangent::DoF),
-    //                         m_subModelJointVel[subModelIdx],
-    //                         m_gravity);
-
-    //     m_totalTorqueFromContacts[subModelIdx].setZero();
-
-    //     // Contribution of FT measurements
-    //     for (const auto& [key, value] : m_subModelList[subModelIdx].getFTList())
-    //     {
-
-    //         m_wrench = (int)value.forceDirection * m_FTMap[key].array();
-
-    //         if (!m_kinDynWrapperList[subModelIdx]
-    //                  ->getFrameFreeFloatingJacobian(value.frameIndex,
-    //                                                 m_tempJacobianList[subModelIdx]))
-    //         {
-    //             log()->error("{} Failed while getting the jacobian for the frame `{}`.",
-    //                          logPrefix,
-    //                          value.frame);
-    //             return false;
-    //         }
-
-    //         m_totalTorqueFromContacts[subModelIdx].noalias()
-    //             += m_tempJacobianList[subModelIdx].transpose() * m_wrench;
-    //     }
-
-    //     // Contribution of unknown external contacts
-    //     for (const auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
-    //     {
-    //         if (!m_kinDynWrapperList[subModelIdx]
-    //                  ->getFrameFreeFloatingJacobian(value.frameIndex,
-    //                                                 m_tempJacobianList[subModelIdx]))
-    //         {
-    //             log()->error("{} Failed while getting the jacobian for the frame `{}`.",
-    //                          logPrefix,
-    //                          value.frame);
-    //             return false;
-    //         }
-
-    //         m_totalTorqueFromContacts[subModelIdx]
-    //             += m_tempJacobianList[subModelIdx].transpose() * m_extContactMap[key];
-    //     }
-
-    //     if (subModelIdx == 0)
-    //     {
-    //         if (!m_kinDynWrapperList[subModelIdx]
-    //                  ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
-    //                                    m_subModelFrictionTorque[subModelIdx],
-    //                                    m_totalTorqueFromContacts[subModelIdx].tail(
-    //                                        m_kinDynWrapperList[subModelIdx]
-    //                                            ->getNrOfDegreesOfFreedom()),
-    //                                    m_ukfInput.robotBaseAcceleration.coeffs(),
-    //                                    m_subModelJointAcc[subModelIdx]))
-    //         {
-    //             log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
-    //             return false;
-    //         }
-
-    //         m_subModelNuDot[subModelIdx].head(6) = m_ukfInput.robotBaseAcceleration.coeffs();
-    //         m_subModelNuDot[subModelIdx].tail(
-    //             m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom())
-    //             = m_subModelJointAcc[subModelIdx];
-    //     } else
-    //     {
-    //         if (!m_kinDynWrapperList[subModelIdx]
-    //                  ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
-    //                                    m_subModelFrictionTorque[subModelIdx],
-    //                                    m_totalTorqueFromContacts[subModelIdx],
-    //                                    m_subModelNuDot[subModelIdx]))
-    //         {
-    //             log()->error("{} Cannot compute the inverse dynamics.", logPrefix);
-    //             return false;
-    //         }
-
-    //         m_subModelJointAcc[subModelIdx] = m_subModelNuDot[subModelIdx].tail(
-    //             m_kinDynWrapperList[subModelIdx]->getNrOfDegreesOfFreedom());
-    //     }
-
-    //     // Assign joint acceleration using the correct indeces
-    //     for (int jointIdx = 0; jointIdx < m_subModelList[subModelIdx].getJointMapping().size();
-    //          jointIdx++)
-    //     {
-    //         m_jointAccelerationState[m_subModelList[subModelIdx].getJointMapping()[jointIdx]]
-    //             = m_subModelJointAcc[subModelIdx][jointIdx];
-    //     }
-    // }
+    m_jointAccelerationState = tempJointAcc;
 
     return true;
 }

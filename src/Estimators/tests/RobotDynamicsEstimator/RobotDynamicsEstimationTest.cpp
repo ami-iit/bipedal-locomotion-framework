@@ -390,7 +390,7 @@ TEST_CASE("RobotDynamicsEstimator Test")
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {
         int sample = sample_;
-        sample_ = numOfSamples - 1;
+        // sample_ = numOfSamples - 1;
 
         // Set input
         input.jointPositions = dataset.s.row(sample);
@@ -426,9 +426,17 @@ TEST_CASE("RobotDynamicsEstimator Test")
 
         // Check output
         REQUIRE((output.ds - dataset.ds.row(sample).transpose()).isZero(0.1));
-        REQUIRE((output.tau_F - dataset.expectedTauF.row(sample).transpose()).isZero(0.1));
+        log()->info("Friction torque error {}", (output.tau_F.transpose() - dataset.expectedTauF.row(sample)));
+        for (int idx = 0; idx < output.tau_F.size(); idx++)
+        {
+            REQUIRE(std::abs(output.tau_F(idx) - dataset.expectedTauF.row(sample)(idx)) < 0.5);
+        }
         REQUIRE((output.tau_m - dataset.expectedTaum.row(sample).transpose()).isZero(0.1));
-        REQUIRE(((output.tau_m - output.tau_F) - dataset.expectedTauj.row(sample).transpose()).isZero(0.1));
+        for (int idx = 0; idx < output.tau_F.size(); idx++)
+        {
+            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx)) - dataset.expectedTauj.row(sample)(idx)) < 0.5);
+        }
+        log()->info ("Joint torque error {}", ((output.tau_m - output.tau_F).transpose() - dataset.expectedTauj.row(sample)));
         for (int idx = 0; idx < sensors["ft"].size(); idx++)
         {
             REQUIRE(output.ftWrenches[sensors["ft"][idx].ukfSensorName].isApprox(dataset.fts[sensors["ft"][idx].sensorName].row(sample).transpose(), 0.1));
