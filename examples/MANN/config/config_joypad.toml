@@ -1,0 +1,10 @@
+base_vel_norm = 0.4
+ellipsoid_forward_axis = 1.0
+ellipsoid_side_axis = 0.9
+ellipsoid_backward_axis = 0.6
+ellipsoid_scaling_factor = 0.4
+max_facing_direction_angle_forward = 0.20
+max_facing_direction_angle_backward = 0.1
+max_facing_direction_angle_side_opposite_sign = 0.26
+max_facing_direction_angle_side_same_sign = 0.17
+number_of_knots = 7

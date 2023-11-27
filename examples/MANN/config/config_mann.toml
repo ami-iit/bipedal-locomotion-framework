@@ -1,0 +1,44 @@
+
+joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll',  # left leg
+               'r_hip_pitch', 'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll',  # right leg
+               'torso_pitch', 'torso_roll', 'torso_yaw',  # torso
+               'neck_pitch', 'neck_roll', 'neck_yaw', # neck
+               'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', # left arm
+               'r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow'] # right arm
+
+root_link_frame_name = "root_link"
+chest_link_frame_name = "chest"
+left_foot_frame_name = "l_sole"
+right_foot_frame_name = "r_sole"
+sampling_time = 0.02
+time_horizon = 2.0
+slow_down_factor = 5
+forward_direction = "x"
+scaling_factor = 1.0
+
+[LEFT_FOOT]
+number_of_corners = 4
+corner_0  = [0.08, 0.03, 0.0]
+corner_1  = [0.08, -0.03, 0.0]
+corner_2  = [-0.08, -0.03, 0.0]
+corner_3  = [-0.08, 0.03, 0.0]
+on_threshold = 0.02
+off_threshold = 0.02
+switch_on_after = 0.02
+switch_off_after = 0.02
+
+
+[RIGHT_FOOT]
+number_of_corners = 4
+corner_0  = [0.08, 0.03, 0.0]
+corner_1  = [0.08, -0.03, 0.0]
+corner_2  = [-0.08, -0.03, 0.0]
+corner_3  = [-0.08, 0.03, 0.0]
+on_threshold = 0.02
+off_threshold = 0.02
+switch_on_after = 0.02
+switch_off_after = 0.02
+
+[MANN]
+projected_base_horizon = 12
+onnx_model_path = "./config/ergocubSN000_26j_49e.onnx"
