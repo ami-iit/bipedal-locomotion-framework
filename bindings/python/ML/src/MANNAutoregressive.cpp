@@ -52,16 +52,10 @@ void CreateMANNAutoregressive(pybind11::module& module)
                                    ML::MANNAutoregressiveOutput>>(module, "MANNAutoregressive")
         .def(py::init())
         .def("reset",
-             py::overload_cast<const ML::MANNInput&,
-                               const Contacts::EstimatedContact&,
-                               const Contacts::EstimatedContact&,
-                               const manif::SE3d&,
-                               const manif::SE3Tangentd&>(&ML::MANNAutoregressive::reset),
-             py::arg("input"),
-             py::arg("left_foot"),
-             py::arg("right_foot"),
-             py::arg("base_pose"),
-             py::arg("base_velocity"))
+             py::overload_cast<Eigen::Ref<const Eigen::VectorXd>, const manif::SE3d&>(
+                 &ML::MANNAutoregressive::reset),
+             py::arg("joint_positions"),
+             py::arg("base_pose"))
         .def("set_robot_model", [](ML::MANNAutoregressive& impl, ::pybind11::object& obj) {
             iDynTree::Model* cls = py::detail::swig_wrapped_pointer_to_pybind<iDynTree::Model>(obj);
 
