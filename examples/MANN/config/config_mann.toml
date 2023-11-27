@@ -11,8 +11,8 @@ chest_link_frame_name = "chest"
 left_foot_frame_name = "l_sole"
 right_foot_frame_name = "r_sole"
 sampling_time = 0.02
-time_horizon = 2.0
-slow_down_factor = 5
+time_horizon = 1.0
+slow_down_factor = 5.0
 forward_direction = "x"
 scaling_factor = 1.0
 
