@@ -24,7 +24,7 @@ TEST_CASE("MANN")
 
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("number_of_joints", 26);
-    handler->setParameter("projected_base_horizon", 12);
+    handler->setParameter("projected_base_datapoints", 12);
     handler->setParameter("onnx_model_path", getMANNModelPath());
 
     REQUIRE(mann.initialize(handler));

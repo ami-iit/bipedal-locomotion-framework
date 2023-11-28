@@ -172,6 +172,9 @@ public:
          * @param I_H_B SE(3) transformation of the base respect to the inertial frame.
          * @param leftFootState left foot state.
          * @param rightFootState right foot state.
+         * @param mocapFrameRate frame rate of the mocap data.
+         * @param pastProjectedBaseHorizon number of samples of the past base horizon considered in
+         * the neural network.
          * @return A dummy AutoregressiveState.
          * @note A dummy AutoregressiveState is generated zeroing the
          * projectedContactPositionInWorldFrame, zeroing the pastProjectedBasePositions and
@@ -184,7 +187,9 @@ public:
                                          const MANNOutput& output,
                                          const manif::SE3d& I_H_B,
                                          const MANNFootState& leftFootState,
-                                         const MANNFootState& rightFootState);
+                                         const MANNFootState& rightFootState,
+                                         int mocapFrameRate,
+                                         const std::chrono::nanoseconds& pastProjectedBaseHorizon);
     };
 
     /**
@@ -218,6 +223,8 @@ public:
      * | `right_foot_frame_name`  | `string` |                                 Name of of the right foot frame in the model.                                 |    Yes    |
      * |  `left_foot_frame_name`  | `string` |                                  Name of of the left foot frame in the model.                                 |    Yes    |
      * |    `forward_direction`   | `string` |  String containing 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
+     * |    `mocap_frame_rate`    |   `int`  |                                       Frame rate of the mocap data.                                           |    Yes    |
+     * | `past_projected_horizon` | `double` |                    Number of seconds of the past base horizon considered in the neural network.               |    Yes    |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
      * |    Parameter Name    |       Type       |                                                        Description                                                           | Mandatory |
      * |:--------------------:|:----------------:|:----------------------------------------------------------------------------------------------------------------------------:|:---------:|
@@ -228,10 +235,10 @@ public:
      * |   `switch_on_after`  |     `double`     |     Seconds to wait for before switching to activate from deactivate contact. Ensure it's greater than sampling time.        |    Yes    |
      * |  `switch_off_after`  |     `double`     |     Seconds to wait for before switching to deactivate from activate contact. Ensure it's greater than sampling time.        |    Yes    |
      * Finally it also required to define a group named `MANN` that contains the following parameter
-     * |      Parameter Name      |   Type   |                          Description                                | Mandatory |
-     * |:------------------------:|:--------:|:-------------------------------------------------------------------:|:---------:|
-     * |    `onnx_model_path`     | `string` |  Path to the `onnx` model that will be loaded to perform inference. |    Yes    |
-     * | `projected_base_horizon` |  `int`   |    Number of samples of the base horizon considered in the model.   |    Yes    |
+     * |          Parameter Name         |   Type   |                                         Description                                         | Mandatory |
+     * |:-------------------------------:|:--------:|:-------------------------------------------------------------------------------------------:|:---------:|
+     * |        `onnx_model_path`        | `string` |         Path to the `onnx` model that will be loaded to perform inference.                  |    Yes    |
+     * |   `projected_base_datapoints`   |  `int`   | Number of samples of the base horizon considered in the model (It must be an even number).  |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;

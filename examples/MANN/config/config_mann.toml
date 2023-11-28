@@ -25,6 +25,8 @@ time_horizon = 1.0
 slow_down_factor = 5.0
 forward_direction = "x"
 scaling_factor = 1.0
+mocap_frame_rate = 50 # Hz
+past_projected_base_horizon = 1.0
 
 [LEFT_FOOT]
 number_of_corners = 4
@@ -50,5 +52,5 @@ switch_on_after = 0.02
 switch_off_after = 0.02
 
 [MANN]
-projected_base_horizon = 12
+projected_base_datapoints = 12
 onnx_model_path = "./config/ergocubSN000_26j_49e.onnx"

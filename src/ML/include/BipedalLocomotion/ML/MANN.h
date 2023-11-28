@@ -129,11 +129,11 @@ public:
      * Initialize the network.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |      Parameter Name      |       Type       |                          Description                                | Mandatory |
-     * |:------------------------:|:----------------:|:-------------------------------------------------------------------:|:---------:|
-     * |    `onnx_model_path`     |      `string`    |  Path to the `onnx` model that will be loaded to perform inference  |    Yes    |
-     * |   `number_of_joints`     |       `int`      |         Number of robot joints considered in the model              |    Yes    |
-     * | `projected_base_horizon` |       `int`      |    Number of samples of the base horizon considered in the model    |    Yes    |
+     * |        Parameter Name       |       Type       |                                       Description                                              | Mandatory |
+     * |:---------------------------:|:----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |       `onnx_model_path`     |      `string`    |          Path to the `onnx` model that will be loaded to perform inference                     |    Yes    |
+     * |     `number_of_joints`      |       `int`      |               Number of robot joints considered in the model                                   |    Yes    |
+     * | `projected_base_datapoints` |       `int`      |    Number of samples of the base horizon considered in the model (it must be an even number)   |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;

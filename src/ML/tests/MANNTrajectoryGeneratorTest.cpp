@@ -52,6 +52,8 @@ TEST_CASE("MANNTrajectoryGenerator")
     handler->setParameter("slow_down_factor", 1.0);
     handler->setParameter("scaling_factor", 1.0);
     handler->setParameter("forward_direction", "x");
+    handler->setParameter("mocap_frame_rate", 50);
+    handler->setParameter("past_projected_base_horizon", 1s);
 
     auto leftFootGroup = std::make_shared<StdImplementation>();
     leftFootGroup->setParameter("number_of_corners", 4);
@@ -76,7 +78,7 @@ TEST_CASE("MANNTrajectoryGenerator")
     rightFootGroup->setParameter("switch_off_after", 40ms);
 
     auto mannGroup = std::make_shared<StdImplementation>();
-    mannGroup->setParameter("projected_base_horizon", 12);
+    mannGroup->setParameter("projected_base_datapoints", 12);
     mannGroup->setParameter("onnx_model_path", getMANNModelPath());
 
     handler->setGroup("LEFT_FOOT", leftFootGroup);

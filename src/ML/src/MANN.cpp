@@ -177,13 +177,13 @@ bool MANN::initialize(
         return true;
     };
 
-    int numberOfJoints, projectedBaseHorizon;
+    int numberOfJoints, projectedBaseDatapoints;
     std::string networkModelPath;
     bool ok = loadParam("number_of_joints", numberOfJoints);
-    ok = ok && loadParam("projected_base_horizon", projectedBaseHorizon);
+    ok = ok && loadParam("projected_base_datapoints", projectedBaseDatapoints);
     ok = ok && loadParam("onnx_model_path", networkModelPath);
 
-    if (projectedBaseHorizon % 2 != 0)
+    if (projectedBaseDatapoints % 2 != 0)
     {
         log()->error("{} Project base horizon must be an even number. This is required by mann.",
                      logPrefix);
@@ -213,13 +213,13 @@ bool MANN::initialize(
     }
 
     // the input of the network is composed by
-    const std::size_t inputSize = 2 * projectedBaseHorizon // position of the base on x and y
-                                                           // coordinate in the horizon
-                                  + 2 * projectedBaseHorizon // facing direction on x and y
-                                                             // coordinate in the horizon (equal to
-                                                             // projectedBaseHorizon)
-                                  + 2 * projectedBaseHorizon // velocity of the base on x and y
-                                                             // coordinate in the horizon
+    const std::size_t inputSize = 2 * projectedBaseDatapoints // position of the base on x and y
+                                                              // coordinate in the horizon
+                                  + 2 * projectedBaseDatapoints // facing direction on x and y
+                                                                // coordinate in the horizon (equal
+                                                                // to projectedBaseHorizon)
+                                  + 2 * projectedBaseDatapoints // velocity of the base on x and y
+                                                                // coordinate in the horizon
                                   + numberOfJoints // joints positions
                                   + numberOfJoints; // joints velocities
 
@@ -238,20 +238,20 @@ bool MANN::initialize(
 
     // populate variable handler related to the input
     // the serialization matters
-    m_pimpl->structuredInput.handler.addVariable("base_positions", 2 * projectedBaseHorizon);
-    m_pimpl->structuredInput.handler.addVariable("facing_directions", 2 * projectedBaseHorizon);
-    m_pimpl->structuredInput.handler.addVariable("base_velocities", 2 * projectedBaseHorizon);
+    m_pimpl->structuredInput.handler.addVariable("base_positions", 2 * projectedBaseDatapoints);
+    m_pimpl->structuredInput.handler.addVariable("facing_directions", 2 * projectedBaseDatapoints);
+    m_pimpl->structuredInput.handler.addVariable("base_velocities", 2 * projectedBaseDatapoints);
     m_pimpl->structuredInput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredInput.handler.addVariable("joint_velocities", numberOfJoints);
 
     // populate the output
-    const std::size_t outputSize = 2 * projectedBaseHorizon / 2 // position of the base on x and y
+    const std::size_t outputSize = 2 * projectedBaseDatapoints / 2 // position of the base on x and y
                                                                 // coordinate in the future horizon
-                                   + 2 * projectedBaseHorizon / 2 // facing direction on x and y
+                                   + 2 * projectedBaseDatapoints / 2 // facing direction on x and y
                                                                   // coordinate in the future
                                                                   // horizon (equal to
                                                                   // projectedBaseHorizon)
-                                   + 2 * projectedBaseHorizon / 2 // velocity of the base on x and y
+                                   + 2 * projectedBaseDatapoints / 2 // velocity of the base on x and y
                                                                   // coordinate in the future
                                                                   // horizon
                                    + numberOfJoints // joints positions
@@ -273,19 +273,19 @@ bool MANN::initialize(
     // populate variable handler related to the output
     // the serialization matters
     m_pimpl->structuredOutput.handler.addVariable("future_base_positions",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("future_facing_directions",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("future_base_velocities",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("joint_velocities", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("base_velocity", 3);
 
     // resize the output
-    m_pimpl->output.futureBasePositionTrajectory.resize(2, projectedBaseHorizon / 2);
-    m_pimpl->output.futureFacingDirectionTrajectory.resize(2, projectedBaseHorizon / 2);
-    m_pimpl->output.futureBaseVelocitiesTrajectory.resize(2, projectedBaseHorizon / 2);
+    m_pimpl->output.futureBasePositionTrajectory.resize(2, projectedBaseDatapoints / 2);
+    m_pimpl->output.futureFacingDirectionTrajectory.resize(2, projectedBaseDatapoints / 2);
+    m_pimpl->output.futureBaseVelocitiesTrajectory.resize(2, projectedBaseDatapoints / 2);
     m_pimpl->output.jointPositions.resize(numberOfJoints);
     m_pimpl->output.jointVelocities.resize(numberOfJoints);
     m_pimpl->output.projectedBaseVelocity = manif::SE2Tangentd::Zero();

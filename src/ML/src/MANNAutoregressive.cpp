@@ -52,14 +52,15 @@ MANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
     const MANNOutput& output,
     const manif::SE3d& I_H_B,
     const MANNFootState& leftFootState,
-    const MANNFootState& rightFootState)
+    const MANNFootState& rightFootState,
+    int mocapFrameRate,
+    const std::chrono::nanoseconds& pastProjectedBaseHorizon)
 {
     MANNAutoregressive::AutoregressiveState autoregressiveState;
-    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
-    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
-    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
-    // Along with the present datapoint, they sum up to 51!
-    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
+
+    const int horizon
+        = std::chrono::duration_cast<std::chrono::seconds>(pastProjectedBaseHorizon).count();
+    const std::size_t lengthOfPresentPlusPastTrajectory = 1 + mocapFrameRate * horizon;
     autoregressiveState.pastProjectedBasePositions
         = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
     autoregressiveState.pastProjectedBaseVelocity
@@ -85,12 +86,14 @@ struct MANNAutoregressive::Impl
 {
     MANN mann;
     MANNInput mannInput;
-    int projectedBaseHorizon;
+    int projectedBaseDatapoints;
     iDynTree::KinDynComputations kinDyn;
     MANNAutoregressiveOutput output;
 
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
     std::chrono::nanoseconds dT;
+    std::chrono::nanoseconds pastProjectedBaseHorizon;
+    int mocapFrameRate;
 
     std::shared_ptr<ContinuousDynamicalSystem::SO3Dynamics> baseOrientationDynamics;
     ContinuousDynamicalSystem::ForwardEuler<ContinuousDynamicalSystem::SO3Dynamics> integrator;
@@ -357,6 +360,20 @@ bool MANNAutoregressive::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("mocap_frame_rate", m_pimpl->mocapFrameRate))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.", logPrefix, "mocap_frame_rate");
+        return false;
+    }
+
+    if (!ptr->getParameter("past_projected_base_horizon", m_pimpl->pastProjectedBaseHorizon))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.",
+                     logPrefix,
+                     "past_projected_base_horizon");
+        return false;
+    }
+
     // the gravity is not used by this class, however the kindyn computation object requires this
     // information when the internal state is updated. For this reason we avoid to allocate the
     // memory every cycle and we keep it here.
@@ -385,11 +402,11 @@ bool MANNAutoregressive::initialize(
     cloneHandler->setParameter("number_of_joints", int(m_pimpl->kinDyn.getNrOfDegreesOfFreedom()));
     ok = ok && m_pimpl->mann.initialize(cloneHandler);
 
-    if (!cloneHandler->getParameter("projected_base_horizon", m_pimpl->projectedBaseHorizon))
+    if (!cloneHandler->getParameter("projected_base_datapoints", m_pimpl->projectedBaseDatapoints))
     {
         log()->error("{} Unable to find the parameter named '{}'.",
                      logPrefix,
-                     "projected_base_horizon");
+                     "projected_base_datapoints");
         return false;
     }
 
@@ -405,9 +422,9 @@ bool MANNAutoregressive::initialize(
         m_pimpl->fsmState = Impl::FSM::Initialized;
     }
 
-    m_pimpl->mannInput.basePositionTrajectory.resize(2, m_pimpl->projectedBaseHorizon);
-    m_pimpl->mannInput.baseVelocitiesTrajectory.resize(2, m_pimpl->projectedBaseHorizon);
-    m_pimpl->mannInput.facingDirectionTrajectory.resize(2, m_pimpl->projectedBaseHorizon);
+    m_pimpl->mannInput.basePositionTrajectory.resize(2, m_pimpl->projectedBaseDatapoints);
+    m_pimpl->mannInput.baseVelocitiesTrajectory.resize(2, m_pimpl->projectedBaseDatapoints);
+    m_pimpl->mannInput.facingDirectionTrajectory.resize(2, m_pimpl->projectedBaseDatapoints);
     m_pimpl->mannInput.jointPositions.resize(m_pimpl->kinDyn.getNrOfDegreesOfFreedom());
     m_pimpl->mannInput.jointVelocities.resize(m_pimpl->kinDyn.getNrOfDegreesOfFreedom());
 
@@ -428,9 +445,9 @@ bool MANNAutoregressive::populateInitialAutoregressiveState(
     // generate the input of the network we assume that the robot is stopped and the facing
     // direction is the x axis
     const auto input = MANNInput::generateDummyMANNInput(jointPositions, //
-                                                         m_pimpl->projectedBaseHorizon);
+                                                         m_pimpl->projectedBaseDatapoints);
     const auto output = MANNOutput::generateDummyMANNOutput(jointPositions, //
-                                                            m_pimpl->projectedBaseHorizon / 2);
+                                                            m_pimpl->projectedBaseDatapoints / 2);
 
     if (!m_pimpl->kinDyn.setRobotState(basePosition.transform(),
                                        input.jointPositions,
@@ -454,7 +471,10 @@ bool MANNAutoregressive::populateInitialAutoregressiveState(
         MANNFootState::generateFootState(m_pimpl->kinDyn,
                                          m_pimpl->state.rightFootState.corners,
                                          "right_foot",
-                                         m_pimpl->state.rightFootState.contact.index));
+                                         m_pimpl->state.rightFootState.contact.index),
+        m_pimpl->mocapFrameRate,
+        m_pimpl->pastProjectedBaseHorizon);
+
     return true;
 }
 
@@ -607,30 +627,38 @@ bool MANNAutoregressive::setInput(const Input& input)
                                      Eigen::Vector2d::Zero());
 
     // we subsample the past trajectory to get the input of the network
+
+    const int halfProjectedBasedHorizon = m_pimpl->projectedBaseDatapoints / 2;
     performSubsampling(m_pimpl->state.pastProjectedBasePositions,
-                       m_pimpl->mannInput.basePositionTrajectory.leftCols<6>());
+                       m_pimpl->mannInput.basePositionTrajectory.leftCols(
+                           halfProjectedBasedHorizon));
     performSubsampling(m_pimpl->state.pastFacingDirection,
-                       m_pimpl->mannInput.facingDirectionTrajectory.leftCols<6>());
+                       m_pimpl->mannInput.facingDirectionTrajectory.leftCols(
+                           halfProjectedBasedHorizon));
     performSubsampling(m_pimpl->state.pastProjectedBaseVelocity,
-                       m_pimpl->mannInput.baseVelocitiesTrajectory.leftCols<6>());
+                       m_pimpl->mannInput.baseVelocitiesTrajectory.leftCols(
+                           halfProjectedBasedHorizon));
 
     constexpr double tauBasePosition = 1.5;
     m_pimpl->trajectoryBlending(previousMANNOutput.futureBasePositionTrajectory,
                                 input.desiredFutureBaseTrajectory,
                                 tauBasePosition,
-                                m_pimpl->mannInput.basePositionTrajectory.rightCols<6>());
+                                m_pimpl->mannInput.basePositionTrajectory.rightCols(
+                                    halfProjectedBasedHorizon));
 
     constexpr double tauFacingDirection = 1.3;
     m_pimpl->trajectoryBlending(previousMANNOutput.futureFacingDirectionTrajectory,
                                 input.desiredFutureFacingDirections,
                                 tauFacingDirection,
-                                m_pimpl->mannInput.facingDirectionTrajectory.rightCols<6>());
+                                m_pimpl->mannInput.facingDirectionTrajectory.rightCols(
+                                    halfProjectedBasedHorizon));
 
     constexpr double tauBaseVelocity = 1.3;
     m_pimpl->trajectoryBlending(previousMANNOutput.futureBaseVelocitiesTrajectory,
                                 input.desiredFutureBaseVelocities,
                                 tauBaseVelocity,
-                                m_pimpl->mannInput.baseVelocitiesTrajectory.rightCols<6>());
+                                m_pimpl->mannInput.baseVelocitiesTrajectory.rightCols(
+                                    halfProjectedBasedHorizon));
 
     if (!m_pimpl->mann.setInput(m_pimpl->mannInput))
     {
@@ -903,7 +931,8 @@ bool MANNAutoregressive::advance()
     m_pimpl->output.baseVelocity = baseVelocity;
     m_pimpl->output.currentTime = m_pimpl->state.time;
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
-    m_pimpl->output.angularMomentum = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
+    m_pimpl->output.angularMomentum
+        = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
     m_pimpl->output.leftFoot = m_pimpl->state.leftFootState.contact;
     m_pimpl->output.rightFoot = m_pimpl->state.rightFootState.contact;
 

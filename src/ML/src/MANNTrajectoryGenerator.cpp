@@ -49,7 +49,6 @@ struct MANNTrajectoryGenerator::Impl
 
     MANNTrajectoryGeneratorOutput output;
     std::chrono::nanoseconds horizon;
-    int projectedBaseHorizonSize;
 
     iDynTree::KinDynComputations kinDyn;
     Eigen::Vector3d gravity;
@@ -286,10 +285,6 @@ bool MANNTrajectoryGenerator::initialize(
     ok = ok && getParameter(paramHandler, "sampling_time", m_pimpl->dT);
     ok = ok && getFrameIndex(paramHandler, "left_foot_frame_name", m_pimpl->leftFootIndex);
     ok = ok && getFrameIndex(paramHandler, "right_foot_frame_name", m_pimpl->rightFootIndex);
-    ok = ok
-         && getParameter(paramHandler.lock()->getGroup("MANN"),
-                         "projected_base_horizon",
-                         m_pimpl->projectedBaseHorizonSize);
 
     if (!ok)
     {
