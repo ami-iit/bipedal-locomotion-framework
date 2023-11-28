@@ -2,7 +2,7 @@
 
 This tutorial aims to give the user a receipt that can be followed to use the `MANNAutoregressive` and `MANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
 
-The tutorial requires the following python package installed:
+The tutorial requires the following Python package installed:
 - `bipedal_locomotion_framework` to use MANN network;
 - [`iDynTree`](https://github.com/robotology/idyntree) for visualization and to execute dynamics algorithms;
 - [`manifpy`](https://github.com/artivis/manif) that is in charge handle rotation matrices and homogeneous transformations;
@@ -23,7 +23,12 @@ Then you can run the notebooks by typing the following command in a terminal:
     ```console
     jupyter notebook MANNTrajectoryGenerator.ipynb
     ```
+
+    https://github.com/ami-iit/bipedal-locomotion-framework/assets/16744101/b3b921b9-efc8-4090-9f75-178cd0f9d119
+
 2. `MANNAutoregressive`
     ```console
     jupyter notebook MANNAutoregressive.ipynb
     ```
+
+    https://github.com/ami-iit/bipedal-locomotion-framework/assets/16744101/7ba65d66-68f9-4bd9-aede-a8edd00d82d5
