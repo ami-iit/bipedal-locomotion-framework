@@ -45,7 +45,10 @@ struct MANNFootState
      * @param footName name of the foot.
      * @param footIndex index of the foot in the model. This is required to compute the foot
      * position with the KinDynComputations object.
-     * @return a dummy foot state.
+     * @return a dummy MANNFootState.
+     * @note a dummy MANNFootState is generated assuming that the foot is in contact with the ground
+     * and the Math::SchmittTriggerState is in the on state (i.e., the foot is in contact). Moreover
+     * a dummy MANNFootState is generated setting to zero the switch time of the Schmitt trigger.
      * @warning This function assumes that the foot is in contact with the ground and the
      * Math::SchmittTriggerState is in the on state (i.e., the foot is in contact).
      */
@@ -169,9 +172,12 @@ public:
          * @param I_H_B SE(3) transformation of the base respect to the inertial frame.
          * @param leftFootState left foot state.
          * @param rightFootState right foot state.
-         * @return A dummy autoregressive state.
-         * @warning the autoregressive state is generated assuming that the robot is not moving
-         * and facing forward.
+         * @return A dummy AutoregressiveState.
+         * @note A dummy AutoregressiveState is generated zeroing the
+         * projectedContactPositionInWorldFrame, zeroing the pastProjectedBasePositions and
+         * pastProjectedBaseVelocity. On the other hand, the pastFacingDirection is generated with
+         * the first row equal to one and the second to zero. The dummy AutoregressiveState set the
+         * time to zero.
          */
         static AutoregressiveState
         generateDummyAutoregressiveState(const MANNInput& input,

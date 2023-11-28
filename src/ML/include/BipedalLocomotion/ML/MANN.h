@@ -51,7 +51,10 @@ struct MANNInput
      * @param jointPositions vector containing the joint position in radians.
      * @param projectedBaseHorizon number of samples of the base horizon considered in the neural
      * network.
-     * @return the MANNInput.
+     * @return a dummy MANNInput.
+     * @note A dummy MANNInput is generated assuming zero joint velocities and zero
+     * basePositionTrajectory, zero baseVelocitiesTrajectory. and facingDirectionTrajectory with the
+     * first row equal to one and the second to zero.
      * @warning the function assumes that the robot is not moving and facing forward.
      */
     static MANNInput generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
@@ -90,7 +93,10 @@ struct MANNOutput
      * @param jointPositions vector containing the joint positions in radians.
      * @param futureProjectedBaseHorizon number of samples of the base horizon generated as output
      * by the neural network.
-     * @return the MANNOutput.
+     * @return a dummy MANNOutput.
+     * @note A dummy MANNOutput is generated assuming zero joint velocities, zero
+     * futureBasePositionTrajectory, zero futureBaseVelocitiesTrajectory, and
+     * futureFacingDirectionTrajectory with the first row equal to one and the second to zero.
      * @warning the function assumes that the robot is not moving and facing forward.
      */
     static MANNOutput generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
