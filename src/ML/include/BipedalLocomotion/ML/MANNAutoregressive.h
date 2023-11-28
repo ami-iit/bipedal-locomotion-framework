@@ -37,7 +37,7 @@ struct MANNFootState
     std::vector<Eigen::Vector3d> corners; /**< Corners of the foot */
 
     /**
-     * Generate a dummy foot state.
+     * Generate a foot state.
      * @param kindyn an instance of KinDynComputations used to compute the foot position.
      * @param corners Vector containing the corners of the foot expressed in the foot frame (i.e., a
      * frame attached to the foot sole with the x axis pointing forward, the y axis pointing to the
@@ -290,7 +290,7 @@ public:
     const AutoregressiveState& getAutoregressiveState() const;
 
     /**
-     * Get the autoregressive state required to rest MANNAutoregressive.
+     * Get the autoregressive state required to reset MANNAutoregressive.
      * @param jointPositions joint position
      * @param basePose base pose
      * @param state autoregressive state that will be populated

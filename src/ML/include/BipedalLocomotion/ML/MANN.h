@@ -87,7 +87,7 @@ struct MANNOutput
 
     /**
      * Generate a dummy MANNOutput from a given joint configuration
-     * @param jointPositions vector containing the joint position in radians.
+     * @param jointPositions vector containing the joint positions in radians.
      * @param futureProjectedBaseHorizon number of samples of the base horizon generated as output
      * by the neural network.
      * @return the MANNOutput.
