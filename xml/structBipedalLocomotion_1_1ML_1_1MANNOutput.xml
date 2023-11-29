@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="63" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="63" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="77" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ac577075173a91cd704833d1f79b04786" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix2Xd</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="67" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="67" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="81" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ae3e0d85582f7e63049f29a0073388e88" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix2Xd</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="71" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="71" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="85" column="22" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ab9d45f4b1903bace0492b87e6fc05b4b" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="72" column="21" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="72" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="86" column="21" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a7b1428e7e29484c448463dfe45598cdd" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="73" column="21" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="73" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="87" column="21" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ae60858cb64d8f46635ad9141d75ab0d9" prot="public" static="no" mutable="no">
         <type>manif::SE2Tangentd</type>
@@ -89,7 +89,55 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANN.h" line="75" column="24" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="75" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANN.h" line="89" column="24" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a4cce5d85b4860727c857f2c4281be3c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structBipedalLocomotion_1_1ML_1_1MANNOutput" kindref="compound">MANNOutput</ref></type>
+        <definition>static MANNOutput BipedalLocomotion::ML::MANNOutput::generateDummyMANNOutput</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; jointPositions, std::size_t futureProjectedBaseHorizon)</argsstring>
+        <name>generateDummyMANNOutput</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>jointPositions</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>futureProjectedBaseHorizon</declname>
+        </param>
+        <briefdescription>
+<para>Generate a dummy <ref refid="structBipedalLocomotion_1_1ML_1_1MANNOutput" kindref="compound">MANNOutput</ref> from a given joint configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jointPositions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector containing the joint positions in radians. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>futureProjectedBaseHorizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of samples of the base horizon generated as output by the neural network. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a dummy <ref refid="structBipedalLocomotion_1_1ML_1_1MANNOutput" kindref="compound">MANNOutput</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>A dummy <ref refid="structBipedalLocomotion_1_1ML_1_1MANNOutput" kindref="compound">MANNOutput</ref> is generated assuming zero joint velocities, zero futureBasePositionTrajectory, zero futureBaseVelocitiesTrajectory, and futureFacingDirectionTrajectory with the first row equal to one and the second to zero. </para>
+</simplesect>
+<simplesect kind="warning"><para>the function assumes that the robot is not moving and facing forward. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ML/MANN.h" line="102" column="23"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -98,11 +146,12 @@
     <detaileddescription>
 <para>The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed. At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector). </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/ML/MANN.h" line="58" column="1" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="59" bodyend="76"/>
+    <location file="BipedalLocomotion/ML/MANN.h" line="72" column="1" bodyfile="BipedalLocomotion/ML/MANN.h" bodystart="73" bodyend="104"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a3fdedda9b78f87c9982408712eb7ab61" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>futureBasePositionTrajectory</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ae3e0d85582f7e63049f29a0073388e88" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>futureBaseVelocitiesTrajectory</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ac577075173a91cd704833d1f79b04786" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>futureFacingDirectionTrajectory</name></member>
+      <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a4cce5d85b4860727c857f2c4281be3c6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>generateDummyMANNOutput</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ab9d45f4b1903bace0492b87e6fc05b4b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>jointPositions</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1a7b1428e7e29484c448463dfe45598cdd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>jointVelocities</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNOutput_1ae60858cb64d8f46635ad9141d75ab0d9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNOutput</scope><name>projectedBaseVelocity</name></member>

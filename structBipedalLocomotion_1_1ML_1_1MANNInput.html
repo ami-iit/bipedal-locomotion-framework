@@ -71,12 +71,23 @@
             <li>
               Reference
               <ul>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
 <p>The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed. At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector).</p>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a href="#a99db4a63eff7da9600bcabc9ba389512" class="m-doc">generateDummyMANNInput</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              std::size_t projectedBaseHorizon) -&gt; <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a></span>
+            </dt>
+            <dd>Generate a dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> from a given joint configuration.</dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
@@ -101,6 +112,38 @@
             </dt>
             <dd>Vector containing the actual joint velocity in radians per seconds.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a99db4a63eff7da9600bcabc9ba389512"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">static <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> BipedalLocomotion::<wbr />ML::<wbr />MANNInput::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a99db4a63eff7da9600bcabc9ba389512" class="m-doc-self">generateDummyMANNInput</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              std::size_t projectedBaseHorizon)</span></span>
+            </h3>
+            <p>Generate a dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> from a given joint configuration.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointPositions</td>
+                  <td>vector containing the joint position in radians.</td>
+                </tr>
+                <tr>
+                  <td>projectedBaseHorizon</td>
+                  <td>number of samples of the base horizon considered in the neural network.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>a dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>A dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> is generated assuming zero joint velocities and zero basePositionTrajectory, zero baseVelocitiesTrajectory. and facingDirectionTrajectory with the first row equal to one and the second to zero.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>the function assumes that the robot is not moving and facing forward.</p></aside>
+          </div></section>
         </section>
         <section>
           <h2>Variable documentation</h2>

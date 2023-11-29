@@ -99,6 +99,12 @@
               struct <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>
             </dt>
             <dd><a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a> contains all quantities required to reset the Advanceable The base position trajectory, facing direction trajectory and base velocity trajectories are written in a bidimensional local reference frame L in which we assume all the quantities related to the ground-projected base trajectory in xi and yi to be expressed.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">enum class <a href="#a04a682d07c84fbff9238e6f26f262afb" class="m-doc">SupportFoot</a> { </span><span class="m-doc-wrap"><a href="#a04a682d07c84fbff9238e6f26f262afba945d5e233cf7d6240f6b783b36a374ff" class="m-doc">Left</a>,
+              <a href="#a04a682d07c84fbff9238e6f26f262afba92b09c7c48c520c3c55e497875da437c" class="m-doc">Right</a>,
+              <a href="#a04a682d07c84fbff9238e6f26f262afba88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc">Unknown</a> }</span>
+            </dt>
+            <dd>SupportFoot is an enum that contains the support foot considered by the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -134,23 +140,12 @@
             </dt>
             <dd>Perform one step of the autoregressive model.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#abc20d5ec51bfd80b7adb0c5caab0b7a8" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const manif::SE3d&amp; basePose,
-              const manif::SE3Tangentd&amp; baseVelocity) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3ab56390684010eeed1dffcfa31b7760" class="m-doc">reset</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              const manif::SE3d&amp; basePose) -&gt; bool</span>
             </dt>
             <dd>Reset the autoregressive model.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5c1fe49572e7156321206adfafa13a47" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
-              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; leftFootSchimittTriggerState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; rightFootSchimittTriggerState,
-              const manif::SE3d&amp; basePosition,
-              const manif::SE3Tangentd&amp; baseVelocity,
-              const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState,
-              const std::chrono::nanoseconds&amp; time) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a19015274106acc28e92f02d3a45a211c" class="m-doc">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState) -&gt; bool</span>
             </dt>
             <dd>Reset the autoregressive model.</dd>
             <dt>
@@ -169,7 +164,45 @@
               <span class="m-doc-wrap-bumper">auto <a href="#acd530aeb197f36b21fde09a9ad70ee4d" class="m-doc">getAutoregressiveState</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp;</span>
             </dt>
             <dd>Get the autoregressive state required to rest <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#acfc990bb60b5dae71ae019a018105f34" class="m-doc">populateInitialAutoregressiveState</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              const manif::SE3d&amp; basePose,
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">MANNAutoregressive::<wbr />AutoregressiveState</a>&amp; state) -&gt; bool</span>
+            </dt>
+            <dd>Get the autoregressive state required to reset <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Enum documentation</h2>
+          <section class="m-doc-details" id="a04a682d07c84fbff9238e6f26f262afb"><div>
+            <h3>
+              enum class BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /><a href="#a04a682d07c84fbff9238e6f26f262afb" class="m-doc-self">SupportFoot</a>
+            </h3>
+            <p>SupportFoot is an enum that contains the support foot considered by the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</p>
+            <table class="m-table m-fullwidth m-flat m-doc">
+              <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><a href="#a04a682d07c84fbff9238e6f26f262afba945d5e233cf7d6240f6b783b36a374ff" class="m-doc-self" id="a04a682d07c84fbff9238e6f26f262afba945d5e233cf7d6240f6b783b36a374ff">Left</a></td>
+                  <td>
+                  <p>Left foot.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#a04a682d07c84fbff9238e6f26f262afba92b09c7c48c520c3c55e497875da437c" class="m-doc-self" id="a04a682d07c84fbff9238e6f26f262afba92b09c7c48c520c3c55e497875da437c">Right</a></td>
+                  <td>
+                  <p>Right foot.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="#a04a682d07c84fbff9238e6f26f262afba88183b946cc5f0e8c96b2e66e1c74a7e" class="m-doc-self" id="a04a682d07c84fbff9238e6f26f262afba88183b946cc5f0e8c96b2e66e1c74a7e">Unknown</a></td>
+                  <td>
+                  <p>This is useful to detect unexpected behaviour.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
         </section>
         <section>
           <h2>Function documentation</h2>
@@ -218,7 +251,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling considered in the inference.</td><td>Yes</td></tr><tr><td><code>root_link_frame_name</code></td><td><code>string</code></td><td>Name of of the root link frame in the model.</td><td>Yes</td></tr><tr><td><code>chest_link_frame_name</code></td><td><code>string</code></td><td>Name of of the chest link frame in the model.</td><td>Yes</td></tr><tr><td><code>right_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the right foot frame in the model.</td><td>Yes</td></tr><tr><td><code>left_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the left foot frame in the model.</td><td>Yes</td></tr><tr><td><code>forward_direction</code></td><td><code>string</code></td><td>String cointaining &#x27;x&#x27;, &#x27;y&#x27; or &#x27;z&#x27; representing the foot link forward axis. Currently, only &#x27;x&#x27; is supported.</td><td>Yes</td></tr></tbody></table><p>It is also required to define two groups <code>LEFT_FOOT</code> and <code>RIGHT_FOOT</code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>number_of_corners</code></td><td><code>int</code></td><td>Number of corners associated to the foot</td><td>Yes</td></tr><tr><td><code>corner_&lt;i&gt;</code></td><td><code>vector&lt;double&gt;</code></td><td>Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.</td><td>Yes</td></tr><tr><td><code>on_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>off_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>switch_on_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to activate from deactivate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr><tr><td><code>switch_off_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to deactivate from activate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr></tbody></table><p>Finally it also required to define a group named <code><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a></code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>onnx_model_path</code></td><td><code>string</code></td><td>Path to the <code>onnx</code> model that will be loaded to perform inference.</td><td>Yes</td></tr><tr><td><code>projected_base_horizon</code></td><td><code>int</code></td><td>Number of samples of the base horizon considered in the model.</td><td>Yes</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>sampling_time</code></td><td><code>double</code></td><td>Sampling considered in the inference.</td><td>Yes</td></tr><tr><td><code>root_link_frame_name</code></td><td><code>string</code></td><td>Name of of the root link frame in the model.</td><td>Yes</td></tr><tr><td><code>chest_link_frame_name</code></td><td><code>string</code></td><td>Name of of the chest link frame in the model.</td><td>Yes</td></tr><tr><td><code>right_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the right foot frame in the model.</td><td>Yes</td></tr><tr><td><code>left_foot_frame_name</code></td><td><code>string</code></td><td>Name of of the left foot frame in the model.</td><td>Yes</td></tr><tr><td><code>forward_direction</code></td><td><code>string</code></td><td>String containing &#x27;x&#x27;, &#x27;y&#x27; or &#x27;z&#x27; representing the foot link forward axis. Currently, only &#x27;x&#x27; is supported.</td><td>Yes</td></tr><tr><td><code>mocap_frame_rate</code></td><td><code>int</code></td><td>Frame rate of the mocap data.</td><td>Yes</td></tr><tr><td><code>past_projected_horizon</code></td><td><code>double</code></td><td>Number of seconds of the past base horizon considered in the neural network.</td><td>Yes</td></tr></tbody></table><p>It is also required to define two groups <code>LEFT_FOOT</code> and <code>RIGHT_FOOT</code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>number_of_corners</code></td><td><code>int</code></td><td>Number of corners associated to the foot</td><td>Yes</td></tr><tr><td><code>corner_&lt;i&gt;</code></td><td><code>vector&lt;double&gt;</code></td><td>Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.</td><td>Yes</td></tr><tr><td><code>on_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>off_threshold</code></td><td><code>double</code></td><td>Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.</td><td>Yes</td></tr><tr><td><code>switch_on_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to activate from deactivate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr><tr><td><code>switch_off_after</code></td><td><code>double</code></td><td>Seconds to wait for before switching to deactivate from activate contact. Ensure it&#x27;s greater than sampling time.</td><td>Yes</td></tr></tbody></table><p>Finally it also required to define a group named <code><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a></code> that contains the following parameter</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>onnx_model_path</code></td><td><code>string</code></td><td>Path to the <code>onnx</code> model that will be loaded to perform inference.</td><td>Yes</td></tr><tr><td><code>projected_base_datapoints</code></td><td><code>int</code></td><td>Number of samples of the base horizon considered in the model (It must be an even number).</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
           <section class="m-doc-details" id="a6603138dd787213cce454e0e09cf8e92"><div>
             <h3>
@@ -257,13 +290,10 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="abc20d5ec51bfd80b7adb0c5caab0b7a8"><div>
+          <section class="m-doc-details" id="a3ab56390684010eeed1dffcfa31b7760"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abc20d5ec51bfd80b7adb0c5caab0b7a8" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const manif::SE3d&amp; basePose,
-              const manif::SE3Tangentd&amp; baseVelocity)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3ab56390684010eeed1dffcfa31b7760" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              const manif::SE3d&amp; basePose)</span></span>
             </h3>
             <p>Reset the autoregressive model.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -272,24 +302,12 @@
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">input</td>
-                  <td>raw mann input.</td>
-                </tr>
-                <tr>
-                  <td>leftFoot</td>
-                  <td>state of the left foot.</td>
-                </tr>
-                <tr>
-                  <td>rightFoot</td>
-                  <td>state of the right foot.</td>
+                  <td style="width: 1%">jointPositions</td>
+                  <td>joint position.</td>
                 </tr>
                 <tr>
                   <td>basePose</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>baseVelocity</td>
-                  <td>current base velocity expressed in mixed representation.</td>
+                  <td>base pose.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -299,19 +317,11 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>please call this function the before calling <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a7b41a89972cc97991a81b6fb45d06b6f" class="m-doc">MANNAutoregressive::<wbr />advance</a> the first time time.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>Please call this function before calling <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a7b41a89972cc97991a81b6fb45d06b6f" class="m-doc">MANNAutoregressive::<wbr />advance</a> the first time.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>This function assumes that both the feet are in contact with the ground, the joint and base velocities equal to zero.</p><p>This function reset also the internal time to zero.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a5c1fe49572e7156321206adfafa13a47"><div>
+          <section class="m-doc-details" id="a19015274106acc28e92f02d3a45a211c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5c1fe49572e7156321206adfafa13a47" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; leftFoot,
-              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; leftFootSchimittTriggerState,
-              const <a href="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact.html" class="m-doc">Contacts::<wbr />EstimatedContact</a>&amp; rightFoot,
-              const <a href="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState.html" class="m-doc">Math::<wbr />SchmittTriggerState</a>&amp; rightFootSchimittTriggerState,
-              const manif::SE3d&amp; basePosition,
-              const manif::SE3Tangentd&amp; baseVelocity,
-              const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState,
-              const std::chrono::nanoseconds&amp; time)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a19015274106acc28e92f02d3a45a211c" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>&amp; autoregressiveState)</span></span>
             </h3>
             <p>Reset the autoregressive model.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -320,40 +330,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">input</td>
-                  <td>raw mann input.</td>
-                </tr>
-                <tr>
-                  <td>leftFoot</td>
-                  <td>state of the left foot.</td>
-                </tr>
-                <tr>
-                  <td>leftFootSchimittTriggerState</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>rightFoot</td>
-                  <td>state of the right foot.</td>
-                </tr>
-                <tr>
-                  <td>rightFootSchimittTriggerState</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>basePosition</td>
-                  <td>current base position.</td>
-                </tr>
-                <tr>
-                  <td>baseVelocity</td>
-                  <td>current base velocity expressed in mixed representation.</td>
-                </tr>
-                <tr>
-                  <td>autoregressiveState</td>
+                  <td style="width: 1%">autoregressiveState</td>
                   <td>the autoregressive state at which you want to reset your model.</td>
-                </tr>
-                <tr>
-                  <td>time</td>
-                  <td>time used to reset the system</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -363,7 +341,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>please call this function the before calling <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a7b41a89972cc97991a81b6fb45d06b6f" class="m-doc">MANNAutoregressive::<wbr />advance</a> the first time time.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>Please call this function the before calling <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a7b41a89972cc97991a81b6fb45d06b6f" class="m-doc">MANNAutoregressive::<wbr />advance</a> the first time time.</p></aside>
           </div></section>
           <section class="m-doc-details" id="abb880a57b4158dda1ee86b77a53d3411"><div>
             <h3>
@@ -420,6 +398,40 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="acfc990bb60b5dae71ae019a018105f34"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acfc990bb60b5dae71ae019a018105f34" class="m-doc-self">populateInitialAutoregressiveState</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointPositions,
+              const manif::SE3d&amp; basePose,
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">MANNAutoregressive::<wbr />AutoregressiveState</a>&amp; state)</span></span>
+            </h3>
+            <p>Get the autoregressive state required to reset <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointPositions</td>
+                  <td>joint position</td>
+                </tr>
+                <tr>
+                  <td>basePose</td>
+                  <td>base pose</td>
+                </tr>
+                <tr>
+                  <td>state</td>
+                  <td>autoregressive state that will be populated</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This function assumes that both the feet are in contact with the ground, the joint and base velocities equal to zero.</p></aside>
           </div></section>
         </section>
       </div>

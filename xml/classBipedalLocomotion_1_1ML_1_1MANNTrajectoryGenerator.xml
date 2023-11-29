@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="168" column="21" bodyfile="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" bodystart="167" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="171" column="21" bodyfile="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" bodystart="170" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="84" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="87" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a45814a870f307e40ed8bcb5b9a5609d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="89" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="92" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a68600891a27c4c05d98c8ec59015c37f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="97" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="100" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1aebbf74a6a0e2cd2891671bb1f25ffd39" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -101,7 +101,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>the following parameters are required by the class <table rows="9" cols="4"><row>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="10" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
@@ -146,14 +146,20 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>forward_direction</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>String cointaining &apos;x&apos;, &apos;y&apos; or &apos;z&apos; representing the foot link forward axis. Currently, only &apos;x&apos; is supported.   </para>
+</entry><entry thead="no" align='center'><para>String containing &apos;x&apos;, &apos;y&apos; or &apos;z&apos; representing the foot link forward axis. Currently, only &apos;x&apos; is supported.   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>slow_down_factor</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>int</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>The <computeroutput>horizon</computeroutput> will be <computeroutput>horizon * slow_down_factor</computeroutput>. Same for the <computeroutput>sampling_time</computeroutput> (default value 1).   </para>
-</entry><entry thead="no" align='center'><para>No   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>The <computeroutput>horizon</computeroutput> will be <computeroutput>horizon * slow_down_factor</computeroutput>. Same for the <computeroutput>sampling_time</computeroutput>.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>scaling_factor</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Scaling factor considered in the generation of the CoM, base and contact points locations   </para>
+</entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
 It is also required to define two groups <computeroutput>LEFT_FOOT</computeroutput> and <computeroutput>RIGHT_FOOT</computeroutput> that contains the following parameter <table rows="3" cols="4"><row>
@@ -202,7 +208,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="125" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="130" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1af4a074d953c17ccb6b6e206e9fab053e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -233,7 +239,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="132" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="138" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a4ae5b3df87a949fafb05aa3cf85ea7b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -251,7 +257,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="138" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="144" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a2668eaaa1fa2e56703c5509a9de55a4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -269,7 +275,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="144" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="150" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ab89f4fe820bcced8805275758290ba48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const Output &amp;</type>
@@ -287,32 +293,20 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="150" column="18"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="156" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a917e9761f255f3b58f5183d826ddfde9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void BipedalLocomotion::ML::MANNTrajectoryGenerator::setInitialState</definition>
-        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; jointPositions, const Contacts::EstimatedContact &amp;leftFoot, const Contacts::EstimatedContact &amp;rightFoot, const manif::SE3d &amp;basePose, const std::chrono::nanoseconds &amp;time)</argsstring>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ad49ffc62475c813a0728dd2945a28fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::ML::MANNTrajectoryGenerator::setInitialState</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; jointPositions, const manif::SE3d &amp;basePose)</argsstring>
         <name>setInitialState</name>
         <param>
           <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
           <declname>jointPositions</declname>
         </param>
         <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>leftFoot</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>rightFoot</declname>
-        </param>
-        <param>
           <type>const manif::SE3d &amp;</type>
           <declname>basePose</declname>
-        </param>
-        <param>
-          <type>const std::chrono::nanoseconds &amp;</type>
-          <declname>time</declname>
         </param>
         <briefdescription>
 <para>Set the initial state of the planner. </para>
@@ -363,7 +357,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="160" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="166" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -374,7 +368,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
 <sect2 id="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1mann_trajectory_generator">
 <title>MANN trajectory generator</title>
 <para>The diagram illustrates the utilization of the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kindref="compound">MANNAutoregressive</ref> within the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kindref="compound">MANNTrajectoryGenerator</ref> class. <image type="html" name="https://user-images.githubusercontent.com/16744101/239922103-1f23e08b-0091-475a-8879-61af66399c62.png" alt="mann_trajectory_generator" inline="yes"></image>
- To initialize the generator, the user needs to set the initial state using the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a917e9761f255f3b58f5183d826ddfde9" kindref="member">MANNTrajectoryGenerator::setInitialState</ref> method. The <ref refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" kindref="compound">MANNTrajectoryGeneratorInput</ref>, provided by the user, serves as the input for the <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>, along with the &apos;mergePointIndex.&apos; The <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref> is assumed to remain constant within the trajectory horizon. The &apos;mergePointIndex&apos; indicates the index at which the new trajectory will be attached. For example, when the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kindref="compound">MANNTrajectoryGenerator</ref> generates a trajectory consisting of &apos;N&apos; points, if the &apos;mergePointIndex&apos; is set to 3, the first three elements of the new trajectory will be derived from the previously computed trajectory by <ref refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" kindref="compound">MANNTrajectoryGeneratorOutput</ref>, utilizing the previous <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>. Subsequently, all points from 3 to N will be evaluated using the current <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>. This behavior is facilitated by a mechanism that stores the autoregressive state required for resetting the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kindref="compound">MANNAutoregressive</ref> at the designated merge point. Every time the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance()</ref> function is invoked by the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kindref="compound">MANNTrajectoryGenerator</ref>, the autoregressive state is stored for future reference. <simplesect kind="note"><para>The implementation of the class follows the work presented in "P. M. Viceconte et al., ADHERENT: Learning Human-like Trajectory Generators for Whole-body Control of Humanoid Robots, in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022, doi: 10.1109/LRA.2022.3141658." <ulink url="https://doi.org/10.1109/LRA.2022.3141658">https://doi.org/10.1109/LRA.2022.3141658</ulink> </para>
+ To initialize the generator, the user needs to set the initial state using the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ad49ffc62475c813a0728dd2945a28fcd" kindref="member">MANNTrajectoryGenerator::setInitialState</ref> method. The <ref refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" kindref="compound">MANNTrajectoryGeneratorInput</ref>, provided by the user, serves as the input for the <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>, along with the &apos;mergePointIndex.&apos; The <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref> is assumed to remain constant within the trajectory horizon. The &apos;mergePointIndex&apos; indicates the index at which the new trajectory will be attached. For example, when the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kindref="compound">MANNTrajectoryGenerator</ref> generates a trajectory consisting of &apos;N&apos; points, if the &apos;mergePointIndex&apos; is set to 3, the first three elements of the new trajectory will be derived from the previously computed trajectory by <ref refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" kindref="compound">MANNTrajectoryGeneratorOutput</ref>, utilizing the previous <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>. Subsequently, all points from 3 to N will be evaluated using the current <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" kindref="compound">MANNAutoregressiveInput</ref>. This behavior is facilitated by a mechanism that stores the autoregressive state required for resetting the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kindref="compound">MANNAutoregressive</ref> at the designated merge point. Every time the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance()</ref> function is invoked by the <ref refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" kindref="compound">MANNTrajectoryGenerator</ref>, the autoregressive state is stored for future reference. <simplesect kind="note"><para>The implementation of the class follows the work presented in "P. M. Viceconte et al., ADHERENT: Learning Human-like Trajectory Generators for Whole-body Control of Humanoid Robots, in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022, doi: 10.1109/LRA.2022.3141658." <ulink url="https://doi.org/10.1109/LRA.2022.3141658">https://doi.org/10.1109/LRA.2022.3141658</ulink> </para>
 </simplesect>
 </para>
 </sect2>
@@ -449,7 +443,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="77" column="1" bodyfile="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" bodystart="79" bodyend="169"/>
+    <location file="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" line="80" column="1" bodyfile="BipedalLocomotion/ML/MANNTrajectoryGenerator.h" bodystart="82" bodyend="172"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a4ae5b3df87a949fafb05aa3cf85ea7b8" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>Advanceable</name></member>
@@ -475,7 +469,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a7c0d15e677a1935918fc747ba4c25ec1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a0a39b891749961d34507b4b591886741" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a581340f280eca1890a8a7b2331761b57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>OutputPort</name></member>
-      <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a917e9761f255f3b58f5183d826ddfde9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>setInitialState</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1ad49ffc62475c813a0728dd2945a28fcd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>setInitialState</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1af4a074d953c17ccb6b6e206e9fab053e" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a68600891a27c4c05d98c8ec59015c37f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>setRobotModel</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNTrajectoryGenerator</scope><name>~Advanceable</name></member>

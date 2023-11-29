@@ -213,6 +213,7 @@
         </childnode>
       </node>
     </invincdepgraph>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNFootState" prot="public">BipedalLocomotion::ML::MANNFootState</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveOutput" prot="public">BipedalLocomotion::ML::MANNAutoregressiveOutput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" prot="public">BipedalLocomotion::ML::MANNAutoregressive</innerclass>

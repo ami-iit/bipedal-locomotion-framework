@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="42" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="73" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ad78ed4216b1eaa1e1fa1df22db3713fe" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix2Xd</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="47" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="78" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1a016f8160259c614e9cc5317e9aa73724" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix2Xd</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="51" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="51" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="82" column="22" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -69,7 +69,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="38" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="39" bodyend="52"/>
+    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="69" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="70" bodyend="83"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1ac682f62b25478626a355fe541895e247" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressiveInput</scope><name>desiredFutureBaseTrajectory</name></member>
       <member refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInput_1a016f8160259c614e9cc5317e9aa73724" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressiveInput</scope><name>desiredFutureBaseVelocities</name></member>

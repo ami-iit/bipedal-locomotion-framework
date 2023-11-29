@@ -5,6 +5,44 @@
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</basecompoundref>
     <includes local="no">BipedalLocomotion/ML/MANNAutoregressive.h</includes>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" prot="public">BipedalLocomotion::ML::MANNAutoregressive::AutoregressiveState</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a04a682d07c84fbff9238e6f26f262afb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SupportFoot</name>
+        <enumvalue id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a04a682d07c84fbff9238e6f26f262afba945d5e233cf7d6240f6b783b36a374ff" prot="public">
+          <name>Left</name>
+          <briefdescription>
+<para>Left foot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a04a682d07c84fbff9238e6f26f262afba92b09c7c48c520c3c55e497875da437c" prot="public">
+          <name>Right</name>
+          <briefdescription>
+<para>Right foot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a04a682d07c84fbff9238e6f26f262afba88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+<para>This is useful to detect unexpected behaviour. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>SupportFoot is an enum that contains the support foot considered by the <ref refid="classBipedalLocomotion_1_1ML_1_1MANN" kindref="compound">MANN</ref> network. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="123" column="5" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="124" bodyend="128"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1ac04971ade0880eff2d722e0134b17270" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; Impl &gt;</type>
@@ -17,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="243" column="21" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="242" bodyend="-1"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="320" column="21" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="119" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="198" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a2c2ab2e81d9f64a45b63402b4e089039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -47,7 +85,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="124" column="5"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="203" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aa15f5d6fcb4a772b3f4d55663bef6fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -77,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="132" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="211" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a589a1932f42faefa31a95ed39dda5523" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -102,7 +140,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>the following parameters are required by the class <table rows="7" cols="4"><row>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="9" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
@@ -141,7 +179,19 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>forward_direction</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>String cointaining &apos;x&apos;, &apos;y&apos; or &apos;z&apos; representing the foot link forward axis. Currently, only &apos;x&apos; is supported.   </para>
+</entry><entry thead="no" align='center'><para>String containing &apos;x&apos;, &apos;y&apos; or &apos;z&apos; representing the foot link forward axis. Currently, only &apos;x&apos; is supported.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>mocap_frame_rate</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>int</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Frame rate of the mocap data.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>past_projected_horizon</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Number of seconds of the past base horizon considered in the neural network.   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
@@ -201,9 +251,9 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><computeroutput>projected_base_horizon</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>projected_base_datapoints</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>int</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Number of samples of the base horizon considered in the model.   </para>
+</entry><entry thead="no" align='center'><para>Number of samples of the base horizon considered in the model (It must be an even number).   </para>
 </entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
@@ -215,7 +265,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="162" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="244" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -246,7 +296,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="169" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="252" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -264,174 +314,70 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="175" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="258" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a3ab56390684010eeed1dffcfa31b7760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::ML::MANNAutoregressive::reset</definition>
-        <argsstring>(const MANNInput &amp;input, const Contacts::EstimatedContact &amp;leftFoot, const Contacts::EstimatedContact &amp;rightFoot, const manif::SE3d &amp;basePose, const manif::SE3Tangentd &amp;baseVelocity)</argsstring>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; jointPositions, const manif::SE3d &amp;basePose)</argsstring>
         <name>reset</name>
         <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> &amp;</type>
-          <declname>input</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>leftFoot</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>rightFoot</declname>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>jointPositions</declname>
         </param>
         <param>
           <type>const manif::SE3d &amp;</type>
           <declname>basePose</declname>
         </param>
-        <param>
-          <type>const manif::SE3Tangentd &amp;</type>
-          <declname>baseVelocity</declname>
-        </param>
         <briefdescription>
 <para>Reset the autoregressive model. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>input</parametername>
+<parametername>jointPositions</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>raw mann input. </para>
+<para>joint position. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>leftFoot</parametername>
+<parametername>basePose</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>state of the left foot. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>rightFoot</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>state of the right foot. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>basePosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>current base position. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>baseVelocity</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>current base velocity expressed in mixed representation. </para>
+<para>base pose. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>true in case of success, false otherwise. </para>
 </simplesect>
-<simplesect kind="note"><para>please call this function the before calling <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance</ref> the first time time. </para>
+<simplesect kind="note"><para>Please call this function before calling <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance</ref> the first time. </para>
+</simplesect>
+<simplesect kind="warning"><para>This function assumes that both the feet are in contact with the ground, the joint and base velocities equal to zero. </para>
+</simplesect>
+<simplesect kind="warning"><para>This function reset also the internal time to zero. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="188" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="270" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a5c1fe49572e7156321206adfafa13a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a19015274106acc28e92f02d3a45a211c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::ML::MANNAutoregressive::reset</definition>
-        <argsstring>(const MANNInput &amp;input, const Contacts::EstimatedContact &amp;leftFoot, const Math::SchmittTriggerState &amp;leftFootSchimittTriggerState, const Contacts::EstimatedContact &amp;rightFoot, const Math::SchmittTriggerState &amp;rightFootSchimittTriggerState, const manif::SE3d &amp;basePosition, const manif::SE3Tangentd &amp;baseVelocity, const AutoregressiveState &amp;autoregressiveState, const std::chrono::nanoseconds &amp;time)</argsstring>
+        <argsstring>(const AutoregressiveState &amp;autoregressiveState)</argsstring>
         <name>reset</name>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> &amp;</type>
-          <declname>input</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>leftFoot</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kindref="compound">Math::SchmittTriggerState</ref> &amp;</type>
-          <declname>leftFootSchimittTriggerState</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kindref="compound">Contacts::EstimatedContact</ref> &amp;</type>
-          <declname>rightFoot</declname>
-        </param>
-        <param>
-          <type>const <ref refid="structBipedalLocomotion_1_1Math_1_1SchmittTriggerState" kindref="compound">Math::SchmittTriggerState</ref> &amp;</type>
-          <declname>rightFootSchimittTriggerState</declname>
-        </param>
-        <param>
-          <type>const manif::SE3d &amp;</type>
-          <declname>basePosition</declname>
-        </param>
-        <param>
-          <type>const manif::SE3Tangentd &amp;</type>
-          <declname>baseVelocity</declname>
-        </param>
         <param>
           <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kindref="compound">AutoregressiveState</ref> &amp;</type>
           <declname>autoregressiveState</declname>
-        </param>
-        <param>
-          <type>const std::chrono::nanoseconds &amp;</type>
-          <declname>time</declname>
         </param>
         <briefdescription>
 <para>Reset the autoregressive model. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>input</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>raw mann input. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>leftFoot</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>state of the left foot. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>rightFoot</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>state of the right foot. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>basePosition</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>current base position. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>baseVelocity</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>current base velocity expressed in mixed representation. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
 <parameternamelist>
 <parametername>autoregressiveState</parametername>
 </parameternamelist>
@@ -439,24 +385,16 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
 <para>the autoregressive state at which you want to reset your model. </para>
 </parameterdescription>
 </parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>time</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>time used to reset the system </para>
-</parameterdescription>
-</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>true in case of success, false otherwise. </para>
 </simplesect>
-<simplesect kind="note"><para>please call this function the before calling <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance</ref> the first time time. </para>
+<simplesect kind="note"><para>Please call this function the before calling <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" kindref="member">MANNAutoregressive::advance</ref> the first time time. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="207" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="279" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abb880a57b4158dda1ee86b77a53d3411" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -474,7 +412,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="221" column="10"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="285" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acf0e665f6dd1d88b339333f1b49ad656" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const Output &amp;</type>
@@ -492,7 +430,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="227" column="18"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="291" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1afe08f2345ce3f8dd9f6b2a0f6d1e0644" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNInput" kindref="compound">MANNInput</ref> &amp;</type>
@@ -509,7 +447,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="233" column="21"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="297" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acd530aeb197f36b21fde09a9ad70ee4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kindref="compound">AutoregressiveState</ref> &amp;</type>
@@ -526,7 +464,63 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="239" column="31"/>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="303" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acfc990bb60b5dae71ae019a018105f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::ML::MANNAutoregressive::populateInitialAutoregressiveState</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; jointPositions, const manif::SE3d &amp;basePose, MANNAutoregressive::AutoregressiveState &amp;state)</argsstring>
+        <name>populateInitialAutoregressiveState</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>jointPositions</declname>
+        </param>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>basePose</declname>
+        </param>
+        <param>
+          <type><ref refid="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState" kindref="compound">MANNAutoregressive::AutoregressiveState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Get the autoregressive state required to reset <ref refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive" kindref="compound">MANNAutoregressive</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jointPositions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>joint position </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>basePose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>base pose </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>autoregressive state that will be populated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>This function assumes that both the feet are in contact with the ground, the joint and base velocities equal to zero. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="314" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -612,7 +606,7 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="85" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="87" bodyend="244"/>
+    <location file="BipedalLocomotion/ML/MANNAutoregressive.h" line="116" column="1" bodyfile="BipedalLocomotion/ML/MANNAutoregressive.h" bodystart="118" bodyend="321"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>Advanceable</name></member>
@@ -640,10 +634,12 @@ Finally it also required to define a group named <computeroutput><ref refid="cla
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a7c0d15e677a1935918fc747ba4c25ec1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a0a39b891749961d34507b4b591886741" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a581340f280eca1890a8a7b2331761b57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>OutputPort</name></member>
-      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1abc20d5ec51bfd80b7adb0c5caab0b7a8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
-      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a5c1fe49572e7156321206adfafa13a47" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1acfc990bb60b5dae71ae019a018105f34" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>populateInitialAutoregressiveState</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a3ab56390684010eeed1dffcfa31b7760" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a19015274106acc28e92f02d3a45a211c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>reset</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a6603138dd787213cce454e0e09cf8e92" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1aa15f5d6fcb4a772b3f4d55663bef6fe3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>setRobotModel</name></member>
+      <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a04a682d07c84fbff9238e6f26f262afb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>SupportFoot</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ac9b58b0d2f6ae8821b873ed6f9817ccb" prot="public" virt="virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>~InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a2c2ab2e81d9f64a45b63402b4e089039" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ML::MANNAutoregressive</scope><name>~MANNAutoregressive</name></member>

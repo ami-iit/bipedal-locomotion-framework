@@ -71,19 +71,39 @@
             <li>
               Reference
               <ul>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
 <p>At each step ti, L is defined to have its origin in the current ground-projected robot base position and orientation defined by the current facing direction (along with its orthogonal vector).</p>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a href="#acc45a6388e2997a6e13fc2e5553211c3" class="m-doc">generateDummyAutoregressiveState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a>&amp; output,
+              const manif::SE3d&amp; I_H_B,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a>&amp; leftFootState,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a>&amp; rightFootState,
+              int mocapFrameRate,
+              const std::chrono::nanoseconds&amp; pastProjectedBaseHorizon) -&gt; <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a></span>
+            </dt>
+            <dd>Generate a dummy autoregressive state from the input.</dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="acdf3647fa92174955110748c6e198508">
-              <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> <a href="#acdf3647fa92174955110748c6e198508" class="m-doc-self">previousMannInput</a>
+            <dt id="a251eb5541b22e79800b8c0d85d100b87">
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a> <a href="#a251eb5541b22e79800b8c0d85d100b87" class="m-doc-self">previousMANNOutput</a>
             </dt>
-            <dd>Mann Input at the previous time instant.</dd>
+            <dd>Output of the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network generated at the previous iteration.</dd>
+            <dt id="a814c502724c742fb93324fafa9fd2da7">
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a> <a href="#a814c502724c742fb93324fafa9fd2da7" class="m-doc-self">previousMANNInput</a>
+            </dt>
+            <dd>Input to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network at previous iteration.</dd>
             <dt id="a2339e9207f71ee66d2dea56d50443014">
               manif::SE2d <a href="#a2339e9207f71ee66d2dea56d50443014" class="m-doc-self">I_H_FD</a>
             </dt>
@@ -100,7 +120,92 @@
               std::deque&lt;Eigen::Vector2d&gt; <a href="#a99b2f1ab2011011a09762338c711d202" class="m-doc-self">pastProjectedBaseVelocity</a>
             </dt>
             <dd>Past projected base velocity, Each element of the deque contains the x and y velocity projected into the ground.</dd>
+            <dt id="a7cae45bf3e2fb330979eadc4849120a3">
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a> <a href="#a7cae45bf3e2fb330979eadc4849120a3" class="m-doc-self">leftFootState</a>
+            </dt>
+            <dd>Left foot state.</dd>
+            <dt id="a57237c1e915a332f10570fd92c168fea">
+              <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a> <a href="#a57237c1e915a332f10570fd92c168fea" class="m-doc-self">rightFootState</a>
+            </dt>
+            <dd>Right foot state.</dd>
+            <dt id="af0ea460f5052c7bc948552d12c781e9e">
+              manif::SE3d <a href="#af0ea460f5052c7bc948552d12c781e9e" class="m-doc-self">I_H_B</a>
+            </dt>
+            <dd>SE(3) transformation of the base respect to the inertial frame.</dd>
+            <dt id="a7fc114b7a3806db4384cc489ee6a59ec">
+              <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html#a04a682d07c84fbff9238e6f26f262afb" class="m-doc">SupportFoot</a> <a href="#a7fc114b7a3806db4384cc489ee6a59ec" class="m-doc-self">supportFoot</a>
+            </dt>
+            <dd>Support foot.</dd>
+            <dt id="afac33569a6db52cd8bddb0fe1f80fbe6">
+              Eigen::Vector3d <a href="#afac33569a6db52cd8bddb0fe1f80fbe6" class="m-doc-self">projectedContactPositionInWorldFrame</a>
+            </dt>
+            <dd>Projected contact position in world frame.</dd>
+            <dt id="a6a758ca320fd866b528a84d334ce7d31">
+              int <a href="#a6a758ca320fd866b528a84d334ce7d31" class="m-doc-self">supportCornerIndex</a>
+            </dt>
+            <dd>Index of the support corner.</dd>
+            <dt id="a8a09073fe878b187304e00b0700e055c">
+              std::chrono::nanoseconds <a href="#a8a09073fe878b187304e00b0700e055c" class="m-doc-self">time</a>
+            </dt>
+            <dd>Current time stored in the advanceable.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="acc45a6388e2997a6e13fc2e5553211c3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">static <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a> BipedalLocomotion::<wbr />ML::<wbr />MANNAutoregressive::<wbr />AutoregressiveState::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#acc45a6388e2997a6e13fc2e5553211c3" class="m-doc-self">generateDummyAutoregressiveState</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1ML_1_1MANNInput.html" class="m-doc">MANNInput</a>&amp; input,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a>&amp; output,
+              const manif::SE3d&amp; I_H_B,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a>&amp; leftFootState,
+              const <a href="structBipedalLocomotion_1_1ML_1_1MANNFootState.html" class="m-doc">MANNFootState</a>&amp; rightFootState,
+              int mocapFrameRate,
+              const std::chrono::nanoseconds&amp; pastProjectedBaseHorizon)</span></span>
+            </h3>
+            <p>Generate a dummy autoregressive state from the input.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>input to the autoregressive model.</td>
+                </tr>
+                <tr>
+                  <td>output</td>
+                  <td>output of the autoregressive model.</td>
+                </tr>
+                <tr>
+                  <td>I_H_B</td>
+                  <td>SE(3) transformation of the base respect to the inertial frame.</td>
+                </tr>
+                <tr>
+                  <td>leftFootState</td>
+                  <td>left foot state.</td>
+                </tr>
+                <tr>
+                  <td>rightFootState</td>
+                  <td>right foot state.</td>
+                </tr>
+                <tr>
+                  <td>mocapFrameRate</td>
+                  <td>frame rate of the mocap data.</td>
+                </tr>
+                <tr>
+                  <td>pastProjectedBaseHorizon</td>
+                  <td>number of samples of the past base horizon considered in the neural network.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a>.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>A dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a> is generated zeroing the projectedContactPositionInWorldFrame, zeroing the pastProjectedBasePositions and pastProjectedBaseVelocity. On the other hand, the pastFacingDirection is generated with the first row equal to one and the second to zero. The dummy <a href="structBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1_1AutoregressiveState.html" class="m-doc">AutoregressiveState</a> set the time to zero.</p></aside>
+          </div></section>
         </section>
       </div>
     </div>
