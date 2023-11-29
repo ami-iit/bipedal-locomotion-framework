@@ -6,8 +6,8 @@
  */
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
-#include <BipedalLocomotion/Planners/CubicSpline.h>
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/Math/CubicSpline.h>
+#include <BipedalLocomotion/Math/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -99,28 +99,28 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
     {
         if (interpolationMethod == "min_acceleration")
         {
-            m_planarPlanner = std::make_unique<CubicSpline>();
-            m_heightPlanner = std::make_unique<CubicSpline>();
+            m_planarPlanner = std::make_unique<Math::CubicSpline>();
+            m_heightPlanner = std::make_unique<Math::CubicSpline>();
         } else if (interpolationMethod == "min_jerk")
         {
-            m_planarPlanner = std::make_unique<QuinticSpline>();
-            m_heightPlanner = std::make_unique<QuinticSpline>();
+            m_planarPlanner = std::make_unique<Math::QuinticSpline>();
+            m_heightPlanner = std::make_unique<Math::QuinticSpline>();
         } else
         {
             log()->warn("{} The parameter named 'interpolation_method' must be equal to "
                         "'min_acceleration' or 'min_jerk'. The 'min_acceleration' method will be "
                         "used.",
                         logPrefix);
-            m_planarPlanner = std::make_unique<CubicSpline>();
-            m_heightPlanner = std::make_unique<CubicSpline>();
+            m_planarPlanner = std::make_unique<Math::CubicSpline>();
+            m_heightPlanner = std::make_unique<Math::CubicSpline>();
         }
     } else
     {
         log()->info("{} The parameter named 'interpolation_method' not found. The "
                     "'min_acceleration' method will be used.",
                     logPrefix);
-        m_planarPlanner = std::make_unique<CubicSpline>();
-        m_heightPlanner = std::make_unique<CubicSpline>();
+        m_planarPlanner = std::make_unique<Math::CubicSpline>();
+        m_heightPlanner = std::make_unique<Math::CubicSpline>();
     }
 
     return true;

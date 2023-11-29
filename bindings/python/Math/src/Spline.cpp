@@ -13,23 +13,23 @@
 #include <pybind11/stl.h>
 #include <pybind11/chrono.h>
 
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
-#include <BipedalLocomotion/Planners/CubicSpline.h>
-#include <BipedalLocomotion/Planners/Spline.h>
+#include <BipedalLocomotion/Math/QuinticSpline.h>
+#include <BipedalLocomotion/Math/CubicSpline.h>
+#include <BipedalLocomotion/Math/Spline.h>
 
-#include <BipedalLocomotion/bindings/Planners/Spline.h>
+#include <BipedalLocomotion/bindings/Math/Spline.h>
 
 namespace BipedalLocomotion
 {
 namespace bindings
 {
-namespace Planners
+namespace Math
 {
 
 void CreateSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Math;
 
     py::class_<SplineState>(module, "SplineState")
         .def(py::init())
@@ -65,7 +65,7 @@ void CreateSpline(pybind11::module& module)
 void CreateCubicSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Math;
 
     py::class_<CubicSpline, Spline>(module, "CubicSpline")
         .def(py::init());
@@ -74,12 +74,12 @@ void CreateCubicSpline(pybind11::module& module)
 void CreateQuinticSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Math;
 
     py::class_<QuinticSpline, Spline>(module, "QuinticSpline")
         .def(py::init());
 }
 
-} // namespace Planners
+} // namespace Math
 } // namespace bindings
 } // namespace BipedalLocomotion

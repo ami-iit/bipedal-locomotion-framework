@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
+#ifndef BIPEDAL_LOCOMOTION_MATH_QUINTIC_SPLINE_H
+#define BIPEDAL_LOCOMOTION_MATH_QUINTIC_SPLINE_H
 
 #include <chrono>
 #include <memory>
@@ -14,11 +14,11 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/Planners/Spline.h>
+#include <BipedalLocomotion/Math/Spline.h>
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Math
 {
 /**
  * Quintic spline implement a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
@@ -123,7 +123,7 @@ public:
      */
     bool advance() final;
 };
-} // namespace Planners
+} // namespace Math
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_QUINTIC_SPLINE_H
+#endif // BIPEDAL_LOCOMOTION_MATH_QUINTIC_SPLINE_H

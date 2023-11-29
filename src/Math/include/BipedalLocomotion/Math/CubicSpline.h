@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_CUBIC_SPLINE_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_CUBIC_SPLINE_H
+#ifndef BIPEDAL_LOCOMOTION_MATH_CUBIC_SPLINE_H
+#define BIPEDAL_LOCOMOTION_MATH_CUBIC_SPLINE_H
 
 #include <chrono>
 #include <memory>
@@ -14,11 +14,11 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/Planners/Spline.h>
+#include <BipedalLocomotion/Math/Spline.h>
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Math
 {
 /**
  * Cubic spline implement a 3-rd order polynomial spline in \$f\mathbb{R}^n\$f.
@@ -135,11 +135,11 @@ public:
      * Advance the internal state. This may change the value retrievable from get().
      * @warning if the the time step of the advance is not set the user cannot use the advance
      * features.
-     * @return True if the advance is successfull.
+     * @return True if the advance is successful.
      */
     bool advance() final;
 };
-} // namespace Planners
+} // namespace Math
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_CUBIC_SPLINE_H
+#endif // BIPEDAL_LOCOMOTION_MATH_CUBIC_SPLINE_H

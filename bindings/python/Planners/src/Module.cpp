@@ -9,7 +9,6 @@
 
 #include <BipedalLocomotion/bindings/Planners/DCMPlanner.h>
 #include <BipedalLocomotion/bindings/Planners/Module.h>
-#include <BipedalLocomotion/bindings/Planners/Spline.h>
 #include <BipedalLocomotion/bindings/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/bindings/Planners/TimeVaryingDCMPlanner.h>
 
@@ -23,9 +22,6 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "Planners module.";
 
-    CreateSpline(module);
-    CreateCubicSpline(module);
-    CreateQuinticSpline(module);
     CreateDCMPlanner(module);
     CreateTimeVaryingDCMPlanner(module);
     CreateSwingFootPlanner(module);

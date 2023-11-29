@@ -8,7 +8,7 @@ if(FRAMEWORK_COMPILE_JointPositionTrackingApplication)
     NAME joint-position-tracking
     SOURCES src/Main.cpp src/Module.cpp
     HEADERS include/BipedalLocomotion/JointPositionTracking/Module.h
-    LINK_LIBRARIES   YARP::YARP_dev BipedalLocomotion::Planners BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation
+    LINK_LIBRARIES   YARP::YARP_dev BipedalLocomotion::Math BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::RobotInterfaceYarpImplementation
     )
 
   install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/config)

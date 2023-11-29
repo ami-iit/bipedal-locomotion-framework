@@ -12,10 +12,10 @@
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
-#include <BipedalLocomotion/Planners/CubicSpline.h>
+#include <BipedalLocomotion/Math/QuinticSpline.h>
+#include <BipedalLocomotion/Math/CubicSpline.h>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Math;
 
 
 TEST_CASE("Quintic spline")

@@ -11,10 +11,10 @@
 
 #include <Eigen/Sparse>
 
-#include <BipedalLocomotion/Planners/CubicSpline.h>
+#include <BipedalLocomotion/Math/CubicSpline.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-using namespace BipedalLocomotion::Planners;
+using namespace BipedalLocomotion::Math;
 
 template <class Rep, class Period>
 constexpr double durationToSeconds(const std::chrono::duration<Rep, Period>& d)

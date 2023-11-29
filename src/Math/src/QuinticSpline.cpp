@@ -11,8 +11,8 @@
 
 #include <Eigen/Sparse>
 
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
-using namespace BipedalLocomotion::Planners;
+#include <BipedalLocomotion/Math/QuinticSpline.h>
+using namespace BipedalLocomotion::Math;
 
 template <class Rep, class Period>
 constexpr double durationToSeconds(const std::chrono::duration<Rep, Period>& d)

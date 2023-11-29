@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_SPLINE_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_SPLINE_H
+#ifndef BIPEDAL_LOCOMOTION_MATH_SPLINE_H
+#define BIPEDAL_LOCOMOTION_MATH_SPLINE_H
 
 #include <chrono>
 #include <memory>
@@ -18,7 +18,7 @@
 
 namespace BipedalLocomotion
 {
-namespace Planners
+namespace Math
 {
 
 struct SplineState
@@ -99,7 +99,7 @@ public:
      */
     virtual bool evaluatePoint(const std::chrono::nanoseconds& t, SplineState& state) = 0;
 };
-} // namespace Planners
+} // namespace Math
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_SPLINE_H
+#endif // BIPEDAL_LOCOMOTION_MATH_SPLINE_H

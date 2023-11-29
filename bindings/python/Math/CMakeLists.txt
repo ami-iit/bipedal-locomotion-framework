@@ -6,7 +6,8 @@ set(H_PREFIX include/BipedalLocomotion/bindings/Math)
 
 add_bipedal_locomotion_python_module(
   NAME MathBindings
-  SOURCES src/Constants.cpp src/SchmittTrigger.cpp src/Module.cpp
-  HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/SchmittTrigger.h ${H_PREFIX}/Wrench.h ${H_PREFIX}/Module.h
+  SOURCES src/Constants.cpp src/SchmittTrigger.cpp src/Spline.cpp src/Module.cpp
+  HEADERS ${H_PREFIX}/Constants.h ${H_PREFIX}/SchmittTrigger.h ${H_PREFIX}/Wrench.h ${H_PREFIX}/Spline.h ${H_PREFIX}/Module.h
   LINK_LIBRARIES BipedalLocomotion::Math
+  TESTS tests/test_quintic_spline.py
   )

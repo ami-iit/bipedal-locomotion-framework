@@ -11,13 +11,11 @@ if(TARGET BipedalLocomotion::Planners)
     SOURCES
     src/DCMPlanner.cpp
     src/TimeVaryingDCMPlanner.cpp
-    src/Spline.cpp
     src/SwingFootPlanner.cpp
     src/Module.cpp
     HEADERS
     ${H_PREFIX}/DCMPlanner.h
     ${H_PREFIX}/TimeVaryingDCMPlanner.h
-    ${H_PREFIX}/Spline.h
     ${H_PREFIX}/SwingFootPlanner.h
     ${H_PREFIX}/Module.h
     LINK_LIBRARIES
@@ -25,7 +23,6 @@ if(TARGET BipedalLocomotion::Planners)
     BipedalLocomotion::Planners
     BipedalLocomotion::Contacts
     TESTS
-    tests/test_quintic_spline.py
     tests/test_swing_foot_planner.py
     tests/test_time_varying_dcm_planner.py
     )
