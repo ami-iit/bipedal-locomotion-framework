@@ -37,11 +37,13 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
 
     py::class_<ML::MANNTrajectoryGeneratorOutput>(module, "MANNTrajectoryGeneratorOutput")
         .def(py::init())
+        .def_readwrite("timestamps", &ML::MANNTrajectoryGeneratorOutput::timestamps)
         .def_readwrite("joint_positions", &ML::MANNTrajectoryGeneratorOutput::jointPositions)
-        .def_readwrite("base_pose", &ML::MANNTrajectoryGeneratorOutput::basePoses)
+        .def_readwrite("base_poses", &ML::MANNTrajectoryGeneratorOutput::basePoses)
         .def_readwrite("phase_list", &ML::MANNTrajectoryGeneratorOutput::phaseList)
-        .def_readwrite("com_trajectory" , &ML::MANNTrajectoryGeneratorOutput::comTrajectory)
-        .def_readwrite("angular_momentum_trajectory" , &ML::MANNTrajectoryGeneratorOutput::angularMomentumTrajectory);
+        .def_readwrite("com_trajectory", &ML::MANNTrajectoryGeneratorOutput::comTrajectory)
+        .def_readwrite("angular_momentum_trajectory",
+                       &ML::MANNTrajectoryGeneratorOutput::angularMomentumTrajectory);
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<ML::MANNTrajectoryGeneratorInput, //
                                                            ML::MANNTrajectoryGeneratorOutput> //
@@ -54,10 +56,7 @@ void CreateMANNTrajectoryGenerator(pybind11::module& module)
         .def("set_initial_state",
              &ML::MANNTrajectoryGenerator::setInitialState,
              py::arg("joint_positions"),
-             py::arg("left_foot"),
-             py::arg("right_foot"),
-             py::arg("base_pose"),
-             py::arg("time"))
+             py::arg("base_pose"))
         .def("set_robot_model", [](ML::MANNTrajectoryGenerator& impl, ::pybind11::object& obj) {
             iDynTree::Model* cls = py::detail::swig_wrapped_pointer_to_pybind<iDynTree::Model>(obj);
 

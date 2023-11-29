@@ -27,8 +27,8 @@ namespace ML
  * The base position trajectory, facing direction trajectory and base velocity trajectories are
  * written in a bidimensional local reference frame L in which we assume all the quantities related
  * to the ground-projected base trajectory in xi and yi to be expressed. At each step ti,
- * L is defined to have its origin in the current ground-projected robot base position and orientation defined
- * by the current facing direction (along with its orthogonal vector).
+ * L is defined to have its origin in the current ground-projected robot base position and
+ * orientation defined by the current facing direction (along with its orthogonal vector).
  */
 struct MANNInput
 {
@@ -45,6 +45,20 @@ struct MANNInput
     Eigen::VectorXd jointPositions; /**< Vector containing the actual joint position in radians. */
     Eigen::VectorXd jointVelocities; /**< Vector containing the actual joint velocity in radians per
                                         seconds. */
+
+    /**
+     * Generate a dummy MANNInput from a given joint configuration
+     * @param jointPositions vector containing the joint position in radians.
+     * @param projectedBaseHorizon number of samples of the base horizon considered in the neural
+     * network.
+     * @return a dummy MANNInput.
+     * @note A dummy MANNInput is generated assuming zero joint velocities and zero
+     * basePositionTrajectory, zero baseVelocitiesTrajectory. and facingDirectionTrajectory with the
+     * first row equal to one and the second to zero.
+     * @warning the function assumes that the robot is not moving and facing forward.
+     */
+    static MANNInput generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            std::size_t projectedBaseHorizon);
 };
 
 /**
@@ -73,6 +87,20 @@ struct MANNOutput
     Eigen::VectorXd jointVelocities; /**< Vector containing the next joint velocity in radians per
                                         seconds */
     manif::SE2Tangentd projectedBaseVelocity; /**< Velocity of the base projected on the ground */
+
+    /**
+     * Generate a dummy MANNOutput from a given joint configuration
+     * @param jointPositions vector containing the joint positions in radians.
+     * @param futureProjectedBaseHorizon number of samples of the base horizon generated as output
+     * by the neural network.
+     * @return a dummy MANNOutput.
+     * @note A dummy MANNOutput is generated assuming zero joint velocities, zero
+     * futureBasePositionTrajectory, zero futureBaseVelocitiesTrajectory, and
+     * futureFacingDirectionTrajectory with the first row equal to one and the second to zero.
+     * @warning the function assumes that the robot is not moving and facing forward.
+     */
+    static MANNOutput generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                              std::size_t futureProjectedBaseHorizon);
 };
 
 /**
@@ -96,18 +124,20 @@ public:
      */
     ~MANN();
 
+    // clang-format off
     /**
      * Initialize the network.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |      Parameter Name      |       Type       |                          Description                                | Mandatory |
-     * |:------------------------:|:----------------:|:-------------------------------------------------------------------:|:---------:|
-     * |    `onnx_model_path`     |      `string`    |  Path to the `onnx` model that will be loaded to perform inference  |    Yes    |
-     * |   `number_of_joints`     |       `int`      |         Number of robot joints considered in the model              |    Yes    |
-     * | `projected_base_horizon` |       `int`      |    Number of samples of the base horizon considered in the model    |    Yes    |
+     * |        Parameter Name       |       Type       |                                       Description                                              | Mandatory |
+     * |:---------------------------:|:----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |       `onnx_model_path`     |      `string`    |          Path to the `onnx` model that will be loaded to perform inference                     |    Yes    |
+     * |     `number_of_joints`      |       `int`      |               Number of robot joints considered in the model                                   |    Yes    |
+     * | `projected_base_datapoints` |       `int`      |    Number of samples of the base horizon considered in the model (it must be an even number)   |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the input of the network
@@ -135,7 +165,6 @@ public:
     bool isOutputValid() const override;
 
 private:
-
     /** Private implementation */
     struct Impl;
     std::unique_ptr<Impl> m_pimpl;

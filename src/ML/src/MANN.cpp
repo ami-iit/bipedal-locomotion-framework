@@ -21,11 +21,41 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
+MANNInput MANNInput::generateDummyMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            std::size_t projectedBaseHorizon)
+{
+    MANNInput input;
+    input.jointPositions = jointPositions;
+    input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    input.basePositionTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.baseVelocitiesTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.facingDirectionTrajectory = Eigen::Matrix2Xd::Zero(2, projectedBaseHorizon);
+    input.facingDirectionTrajectory.row(0).setOnes();
+
+    return input;
+}
+
+MANNOutput MANNOutput::generateDummyMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                               std::size_t futureProjectedBaseHorizon)
+{
+    MANNOutput output;
+    output.jointPositions = jointPositions;
+    output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    output.futureBasePositionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureBaseVelocitiesTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory = Eigen::Matrix2Xd::Zero(2, futureProjectedBaseHorizon);
+    output.futureFacingDirectionTrajectory.row(0).setOnes();
+
+    return output;
+}
+
 struct MANN::Impl
 {
     enum class FSM
     {
-        NotInitialized, Initialized, Running,
+        NotInitialized,
+        Initialized,
+        Running,
     };
 
     struct DataStructured
@@ -82,10 +112,8 @@ bool MANN::Impl::populateInput(const MANNInput& input)
     };
 
     auto populateProjectedData
-        = [&input,
-           this,
-           logPrefix](const std::string& variableName,
-                      Eigen::Ref<const Eigen::Matrix2Xd> data) -> bool {
+        = [&input, this, logPrefix](const std::string& variableName,
+                                    Eigen::Ref<const Eigen::Matrix2Xd> data) -> bool {
         const auto& variable = this->structuredInput.handler.getVariable(variableName);
         if (data.size() != variable.size)
         {
@@ -149,13 +177,13 @@ bool MANN::initialize(
         return true;
     };
 
-    int numberOfJoints, projectedBaseHorizon;
+    int numberOfJoints, projectedBaseDatapoints;
     std::string networkModelPath;
     bool ok = loadParam("number_of_joints", numberOfJoints);
-    ok = ok && loadParam("projected_base_horizon", projectedBaseHorizon);
+    ok = ok && loadParam("projected_base_datapoints", projectedBaseDatapoints);
     ok = ok && loadParam("onnx_model_path", networkModelPath);
 
-    if (projectedBaseHorizon % 2 != 0)
+    if (projectedBaseDatapoints % 2 != 0)
     {
         log()->error("{} Project base horizon must be an even number. This is required by mann.",
                      logPrefix);
@@ -169,8 +197,10 @@ bool MANN::initialize(
 
     // Ort::Session's constructor is OS-dependent, wants wchar_t* on Windows and char* on other OSs
     // Note: this only works with single-byte characters, such as ASCII or ISO-8859-1,
-    // see https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
-    std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(), networkModelPath.end());
+    // see
+    // https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
+    std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
+                                                             networkModelPath.end());
 
     m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
                                                       networkModelPathAsOrtString.c_str(),
@@ -183,13 +213,13 @@ bool MANN::initialize(
     }
 
     // the input of the network is composed by
-    const std::size_t inputSize = 2 * projectedBaseHorizon // position of the base on x and y
-                                                           // coordinate in the horizon
-                                  + 2 * projectedBaseHorizon // facing direction on x and y
-                                                             // coordinate in the horizon (equal to
-                                                             // projectedBaseHorizon)
-                                  + 2 * projectedBaseHorizon // velocity of the base on x and y
-                                                             // coordinate in the horizon
+    const std::size_t inputSize = 2 * projectedBaseDatapoints // position of the base on x and y
+                                                              // coordinate in the horizon
+                                  + 2 * projectedBaseDatapoints // facing direction on x and y
+                                                                // coordinate in the horizon (equal
+                                                                // to projectedBaseHorizon)
+                                  + 2 * projectedBaseDatapoints // velocity of the base on x and y
+                                                                // coordinate in the horizon
                                   + numberOfJoints // joints positions
                                   + numberOfJoints; // joints velocities
 
@@ -208,20 +238,20 @@ bool MANN::initialize(
 
     // populate variable handler related to the input
     // the serialization matters
-    m_pimpl->structuredInput.handler.addVariable("base_positions", 2 * projectedBaseHorizon);
-    m_pimpl->structuredInput.handler.addVariable("facing_directions", 2 * projectedBaseHorizon);
-    m_pimpl->structuredInput.handler.addVariable("base_velocities", 2 * projectedBaseHorizon);
+    m_pimpl->structuredInput.handler.addVariable("base_positions", 2 * projectedBaseDatapoints);
+    m_pimpl->structuredInput.handler.addVariable("facing_directions", 2 * projectedBaseDatapoints);
+    m_pimpl->structuredInput.handler.addVariable("base_velocities", 2 * projectedBaseDatapoints);
     m_pimpl->structuredInput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredInput.handler.addVariable("joint_velocities", numberOfJoints);
 
     // populate the output
-    const std::size_t outputSize = 2 * projectedBaseHorizon / 2 // position of the base on x and y
+    const std::size_t outputSize = 2 * projectedBaseDatapoints / 2 // position of the base on x and y
                                                                 // coordinate in the future horizon
-                                   + 2 * projectedBaseHorizon / 2 // facing direction on x and y
+                                   + 2 * projectedBaseDatapoints / 2 // facing direction on x and y
                                                                   // coordinate in the future
                                                                   // horizon (equal to
                                                                   // projectedBaseHorizon)
-                                   + 2 * projectedBaseHorizon / 2 // velocity of the base on x and y
+                                   + 2 * projectedBaseDatapoints / 2 // velocity of the base on x and y
                                                                   // coordinate in the future
                                                                   // horizon
                                    + numberOfJoints // joints positions
@@ -243,19 +273,19 @@ bool MANN::initialize(
     // populate variable handler related to the output
     // the serialization matters
     m_pimpl->structuredOutput.handler.addVariable("future_base_positions",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("future_facing_directions",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("future_base_velocities",
-                                                  2 * projectedBaseHorizon / 2);
+                                                  2 * projectedBaseDatapoints / 2);
     m_pimpl->structuredOutput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("joint_velocities", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("base_velocity", 3);
 
     // resize the output
-    m_pimpl->output.futureBasePositionTrajectory.resize(2, projectedBaseHorizon / 2);
-    m_pimpl->output.futureFacingDirectionTrajectory.resize(2, projectedBaseHorizon / 2);
-    m_pimpl->output.futureBaseVelocitiesTrajectory.resize(2, projectedBaseHorizon / 2);
+    m_pimpl->output.futureBasePositionTrajectory.resize(2, projectedBaseDatapoints / 2);
+    m_pimpl->output.futureFacingDirectionTrajectory.resize(2, projectedBaseDatapoints / 2);
+    m_pimpl->output.futureBaseVelocitiesTrajectory.resize(2, projectedBaseDatapoints / 2);
     m_pimpl->output.jointPositions.resize(numberOfJoints);
     m_pimpl->output.jointVelocities.resize(numberOfJoints);
     m_pimpl->output.projectedBaseVelocity = manif::SE2Tangentd::Zero();
@@ -277,22 +307,24 @@ bool MANN::setInput(const MANNInput& input)
 
 bool MANN::advance()
 {
-    auto unpackMatrix
-        = [this](const std::string& variableName, Eigen::Ref<Eigen::MatrixXd> matrix) {
-              const auto& variable = m_pimpl->structuredOutput.handler.getVariable(variableName);
-              assert(variable.isValid());
+    auto unpackMatrix = [this](const std::string& variableName,
+                               Eigen::Ref<Eigen::MatrixXd> matrix) {
+        const auto& variable = m_pimpl->structuredOutput.handler.getVariable(variableName);
+        assert(variable.isValid());
 
-              // the matrix has been already allocated
-              const std::size_t rows = matrix.rows();
-              const std::size_t cols = matrix.cols();
+        // the matrix has been already allocated
+        const std::size_t rows = matrix.rows();
+        const std::size_t cols = matrix.cols();
 
-              matrix = Eigen::Map<const Eigen::MatrixXf>(
-                  m_pimpl->structuredOutput.rawData.segment(variable.offset, variable.size).data(),
-                  rows,
-                  cols).cast<double>();
+        matrix = Eigen::Map<const Eigen::MatrixXf>(m_pimpl->structuredOutput.rawData
+                                                       .segment(variable.offset, variable.size)
+                                                       .data(),
+                                                   rows,
+                                                   cols)
+                     .cast<double>();
 
-              return;
-          };
+        return;
+    };
 
     const char* inputNames[] = {"input"};
     const char* outputNames[] = {"output"};

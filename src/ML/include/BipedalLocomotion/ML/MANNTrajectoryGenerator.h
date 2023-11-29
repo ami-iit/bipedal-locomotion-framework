@@ -44,6 +44,9 @@ struct MANNTrajectoryGeneratorOutput
 
     std::vector<Eigen::VectorXd> jointPositions; /**< Joints position in radians */
     std::vector<manif::SE3d> basePoses; /**< Vector containing the base pose for each instant. */
+
+    std::vector<std::chrono::nanoseconds> timestamps; /**< Vector containing the time stamps. */
+
     Contacts::ContactPhaseList phaseList; /**< List of the contact phases */
 };
 
@@ -96,6 +99,7 @@ public:
      */
     bool setRobotModel(const iDynTree::Model& model);
 
+    // clang-format off
     /**
      * Initialize the trajectory planner.
      * @param paramHandler pointer to the parameters handler.
@@ -108,8 +112,9 @@ public:
      * | `chest_link_frame_name`  | `string` |                                 Name of of the chest link frame in the model.                                 |    Yes    |
      * | `right_foot_frame_name`  | `string` |                                 Name of of the right foot frame in the model.                                 |    Yes    |
      * |  `left_foot_frame_name`  | `string` |                                  Name of of the left foot frame in the model.                                 |    Yes    |
-     * |    `forward_direction`   | `string` | String cointaining 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
-     * |    `slow_down_factor`    |   `int`  |      The `horizon` will be `horizon * slow_down_factor`. Same for the `sampling_time` (default value 1).      |    No     |
+     * |    `forward_direction`   | `string` |  String containing 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
+     * |    `slow_down_factor`    | `double` |         The `horizon` will be `horizon * slow_down_factor`. Same for the `sampling_time`.                     |    Yes    |
+     * |     `scaling_factor`     | `double` |     Scaling factor considered in the generation of the CoM, base and contact points locations                 |    Yes    |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
      * |      Parameter Name      |        Type       |                                        Description                                             | Mandatory |
      * |:------------------------:|:-----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
@@ -123,6 +128,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the input to the planner model.
@@ -157,11 +163,8 @@ public:
      * @param basePose pose of the base.
      * @param time initial time of the planner.
      */
-    void setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
-                         const Contacts::EstimatedContact& leftFoot,
-                         const Contacts::EstimatedContact& rightFoot,
-                         const manif::SE3d& basePose,
-                         const std::chrono::nanoseconds& time);
+    bool setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions, //
+                         const manif::SE3d& basePose);
 
 private:
     struct Impl;

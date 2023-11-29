@@ -15,47 +15,64 @@
 #include <iDynTree/Model/Model.h>
 #include <manif/SE3.h>
 
+#include <iDynTree/Core/EigenHelpers.h>
+
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
 struct MANNTrajectoryGenerator::Impl
 {
-    struct MergePointState
+    template <typename T> struct ScalingState
     {
-        MANNInput input;
-        Contacts::EstimatedContact leftFoot;
-        Math::SchmittTriggerState leftFootSchmittTriggerState;
-        Contacts::EstimatedContact rightFoot;
-        Math::SchmittTriggerState rightFootSchmittTriggerState;
-        manif::SE3d basePosition;
-        manif::SE3Tangentd baseVelocity;
-        MANNAutoregressive::AutoregressiveState autoregressiveState;
-        std::chrono::nanoseconds time;
+        T previous;
+        T previousScaled;
     };
 
-    MANNAutoregressive mann;
+    struct MANNTrajectoryGeneratorState
+    {
+        MANNAutoregressive::AutoregressiveState MANNAutoregressiveState;
+        ScalingState<Eigen::Vector3d> com;
+        ScalingState<Eigen::Vector3d> basePosition;
+    };
+
+    MANNAutoregressive mannAutoregressive;
     MANNAutoregressiveInput mannAutoregressiveInput;
-    std::vector<MergePointState> mergePointStates;
+    std::vector<MANNTrajectoryGeneratorState> mergePointStates;
+    std::unordered_map<std::string, std::vector<ScalingState<Eigen::Vector3d>>> footState;
+
     std::chrono::nanoseconds dT;
     bool isOutputValid{false};
-    int slowDownFactor{1};
+    double slowDownFactor{1.0};
+    double scalingFactor{1.0};
 
     Contacts::ContactListMap contactListMap;
+
     MANNTrajectoryGeneratorOutput output;
     std::chrono::nanoseconds horizon;
-    int projectedBaseHorizonSize;
 
-    bool updateContactList(const std::string& footName,
-                           const std::chrono::nanoseconds& currentTime,
-                           const Contacts::EstimatedContact& estimatedContact);
+    iDynTree::KinDynComputations kinDyn;
+    Eigen::Vector3d gravity;
+    int leftFootIndex;
+    int rightFootIndex;
 
-    bool resetContactList(const Contacts::EstimatedContact& estimatedContact,
-                          const std::string& contactName);
+    /**
+     * Reset the contact list given an estimated contact from mann autorergressive.
+     */
+    bool resetContactList(const std::string& contactName,
+                          const Contacts::EstimatedContact& estimatedContact,
+                          const std::chrono::nanoseconds& time);
 
-    static double extactYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R);
+    /**
+     * Update the contact list given an estimated contact from mann autorergressive.
+     */
+    bool updateContactList(const std::string& contactName,
+                           const Contacts::EstimatedContact& estimatedContact,
+                           const std::chrono::nanoseconds& time);
+
+    static double extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R);
 };
 
-double MANNTrajectoryGenerator::Impl::extactYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R)
+double MANNTrajectoryGenerator::Impl::extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R)
 {
     if (R(2, 0) < 1.0)
     {
@@ -74,89 +91,121 @@ double MANNTrajectoryGenerator::Impl::extactYawAngle(const Eigen::Ref<const Eige
 }
 
 bool MANNTrajectoryGenerator::Impl::resetContactList(
-    const Contacts::EstimatedContact& estimatedContact, const std::string& contactName)
+    const std::string& contactName,
+    const Contacts::EstimatedContact& estimatedContact,
+    const std::chrono::nanoseconds& time)
 {
-    // if the contact is not active we do not have to add in the contact list
+    auto& contactList = this->contactListMap[contactName];
+
+    constexpr auto logPrefix = "[MANNTrajectoryGenerator::Impl::resetContactList]";
+
+    // if the contact is not active we store the previous valid contact in the contact list
     if (!estimatedContact.isActive)
     {
-        return true;
+        // if the contact is not active we keep the previous contact in the contact list
+        const auto latestActiveContact = contactList.getPresentContact(time);
+
+        if (latestActiveContact == contactList.cend())
+        {
+            log()->error("[MANNTrajectoryGenerator::Impl::resetContactList] Unable to find the "
+                         "latest active contact for the contact named {}. Time {}.",
+                         contactName,
+                         std::chrono::duration_cast<std::chrono::milliseconds>(time));
+
+            for (const auto& contact : contactList)
+            {
+                log()->error("[MANNTrajectoryGenerator::Impl::resetContactList] Contact {} is "
+                             "active between {} and {}.",
+                             contact.name,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 contact.activationTime),
+                             std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 contact.deactivationTime));
+            }
+            return false;
+        }
+
+        const Contacts::PlannedContact temp = *latestActiveContact;
+        this->contactListMap[contactName].clear();
+        return this->contactListMap[contactName].addContact(temp);
     }
+
+    // if the contact is active we add a new contact to the list
     Contacts::PlannedContact temp;
-    temp.activationTime = estimatedContact.switchTime * slowDownFactor;
+    temp.activationTime = estimatedContact.switchTime;
     temp.deactivationTime = std::chrono::nanoseconds::max();
     temp.index = estimatedContact.index;
     temp.name = estimatedContact.name;
 
-    const double yaw = this->extactYawAngle(estimatedContact.pose.quat().toRotationMatrix());
-    const Eigen::Vector3d position = estimatedContact.pose.translation();
-    temp.pose.translation({position[0], position[1], 0.0});
+    // Here we assume that the ground is flat. Therefore, we can set the z to zero
+    const double yaw = this->extractYawAngle(estimatedContact.pose.quat().toRotationMatrix());
+    temp.pose.translation(
+        {estimatedContact.pose.translation()[0], estimatedContact.pose.translation()[1], 0.0});
     temp.pose.quat(Eigen::AngleAxis(yaw, Eigen::Vector3d::UnitZ()));
-
     temp.type = Contacts::ContactType::FULL;
+
+    this->contactListMap[contactName].clear();
     return this->contactListMap[contactName].addContact(temp);
 }
 
 bool MANNTrajectoryGenerator::Impl::updateContactList(
-    const std::string& footName,
-    const std::chrono::nanoseconds& currentTime,
-    const Contacts::EstimatedContact& estimatedContact)
+    const std::string& contactName,
+    const Contacts::EstimatedContact& estimatedContact,
+    const std::chrono::nanoseconds& time)
 {
-
     constexpr auto logPrefix = "[MANNTrajectoryGenerator::Impl::updateContactList]";
 
-    auto contactListIt = contactListMap.find(footName);
-    if (contactListIt == contactListMap.end())
+    auto contactListIt = this->contactListMap.find(contactName);
+    if (contactListIt == this->contactListMap.end())
     {
         log()->error("{} Unable to find the contact named {} in the dictionary.",
                      logPrefix,
-                     footName);
+                     contactName);
         return false;
     }
     Contacts::ContactList& contactList = contactListIt->second;
 
     // if the contact list map is empty then this is the first contact that we have to add to the
-    // list read it as
+    // list read it as (or)
     // 1. if contact is active and the list is empty means that the foot just touched the ground
     // 2. if contact is active and the last contact is not active means that the foot just touched
     // the ground
     if (estimatedContact.isActive
-        && (contactList.size() == 0
-            || !contactList.lastContact()->isContactActive(currentTime * this->slowDownFactor)))
+        && (contactList.size() == 0 || !contactList.lastContact()->isContactActive(time)))
     {
         Contacts::PlannedContact temp;
-        temp.activationTime = estimatedContact.switchTime * this->slowDownFactor;
+        temp.activationTime = estimatedContact.switchTime;
         temp.deactivationTime = std::chrono::nanoseconds::max();
         temp.index = estimatedContact.index;
         temp.name = estimatedContact.name;
 
-        // force the foot to be attached to a flat terrain
-        const double yaw = Impl::extactYawAngle(estimatedContact.pose.quat().toRotationMatrix());
+        // Here we assume that the ground is flat. Therefore, we can set the z to zero
+        const double yaw = Impl::extractYawAngle(estimatedContact.pose.quat().toRotationMatrix());
         temp.pose.translation(
             {estimatedContact.pose.translation()[0], estimatedContact.pose.translation()[1], 0.0});
         temp.pose.quat(Eigen::AngleAxis(yaw, Eigen::Vector3d::UnitZ()));
-
         temp.type = Contacts::ContactType::FULL;
         if (!contactList.addContact(temp))
         {
             log()->error("{} Unable to update the contact list for the contact named '{}",
                          logPrefix,
-                         footName);
+                         contactName);
             return false;
         }
     }
     // In this case the contact ended so we have to set the deactivation time
     else if (!estimatedContact.isActive && contactList.size() != 0
-             && contactList.lastContact()->isContactActive(currentTime * this->slowDownFactor))
+             && contactList.lastContact()->isContactActive(time))
     {
         // we cannot update the status of the last contact. We need to remove it and add it again
-        Contacts::PlannedContact lastContact = *(contactListMap[footName].lastContact());
-        lastContact.deactivationTime = currentTime * this->slowDownFactor;
+        Contacts::PlannedContact lastContact = *(contactListMap[contactName].lastContact());
+        lastContact.deactivationTime = time;
         contactList.removeLastContact();
         if (!contactList.addContact(lastContact))
         {
             log()->error("{} Unable to update the contact list for the contact named '{}",
                          logPrefix,
-                         footName);
+                         contactName);
             return false;
         }
     }
@@ -173,7 +222,8 @@ MANNTrajectoryGenerator::~MANNTrajectoryGenerator() = default;
 
 bool MANNTrajectoryGenerator::setRobotModel(const iDynTree::Model& model)
 {
-    return m_pimpl->mann.setRobotModel(model);
+    return m_pimpl->mannAutoregressive.setRobotModel(model)
+           && m_pimpl->kinDyn.loadRobotModel(model);
 }
 
 bool MANNTrajectoryGenerator::initialize(
@@ -200,15 +250,41 @@ bool MANNTrajectoryGenerator::initialize(
         return true;
     };
 
-    // this parameter is optional
-    getParameter(paramHandler, "slow_down_factor", m_pimpl->slowDownFactor);
+    // the following lambda function is useful to get the name of the indexes of all the frames
+    // required by the class
+    auto getFrameIndex
+        = [this,
+           getParameter,
+           logPrefix](std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                      const std::string& frameParamName,
+                      int& frameIndex) -> bool {
+        std::string frameName;
+        if (!getParameter(handler, frameParamName, frameName))
+        {
+            log()->error("{} Unable to find the parameter named '{}'.", logPrefix, frameParamName);
+            return false;
+        }
 
-    bool ok = getParameter(paramHandler, "time_horizon", m_pimpl->horizon);
+        iDynTree::FrameIndex tmp = this->m_pimpl->kinDyn.model().getFrameIndex(frameName);
+        if (tmp == iDynTree::LINK_INVALID_INDEX)
+        {
+            log()->error("{} Unable to find the frame named '{}' in the model.",
+                         logPrefix,
+                         frameName);
+            return false;
+        }
+
+        frameIndex = tmp;
+
+        return true;
+    };
+
+    bool ok = getParameter(paramHandler, "slow_down_factor", m_pimpl->slowDownFactor);
+    ok = ok && getParameter(paramHandler, "scaling_factor", m_pimpl->scalingFactor);
+    ok = ok && getParameter(paramHandler, "time_horizon", m_pimpl->horizon);
     ok = ok && getParameter(paramHandler, "sampling_time", m_pimpl->dT);
-    ok = ok
-         && getParameter(paramHandler.lock()->getGroup("MANN"),
-                         "projected_base_horizon",
-                         m_pimpl->projectedBaseHorizonSize);
+    ok = ok && getFrameIndex(paramHandler, "left_foot_frame_name", m_pimpl->leftFootIndex);
+    ok = ok && getFrameIndex(paramHandler, "right_foot_frame_name", m_pimpl->rightFootIndex);
 
     if (!ok)
     {
@@ -221,60 +297,82 @@ bool MANNTrajectoryGenerator::initialize(
     m_pimpl->output.jointPositions.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.angularMomentumTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.comTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.timestamps.resize(m_pimpl->horizon / m_pimpl->dT);
 
-    return m_pimpl->mann.initialize(paramHandler);
+    m_pimpl->gravity.setZero();
+    m_pimpl->gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
+    return m_pimpl->mannAutoregressive.initialize(paramHandler);
 }
 
-void MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
-                                              const Contacts::EstimatedContact& leftFoot,
-                                              const Contacts::EstimatedContact& rightFoot,
-                                              const manif::SE3d& basePose,
-                                              const std::chrono::nanoseconds& time)
+bool MANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                              const manif::SE3d& basePose)
 {
-    Impl::MergePointState temp;
-    temp.input.jointPositions = jointPositions;
-    temp.input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
-    temp.input.basePositionTrajectory = Eigen::MatrixXd::Zero(2, m_pimpl->projectedBaseHorizonSize);
-    temp.input.baseVelocitiesTrajectory
-        = Eigen::MatrixXd::Zero(2, m_pimpl->projectedBaseHorizonSize);
-    temp.input.facingDirectionTrajectory.resize(2, m_pimpl->projectedBaseHorizonSize);
-    for (int i = 0; i < m_pimpl->projectedBaseHorizonSize; i++)
-    {
-        temp.input.facingDirectionTrajectory.col(i) << 1.0, 0.0;
-    }
-    temp.basePosition = basePose;
-    temp.baseVelocity = manif::SE3Tangentd::Zero();
-    temp.leftFoot = leftFoot;
-    temp.rightFoot = rightFoot;
-    temp.time = time;
+    constexpr auto logPrefix = "[MANNTrajectoryGenerator::setInitialState]";
 
-    // 51 is the length of 1 second of past trajectory stored in the autoregressive state. Since the
-    // original mocap data are collected at 50 Hz, and therefore the trajectory generation is
-    // assumed to proceed at 50 Hz, we need 50 datapoints to store the past second of trajectory.
-    // Along with the present datapoint, they sum up to 51!
-    constexpr size_t lengthOfPresentPlusPastTrajectory = 51;
-    temp.autoregressiveState.pastProjectedBasePositions
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
-    temp.autoregressiveState.pastProjectedBaseVelocity
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{0.0, 0.0}};
-    temp.autoregressiveState.pastFacingDirection
-        = std::deque<Eigen::Vector2d>{lengthOfPresentPlusPastTrajectory, Eigen::Vector2d{1.0, 0.0}};
-    temp.autoregressiveState.I_H_FD = manif::SE2d::Identity();
-    temp.autoregressiveState.previousMannInput = temp.input;
-    temp.leftFootSchmittTriggerState.state = leftFoot.isActive;
-    temp.rightFootSchmittTriggerState.state = rightFoot.isActive;
+    Impl::MANNTrajectoryGeneratorState trajectoryGeneratorState;
+    if (!m_pimpl->mannAutoregressive
+             .populateInitialAutoregressiveState(jointPositions,
+                                                 basePose,
+                                                 trajectoryGeneratorState.MANNAutoregressiveState))
+    {
+        log()->error("{} Unable to populate the initial autoregressive state.", logPrefix);
+        return false;
+    }
+
+    // compute the CoM position
+    Eigen::Matrix<double, 6, 1> baseVelocity;
+    baseVelocity.setZero();
+    const Eigen::VectorXd jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
+    if (!m_pimpl->kinDyn.setRobotState(basePose.transform(),
+                                       jointPositions,
+                                       baseVelocity,
+                                       jointVelocities,
+                                       m_pimpl->gravity))
+    {
+        log()->error("{} Unable to reset the kindyncomputations object.", logPrefix);
+        return false;
+    }
+
+    // at the beginning the scaled and the unscaled position are the same
+    trajectoryGeneratorState.com.previous
+        = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    trajectoryGeneratorState.com.previousScaled = trajectoryGeneratorState.com.previous;
+
+    trajectoryGeneratorState.basePosition.previous = basePose.translation();
+    trajectoryGeneratorState.basePosition.previousScaled
+        = trajectoryGeneratorState.basePosition.previous;
+
+    // reset the contact list
+    m_pimpl->footState.clear();
+
+    // add the first contact
+    Impl::ScalingState<Eigen::Vector3d> leftScalingState;
+    leftScalingState.previous
+        = trajectoryGeneratorState.MANNAutoregressiveState.leftFootState.contact.pose.translation();
+    leftScalingState.previousScaled = leftScalingState.previous;
+    m_pimpl->footState[trajectoryGeneratorState.MANNAutoregressiveState.leftFootState.contact.name]
+        .push_back(std::move(leftScalingState));
+
+    Impl::ScalingState<Eigen::Vector3d> rightScalingState;
+    rightScalingState.previous
+        = trajectoryGeneratorState.MANNAutoregressiveState.rightFootState.contact.pose.translation();
+    rightScalingState.previousScaled = rightScalingState.previous;
+    m_pimpl->footState[trajectoryGeneratorState.MANNAutoregressiveState.rightFootState.contact.name]
+        .push_back(std::move(rightScalingState));
 
     for (auto& state : m_pimpl->mergePointStates)
     {
-        state = temp;
+        state = trajectoryGeneratorState;
     }
+
+    return true;
 }
 
 bool MANNTrajectoryGenerator::setInput(const Input& input)
 {
     constexpr auto logPrefix = "[MANNTrajectoryGenerator::setInput]";
 
-    if (input.mergePointIndex > m_pimpl->mergePointStates.size())
+    if (input.mergePointIndex >= m_pimpl->mergePointStates.size())
     {
         log()->error("{} The index of the merge point is greater than the entire trajectory.  The "
                      "trajectory lasts {}. I cannot attach a new trajectory at {}.",
@@ -285,31 +383,53 @@ bool MANNTrajectoryGenerator::setInput(const Input& input)
     }
 
     m_pimpl->mannAutoregressiveInput = input;
+    const Impl::MANNTrajectoryGeneratorState& mergePointState
+        = m_pimpl->mergePointStates[input.mergePointIndex];
 
-    const auto& mergePointState = m_pimpl->mergePointStates[input.mergePointIndex];
+    m_pimpl->mergePointStates[0].com = mergePointState.com;
+    m_pimpl->mergePointStates[0].basePosition = mergePointState.basePosition;
 
-
-    if (!m_pimpl->mann.reset(mergePointState.input,
-                             mergePointState.leftFoot,
-                             mergePointState.leftFootSchmittTriggerState,
-                             mergePointState.rightFoot,
-                             mergePointState.rightFootSchmittTriggerState,
-                             mergePointState.basePosition,
-                             mergePointState.baseVelocity,
-                             mergePointState.autoregressiveState,
-                             mergePointState.time))
+    // reset the MANN
+    if (!m_pimpl->mannAutoregressive.reset(mergePointState.MANNAutoregressiveState))
     {
         log()->error("{} Unable to reset MANN.", logPrefix);
         return false;
     }
 
-    // clean the contact list map this will also create the two values in the dictionary
-    m_pimpl->contactListMap["left_foot"].clear();
-    m_pimpl->contactListMap["right_foot"].clear();
+    const auto& time = mergePointState.MANNAutoregressiveState.time;
+    for (const auto& [contactName, contactList] : m_pimpl->contactListMap)
+    {
+        std::size_t contactIndex = 0;
+        auto contactIt = contactList.getActiveContact(time);
+        if (contactIt != contactList.cend())
+        {
+            contactIndex = std::distance(contactList.cbegin(), contactIt);
+        } else
+        {
+            contactIt = contactList.getNextContact(time);
+            if (contactIt != contactList.cend())
+            {
+                contactIndex = std::distance(contactList.cbegin(), contactIt);
+            } else
+            {
+                contactIndex = contactList.size();
+            }
+        }
+
+        Impl::ScalingState<Eigen::Vector3d> scalingState
+            = m_pimpl->footState[contactName][contactIndex];
+        m_pimpl->footState[contactName].clear();
+        m_pimpl->footState[contactName].push_back(std::move(scalingState));
+    }
 
     // add the first contact if needed
-    return m_pimpl->resetContactList(mergePointState.leftFoot, "left_foot")
-           && m_pimpl->resetContactList(mergePointState.rightFoot, "right_foot");
+    return m_pimpl->resetContactList("left_foot",
+                                     mergePointState.MANNAutoregressiveState.leftFootState.contact,
+                                     mergePointState.MANNAutoregressiveState.time)
+           && m_pimpl
+                  ->resetContactList("right_foot",
+                                     mergePointState.MANNAutoregressiveState.rightFootState.contact,
+                                     mergePointState.MANNAutoregressiveState.time);
 }
 
 bool MANNTrajectoryGenerator::advance()
@@ -319,40 +439,49 @@ bool MANNTrajectoryGenerator::advance()
     // invalidate the output
     m_pimpl->isOutputValid = false;
 
+    Eigen::Vector3d tempPosition;
+    Eigen::Vector2d tempContactPositionScaled;
+
     for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
     {
-        if (!m_pimpl->mann.setInput(m_pimpl->mannAutoregressiveInput))
+        // we need to get the autoregressive state from the MANNAutoregressive before setting the
+        // input and advancing the system. Indeed the autoregressive state at time t is the one
+        // that will be used to generate the output at time t
+        m_pimpl->mergePointStates[i].MANNAutoregressiveState
+            = m_pimpl->mannAutoregressive.getAutoregressiveState();
+
+        if (!m_pimpl->mannAutoregressive.setInput(m_pimpl->mannAutoregressiveInput))
         {
-            log()->error("{} Unable to set the input to MANN.", logPrefix);
+            log()->error("{} Unable to set the input of MANN at iteration number {}.",
+                         logPrefix,
+                         i);
             return false;
         }
 
-        if (!m_pimpl->mann.advance())
+        if (!m_pimpl->mannAutoregressive.advance())
         {
             log()->error("{} Unable to perform the iteration number {} of MANN.", logPrefix, i);
             return false;
         }
 
-        const auto& MANNOutput = m_pimpl->mann.getOutput();
-
-        // store the status required to reset the system
-        m_pimpl->mergePointStates[i].basePosition = MANNOutput.basePose;
-        m_pimpl->mergePointStates[i].autoregressiveState = m_pimpl->mann.getAutoregressiveState();
-        m_pimpl->mergePointStates[i].baseVelocity = MANNOutput.baseVelocity;
-        m_pimpl->mergePointStates[i].input = m_pimpl->mann.getMANNInput();
-        m_pimpl->mergePointStates[i].leftFoot = MANNOutput.leftFoot;
-        m_pimpl->mergePointStates[i].leftFootSchmittTriggerState = MANNOutput.leftFootSchmittTriggerState;
-        m_pimpl->mergePointStates[i].rightFoot = MANNOutput.rightFoot;
-        m_pimpl->mergePointStates[i].rightFootSchmittTriggerState = MANNOutput.rightFootSchmittTriggerState;
-        m_pimpl->mergePointStates[i].time = MANNOutput.currentTime;
+        if (!m_pimpl->mannAutoregressive.isOutputValid())
+        {
+            log()->error("{} The output of MANN is not valid at iteration number {}.",
+                         logPrefix,
+                         i);
+            return false;
+        }
+        const auto& MANNOutput = m_pimpl->mannAutoregressive.getOutput();
 
         // populate the output of the trajectory generator
-        m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.jointPositions[i] = MANNOutput.jointsPosition;
         m_pimpl->output.angularMomentumTrajectory[i] = MANNOutput.angularMomentum;
+        m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.comTrajectory[i] = MANNOutput.comPosition;
+        m_pimpl->output.timestamps[i] = MANNOutput.currentTime;
 
-        if (!m_pimpl->updateContactList("left_foot", MANNOutput.currentTime, MANNOutput.leftFoot))
+        // update the contacts lists
+        if (!m_pimpl->updateContactList("left_foot", MANNOutput.leftFoot, MANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the left_foot at iteration "
                          "number {}.",
@@ -360,8 +489,7 @@ bool MANNTrajectoryGenerator::advance()
                          i);
             return false;
         }
-
-        if (!m_pimpl->updateContactList("right_foot", MANNOutput.currentTime, MANNOutput.rightFoot))
+        if (!m_pimpl->updateContactList("right_foot", MANNOutput.rightFoot, MANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the right_foot at iteration "
                          "number {}.",
@@ -369,10 +497,105 @@ bool MANNTrajectoryGenerator::advance()
                          i);
             return false;
         }
+
+        // the next previous position is the current position
+        if (i < m_pimpl->mergePointStates.size() - 1)
+        {
+            m_pimpl->mergePointStates[i + 1].com.previous = MANNOutput.comPosition;
+            m_pimpl->mergePointStates[i + 1].basePosition.previous
+                = MANNOutput.basePose.translation();
+        }
     }
 
-    // populate the phase list
-    m_pimpl->output.phaseList.setLists(m_pimpl->contactListMap);
+    // The following code is required to scale the output of the trajectory generator
+    // In particular we need to scale the following quantities:
+    // - angular momentum
+    // - com trajectory
+    // - base position
+    // - contact position
+    // - the time stamps
+
+    // scale the com trajectory, the base position, the angular momentum nad the time stamps
+    // To scale the CoM and the base position we use the following formula:
+    //      x_scaled = x_previous_scaled + scaling_factor * (x - x_previous)
+    for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
+    {
+        // scale the time stamps associated to the signal vectors.
+        // The time stamps are scaled using the following formula
+        // t_scaled = t * slow_down_factor
+        m_pimpl->output.timestamps[i] *= m_pimpl->slowDownFactor;
+
+        // scale the angular momentum trajectory considering the time slow down factor
+        // h_scaled = h / slow_down_factor
+        // if the slow down factor is equal to 1.0 then the angular momentum is not scaled
+        // if the slow down factor is greater than 1.0 then the angular momentum is scaled
+        m_pimpl->output.angularMomentumTrajectory[i] /= m_pimpl->slowDownFactor;
+
+        // evaluate the com scaled
+        m_pimpl->output.comTrajectory[i] = m_pimpl->mergePointStates[i].com.previousScaled
+                                           + m_pimpl->scalingFactor
+                                                 * (m_pimpl->output.comTrajectory[i]
+                                                    - m_pimpl->mergePointStates[i].com.previous);
+
+        // evaluate the base position scaled
+        const Eigen::Vector3d scaledBasePosition
+            = m_pimpl->mergePointStates[i].basePosition.previousScaled
+              + m_pimpl->scalingFactor
+                    * (m_pimpl->output.basePoses[i].translation()
+                       - m_pimpl->mergePointStates[i].basePosition.previous);
+        m_pimpl->output.basePoses[i].translation(scaledBasePosition);
+
+        // update the previous position considering that the next previous is the current
+        if (i < m_pimpl->mergePointStates.size() - 1)
+        {
+            m_pimpl->mergePointStates[i + 1].com.previousScaled = m_pimpl->output.comTrajectory[i];
+
+            m_pimpl->mergePointStates[i + 1].basePosition.previousScaled
+                = m_pimpl->output.basePoses[i].translation();
+        }
+    }
+
+    // scaled contact list map
+    Contacts::ContactListMap scaledContactListMap;
+    for (const auto& [contactName, contactList] : m_pimpl->contactListMap)
+    {
+        for (int i = 0; i < contactList.size(); i++)
+        {
+            // create the scaled contact (we need to scale the activation and deactivation time)
+            Contacts::PlannedContact scaledContact = contactList[i];
+            scaledContact.activationTime *= m_pimpl->slowDownFactor;
+            if (scaledContact.deactivationTime != std::chrono::nanoseconds::max())
+            {
+                scaledContact.deactivationTime *= m_pimpl->slowDownFactor;
+            }
+
+            // scale the position
+            const Eigen::Vector3d scaledPosition
+                = m_pimpl->footState[contactName][i].previousScaled
+                  + m_pimpl->scalingFactor
+                        * (contactList[i].pose.translation()
+                           - m_pimpl->footState[contactName][i].previous);
+            scaledContact.pose.translation(scaledPosition);
+
+            // add the contact to the scaled contact list
+            if (!scaledContactListMap[contactName].addContact(scaledContact))
+            {
+                log()->error("{} Unable to add the contact named {} to the scaled contact list.",
+                             logPrefix,
+                             contactName);
+                return false;
+            }
+
+            // update the previous position considering that the next previous is the current
+            Impl::ScalingState<Eigen::Vector3d> scaledContactState;
+            scaledContactState.previousScaled = scaledPosition;
+            scaledContactState.previous = contactList[i].pose.translation();
+            m_pimpl->footState[contactName].push_back(std::move(scaledContactState));
+        }
+    }
+
+    // populate the phase list with the scaled contact list map
+    m_pimpl->output.phaseList.setLists(scaledContactListMap);
 
     m_pimpl->isOutputValid = true;
 

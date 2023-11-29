@@ -28,6 +28,37 @@ namespace ML
 {
 
 /**
+ * MANNFootState contains the state of a foot in contact with the ground.
+ */
+struct MANNFootState
+{
+    Contacts::EstimatedContact contact; /**< Contact state */
+    Math::SchmittTriggerState schmittTriggerState; /**< Schmitt trigger state */
+    std::vector<Eigen::Vector3d> corners; /**< Corners of the foot */
+
+    /**
+     * Generate a foot state.
+     * @param kindyn an instance of KinDynComputations used to compute the foot position.
+     * @param corners Vector containing the corners of the foot expressed in the foot frame (i.e., a
+     * frame attached to the foot sole with the x axis pointing forward, the y axis pointing to the
+     * left and the z axis pointing upward).
+     * @param footName name of the foot.
+     * @param footIndex index of the foot in the model. This is required to compute the foot
+     * position with the KinDynComputations object.
+     * @return a dummy MANNFootState.
+     * @note a dummy MANNFootState is generated assuming that the foot is in contact with the ground
+     * and the Math::SchmittTriggerState is in the on state (i.e., the foot is in contact). Moreover
+     * a dummy MANNFootState is generated setting to zero the switch time of the Schmitt trigger.
+     * @warning This function assumes that the foot is in contact with the ground and the
+     * Math::SchmittTriggerState is in the on state (i.e., the foot is in contact).
+     */
+    static MANNFootState generateFootState(iDynTree::KinDynComputations& kindyn,
+                                           const std::vector<Eigen::Vector3d>& corners,
+                                           const std::string& footName,
+                                           int footIndex);
+};
+
+/**
  * MANNAutoregressiveInput contains the unput to MANN network when used in autoregressive fashion.
  * The base position trajectory, facing direction trajectory and base velocity trajectories are
  * written in a bidimensional local reference frame L in which we assume all the quantities related
@@ -60,15 +91,14 @@ struct MANNAutoregressiveOutput
     Eigen::VectorXd jointsPosition; /**< Joint positions in radians */
     manif::SE3d basePose; /**< Base pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
     manif::SE3d::Tangent baseVelocity; /**< Base velocity in mixed representation */
-    Eigen::Vector3d comPosition;
-    Eigen::Vector3d angularMomentum;
+    Eigen::Vector3d comPosition; /**< Position of the CoM with respect to the inertial frame */
+    Eigen::Vector3d angularMomentum; /**< Centroidal angular momentum */
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
-    Math::SchmittTriggerState leftFootSchmittTriggerState;
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
-    Math::SchmittTriggerState rightFootSchmittTriggerState;
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */
 };
 
+// clang-format off
 /**
  * MANNAutoregressive is a class that allows to perform autoregressive inference with Mode-Adaptive
  * Neural Networks (MANN).
@@ -82,10 +112,21 @@ struct MANNAutoregressiveOutput
  * in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022,
  * doi: 10.1109/LRA.2022.3141658." https://doi.org/10.1109/LRA.2022.3141658
  */
+// clang-format on
 class MANNAutoregressive
     : public System::Advanceable<MANNAutoregressiveInput, MANNAutoregressiveOutput>
 {
 public:
+    /**
+     * SupportFoot is an enum that contains the support foot considered by the MANN network.
+     */
+    enum class SupportFoot
+    {
+        Left, /**< Left foot */
+        Right, /**< Right foot */
+        Unknown /**< This is useful to detect unexpected behaviour */
+    };
+
     /**
      * AutoregressiveState contains all quantities required to reset the Advanceable
      * The base position trajectory, facing direction trajectory and base velocity trajectories are
@@ -96,7 +137,9 @@ public:
      */
     struct AutoregressiveState
     {
-        MANNInput previousMannInput; /**< Mann Input at the previous time instant */
+        MANNOutput previousMANNOutput; /**< Output of the MANN network generated at the previous
+                                          iteration */
+        MANNInput previousMANNInput; /**< Input to the MANN network at previous iteration */
         manif::SE2d I_H_FD; /**< SE(2) transformation of the facing direction respect to the
                                inertial frame*/
 
@@ -111,6 +154,42 @@ public:
         /** Past projected base velocity, Each element of the deque contains the x and y velocity
          * projected into the ground. */
         std::deque<Eigen::Vector2d> pastProjectedBaseVelocity;
+
+        MANNFootState leftFootState; /**< Left foot state */
+        MANNFootState rightFootState; /**< Right foot state */
+        manif::SE3d I_H_B; /**< SE(3) transformation of the base respect to the inertial frame */
+        SupportFoot supportFoot{SupportFoot::Unknown}; /**< Support foot */
+        Eigen::Vector3d projectedContactPositionInWorldFrame; /**< Projected contact position in
+                                                                 world frame */
+        int supportCornerIndex{-1}; /**< Index of the support corner */
+
+        std::chrono::nanoseconds time; /**< Current time stored in the advanceable */
+
+        /**
+         * Generate a dummy autoregressive state from the input.
+         * @param input input to the autoregressive model.
+         * @param output output of the autoregressive model.
+         * @param I_H_B SE(3) transformation of the base respect to the inertial frame.
+         * @param leftFootState left foot state.
+         * @param rightFootState right foot state.
+         * @param mocapFrameRate frame rate of the mocap data.
+         * @param pastProjectedBaseHorizon number of samples of the past base horizon considered in
+         * the neural network.
+         * @return A dummy AutoregressiveState.
+         * @note A dummy AutoregressiveState is generated zeroing the
+         * projectedContactPositionInWorldFrame, zeroing the pastProjectedBasePositions and
+         * pastProjectedBaseVelocity. On the other hand, the pastFacingDirection is generated with
+         * the first row equal to one and the second to zero. The dummy AutoregressiveState set the
+         * time to zero.
+         */
+        static AutoregressiveState
+        generateDummyAutoregressiveState(const MANNInput& input,
+                                         const MANNOutput& output,
+                                         const manif::SE3d& I_H_B,
+                                         const MANNFootState& leftFootState,
+                                         const MANNFootState& rightFootState,
+                                         int mocapFrameRate,
+                                         const std::chrono::nanoseconds& pastProjectedBaseHorizon);
     };
 
     /**
@@ -131,6 +210,7 @@ public:
      */
     bool setRobotModel(const iDynTree::Model& model);
 
+    // clang-format off
     /**
      * Initialize the network.
      * @param paramHandler pointer to the parameters handler.
@@ -142,24 +222,27 @@ public:
      * | `chest_link_frame_name`  | `string` |                                 Name of of the chest link frame in the model.                                 |    Yes    |
      * | `right_foot_frame_name`  | `string` |                                 Name of of the right foot frame in the model.                                 |    Yes    |
      * |  `left_foot_frame_name`  | `string` |                                  Name of of the left foot frame in the model.                                 |    Yes    |
-     * |    `forward_direction`   | `string` | String cointaining 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
+     * |    `forward_direction`   | `string` |  String containing 'x', 'y' or 'z' representing the foot link forward axis. Currently, only 'x' is supported. |    Yes    |
+     * |    `mocap_frame_rate`    |   `int`  |                                       Frame rate of the mocap data.                                           |    Yes    |
+     * | `past_projected_horizon` | `double` |                    Number of seconds of the past base horizon considered in the neural network.               |    Yes    |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
      * |    Parameter Name    |       Type       |                                                        Description                                                           | Mandatory |
      * |:--------------------:|:----------------:|:----------------------------------------------------------------------------------------------------------------------------:|:---------:|
      * |  `number_of_corners` |       `int`      |                                        Number of corners associated to the foot                                              |    Yes    |
-     * |      `corner_<i>`    | `vector<double>` |               Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.                 |    Yes    |
+     * |      `corner_<i>`    | `vector<double>` |               Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.                |    Yes    |
      * |     `on_threshold`   |     `double`     |  Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.  |    Yes    |
-     * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive. |    Yes    |
+     * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.|    Yes    |
      * |   `switch_on_after`  |     `double`     |     Seconds to wait for before switching to activate from deactivate contact. Ensure it's greater than sampling time.        |    Yes    |
      * |  `switch_off_after`  |     `double`     |     Seconds to wait for before switching to deactivate from activate contact. Ensure it's greater than sampling time.        |    Yes    |
      * Finally it also required to define a group named `MANN` that contains the following parameter
-     * |      Parameter Name      |   Type   |                          Description                                | Mandatory |
-     * |:------------------------:|:--------:|:-------------------------------------------------------------------:|:---------:|
-     * |    `onnx_model_path`     | `string` |  Path to the `onnx` model that will be loaded to perform inference. |    Yes    |
-     * | `projected_base_horizon` |  `int`   |    Number of samples of the base horizon considered in the model.   |    Yes    |
+     * |          Parameter Name         |   Type   |                                         Description                                         | Mandatory |
+     * |:-------------------------------:|:--------:|:-------------------------------------------------------------------------------------------:|:---------:|
+     * |        `onnx_model_path`        | `string` |         Path to the `onnx` model that will be loaded to perform inference.                  |    Yes    |
+     * |   `projected_base_datapoints`   |  `int`   | Number of samples of the base horizon considered in the model (It must be an even number).  |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the input to the autoregressive model.
@@ -176,43 +259,24 @@ public:
 
     /**
      * Reset the autoregressive model
-     * @param input raw mann input.
-     * @param leftFoot state of the left foot.
-     * @param rightFoot state of the right foot.
-     * @param basePosition current base position.
-     * @param baseVelocity current base velocity expressed in mixed representation.
+     * @param jointPositions joint position.
+     * @param basePose base pose.
      * @return true in case of success, false otherwise.
-     * @note please call this function the before calling MANNAutoregressive::advance the first time
-     * time.
+     * @note Please call this function before calling MANNAutoregressive::advance the first time.
+     * @warning This function assumes that both the feet are in contact with the ground, the joint
+     * and base velocities equal to zero.
+     * @warning This function reset also the internal time to zero.
      */
-    bool reset(const MANNInput& input,
-               const Contacts::EstimatedContact& leftFoot,
-               const Contacts::EstimatedContact& rightFoot,
-               const manif::SE3d& basePose,
-               const manif::SE3Tangentd& baseVelocity);
+    bool reset(Eigen::Ref<const Eigen::VectorXd> jointPositions, const manif::SE3d& basePose);
 
     /**
      * Reset the autoregressive model
-     * @param input raw mann input.
-     * @param leftFoot state of the left foot.
-     * @param rightFoot state of the right foot.
-     * @param basePosition current base position.
-     * @param baseVelocity current base velocity expressed in mixed representation.
      * @param autoregressiveState the autoregressive state at which you want to reset your model.
-     * @param time time used to reset the system
      * @return true in case of success, false otherwise.
-     * @note please call this function the before calling MANNAutoregressive::advance the first time
+     * @note Please call this function the before calling MANNAutoregressive::advance the first time
      * time.
      */
-    bool reset(const MANNInput& input,
-               const Contacts::EstimatedContact& leftFoot,
-               const Math::SchmittTriggerState& leftFootSchimittTriggerState,
-               const Contacts::EstimatedContact& rightFoot,
-               const Math::SchmittTriggerState& rightFootSchimittTriggerState,
-               const manif::SE3d& basePosition,
-               const manif::SE3Tangentd& baseVelocity,
-               const AutoregressiveState& autoregressiveState,
-               const std::chrono::nanoseconds& time);
+    bool reset(const AutoregressiveState& autoregressiveState);
 
     /**
      * Check if the output is valid.
@@ -237,6 +301,19 @@ public:
      * @return the AutoregressiveState
      */
     const AutoregressiveState& getAutoregressiveState() const;
+
+    /**
+     * Get the autoregressive state required to reset MANNAutoregressive.
+     * @param jointPositions joint position
+     * @param basePose base pose
+     * @param state autoregressive state that will be populated
+     * @return true in case of success, false otherwise.
+     * @note This function assumes that both the feet are in contact with the ground, the joint
+     * and base velocities equal to zero.
+     */
+    bool populateInitialAutoregressiveState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+                                            const manif::SE3d& basePose,
+                                            MANNAutoregressive::AutoregressiveState& state);
 
 private:
     struct Impl;
