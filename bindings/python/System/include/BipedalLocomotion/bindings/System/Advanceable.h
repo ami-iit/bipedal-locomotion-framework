@@ -62,6 +62,8 @@ void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassN
 {
     namespace py = ::pybind11;
 
+    // the empty signal is already registered by the system module
+    // please check Advanceable.cpp
     if constexpr (!std::is_same<Input, ::BipedalLocomotion::System::EmptySignal>())
     {
         ::BipedalLocomotion::bindings::System::CreateInputPort<Input>(module, pythonClassName);

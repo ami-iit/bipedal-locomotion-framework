@@ -14,7 +14,6 @@ if(FRAMEWORK_COMPILE_Math)
                           ${H_PREFIX}/Spline.h ${H_PREFIX}/CubicSpline.h ${H_PREFIX}/QuinticSpline.h
     SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp src/ContactWrenchCone.cpp
                           src/SchmittTrigger.cpp src/QuadraticBezierCurve.cpp
-                          src/CubicSpline.cpp src/QuinticSpline.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler
                           BipedalLocomotion::TextLogging BipedalLocomotion::System MANIF::manif
     SUBDIRECTORIES        tests)

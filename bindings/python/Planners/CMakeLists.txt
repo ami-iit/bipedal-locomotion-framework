@@ -13,11 +13,13 @@ if(TARGET BipedalLocomotion::Planners)
     src/TimeVaryingDCMPlanner.cpp
     src/SwingFootPlanner.cpp
     src/Module.cpp
+    src/Spline.cpp
     HEADERS
     ${H_PREFIX}/DCMPlanner.h
     ${H_PREFIX}/TimeVaryingDCMPlanner.h
     ${H_PREFIX}/SwingFootPlanner.h
     ${H_PREFIX}/Module.h
+    ${H_PREFIX}/Spline.h
     LINK_LIBRARIES
     BipedalLocomotion::System
     BipedalLocomotion::Planners

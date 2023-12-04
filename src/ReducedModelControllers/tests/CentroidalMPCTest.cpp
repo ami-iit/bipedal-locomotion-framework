@@ -136,7 +136,7 @@ TEST_CASE("CentroidalMPC")
     BipedalLocomotion::Contacts::ContactPhaseList phaseList;
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
 
-    BipedalLocomotion::Math::QuinticSpline comSpline;
+    BipedalLocomotion::Math::QuinticSpline<Eigen::Vector3d> comSpline;
 
     constexpr int scaling = 1;
     constexpr double scalingPos = 4.0;
@@ -227,7 +227,7 @@ TEST_CASE("CentroidalMPC")
     contactListMap["right_foot"].addContact(rightTransform, 28s * scaling, 29s * scaling);
     phaseList.setLists(contactListMap);
 
-    std::vector<Eigen::VectorXd> comKnots;
+    std::vector<Eigen::Vector3d> comKnots;
     std::vector<std::chrono::nanoseconds> timeKnots;
 
     timeKnots.push_back(phaseList.cbegin()->beginTime);

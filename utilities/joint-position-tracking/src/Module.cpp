@@ -146,8 +146,8 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     m_setPoints.push_back((maxValue + minValue) / 2);
 
     m_spline.setAdvanceTimeStep(m_dT);
-    m_spline.setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
-    m_spline.setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
+    m_spline.setInitialConditions(Eigen::VectorXd::Zero(1), Eigen::VectorXd::Zero(1));
+    m_spline.setFinalConditions(Eigen::VectorXd::Zero(1), Eigen::VectorXd::Zero(1));
 
     m_timeKnots.clear();
     m_timeKnots.push_back(std::chrono::nanoseconds::zero());

@@ -8,7 +8,6 @@
 // clang-format off
 #include <pybind11/pybind11.h>
 
-#include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/ParametersHandler/Module.h>
 #include <BipedalLocomotion/bindings/TextLogging/Module.h>
 #include <BipedalLocomotion/bindings/TextLogging/TextLogging.h>
@@ -33,6 +32,10 @@
 #include <BipedalLocomotion/bindings/System/Module.h>
 #include <BipedalLocomotion/bindings/System/Clock.h>
 @endcmakeiftarget BipedalLocomotion::System
+
+@cmakeiftarget BipedalLocomotion::Math
+#include <BipedalLocomotion/bindings/Math/Module.h>
+@endcmakeiftarget BipedalLocomotion::Math
 
 @cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
 #include <BipedalLocomotion/bindings/System/YarpModule.h>
@@ -137,14 +140,16 @@ PYBIND11_MODULE(bindings, m)
     bindings::ParametersHandler::CreateTomlModule(parametersHandlerModule);
     @endcmakeiftarget BipedalLocomotion::ParametersHandler && BipedalLocomotion::ParametersHandlerTomlImplementation
 
-    py::module mathModule = m.def_submodule("math");
-    bindings::Math::CreateModule(mathModule);
-
     @cmakeiftarget BipedalLocomotion::System
     py::module systemModule = m.def_submodule("system");
     bindings::System::CreateModule(systemModule);
     bindings::CreateClock(m);
     @endcmakeiftarget BipedalLocomotion::System
+
+    @cmakeiftarget BipedalLocomotion::Math
+    py::module mathModule = m.def_submodule("math");
+    bindings::Math::CreateModule(mathModule);
+    @endcmakeiftarget BipedalLocomotion::Math
 
     @cmakeiftarget BipedalLocomotion::System && BipedalLocomotion::SystemYarpImplementation
     bindings::System::CreateYarpModule(systemModule);

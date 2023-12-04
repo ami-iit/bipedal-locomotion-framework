@@ -34,9 +34,9 @@ struct TimeVaryingDCMPlanner::Impl
                                           constraints related to the position of the Zero Moment
                                           Point (ZMP) */
 
-    BipedalLocomotion::Math::QuinticSpline dcmRef; /**< Spline used to compute the internal DCM.
-                                                      This is used only if useExternalDCMReference
-                                                      is false. */
+    BipedalLocomotion::Math::QuinticSpline<Eigen::Vector3d> dcmRef; /**< Spline used to compute the
+                                                      internal DCM. This is used only if
+                                                      useExternalDCMReference is false. */
     Eigen::MatrixXd externalDCMTrajectory; /**< External DCM trajectory. This is used only if
                                               useExternalDCMReference is true. */
 
@@ -416,7 +416,7 @@ struct TimeVaryingDCMPlanner::Impl
     bool computeDCMRegularization(const ContactPhaseList& contactPhaseList,
                                   const DCMPlannerState& initialState)
     {
-        std::vector<Eigen::VectorXd> dcmKnots;
+        std::vector<Eigen::Vector3d> dcmKnots;
         std::vector<std::chrono::nanoseconds> timeKnots;
 
         // first point
@@ -476,9 +476,9 @@ struct TimeVaryingDCMPlanner::Impl
         // populate the reference
         this->initialValue.dcm = casadi::DM::zeros(3, this->optiVariables.dcm.columns());
         Eigen::Vector3d velocity, acceleration;
-        Eigen::Map<Eigen::MatrixXd> initialValueDCMEigenMap(initialValue.dcm.ptr(),
-                                                            initialValue.dcm.rows(),
-                                                            initialValue.dcm.columns());
+        Eigen::Map<Eigen::Matrix3Xd> initialValueDCMEigenMap(initialValue.dcm.ptr(),
+                                                             initialValue.dcm.rows(),
+                                                             initialValue.dcm.columns());
 
         for (int i = 0; i < this->optiVariables.dcm.columns(); i++)
         {

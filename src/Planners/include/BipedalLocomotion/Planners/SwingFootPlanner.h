@@ -60,10 +60,13 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                                                     contact before the current swing phase. */
 
     SO3PlannerInertial m_SO3Planner; /**< Trajectory planner in SO(3) */
-    std::unique_ptr<Math::Spline> m_planarPlanner; /**< Trajectory planner for the x y coordinates
-                                                of the foot */
-    std::unique_ptr<Math::Spline> m_heightPlanner; /**< Trajectory planner for the z coordinate of
-                                                the foot */
+    std::unique_ptr<Math::Spline<Eigen::Vector2d>> m_planarPlanner; /**< Trajectory planner for the
+                                                                       x y coordinates of the foot
+                                                                     */
+    std::unique_ptr<Math::Spline<Eigen::Matrix<double, 1, 1>>> m_heightPlanner; /**< Trajectory
+                                                                                   planner for the
+                                                                                   z coordinate of
+                                                                                   the foot */
 
     double m_stepHeight{0.0}; /**< Height of the swing foot. Note that this value could not be the
                                  maximum height of the foot. If m_footApexTime is set to 0.5 the
