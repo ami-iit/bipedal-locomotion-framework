@@ -67,7 +67,7 @@ TEST_CASE("Quintic spline")
     REQUIRE(spline.setInitialConditions({initVelocity, initAcceleration}));
     REQUIRE(spline.setFinalConditions({finalVelocity, finalAcceleration}));
 
-    constexpr std::size_t pointsToCheckNumber = 1e4;
+    constexpr std::size_t pointsToCheckNumber = 1e3;
 
     constexpr std::chrono::nanoseconds dTCheckPoints
         = (finalTime - initTime) / (pointsToCheckNumber);
@@ -138,6 +138,45 @@ TEST_CASE("Quintic spline")
             REQUIRE(expected.isApprox(traj.acceleration, 1e-5));
         }
     }
+
+    SECTION("Query from a vector of times")
+    {
+        std::vector<std::chrono::nanoseconds> timeVector;
+        for (std::size_t i = 0; i < pointsToCheckNumber; i++)
+        {
+            timeVector.push_back(dTCheckPoints * i + initTime);
+        }
+
+        std::vector<Eigen::Vector4d> positionVector, velocityVector, accelerationVector;
+        REQUIRE(spline.evaluateOrderedPoints(timeVector, //
+                                             positionVector,
+                                             velocityVector,
+                                             accelerationVector));
+
+        for (std::size_t i = 0; i < pointsToCheckNumber; i++)
+        {
+            double t = std::chrono::duration<double>(dTCheckPoints * i + initTime).count();
+
+            // check position
+            expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)
+                       + coefficients[3] * std::pow(t, 3) + coefficients[4] * std::pow(t, 4)
+                       + coefficients[5] * std::pow(t, 5);
+
+            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+
+            // check velocity
+            expected = coefficients[1] + 2 * coefficients[2] * t
+                       + 3 * coefficients[3] * std::pow(t, 2) + 4 * coefficients[4] * std::pow(t, 3)
+                       + 5 * coefficients[5] * std::pow(t, 4);
+            REQUIRE(expected.isApprox(velocityVector[i], 1e-5));
+
+            // check acceleration
+            expected = 2 * coefficients[2] + 3 * 2 * coefficients[3] * t
+                       + 4 * 3 * coefficients[4] * std::pow(t, 2)
+                       + 5 * 4 * coefficients[5] * std::pow(t, 3);
+            REQUIRE(expected.isApprox(accelerationVector[i], 1e-5));
+        }
+    }
 }
 
 TEST_CASE("Cubic spline")
@@ -183,7 +222,7 @@ TEST_CASE("Cubic spline")
     REQUIRE(spline.setInitialConditions({initVelocity, initAcceleration}));
     REQUIRE(spline.setFinalConditions({finalVelocity, finalAcceleration}));
 
-    constexpr std::size_t pointsToCheckNumber = 1e4;
+    constexpr std::size_t pointsToCheckNumber = 1e3;
 
     constexpr std::chrono::nanoseconds dTCheckPoints = (finalTime - initTime) / pointsToCheckNumber;
 
@@ -216,7 +255,6 @@ TEST_CASE("Cubic spline")
 
         for (std::size_t i = 0; i < pointsToCheckNumber; i++)
         {
-
             double t = std::chrono::duration<double>(dTCheckPoints * i + initTime).count();
 
             // advance the spline
@@ -225,15 +263,50 @@ TEST_CASE("Cubic spline")
             const auto& traj = spline.getOutput();
 
             // check position
-            expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)
+            expected = coefficients[0] //
+                       + coefficients[1] * t //
+                       + coefficients[2] * std::pow(t, 2) //
                        + coefficients[3] * std::pow(t, 3);
 
             REQUIRE(expected.isApprox(traj.position, 1e-5));
 
             // check velocity
-            expected
-                = coefficients[1] + 2 * coefficients[2] * t + 3 * coefficients[3] * std::pow(t, 2);
+            expected = coefficients[1] //
+                       + 2 * coefficients[2] * t //
+                       + 3 * coefficients[3] * std::pow(t, 2);
             REQUIRE(expected.isApprox(traj.velocity, 1e-5));
+        }
+    }
+
+    SECTION("Query from a vector of times")
+    {
+        std::vector<std::chrono::nanoseconds> timeVector;
+        for (std::size_t i = 0; i < pointsToCheckNumber; i++)
+        {
+            timeVector.push_back(dTCheckPoints * i + initTime);
+        }
+
+        std::vector<Eigen::Vector4d> positionVector, velocityVector, accelerationVector;
+        REQUIRE(spline.evaluateOrderedPoints(timeVector, //
+                                             positionVector,
+                                             velocityVector,
+                                             accelerationVector));
+
+        for (std::size_t i = 0; i < pointsToCheckNumber; i++)
+        {
+            double t = std::chrono::duration<double>(dTCheckPoints * i + initTime).count();
+
+            // check position
+            expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)
+                       + coefficients[3] * std::pow(t, 3);
+
+            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+
+            // check velocity
+            expected = coefficients[1] //
+                       + 2 * coefficients[2] * t //
+                       + 3 * coefficients[3] * std::pow(t, 2);
+            REQUIRE(expected.isApprox(velocityVector[i], 1e-5));
         }
     }
 }

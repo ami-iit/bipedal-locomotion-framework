@@ -124,6 +124,20 @@ public:
                        Eigen::Ref<T> acceleration);
 
     /**
+     * Evaluate the spline at given set of points
+     * @param t ordered vector containing the time instant
+     * @param position position at time t
+     * @param velocity velocity at time t
+     * @param acceleration acceleration at time t
+     * @return True in case of success, false otherwise.
+     * @note The time vector has to be ordered. No check is performed.
+     */
+    bool evaluateOrderedPoints(const std::vector<std::chrono::nanoseconds>& t, //
+                               std::vector<T>& position,
+                               std::vector<T>& velocity,
+                               std::vector<T>& acceleration);
+
+    /**
      * Evaluate the spline at a given point
      * @param t instant time
      * @param state of the system
@@ -581,6 +595,72 @@ bool Spline<T>::evaluatePoint(const std::chrono::nanoseconds& t,
     poly->getPosition(t - poly->initialPoint->time, position);
     poly->getVelocity(t - poly->initialPoint->time, velocity);
     poly->getAcceleration(t - poly->initialPoint->time, acceleration);
+
+    return true;
+}
+
+template <typename T>
+bool Spline<T>::evaluateOrderedPoints(const std::vector<std::chrono::nanoseconds>& t,
+                                      std::vector<T>& position,
+                                      std::vector<T>& velocity,
+                                      std::vector<T>& acceleration)
+{
+    constexpr auto logPrefix = "[Spline::evaluateOrderedPoints]";
+
+    if (!this->computeCoefficients())
+    {
+        log()->error("{} Unable to compute the coefficients of the spline.", logPrefix);
+        return false;
+    }
+
+    // resize the output vectors
+    position.resize(t.size());
+    velocity.resize(t.size());
+    acceleration.resize(t.size());
+
+    auto poly = m_polynomials.begin();
+
+    for (std::size_t i = 0; i < t.size(); i++)
+    {
+        // check if the time instant is before the first knot
+        if (t[i] < m_polynomials.front().initialPoint->time)
+        {
+            constexpr std::chrono::nanoseconds initialTime = std::chrono::nanoseconds::zero();
+            poly->getPosition(initialTime, position[i]);
+            poly->getVelocity(initialTime, velocity[i]);
+            poly->getAcceleration(initialTime, acceleration[i]);
+            continue;
+        }
+
+        // check if the time instant is after the last knot
+        if (t[i] >= m_polynomials.back().finalPoint->time)
+        {
+            const auto finalTime = m_polynomials.back().finalPoint->time //
+                                   - m_polynomials.back().initialPoint->time;
+            poly->getPosition(finalTime, position[i]);
+            poly->getVelocity(finalTime, velocity[i]);
+            poly->getAcceleration(finalTime, acceleration[i]);
+            continue;
+        }
+
+        if (poly != m_polynomials.end() && t[i] >= poly->finalPoint->time)
+        {
+            // advance the iterator
+            poly = std::find_if(poly, m_polynomials.end(), [&t, &i](const auto& p) {
+                return ((t[i] >= p.initialPoint->time) && (t[i] < p.finalPoint->time));
+            });
+        }
+
+        if (poly == m_polynomials.end())
+        {
+            log()->error("{} Unable to find the sub-trajectory.", logPrefix);
+            return false;
+        }
+
+        poly->getPosition(t[i] - poly->initialPoint->time, position[i]);
+        poly->getVelocity(t[i] - poly->initialPoint->time, velocity[i]);
+        poly->getAcceleration(t[i] - poly->initialPoint->time, acceleration[i]);
+    }
 
     return true;
 }
