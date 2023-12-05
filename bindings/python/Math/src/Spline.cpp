@@ -27,7 +27,7 @@ namespace bindings
 namespace Math
 {
 
-template <typename T> void CerateTrajectoryPoint(pybind11::module& module, const std::string& name)
+template <typename T> void CreateTrajectoryPoint(pybind11::module& module, const std::string& name)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Math;
@@ -89,7 +89,7 @@ void CreateSpline(pybind11::module& module)
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::Math;
 
-    CerateTrajectoryPoint<Eigen::VectorXd>(module, "TrajectoryPoint");
+    CreateTrajectoryPoint<Eigen::VectorXd>(module, "TrajectoryPoint");
     CreateSplineTmp<Eigen::VectorXd>(module, "Spline");
 }
 
