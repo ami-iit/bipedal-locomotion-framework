@@ -994,10 +994,33 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     auto connectToExogeneous = [](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
-            if (!signal.connected)
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            if (signal.connected)
             {
-                std::lock_guard<std::mutex> lock(signal.mutex);
-                signal.connected = signal.connect();
+                continue;
+            }
+
+            // try to connect to the signal
+            signal.connected = signal.connect();
+
+            // if the connection is successful, get the metadata
+            // this is required only for the vectors collection signal
+            if constexpr (std::is_same_v<
+                              std::decay_t<decltype(signal)>,
+                              std::decay_t<decltype(m_vectorsCollectionSignals)::value_type>>)
+            {
+                if (!signal.connected)
+                {
+                    continue;
+                }
+
+                if (!signal.client.getMetadata(signal.metadata))
+                {
+                    log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
+                                "the metadata for the signal named: {}. The exogenous signal will "
+                                "not contain the metadata.",
+                                name);
+                }
             }
         }
     };
@@ -1018,16 +1041,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         // try to connect to the exogenous signals
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
-
-        for (auto& [key, signal] : m_vectorsCollectionSignals)
-        {
-            if (signal.metadata.vectors.size() != 0)
-            {
-                continue;
-            }
-            std::lock_guard<std::mutex> lock(signal.mutex);
-            signal.client.getMetadata(signal.metadata);
-        }
 
         // release the CPU
         BipedalLocomotion::clock().yield();
