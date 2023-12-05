@@ -22,7 +22,7 @@ namespace BipedalLocomotion
 namespace Math
 {
 /**
- * Quintic spline implement a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
+ * Quintic spline implements a 5-th order polynomial spline in \$f\mathbb{R}^n\$f.
  * @note The spline is defined as a set piecewise polynomial functions of degree 5 of the form
  * \f[
  * s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3 + e_i t^4 + f_i t^5

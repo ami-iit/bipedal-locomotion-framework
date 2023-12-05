@@ -44,7 +44,7 @@ template <typename T> class Spline : public System::Source<TrajectoryPoint<T>>
 {
 
     static_assert(is_base_of_template<Eigen::MatrixBase, T>::value,
-                  "T must be an Eigen type (i.e. Eigen::Vector3d)");
+                  "T must be an Eigen type (e.g. Eigen::Vector3d)");
 
 public:
     /**
@@ -63,7 +63,7 @@ public:
 
     /**
      * Set the time step of the advance interface.
-     * @warning if the the time step is not set the user cannot use the advance features.
+     * @warning if the the time step is not set, the user cannot use the advance features.
      * @param dt the time step of the advance block.
      * @return True in case of success, false otherwise.
      */

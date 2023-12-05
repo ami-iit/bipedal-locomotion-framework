@@ -22,7 +22,7 @@ namespace BipedalLocomotion
 namespace Math
 {
 /**
- * Cubic spline implement a 3-rd order polynomial spline in \$f\mathbb{R}^n\$f.
+ * Cubic spline implements a 3-rd order polynomial spline in \$f\mathbb{R}^n\$f.
  * @note The spline is defined as a set of piecewise polynomial functions of degree 3 of the form
  * \f[
  * s(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3
