@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::Planners::SplineState struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Math::Spline::DerivativeBoundaryConditions struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,10 +61,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>SplineState <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Spline_8h.html">&lt;BipedalLocomotion/Planners/Spline.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Math.html">Math</a>::<wbr/></span><span class="m-breadcrumb"><a href="classBipedalLocomotion_1_1Math_1_1Spline.html">Spline</a>::<wbr/></span>DerivativeBoundaryConditions <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Math_2include_2BipedalLocomotion_2Math_2Spline_8h.html">&lt;BipedalLocomotion/Math/Spline.h&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>BoundaryConditions is a struct that contains the boundary conditions of the spline.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -79,18 +79,14 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="aa070f24d1636fd05fd15f1460f7d23d9">
-              Eigen::VectorXd <a href="#aa070f24d1636fd05fd15f1460f7d23d9" class="m-doc-self">position</a>
+            <dt id="a9ee41b8620cda6184a0ccbc01df0c8d0">
+              T <a href="#a9ee41b8620cda6184a0ccbc01df0c8d0" class="m-doc-self">velocity</a>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a821f4bd8438a473aa362d6f11a3c1f1f">
-              Eigen::VectorXd <a href="#a821f4bd8438a473aa362d6f11a3c1f1f" class="m-doc-self">velocity</a>
+            <dd>Velocity (1st order derivative) of the spline.</dd>
+            <dt id="a27437974ec550d4f7bbbb1dcb5801983">
+              T <a href="#a27437974ec550d4f7bbbb1dcb5801983" class="m-doc-self">acceleration</a>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a6ef3083a77f769c4f3d12cfec22ecac9">
-              Eigen::VectorXd <a href="#a6ef3083a77f769c4f3d12cfec22ecac9" class="m-doc-self">acceleration</a>
-            </dt>
-            <dd><span></span></dd>
+            <dd>Acceleration (2nd order derivative) of the spline.</dd>
           </dl>
         </section>
       </div>

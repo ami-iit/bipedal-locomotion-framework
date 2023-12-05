@@ -3,14 +3,10 @@
   <compounddef id="namespaceBipedalLocomotion_1_1Planners" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::Planners</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper" prot="public">BipedalLocomotion::Planners::ConvexHullHelper</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline" prot="public">BipedalLocomotion::Planners::CubicSpline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState" prot="public">BipedalLocomotion::Planners::DCMPlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1DCMPlanner" prot="public">BipedalLocomotion::Planners::DCMPlanner</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline" prot="public">BipedalLocomotion::Planners::QuinticSpline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SO3PlannerState" prot="public">BipedalLocomotion::Planners::SO3PlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" prot="public">BipedalLocomotion::Planners::SO3Planner</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SplineState" prot="public">BipedalLocomotion::Planners::SplineState</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1Spline" prot="public">BipedalLocomotion::Planners::Spline</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" prot="public">BipedalLocomotion::Planners::SwingFootPlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" prot="public">BipedalLocomotion::Planners::SwingFootPlanner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner" prot="public">BipedalLocomotion::Planners::TimeVaryingDCMPlanner</innerclass>
@@ -47,6 +43,40 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Planners_2include_2BipedalLocomotion_2Planners_2CubicSpline_8h_1abdb0552600c58524e10774cadeb5caa6" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1Math_1_1CubicSpline" kindref="compound">Math::CubicSpline</ref>&lt; Eigen::VectorXd &gt;</type>
+        <definition>using BipedalLocomotion::Planners::CubicSpline = typedef Math::CubicSpline&lt;Eigen::VectorXd&gt;</definition>
+        <argsstring></argsstring>
+        <name>CubicSpline</name>
+        <briefdescription>
+<para>CubicSpline implements a cubic spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>CubicSpline is deprecated please use <ref refid="classBipedalLocomotion_1_1Math_1_1CubicSpline" kindref="compound">BipedalLocomotion::Math::CubicSpline</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/CubicSpline.h" line="22" column="1" bodyfile="BipedalLocomotion/Planners/CubicSpline.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h_1abaac51c4b50447fd41d2cc9937f54568" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline" kindref="compound">Math::QuinticSpline</ref>&lt; Eigen::VectorXd &gt;</type>
+        <definition>using BipedalLocomotion::Planners::QuinticSpline = typedef Math::QuinticSpline&lt;Eigen::VectorXd&gt;</definition>
+        <argsstring></argsstring>
+        <name>QuinticSpline</name>
+        <briefdescription>
+<para>QuinticSpline implements a quintic spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>QuinticSpline is deprecated please use <ref refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline" kindref="compound">BipedalLocomotion::Math::QuinticSpline</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/QuinticSpline.h" line="22" column="1" bodyfile="BipedalLocomotion/Planners/QuinticSpline.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" prot="public" static="no">
         <type><ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref>&lt; LieGroupTrivialization::Right &gt;</type>
         <definition>using BipedalLocomotion::Planners::SO3PlannerInertial = typedef SO3Planner&lt;LieGroupTrivialization::Right&gt;</definition>
@@ -74,6 +104,40 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/Planners/SO3Planner.h" line="236" column="1" bodyfile="BipedalLocomotion/Planners/SO3Planner.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a1774a14eb0a70955db321cd14b526687" prot="public" static="no">
+        <type><ref refid="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint" kindref="compound">Math::TrajectoryPoint</ref>&lt; Eigen::VectorXd &gt;</type>
+        <definition>using BipedalLocomotion::Planners::SplineState = typedef Math::TrajectoryPoint&lt;Eigen::VectorXd&gt;</definition>
+        <argsstring></argsstring>
+        <name>SplineState</name>
+        <briefdescription>
+<para>SplineState implements the state of the spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>SplineState is deprecated please use <ref refid="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint" kindref="compound">BipedalLocomotion::Math::TrajectoryPoint</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Spline.h" line="22" column="1" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a6062d1bba100bc5e427d23ce99673e54" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1Math_1_1Spline" kindref="compound">Math::Spline</ref>&lt; Eigen::VectorXd &gt;</type>
+        <definition>using BipedalLocomotion::Planners::Spline = typedef Math::Spline&lt;Eigen::VectorXd&gt;</definition>
+        <argsstring></argsstring>
+        <name>Spline</name>
+        <briefdescription>
+<para>Spline implements a basic spline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>Spline is deprecated please use <ref refid="classBipedalLocomotion_1_1Math_1_1Spline" kindref="compound">BipedalLocomotion::Math::Spline</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/Spline.h" line="30" column="1" bodyfile="BipedalLocomotion/Planners/Spline.h" bodystart="32" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

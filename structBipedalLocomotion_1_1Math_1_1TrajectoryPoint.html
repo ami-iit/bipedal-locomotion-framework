@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/Planners/CubicSpline.h file | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Math::TrajectoryPoint struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,37 +61,41 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_ca39150e121c2f7552b8919c494e6981.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_9a2340c01aedb0f76560dc44ac9c4ec3.html">Planners</a>/</span>CubicSpline.h <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Math_2include_2BipedalLocomotion_2Math_2Spline_8h.html">&lt;BipedalLocomotion/Math/Spline.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Math.html">Math</a>::<wbr/></span>TrajectoryPoint <span class="m-thin">struct</span>
         </h1>
+        <p><a href="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint.html" class="m-doc">TrajectoryPoint</a> is a struct that contains the information of a trajectory point.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
-            <dd></dd>
-            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Planners.html" class="m-doc">BipedalLocomotion::Planners</a></dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              class <a href="classBipedalLocomotion_1_1Planners_1_1CubicSpline.html" class="m-doc">BipedalLocomotion::Planners::CubicSpline</a>
+            <dt id="a138e914603c90d63c54f4d73850a3ec5">
+              T <a href="#a138e914603c90d63c54f4d73850a3ec5" class="m-doc-self">position</a>
             </dt>
-            <dd>Cubic spline implement a 3-rd order polynomial spline in $f\mathbb{R}^n$f.</dd>
+            <dd>Position of the spline.</dd>
+            <dt id="a684156cb839aaa2ffaeb6fcc25d997e6">
+              T <a href="#a684156cb839aaa2ffaeb6fcc25d997e6" class="m-doc-self">velocity</a>
+            </dt>
+            <dd>Velocity (1st order derivative) of the spline.</dd>
+            <dt id="a7a87c229e1585c1d1fcc11bcf64e160c">
+              T <a href="#a7a87c229e1585c1d1fcc11bcf64e160c" class="m-doc-self">acceleration</a>
+            </dt>
+            <dd>Acceleration (2nd order derivative) of the spline.</dd>
+            <dt id="a3cba21a13537c0660281db8af3fa4efe">
+              std::chrono::nanoseconds <a href="#a3cba21a13537c0660281db8af3fa4efe" class="m-doc-self">time</a>
+            </dt>
+            <dd>Time instant of the spline.</dd>
           </dl>
         </section>
       </div>

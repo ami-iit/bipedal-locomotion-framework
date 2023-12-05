@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/Planners/QuinticSpline.h file | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion/Math/Spline.h file | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,7 +61,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_ca39150e121c2f7552b8919c494e6981.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_9a2340c01aedb0f76560dc44ac9c4ec3.html">Planners</a>/</span>QuinticSpline.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_b371d329f17cc642f5bbaea0f6ce00fe.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_1f797251479fe07b8714ed87c6242cbe.html">Math</a>/</span>Spline.h <span class="m-thin">file</span>
         </h1>
         <nav class="m-block m-default">
           <h3>Contents</h3>
@@ -75,13 +75,13 @@
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
+<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>20203 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
             <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
             <dd></dd>
-            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Planners.html" class="m-doc">BipedalLocomotion::Planners</a></dt>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Math.html" class="m-doc">BipedalLocomotion::Math</a></dt>
             <dd><span></span></dd>
           </dl>
         </section>
@@ -89,9 +89,23 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classBipedalLocomotion_1_1Planners_1_1QuinticSpline.html" class="m-doc">BipedalLocomotion::Planners::QuinticSpline</a>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a href="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint.html" class="m-doc">BipedalLocomotion::Math::TrajectoryPoint</a>
             </dt>
-            <dd>Quintic spline implement a 5-th order polynomial spline in $f\mathbb{R}^n$f.</dd>
+            <dd><a href="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint.html" class="m-doc">TrajectoryPoint</a> is a struct that contains the information of a trajectory point.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a href="classBipedalLocomotion_1_1Math_1_1Spline.html" class="m-doc">BipedalLocomotion::Math::Spline</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1Math_1_1Spline.html" class="m-doc">Spline</a> implement a basic spline.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1Math_1_1Spline_1_1DerivativeBoundaryConditions.html" class="m-doc">BipedalLocomotion::Math::Spline::DerivativeBoundaryConditions</a>
+            </dt>
+            <dd>BoundaryConditions is a struct that contains the boundary conditions of the spline.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1Math_1_1Spline_1_1Polynomial.html" class="m-doc">BipedalLocomotion::Math::Spline::Polynomial</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1Math_1_1Spline_1_1Polynomial.html" class="m-doc">Polynomial</a> is a struct that contains the information of a polynomial.</dd>
           </dl>
         </section>
       </div>

@@ -5,9 +5,9 @@
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1InputPort" prot="public" virt="non-virtual">BipedalLocomotion::System::InputPort&lt; _Input &gt;</basecompoundref>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1OutputPort" prot="public" virt="non-virtual">BipedalLocomotion::System::OutputPort&lt; _Output &gt;</basecompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; RecursiveLeastSquareState &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; TrajectoryPoint&lt; T &gt; &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; CentroidalMPCOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SensorBridgeMetaData &gt;</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SplineState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SO3PlannerState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; SwingFootPlannerState &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; EstimatedContactList &gt;</derivedcompoundref>
@@ -201,9 +201,8 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Contacts_1_1SchmittTriggerDetector_1a1cf53a6d4a1bc4b6dd682e1c2fef8c69">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RecursiveLeastSquare_1a24cd1a3554e663f9745152f1aa7f3360">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a8deaab0e4940165c59f15355d47ddc79">advance</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1Spline_1a8cf213c9db189bce27a429555f664e60">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Perception_1_1ArucoDetector_1a02ffb159f04eddb8e4d6c99888b31c74">advance</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline_1a1129d62c0563b8c6b522d4dbc670de1d">advance</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline_1afaf364e18dc00d866aef74cf9aff1a19">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a557793850f4ed78b59238328566f1c57">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner_1a557793850f4ed78b59238328566f1c57">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de">advance</reimplementedby>
@@ -330,10 +329,10 @@
           <edgelabel>&lt; Eigen::VectorXd, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="9">
+      <node id="13">
         <label>BipedalLocomotion::RobotInterface::YarpSensorBridge</label>
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge"/>
-        <childnode refid="8" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
       <node id="24">
@@ -380,16 +379,19 @@
         <childnode refid="29" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="13">
-        <label>BipedalLocomotion::Planners::QuinticSpline</label>
-        <link refid="classBipedalLocomotion_1_1Planners_1_1QuinticSpline"/>
-        <childnode refid="11" relation="public-inheritance">
-        </childnode>
-      </node>
       <node id="28">
         <label>BipedalLocomotion::System::ConstantWeightProvider</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider"/>
         <childnode refid="26" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>BipedalLocomotion::System::Source&lt; TrajectoryPoint&lt; T &gt; &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="49" relation="template-instance">
+          <edgelabel>&lt; TrajectoryPoint&lt; T &gt; &gt;</edgelabel>
         </childnode>
       </node>
       <node id="67">
@@ -407,6 +409,12 @@
           <edgelabel>&lt; RecursiveLeastSquareState &gt;</edgelabel>
         </childnode>
       </node>
+      <node id="7">
+        <label>BipedalLocomotion::Math::Spline&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1Math_1_1Spline"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="34">
         <label>BipedalLocomotion::System::ILinearTaskSolver&lt; TSIDLinearTask, TSIDState &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver"/>
@@ -416,7 +424,7 @@
         <childnode refid="49" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="10">
         <label>BipedalLocomotion::System::Source&lt; CentroidalMPCOutput &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="1" relation="public-inheritance">
@@ -463,7 +471,7 @@
           <edgelabel>&lt; MANNDirectionalInput, MANNAutoregressiveInput &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="12">
         <label>BipedalLocomotion::System::Source&lt; SensorBridgeMetaData &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
         <childnode refid="1" relation="public-inheritance">
@@ -482,12 +490,6 @@
         <label>BipedalLocomotion::System::WeightProvider</label>
         <link refid="structBipedalLocomotion_1_1System_1_1WeightProvider"/>
         <childnode refid="25" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>BipedalLocomotion::Planners::CubicSpline</label>
-        <link refid="classBipedalLocomotion_1_1Planners_1_1CubicSpline"/>
-        <childnode refid="11" relation="public-inheritance">
         </childnode>
       </node>
       <node id="54">
@@ -549,15 +551,9 @@
         </childnode>
       </node>
       <node id="11">
-        <label>BipedalLocomotion::Planners::Spline</label>
-        <link refid="classBipedalLocomotion_1_1Planners_1_1Spline"/>
-        <childnode refid="10" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="7">
         <label>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</label>
         <link refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
       <node id="25">
@@ -567,6 +563,12 @@
         </childnode>
         <childnode refid="49" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion::Math::QuinticSpline&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="31">
@@ -613,15 +615,6 @@
         </childnode>
         <childnode refid="49" relation="template-instance">
           <edgelabel>&lt; ArucoDetectorOutput &gt;</edgelabel>
-        </childnode>
-      </node>
-      <node id="10">
-        <label>BipedalLocomotion::System::Source&lt; SplineState &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Source"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-        <childnode refid="49" relation="template-instance">
-          <edgelabel>&lt; SplineState &gt;</edgelabel>
         </childnode>
       </node>
       <node id="15">
@@ -718,6 +711,12 @@
         <label>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics"/>
         <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>BipedalLocomotion::Math::CubicSpline&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1Math_1_1CubicSpline"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="47">

@@ -9,11 +9,11 @@
     <includedby refid="RecursiveLeastSquare_8h" local="no">BipedalLocomotion/Estimators/RecursiveLeastSquare.h</includedby>
     <includedby refid="FloatingBaseEstimator_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</includedby>
     <includedby refid="UkfMeasurement_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h</includedby>
+    <includedby refid="Math_2include_2BipedalLocomotion_2Math_2Spline_8h" local="no">BipedalLocomotion/Math/Spline.h</includedby>
     <includedby refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includedby>
     <includedby refid="ContactDetector_8h" local="no">BipedalLocomotion/ContactDetectors/ContactDetector.h</includedby>
     <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
     <includedby refid="SO3Planner_8h" local="no">BipedalLocomotion/Planners/SO3Planner.h</includedby>
-    <includedby refid="Spline_8h" local="no">BipedalLocomotion/Planners/Spline.h</includedby>
     <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
     <includedby refid="ArucoDetector_8h" local="no">BipedalLocomotion/Perception/Features/ArucoDetector.h</includedby>
     <incdepgraph>
@@ -76,9 +76,13 @@
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
-      <node id="29">
+      <node id="21">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
-        <link refid="QuinticSpline_8h"/>
+        <link refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h"/>
+      </node>
+      <node id="19">
+        <label>BipedalLocomotion/Math/CubicSpline.h</label>
+        <link refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h"/>
       </node>
       <node id="12">
         <label>BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</label>
@@ -98,10 +102,10 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="31">
         <label>BipedalLocomotion/Planners/SO3Planner.h</label>
         <link refid="SO3Planner_8h"/>
-        <childnode refid="26" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -121,17 +125,17 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -152,15 +156,15 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="20">
+      <node id="26">
         <label>BipedalLocomotion/ContactDetectors/ContactDetector.h</label>
         <link refid="ContactDetector_8h"/>
-        <childnode refid="21" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="28">
         <label>BipedalLocomotion/ContactDetectors/SchmittTriggerDetector.h</label>
         <link refid="SchmittTriggerDetector_8h"/>
       </node>
@@ -168,17 +172,31 @@
         <label>BipedalLocomotion/Estimators/RecursiveLeastSquare.h</label>
         <link refid="RecursiveLeastSquare_8h"/>
       </node>
-      <node id="19">
+      <node id="25">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
-      <node id="28">
-        <label>BipedalLocomotion/Planners/CubicSpline.h</label>
-        <link refid="CubicSpline_8h"/>
+      <node id="20">
+        <label>BipedalLocomotion/Math/QuinticSpline.h</label>
+        <link refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
-      <node id="26">
+      <node id="23">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
+      </node>
+      <node id="18">
+        <label>BipedalLocomotion/Math/Spline.h</label>
+        <link refid="Math_2include_2BipedalLocomotion_2Math_2Spline_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
@@ -198,7 +216,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="30">
         <label>BipedalLocomotion/Planners/TimeVaryingDCMPlanner.h</label>
         <link refid="TimeVaryingDCMPlanner_8h"/>
       </node>
@@ -206,7 +224,7 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="30">
+      <node id="32">
         <label>BipedalLocomotion/Perception/Features/ArucoDetector.h</label>
         <link refid="ArucoDetector_8h"/>
       </node>
@@ -216,17 +234,17 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="24">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridge.h</label>
         <link refid="YarpSensorBridge_8h"/>
-        <childnode refid="19" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
       </node>
       <node id="10">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="21">
+      <node id="27">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
       </node>
@@ -242,21 +260,15 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="29">
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>
         <link refid="DCMPlanner_8h"/>
-        <childnode refid="24" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="22">
         <label>BipedalLocomotion/Planners/Spline.h</label>
-        <link refid="Spline_8h"/>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
+        <link refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h"/>
       </node>
       <node id="17">
         <label>BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h</label>
