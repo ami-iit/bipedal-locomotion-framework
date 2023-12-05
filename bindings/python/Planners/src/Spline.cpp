@@ -75,7 +75,15 @@ void CreateCubicSpline(pybind11::module& module)
                          "bipedal_locomotion.math.CubicSpline instead.",
                          1);
             return std::make_unique<PyCubicSpline>();
-        }));
+        }))
+        .def("set_final_conditions",
+             py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(
+                 &BipedalLocomotion::Planners::CubicSpline::setFinalConditions),
+             py::arg("velocity"))
+        .def("set_initial_conditions",
+             py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(
+                 &BipedalLocomotion::Planners::CubicSpline::setInitialConditions),
+             py::arg("velocity"));
 }
 
 void CreateQuinticSpline(pybind11::module& module)

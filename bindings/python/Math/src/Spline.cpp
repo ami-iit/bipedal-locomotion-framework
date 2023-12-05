@@ -67,6 +67,15 @@ template <typename T> void CreateSplineTmp(pybind11::module& module, const std::
              py::arg("time"),
              py::arg("position"),
              py::arg("velocity"),
+             py::arg("acceleration"))
+        .def("evaluate_ordered_points",
+             py::overload_cast<const std::vector<std::chrono::nanoseconds>&,
+                               std::vector<T>&,
+                               std::vector<T>&,
+                               std::vector<T>&>(&Spline<T>::evaluateOrderedPoints),
+             py::arg("time"),
+             py::arg("position"),
+             py::arg("velocity"),
              py::arg("acceleration"));
 }
 

@@ -31,6 +31,27 @@ namespace Math
  */
 template <typename T> class CubicSpline : public Spline<T>
 {
+public:
+    [[deprecated("CubicSpline::setInitialConditions is deprecated. Use "
+                 "Spline::setInitialConditions "
+                 "instead")]] bool
+    setInitialConditions(Eigen::Ref<const T> initialVelocity)
+    {
+        return Spline<T>::setInitialConditions({initialVelocity, T::Zero(initialVelocity.size())});
+    };
+
+    [[deprecated("CubicSpline::setFinalConditions is deprecated. Use Spline::setFinalConditions "
+                 "instead")]] bool
+    setFinalConditions(Eigen::Ref<const T> finalVelocity)
+    {
+        return Spline<T>::setFinalConditions({finalVelocity, T::Zero(finalVelocity.size())});
+    };
+
+    // the following is required to avoid name hiding due to the deprecated functions
+    using Spline<T>::setInitialConditions;
+    using Spline<T>::setFinalConditions;
+
+private:
     /**
      * Update the polynomial coefficients.
      * @param polynomial polynomial to be updated.

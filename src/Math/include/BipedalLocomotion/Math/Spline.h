@@ -645,10 +645,14 @@ bool Spline<T>::evaluateOrderedPoints(const std::vector<std::chrono::nanoseconds
 
         if (poly != m_polynomials.end() && t[i] >= poly->finalPoint->time)
         {
-            // advance the iterator
-            poly = std::find_if(poly, m_polynomials.end(), [&t, &i](const auto& p) {
-                return ((t[i] >= p.initialPoint->time) && (t[i] < p.finalPoint->time));
-            });
+            // advance the iterator since the time instant is greater than the final time of the
+            // polynomial function. This is an optimization since the time instants are ordered.
+            poly = std::find_if(std::next(poly, 1),
+                                m_polynomials.end(),
+                                [&t, &i](const auto& p) -> bool {
+                                    return ((t[i] >= p.initialPoint->time)
+                                            && (t[i] < p.finalPoint->time));
+                                });
         }
 
         if (poly == m_polynomials.end())
