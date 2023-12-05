@@ -18,8 +18,12 @@ add_bipedal_test(
   SOURCES WrenchTest.cpp
   LINKS BipedalLocomotion::Math)
 
-
 add_bipedal_test(
   NAME SchmittTrigger
   SOURCES SchmittTriggerTest.cpp
   LINKS BipedalLocomotion::Math iDynTree::idyntree-estimation)
+
+add_bipedal_test(
+  NAME Spline
+  SOURCES SplineTest.cpp
+  LINKS BipedalLocomotion::Math)

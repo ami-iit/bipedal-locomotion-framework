@@ -17,11 +17,11 @@
 // YARP
 #include <yarp/os/RFModule.h>
 
+#include <BipedalLocomotion/Math/QuinticSpline.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 namespace BipedalLocomotion
 {
@@ -43,7 +43,7 @@ class Module : public yarp::os::RFModule
     std::vector<double> m_setPoints;
     std::vector<double>::const_iterator m_currentSetPoint;
 
-    BipedalLocomotion::Planners::QuinticSpline m_spline;
+    BipedalLocomotion::Math::QuinticSpline<Eigen::VectorXd> m_spline;
     std::vector<std::chrono::nanoseconds> m_timeKnots;
     std::vector<Eigen::VectorXd> m_trajectoryKnots;
 
