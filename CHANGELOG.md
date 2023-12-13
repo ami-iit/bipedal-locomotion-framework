@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Introducing Metadata Support for `VectorsCollection` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/767)
 - Restructure `MANNAutoregressive` to effectively manage resets (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Restructure `MANNTrajectoryGenerator` to remove the need for foot positions in `setInitialState` and enhanced reset capabilities. Corrected position and time scaling for precise CoM, base, and feet positioning (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
+- 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
 
 ### Fixed
 
