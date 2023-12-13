@@ -380,15 +380,15 @@ bool UkfModel::updateState()
         }
     }
 
-    log()->info("{} Joint acceleration with omega dot = 0: {}",
-                logPrefix,
-                m_jointAccelerationState.transpose());
+    // log()->info("{} Joint acceleration with omega dot = 0: {}",
+    //             logPrefix,
+    //             m_jointAccelerationState.transpose());
 
-    log()->info("{} Joint acceleration with omega dot equal to other computation: {}",
-                logPrefix,
-                tempJointAcc.transpose());
+    // log()->info("{} Joint acceleration with omega dot equal to other computation: {}",
+    //             logPrefix,
+    //             tempJointAcc.transpose());
 
-    m_jointAccelerationState = tempJointAcc;
+    // m_jointAccelerationState = tempJointAcc;
 
     return true;
 }
