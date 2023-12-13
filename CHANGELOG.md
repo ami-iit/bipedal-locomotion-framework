@@ -19,6 +19,7 @@ All notable changes to this project are documented in this file.
 - Move `Spline` into `Math` component. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
 - Deprecate `Planners::Spline`, `Planners::QuinticSpline`, `Planners::CubicSpline` in favor of `Math::Spline`, `Math::QuinticSpline`, `Math::CubicSpline` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
 - Change use of dynamics name for fts, contacts, accelerometers, gyroscopes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
+- 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
 
 ### Fixed
 
