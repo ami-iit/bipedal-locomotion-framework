@@ -231,3 +231,13 @@ void ContactPhaseList::clear()
     m_phases.clear();
     m_contactLists.clear();
 }
+
+std::string ContactPhaseList::toString() const
+{
+    std::stringstream ss;
+    for (const auto& phase : m_phases)
+    {
+        ss << phase.toString() << std::endl;
+    }
+    return ss.str();
+}

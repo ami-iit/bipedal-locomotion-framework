@@ -104,6 +104,13 @@ struct PlannedContact : ContactBase
      * @return True if `activationTime <= t < deactivationTime`.
      */
     [[nodiscard]] bool isContactActive(const std::chrono::nanoseconds& t) const;
+
+    /**
+     * @brief Convert the contact to a string.
+     *
+     * @return A string containing the information of the contact.
+     */
+    [[nodiscard]] std::string toString() const;
 };
 
 /**

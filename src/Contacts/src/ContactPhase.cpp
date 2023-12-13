@@ -10,7 +10,21 @@
 
 using namespace BipedalLocomotion::Contacts;
 
-bool ContactPhase::isListIncluded(const std::string &key) const
+bool ContactPhase::isListIncluded(const std::string& key) const
 {
-    return  activeContacts.find(key) != activeContacts.end();
+    return activeContacts.find(key) != activeContacts.end();
+}
+
+std::string ContactPhase::toString() const
+{
+    std::stringstream ss;
+    ss << "Phase start time: "
+       << std::chrono::duration_cast<std::chrono::milliseconds>(beginTime).count()
+       << "ms end time: " << std::chrono::duration_cast<std::chrono::milliseconds>(endTime).count()
+       << "ms active contacts: ";
+    for (const auto& [key, contact] : activeContacts)
+    {
+        ss << key << " " << contact->toString() << " ";
+    }
+    return ss.str();
 }

@@ -12,8 +12,8 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 
 #include <chrono>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 namespace BipedalLocomotion
 {
@@ -22,7 +22,8 @@ namespace Contacts
 
 /**
  * @brief Struct defining a contact phase.
- * Each phase is characterized by a set of contacts which remain active for the entirety of the phase.
+ * Each phase is characterized by a set of contacts which remain active for the entirety of the
+ * phase.
  * @note Mathematically speaking the interval of the phase is defined as following
  * \f[
  * I = [t_b \; t_e)
@@ -35,12 +36,12 @@ struct ContactPhase
     /**
      * @brief The phase initial time.
      **/
-    std::chrono::nanoseconds beginTime {std::chrono::nanoseconds::zero()};
+    std::chrono::nanoseconds beginTime{std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The phase end time.
      **/
-    std::chrono::nanoseconds endTime {std::chrono::nanoseconds::zero()};
+    std::chrono::nanoseconds endTime{std::chrono::nanoseconds::zero()};
 
     /**
      * @brief The set of contacts active during the phase.
@@ -53,9 +54,16 @@ struct ContactPhase
      * @return True if key is present amongst the active contacts.
      **/
     bool isListIncluded(const std::string& key) const;
+
+    /**
+     * @brief Convert the contact phase to a string.
+     *
+     * @return A string containing the information of the contact phase.
+     */
+    [[nodiscard]] std::string toString() const;
 };
 
-}
-}
+} // namespace Contacts
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_H
