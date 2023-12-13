@@ -288,8 +288,53 @@ def main():
 
     desired_com_position = initial_com_position.copy()
 
-    port = blf.yarp_utilities.BufferedPortVectorsCollection()
-    port.open("/balancing_position_controller/logger/data:o")
+    vectors_collection_server = blf.yarp_utilities.VectorsCollectionServer()
+    if not vectors_collection_server.initialize(
+        param_handler.get_group("DATA_LOGGING")
+    ):
+        raise RuntimeError("Unable to initialize the vectors collection server")
+
+    vectors_collection_server.populate_metadata("zmp::desired_planner", ["x", "y", "z"])
+    vectors_collection_server.populate_metadata(
+        "zmp::measured::global::with_joint_desired", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "zmp::measured::global::with_joint_measured", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "zmp::measured::local::left", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "zmp::measured::local::right", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::measured::with_joint_desired", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::measured::with_joint_measured", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::planned::position", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::planned::velocity", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::planned::acceleration", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::com_zmp::position", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "com::com_zmp::velocity", ["x", "y", "z"]
+    )
+    vectors_collection_server.populate_metadata(
+        "joints::desired::position",
+        param_handler.get_group("ROBOT_CONTROL").get_parameter_vector_string(
+            "joints_list"
+        ),
+    )
+    vectors_collection_server.finalize_metadata()
 
     # switch to position direct
     robot_control.set_control_mode(blf.robot_interface.YarpRobotControl.PositionDirect)
@@ -372,6 +417,9 @@ def main():
         global_zmp_from_measured = global_cop_evaluator.get_output()
 
         # use the CoM-ZMP controller
+        if not spline.advance():
+            raise RuntimeError("Unable to advance the spline")
+
         com_spline_output = spline.get_output()
         # evaluate the desired ZMP using the LIP model
         # ddx_com = omega^2 * (x_com - x_zmp)
@@ -439,27 +487,45 @@ def main():
         com_from_desired = kindyn.getCenterOfMassPosition().toNumPy()
         com_from_measured = kindyn_with_measured.getCenterOfMassPosition().toNumPy()
 
-        data = port.prepare()
-        data.vectors = {
-            "zmp::desired_planner": desired_zmp,
-            "zmp::measured::global::with_joint_desired": global_zmp,
-            "zmp::measured::global::with_joint_measured": global_zmp_from_measured,
-            "zmp::measured::local::left": local_zmp_left,
-            "zmp::measured::local::right": local_zmp_right,
-            "com::measured::with_joint_desired": com_from_desired,
-            "com::measured::with_joint_measured": com_from_measured,
-            "com::planned::position": com_spline_output.position,
-            "com::planned::velocity": com_spline_output.velocity,
-            "com::planned::acceleration": com_spline_output.acceleration,
-            "com::com_zmp::position": desired_com_position,
-            "com::com_zmp::velocity": desired_com_velocity,
-            "joints::desired::position": desired_joint_positions,
-        }
-        port.write()
+        vectors_collection_server.populate_data("zmp::desired_planner", desired_zmp)
+        vectors_collection_server.populate_data(
+            "zmp::measured::global::with_joint_desired", global_zmp
+        )
+        vectors_collection_server.populate_data(
+            "zmp::measured::global::with_joint_measured", global_zmp_from_measured
+        )
+        vectors_collection_server.populate_data(
+            "zmp::measured::local::left", local_zmp_left
+        )
+        vectors_collection_server.populate_data(
+            "zmp::measured::local::right", local_zmp_right
+        )
+        vectors_collection_server.populate_data(
+            "com::measured::with_joint_desired", com_from_desired
+        )
+        vectors_collection_server.populate_data(
+            "com::measured::with_joint_measured", com_from_measured
+        )
+        vectors_collection_server.populate_data(
+            "com::planned::position", com_spline_output.position
+        )
+        vectors_collection_server.populate_data(
+            "com::planned::velocity", com_spline_output.velocity
+        )
+        vectors_collection_server.populate_data(
+            "com::planned::acceleration", com_spline_output.acceleration
+        )
+        vectors_collection_server.populate_data(
+            "com::com_zmp::position", desired_com_position
+        )
+        vectors_collection_server.populate_data(
+            "com::com_zmp::velocity", desired_com_velocity
+        )
+        vectors_collection_server.populate_data(
+            "joints::desired::position", desired_joint_positions
+        )
 
-        # Final steps
-        if not spline.advance():
-            raise RuntimeError("Unable to advance the spline")
+        vectors_collection_server.send_data()
 
         if index * dt >= motion_duration + motion_timeout:
             if knot_index + 1 >= len(com_knots_delta_x):
