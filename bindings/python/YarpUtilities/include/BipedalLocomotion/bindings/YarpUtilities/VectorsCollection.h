@@ -17,7 +17,7 @@ namespace bindings
 namespace YarpUtilities
 {
 
-void CreateVectorsCollection(pybind11::module& module);
+void CreateVectorsCollectionServer(pybind11::module& module);
 
 } // namespace YarpUtilities
 } // namespace bindings
