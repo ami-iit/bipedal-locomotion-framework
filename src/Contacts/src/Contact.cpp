@@ -32,6 +32,17 @@ bool PlannedContact::isContactActive(const std::chrono::nanoseconds& t) const
     return (this->activationTime <= t) && (t < this->deactivationTime);
 }
 
+std::string PlannedContact::toString() const
+{
+    std::stringstream ss;
+    ss << "Contact name: " << name << " activation time: "
+       << std::chrono::duration_cast<std::chrono::milliseconds>(activationTime).count()
+       << "ms deactivation time: "
+       << std::chrono::duration_cast<std::chrono::milliseconds>(deactivationTime).count()
+       << "ms pose: " << pose.coeffs().transpose();
+    return ss.str();
+}
+
 std::pair<bool, std::chrono::nanoseconds> EstimatedContact::getContactDetails() const
 {
     return std::make_pair(isActive, switchTime);

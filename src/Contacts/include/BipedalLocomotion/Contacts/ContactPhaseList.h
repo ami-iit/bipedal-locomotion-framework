@@ -21,8 +21,10 @@ namespace Contacts
 {
 
 /**
- * @brief The ContactPhaseList class computes the contact phases according to a bunch of input contact lists.
- * @warning All the iterators stored inside the contact phases refer to the lists stored within this class, not the original input lists.
+ * @brief The ContactPhaseList class computes the contact phases according to a bunch of input
+ * contact lists.
+ * @warning All the iterators stored inside the contact phases refer to the lists stored within this
+ * class, not the original input lists.
  */
 class ContactPhaseList
 {
@@ -34,7 +36,6 @@ class ContactPhaseList
     void createPhases(); /** Internal method to compute the phases. **/
 
 public:
-
     using const_iterator = std::vector<ContactPhase>::const_iterator;
     using const_reverse_iterator = std::vector<ContactPhase>::const_reverse_iterator;
 
@@ -99,8 +100,9 @@ public:
 
     /**
      * @brief Set the input lists
-     * @param An initializer list (use as {list1, list2, ...,listN}) to the lists to be used for computing the phases.
-     * A ContactListMap will be created with the provided list, using the defaultName as a key.
+     * @param An initializer list (use as {list1, list2, ...,listN}) to the lists to be used for
+     * computing the phases. A ContactListMap will be created with the provided list, using the
+     * defaultName as a key.
      * @return False if some lists have the same defaultName.
      */
     bool setLists(const std::initializer_list<ContactList>& contactLists);
@@ -118,7 +120,8 @@ public:
 
     /**
      * @brief A reference to the lists stored in this class.
-     * @warning All the iterators stored inside the contact phases refer to the lists viewable via this method.
+     * @warning All the iterators stored inside the contact phases refer to the lists viewable via
+     * this method.
      * @return A const reference to the input lists.
      */
     const ContactListMap& lists() const;
@@ -134,12 +137,14 @@ public:
     const_iterator cbegin() const;
 
     /**
-     * @brief Const reverse iterator to the the phases (basically starting from the last phase, going backward).
+     * @brief Const reverse iterator to the the phases (basically starting from the last phase,
+     * going backward).
      */
     const_reverse_iterator rbegin() const;
 
     /**
-     * @brief Const reverse iterator to the the phases (basically starting from the last phase, going backward).
+     * @brief Const reverse iterator to the the phases (basically starting from the last phase,
+     * going backward).
      */
     const_reverse_iterator crbegin() const;
 
@@ -197,9 +202,16 @@ public:
      * @brief Clear the phases and the stored lists.
      */
     void clear();
+
+    /**
+     * @brief Convert the contact phase list to a string.
+     *
+     * @return A string containing the information of the contact phase list.
+     */
+    [[nodiscard]] std::string toString() const;
 };
 
-}
-}
+} // namespace Contacts
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_CONTACTS_CONTACT_PHASE_LIST_H

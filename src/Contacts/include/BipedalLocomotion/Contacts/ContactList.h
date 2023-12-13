@@ -210,11 +210,11 @@ public:
     /**
      * @brief Get the active contact given the time.
      *
-     * It returns the active contact (i.e., the highest activation time lower than time and the deactivation
-     * time strictly higher than time)
-     * If no contacts is active at the given time, it returns an iterator to the end.
+     * It returns the active contact (i.e., the highest activation time lower than time and the
+     * deactivation time strictly higher than time) If no contacts is active at the given time, it
+     * returns an iterator to the end.
      * @param time The present time.
-     * @return an iterator to the last contact  having an activation time lower than time.
+     * @return an iterator to the last contact having an activation time lower than time.
      * If no contact satisfies this condition, it returns a pointer to the end.
      * @note Differently from getPresentContact the contact needs to be active.
      */
@@ -238,7 +238,7 @@ public:
      * If no contacts have an activation time lower than time, it returns an iterator to the end.
      * Notice that the contact may not be active, i.e. the deactivationTime may be lower than time.
      * @param time The present time.
-     * @return an iterator to the last contact  having an activation time lower than time.
+     * @return an iterator to the last contact having an activation time lower than time.
      * If no contact satisfies this condition, it returns a pointer to the end.
      */
     const_iterator getPresentContact(const std::chrono::nanoseconds& time) const;
@@ -259,6 +259,13 @@ public:
      * @brief Remove only the last contact.
      */
     void removeLastContact();
+
+    /**
+     * @brief Convert the contact list to a string.
+     *
+     * @return A string containing the information of the contact list.
+     */
+    [[nodiscard]] std::string toString() const;
 };
 
 /**

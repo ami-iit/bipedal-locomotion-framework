@@ -291,3 +291,14 @@ void ContactList::removeLastContact()
 {
     erase(lastContact());
 }
+
+std::string ContactList::toString() const
+{
+    std::stringstream ss;
+    ss << "Contact list: " << std::endl;
+    for (const auto& contact : m_contacts)
+    {
+        ss << contact.toString() << std::endl;
+    }
+    return ss.str();
+}
