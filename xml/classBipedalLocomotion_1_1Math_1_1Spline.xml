@@ -190,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="70" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="711" bodyend="721"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="70" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="714" bodyend="724"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1af11908563fbb5104d97492310a19e29f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -232,7 +232,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="78" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="302" bodyend="359"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="78" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="302" bodyend="362"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a3b09d555e4a5d8abfe1d08fbac294ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -262,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="86" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="369" bodyend="384"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="86" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="372" bodyend="387"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a3a73b41acf09e871b30b8315963c8ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -292,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="93" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="394" bodyend="409"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="93" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="397" bodyend="412"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a1bddbcb7b19b36aadbbb5339786036a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -334,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="101" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="362" bodyend="366"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="101" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="365" bodyend="369"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a42d9ee9e30261fd741b8344d8fca1832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -376,7 +376,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="110" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="387" bodyend="391"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="110" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="390" bodyend="394"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a98e97511aed7db9f13007ad55b6d7b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -442,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="121" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="553" bodyend="600"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="121" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="556" bodyend="603"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a2de97d0a599929a5b702317ed4745b64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -510,7 +510,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="135" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="603" bodyend="670"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="135" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="606" bodyend="673"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a9481d1827dc2abcee390361dc84671ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -552,7 +552,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="146" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="673" bodyend="677"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="146" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="676" bodyend="680"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a016211240b78f71eca3fcbe0db741464" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -570,7 +570,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="152" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="679" bodyend="682"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="152" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="682" bodyend="685"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a5b22ec55c97bccb788fc7ea18dd9510a" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint" kindref="compound">TrajectoryPoint</ref>&lt; T &gt; &amp;</type>
@@ -588,7 +588,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="158" column="27" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="684" bodyend="687"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="158" column="27" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="687" bodyend="690"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1a8cf213c9db189bce27a429555f664e60" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -608,7 +608,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="165" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="689" bodyend="709"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="165" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="692" bodyend="712"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -627,7 +627,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="207" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="411" bodyend="427"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="207" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="414" bodyend="430"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1af3624bb84475635eeacd16ceccd73604" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -697,7 +697,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="240" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="489" bodyend="550"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="240" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="492" bodyend="553"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Math_1_1Spline_1ab0fac14b4b44aea72744f00c7b56059d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -714,7 +714,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Math/Spline.h" line="246" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="429" bodyend="487"/>
+        <location file="BipedalLocomotion/Math/Spline.h" line="246" column="10" bodyfile="BipedalLocomotion/Math/Spline.h" bodystart="432" bodyend="490"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
