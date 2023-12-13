@@ -6,8 +6,8 @@
  */
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
-#include <BipedalLocomotion/Planners/CubicSpline.h>
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
+#include <BipedalLocomotion/Math/CubicSpline.h>
+#include <BipedalLocomotion/Math/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -97,30 +97,31 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
     std::string interpolationMethod{"min_acceleration"};
     if (ptr->getParameter("interpolation_method", interpolationMethod))
     {
+        using Vector1d = Eigen::Matrix<double, 1, 1>;
         if (interpolationMethod == "min_acceleration")
         {
-            m_planarPlanner = std::make_unique<CubicSpline>();
-            m_heightPlanner = std::make_unique<CubicSpline>();
+            m_planarPlanner = std::make_unique<Math::CubicSpline<Eigen::Vector2d>>();
+            m_heightPlanner = std::make_unique<Math::CubicSpline<Vector1d>>();
         } else if (interpolationMethod == "min_jerk")
         {
-            m_planarPlanner = std::make_unique<QuinticSpline>();
-            m_heightPlanner = std::make_unique<QuinticSpline>();
+            m_planarPlanner = std::make_unique<Math::QuinticSpline<Eigen::Vector2d>>();
+            m_heightPlanner = std::make_unique<Math::QuinticSpline<Vector1d>>();
         } else
         {
             log()->warn("{} The parameter named 'interpolation_method' must be equal to "
                         "'min_acceleration' or 'min_jerk'. The 'min_acceleration' method will be "
                         "used.",
                         logPrefix);
-            m_planarPlanner = std::make_unique<CubicSpline>();
-            m_heightPlanner = std::make_unique<CubicSpline>();
+            m_planarPlanner = std::make_unique<Math::CubicSpline<Eigen::Vector2d>>();
+            m_heightPlanner = std::make_unique<Math::CubicSpline<Vector1d>>();
         }
     } else
     {
         log()->info("{} The parameter named 'interpolation_method' not found. The "
                     "'min_acceleration' method will be used.",
                     logPrefix);
-        m_planarPlanner = std::make_unique<CubicSpline>();
-        m_heightPlanner = std::make_unique<CubicSpline>();
+        m_planarPlanner = std::make_unique<Math::CubicSpline<Eigen::Vector2d>>();
+        m_heightPlanner = std::make_unique<Math::CubicSpline<Vector1d>>();
     }
 
     return true;

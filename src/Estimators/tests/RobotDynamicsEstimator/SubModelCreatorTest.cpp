@@ -74,6 +74,7 @@ TEST_CASE("SubModel Creation")
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
 
     // Case with FT, the model will be splitted
+    BipedalLocomotion::log()->info("Case FT");
     RDE::SubModelCreator subModelCreatorWithFT;
     subModelCreatorWithFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
     REQUIRE(subModelCreatorWithFT.setKinDyn(kinDyn));
@@ -82,6 +83,14 @@ TEST_CASE("SubModel Creation")
     REQUIRE(subModelCreatorWithFT.getNrOfSubModels() == (1 + mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE)));
 
     // Case without FT, the model is not splitted and the only sub-model is the full model
+    BipedalLocomotion::log()->info("Case without FT");
+
+    jointsAndFTs.clear();
+    jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
+
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+
+    REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
     RDE::SubModelCreator subModelCreatorWithoutFT;
     subModelCreatorWithoutFT.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
     REQUIRE(subModelCreatorWithoutFT.setKinDyn(kinDyn));
@@ -90,6 +99,7 @@ TEST_CASE("SubModel Creation")
     std::vector<std::string> emptyVector;
     groupFT->setParameter("names", emptyVector);
     groupFT->setParameter("frames", emptyVector);
+    groupFT->setParameter("ukf_names", emptyVector);
     groupFT->setParameter("associated_joints", emptyVector);
     groupModel->setGroup("FT", groupFT);
     REQUIRE(subModelCreatorWithoutFT.createSubModels(groupModel));

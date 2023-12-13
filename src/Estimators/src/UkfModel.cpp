@@ -42,15 +42,16 @@ void UkfModel::unpackState()
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getFTList())
         {
-            m_FTMap[key] = m_currentState.segment(m_stateVariableHandler.getVariable(key).offset,
-                                                  m_stateVariableHandler.getVariable(key).size);
+            m_FTMap[key]
+                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
+                                         m_stateVariableHandler.getVariable(value.ukfName).size);
         }
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             m_extContactMap[key]
-                = m_currentState.segment(m_stateVariableHandler.getVariable(key).offset,
-                                         m_stateVariableHandler.getVariable(key).size);
+                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
+                                         m_stateVariableHandler.getVariable(value.ukfName).size);
         }
     }
 }
@@ -106,12 +107,16 @@ bool UkfModel::updateState()
         // Contribution of FT measurements
         for (const auto& [key, value] : m_subModelList[subModelIdx].getFTList())
         {
+
             m_wrench = (int)value.forceDirection * m_FTMap[key].array();
 
             if (!m_kinDynWrapperList[subModelIdx]
-                     ->getFrameFreeFloatingJacobian(value.index, m_tempJacobianList[subModelIdx]))
+                     ->getFrameFreeFloatingJacobian(value.frameIndex,
+                                                    m_tempJacobianList[subModelIdx]))
             {
-                log()->error("{} Failed while getting the jacobian for the frame `{}`.", logPrefix, value.frame);
+                log()->error("{} Failed while getting the jacobian for the frame `{}`.",
+                             logPrefix,
+                             value.frame);
                 return false;
             }
 
@@ -120,12 +125,15 @@ bool UkfModel::updateState()
         }
 
         // Contribution of unknown external contacts
-        for (const auto & [key, value] : m_subModelList[subModelIdx].getExternalContactList())
+        for (const auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             if (!m_kinDynWrapperList[subModelIdx]
-                     ->getFrameFreeFloatingJacobian(value, m_tempJacobianList[subModelIdx]))
+                     ->getFrameFreeFloatingJacobian(value.frameIndex,
+                                                    m_tempJacobianList[subModelIdx]))
             {
-                log()->error("{} Failed while getting the jacobian for the frame `{}`.", logPrefix, value);
+                log()->error("{} Failed while getting the jacobian for the frame `{}`.",
+                             logPrefix,
+                             value.frame);
                 return false;
             }
 

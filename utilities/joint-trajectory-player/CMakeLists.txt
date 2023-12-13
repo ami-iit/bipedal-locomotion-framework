@@ -9,7 +9,6 @@ if(FRAMEWORK_COMPILE_JointTrajectoryPlayer)
     SOURCES src/Main.cpp src/Module.cpp
     HEADERS include/BipedalLocomotion/JointTrajectoryPlayer/Module.h
     LINK_LIBRARIES  YARP::YARP_dev
-    BipedalLocomotion::Planners
     BipedalLocomotion::ParametersHandlerYarpImplementation
     BipedalLocomotion::RobotInterfaceYarpImplementation
     matioCpp::matioCpp

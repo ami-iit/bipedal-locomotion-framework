@@ -11,13 +11,13 @@
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/chrono.h>
 
-#include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/CubicSpline.h>
+#include <BipedalLocomotion/Planners/QuinticSpline.h>
 #include <BipedalLocomotion/Planners/Spline.h>
 
 #include <BipedalLocomotion/bindings/Planners/Spline.h>
+#include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
@@ -26,58 +26,78 @@ namespace bindings
 namespace Planners
 {
 
+struct PySplineState : public BipedalLocomotion::Math::TrajectoryPoint<Eigen::VectorXd>
+{
+    using BipedalLocomotion::Math::TrajectoryPoint<Eigen::VectorXd>::TrajectoryPoint;
+};
+
+struct PySpline : public BipedalLocomotion::Planners::Spline
+{
+    using BipedalLocomotion::Planners::Spline::Spline;
+};
+
+struct PyCubicSpline : public BipedalLocomotion::Planners::CubicSpline
+{
+    using BipedalLocomotion::Planners::CubicSpline::CubicSpline;
+};
+
+struct PyQuinticSpline : public BipedalLocomotion::Planners::QuinticSpline
+{
+    using BipedalLocomotion::Planners::QuinticSpline::QuinticSpline;
+};
+
 void CreateSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
+    using namespace BipedalLocomotion::Math;
 
-    py::class_<SplineState>(module, "SplineState")
-        .def(py::init())
-        .def_readwrite("position", &SplineState::position)
-        .def_readwrite("velocity", &SplineState::velocity)
-        .def_readwrite("acceleration", &SplineState::acceleration);
+    py::class_<PySplineState, TrajectoryPoint<Eigen::VectorXd>>(module, "SplineState")
+        .def(py::init([]() {
+            PyErr_WarnEx(PyExc_DeprecationWarning,
+                         "bipedal_locomotion.planners.SplineState is deprecated please use "
+                         "bipedal_locomotion.math.TrajectoryPoint instead.",
+                         1);
+            return PySplineState();
+        }));
 
-    py::class_<Spline>(module, "Spline")
-        .def("set_advance_time_step", &Spline::setAdvanceTimeStep, py::arg("dt"))
-        .def("set_knots", &Spline::setKnots)
-        .def("set_initial_conditions",
-             &Spline::setInitialConditions,
-             py::arg("velocity"),
-             py::arg("acceleration"))
-        .def("set_final_conditions",
-             &Spline::setFinalConditions,
-             py::arg("velocity"),
-             py::arg("acceleration"))
-        .def("evaluate_point",
-             py::overload_cast<const std::chrono::nanoseconds&,
-                               Eigen::Ref<Eigen::VectorXd>,
-                               Eigen::Ref<Eigen::VectorXd>,
-                               Eigen::Ref<Eigen::VectorXd>>(&Spline::evaluatePoint),
-             py::arg("time"),
-             py::arg("position"),
-             py::arg("velocity"),
-             py::arg("acceleration"))
-        .def("get_output", &Spline::getOutput)
-        .def("is_output_valid", &Spline::isOutputValid)
-        .def("advance", &Spline::advance);
+    py::class_<PySpline, //
+               BipedalLocomotion::Planners::Spline>(module, "Spline");
 }
 
 void CreateCubicSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
-
-    py::class_<CubicSpline, Spline>(module, "CubicSpline")
-        .def(py::init());
+    py::class_<PyCubicSpline, //
+               BipedalLocomotion::Planners::CubicSpline>(module, "CubicSpline")
+        .def(py::init([]() {
+            PyErr_WarnEx(PyExc_DeprecationWarning,
+                         "bipedal_locomotion.planners.CubicSpline is deprecated, use "
+                         "bipedal_locomotion.math.CubicSpline instead.",
+                         1);
+            return std::make_unique<PyCubicSpline>();
+        }))
+        .def("set_final_conditions",
+             py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(
+                 &BipedalLocomotion::Planners::CubicSpline::setFinalConditions),
+             py::arg("velocity"))
+        .def("set_initial_conditions",
+             py::overload_cast<Eigen::Ref<const Eigen::VectorXd>>(
+                 &BipedalLocomotion::Planners::CubicSpline::setInitialConditions),
+             py::arg("velocity"));
 }
 
 void CreateQuinticSpline(pybind11::module& module)
 {
     namespace py = ::pybind11;
-    using namespace BipedalLocomotion::Planners;
-
-    py::class_<QuinticSpline, Spline>(module, "QuinticSpline")
-        .def(py::init());
+    py::class_<PyQuinticSpline, //
+               BipedalLocomotion::Planners::QuinticSpline>(module, "QuinticSpline")
+        .def(py::init([]() {
+            PyErr_WarnEx(PyExc_DeprecationWarning,
+                         "bipedal_locomotion.planners.QuinticSpline is deprecated, use "
+                         "bipedal_locomotion.math.QuinticSpline instead.",
+                         1);
+            return std::make_unique<PyQuinticSpline>();
+        }));
 }
 
 } // namespace Planners

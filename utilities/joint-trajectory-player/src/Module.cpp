@@ -14,6 +14,7 @@
 
 #include <Eigen/Dense>
 
+
 #include <BipedalLocomotion/JointTrajectoryPlayer/Module.h>
 
 #include <yarp/dev/IEncoders.h>

@@ -23,12 +23,12 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "Planners module.";
 
-    CreateSpline(module);
-    CreateCubicSpline(module);
-    CreateQuinticSpline(module);
     CreateDCMPlanner(module);
     CreateTimeVaryingDCMPlanner(module);
     CreateSwingFootPlanner(module);
+    CreateSpline(module);
+    CreateCubicSpline(module);
+    CreateQuinticSpline(module);
 }
 } // namespace Planners
 } // namespace bindings

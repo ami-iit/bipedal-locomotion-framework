@@ -10,6 +10,7 @@
 #include <BipedalLocomotion/bindings/Math/Constants.h>
 #include <BipedalLocomotion/bindings/Math/Module.h>
 #include <BipedalLocomotion/bindings/Math/SchmittTrigger.h>
+#include <BipedalLocomotion/bindings/Math/Spline.h>
 #include <BipedalLocomotion/bindings/Math/Wrench.h>
 
 namespace BipedalLocomotion
@@ -25,6 +26,9 @@ void CreateModule(pybind11::module& module)
     CreateConstants(module);
     CreateSchmittTrigger(module);
     CreateWrench<double>(module, "d");
+    CreateSpline(module);
+    CreateCubicSpline(module);
+    CreateQuinticSpline(module);
 }
 } // namespace Math
 } // namespace bindings
