@@ -177,7 +177,7 @@ bool RDE::GyroscopeMeasurementDynamics::update()
     {
         m_accelerometerVelocity = Conversions::toManifTwist(
             m_subModelKinDynList[m_subModelWithGyro[index]]->getFrameVel(
-                m_subModelList[m_subModelWithGyro[index]].getGyroscope(m_name).index));
+                m_subModelList[m_subModelWithGyro[index]].getGyroscope(m_name).frameIndex));
 
         m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
             = m_accelerometerVelocity.ang();
