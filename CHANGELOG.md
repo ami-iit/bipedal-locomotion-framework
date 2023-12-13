@@ -10,6 +10,7 @@ All notable changes to this project are documented in this file.
 - Add process model for external contacts in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
 - 🤖 Add `ergoCubSN001` configuration files for the `balancing-position-control` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
 - Implement `VectorsCollectionServer` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Implement `toString()` methods in `PlannedContact`, `ContactList`, `ContactPhase` and `ContactPhaseList` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/777)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
