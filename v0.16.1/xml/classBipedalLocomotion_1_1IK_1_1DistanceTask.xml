@@ -545,7 +545,7 @@ It is equivalent to setDesiredDistance</para>
 <para>The <ref refid="classBipedalLocomotion_1_1IK_1_1DistanceTask" kindref="compound">DistanceTask</ref> class controls the distance of a frame with respect the world origin, or another frame. </para>
     </briefdescription>
     <detaileddescription>
-<para>The task assumes perfect control of the robot velocity <formula id="94">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="104">\[ \frac{1}{d} p ^ \top J_p \nu = k (d ^ * - d) \]</formula> where <formula id="105">$p$</formula> is the position of the target frame wrt the base or world frame. <formula id="106">$d$</formula> is the current distance. <formula id="107">$J_p$</formula> is the linear part of the robot jacobian. <formula id="85">$k$</formula> is the controller gain and <formula id="108">$d ^ *$</formula> is the desired distance. </para>
+<para>The task assumes perfect control of the robot velocity <formula id="129">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="135">\[ \frac{1}{d} p ^ \top J_p \nu = k (d ^ * - d) \]</formula> where <formula id="136">$p$</formula> is the position of the target frame wrt the base or world frame. <formula id="137">$d$</formula> is the current distance. <formula id="138">$J_p$</formula> is the linear part of the robot jacobian. <formula id="45">$k$</formula> is the controller gain and <formula id="139">$d ^ *$</formula> is the desired distance. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

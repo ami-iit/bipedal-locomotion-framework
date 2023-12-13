@@ -8,6 +8,7 @@
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfInputProvider" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1DynamicsFactory" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::DynamicsFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</innerclass>
@@ -17,7 +18,7 @@
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FT</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FTSensor</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModelCreator" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModelCreator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement" prot="public">BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</innerclass>
@@ -62,6 +63,25 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="101" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" declline="101" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="ExternalContactStateDynamics_8h_1adeed86be1bfb9ec1dfc4d4060070e34b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::Estimators::RobotDynamicsEstimator::BLF_REGISTER_UKF_DYNAMICS</definition>
+        <argsstring>(ExternalContactStateDynamics, ::BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics)</argsstring>
+        <name>BLF_REGISTER_UKF_DYNAMICS</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics" kindref="compound">ExternalContactStateDynamics</ref></type>
+        </param>
+        <param>
+          <type>::<ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">BipedalLocomotion::Estimators::RobotDynamicsEstimator::Dynamics</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ExternalContactStateDynamics.h" line="106" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ExternalContactStateDynamics.h" declline="106" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="FrictionTorqueStateDynamics_8h_1a043b5beb867b1c060b57f1a80667cb97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

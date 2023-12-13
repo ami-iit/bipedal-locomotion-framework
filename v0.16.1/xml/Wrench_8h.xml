@@ -30,7 +30,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="19">
+      <node id="23">
         <label>BipedalLocomotion/ML/MANNTrajectoryGenerator.h</label>
         <link refid="MANNTrajectoryGenerator_8h"/>
       </node>
@@ -74,12 +74,12 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h</label>
         <link refid="MotorCurrentMeasurementDynamics_8h"/>
       </node>
-      <node id="17">
+      <node id="21">
         <label>BipedalLocomotion/ML/MANNAutoregressive.h</label>
         <link refid="MANNAutoregressive_8h"/>
-        <childnode refid="18" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="29">
@@ -91,11 +91,11 @@
         <link refid="Contact_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -146,7 +146,7 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
         <link refid="LeggedOdometry_8h"/>
       </node>
-      <node id="23">
+      <node id="20">
         <label>BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</label>
         <link refid="CentroidalMPC_8h"/>
       </node>
@@ -154,14 +154,14 @@
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
-      <node id="22">
+      <node id="18">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="21">
+      <node id="17">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="22" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -172,7 +172,7 @@
         <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="19">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
         <link refid="CentroidalDynamics_8h"/>
       </node>
@@ -200,7 +200,7 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="22">
         <label>BipedalLocomotion/ML/MANNAutoregressiveInputBuilder.h</label>
         <link refid="MANNAutoregressiveInputBuilder_8h"/>
       </node>
@@ -232,10 +232,10 @@
         <label>BipedalLocomotion/Contacts/GlobalCoPEvaluator.h</label>
         <link refid="GlobalCoPEvaluator_8h"/>
       </node>
-      <node id="20">
+      <node id="16">
         <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
         <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="21" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -305,9 +305,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="207">$H$</formula> is <formula id="208">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="209">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="210">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="231">$H$</formula> is <formula id="232">\[ (p,R) = ( {}^{\texttt{refOrient}} p_{\texttt{refPoint},\texttt{point}} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="233">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="234">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ p \times R &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ p \times R f + R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>transform</parametername>
 </parameternamelist>
@@ -354,9 +354,9 @@
 <para>Change the frame in which the <ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref> is expressed. </para>
         </briefdescription>
         <detaileddescription>
-<para>If the tranform is <formula id="207">$H$</formula> is <formula id="211">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
-<para>And the wrench is: <formula id="209">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
-<para>The result of this operation is : <formula id="212">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
+<para>If the tranform is <formula id="231">$H$</formula> is <formula id="235">\[ (p,R) = ( O _ {3 \times 1} , {}^{\texttt{refOrient}} R_{\texttt{orient}} ) \]</formula></para>
+<para>And the wrench is: <formula id="233">\[ {}_{\texttt{frame}} F = \begin{bmatrix} f \\ \tau \end{bmatrix} \]</formula></para>
+<para>The result of this operation is : <formula id="236">\[ {}_{\texttt{refFrame}} F = {}_{\texttt{refFrame}}X^{\texttt{frame}} {}_{\texttt{frame}} F = \begin{bmatrix} R &amp; 0_{3\times3} \\ 0_{3\times3} &amp; R \end{bmatrix} \begin{bmatrix} f \\ \tau \end{bmatrix} = \begin{bmatrix} Rf \\ R\tau \end{bmatrix} \]</formula> <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>rotation</parametername>
 </parameternamelist>

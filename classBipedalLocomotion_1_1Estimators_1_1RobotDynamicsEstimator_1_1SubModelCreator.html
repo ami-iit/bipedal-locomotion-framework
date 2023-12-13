@@ -35,8 +35,8 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
+                <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
                 <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
               </ol>
             </li>
@@ -80,10 +80,10 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a58d7151728470908352650834a623f35" class="m-doc">createSubModels</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;&amp; ftSensorList,
+              <span class="m-doc-wrap-bumper">auto <a href="#af2574ccdd46cdf568a4fbf3938159c0e" class="m-doc">createSubModels</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor.html" class="m-doc">FTSensor</a>&gt;&amp; ftSensorList,
               const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; accList,
               const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; gyroList,
-              const std::vector&lt;std::string&gt;&amp; externalContacts) -&gt; bool</span>
+              const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; contactList) -&gt; bool</span>
             </dt>
             <dd>createSubModels splits the model in <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a> objects cutting the model at the force/torque sensors specified by the parameterHandler.</dd>
             <dt>
@@ -115,12 +115,12 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a58d7151728470908352650834a623f35"><div>
+          <section class="m-doc-details" id="af2574ccdd46cdf568a4fbf3938159c0e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a58d7151728470908352650834a623f35" class="m-doc-self">createSubModels</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>&gt;&amp; ftSensorList,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModelCreator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af2574ccdd46cdf568a4fbf3938159c0e" class="m-doc-self">createSubModels</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor.html" class="m-doc">FTSensor</a>&gt;&amp; ftSensorList,
               const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; accList,
               const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; gyroList,
-              const std::vector&lt;std::string&gt;&amp; externalContacts)</span></span>
+              const std::vector&lt;<a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&gt;&amp; contactList)</span></span>
             </h3>
             <p>createSubModels splits the model in <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel.html" class="m-doc">SubModel</a> objects cutting the model at the force/torque sensors specified by the parameterHandler.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -130,7 +130,7 @@
               <tbody>
                 <tr>
                   <td style="width: 1%">ftSensorList</td>
-                  <td>list of <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a> structs.</td>
+                  <td>list of <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor.html" class="m-doc">FTSensor</a> structs.</td>
                 </tr>
                 <tr>
                   <td>accList</td>
@@ -141,8 +141,8 @@
                   <td>list of <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> structs.</td>
                 </tr>
                 <tr>
-                  <td>externalContacts</td>
-                  <td>list of strings.</td>
+                  <td>contactList</td>
+                  <td>list of <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> structs describing the external contact frames.</td>
                 </tr>
               </tbody>
               <tfoot>

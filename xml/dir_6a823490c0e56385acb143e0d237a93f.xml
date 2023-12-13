@@ -5,6 +5,7 @@
     <innerfile refid="AccelerometerMeasurementDynamics_8h">AccelerometerMeasurementDynamics.h</innerfile>
     <innerfile refid="ConstantMeasurementModel_8h">ConstantMeasurementModel.h</innerfile>
     <innerfile refid="Dynamics_8h">Dynamics.h</innerfile>
+    <innerfile refid="ExternalContactStateDynamics_8h">ExternalContactStateDynamics.h</innerfile>
     <innerfile refid="FrictionTorqueStateDynamics_8h">FrictionTorqueStateDynamics.h</innerfile>
     <innerfile refid="GyroscopeMeasurementDynamics_8h">GyroscopeMeasurementDynamics.h</innerfile>
     <innerfile refid="JointVelocityStateDynamics_8h">JointVelocityStateDynamics.h</innerfile>

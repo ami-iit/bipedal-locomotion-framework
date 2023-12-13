@@ -35,8 +35,8 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
+                <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
                 <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
               </ol>
             </li>
@@ -81,9 +81,9 @@
           <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a>
+              struct <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor.html" class="m-doc">FTSensor</a>
             </dt>
-            <dd><a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FT.html" class="m-doc">FT</a> describes the force/torque sensors of the submodels.</dd>
+            <dd><a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor.html" class="m-doc">FTSensor</a> describes the force/torque sensors of the submodels.</dd>
           </dl>
         </section>
         <section id="pub-attribs">
@@ -97,10 +97,14 @@
               std::string <a href="#a8a43d5c50a2942822bcb31852c8b56dd" class="m-doc-self">frame</a>
             </dt>
             <dd>Frame of the sensor in the URDF.</dd>
-            <dt id="ab1e6c347d7e305064acd741863032167">
-              int <a href="#ab1e6c347d7e305064acd741863032167" class="m-doc-self">index</a>
+            <dt id="a03564a8f160aea476bfe4603ae6b3bd0">
+              std::string <a href="#a03564a8f160aea476bfe4603ae6b3bd0" class="m-doc-self">ukfName</a>
             </dt>
-            <dd>Index of the sensor.</dd>
+            <dd>Name of the dynamics used for this sensor.</dd>
+            <dt id="a0fdca8a212978a8ea1f9d60d8b3d1f3d">
+              int <a href="#a0fdca8a212978a8ea1f9d60d8b3d1f3d" class="m-doc-self">frameIndex</a>
+            </dt>
+            <dd>Index of the sensor in the URDF.</dd>
           </dl>
         </section>
       </div>
