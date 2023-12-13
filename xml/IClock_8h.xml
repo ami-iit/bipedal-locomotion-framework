@@ -23,7 +23,7 @@
         <label>BipedalLocomotion/System/YarpClock.h</label>
         <link refid="YarpClock_8h"/>
       </node>
-      <node id="5">
+      <node id="4">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
@@ -39,7 +39,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>

@@ -36,8 +36,8 @@
               <ol>
                 <li><a href="./index.html">Master</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
+                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
               </ol>
             </li>
             <li>
@@ -102,6 +102,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#af760613841d055a39784a2c0efeb3abc" class="m-doc">isContactActive</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; t) const -&gt; bool</span>
             </dt>
             <dd>Check if the contact is active at a give time instant.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4b262f7d7eeaf74ac1a9581a5b25adb7" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
+            </dt>
+            <dd>Convert the contact to a string.</dd>
           </dl>
         </section>
         <section id="pub-attribs">
@@ -184,6 +188,20 @@
                 <tr>
                   <th>Returns</th>
                   <td>True if <code>activationTime &lt;= t &lt; deactivationTime</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a4b262f7d7eeaf74ac1a9581a5b25adb7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::string BipedalLocomotion::<wbr />Contacts::<wbr />PlannedContact::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4b262f7d7eeaf74ac1a9581a5b25adb7" class="m-doc-self">toString</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Convert the contact to a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A string containing the information of the contact.</td>
                 </tr>
               </tfoot>
             </table>

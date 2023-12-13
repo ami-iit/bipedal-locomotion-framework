@@ -36,8 +36,8 @@
               <ol>
                 <li><a href="./index.html">Master</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
+                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
               </ol>
             </li>
             <li>
@@ -209,6 +209,10 @@
               <span class="m-doc-wrap-bumper">void <a href="#a16ec57481a746a75d30e0c52f9a136c2" class="m-doc-self">removeLastContact</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Remove only the last contact.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a13a4c42fbe20c34faf9f6a26c8ab36f8" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
+            </dt>
+            <dd>Convert the contact list to a string.</dd>
           </dl>
         </section>
         <section>
@@ -485,7 +489,7 @@
                 </tr>
               </tfoot>
             </table>
-<p>It returns the active contact (i.e., the highest activation time lower than time and the deactivation time strictly higher than time) If no contacts is active at the given time, it returns an iterator to the end.</p><aside class="m-note m-info"><h4>Note</h4><p>Differently from getPresentContact the contact needs to be active.</p></aside>
+<p>It returns the active contact (i.e., the highest activation time lower than time and the deactivation time strictly higher than time). If no contacts are active at the given time, it returns an iterator to the end.</p><aside class="m-note m-info"><h4>Note</h4><p>Differently from getPresentContact the contact needs to be active.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a3515fa9e57884ab8e1a122495ae3ed66"><div>
             <h3>
@@ -554,6 +558,20 @@
                 <tr>
                   <th>Returns</th>
                   <td>false if no contact is available at this time.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a13a4c42fbe20c34faf9f6a26c8ab36f8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::string BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a13a4c42fbe20c34faf9f6a26c8ab36f8" class="m-doc-self">toString</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Convert the contact list to a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A string containing the information of the contact list.</td>
                 </tr>
               </tfoot>
             </table>

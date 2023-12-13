@@ -36,8 +36,8 @@
               <ol>
                 <li><a href="./index.html">Master</a></li>
                 <li><a href="./v0.14.1/index.html">v0.14.1</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.15.0/index.html">v0.15.0</a></li>
+                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
               </ol>
             </li>
             <li>
@@ -192,6 +192,10 @@
               <span class="m-doc-wrap-bumper">void <a href="#ada9e66b073d78df17b0225a65ff499dc" class="m-doc-self">clear</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd>Clear the phases and the stored lists.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a952bcc3c6df82382ebba7285ef10de32" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
+            </dt>
+            <dd>Convert the contact phase list to a string.</dd>
           </dl>
         </section>
         <section>
@@ -399,6 +403,20 @@
                 <tr>
                   <th>Returns</th>
                   <td>A const reference to the desired phase.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a952bcc3c6df82382ebba7285ef10de32"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::string BipedalLocomotion::<wbr />Contacts::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a952bcc3c6df82382ebba7285ef10de32" class="m-doc-self">toString</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Convert the contact phase list to a string.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>A string containing the information of the contact phase list.</td>
                 </tr>
               </tfoot>
             </table>

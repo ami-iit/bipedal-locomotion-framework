@@ -5,8 +5,8 @@
     <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
     <includes refid="ContactList_8h" local="no">BipedalLocomotion/Contacts/ContactList.h</includes>
     <includes local="no">chrono</includes>
-    <includes local="no">unordered_map</includes>
     <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
     <incdepgraph>
       <node id="14">
@@ -77,9 +77,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="6">

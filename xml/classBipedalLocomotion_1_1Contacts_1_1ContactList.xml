@@ -592,7 +592,7 @@
 <para>Get the active contact given the time. </para>
         </briefdescription>
         <detaileddescription>
-<para>It returns the active contact (i.e., the highest activation time lower than time and the deactivation time strictly higher than time) If no contacts is active at the given time, it returns an iterator to the end. <parameterlist kind="param"><parameteritem>
+<para>It returns the active contact (i.e., the highest activation time lower than time and the deactivation time strictly higher than time). If no contacts are active at the given time, it returns an iterator to the end. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>time</parametername>
 </parameternamelist>
@@ -729,6 +729,23 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/ContactList.h" line="261" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a13a4c42fbe20c34faf9f6a26c8ab36f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::Contacts::ContactList::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Convert the contact list to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the information of the contact list. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="268" column="18"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Class containing a list of contacts. </para>
@@ -736,7 +753,7 @@
     <detaileddescription>
 <para>The contact are added such that the activation time is strictly growing. In addition, contacts cannot be overlapping. It represents a series of contact activations and deactivations of a single entity. </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactList.h" line="34" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="35" bodyend="262"/>
+    <location file="BipedalLocomotion/Contacts/ContactList.h" line="34" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="35" bodyend="269"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae3ed40a1a38d8878bfc30ea6fbb7ae7e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a18ac03b2121f9a9a432914d3c329776b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>
@@ -772,6 +789,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afe083245f09cdf581d93b4c43adcc3cb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>setDefaultIndex</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a763a0f4ce300b834b9972008fe2858d7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>setDefaultName</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0455d9dad6976ca0cc5238992cefd9f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>size</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a13a4c42fbe20c34faf9f6a26c8ab36f8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>toString</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

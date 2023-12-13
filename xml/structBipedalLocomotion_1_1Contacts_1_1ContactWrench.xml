@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Contacts/Contact.h" line="141" column="38" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="141" bodyend="-1"/>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="148" column="38" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="148" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -61,7 +61,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="138" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="139" bodyend="142"/>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="145" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="146" bodyend="149"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a21077c66c293afddc5e3f36a3bb0ec19" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactWrench</scope><name>index</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1a78dbda4ff9047a5d19ee3285bca4dfe2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactWrench</scope><name>name</name></member>

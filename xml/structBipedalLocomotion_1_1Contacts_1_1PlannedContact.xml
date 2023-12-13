@@ -127,6 +127,23 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/Contact.h" line="106" column="11"/>
       </memberdef>
+      <memberdef kind="function" id="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a4b262f7d7eeaf74ac1a9581a5b25adb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string BipedalLocomotion::Contacts::PlannedContact::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <briefdescription>
+<para>Convert the contact to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string containing the information of the contact. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/Contact.h" line="113" column="18"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Definition of a Planned Contact structure. </para>
@@ -168,7 +185,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Contacts/Contact.h" line="72" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="73" bodyend="107"/>
+    <location file="BipedalLocomotion/Contacts/Contact.h" line="72" column="1" bodyfile="BipedalLocomotion/Contacts/Contact.h" bodystart="73" bodyend="114"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1aa589c04446c7d15276c447a94dad913f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>activationTime</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2ca83c6e9583c581057b4f46dfeda9a2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>deactivationTime</name></member>
@@ -178,6 +195,7 @@
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a2a98817b1f6b0eeebfb61da5c5a28abb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>operator!=</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1ad65cd0f8bb51507f321d5da8bdb575ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>operator==</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1aff58e7de425dabd599c896b6090fe861" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>pose</name></member>
+      <member refid="structBipedalLocomotion_1_1Contacts_1_1PlannedContact_1a4b262f7d7eeaf74ac1a9581a5b25adb7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>toString</name></member>
       <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase_1ac6477ddb8311dc0739d0c2a1022c073f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::PlannedContact</scope><name>type</name></member>
     </listofallmembers>
   </compounddef>
