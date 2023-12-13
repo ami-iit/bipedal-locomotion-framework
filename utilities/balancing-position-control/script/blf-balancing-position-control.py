@@ -117,7 +117,7 @@ def get_base_frame(base_frame: str, kindyn: idyn.KinDynComputations):
 
 
 def create_new_spline(knots_positions, motion_duration: timedelta, dt: timedelta):
-    com_spline = blf.planners.QuinticSpline()
+    com_spline = blf.math.QuinticSpline()
     com_spline.set_initial_conditions([0, 0, 0], [0, 0, 0])
     com_spline.set_final_conditions([0, 0, 0], [0, 0, 0])
     com_spline.set_advance_time_step(dt)
