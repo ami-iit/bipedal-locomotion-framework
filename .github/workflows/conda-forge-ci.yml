@@ -52,13 +52,6 @@ jobs:
                       libxxf86vm-cos6-x86_64 mesalib mesa-libgl-cos6-x86_64 \
                       mesa-libgl-devel-cos6-x86_64
 
-    - name: maxOS-only Dependencies [macOS]
-      if: contains(matrix.os, 'macos')
-      shell: bash -l {0}
-      run: |
-        mamba install onnxruntime-cpp
-
-
     - name: Windows-only Dependencies [Windows]
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
