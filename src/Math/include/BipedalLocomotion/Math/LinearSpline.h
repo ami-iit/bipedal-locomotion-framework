@@ -22,12 +22,12 @@ namespace BipedalLocomotion
 namespace Math
 {
 /**
- * Linearspline implements a 1-st order polynomial spline in \$f\mathbb{R}^n\$f.
+ * LinearSpline implements a 1-st order polynomial spline in \f$\mathbb{R}^n\f$.
  * @note The spline is defined as a set of piecewise polynomial functions of degree 1 of the form
  * \f[
- * s(t) = a_0 + a_1 t
+ * s_i(t) = a_i + b_i t
  * \f]
- * where \$t \in [0, T_i]\$ and \$T_i\$ is the duration of the i-th polynomial.
+ * where \f$t \in [0, T_i]\f$ and \f$T_i\f$ is the duration of the i-th polynomial.
  */
 template <typename T> class LinearSpline : public Spline<T>
 {
