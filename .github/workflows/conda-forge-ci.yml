@@ -35,10 +35,9 @@ jobs:
       run: |
         # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
         conda config --remove channels defaults
-        # Compilation related dependencies
-        mamba install cmake compilers make ninja pkg-config
-        # Actual dependencies
-        mamba install "idyntree>=8.0.0" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
+        # Dependencies
+        mamba install cmake compilers make ninja pkg-config \
+                      "idyntree>=8.0.0" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog \
                       nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl \
                       tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
@@ -52,13 +51,6 @@ jobs:
                       libxdamage-cos6-x86_64 libxext-cos6-x86_64 libxfixes-cos6-x86_64 \
                       libxxf86vm-cos6-x86_64 mesalib mesa-libgl-cos6-x86_64 \
                       mesa-libgl-devel-cos6-x86_64
-
-    - name: maxOS-only Dependencies [macOS]
-      if: contains(matrix.os, 'macos')
-      shell: bash -l {0}
-      run: |
-        mamba install onnxruntime-cpp
-
 
     - name: Windows-only Dependencies [Windows]
       if: contains(matrix.os, 'windows')
