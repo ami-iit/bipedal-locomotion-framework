@@ -43,11 +43,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="18">
+      <node id="19">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
@@ -69,6 +69,10 @@
         <label>BipedalLocomotion/TextLogging/RosLogger.h</label>
         <link refid="RosLogger_8h"/>
       </node>
+      <node id="17">
+        <label>BipedalLocomotion/Math/LinearSpline.h</label>
+        <link refid="LinearSpline_8h"/>
+      </node>
       <node id="8">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
         <link refid="Integrator_8h"/>
@@ -89,10 +93,10 @@
         <label>BipedalLocomotion/TextLogging/YarpLogger.h</label>
         <link refid="YarpLogger_8h"/>
       </node>
-      <node id="17">
+      <node id="18">
         <label>BipedalLocomotion/Math/QuinticSpline.h</label>
         <link refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h"/>
-        <childnode refid="18" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -126,7 +130,7 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -139,6 +143,8 @@
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="11">

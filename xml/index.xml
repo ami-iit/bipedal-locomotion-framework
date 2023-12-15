@@ -1476,6 +1476,10 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1aad236d7d978b89152312d7d572bf069c" kind="function"><name>getA</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1LinearizedFrictionCone_1af5d5c9a1b2cf4fd7ca3ea5e93abb28b7" kind="function"><name>getB</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Math_1_1LinearSpline" kind="class"><name>BipedalLocomotion::Math::LinearSpline</name>
+    <member refid="classBipedalLocomotion_1_1Math_1_1LinearSpline_1a56ef541db251aa51a26ee47fe286a386" kind="function"><name>updatePolynomialCoefficients</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1LinearSpline_1ad3b4c65d713c2dae524e731ce78a37f6" kind="function"><name>computeIntermediateQuantities</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1LinearTask" kind="class"><name>BipedalLocomotion::System::LinearTask</name>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kind="enum"><name>Type</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748a8d6af695732111686a6dcd5406dd3a9f" kind="enumvalue"><name>equality</name></member>
@@ -3481,6 +3485,8 @@
   <compound refid="ContactWrenchCone_8h" kind="file"><name>ContactWrenchCone.h</name>
   </compound>
   <compound refid="LinearizedFrictionCone_8h" kind="file"><name>LinearizedFrictionCone.h</name>
+  </compound>
+  <compound refid="LinearSpline_8h" kind="file"><name>LinearSpline.h</name>
   </compound>
   <compound refid="QuadraticBezierCurve_8h" kind="file"><name>QuadraticBezierCurve.h</name>
   </compound>

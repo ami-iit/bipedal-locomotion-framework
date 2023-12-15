@@ -4,6 +4,7 @@
     <compoundname>BipedalLocomotion::Math::Spline</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1Source" prot="public" virt="non-virtual">BipedalLocomotion::System::Source&lt; TrajectoryPoint&lt; T &gt; &gt;</basecompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Math_1_1CubicSpline" prot="public" virt="non-virtual">BipedalLocomotion::Math::CubicSpline&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1Math_1_1LinearSpline" prot="public" virt="non-virtual">BipedalLocomotion::Math::LinearSpline&lt; T &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline" prot="public" virt="non-virtual">BipedalLocomotion::Math::QuinticSpline&lt; T &gt;</derivedcompoundref>
     <includes local="no">BipedalLocomotion/Math/Spline.h</includes>
     <innerclass refid="structBipedalLocomotion_1_1Math_1_1Spline_1_1DerivativeBoundaryConditions" prot="public">BipedalLocomotion::Math::Spline::DerivativeBoundaryConditions</innerclass>
@@ -214,7 +215,7 @@
 <parametername>position</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>position of the knots in $f\mathbb{R}^n$f. </para>
+<para>position of the knots in <formula id="101">$\mathbb{R}^n$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -635,6 +636,7 @@
         <argsstring>()=0</argsstring>
         <name>computeIntermediateQuantities</name>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1CubicSpline_1acf0a2911c75973ad055e1c7c985ddbf6">computeIntermediateQuantities</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1LinearSpline_1ad3b4c65d713c2dae524e731ce78a37f6">computeIntermediateQuantities</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline_1a9bce323ed365779e68cb2ab8311d0b30">computeIntermediateQuantities</reimplementedby>
         <briefdescription>
 <para>Compute the intermediate quantities of the spline. </para>
@@ -758,9 +760,15 @@
         <label>BipedalLocomotion::System::OutputPort&lt; _Output &gt;</label>
         <link refid="classBipedalLocomotion_1_1System_1_1OutputPort"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion::Math::QuinticSpline&lt; T &gt;</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1QuinticSpline"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion::Math::LinearSpline&lt; T &gt;</label>
+        <link refid="classBipedalLocomotion_1_1Math_1_1LinearSpline"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

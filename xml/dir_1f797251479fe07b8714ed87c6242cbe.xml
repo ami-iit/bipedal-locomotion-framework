@@ -7,6 +7,7 @@
     <innerfile refid="ContactWrenchCone_8h">ContactWrenchCone.h</innerfile>
     <innerfile refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h">CubicSpline.h</innerfile>
     <innerfile refid="LinearizedFrictionCone_8h">LinearizedFrictionCone.h</innerfile>
+    <innerfile refid="LinearSpline_8h">LinearSpline.h</innerfile>
     <innerfile refid="QuadraticBezierCurve_8h">QuadraticBezierCurve.h</innerfile>
     <innerfile refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h">QuinticSpline.h</innerfile>
     <innerfile refid="SchmittTrigger_8h">SchmittTrigger.h</innerfile>
