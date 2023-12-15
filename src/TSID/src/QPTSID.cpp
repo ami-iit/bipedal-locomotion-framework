@@ -440,10 +440,9 @@ bool QPTSID::finalize(const System::VariablesHandler& handler)
     // resize the temporary matrix useful to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        if(cost.get().weightProvider == nullptr)
+        if (cost.get().weightProvider == nullptr)
         {
-            log()->error("{} One of the weight provider has been not correctly set.",
-                         logPrefix);
+            log()->error("{} One of the weight provider has been not correctly set.", logPrefix);
             return false;
         }
 
