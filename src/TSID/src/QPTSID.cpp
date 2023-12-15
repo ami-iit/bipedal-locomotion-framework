@@ -84,17 +84,22 @@ struct QPTSID::Impl
             return false;
         }
 
-        Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
-        if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
+        // if the number of constraints is equal to zero we do not need to set the constraint
+        if (this->numberOfConstraints > 0)
         {
-            log()->error("{} Unable to set the constraint matrix.", logPrefix);
-            return false;
-        }
+            Eigen::SparseMatrix<double> constraintsMatrixSparse
+                = this->constraintMatrix.sparseView();
+            if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
+            {
+                log()->error("{} Unable to set the constraint matrix.", logPrefix);
+                return false;
+            }
 
-        if (!this->solver.data()->setBounds(this->lowerBound, this->upperBound))
-        {
-            log()->error("{} Unable to set the bounds.", logPrefix);
-            return false;
+            if (!this->solver.data()->setBounds(this->lowerBound, this->upperBound))
+            {
+                log()->error("{} Unable to set the bounds.", logPrefix);
+                return false;
+            }
         }
 
         if (!this->solver.initSolver())
@@ -124,6 +129,14 @@ struct QPTSID::Impl
             return false;
         }
 
+        // if the number of constraints is equal to zero we do not need to update the constraint
+        if (this->numberOfConstraints == 0)
+        {
+            return true;
+        }
+
+        // In this case the number of constraints is not equal to zero. We need to update the
+        // constraint matrix and the bounds.
         Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
         if (!this->solver.updateLinearConstraintsMatrix(constraintsMatrixSparse))
         {
