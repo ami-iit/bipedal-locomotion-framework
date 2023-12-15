@@ -76,17 +76,22 @@ struct QPInverseKinematics::Impl
             return false;
         }
 
-        Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
-        if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
+        // if there are constraints
+        if (this->numberOfConstraints > 0)
         {
-            log()->error("{} Unable to set the constraint matrix.", logPrefix);
-            return false;
-        }
+            Eigen::SparseMatrix<double> constraintsMatrixSparse
+                = this->constraintMatrix.sparseView();
+            if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
+            {
+                log()->error("{} Unable to set the constraint matrix.", logPrefix);
+                return false;
+            }
 
-        if (!this->solver.data()->setBounds(this->lowerBound, this->upperBound))
-        {
-            log()->error("{} Unable to set the bounds.", logPrefix);
-            return false;
+            if (!this->solver.data()->setBounds(this->lowerBound, this->upperBound))
+            {
+                log()->error("{} Unable to set the bounds.", logPrefix);
+                return false;
+            }
         }
 
         if (!this->solver.initSolver())
@@ -116,6 +121,14 @@ struct QPInverseKinematics::Impl
             return false;
         }
 
+        // if the number of constraints is equal to zero we do not need to update the constraint
+        if (this->numberOfConstraints == 0)
+        {
+            return true;
+        }
+
+        // in this case the number of constraint is different from zero, so we have to update the
+        // constraint matrix and the bounds
         Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
         if (!this->solver.updateLinearConstraintsMatrix(constraintsMatrixSparse))
         {
@@ -349,10 +362,9 @@ bool QPInverseKinematics::finalize(const System::VariablesHandler& handler)
     // resize the temporary matrix usefull to reduce dynamics allocation when advance() is called
     for (auto& cost : m_pimpl->costs)
     {
-        if(cost.get().weightProvider == nullptr)
+        if (cost.get().weightProvider == nullptr)
         {
-            log()->error("{} One of the weight provider has been not correctly set.",
-                         logPrefix);
+            log()->error("{} One of the weight provider has been not correctly set.", logPrefix);
             return false;
         }
 
@@ -412,7 +424,6 @@ bool QPInverseKinematics::advance()
         log()->error("{} Please call finalize() before advance().", logPrefix);
         return false;
     }
-
 
     // update of all the tasks
     for (auto& [name, task] : m_pimpl->tasks)
@@ -560,7 +571,8 @@ std::weak_ptr<QPInverseKinematics::Task> QPInverseKinematics::getTask(const std:
     return task->second.task;
 }
 
-bool QPInverseKinematics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+bool QPInverseKinematics::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[QPInverseKinematics::initialize]";
 
@@ -642,7 +654,7 @@ QPInverseKinematics::build(std::weak_ptr<const ParametersHandler::IParametersHan
 
     BipedalLocomotion::System::VariablesHandler variablesHandler;
     if (!variablesHandler.addVariable(solver->m_pimpl->robotVelocityVariable.name,
-                                     kinDyn->getNrOfDegreesOfFreedom() + 6))
+                                      kinDyn->getNrOfDegreesOfFreedom() + 6))
     {
         log()->error("{} Unable to add the variable named '{}'.",
                      logPrefix,
