@@ -176,9 +176,8 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     {
         if (!(activeContact->pose.translation() - activeContactNewList->pose.translation())
                  .isZero(m_positionTolerance)
-            || !(activeContact->pose.asSO3() - activeContactNewList->pose.asSO3())
-                    .coeffs()
-                    .isZero(m_orientationTolerance))
+            || (activeContact->pose.asSO3() - activeContactNewList->pose.asSO3()).coeffs().norm()
+                   > m_orientationTolerance)
         {
             log()->error("{} The pose of the contact in the new contact list is different from the "
                          "pose of the contact in the original contact list. Given the contact "
@@ -188,7 +187,7 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
                          "{} m, admissible orientation tolerance {} rad. Current time {}.",
                          logPrefix,
                          activeContact->pose.coeffs().transpose(),
-                         activeContactNewList->pose.translation().transpose(),
+                         activeContactNewList->pose.coeffs().transpose(),
                          (activeContactNewList->pose - activeContact->pose).coeffs().transpose(),
                          m_positionTolerance,
                          m_orientationTolerance,
