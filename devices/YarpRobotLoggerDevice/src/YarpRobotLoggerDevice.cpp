@@ -32,6 +32,9 @@
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
+#include <yarp/os/all.h>
+
+#include <sstream>
 
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
@@ -106,6 +109,7 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
 
@@ -1194,6 +1198,17 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
 void YarpRobotLoggerDevice::run()
 {
+    static bool init = false;
+    static yarp::os::BufferedPort<yarp::os::Bottle> outPort;
+    
+    if (!init)
+    {
+        init = true;
+        outPort.open("/testLoggerOutput");
+    }
+
+    yarp::os::Bottle&out = outPort.prepare();
+    out.clear();
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
 
     // get the data
@@ -1206,24 +1221,32 @@ void YarpRobotLoggerDevice::run()
 
     std::lock_guard lock(m_bufferManagerMutex);
     // collect the data
+    std::stringstream dataStream;
     if (m_streamJointStates)
     {
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
         {
+            dataStream << "Joint Positions: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::positions");
         }
         if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
         {
+            dataStream << "Joint Velocities: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::velocities");
         }
         if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
         {
+            dataStream << "Joint Accelerations: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::accelerations");
         }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
+            dataStream << "Joint Torques: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::torques");
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
+
     }
 
     if (m_streamMotorStates)
