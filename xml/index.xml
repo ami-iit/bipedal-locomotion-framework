@@ -2498,6 +2498,8 @@
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ae0a872ba21104fbb12725b328810395f" kind="variable"><name>m_heightPlanner</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad22ed48af0c25891c140707a2308c350" kind="variable"><name>m_stepHeight</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a5a169917029284c391fb12021e22bb6a" kind="variable"><name>m_footApexTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a99f2231ea8f91088ac9430365fd8d83e" kind="variable"><name>m_positionTolerance</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a7e8011b0b23bc63430a8b5b7b9b3fcbc" kind="variable"><name>m_orientationTolerance</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1d6a413c91862243185d1bfdf4096788" kind="variable"><name>m_footLandingVelocity</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab486c43987b20ca3950f19f242c662fa" kind="variable"><name>m_footLandingAcceleration</name></member>
     <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" kind="variable"><name>m_footTakeOffVelocity</name></member>

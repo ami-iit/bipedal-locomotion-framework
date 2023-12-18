@@ -165,6 +165,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="74" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="74" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a99f2231ea8f91088ac9430365fd8d83e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_positionTolerance</definition>
+        <argsstring></argsstring>
+        <name>m_positionTolerance</name>
+        <initializer>{1e-6}</initializer>
+        <briefdescription>
+<para>Position tolerance in <formula id="40">$m$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="75" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a7e8011b0b23bc63430a8b5b7b9b3fcbc" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_orientationTolerance</definition>
+        <argsstring></argsstring>
+        <name>m_orientationTolerance</name>
+        <initializer>{1e-6}</initializer>
+        <briefdescription>
+<para>Orientation tolerance in <formula id="41">$rad$</formula>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="76" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a1d6a413c91862243185d1bfdf4096788" prot="private" static="no" mutable="no">
         <type>double</type>
         <definition>double BipedalLocomotion::Planners::SwingFootPlanner::m_footLandingVelocity</definition>
@@ -172,13 +202,13 @@
         <name>m_footLandingVelocity</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Landing velocity in <formula id="40">$m/s$</formula>. </para>
+<para>Landing velocity in <formula id="42">$m/s$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="76" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="76" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="78" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ab486c43987b20ca3950f19f242c662fa" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -187,13 +217,13 @@
         <name>m_footLandingAcceleration</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Landing acceleration in <formula id="41">$m/s^2$</formula>. </para>
+<para>Landing acceleration in <formula id="43">$m/s^2$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="77" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="77" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="79" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a9c034bd0aab0a822f696fdbe7f3d7bf7" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -202,13 +232,13 @@
         <name>m_footTakeOffVelocity</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Take off velocity in <formula id="40">$m/s$</formula>. </para>
+<para>Take off velocity in <formula id="42">$m/s$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="79" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="79" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="81" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ad6fa5f331bffe3291d5c3a386f5de94f" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -217,13 +247,13 @@
         <name>m_footTakeOffAcceleration</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Take off acceleration in <formula id="41">$m/s^2$</formula>. </para>
+<para>Take off acceleration in <formula id="43">$m/s^2$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="80" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="80" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="82" column="12" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -238,7 +268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="82" column="10" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="82" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="84" column="10" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -272,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="92" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="94" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3b5d237e6b62bb4ddf87b9d164330a3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -376,7 +406,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="108" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="110" column="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -403,7 +433,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>the following parameters are required by the class <table rows="3" cols="4"><row>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="11" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
@@ -416,13 +446,61 @@
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para></para>
-</entry><entry thead="no" align='center'><para><computeroutput>step_height</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>step_height</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Height of the   </para>
+</entry><entry thead="no" align='center'><para>Height of the swing foot. It is not the maximum height of the foot. If apex time is 0.5 <computeroutput>step_height</computeroutput> is the maximum   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_apex_time</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_landing_velocity</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Landing vertical velocity (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_landing_acceleration</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Landing vertical acceleration (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_take_off_velocity</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical velocity (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>foot_take_off_acceleration</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Take-off vertical acceleration (default value 0.0)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>interpolation_method</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Define the interpolation method for the trajectory of the position. Accepted parameters: <computeroutput>min_acceleration</computeroutput>, <computeroutput>min_jerk</computeroutput> (default value <computeroutput>min_acceleration</computeroutput>)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>position_tolerance</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Position tolerance in meters considered in <ref refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" kindref="member">SwingFootPlanner::setContactList</ref>. (default value 1e-6)   </para>
+</entry><entry thead="no" align='center'><para>No    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>orientation_tolerance</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Orientation tolerance in radians considered in <ref refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" kindref="member">SwingFootPlanner::setContactList</ref>. (default value 1e-6)   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
-swing foot. It is not the maximum height of the foot. If apex time is 0.5 <computeroutput>step_height</computeroutput> is the maximum | Yes | | <computeroutput>foot_apex_time</computeroutput> | <computeroutput>double</computeroutput> | Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down | Yes | | <computeroutput>foot_landing_velocity</computeroutput> | <computeroutput>double</computeroutput> | Landing vertical velocity (default value 0.0) | No | | <computeroutput>foot_landing_acceleration</computeroutput> | <computeroutput>double</computeroutput> | Landing vertical acceleration (default value 0.0) | No | | <computeroutput>foot_take_off_velocity</computeroutput> | <computeroutput>double</computeroutput> | Take-off vertical velocity (default value 0.0) | No | | <computeroutput>foot_take_off_acceleration</computeroutput> | <computeroutput>double</computeroutput> | Take-off vertical acceleration (default value 0.0) | No | | <computeroutput>interpolation_method</computeroutput> | <computeroutput>string</computeroutput> | Define the interpolation method for the trajectory of the position. Accepted parameters: <computeroutput>min_acceleration</computeroutput>, <computeroutput>min_jerk</computeroutput> (default value <computeroutput>min_acceleration</computeroutput>) | No | </para>
+</para>
 </simplesect>
 <simplesect kind="return"><para>True in case of success/false otherwise. </para>
 </simplesect>
@@ -430,7 +508,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="140" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="138" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a4082618eeb6a330eef5cdefd9a0a8705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -457,7 +535,11 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
 <simplesect kind="return"><para>true in case of success, false otherwise. </para>
 </simplesect>
 <simplesect kind="note"><para>The contact list can be updated at run-time, i.e., when the planner is running. However the new contact list must satisfy a set of hypothesis. If the contact list stored in the class is empty, then it is the first time the contact list is added to the planner. In this case we accept all kinds of ContactList If the contact list is not empty, we check if it is possible to update the list. Given some limitations of the framework (mainly due to the SO3 trajectory generation) for the time being, we support only the two following cases:<itemizedlist>
-<listitem><para>Given the current time instant, both the stored and the new contact lists must have an active contact at the same pose.</para>
+<listitem><para>Given the current time instant, both the stored and the new contact lists must have an active contact at the same pose. In details the check is done by comparing the position and orientation of the contact. The position and orientation are considered equal if the following two conditions are satisfied:<orderedlist>
+<listitem><para>the distance between the two positions is less than position_tolerance</para>
+</listitem><listitem><para>the distance between the two orientations is less than orientation_tolerance</para>
+</listitem></orderedlist>
+</para>
 </listitem><listitem><para>If the contact is not active (swing phase) the next contact must satisfy the following two hypothesis<orderedlist>
 <listitem><para>the final orientation may change still the error (in the tangent space) between the new orientation and the current one should be parallel to the current velocity and acceleration vectors. This is required to keep the <ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref> problem still treatable online. This check is not done here since the <ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref> will complain in case of issues.</para>
 </listitem><listitem><para>the impact time of the next contact must be the same as the one of the next contact in the contact list stored in the class. </para>
@@ -470,7 +552,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="164" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="168" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a72eb04436de799dbd282eb4e3cc30a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -498,7 +580,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="170" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="174" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a3495995d4e48df8f65648538f4b1ae88" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" kindref="compound">SwingFootPlannerState</ref> &amp;</type>
@@ -516,7 +598,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="176" column="33"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="180" column="33"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1af9b02eaefe72c8800c50e061a5ea0d87" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -534,7 +616,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="182" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="186" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
@@ -552,7 +634,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="188" column="10"/>
+        <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="192" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -661,7 +743,7 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="44" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="45" bodyend="189"/>
+    <location file="BipedalLocomotion/Planners/SwingFootPlanner.h" line="44" column="1" bodyfile="BipedalLocomotion/Planners/SwingFootPlanner.h" bodystart="45" bodyend="193"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a273fc940688dc888d1c3cb7ea3c8b6de" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>Advanceable</name></member>
@@ -688,7 +770,9 @@ swing foot. It is not the maximum height of the foot. If apex time is 0.5 <compu
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1ae0a872ba21104fbb12725b328810395f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_heightPlanner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a8d096eb9dc9a1d301d6e6d97a6820b4b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a186b5acb5c339c1bb1b8c87ab58d06a8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_lastValidContact</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a7e8011b0b23bc63430a8b5b7b9b3fcbc" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_orientationTolerance</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a11c4337a412dbb2d1e554958333f2373" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_planarPlanner</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a99f2231ea8f91088ac9430365fd8d83e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_positionTolerance</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a74350935e4645a7c74479f7cb4429526" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_SO3Planner</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a7b438a1964aebbc631655aca706d420c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_staringTimeOfCurrentSO3Traj</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner_1a05f9acf196e6eb3d2065f348d168c54c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::SwingFootPlanner</scope><name>m_state</name></member>
