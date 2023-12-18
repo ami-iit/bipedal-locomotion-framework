@@ -239,6 +239,7 @@ bool BaseEstimatorFromFootIMU::advance()
         {
             // updating the yawOld value.
             Eigen::Vector3d lastRPY_L = toXYZ(m_state.footPose_L.rotation());
+            // Eigen::Vector3d lastRPY_L = toXYZ(m_input.measuredRotation_L.rotation());
             m_yawOld = lastRPY_L(2);
 
             // updating the m_T_walk matrix.
@@ -260,6 +261,7 @@ bool BaseEstimatorFromFootIMU::advance()
         {
             // updating the yawOld value.
             Eigen::Vector3d lastRPY_R = toXYZ(m_state.footPose_R.rotation());
+            // Eigen::Vector3d lastRPY_R = toXYZ(m_input.measuredRotation_R.rotation());
             m_yawOld = lastRPY_R(2);
 
             // updating the m_T_walk matrix.
@@ -393,6 +395,31 @@ bool BaseEstimatorFromFootIMU::advance()
     // transforming the offset vector into a translation matrix.
     manif::SE3d T_supportCornerTranslation(supportCornerTranslation, manif::SO3d::Identity());
 
+    // calculating the yaw drift - VALID FOR BOTH FEET ONLY IF FRAMES ARE ORIENTED IN THE SAME WAY.
+    double deltaYaw = 0.0;
+    deltaYaw = measuredYaw - m_yawOld;
+    m_yawOld = measuredYaw;
+    // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw variation.
+    auto R_deltaYaw = manif::SO3d(0.0, 0.0, deltaYaw);
+    manif::SE3d T_deltaYaw(noTras, R_deltaYaw);
+
+    std::vector<Eigen::Vector3d> tempCorners;
+    tempCorners.resize(m_cornersInInertialFrame.size());
+    int j = 0;
+    for (const auto& corner : m_cornersInInertialFrame)
+    {
+        tempCorners[j] = T_deltaYaw.act(corner);
+        j++;
+    }
+    Eigen::Vector3d yawDrift(0, 0, 0);
+    yawDrift = m_cornersInInertialFrame[m_state.supportCornerIndex]
+               - tempCorners[m_state.supportCornerIndex];
+    // manif::SE3d T_yawDrift(yawDrift, R_deltaYaw);
+    manif::SE3d T_yawDrift(noTras, R_deltaYaw);
+
+    manif::SE3d temp = T_yawDrift * m_T_yawDrift;
+    m_T_yawDrift = temp;
+
     // obtaining the final foot pose using both measured and offset quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
     m_measuredFootPose = m_T_walk * T_foot_offset * m_T_yawDrift * T_supportCornerTranslation
@@ -425,30 +452,6 @@ bool BaseEstimatorFromFootIMU::advance()
         m_state.stanceFootCorners[i] = m_T_walk.act(
             m_T_yawDrift.act(T_supportCornerTranslation.act(m_tiltedFootCorners[i])));
     }
-
-    // calculating the yaw drift - VALID FOR BOTH FEET ONLY IF FRAMES ARE ORIENTED IN THE SAME WAY.
-    double deltaYaw = 0.0;
-    deltaYaw = measuredYaw - m_yawOld;
-    m_yawOld = measuredYaw;
-    // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw variation.
-    auto R_deltaYaw = manif::SO3d(0.0, 0.0, deltaYaw);
-    manif::SE3d T_deltaYaw(noTras, R_deltaYaw);
-
-    std::vector<Eigen::Vector3d> tempCorners;
-    tempCorners.resize(m_cornersInInertialFrame.size());
-    int j = 0;
-    for (const auto& corner : m_cornersInInertialFrame)
-    {
-        tempCorners[j] = T_deltaYaw.act(corner);
-        j++;
-    }
-    Eigen::Vector3d yawDrift(0, 0, 0);
-    yawDrift = m_cornersInInertialFrame[m_state.supportCornerIndex]
-               - tempCorners[m_state.supportCornerIndex];
-    manif::SE3d T_yawDrift(yawDrift, R_deltaYaw);
-
-    manif::SE3d temp = T_yawDrift * m_T_yawDrift;
-    m_T_yawDrift = temp;
 
     // updating the stance foot flags.
     if (m_input.isLeftStance)
