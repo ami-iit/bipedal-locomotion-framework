@@ -7,8 +7,8 @@ BSD-3-Clause license. -->
   <param name="robot">ergocub</param>
   <param name="sampling_period_in_s">0.01</param>
 
-  <param name="rgb_cameras_fps">()</param>
-  <param name="rgb_cameras_rgb_save_mode">()</param>
+  <param name="rgb_cameras_fps">(20)</param>
+  <param name="rgb_cameras_rgb_save_mode">("video")</param>
 
   <param name="rgbd_cameras_fps">()</param>
   <param name="rgbd_cameras_depth_scale">()</param>
@@ -35,6 +35,13 @@ BSD-3-Clause license. -->
       <param name="carrier">"udp"</param>
     </group>
 
+    <group name="Balancing">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing_position_controller"</param>
+      <param name="remote">"/balancing_position_controller/logger"</param>
+      <param name="signal_name">"balancing"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
     <group name="RobotDynamicsEstimator">
       <param name="local">"/yarp-robot-logger/exogenous_signals/rde"</param>
       <param name="remote">"/robot-dynamics-estimator/logger"</param>
@@ -44,9 +51,9 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="RobotCameraBridge">
-      <param name="stream_cameras">false</param>
+      <param name="stream_cameras">true</param>
       <group name="Cameras">
-        <param name="rgb_cameras_list">()</param>
+        <param name="rgb_cameras_list">("jabra")</param>
         <param name="rgbd_cameras_list">()</param>
       </group>
   </group>
@@ -100,7 +107,7 @@ BSD-3-Clause license. -->
       <!-- <elem name="left_arm_wrench_client">left_arm_wrench_client</elem> -->
       <elem name="mas-remapper">mas-remapper</elem>
       <!-- <elem name="realsense">realsense</elem> -->
-      <!-- <elem name="jabra">jabra</elem> -->
+      <elem name="jabra">jabra</elem>
     </paramlist>
   </action>
 
