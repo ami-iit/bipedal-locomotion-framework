@@ -83,6 +83,18 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
                     m_footLandingAcceleration);
     }
 
+    if (!ptr->getParameter("position_tolerance", m_positionTolerance))
+    {
+        log()->info("{} Using default position_tolerance={} m.", logPrefix, m_positionTolerance);
+    }
+
+    if (!ptr->getParameter("orientation_tolerance", m_orientationTolerance))
+    {
+        log()->info("{} Using default orientation_tolerance={} rad.",
+                    logPrefix,
+                    m_orientationTolerance);
+    }
+
     // check the parameters passed to the planner
     const bool ok = (m_dT > std::chrono::nanoseconds::zero())
                     && ((m_footApexTime > 0) && (m_footApexTime < 1));
@@ -157,23 +169,33 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
     auto activeContactNewList = contactList.getActiveContact(m_currentTrajectoryTime);
     auto activeContact = m_contactList.getActiveContact(m_currentTrajectoryTime);
 
-    constexpr double tolerance = 1e-6;
     if (activeContact != m_contactList.cend() // i.e., the original list contains an active contact
         && activeContactNewList != contactList.cend() // i.e., the new list contains an active
                                                       // contact
     )
     {
-        if (!(activeContact->pose - activeContactNewList->pose).coeffs().isZero(tolerance))
+        if (!(activeContact->pose.translation() - activeContactNewList->pose.translation())
+                 .isZero(m_positionTolerance)
+            || !(activeContact->pose.asSO3() - activeContactNewList->pose.asSO3())
+                    .coeffs()
+                    .isZero(m_orientationTolerance))
         {
             log()->error("{} The pose of the contact in the new contact list is different from the "
                          "pose of the contact in the original contact list. Given the contact "
                          "lists and the time instant the contacts are active."
-                         "Original contact: {}, new contact: {}. Error {}. Current time {}.",
+                         "Original contact: {}, new contact: {}. Error {}. Admissible position "
+                         "tolerance "
+                         "{} m, admissible orientation tolerance {} rad. Current time {}.",
                          logPrefix,
                          activeContact->pose.coeffs().transpose(),
-                         activeContactNewList->pose.coeffs().transpose(),
+                         activeContactNewList->pose.translation().transpose(),
                          (activeContactNewList->pose - activeContact->pose).coeffs().transpose(),
+                         m_positionTolerance,
+                         m_orientationTolerance,
                          toMilliseconds(m_currentTrajectoryTime));
+            log()->info("{} Current contact list.{}", logPrefix, m_contactList.toString());
+            log()->info("{} New contact list. {}", logPrefix, contactList.toString());
+
             return false;
         }
 
