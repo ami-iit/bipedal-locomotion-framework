@@ -17,6 +17,8 @@ All notable changes to this project are documented in this file.
 - Restructure `MANNTrajectoryGenerator` to remove the need for foot positions in `setInitialState` and enhanced reset capabilities. Corrected position and time scaling for precise CoM, base, and feet positioning (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Move `Spline` into `Math` component. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
 - Deprecate `Planners::Spline`, `Planners::QuinticSpline`, `Planners::CubicSpline` in favor of `Math::Spline`, `Math::QuinticSpline`, `Math::CubicSpline` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
+- Add error plot. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+- Depreciate Latex support (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
 
 ### Fixed
 
