@@ -26,6 +26,10 @@ All notable changes to this project are documented in this file.
 - Change use of dynamics name for fts, contacts, accelerometers, gyroscopes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
 - 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
 - Modify the `balancing-position-control` application to be compliant with the new implementation of the spline and the `VectorsCollectionServer` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Add the joint tracking error plot in joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+
+### Removed
+- Remove the latex dependency in the joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
 
 ### Fixed
 
