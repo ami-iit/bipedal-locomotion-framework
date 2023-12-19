@@ -72,6 +72,8 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                                  maximum height of the foot. If m_footApexTime is set to 0.5 the
                                  stepHeight is the maximum of the trajectory. */
     double m_footApexTime{0.5}; /**< Number between 0 and 1 representing the foot apex instant */
+    double m_positionTolerance{1e-6}; /**< Position tolerance in \f$m\f$ */
+    double m_orientationTolerance{1e-6}; /**< Orientation tolerance in \f$rad\f$ */
 
     double m_footLandingVelocity{0.0}; /**< Landing velocity in \f$m/s\f$ */
     double m_footLandingAcceleration{0.0}; /**< Landing acceleration in \f$m/s^2\f$ */
@@ -114,30 +116,27 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                        const manif::SO3d::Tangent& initialAngularAcceleration);
 
 public:
+    // clang-format off
     /**
      * Initialize the planner.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required by the class
-     * |         Parameter Name       |   Type   | Description | Mandatory |
+     * |         Parameter Name       |   Type   |                                                             Description                                                                                    | Mandatory |
      * |:----------------------------:|:--------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |        `sampling_time`       | `double` | Sampling time of the planner in seconds |    Yes
-     * | |         `step_height`        | `double` |                              Height of the
-     * swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is
-     * the maximum         |    Yes    | |        `foot_apex_time`      | `double` | Number between
-     * 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch
-     * down                                 |    Yes    | |    `foot_landing_velocity`   | `double`
-     * |                                          Landing vertical velocity (default value 0.0) | No
-     * | |  `foot_landing_acceleration` | `double` |                                        Landing
-     * vertical acceleration (default value 0.0) |    No     | |   `foot_take_off_velocity`   |
-     * `double` |                                         Take-off vertical velocity (default value
-     * 0.0)                                                                     |    No     | |
-     * `foot_take_off_acceleration` | `double` |                                       Take-off
-     * vertical acceleration (default value 0.0) |    No     | |    `interpolation_method`    |
-     * `string` | Define the interpolation method for the trajectory of the position. Accepted
-     * parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`) |    No     |
+     * |        `sampling_time`       | `double` |                                               Sampling time of the planner in seconds                                                                      |    Yes    |
+     * |         `step_height`        | `double` |                              Height of the  swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum         |    Yes    |
+     * |        `foot_apex_time`      | `double` |            Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                                 |    Yes    |
+     * |    `foot_landing_velocity`   | `double` |                                               Landing vertical velocity (default value 0.0)                                                                |    No     |
+     * |  `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration (default value 0.0)                                                              |    No     |
+     * |   `foot_take_off_velocity`   | `double` |                                         Take-off vertical velocity (default value 0.0)                                                                     |    No     |
+     * | `foot_take_off_acceleration` | `double` |                                       Take-off vertical acceleration (default value 0.0)                                                                   |    No     |
+     * |    `interpolation_method`    | `string` | Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`) |    No     |
+     * |    `position_tolerance`      | `double` |                          Position tolerance in meters considered in SwingFootPlanner::setContactList. (default value 1e-6)                                 |    No     |
+     * |    `orientation_tolerance`   | `double` |                        Orientation tolerance in radians considered in SwingFootPlanner::setContactList. (default value 1e-6)                               |    No     |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
+    // clang-format on
 
     /**
      * Set the contact list
@@ -151,15 +150,20 @@ public:
      * limitations of the framework (mainly due to the SO3 trajectory generation) for the time
      * being, we support only the two following cases:
      * - Given the current time instant, both the stored and the new contact lists must have an
-     * active contact at the same pose.
+     * active contact at the same pose. In details the check is done by comparing the position and
+     * orientation of the contact. The position and orientation are considered equal if the
+     * following two conditions are satisfied:
+     *   1. the distance between the two positions is less than position_tolerance
+     *   2. the distance between the two orientations is less than orientation_tolerance
      * - If the contact is not active (swing phase) the next contact must satisfy the following two
      * hypothesis
      *   1. the final orientation may change still the error (in the tangent space) between the
-     *  new orientation and the current one should be parallel to the current velocity and
-     *  acceleration vectors. This is required to keep the SO3Planner problem still treatable
-     *  online. This check is not done here since the SO3Planner will complain in case of issues.
+     *      new orientation and the current one should be parallel to the current velocity and
+     *      acceleration vectors. This is required to keep the SO3Planner problem still treatable
+     *      online. This check is not done here since the SO3Planner will complain in case of
+     *      issues.
      *   2. the impact time of the next contact must be the same as the one of the next contact in
-     * the contact list stored in the class.
+     *      the contact list stored in the class.
      */
     bool setContactList(const Contacts::ContactList& contactList);
 

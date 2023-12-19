@@ -7,11 +7,12 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/eigen.h>
 
-#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
-#include <BipedalLocomotion/bindings/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/bindings/YarpUtilities/BufferedPort.h>
+#include <BipedalLocomotion/bindings/YarpUtilities/VectorsCollection.h>
 
 namespace BipedalLocomotion
 {
@@ -19,19 +20,30 @@ namespace bindings
 {
 namespace YarpUtilities
 {
-void CreateVectorsCollection(pybind11::module& module)
+void CreateVectorsCollectionServer(pybind11::module& module)
 {
     namespace py = ::pybind11;
 
     using namespace ::BipedalLocomotion::YarpUtilities;
 
-    py::class_<VectorsCollection>(module, "VectorsCollection")
+    py::class_<VectorsCollectionServer>(module, "VectorsCollectionServer")
         .def(py::init())
-        .def_readwrite("vectors", &VectorsCollection::vectors)
-        .def("__repr__", &VectorsCollection::toString)
-        .def("to_string", &VectorsCollection::toString);
-
-    CreateBufferedPort<VectorsCollection>(module, "BufferedPortVectorsCollection");
+        .def(
+            "initialize",
+            [](VectorsCollectionServer& impl,
+               std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"))
+        .def("populate_metadata", &VectorsCollectionServer::populateMetadata)
+        .def("finalize_metadata", &VectorsCollectionServer::finalizeMetadata)
+        .def("clear_data", &VectorsCollectionServer::clearData)
+        .def("send_data", &VectorsCollectionServer::sendData, py::arg("force_strict") = false)
+        .def("populate_data",
+             [](VectorsCollectionServer& impl,
+                const std::string& key,
+                Eigen::Ref<const Eigen::VectorXd> data) -> bool {
+                 return impl.populateData(key, data);
+             });
 }
 } // namespace YarpUtilities
 } // namespace bindings

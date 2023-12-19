@@ -17,7 +17,7 @@
 // RDE
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 
-namespace blf = BipedalLocomotion;
+using namespace BipedalLocomotion;
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 bool RDE::SubModel::isValid() const
@@ -36,14 +36,14 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
     // Compute the full model traversal
     if (!this->m_model.computeFullTreeTraversal(fullModelTraversal))
     {
-        blf::log()->error("{} Unable to compute the full model traversal.", logPrefix);
+        log()->error("{} Unable to compute the full model traversal.", logPrefix);
         return false;
     }
 
     // Split full model traversal along ft sensors
     if (!subModelDecomp.splitModelAlongJoints(this->m_model, fullModelTraversal, ftFrameList))
     {
-        blf::log()->error("{} Unable to split the full model traversal in submodels along the ft "
+        log()->error("{} Unable to split the full model traversal in submodels along the ft "
                           "sensors.",
                           logPrefix);
         return false;
@@ -57,7 +57,7 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
 
         if (!iDynTree::extractSubModel(this->m_model, subModelTraversal, subModel))
         {
-            blf::log()->error("{} Unable to get the Model object associated to the subModel {}.",
+            log()->error("{} Unable to get the Model object associated to the subModel {}.",
                               logPrefix,
                               idx);
             return false;
@@ -69,46 +69,50 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
     return true;
 }
 
-std::unordered_map<std::string, RDE::FT>
-RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
+std::unordered_map<std::string, RDE::FTSensor>
+RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftListFromConfig,
+                                          iDynTree::Model& idynSubModel)
 {
-    std::unordered_map<std::string, RDE::FT> ftList;
+    std::unordered_map<std::string, RDE::FTSensor> ftList;
 
-    for (int ftIdx = 0; ftIdx < this->m_sensorList.getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE);
-         ftIdx++)
+    for (const auto& ftFromConfig : ftListFromConfig)
     {
         // If the sensor is contained in the model save force direction
         // and parent link in the struct FT.
         // Otherwise, if one of the two attached links is in the model
         // add the ft frame to the model as additional frame and save
         // information on force directiona and parent link
+
+        auto ftIdx = this->m_sensorList.getSensorIndex(iDynTree::SIX_AXIS_FORCE_TORQUE,
+                                                       ftFromConfig.frame);
+
         iDynTree::SixAxisForceTorqueSensor* sensorFTFromModel
-                = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
-                    this->m_sensorList.getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, ftIdx));
-        std::string ftName = sensorFTFromModel->getName();
+            = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
+                this->m_sensorList.getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, ftIdx));
 
         // Get link the link on which the measure force is applied.
         std::string linkAppliedWrenchName
-                = this->m_model.getLinkName(sensorFTFromModel->getAppliedWrenchLink());
+            = this->m_model.getLinkName(sensorFTFromModel->getAppliedWrenchLink());
 
-        if (idynSubModel.isFrameNameUsed(ftName))
+        if (idynSubModel.isFrameNameUsed(ftFromConfig.frame))
         {
-            RDE::FT ft;
-            ft.name = ftName;
-            ft.frame = ftName;
+            RDE::FTSensor ft;
+            ft.name = ftFromConfig.name;
+            ft.frame = ftFromConfig.frame;
+            ft.ukfName = ftFromConfig.ukfName;
 
             // Retrieve force direction
             if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
             {
-                ft.forceDirection = RDE::FT::Direction::Positive;
+                ft.forceDirection = RDE::FTSensor::Direction::Positive;
             } else
             {
-                ft.forceDirection = RDE::FT::Direction::Negative;
+                ft.forceDirection = RDE::FTSensor::Direction::Negative;
             }
 
-            ft.index = idynSubModel.getFrameIndex(ft.frame);
+            ft.frameIndex = idynSubModel.getFrameIndex(ft.frame);
 
-            ftList[ftName] = std::move(ft);
+            ftList[ft.name] = std::move(ft);
         } else
         {
             const std::string firstLink = sensorFTFromModel->getFirstLinkName();
@@ -119,45 +123,40 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
             {
                 if (idynSubModel.isLinkNameUsed(firstLink))
                 {
-                    idynSubModel
-                            .addAdditionalFrameToLink(firstLink,
-                                                      ftName,
-                                                      this->m_kinDyn
-                                                      ->getRelativeTransform(this->m_kinDyn->model()
-                                                                             .getLinkIndex(
-                                                                                 firstLink),
-                                                                             this->m_kinDyn->model()
-                                                                             .getFrameIndex(
-                                                                                 ftName)));
+                    idynSubModel.addAdditionalFrameToLink(
+                        firstLink,
+                        ftFromConfig.frame,
+                        this->m_kinDyn->getRelativeTransform(this->m_kinDyn->model().getLinkIndex(
+                                                                 firstLink),
+                                                             this->m_kinDyn->model().getFrameIndex(
+                                                                 ftFromConfig.frame)));
                 } else
                 {
-                    idynSubModel
-                            .addAdditionalFrameToLink(secondLink,
-                                                      ftName,
-                                                      this->m_kinDyn
-                                                      ->getRelativeTransform(this->m_kinDyn->model()
-                                                                             .getLinkIndex(
-                                                                                 secondLink),
-                                                                             this->m_kinDyn->model()
-                                                                             .getFrameIndex(
-                                                                                 ftName)));
+                    idynSubModel.addAdditionalFrameToLink(
+                        secondLink,
+                        ftFromConfig.frame,
+                        this->m_kinDyn->getRelativeTransform(this->m_kinDyn->model().getLinkIndex(
+                                                                 secondLink),
+                                                             this->m_kinDyn->model().getFrameIndex(
+                                                                 ftFromConfig.frame)));
                 }
 
-                RDE::FT ft;
-                ft.name = ftName;
-                ft.frame = ftName;
+                RDE::FTSensor ft;
+                ft.name = ftFromConfig.name;
+                ft.frame = ftFromConfig.frame;
+                ft.ukfName = ftFromConfig.ukfName;
 
-                ft.index = idynSubModel.getFrameIndex(ft.frame);
+                ft.frameIndex = idynSubModel.getFrameIndex(ft.frame);
 
                 if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
                 {
-                    ft.forceDirection = RDE::FT::Direction::Positive;
+                    ft.forceDirection = RDE::FTSensor::Direction::Positive;
                 } else
                 {
-                    ft.forceDirection = RDE::FT::Direction::Negative;
+                    ft.forceDirection = RDE::FTSensor::Direction::Negative;
                 }
 
-                ftList[ftName] = std::move(ft);
+                ftList[ft.name] = std::move(ft);
             }
         }
     }
@@ -166,7 +165,7 @@ RDE::SubModelCreator::attachFTsToSubModel(iDynTree::Model& idynSubModel)
 }
 
 std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachAccelerometersToSubModel(
-        const std::vector<RDE::Sensor>& accListFromConfig, const iDynTree::Model& subModel)
+    const std::vector<RDE::Sensor>& accListFromConfig, const iDynTree::Model& subModel)
 {
     std::unordered_map<std::string, RDE::Sensor> accList;
 
@@ -177,7 +176,8 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachAcceler
             RDE::Sensor acc;
             acc.name = accListFromConfig[idx].name;
             acc.frame = accListFromConfig[idx].frame;
-            acc.index = subModel.getFrameIndex(acc.frame);
+            acc.ukfName = accListFromConfig[idx].ukfName;
+            acc.frameIndex = subModel.getFrameIndex(acc.frame);
             accList[acc.name] = std::move(acc);
         }
     }
@@ -185,8 +185,9 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachAcceler
     return accList;
 }
 
-std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachGyroscopesToSubModel(
-        const std::vector<RDE::Sensor>& gyroListFromConfig, const iDynTree::Model& subModel)
+std::unordered_map<std::string, RDE::Sensor>
+RDE::SubModelCreator::attachGyroscopesToSubModel(const std::vector<RDE::Sensor>& gyroListFromConfig,
+                                                 const iDynTree::Model& subModel)
 {
     std::unordered_map<std::string, RDE::Sensor> gyroList;
 
@@ -197,7 +198,8 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachGyrosco
             RDE::Sensor gyro;
             gyro.name = gyroListFromConfig[idx].name;
             gyro.frame = gyroListFromConfig[idx].frame;
-            gyro.index = subModel.getFrameIndex(gyro.frame);
+            gyro.ukfName = gyroListFromConfig[idx].ukfName;
+            gyro.frameIndex = subModel.getFrameIndex(gyro.frame);
             gyroList[gyro.name] = std::move(gyro);
         }
     }
@@ -205,16 +207,21 @@ std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachGyrosco
     return gyroList;
 }
 
-std::unordered_map<std::string, int> RDE::SubModelCreator::attachExternalContactsToSubModel(
-        const std::vector<std::string>& contactsFromConfig, const iDynTree::Model& subModel)
+std::unordered_map<std::string, RDE::Sensor> RDE::SubModelCreator::attachExternalContactsToSubModel(
+    const std::vector<RDE::Sensor>& contactsFromConfig, const iDynTree::Model& subModel)
 {
-    std::unordered_map<std::string, int> contactList;
+    std::unordered_map<std::string, RDE::Sensor> contactList;
 
     for (int idx = 0; idx < contactsFromConfig.size(); idx++)
     {
-        if (subModel.isFrameNameUsed(contactsFromConfig[idx]))
+        if (subModel.isFrameNameUsed(contactsFromConfig[idx].frame))
         {
-            contactList[contactsFromConfig[idx]] = subModel.getFrameIndex(contactsFromConfig[idx]);
+            RDE::Sensor contact;
+            contact.name = contactsFromConfig[idx].name;
+            contact.frame = contactsFromConfig[idx].frame;
+            contact.ukfName = contactsFromConfig[idx].ukfName;
+            contact.frameIndex = subModel.getFrameIndex(contact.frame);
+            contactList[contact.name] = std::move(contact);
         }
     }
 
@@ -237,35 +244,35 @@ std::vector<int> RDE::SubModelCreator::createJointMapping(const iDynTree::Model&
 
 RDE::SubModel
 RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
+                                       const std::vector<RDE::FTSensor>& ftList,
                                        const std::vector<RDE::Sensor>& accList,
                                        const std::vector<RDE::Sensor>& gyroList,
-                                       const std::vector<std::string>& externalContacts)
+                                       const std::vector<RDE::Sensor>& externalContacts)
 {
     RDE::SubModel subModel;
 
-    subModel.m_ftList = RDE::SubModelCreator::attachFTsToSubModel(idynSubModel);
+    subModel.m_ftList = RDE::SubModelCreator::attachFTsToSubModel(ftList, idynSubModel);
 
     subModel.m_model = idynSubModel.copy();
 
     subModel.m_accelerometerList
-            = RDE::SubModelCreator::attachAccelerometersToSubModel(accList, idynSubModel);
+        = RDE::SubModelCreator::attachAccelerometersToSubModel(accList, idynSubModel);
 
     subModel.m_gyroscopeList
-            = RDE::SubModelCreator::attachGyroscopesToSubModel(gyroList, idynSubModel);
+        = RDE::SubModelCreator::attachGyroscopesToSubModel(gyroList, idynSubModel);
 
     subModel.m_externalContactList
-            = RDE::SubModelCreator::attachExternalContactsToSubModel(externalContacts,
-                                                                     idynSubModel);
+        = RDE::SubModelCreator::attachExternalContactsToSubModel(externalContacts, idynSubModel);
 
     subModel.m_jointListMapping = RDE::SubModelCreator::createJointMapping(idynSubModel);
 
     return subModel;
 }
 
-bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorList,
+bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FTSensor>& ftSensorList,
                                            const std::vector<RDE::Sensor>& accList,
                                            const std::vector<RDE::Sensor>& gyroList,
-                                           const std::vector<std::string>& externalContacts)
+                                           const std::vector<RDE::Sensor>& contactList)
 {
     constexpr auto logPrefix = "[SubModelCreator::createSubModels]";
 
@@ -279,27 +286,27 @@ bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorL
     std::vector<iDynTree::Model> idynSubModels;
     if (!this->splitModel(ftList, idynSubModels))
     {
-        blf::log()->error("{} Unable to split the model in submodels.", logPrefix);
+        log()->error("{} Unable to split the model in submodels.", logPrefix);
         return false;
     }
 
     if (idynSubModels.size() == 0)
     {
-        this->m_subModelList.emplace_back(
-                    RDE::SubModelCreator::populateSubModel(this->m_model,
-                                                           accList,
-                                                           gyroList,
-                                                           externalContacts));
-    }
-    else
+        this->m_subModelList.emplace_back(RDE::SubModelCreator::populateSubModel(this->m_model,
+                                                                                 ftSensorList,
+                                                                                 accList,
+                                                                                 gyroList,
+                                                                                 contactList));
+    } else
     {
         for (int idxSubModel = 0; idxSubModel < idynSubModels.size(); idxSubModel++)
         {
             this->m_subModelList.emplace_back(
-                        RDE::SubModelCreator::populateSubModel(idynSubModels[idxSubModel],
-                                                               accList,
-                                                               gyroList,
-                                                               externalContacts));
+                RDE::SubModelCreator::populateSubModel(idynSubModels[idxSubModel],
+                                                       ftSensorList,
+                                                       accList,
+                                                       gyroList,
+                                                       contactList));
         }
     }
 
@@ -307,32 +314,33 @@ bool RDE::SubModelCreator::createSubModels(const std::vector<RDE::FT>& ftSensorL
 }
 
 bool RDE::SubModelCreator::createSubModels(
-    std::weak_ptr<const blf::ParametersHandler::IParametersHandler> parameterHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> parameterHandler)
 {
     constexpr auto logPrefix = "[SubModelCreator::getSubModels]";
 
     auto ptr = parameterHandler.lock();
     if (ptr == nullptr)
     {
-        blf::log()->error("{} The handler has to point to an already initialized "
+        log()->error("{} The handler has to point to an already initialized "
                           "IParametershandler.",
                           logPrefix);
         return false;
     }
 
     auto populateSensorParameters = [&ptr, logPrefix](const std::string& groupName,
-            std::vector<std::string>& names,
-            std::vector<std::string>& frames) -> bool {
+                                                      std::vector<std::string>& names,
+                                                      std::vector<std::string>& frames,
+                                                      std::vector<std::string>& ukfNames) -> bool {
         auto group = ptr->getGroup(groupName).lock();
         if (group == nullptr)
         {
-            blf::log()->error("{} Unable to get the group named '{}'.", logPrefix, groupName);
+            log()->error("{} Unable to get the group named '{}'.", logPrefix, groupName);
             return false;
         }
 
         if (!group->getParameter("names", names))
         {
-            blf::log()->error("{} The parameter handler could not find 'names' in the "
+            log()->error("{} The parameter handler could not find 'names' in the "
                               "configuration file for the group {}.",
                               logPrefix,
                               groupName);
@@ -341,53 +349,49 @@ bool RDE::SubModelCreator::createSubModels(
 
         if (!group->getParameter("frames", frames))
         {
-            blf::log()->error("{} The parameter handler could not find 'frames' in the "
+            log()->error("{} The parameter handler could not find 'frames' in the "
                               "configuration file for the group {}.",
                               logPrefix,
                               groupName);
             return false;
         }
+
+        if (!group->getParameter("ukf_names", ukfNames))
+        {
+            log()->error("{} The parameter handler could not find 'ukf_names' in the "
+                              "configuration file for the group {}.",
+                              logPrefix,
+                              groupName);
+            return false;
+        }
+
         return true;
     };
 
-    auto extContactGroup = ptr->getGroup("EXTERNAL_CONTACT").lock();
-    if (extContactGroup == nullptr)
-    {
-        blf::log()->error("{} Unable to get the group named 'EXTERNAL_CONTACT'.", logPrefix);
-        return false;
-    }
-
-    std::vector<std::string> extContactFrames;
-    if (!extContactGroup->getParameter("frames", extContactFrames))
-    {
-        blf::log()->warn("{} The parameter handler could not find \" frames \" in the "
-                         "configuration file.",
-                         logPrefix);
-    }
-
-    std::vector<std::string> ftNames, ftFrames, ftAssociatedJoints;
-    bool ok = populateSensorParameters("FT", ftNames, ftFrames);
+    std::vector<std::string> ftNames, ftFrames, ftAssociatedJoints, ftUkfNames;
+    bool ok = populateSensorParameters("FT", ftNames, ftFrames, ftUkfNames);
 
     auto ftGroup = ptr->getGroup("FT").lock();
     if (ftGroup == nullptr)
     {
-        blf::log()->error("{} Unable to get the group names 'FT'.", logPrefix);
+        log()->error("{} Unable to get the group names 'FT'.", logPrefix);
         return false;
     }
     ok = ok && ftGroup->getParameter("associated_joints", ftAssociatedJoints);
 
-    std::vector<RDE::FT> ftList;
+    std::vector<RDE::FTSensor> ftList;
     for (auto idx = 0; idx < ftNames.size(); idx++)
     {
-        RDE::FT ft;
+        RDE::FTSensor ft;
         ft.name = ftNames[idx];
         ft.frame = ftFrames[idx];
+        ft.ukfName = ftUkfNames[idx];
         ft.associatedJoint = ftAssociatedJoints[idx];
         ftList.push_back(std::move(ft));
     }
 
-    std::vector<std::string> accNames, accFrames;
-    ok = ok && populateSensorParameters("ACCELEROMETER", accNames, accFrames);
+    std::vector<std::string> accNames, accFrames, accUkfNames;
+    ok = ok && populateSensorParameters("ACCELEROMETER", accNames, accFrames, accUkfNames);
 
     std::vector<RDE::Sensor> accList;
     for (auto idx = 0; idx < accNames.size(); idx++)
@@ -395,11 +399,12 @@ bool RDE::SubModelCreator::createSubModels(
         RDE::Sensor acc;
         acc.name = accNames[idx];
         acc.frame = accFrames[idx];
+        acc.ukfName = accUkfNames[idx];
         accList.push_back(std::move(acc));
     }
 
-    std::vector<std::string> gyroNames, gyroFrames;
-    ok = ok && populateSensorParameters("GYROSCOPE", gyroNames, gyroFrames);
+    std::vector<std::string> gyroNames, gyroFrames, gyroUkfNames;
+    ok = ok && populateSensorParameters("GYROSCOPE", gyroNames, gyroFrames, gyroUkfNames);
 
     std::vector<RDE::Sensor> gyroList;
     for (auto idx = 0; idx < gyroNames.size(); idx++)
@@ -407,16 +412,34 @@ bool RDE::SubModelCreator::createSubModels(
         RDE::Sensor gyro;
         gyro.name = gyroNames[idx];
         gyro.frame = gyroFrames[idx];
+        gyro.ukfName = gyroUkfNames[idx];
         gyroList.push_back(std::move(gyro));
     }
 
+    std::vector<std::string> contactNames, contactFrames, contactUkfNames;
     ok = ok
-            && RDE::SubModelCreator::createSubModels(ftList, accList, gyroList, extContactFrames);
+         && populateSensorParameters("EXTERNAL_CONTACT",
+                                     contactNames,
+                                     contactFrames,
+                                     contactUkfNames);
+
+    std::vector<RDE::Sensor> contactList;
+    for (auto idx = 0; idx < contactNames.size(); idx++)
+    {
+        RDE::Sensor contact;
+        contact.name = contactNames[idx];
+        contact.frame = contactFrames[idx];
+        contact.ukfName = contactUkfNames[idx];
+        contactList.push_back(std::move(contact));
+    }
+
+    ok = ok && RDE::SubModelCreator::createSubModels(ftList, accList, gyroList, contactList);
 
     return ok;
 }
 
-void RDE::SubModelCreator::setModelAndSensors(const iDynTree::Model& model, const iDynTree::SensorsList& sensors)
+void RDE::SubModelCreator::setModelAndSensors(const iDynTree::Model& model,
+                                              const iDynTree::SensorsList& sensors)
 {
     m_model = model;
 
@@ -461,7 +484,7 @@ const std::vector<int>& RDE::SubModel::getJointMapping() const
     return this->m_jointListMapping;
 }
 
-const std::unordered_map<std::string, RDE::FT>& RDE::SubModel::getFTList() const
+const std::unordered_map<std::string, RDE::FTSensor>& RDE::SubModel::getFTList() const
 {
     return this->m_ftList;
 }
@@ -476,7 +499,7 @@ const std::unordered_map<std::string, RDE::Sensor>& RDE::SubModel::getGyroscopeL
     return this->m_gyroscopeList;
 }
 
-const std::unordered_map<std::string, int>& RDE::SubModel::getExternalContactList() const
+const std::unordered_map<std::string, RDE::Sensor>& RDE::SubModel::getExternalContactList() const
 {
     return this->m_externalContactList;
 }
@@ -501,7 +524,7 @@ std::size_t RDE::SubModel::getNrOfExternalContact() const
     return m_externalContactList.size();
 }
 
-const RDE::FT& RDE::SubModel::getFTSensor(const std::string& name)
+const RDE::FTSensor& RDE::SubModel::getFTSensor(const std::string& name)
 {
     auto ftIterator = m_ftList.find(name);
 
@@ -511,9 +534,8 @@ const RDE::FT& RDE::SubModel::getFTSensor(const std::string& name)
     }
 
     log()->error("[SubModel::getFTSensor] Sensor `{}` not found.", name);
-    static const RDE::FT ft{};
 
-    return ft;
+    return dummyFT;
 }
 
 bool RDE::SubModel::hasFTSensor(const std::string& name) const
@@ -531,9 +553,8 @@ const RDE::Sensor& RDE::SubModel::getAccelerometer(const std::string& name)
     }
 
     log()->error("[SubModel::getAccelerometer] Sensor `{}` not found.", name);
-    static const RDE::Sensor acc{};
 
-    return acc;
+    return dummySensor;
 }
 
 bool RDE::SubModel::hasAccelerometer(const std::string& name) const
@@ -551,9 +572,8 @@ const RDE::Sensor& RDE::SubModel::getGyroscope(const std::string& name)
     }
 
     log()->error("[SubModel::getGyroscope] Sensor `{}` not found.", name);
-    static const RDE::Sensor gyro{};
 
-    return gyro;
+    return dummySensor;
 }
 
 bool RDE::SubModel::hasGyroscope(const std::string& name) const
@@ -561,7 +581,16 @@ bool RDE::SubModel::hasGyroscope(const std::string& name) const
     return m_gyroscopeList.find(name) != m_gyroscopeList.end();
 }
 
-int RDE::SubModel::getExternalContactIndex(const std::string& name)
+const RDE::Sensor& RDE::SubModel::getExternalContactIndex(const std::string& name)
 {
-    return m_externalContactList[name];
+    auto contactIterator = m_externalContactList.find(name);
+
+    if (contactIterator != m_externalContactList.end())
+    {
+        return contactIterator->second;
+    }
+
+    log()->error("[SubModel::getExternalContactIndex] Contact `{}` not found.", name);
+
+    return dummySensor;
 }

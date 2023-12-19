@@ -71,7 +71,7 @@ public:
 
     /**
      * Set the knots of the spline.
-     * @param position position of the knots in \$f\mathbb{R}^n\$f.
+     * @param position position of the knots in \f$\mathbb{R}^n\f$.
      * @param time vector containing the time instant of the knots.
      * @return True in case of success, false otherwise.
      */
@@ -350,6 +350,9 @@ bool Spline<T>::setKnots(const std::vector<T>& knots,
 
     // set the initial state for the advance interface
     m_currentTrajectoryPoint.position = m_knots.front().position;
+    m_currentTrajectoryPoint.velocity = m_knots.front().velocity;
+    m_currentTrajectoryPoint.acceleration = m_knots.front().acceleration;
+
     m_advanceCurrentTime = m_knots.front().time;
 
     // The knots changed. The coefficients are outdated.

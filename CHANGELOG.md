@@ -7,6 +7,12 @@ All notable changes to this project are documented in this file.
 - Implement `MANN::generateDummyMANNOutput` and `MANN::generateDummyMANNInput` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Add `MANNAutoregressive` and `MANNTrajectoryGenerator` examples (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Implement `Spline::evaluateOrderedPoints` to evaluate the spline at a set of time ordered points (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
+- Add process model for external contacts in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
+- 🤖 Add `ergoCubSN001` configuration files for the `balancing-position-control` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Implement `VectorsCollectionServer` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Implement `toString()` methods in `PlannedContact`, `ContactList`, `ContactPhase` and `ContactPhaseList` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/777)
+- Implement `LinearSpline` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/782)
+- Add the support of QP problems with no constraint in `QPInverseKinematics` and `QPTSID` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/784)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
@@ -17,8 +23,13 @@ All notable changes to this project are documented in this file.
 - Restructure `MANNTrajectoryGenerator` to remove the need for foot positions in `setInitialState` and enhanced reset capabilities. Corrected position and time scaling for precise CoM, base, and feet positioning (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Move `Spline` into `Math` component. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
 - Deprecate `Planners::Spline`, `Planners::QuinticSpline`, `Planners::CubicSpline` in favor of `Math::Spline`, `Math::QuinticSpline`, `Math::CubicSpline` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/773)
-- Add error plot. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
-- Depreciate Latex support (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+- Change use of dynamics name for fts, contacts, accelerometers, gyroscopes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
+- 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
+- Modify the `balancing-position-control` application to be compliant with the new implementation of the spline and the `VectorsCollectionServer` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Add the joint tracking error plot in joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+
+### Removed
+- Remove the latex dependency in the joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
 
 ### Fixed
 

@@ -104,20 +104,20 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
+    emptyGroupNamesFrames->setParameter("ukf_names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
+    REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupNamesFrames));
 
     auto gyroGroup = std::make_shared<StdImplementation>();
     std::vector<std::string> gyroNameList = {"r_leg_ft_gyro"};
     std::vector<std::string> gyroFrameList = {"r_leg_ft"};
+    std::vector<std::string> gyroUkfNameList = {"r_leg_ft_gyro"};
     gyroGroup->setParameter("names", gyroNameList);
     gyroGroup->setParameter("frames", gyroFrameList);
+    gyroGroup->setParameter("ukf_names", gyroUkfNameList);
     REQUIRE(modelParamHandler->setGroup("GYROSCOPE", gyroGroup));
-
-    auto emptyGroupFrames = std::make_shared<StdImplementation>();
-    emptyGroupFrames->setParameter("frames", emptyVectorString);
-    REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupFrames));
 
     modelParamHandler->setParameter("joint_list", jointList);
 
