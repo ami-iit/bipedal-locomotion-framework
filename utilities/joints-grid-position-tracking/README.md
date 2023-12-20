@@ -16,12 +16,12 @@ The application will:
    ```
    The above lists represent the knots for the controlled robot joints.
    The first joint that is moved is the last in the list of the controlled joints.
-   All the possible combinations are computed from the list of knots. For example, if you specify 
+   All the possible combinations are computed from the list of knots. For example, if you specify
    $3$ way points for $2$ joints you will have $9$ list of knots.
    The trajectory is generated using a cubic spline to guarantee null joint accelerations.
    The trajectory lasts `motion_duration` seconds. Once the knot is reached the planner
    will wait for `motion_timeout` seconds before starting a new trajectory.
-2. Open a port named `//joints_grid_position_tracking/logger/data:o` containing the joint trajectory values structured as
+2. Open a port named `/joints_grid_position_tracking/logger/data:o` containing the joint trajectory values structured as
    [`VectorCollection`](../../src/YarpUtilities/thrifts/BipedalLocomotion/YarpUtilities/VectorsCollection.thrift)
    data. The user may collect the data via [`YarpRobotLoggerDevice`](../../devices/YarpRobotLoggerDevice).
 

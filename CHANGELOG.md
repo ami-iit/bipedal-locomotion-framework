@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Implement `toString()` methods in `PlannedContact`, `ContactList`, `ContactPhase` and `ContactPhaseList` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/777)
 - Implement `LinearSpline` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/782)
 - Add the support of QP problems with no constraint in `QPInverseKinematics` and `QPTSID` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/784)
+- Implement `blf-joints-grid-position-tracking` application in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/787)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
