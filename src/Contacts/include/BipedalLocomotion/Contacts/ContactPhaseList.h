@@ -209,6 +209,18 @@ public:
      * @return A string containing the information of the contact phase list.
      */
     [[nodiscard]] std::string toString() const;
+
+    /**
+     * @brief Force the sample time of the contact lust stored in the contact phase list.
+     * @param dt The new sample time.
+     * @return true if the contact lists has been correctly resampled.
+     * @note the activation time is round down to the nearest multiple of dt, while the
+     * deactivation time is round up to the nearest multiple of dt.
+     * @note If the deactivation time of a contact in the lists is equal to
+     * `std::chrono::nanoseconds::max()` it will not be rounded up.
+     * @note The phases are recomputed after the resampling.
+     */
+    bool forceSampleTime(const std::chrono::nanoseconds& dt);
 };
 
 } // namespace Contacts
