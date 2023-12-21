@@ -186,8 +186,8 @@ bool SwingFootPlanner::setContactList(const ContactList& contactList)
                          "tolerance "
                          "{} m, admissible orientation tolerance {} rad. Current time {}.",
                          logPrefix,
-                         activeContact->pose.coeffs().transpose(),
-                         activeContactNewList->pose.coeffs().transpose(),
+                         activeContact->toString(),
+                         activeContactNewList->toString(),
                          (activeContactNewList->pose - activeContact->pose).coeffs().transpose(),
                          m_positionTolerance,
                          m_orientationTolerance,

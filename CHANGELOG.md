@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Implement `LinearSpline` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/782)
 - Add the support of QP problems with no constraint in `QPInverseKinematics` and `QPTSID` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/784)
 - Implement `blf-joints-grid-position-tracking` application in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/787)
+- Add the possibility to resample the contact in a given contact list (https://github.com/ami-iit/bipedal-locomotion-framework/pull/788)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
@@ -28,6 +29,7 @@ All notable changes to this project are documented in this file.
 - 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
 - Modify the `balancing-position-control` application to be compliant with the new implementation of the spline and the `VectorsCollectionServer` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
 - Add the joint tracking error plot in joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+- Force the MPC to require correctly time-sampled contacts (https://github.com/ami-iit/bipedal-locomotion-framework/pull/788)
 
 ### Removed
 - Remove the latex dependency in the joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)

@@ -122,6 +122,23 @@ TEST_CASE("ContactList")
         }
         REQUIRE(ok);
     }
+
+    SECTION("Resample")
+    {
+        constexpr std::chrono::nanoseconds dT = 70ms;
+        PlannedContact p3;
+        p3.activationTime = 1s + 800ms;
+        p3.deactivationTime = 2s + 400ms;
+
+        REQUIRE(list.addContact(p3));
+
+        REQUIRE_FALSE(list.areContactsSampled(dT));
+
+        REQUIRE(list.forceSampleTime(dT));
+
+        REQUIRE(list.areContactsSampled(dT));
+    }
+
 }
 
 TEST_CASE("ContactList JSON parser")
