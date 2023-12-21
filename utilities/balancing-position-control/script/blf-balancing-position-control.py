@@ -565,8 +565,6 @@ def main():
         if delta_time < dt:
             blf.clock().sleep_for(dt - delta_time)
 
-    port.close()
-
 
 if __name__ == "__main__":
     network = yarp.Network()
