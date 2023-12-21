@@ -558,6 +558,42 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="211" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6526bb764abbb066c46f2dfe7e9cb28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::ContactPhaseList::forceSampleTime</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt)</argsstring>
+        <name>forceSampleTime</name>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Force the sample time of the contact list stored in the contact phase list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new sample time. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the contact lists has been correctly resampled. </para>
+</simplesect>
+<simplesect kind="note"><para>the activation time is rounded down to the nearest multiple of dt, while the deactivation time is rounded up to the nearest multiple of dt. </para>
+</simplesect>
+<simplesect kind="note"><para>If the deactivation time of a contact in the lists is equal to <computeroutput>std::chrono::nanoseconds::max()</computeroutput> it will not be rounded up. </para>
+</simplesect>
+<simplesect kind="note"><para>The phases are recomputed after the resampling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="223" column="10"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>The <ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" kindref="compound">ContactPhaseList</ref> class computes the contact phases according to a bunch of input contact lists. </para>
@@ -567,7 +603,7 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="29" column="1" bodyfile="BipedalLocomotion/Contacts/ContactPhaseList.h" bodystart="30" bodyend="212"/>
+    <location file="BipedalLocomotion/Contacts/ContactPhaseList.h" line="29" column="1" bodyfile="BipedalLocomotion/Contacts/ContactPhaseList.h" bodystart="30" bodyend="224"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1abbb3bd45fd3ff558168c5d9c49cafeef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>begin</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1adfde0404d477160fc5887c1254f59a50" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>cbegin</name></member>
@@ -583,6 +619,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a34c2f4b8c6103bc20205243f2ffa2bc2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>crend</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a04f61a33b31cf66aa43ba97b2c0d1d35" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>end</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a354a7747b22eef33e6cd940735ee0174" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>firstPhase</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6526bb764abbb066c46f2dfe7e9cb28d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>forceSampleTime</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ae552581c9eb8499f36bf2e51965b7d3a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>getPresentPhase</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a8856d230ef79dfb2f20d7e21c93f304d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>lastPhase</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a234bc1c2bb84a74dbf2dcffd91b4071b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactPhaseList</scope><name>lists</name></member>

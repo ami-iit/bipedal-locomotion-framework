@@ -746,6 +746,74 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Contacts/ContactList.h" line="268" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a1691307ffb0ae3c94207aee13a60fa01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::ContactList::forceSampleTime</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt)</argsstring>
+        <name>forceSampleTime</name>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Force the sample time of the contact list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new sample time. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the contact list has been correctly resampled. </para>
+</simplesect>
+<simplesect kind="note"><para>the activation time is rounded down to the nearest multiple of dt, while the deactivation time is rounded up to the nearest multiple of dt. </para>
+</simplesect>
+<simplesect kind="note"><para>If the deactivation time of a contact in the list is equal to <computeroutput>std::chrono::nanoseconds::max()</computeroutput> it will not be rounded up. </para>
+</simplesect>
+<simplesect kind="warning"><para>This will change the sample time of all the contacts in the list. All the iterators to the contacts will be invalidated. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="281" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Contacts_1_1ContactList_1aa24bdf169370a93b39ab8a1e939c4e68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Contacts::ContactList::areContactsSampled</definition>
+        <argsstring>(const std::chrono::nanoseconds &amp;dt) const</argsstring>
+        <name>areContactsSampled</name>
+        <param>
+          <type>const std::chrono::nanoseconds &amp;</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Check if the contacts are sampled with the given sample time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sample time. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the contacts are sampled with the given sample time. </para>
+</simplesect>
+<simplesect kind="note"><para>If the deactivation time of a contact in the list is equal to <computeroutput>std::chrono::nanoseconds::max()</computeroutput> it will consider it as sampled with the given sample time. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Contacts/ContactList.h" line="290" column="11"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Class containing a list of contacts. </para>
@@ -753,10 +821,11 @@
     <detaileddescription>
 <para>The contact are added such that the activation time is strictly growing. In addition, contacts cannot be overlapping. It represents a series of contact activations and deactivations of a single entity. </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/Contacts/ContactList.h" line="34" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="35" bodyend="269"/>
+    <location file="BipedalLocomotion/Contacts/ContactList.h" line="34" column="1" bodyfile="BipedalLocomotion/Contacts/ContactList.h" bodystart="35" bodyend="291"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ae3ed40a1a38d8878bfc30ea6fbb7ae7e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a18ac03b2121f9a9a432914d3c329776b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>addContact</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1aa24bdf169370a93b39ab8a1e939c4e68" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>areContactsSampled</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9e8cda2df67a75c09a0bff7b8c265070" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>begin</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a0dbf3384cf7cd47f383181642e8abe22" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>cbegin</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a9114e79fc750c2f0b5df006c24760937" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>cend</name></member>
@@ -772,6 +841,7 @@
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a45dbd1687bf2ce59e16618e6fed455c7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>end</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a8a5b2fe4dc34c6241440ecbda2113336" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>erase</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1afd8a456aecdff7cad92a4a502117b0e5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>firstContact</name></member>
+      <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a1691307ffb0ae3c94207aee13a60fa01" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>forceSampleTime</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a92a52526b36a5eb032dd5d4e893a32fc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>getActiveContact</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a3515fa9e57884ab8e1a122495ae3ed66" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>getNextContact</name></member>
       <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1ad1a6136e4c7f01886a379dc359c6b5f1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Contacts::ContactList</scope><name>getPresentContact</name></member>

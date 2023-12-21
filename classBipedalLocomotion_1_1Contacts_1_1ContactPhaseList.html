@@ -196,6 +196,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a952bcc3c6df82382ebba7285ef10de32" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
             </dt>
             <dd>Convert the contact phase list to a string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6526bb764abbb066c46f2dfe7e9cb28d" class="m-doc">forceSampleTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) -&gt; bool</span>
+            </dt>
+            <dd>Force the sample time of the contact list stored in the contact phase list.</dd>
           </dl>
         </section>
         <section>
@@ -420,6 +424,30 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a6526bb764abbb066c46f2dfe7e9cb28d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactPhaseList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6526bb764abbb066c46f2dfe7e9cb28d" class="m-doc-self">forceSampleTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt)</span></span>
+            </h3>
+            <p>Force the sample time of the contact list stored in the contact phase list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">dt</td>
+                  <td>The new sample time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the contact lists has been correctly resampled.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the activation time is rounded down to the nearest multiple of dt, while the deactivation time is rounded up to the nearest multiple of dt.</p><p>If the deactivation time of a contact in the lists is equal to <code>std::chrono::nanoseconds::max()</code> it will not be rounded up.</p><p>The phases are recomputed after the resampling.</p></aside>
           </div></section>
         </section>
       </div>

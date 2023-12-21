@@ -213,6 +213,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a13a4c42fbe20c34faf9f6a26c8ab36f8" class="m-doc">toString</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
             </dt>
             <dd>Convert the contact list to a string.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1691307ffb0ae3c94207aee13a60fa01" class="m-doc">forceSampleTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) -&gt; bool</span>
+            </dt>
+            <dd>Force the sample time of the contact list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa24bdf169370a93b39ab8a1e939c4e68" class="m-doc">areContactsSampled</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) const -&gt; bool</span>
+            </dt>
+            <dd>Check if the contacts are sampled with the given sample time.</dd>
           </dl>
         </section>
         <section>
@@ -575,6 +583,54 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a1691307ffb0ae3c94207aee13a60fa01"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1691307ffb0ae3c94207aee13a60fa01" class="m-doc-self">forceSampleTime</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt)</span></span>
+            </h3>
+            <p>Force the sample time of the contact list.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">dt</td>
+                  <td>The new sample time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the contact list has been correctly resampled.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the activation time is rounded down to the nearest multiple of dt, while the deactivation time is rounded up to the nearest multiple of dt.</p><p>If the deactivation time of a contact in the list is equal to <code>std::chrono::nanoseconds::max()</code> it will not be rounded up.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>This will change the sample time of all the contacts in the list. All the iterators to the contacts will be invalidated.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aa24bdf169370a93b39ab8a1e939c4e68"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa24bdf169370a93b39ab8a1e939c4e68" class="m-doc-self">areContactsSampled</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; dt) const</span></span>
+            </h3>
+            <p>Check if the contacts are sampled with the given sample time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">dt</td>
+                  <td>The sample time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the contacts are sampled with the given sample time.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>If the deactivation time of a contact in the list is equal to <code>std::chrono::nanoseconds::max()</code> it will consider it as sampled with the given sample time.</p></aside>
           </div></section>
         </section>
       </div>

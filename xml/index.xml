@@ -441,6 +441,8 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a56e370cad1add2f78dc27ec49d51b009" kind="function"><name>clear</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a16ec57481a746a75d30e0c52f9a136c2" kind="function"><name>removeLastContact</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a13a4c42fbe20c34faf9f6a26c8ab36f8" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1a1691307ffb0ae3c94207aee13a60fa01" kind="function"><name>forceSampleTime</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactList_1aa24bdf169370a93b39ab8a1e939c4e68" kind="function"><name>areContactsSampled</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ContactModels_1_1ContactModel" kind="class"><name>BipedalLocomotion::ContactModels::ContactModel</name>
     <member refid="classBipedalLocomotion_1_1ContactModels_1_1ContactModel_1a6ff16fbfe49cbc6c6f25aa9ff1c361ea" kind="variable"><name>m_isContactWrenchComputed</name></member>
@@ -503,6 +505,7 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a05b8bd34c07272097f0899354bd9e804" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1ada9e66b073d78df17b0225a65ff499dc" kind="function"><name>clear</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a952bcc3c6df82382ebba7285ef10de32" kind="function"><name>toString</name></member>
+    <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6526bb764abbb066c46f2dfe7e9cb28d" kind="function"><name>forceSampleTime</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::Contacts::ContactWrench</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench_1aaf6c4dda35af85171a3a757c4dc7117e" kind="variable"><name>wrench</name></member>
