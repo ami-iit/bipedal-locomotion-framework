@@ -271,8 +271,8 @@ public:
      * @brief Force the sample time of the contact list.
      * @param dt The new sample time.
      * @return true if the contact list has been correctly resampled.
-     * @note the activation time is round down to the nearest multiple of dt, while the
-     * deactivation time is round up to the nearest multiple of dt.
+     * @note the activation time is rounded down to the nearest multiple of dt, while the
+     * deactivation time is rounded up to the nearest multiple of dt.
      * @note If the deactivation time of a contact in the list is equal to
      * `std::chrono::nanoseconds::max()` it will not be rounded up.
      * @warning This will change the sample time of all the contacts in the list. All the
