@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.17.0] - 2023-12-23
 ### Added
 - Implement `ContactList::getNextContact` and `ContactList::getActiveContact` in `Contact` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/764)
 - Implement `MANN::generateDummyMANNOutput` and `MANN::generateDummyMANNInput` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
@@ -33,8 +33,6 @@ All notable changes to this project are documented in this file.
 
 ### Removed
 - Remove the latex dependency in the joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
-
-### Fixed
 
 ## [0.16.1] - 2023-11-17
 ### Changed
