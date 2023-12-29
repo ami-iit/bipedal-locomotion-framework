@@ -1224,6 +1224,7 @@ void YarpRobotLoggerDevice::run()
     std::stringstream dataStream;
     if (m_streamJointStates)
     {
+        yInfo() << "Sending joint states";
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
         {
             dataStream << "Joint Positions: " << m_jointSensorBuffer << "|";
@@ -1249,64 +1250,86 @@ void YarpRobotLoggerDevice::run()
 
     }
 
+//    / dataStream.str(std::string());
     if (m_streamMotorStates)
     {
         if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
         {
+            dataStream << "Motor State Positions: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::positions");
         }
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
+            dataStream << "Motor State Velocities: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
         }
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
         {
+            dataStream << "Motor State Accelerations: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::accelerations");
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
+            dataStream << "Motor State Currents: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     if (m_streamMotorPWM)
     {
         if (m_robotSensorBridge->getMotorPWMs(m_jointSensorBuffer))
         {
+            dataStream << "Motor State PWMs: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::PWM");
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     if (m_streamPIDs)
     {
         if (m_robotSensorBridge->getPidPositions(m_jointSensorBuffer))
         {
+            dataStream << "PIDs: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "PIDs");
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
         if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
         {
+            dataStream << "FTs::" << sensorName << ": " << m_ftBuffer << "|";
             m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
     {
         if (m_robotSensorBridge->getTemperature(sensorname, m_ftTemperatureBuffer))
         {
+            dataStream << "temperatures:: " << sensorname << ": " << m_ftTemperatureBuffer << "|";
             m_bufferManager.push_back({m_ftTemperatureBuffer}, time, "temperatures::" + sensorname);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
         if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
         {
+            dataStream << "gyros:: " << sensorName << ": " << m_gyroBuffer << "|";
             m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
@@ -1314,24 +1337,34 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName,
                                                                    m_acceloremeterBuffer))
         {
+            dataStream << "accelerometers:: " << sensorName << ": " << m_acceloremeterBuffer << "|";
             m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
+
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
     {
         if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
         {
+            dataStream << "orientations:: " << sensorName << ": " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
     {
         if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
         {
+            dataStream << "magnetometers:: " << sensorName << ": " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_magnemetometerBuffer, time, "magnetometers::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     // an IMU contains a gyro accelerometer and an orientation sensor
@@ -1345,18 +1378,28 @@ void YarpRobotLoggerDevice::run()
                             m_gyroBuffer,
                             m_orientationBuffer);
 
+            dataStream << "accelerometers::" << sensorName << ": " << m_acceloremeterBuffer << "|";
             m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
+
+            dataStream << "gyros::" << sensorName << ": " << m_gyroBuffer << "|";
             m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
+            
+            dataStream << "orientations::" << sensorName << ": " << m_orientationBuffer << "|";
             m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
     {
         if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
         {
+            dataStream << "caresian_wrenches::" << sensorName << ": " << m_ftBuffer << "|";
             m_bufferManager.push_back(m_ftBuffer, time, "cartesian_wrenches::" + sensorName);
         }
+        out.addString(dataStream.str());
+        outPort.write(true);
     }
 
     std::string signalFullName;
@@ -1378,10 +1421,13 @@ void YarpRobotLoggerDevice::run()
 
             for (const auto& [key, vector] : collection->vectors)
             {
-                signalFullName = signal.signalName + "::" + key;
+//                signalFullName = signal.signalName + "::" + key;
+//                dataStream << "signalFullName: " << vector << "|";
                 m_bufferManager.push_back(vector, time, signalFullName);
             }
         }
+//        out.addString(dataStream.str());
+//        outPort.write(true);
     }
 
     for (auto& [name, signal] : m_vectorSignals)
@@ -1395,8 +1441,11 @@ void YarpRobotLoggerDevice::run()
                 m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
                 signal.dataArrived = true;
             }
-            m_bufferManager.push_back(*vector, time, signal.signalName);
+//            dataStream << signal.signalName << ": " << *vector << "|";
+//            m_bufferManager.push_back(*vector, time, signal.signalName);
         }
+//        out.addString(dataStream.str());
+//        outPort.write(true);
     }
 
     int bufferportSize = m_textLoggingPort.getPendingReads();
@@ -1424,8 +1473,11 @@ void YarpRobotLoggerDevice::run()
                     m_textLogsStoredInManager.insert(signalFullName);
                 }
 
-                m_bufferManager.push_back(msg, time, signalFullName);
+//                dataStream << signalFullName << ": " << msg << "|";
+//                m_bufferManager.push_back(msg, time, signalFullName);
             }
+//            out.addString(dataStream.str());
+//            outPort.write(true);
             bufferportSize = m_textLoggingPort.getPendingReads();
         } else
         {
