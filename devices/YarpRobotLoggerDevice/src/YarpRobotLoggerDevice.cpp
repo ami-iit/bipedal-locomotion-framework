@@ -1222,6 +1222,24 @@ void YarpRobotLoggerDevice::run()
     std::lock_guard lock(m_bufferManagerMutex);
     // collect the data
     std::stringstream dataStream;
+    static int dummyData = 0;
+    static bool increase = true;
+    if (increase)
+    {
+        dummyData++;
+        increase = dummyData <= 200;
+    }
+    else
+    {
+        dummyData--;
+        increase = dummyData <= 1;
+    }
+
+    std::cout << std::fixed << time << std::endl;
+    dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{\"l_arm_ft\":{\"data\": [" << dummyData << "], \"timestamps\": [" << time << "]}}}}";
+    yInfo() << dataStream.str();
+    out.addString(dataStream.str());
+    outPort.write(true);
     if (m_streamJointStates)
     {
         yInfo() << "Sending joint states";
