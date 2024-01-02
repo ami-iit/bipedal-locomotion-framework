@@ -1236,10 +1236,10 @@ void YarpRobotLoggerDevice::run()
     }
 
     std::cout << std::fixed << time << std::endl;
-    dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{\"l_arm_ft\":{\"data\": [" << dummyData << "], \"timestamps\": [" << time << "]}}}}";
-    yInfo() << dataStream.str();
-    out.addString(dataStream.str());
-    outPort.write(true);
+    //dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{\"l_arm_ft\":{\"data\": [" << dummyData << "], \"timestamps\": [" << time << "]}}}}";
+//    yInfo() << dataStream.str();
+//    out.addString(dataStream.str());
+//    outPort.write(true);
     if (m_streamJointStates)
     {
         yInfo() << "Sending joint states";
@@ -1317,16 +1317,31 @@ void YarpRobotLoggerDevice::run()
        // outPort.write(true);
     }
 
+    dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{";
     for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
         if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
         {
             //dataStream << "FTs::" << sensorName << ": " << m_ftBuffer << "|";
             m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
+            // std::cout << sensorName << std::endl;
+            // std::cout << m_ftBuffer << std::endl;
+            dataStream << "\"" << sensorName << "\":{\"data\": [";
+            for (unsigned int i = 0; i < m_ftBuffer.rows() - 1; i++)
+                dataStream << m_ftBuffer.coeff(i, 0) << ",";
+            dataStream << m_ftBuffer.coeff(m_ftBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+            dataStream << "\"elements_names\": [\"f_x\", \"f_y\", \"f_z\", \"mu_x\", \"mu_y\", \"mu_z\"]},";
+
         }
         //out.addString(dataStream.str());
         //outPort.write(true);
     }
+    dataStream.seekp(-1, std::ios_base::end);
+    dataStream << "}}}";
+    out.addString(dataStream.str());
+    outPort.write(true);
+    std::cout << dataStream.str() << std::endl;
+    dataStream.str(std::string());
 
     for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
     {
