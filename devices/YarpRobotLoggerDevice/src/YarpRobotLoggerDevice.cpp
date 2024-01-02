@@ -1271,6 +1271,7 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         dataStream.seekp(-1, std::ios_base::end);
         dataStream << "},";
     }
+    // pack the data for the FT Sensors
     if (m_streamFTSensors)
     {
         dataStream << "\"FTs\":{";
@@ -1283,7 +1284,92 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
                     dataStream << m_ftBuffer.coeff(i, 0) << ",";
                 dataStream << m_ftBuffer.coeff(m_ftBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
                 dataStream << "\"elements_names\": [\"f_x\", \"f_y\", \"f_z\", \"mu_x\", \"mu_y\", \"mu_z\"]},";
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+    }
+    // pack the data for the inertial measurements
+    if(m_streamInertials)
+    {
+        // pack the data for the gyros
+        dataStream << "\"gyros\":{ ";
+        for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
+        {
+            dataStream << "\"" << sensorName << "\":{\"data\": [";
+            if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
+            {
+                for (unsigned int i = 0; i < m_gyroBuffer.rows(); i++)
+                    dataStream << m_gyroBuffer.coeff(i, 0) << ",";
+                dataStream << m_gyroBuffer.coeff(m_gyroBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"r\", \"p\", \"y\"]},";
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
 
+        // pack the data for the accelerometer
+        dataStream << "\"accelerometers\":{ ";
+        for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
+        {
+            if(m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName, m_acceloremeterBuffer))
+            {
+                dataStream << "\"" << sensorName << "\":{\"data\": [";
+                for (unsigned int i = 0; i < m_acceloremeterBuffer.rows(); i++)
+                    dataStream << m_acceloremeterBuffer.coeff(i, 0) << ",";
+                dataStream << m_acceloremeterBuffer.coeff(m_acceloremeterBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"a_x\", \"a_y\", \"a_z\"]},";
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+
+
+        // pack the data for the orientations
+        dataStream << "\"orientations\":{ ";
+        for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
+        {
+            if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
+            {
+                dataStream << "\"" << sensorName << "\":{\"data\": [";
+                for (unsigned int i = 0; i < m_orientationBuffer.rows(); i++)
+                    dataStream << m_orientationBuffer.coeff(i, 0) << ",";
+                dataStream << m_orientationBuffer.coeff(m_orientationBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"r\", \"p\", \"y\"]},";
+
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+
+        // pack the data for the magnemetometer
+        dataStream << "\"mangetometers\":{ ";
+        for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
+        {
+            if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
+            {
+                dataStream << "\"" << sensorName << "\":{\"data\": [";
+                for (unsigned int i = 0; i < m_magnemetometerBuffer.rows(); i++)
+                    dataStream << m_magnemetometerBuffer.coeff(i, 0) << ",";
+                dataStream << m_magnemetometerBuffer.coeff(m_magnemetometerBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"mag_x\", \"mag_y\", \"mag_z\"]},";
+
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+        
+    }
+    // pack the data for the temperature
+    if (m_streamTemperatureSensors)
+    {
+        dataStream << "\"tempuratures\":{";
+        for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
+        {
+            if (m_robotSensorBridge->getTemperature(sensorname, m_ftTemperatureBuffer))
+            {
+                dataStream << "\"" << sensorname << "\":{\"data\": [" << m_ftTemperatureBuffer << "],";
+                dataStream << "\"timestamps\": [" << time << "],\"elements_names\": [\"temperature\"]},";
             }
         }
         dataStream.seekp(-1, std::ios_base::end);
@@ -1400,11 +1486,8 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
         {
-            //dataStream << "gyros:: " << sensorName << ": " << m_gyroBuffer << "|";
             m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
         }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
