@@ -157,6 +157,10 @@ private:
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
+    // for realtime data streaming
+    bool streamRealTime{true};
+    yarp::os::BufferedPort<yarp::os::Bottle> realtimeLoggingPort;
+
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
@@ -179,6 +183,9 @@ private:
                          const std::unordered_map<std::string, std::pair<std::size_t, std::size_t>>& imgDimensions);
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera, const std::string& imageType);
+
+    // for realtime data streaming
+    void SendDataToLoggerVisualizer();
 };
 
 } // namespace BipedalLocomotion

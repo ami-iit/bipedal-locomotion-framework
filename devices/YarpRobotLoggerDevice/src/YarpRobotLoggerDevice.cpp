@@ -91,6 +91,10 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
     // the logging message are streamed using yarp
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
+
+    // for realtime logging
+    if (streamRealTime)
+        realtimeLoggingPort.open("/testLoggerOutput");
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
@@ -103,6 +107,9 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
     // the logging message are streamed using yarp
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
+
+    if (streamRealTime)
+        realtimeLoggingPort.open("/testLoggerOutput");
 }
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
@@ -961,6 +968,8 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
 
 void YarpRobotLoggerDevice::lookForExogenousSignals()
 {
+    std::cout << "Looking for exogenous signals" << std::endl;
+
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
 
     using namespace std::chrono_literals;
@@ -1022,6 +1031,7 @@ bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
 
 void YarpRobotLoggerDevice::lookForNewLogs()
 {
+    std::cout << "Looking for new logs" << std::endl;
     using namespace std::chrono_literals;
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
     constexpr auto textLoggingPortPrefix = "/log/";
@@ -1196,19 +1206,101 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     }
 }
 
+void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
+{
+    const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
+
+    yarp::os::Bottle& realtimeOutput = realtimeLoggingPort.prepare();
+    realtimeOutput.clear();
+    std::stringstream dataStream;
+    dataStream << std::fixed << "{\"robot_realtime\":{";
+    if (m_streamJointStates)
+    {
+        bool dictionaryInitialized = false;
+        std::vector<std::string> joints;
+        m_robotSensorBridge->getJointsList(joints);
+        dataStream << "\"joints_state\":{ ";
+        // pack the data for the joint positions
+        if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
+        {
+            dataStream << "\"positions\":{\"data\":[";
+            for (unsigned int i = 0; i < m_jointSensorBuffer.rows() - 1; i++)
+                dataStream << m_jointSensorBuffer.coeff(i, 0) << ",";
+            dataStream << m_jointSensorBuffer.coeff(m_jointSensorBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+            dataStream << "\"elements_names\":[";
+            for(unsigned int i = 0; i < joints.size() - 1; i++)
+                dataStream << "\"" << joints[i] << "\","; 
+            dataStream << "\"" << joints[joints.size() - 1] << "\"]},";
+        }
+        if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
+        {
+            dataStream << "\"velocities\":{\"data\":[";
+            for (unsigned int i = 0; i < m_jointSensorBuffer.rows() - 1; i++)
+                dataStream << m_jointSensorBuffer.coeff(i, 0) << ",";
+            dataStream << m_jointSensorBuffer.coeff(m_jointSensorBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+            dataStream << "\"elements_names\":[";
+            for(unsigned int i = 0; i < joints.size() - 1; i++)
+                dataStream << "\"" << joints[i] << "\","; 
+            dataStream << "\"" << joints[joints.size() - 1] << "\"]},";  
+
+        }
+        if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+        {
+            dataStream << "\"accelerations\":{\"data\":[";
+            for (unsigned int i = 0; i < m_jointSensorBuffer.rows() - 1; i++)
+                dataStream << m_jointSensorBuffer.coeff(i, 0) << ",";
+            dataStream << m_jointSensorBuffer.coeff(m_jointSensorBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+            dataStream << "\"elements_names\":[";
+            for(unsigned int i = 0; i < joints.size() - 1; i++)
+                dataStream << "\"" << joints[i] << "\","; 
+            dataStream << "\"" << joints[joints.size() - 1] << "\"]},";  
+
+        }
+        if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
+        {
+            dataStream << "\"torques\":{\"data\":[";
+            for (unsigned int i = 0; i < m_jointSensorBuffer.rows() - 1; i++)
+                dataStream << m_jointSensorBuffer.coeff(i, 0) << ",";
+            dataStream << m_jointSensorBuffer.coeff(m_jointSensorBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+            dataStream << "\"elements_names\":[";
+            for(unsigned int i = 0; i < joints.size() - 1; i++)
+                dataStream << "\"" << joints[i] << "\","; 
+            dataStream << "\"" << joints[joints.size() - 1] << "\"]},";  
+
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+    }
+    if (m_streamFTSensors)
+    {
+        dataStream << "\"FTs\":{";
+        for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
+        {
+            if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
+            {
+                dataStream << "\"" << sensorName << "\":{\"data\": [";
+                for (unsigned int i = 0; i < m_ftBuffer.rows() - 1; i++)
+                    dataStream << m_ftBuffer.coeff(i, 0) << ",";
+                dataStream << m_ftBuffer.coeff(m_ftBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"f_x\", \"f_y\", \"f_z\", \"mu_x\", \"mu_y\", \"mu_z\"]},";
+
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+    }
+    dataStream.seekp(-1, std::ios_base::end);
+    dataStream << "}}";
+    std::cout << std::endl;
+    std::cout << dataStream.str() << std::endl;
+    std::cout << std::endl;
+    realtimeOutput.addString(dataStream.str());
+    realtimeLoggingPort.write(true);
+
+}
+
 void YarpRobotLoggerDevice::run()
 {
-    static bool init = false;
-    static yarp::os::BufferedPort<yarp::os::Bottle> outPort;
-    
-    if (!init)
-    {
-        init = true;
-        outPort.open("/testLoggerOutput");
-    }
-
-    yarp::os::Bottle&out = outPort.prepare();
-    out.clear();
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
 
     // get the data
@@ -1220,76 +1312,36 @@ void YarpRobotLoggerDevice::run()
     const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
 
     std::lock_guard lock(m_bufferManagerMutex);
-    // collect the data
-    std::stringstream dataStream;
-    static int dummyData = 0;
-    static bool increase = true;
-    if (increase)
-    {
-        dummyData++;
-        increase = dummyData <= 200;
-    }
-    else
-    {
-        dummyData--;
-        increase = dummyData <= 1;
-    }
 
-    std::cout << std::fixed << time << std::endl;
-    //dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{\"l_arm_ft\":{\"data\": [" << dummyData << "], \"timestamps\": [" << time << "]}}}}";
-//    yInfo() << dataStream.str();
-//    out.addString(dataStream.str());
-//    outPort.write(true);
     if (m_streamJointStates)
     {
-        yInfo() << "Sending joint states";
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
-        {
-    //        dataStream << "Joint Positions: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::positions");
-        }
         if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
-        {
-    //        dataStream << "Joint Velocities: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::velocities");
-        }
         if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
-        {
-    //        dataStream << "Joint Accelerations: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::accelerations");
-        }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
-        {
-       //     dataStream << "Joint Torques: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::torques");
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
-
     }
 
-//    / dataStream.str(std::string());
     if (m_streamMotorStates)
     {
         if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
         {
-            dataStream << "Motor State Positions: " << m_jointSensorBuffer << "|";
-            //m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::positions");
+            // dataStream << "Motor State Positions: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
-            dataStream << "Motor State Velocities: " << m_jointSensorBuffer << "|";
-            //m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
+            // dataStream << "Motor State Velocities: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
         {
-            dataStream << "Motor State Accelerations: " << m_jointSensorBuffer << "|";
-            //m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::accelerations");
+            // dataStream << "Motor State Accelerations: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
-            dataStream << "Motor State Currents: " << m_jointSensorBuffer << "|";
-            //m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
+            // dataStream << "Motor State Currents: " << m_jointSensorBuffer << "|";
         }
         //out.addString(dataStream.str());
         //outPort.write(true);
@@ -1317,31 +1369,21 @@ void YarpRobotLoggerDevice::run()
        // outPort.write(true);
     }
 
-    dataStream << std::fixed << "{\"robot_realtime\":{\"FTs\":{";
     for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
         if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
         {
-            //dataStream << "FTs::" << sensorName << ": " << m_ftBuffer << "|";
             m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
-            // std::cout << sensorName << std::endl;
-            // std::cout << m_ftBuffer << std::endl;
-            dataStream << "\"" << sensorName << "\":{\"data\": [";
-            for (unsigned int i = 0; i < m_ftBuffer.rows() - 1; i++)
-                dataStream << m_ftBuffer.coeff(i, 0) << ",";
-            dataStream << m_ftBuffer.coeff(m_ftBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
-            dataStream << "\"elements_names\": [\"f_x\", \"f_y\", \"f_z\", \"mu_x\", \"mu_y\", \"mu_z\"]},";
-
         }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
-    dataStream.seekp(-1, std::ios_base::end);
-    dataStream << "}}}";
-    out.addString(dataStream.str());
-    outPort.write(true);
-    std::cout << dataStream.str() << std::endl;
-    dataStream.str(std::string());
+    // dataStream.seekp(-1, std::ios_base::end);
+    // dataStream << "}}}";
+    // out.addString(dataStream.str());
+    // outPort.write(true);
+    // std::cout << std::endl;
+    // std::cout << dataStream.str() << std::endl;
+    // std::cout << std::endl;
+    // dataStream.str(std::string());
 
     for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
     {
@@ -1517,6 +1559,7 @@ void YarpRobotLoggerDevice::run()
             break;
         }
     }
+    SendDataToLoggerVisualizer();
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
