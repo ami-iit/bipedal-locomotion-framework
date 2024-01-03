@@ -243,9 +243,9 @@ bool BaseEstimatorFromFootIMU::advance()
             m_yawOld = lastRPY_L(2);
 
             // updating the m_T_walk matrix.
-            manif::SE3d T_walk((m_state.footPose_L.translation()
-                                - m_state.footPose_R.translation()),
-                               manif::SO3d::Identity());
+            Eigen::Vector3d step = (m_state.footPose_L.translation() - m_state.footPose_R.translation());
+            step(2) = 0.0;
+            manif::SE3d T_walk(step, manif::SO3d::Identity());
             manif::SE3d temp = T_walk * m_T_walk;
             m_T_walk = temp;
         }
@@ -265,9 +265,9 @@ bool BaseEstimatorFromFootIMU::advance()
             m_yawOld = lastRPY_R(2);
 
             // updating the m_T_walk matrix.
-            manif::SE3d T_walk((m_state.footPose_R.translation()
-                                - m_state.footPose_L.translation()),
-                               manif::SO3d::Identity());
+            Eigen::Vector3d step = (m_state.footPose_R.translation() - m_state.footPose_L.translation());
+            step(2) = 0.0;
+            manif::SE3d T_walk(step, manif::SO3d::Identity());
             manif::SE3d temp = T_walk * m_T_walk;
             m_T_walk = temp;
         }
