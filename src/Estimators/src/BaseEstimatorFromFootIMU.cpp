@@ -51,13 +51,13 @@ bool BaseEstimatorFromFootIMU::setModel(const iDynTree::Model& model)
 
     m_isModelSet = false;
 
-    m_model = model;
-
     if (!m_kinDyn.loadRobotModel(model))
     {
         log()->error("{} Unable to load the model.", logPrefix);
         return false;
     }
+
+    m_model = model;
 
     m_isModelSet = true;
 
@@ -452,6 +452,13 @@ bool BaseEstimatorFromFootIMU::advance()
         m_state.stanceFootCorners[i] = m_T_walk.act(
             m_T_yawDrift.act(T_supportCornerTranslation.act(m_tiltedFootCorners[i])));
     }
+
+
+    std::cerr << "L FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_L.rotation()).transpose() << std::endl;
+    std::cerr << "L FOOT ROTATION OUT: " << toXYZ(m_state.footPose_L.rotation()).transpose() << std::endl;
+    std::cerr << "R FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_R.rotation()).transpose() << std::endl;
+    std::cerr << "R FOOT ROTATION OUT: " << toXYZ(m_state.footPose_R.rotation()).transpose() << std::endl;
+
 
     // updating the stance foot flags.
     if (m_input.isLeftStance)
