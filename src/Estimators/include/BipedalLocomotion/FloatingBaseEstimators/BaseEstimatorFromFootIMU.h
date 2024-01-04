@@ -195,6 +195,7 @@ private:
                                        * right foot sole frame
                                        */
     Eigen::Vector3d m_gravity;
+    const Eigen::Vector3d m_noTras{0.0, 0.0, 0.0};
     iDynTree::KinDynComputations m_kinDyn;
     iDynTree::Model m_model;
     iDynTree::LinkIndex m_stanceLinkIndex;

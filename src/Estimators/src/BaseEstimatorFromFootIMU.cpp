@@ -228,6 +228,7 @@ bool BaseEstimatorFromFootIMU::advance()
     }
     manif::SE3d stanceFootFrame_H_link = manif::SE3d::Identity();
     int stanceFootFrameIndex = iDynTree::FRAME_INVALID_INDEX;
+
     if (m_input.isLeftStance)
     {
         stanceFootFrame_H_link = m_footFrame_H_link_L;
@@ -312,9 +313,8 @@ bool BaseEstimatorFromFootIMU::advance()
 
     // manif::SE3d pose matrix that employs: offset Position, measured Roll, measured Pitch, offset
     // Yaw.
-    const Eigen::Vector3d noTras(0, 0, 0);
-    manif::SE3d T_foot_imu(noTras, m_measuredRotationCorrected);
-    manif::SE3d T_foot_tilt(noTras, m_measuredTilt);
+    manif::SE3d T_foot_imu(m_noTras, m_measuredRotationCorrected);
+    manif::SE3d T_foot_tilt(m_noTras, m_measuredTilt);
     manif::SE3d T_foot_offset(m_offsetTranslation, m_offsetRotationCasted);
 
     // finding the positions of the foot corners in world frame given `T_foot_imu`
@@ -401,7 +401,7 @@ bool BaseEstimatorFromFootIMU::advance()
     m_yawOld = measuredYaw;
     // manif::SO3d rotation matrix that employs: zero Roll, zero Pitch, measured Yaw variation.
     auto R_deltaYaw = manif::SO3d(0.0, 0.0, deltaYaw);
-    manif::SE3d T_deltaYaw(noTras, R_deltaYaw);
+    manif::SE3d T_deltaYaw(m_noTras, R_deltaYaw);
 
     std::vector<Eigen::Vector3d> tempCorners;
     tempCorners.resize(m_cornersInInertialFrame.size());
@@ -415,14 +415,14 @@ bool BaseEstimatorFromFootIMU::advance()
     yawDrift = m_cornersInInertialFrame[m_state.supportCornerIndex]
                - tempCorners[m_state.supportCornerIndex];
     // manif::SE3d T_yawDrift(yawDrift, R_deltaYaw);
-    manif::SE3d T_yawDrift(noTras, R_deltaYaw);
+    manif::SE3d T_yawDrift(m_noTras, R_deltaYaw);
 
     manif::SE3d temp = T_yawDrift * m_T_yawDrift;
     m_T_yawDrift = temp;
 
     // obtaining the final foot pose using both measured and offset quantities.
     // cordinate change is performed from foot sole frame to foot link frame.
-    m_measuredFootPose = m_T_walk * T_foot_offset * m_T_yawDrift * T_supportCornerTranslation
+    m_measuredFootPose = T_foot_offset * m_T_walk * m_T_yawDrift * T_supportCornerTranslation
                          * T_foot_tilt * stanceFootFrame_H_link;
 
     Eigen::VectorXd baseVelocity(6);
