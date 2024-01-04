@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <atomic>
 #include <fstream>
+#include <jsoncpp/json/json.h>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -186,6 +187,10 @@ private:
 
     // for realtime data streaming
     void SendDataToLoggerVisualizer();
+
+    void PackFlightData(std::vector<std::string> keyTokens, const std::vector<double>& values, Json::Value& jsonValueToPack, const double& time);
+
+    std::vector<std::string> tokenizeSubString(std::string input, std::string delimiter);
 };
 
 } // namespace BipedalLocomotion
