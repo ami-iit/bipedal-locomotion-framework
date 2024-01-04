@@ -1375,6 +1375,25 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         dataStream.seekp(-1, std::ios_base::end);
         dataStream << "},";
     }
+
+    // pack the data for the cartesian wrenches
+    if (m_streamCartesianWrenches)
+    {
+        dataStream << "\"cartesian_wrenches\":{ ";
+        for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
+        {
+            if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
+            {
+                dataStream << "\"" << sensorName << "\":{\"data\": [";
+                for (unsigned int i = 0; i < m_ftBuffer.rows() - 1; i++)
+                    dataStream << m_ftBuffer.coeff(i, 0) << ",";
+                dataStream << m_ftBuffer.coeff(m_ftBuffer.rows() - 1, 0) << "], \"timestamps\": [" << time << "],";
+                dataStream << "\"elements_names\": [\"f_x\", \"f_y\", \"f_z\", \"mu_x\", \"mu_y\", \"mu_z\"]},";
+            }
+        }
+        dataStream.seekp(-1, std::ios_base::end);
+        dataStream << "},";
+    }
     dataStream.seekp(-1, std::ios_base::end);
     dataStream << "}}";
     std::cout << std::endl;
