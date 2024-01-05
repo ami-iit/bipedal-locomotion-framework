@@ -191,13 +191,13 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
         dynamicsGroup->setParameter("sampling_time", state->m_dT);
 
         // create variable handler
-        std::string dynamicsName;
-        std::vector<double> covariances;
-        if (!dynamicsGroup->getParameter("name", dynamicsName))
+        std::string inputName;
+        if (!dynamicsGroup->getParameter("input_name", inputName))
         {
-            log()->error("{} Unable to find the parameter 'name'.", logPrefix);
+            log()->error("{} Unable to find the parameter 'input_name'.", logPrefix);
             return nullptr;
         }
+        std::vector<double> covariances;
         if (!dynamicsGroup->getParameter("covariance", covariances))
         {
             log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
@@ -208,7 +208,7 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
             log()->error("{} Unable to find the parameter 'initial_covariance'.", logPrefix);
             return nullptr;
         }
-        state->m_stateVariableHandler.addVariable(dynamicsName, covariances.size());
+        state->m_stateVariableHandler.addVariable(dynamicsGroupName, covariances.size());
 
         std::string dynamicModel;
         if (!dynamicsGroup->getParameter("dynamic_model", dynamicModel))
@@ -225,16 +225,18 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
                          "`{}`.",
                          logPrefix,
                          dynamicModel,
-                         dynamicsName);
+                         dynamicsGroupName);
             return nullptr;
         }
 
         dynamicsInstance->setSubModels(subModelList, kinDynWrapperList);
 
-        dynamicsInstance->initialize(dynamicsGroup);
+        dynamicsInstance->initialize(dynamicsGroup, dynamicsGroupName);
 
         // add dynamics to the list
-        state->m_dynamicsList.emplace_back(dynamicsName, dynamicsInstance);
+        state->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
+
+        state->m_stateToUkfNames[inputName] = dynamicsGroupName;
     }
 
     // finalize estimator
@@ -338,7 +340,7 @@ Eigen::Ref<const Eigen::MatrixXd> RDE::UkfState::getInitialStateCovarianceMatrix
     return m_initialCovariance;
 }
 
- bool RDE::UkfState::setProperty(const std::string& property)
- {
+bool RDE::UkfState::setProperty(const std::string& property)
+{
     return false;
- }
+}

@@ -18,8 +18,9 @@ using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 void UkfModel::unpackState()
 {
-    m_jointVelocityState = m_currentState.segment(m_stateVariableHandler.getVariable("ds").offset,
-                                                  m_stateVariableHandler.getVariable("ds").size);
+    m_jointVelocityState
+        = m_currentState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
+                                 m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
     {
@@ -32,40 +33,44 @@ void UkfModel::unpackState()
                 = m_jointVelocityState(m_subModelList[subModelIdx].getJointMapping()[jointIdx]);
 
             m_subModelJointMotorTorque[subModelIdx](jointIdx)
-                = m_currentState[m_stateVariableHandler.getVariable("tau_m").offset
+                = m_currentState[m_stateVariableHandler.getVariable("MOTOR_TORQUES").offset
                                  + m_subModelList[subModelIdx].getJointMapping()[jointIdx]];
 
             m_subModelFrictionTorque[subModelIdx](jointIdx)
-                = m_currentState[m_stateVariableHandler.getVariable("tau_F").offset
+                = m_currentState[m_stateVariableHandler.getVariable("FRICTION_TORQUES").offset
                                  + m_subModelList[subModelIdx].getJointMapping()[jointIdx]];
         }
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getFTList())
         {
             m_FTMap[key]
-                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
-                                         m_stateVariableHandler.getVariable(value.ukfName).size);
+                = m_currentState
+                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
+                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
         }
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             m_extContactMap[key]
-                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
-                                         m_stateVariableHandler.getVariable(value.ukfName).size);
+                = m_currentState
+                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
+                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
         {
             m_accMap[key]
-                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
-                                         m_stateVariableHandler.getVariable(value.ukfName).size);
+                = m_currentState
+                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
+                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
         {
             m_gyroMap[key]
-                = m_currentState.segment(m_stateVariableHandler.getVariable(value.ukfName).offset,
-                                         m_stateVariableHandler.getVariable(value.ukfName).size);
+                = m_currentState
+                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
+                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
         }
     }
 }
@@ -85,6 +90,8 @@ bool UkfModel::updateState()
                                                          manif::SE3d::Tangent::DoF),
                                      m_jointVelocityState,
                                      m_gravity);
+
+    log()->info("OLD METHOD");
 
     // compute joint acceleration per each sub-model
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
@@ -201,6 +208,10 @@ bool UkfModel::updateState()
             m_jointAccelerationState[m_subModelList[subModelIdx].getJointMapping()[jointIdx]]
                 = m_subModelJointAcc[subModelIdx][jointIdx];
         }
+
+        log()->info("Base acceleration of submodel {}: {}",
+                    subModelIdx,
+                    m_subModelNuDot[subModelIdx].head(6).transpose());
     }
 
     // NEW CODE - GOOD FROM HERE
@@ -221,6 +232,8 @@ bool UkfModel::updateState()
             baseVelocity.coeffs().tail(3) = m_gyroMap[key];
         }
     }
+
+    log()->info("NEW METHOD");
 
     manif::SE3d baseHimu; /**< Transform from the base frame to the imu frame. */
 
@@ -284,9 +297,6 @@ bool UkfModel::updateState()
             }
         }
 
-        // log()->info("{} Base velocity: {}", logPrefix, baseVelocity.coeffs().transpose());
-        // log()->info("{} Base acceleration: {}", logPrefix, baseAcceleration.coeffs().transpose());
-
         // Set robot state
         m_kinDynWrapperList[subModelIdx]->setRobotState(m_worldTBase.transform(),
                                                         m_subModelJointPos[subModelIdx],
@@ -333,10 +343,6 @@ bool UkfModel::updateState()
                 += m_tempJacobianList[subModelIdx].transpose() * m_extContactMap[key];
         }
 
-        // log()->info("{} Total torque from contacts: {}",
-        //             logPrefix,
-        //             m_totalTorqueFromContacts[subModelIdx].transpose());
-
         if (!m_kinDynWrapperList[subModelIdx]
                  ->forwardDynamics(m_subModelJointMotorTorque[subModelIdx],
                                    m_subModelFrictionTorque[subModelIdx],
@@ -356,6 +362,10 @@ bool UkfModel::updateState()
             m_jointAccelerationState[m_subModelList[subModelIdx].getJointMapping()[jointIdx]]
                 = m_subModelJointAcc[subModelIdx][jointIdx];
         }
+
+        log()->info("Base acceleration of submodel {}: {}",
+                    subModelIdx,
+                    baseAcceleration.coeffs().transpose());
 
         // RECONMPUTE EVERYTHING WITH OMEGA DOT NOT ZERO
         Eigen::VectorXd tempVec(m_subModelJointAcc[subModelIdx].size());

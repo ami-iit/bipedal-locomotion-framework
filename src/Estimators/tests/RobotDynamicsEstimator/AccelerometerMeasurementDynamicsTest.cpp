@@ -309,7 +309,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     // Create the dynamics
     AccelerometerMeasurementDynamics accDynamics;
     REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(accDynamics.initialize(accHandler));
+    REQUIRE(accDynamics.initialize(accHandler, "r_leg_ft_acc"));
     REQUIRE(accDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

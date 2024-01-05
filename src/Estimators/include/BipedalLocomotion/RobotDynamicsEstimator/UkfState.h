@@ -183,7 +183,6 @@ public:
      * @return a Eigen reference to the Eigen Matrix covariance.
      */
     Eigen::Ref<const Eigen::MatrixXd> getInitialStateCovarianceMatrix() const;
-
 }; // class UKFModel
 
 } // namespace RobotDynamicsEstimator

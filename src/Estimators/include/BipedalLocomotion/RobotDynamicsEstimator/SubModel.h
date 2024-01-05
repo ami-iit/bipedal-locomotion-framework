@@ -35,7 +35,6 @@ struct Sensor
 {
     std::string name;    /**< Name of the sensor in the URDF */
     std::string frame;   /**< Frame of the sensor in the URDF */
-    std::string ukfName; /**< Name of the dynamics used for this sensor. */
     int frameIndex;      /**< Index of the sensor in the URDF. */
 };
 

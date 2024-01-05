@@ -19,7 +19,8 @@ RDE::FrictionTorqueStateDynamics::FrictionTorqueStateDynamics() = default;
 RDE::FrictionTorqueStateDynamics::~FrictionTorqueStateDynamics() = default;
 
 bool RDE::FrictionTorqueStateDynamics::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[FrictionTorqueStateDynamics::initialize]";
 
@@ -30,12 +31,7 @@ bool RDE::FrictionTorqueStateDynamics::initialize(
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))

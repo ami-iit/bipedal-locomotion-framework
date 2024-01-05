@@ -292,7 +292,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     // Create the dynamics
     GyroscopeMeasurementDynamics gyroDynamics;
     REQUIRE(gyroDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(gyroDynamics.initialize(gyroHandler));
+    REQUIRE(gyroDynamics.initialize(gyroHandler, "r_leg_ft_gyro"));
     REQUIRE(gyroDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

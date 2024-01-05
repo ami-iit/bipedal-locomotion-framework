@@ -229,6 +229,13 @@ public:
      */
     bool freeze(const bfl::Data& data = bfl::Data()) override;
 
+    /**
+     * @brief setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.
+     * @param measurementToUkfNames is a map containing the mapping between the name of the measurement and the name of the variable in the ukf.
+     * @note the map should contain only the name of the state dynamics.
+     */
+    void setStateNameMapping(const std::map<std::string, std::string>& stateToUkfNames);
+
 }; // classUkfMeasurement
 
 } // namespace RobotDynamicsEstimator

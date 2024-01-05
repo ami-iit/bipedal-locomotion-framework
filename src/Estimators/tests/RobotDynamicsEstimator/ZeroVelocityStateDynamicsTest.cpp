@@ -46,7 +46,7 @@ TEST_CASE("Zero Velocity Dynamics")
 
     ZeroVelocityStateDynamics tau_m;
 
-    REQUIRE(tau_m.initialize(parameterHandler));
+    REQUIRE(tau_m.initialize(parameterHandler, "tau_m"));
     REQUIRE(tau_m.finalize(variableHandler));
 
     Eigen::VectorXd currentState(sizeVariable);

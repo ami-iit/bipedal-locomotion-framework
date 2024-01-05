@@ -17,7 +17,8 @@ RDE::MotorCurrentMeasurementDynamics::MotorCurrentMeasurementDynamics() = defaul
 RDE::MotorCurrentMeasurementDynamics::~MotorCurrentMeasurementDynamics() = default;
 
 bool RDE::MotorCurrentMeasurementDynamics::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[MotorCurrentMeasurementDynamics::initialize]";
 
@@ -28,12 +29,7 @@ bool RDE::MotorCurrentMeasurementDynamics::initialize(
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", this->m_covariances))
@@ -45,7 +41,7 @@ bool RDE::MotorCurrentMeasurementDynamics::initialize(
     // Set the list of elements if it exists
     if (!ptr->getParameter("elements", m_elements))
     {
-        log()->info("{} Variable elements not found.", errorPrefix);
+        log()->debug("{} Variable elements not found.", errorPrefix);
     }
 
     // Set the torque constants
@@ -117,11 +113,11 @@ bool RDE::MotorCurrentMeasurementDynamics::checkStateVariableHandler()
     constexpr auto errorPrefix = "[MotorCurrentMeasurementDynamics::checkStateVariableHandler]";
 
     // Check if the variable handler contains the variables used by this dynamics
-    if (!m_stateVariableHandler.getVariable("tau_m").isValid())
+    if (!m_stateVariableHandler.getVariable("MOTOR_TORQUES").isValid())
     {
         log()->error("{} The variable handler does not contain the expected measurement name {}.",
                      errorPrefix,
-                     "tau_m");
+                     "MOTOR_TORQUES");
         return false;
     }
 
@@ -137,8 +133,8 @@ bool RDE::MotorCurrentMeasurementDynamics::update()
 
 void RDE::MotorCurrentMeasurementDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_motorTorque = ukfState.segment(m_stateVariableHandler.getVariable("tau_m").offset,
-                                     m_stateVariableHandler.getVariable("tau_m").size);
+    m_motorTorque = ukfState.segment(m_stateVariableHandler.getVariable("MOTOR_TORQUES").offset,
+                                     m_stateVariableHandler.getVariable("MOTOR_TORQUES").size);
 }
 
 void RDE::MotorCurrentMeasurementDynamics::setInput(const UKFInput& /*ukfInput*/)

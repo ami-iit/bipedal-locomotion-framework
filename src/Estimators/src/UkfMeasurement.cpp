@@ -136,6 +136,11 @@ bool UkfMeasurement::finalize(const System::VariablesHandler& handler)
     return true;
 }
 
+void UkfMeasurement::setStateNameMapping(const std::map<std::string, std::string>& stateToUkfNames)
+{
+    m_stateToUkfNames = stateToUkfNames;
+}
+
 std::unique_ptr<UkfMeasurement>
 UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                       System::VariablesHandler& stateVariableHandler,
@@ -209,13 +214,14 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         dynamicsGroup->setParameter("sampling_time", measurement->m_dT);
 
         // create variable handler
-        std::string dynamicsName;
-        std::vector<double> covariances;
-        if (!dynamicsGroup->getParameter("name", dynamicsName))
+        std::string inputName;
+        if (!dynamicsGroup->getParameter("input_name", inputName))
         {
-            BipedalLocomotion::log()->error("{} Unable to find the parameter 'name'.", logPrefix);
+            BipedalLocomotion::log()->error("{} Unable to find the parameter 'input_name'.",
+                                            logPrefix);
             return nullptr;
         }
+        std::vector<double> covariances;
         if (!dynamicsGroup->getParameter("covariance", covariances))
         {
             BipedalLocomotion::log()->error("{} Unable to find the parameter 'covariance'.",
@@ -238,16 +244,18 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
                                             "the measurement variable `{}`.",
                                             logPrefix,
                                             dynamicModel,
-                                            dynamicsName);
+                                            dynamicsGroupName);
             return nullptr;
         }
 
         dynamicsInstance->setSubModels(subModelList, kinDynWrapperList);
 
-        dynamicsInstance->initialize(dynamicsGroup);
+        dynamicsInstance->initialize(dynamicsGroup, dynamicsGroupName);
 
         // add dynamics to the list
-        measurement->m_dynamicsList.emplace_back(dynamicsName, dynamicsInstance);
+        measurement->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
+
+        measurement->m_measureToUkfNames[inputName] = dynamicsGroupName;
     }
 
     measurement->m_inputDescription
@@ -394,31 +402,28 @@ bool UkfMeasurement::freeze(const bfl::Data& data)
 
     m_measurementMap = bfl::any::any_cast<std::map<std::string, Eigen::VectorXd>>(data);
 
-    for (int index = 0; index < m_dynamicsList.size(); index++)
+    for (const auto& [key, value] : m_measureToUkfNames)
     {
-        m_offsetMeasurement
-            = m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).offset;
+        m_offsetMeasurement = m_measurementVariableHandler.getVariable(value).offset;
 
-        if (m_measurementMap.count(m_dynamicsList[index].first) == 0)
+        if (m_measurementMap.count(value) == 0)
         {
             BipedalLocomotion::log()->error("{} Measurement with name `{}` not found.",
                                             logPrefix,
-                                            m_dynamicsList[index].first);
+                                            value);
             return false;
         }
 
         // If more sub-models share the same accelerometer or gyroscope sensor, the measurement
         // vector is concatenated a number of times equal to the number of sub-models using the
         // sensor.
-        while (m_offsetMeasurement
-               < (m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).offset
-                  + m_measurementVariableHandler.getVariable(m_dynamicsList[index].first).size))
+        while (m_offsetMeasurement < (m_measurementVariableHandler.getVariable(value).offset
+                                      + m_measurementVariableHandler.getVariable(value).size))
         {
-            m_measurement.segment(m_offsetMeasurement,
-                                  m_measurementMap[m_dynamicsList[index].first].size())
-                = m_measurementMap[m_dynamicsList[index].first];
+            m_measurement.segment(m_offsetMeasurement, m_measurementMap[value].size())
+                = m_measurementMap[value];
 
-            m_offsetMeasurement += m_measurementMap[m_dynamicsList[index].first].size();
+            m_offsetMeasurement += m_measurementMap[value].size();
         }
     }
 

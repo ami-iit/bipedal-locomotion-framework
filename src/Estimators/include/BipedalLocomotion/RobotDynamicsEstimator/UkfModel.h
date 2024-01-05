@@ -89,6 +89,8 @@ protected:
     std::vector<Eigen::MatrixXd> m_tempJacobianList; /**< List of jacobians per eache submodel. */
     manif::SE3d m_worldTBase; /**< Sub-model base pose wrt the inertial frame */
     int m_offsetMeasurement; /**< Offset used to fill the measurement vector. */
+    std::map<std::string, std::string> m_stateToUkfNames; /**< Map used to retrieve the name of the variable passed as state and the ukf name. */
+    std::map<std::string, std::string> m_measureToUkfNames; /**< Map used to retrieve the name of the variable passed as input and the ukf name. */
 
 public:
     /**

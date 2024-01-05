@@ -50,7 +50,7 @@ TEST_CASE("External Contact State Dynamics")
 
     ExternalContactStateDynamics r_sole_contact;
 
-    REQUIRE(r_sole_contact.initialize(parameterHandler));
+    REQUIRE(r_sole_contact.initialize(parameterHandler, "r_sole"));
     REQUIRE(r_sole_contact.finalize(variableHandler));
 
     Eigen::VectorXd currentState(covariance.size());

@@ -232,7 +232,7 @@ TEST_CASE("Joint Velocity State Dynamics")
     // Create the dynamics
     JointVelocityStateDynamics dsDynamics;
     REQUIRE(dsDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(dsDynamics.initialize(jointVelHandler));
+    REQUIRE(dsDynamics.initialize(jointVelHandler, "ds"));
     REQUIRE(dsDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

@@ -50,7 +50,7 @@ TEST_CASE("Constant Measurement Model")
 
     ConstantMeasurementModel ft;
 
-    REQUIRE(ft.initialize(parameterHandler));
+    REQUIRE(ft.initialize(parameterHandler, name));
     REQUIRE(ft.finalize(variableHandler));
 
     Eigen::VectorXd bias(6);

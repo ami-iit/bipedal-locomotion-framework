@@ -276,7 +276,7 @@ TEST_CASE("Friction Torque Dynamics")
     // Create friction torque dynamics
     FrictionTorqueStateDynamics tauFDynamics;
     REQUIRE(tauFDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(tauFDynamics.initialize(frictionParameterHandler));
+    REQUIRE(tauFDynamics.initialize(frictionParameterHandler, "tau_F"));
     REQUIRE(tauFDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

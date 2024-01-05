@@ -5,12 +5,14 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
-bool RDE::ConstantMeasurementModel::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool RDE::ConstantMeasurementModel::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[ConstantMeasurementModel::initialize]";
 
@@ -21,12 +23,7 @@ bool RDE::ConstantMeasurementModel::initialize(std::weak_ptr<const ParametersHan
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
@@ -45,8 +42,7 @@ bool RDE::ConstantMeasurementModel::initialize(std::weak_ptr<const ParametersHan
     if (!ptr->getParameter("use_bias", m_useBias))
     {
         log()->debug("{} Variable use_bias not found. Set to false by default.", errorPrefix);
-    }
-    else
+    } else
     {
         m_biasVariableName = m_name + "_bias";
     }
@@ -58,7 +54,7 @@ bool RDE::ConstantMeasurementModel::initialize(std::weak_ptr<const ParametersHan
     return true;
 }
 
-bool RDE::ConstantMeasurementModel::finalize(const System::VariablesHandler &stateVariableHandler)
+bool RDE::ConstantMeasurementModel::finalize(const System::VariablesHandler& stateVariableHandler)
 {
     constexpr auto errorPrefix = "[ConstantMeasurementModel::finalize]";
 
@@ -100,7 +96,9 @@ bool RDE::ConstantMeasurementModel::finalize(const System::VariablesHandler &sta
     return true;
 }
 
-bool RDE::ConstantMeasurementModel::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::ConstantMeasurementModel::setSubModels(
+    const std::vector<RDE::SubModel>& /*subModelList*/,
+    const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
@@ -114,7 +112,9 @@ bool RDE::ConstantMeasurementModel::checkStateVariableHandler()
     {
         if (!m_stateVariableHandler.getVariable(m_biasVariableName).isValid())
         {
-            log()->error("{} The variable handler does not contain the expected state name {}.", errorPrefix, m_biasVariableName);
+            log()->error("{} The variable handler does not contain the expected state name {}.",
+                         errorPrefix,
+                         m_biasVariableName);
             return false;
         }
     }
@@ -127,8 +127,7 @@ bool RDE::ConstantMeasurementModel::update()
     if (m_useBias)
     {
         m_updatedVariable = m_currentState + m_bias;
-    }
-    else
+    } else
     {
         m_updatedVariable = m_currentState;
     }
