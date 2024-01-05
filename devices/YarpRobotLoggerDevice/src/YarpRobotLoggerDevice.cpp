@@ -68,7 +68,6 @@ VISITABLE_STRUCT(TextLoggingEntry,
                  local_timestamp);
 
 // TODO: REMOVE THIS GLOBAL VARIABLE, THIS IS JUST HERE FOR TESTING
-BipedalLocomotion::YarpUtilities::VectorsCollection* collection;
 
 
 void findAndReplaceAll(std::string& data, const std::string& toSearch, const std::string& replaceStr)
@@ -1218,9 +1217,12 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
     yarp::os::Bottle& realtimeOutput = realtimeLoggingPort.prepare();
     realtimeOutput.clear();
-    std::stringstream dataStream;
     Json::Value root;
     Json::Value& robotRealtime = root["robot_realtime"];
+    Json::Value& descriptionList = robotRealtime["description_list"];
+    Json::Value& yarpRobotName = robotRealtime["yarp_robot_name"];
+    char* tmp = std::getenv("YARP_ROBOT_NAME");
+    yarpRobotName.append(std::string(tmp));
     if (m_streamJointStates)
     {
         Json::Value& jointStates = robotRealtime["joints_state"];
@@ -1236,7 +1238,10 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
             Json::Value& jointPositionElementNames = jointPositions["elements_names"];
             for(unsigned int i = 0; i < joints.size(); i++)
+            {
+                descriptionList.append(joints[i]);
                 jointPositionElementNames.append(joints[i]);
+            }
 
             Json::Value& jointPositionTimeStamp = jointPositions["timestamps"];
             jointPositionTimeStamp.append(time);
@@ -1452,22 +1457,17 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         // collection is populated from the global variable
-        if (collection != nullptr)
+        if (externalSignalCollection != nullptr)
         {
-            for (const auto& [key, vector] : collection->vectors)
+            for (const auto& [key, vector] : externalSignalCollection->vectors)
             {
                 std::vector<std::string> keyTokens = tokenizeSubString(key, "::");
                 PackFlightData(keyTokens, vector, flightData, time);
             }
-
         }
     }
     Json::FastWriter fastWriter;
     std::string jsonDataToSend = fastWriter.write(root);
-
-    std::cout << std::endl;
-    std::cout << jsonDataToSend << std::endl;
-    std::cout << std::endl;
 
     realtimeOutput.addString(jsonDataToSend);
     realtimeLoggingPort.write(true);
@@ -1476,10 +1476,8 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
 void YarpRobotLoggerDevice::PackFlightData(std::vector<std::string> keyTokens, const std::vector<double>& values, Json::Value& jsonValueToPack, const double& time)
 {
-    std::cout << "In Pack Flight Data function" << std::endl;
     if(keyTokens.size() == 1)
     {
-        std::cout << "Final Key: " << keyTokens[0] << std::endl;
         Json::Value& jsonFinalValueToPack = jsonValueToPack[keyTokens[0]];
         Json::Value& jsonFinalValueData = jsonFinalValueToPack["data"];
         for(unsigned int i = 0; i < values.size(); i++)
@@ -1491,15 +1489,9 @@ void YarpRobotLoggerDevice::PackFlightData(std::vector<std::string> keyTokens, c
         return;
     }
 
-    //for(unsigned int i = 0; i < keyTokens.size(); i++)
-    //{
-        Json::Value& subValuesToPack = jsonValueToPack[keyTokens[0]];
-        std::vector<std::string> subTokens = {keyTokens.begin() + 1, keyTokens.end()};
-        std::cout << "Sub Vector Values: {";
-        for (unsigned int i = 0; i < subTokens.size(); i++)
-            std::cout << subTokens[i] << ", ";
-        std::cout << "}, " << keyTokens.size() << ":" << subTokens.size() << std::endl;
-    //}
+
+    Json::Value& subValuesToPack = jsonValueToPack[keyTokens[0]];
+    std::vector<std::string> subTokens = {keyTokens.begin() + 1, keyTokens.end()};
     PackFlightData(subTokens, values, subValuesToPack, time);
 }
 
@@ -1511,7 +1503,6 @@ std::vector<std::string> YarpRobotLoggerDevice::tokenizeSubString(std::string in
     while ((position = input.find(delimiter)) != std::string::npos)
     {
         token = input.substr(0, position);
-        std::cout << token << std::endl;
         tokens.push_back(token);
         input.erase(0, position + delimiter.length());
     }
@@ -1550,114 +1541,64 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
         {
-            // dataStream << "Motor State Positions: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
-            // dataStream << "Motor State Velocities: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
         {
-            // dataStream << "Motor State Accelerations: " << m_jointSensorBuffer << "|";
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
-            // dataStream << "Motor State Currents: " << m_jointSensorBuffer << "|";
         }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     if (m_streamMotorPWM)
     {
         if (m_robotSensorBridge->getMotorPWMs(m_jointSensorBuffer))
-        {
-            //dataStream << "Motor State PWMs: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::PWM");
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     if (m_streamPIDs)
     {
         if (m_robotSensorBridge->getPidPositions(m_jointSensorBuffer))
-        {
-            //dataStream << "PIDs: " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_jointSensorBuffer, time, "PIDs");
-        }
-       // out.addString(dataStream.str());
-       // outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
     {
         if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
-        {
             m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
-        }
     }
-    // dataStream.seekp(-1, std::ios_base::end);
-    // dataStream << "}}}";
-    // out.addString(dataStream.str());
-    // outPort.write(true);
-    // std::cout << std::endl;
-    // std::cout << dataStream.str() << std::endl;
-    // std::cout << std::endl;
-    // dataStream.str(std::string());
 
     for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
     {
         if (m_robotSensorBridge->getTemperature(sensorname, m_ftTemperatureBuffer))
-        {
-            //dataStream << "temperatures:: " << sensorname << ": " << m_ftTemperatureBuffer << "|";
             m_bufferManager.push_back({m_ftTemperatureBuffer}, time, "temperatures::" + sensorname);
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
     {
         if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
-        {
             m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
-        }
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
     {
-        if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName,
-                                                                   m_acceloremeterBuffer))
-        {
-            //dataStream << "accelerometers:: " << sensorName << ": " << m_acceloremeterBuffer << "|";
+        if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName, m_acceloremeterBuffer))
             m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
-
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
     {
         if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
-        {
-            //dataStream << "orientations:: " << sensorName << ": " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
     {
         if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
-        {
-            //dataStream << "magnetometers:: " << sensorName << ": " << m_jointSensorBuffer << "|";
             m_bufferManager.push_back(m_magnemetometerBuffer, time, "magnetometers::" + sensorName);
-        }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     // an IMU contains a gyro accelerometer and an orientation sensor
@@ -1671,60 +1612,43 @@ void YarpRobotLoggerDevice::run()
                             m_gyroBuffer,
                             m_orientationBuffer);
 
-            //dataStream << "accelerometers::" << sensorName << ": " << m_acceloremeterBuffer << "|";
             m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
 
-            //dataStream << "gyros::" << sensorName << ": " << m_gyroBuffer << "|";
             m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
             
-            //dataStream << "orientations::" << sensorName << ": " << m_orientationBuffer << "|";
             m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
         }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
     {
         if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
         {
-            //dataStream << "caresian_wrenches::" << sensorName << ": " << m_ftBuffer << "|";
             m_bufferManager.push_back(m_ftBuffer, time, "cartesian_wrenches::" + sensorName);
         }
-        //out.addString(dataStream.str());
-        //outPort.write(true);
     }
 
     std::string signalFullName;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        collection = signal.port.read(false);
-        if (collection != nullptr)
+        externalSignalCollection = signal.port.read(false);
+        if (externalSignalCollection != nullptr)
         {
             if (!signal.dataArrived)
             {
-                for (const auto& [key, vector] : collection->vectors)
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
                     signalFullName = signal.signalName + "::" + key;
-                //    std::cout << "about to add a channel for xternal signal: " << signalFullName << std::endl;
                     m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
-                //    std::cout << "Added a channel for external signal: " << signalFullName << std::endl;
-                    std::cout << std::endl;
                 }
                 signal.dataArrived = true;
             }
 
-            for (const auto& [key, vector] : collection->vectors)
+            for (const auto& [key, vector] : externalSignalCollection->vectors)
             {
                 signalFullName = signal.signalName + "::" + key;
-                // std::cout << "About to push back data for: " << signalFullName << std::endl;
-                // for(unsigned int i = 0; i < vector.size(); i++)
-                    // std::cout << vector[i] << ",";
-                // std::cout << std::endl << std::endl;;
                 m_bufferManager.push_back(vector, time, signalFullName);
-            //    std::cout << "Added the data for: " << signalFullName << std::endl;
-                std::cout << std::endl;
             }
         }
     }
@@ -1740,11 +1664,7 @@ void YarpRobotLoggerDevice::run()
                 m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
                 signal.dataArrived = true;
             }
-//            dataStream << signal.signalName << ": " << *vector << "|";
-//            m_bufferManager.push_back(*vector, time, signal.signalName);
         }
-//        out.addString(dataStream.str());
-//        outPort.write(true);
     }
 
     int bufferportSize = m_textLoggingPort.getPendingReads();
@@ -1772,11 +1692,7 @@ void YarpRobotLoggerDevice::run()
                     m_textLogsStoredInManager.insert(signalFullName);
                 }
 
-//                dataStream << signalFullName << ": " << msg << "|";
-//                m_bufferManager.push_back(msg, time, signalFullName);
             }
-//            out.addString(dataStream.str());
-//            outPort.write(true);
             bufferportSize = m_textLoggingPort.getPendingReads();
         } else
         {
