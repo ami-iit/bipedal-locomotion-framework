@@ -1458,25 +1458,8 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
             {
                 std::vector<std::string> keyTokens = tokenizeSubString(key, "::");
                 PackFlightData(keyTokens, vector, flightData, time);
-
-                
-
-                // std::string jsonKeyTree = std::regex_replace(key, std::regex("ExternalData::"), "");
-                // jsonKeyTree = std::regex_replace(jsonKeyTree, std::regex("::"), "\":{\"");
-                // // std::cout << "about to add a channel for external signal: " << signalFullName << std::endl;
-                // dataStream << jsonKeyTree << "\": { \"data\": [";
-                // for(unsigned int i = 0; i < vector.size() - 1; i++)
-                //     dataStream << vector[i] << ",";
-                // dataStream << vector[vector.size() - 1] << "], \"timestamps\": [" << time << "]},";
             }
-            // for (const auto& [key, vector] : collection->vectors)
-            // {
-            //     signalFullName = signal.signalName + "::" + key;
-            //     std::cout << "About to push back data for: " << signalFullName << std::endl;
-            //     m_bufferManager.push_back(vector, time, signalFullName);
-            //     std::cout << "Added the data for: " << signalFullName << std::endl;
-            //     std::cout << std::endl;
-            // }
+
         }
     }
     Json::FastWriter fastWriter;
