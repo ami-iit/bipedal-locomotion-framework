@@ -1223,7 +1223,7 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     Json::Value& robotRealtime = root["robot_realtime"];
     if (m_streamJointStates)
     {
-        Json::Value& jointStates = robotRealtime["joint_states"];
+        Json::Value& jointStates = robotRealtime["joints_state"];
         std::vector<std::string> joints;
         m_robotSensorBridge->getJointsList(joints);
         // prepare the json format for the joint positions
