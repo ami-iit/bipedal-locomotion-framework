@@ -453,12 +453,22 @@ bool BaseEstimatorFromFootIMU::advance()
             m_T_yawDrift.act(T_supportCornerTranslation.act(m_tiltedFootCorners[i])));
     }
 
+    double orientationError_L = (toXYZ(m_state.footPose_L.rotation()) - toXYZ(m_input.measuredRotation_L.rotation())).norm();
+    double orientationError_R = (toXYZ(m_state.footPose_R.rotation()) - toXYZ(m_input.measuredRotation_R.rotation())).norm();
+    double orientationErrorThreshold = 0.001; // [rad]. TODO: get parameter from config file. 0,001 rad = 0,05729578 deg. 
 
-    std::cerr << "L FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_L.rotation()).transpose() << std::endl;
-    std::cerr << "L FOOT ROTATION OUT: " << toXYZ(m_state.footPose_L.rotation()).transpose() << std::endl;
-    std::cerr << "R FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_R.rotation()).transpose() << std::endl;
-    std::cerr << "R FOOT ROTATION OUT: " << toXYZ(m_state.footPose_R.rotation()).transpose() << std::endl;
-
+    if ( (orientationError_L > orientationErrorThreshold) || (orientationError_R > orientationErrorThreshold) )
+    {
+        log()->warn("{} Foot orientation error above {} threshold: {} Left, {} Right.",
+                     logPrefix,
+                     orientationErrorThreshold,
+                     orientationError_L,
+                     orientationError_R);
+    }
+    // err << "L FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_L.rotation()).transpose() << std::endl;
+    // err << "L FOOT ROTATION OUT: " << toXYZ(m_state.footPose_L.rotation()).transpose() << std::endl;
+    // err << "R FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_R.rotation()).transpose() << std::endl;
+    // err << "R FOOT ROTATION OUT: " << toXYZ(m_state.footPose_R.rotation()).transpose() << std::endl;
 
     // updating the stance foot flags.
     if (m_input.isLeftStance)
