@@ -239,18 +239,28 @@ bool BaseEstimatorFromFootIMU::advance()
         if (m_isLastStanceFoot_R)
         {
             // updating the yawOld value.
-            Eigen::Vector3d lastRPY_L = toXYZ(m_state.footPose_L.rotation());
+            Eigen::Vector3d lastRPY_R = toXYZ(m_state.footPose_R.rotation());
             // Eigen::Vector3d lastRPY_L = toXYZ(m_input.measuredRotation_L.rotation());
-            m_yawOld = lastRPY_L(2);
+            m_yawOld = lastRPY_R(2);
 
             // updating the m_T_walk matrix.
-            Eigen::Vector3d step = (m_state.footPose_L.translation() - m_state.footPose_R.translation());
-            step(2) = 0.0;
-            manif::SE3d T_walk(step, manif::SO3d::Identity());
-            manif::SE3d temp = T_walk * m_T_walk;
+            Eigen::Vector3d stepTras = (m_state.footPose_L.translation() - m_state.footPose_R.translation());
+            stepTras(2) = 0.0;
+            manif::SE3d T_walkTras(stepTras, manif::SO3d::Identity());
+
+            // Eigen::Matrix3d stepRot = m_state.footPose_R.rotation().inverse() * m_state.footPose_L.rotation();
+            // Eigen::Vector3d stepRotRPY = toXYZ(stepRot);
+            // manif::SO3d stepRotManif = manif::SO3d(stepRotRPY(0), stepRotRPY(1), stepRotRPY(2));
+            // manif::SE3d T_walkRot(m_noTras, stepRotManif);
+            // manif::SE3d temp = T_walkTras * T_walkRot * m_T_walk * m_T_yawDrift;
+
+            manif::SE3d temp = T_walkTras * m_T_walk;
             m_T_walk = temp;
+
+            // m_T_yawDrift.setIdentity();
         }
     }
+
     if (m_input.isRightStance)
     {
         stanceFootFrame_H_link = m_footFrame_H_link_R;
@@ -261,16 +271,25 @@ bool BaseEstimatorFromFootIMU::advance()
         if (m_isLastStanceFoot_L)
         {
             // updating the yawOld value.
-            Eigen::Vector3d lastRPY_R = toXYZ(m_state.footPose_R.rotation());
+            Eigen::Vector3d lastRPY_L = toXYZ(m_state.footPose_L.rotation());
             // Eigen::Vector3d lastRPY_R = toXYZ(m_input.measuredRotation_R.rotation());
-            m_yawOld = lastRPY_R(2);
+            m_yawOld = lastRPY_L(2);
 
             // updating the m_T_walk matrix.
-            Eigen::Vector3d step = (m_state.footPose_R.translation() - m_state.footPose_L.translation());
-            step(2) = 0.0;
-            manif::SE3d T_walk(step, manif::SO3d::Identity());
-            manif::SE3d temp = T_walk * m_T_walk;
+            Eigen::Vector3d stepTras = (m_state.footPose_R.translation() - m_state.footPose_L.translation());
+            stepTras(2) = 0.0;
+            manif::SE3d T_walkTras(stepTras, manif::SO3d::Identity());
+
+            // Eigen::Matrix3d stepRot = m_state.footPose_L.rotation().inverse() * m_state.footPose_R.rotation();
+            // Eigen::Vector3d stepRotRPY = toXYZ(stepRot);
+            // manif::SO3d stepRotManif = manif::SO3d(stepRotRPY(0), stepRotRPY(1), stepRotRPY(2));
+            // manif::SE3d T_walkRot(m_noTras, stepRotManif);
+            // manif::SE3d temp = T_walkTras * T_walkRot * m_T_walk * m_T_yawDrift;
+
+            manif::SE3d temp = T_walkTras * m_T_walk;
             m_T_walk = temp;
+
+            // m_T_yawDrift.setIdentity();
         }
     }
 
