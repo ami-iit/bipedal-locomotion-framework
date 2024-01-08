@@ -90,7 +90,12 @@ protected:
     manif::SE3d m_worldTBase; /**< Sub-model base pose wrt the inertial frame */
     int m_offsetMeasurement; /**< Offset used to fill the measurement vector. */
     std::map<std::string, std::string> m_stateToUkfNames; /**< Map used to retrieve the name of the variable passed as state and the ukf name. */
-    std::map<std::string, std::string> m_measureToUkfNames; /**< Map used to retrieve the name of the variable passed as input and the ukf name. */
+    std::map<std::string, std::string> m_ukfNamesToMeasures; /**< Map used to retrieve the name of the variable passed as input and the ukf name. */
+    Eigen::Vector3d m_sensorLinearAcceleration; /**< Linear acceleration measured by an accelerometer. */
+    Eigen::Vector3d m_bOmegaIB; /**< Angular velocity of a frame. */
+    manif::SE3Tangentd m_tempAccelerometerVelocity; /**< Velocity of an accelerometer. */
+    manif::SE3Tangentd m_baseVelocity; /**< Submodel base velocity. */
+    manif::SE3Tangentd m_baseAcceleration; /**< Submodel base acceleration. */
 
 public:
     /**

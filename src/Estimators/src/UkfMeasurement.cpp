@@ -255,7 +255,7 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         // add dynamics to the list
         measurement->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
 
-        measurement->m_measureToUkfNames[inputName] = dynamicsGroupName;
+        measurement->m_ukfNamesToMeasures[dynamicsGroupName] = inputName;
     }
 
     measurement->m_inputDescription
@@ -332,7 +332,7 @@ UkfMeasurement::predictedMeasure(const Eigen::Ref<const Eigen::MatrixXd>& curren
         const_cast<UkfMeasurement*>(this)->m_ukfInput.robotJointAccelerations
             = m_jointAccelerationState;
 
-        for (int indexDyn = 0; indexDyn < m_dynamicsList.size(); indexDyn++)
+       for (int indexDyn = 0; indexDyn < m_dynamicsList.size(); indexDyn++)
         {
             m_dynamicsList[indexDyn].second->setState(m_currentState);
 
@@ -402,28 +402,28 @@ bool UkfMeasurement::freeze(const bfl::Data& data)
 
     m_measurementMap = bfl::any::any_cast<std::map<std::string, Eigen::VectorXd>>(data);
 
-    for (const auto& [key, value] : m_measureToUkfNames)
+    for (const auto& [key, value] : m_ukfNamesToMeasures)
     {
-        m_offsetMeasurement = m_measurementVariableHandler.getVariable(value).offset;
+        m_offsetMeasurement = m_measurementVariableHandler.getVariable(key).offset;
 
-        if (m_measurementMap.count(value) == 0)
+        if (m_measurementMap.count(key) == 0)
         {
             BipedalLocomotion::log()->error("{} Measurement with name `{}` not found.",
                                             logPrefix,
-                                            value);
+                                            key);
             return false;
         }
 
         // If more sub-models share the same accelerometer or gyroscope sensor, the measurement
         // vector is concatenated a number of times equal to the number of sub-models using the
         // sensor.
-        while (m_offsetMeasurement < (m_measurementVariableHandler.getVariable(value).offset
-                                      + m_measurementVariableHandler.getVariable(value).size))
+        while (m_offsetMeasurement < (m_measurementVariableHandler.getVariable(key).offset
+                                      + m_measurementVariableHandler.getVariable(key).size))
         {
-            m_measurement.segment(m_offsetMeasurement, m_measurementMap[value].size())
-                = m_measurementMap[value];
+            m_measurement.segment(m_offsetMeasurement, m_measurementMap[key].size())
+                = m_measurementMap[key];
 
-            m_offsetMeasurement += m_measurementMap[value].size();
+            m_offsetMeasurement += m_measurementMap[key].size();
         }
     }
 

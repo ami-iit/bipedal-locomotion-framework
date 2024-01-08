@@ -36,9 +36,9 @@ struct RobotDynamicsEstimator::Impl
 
     std::map<std::string, std::string> inputNameToUkfState; /**< Map used to retrieve the state name
                                                                from the input name. */
-    std::map<std::string, std::string> inputNameToUkfMeasurement; /**< Map used to retrieve the
-                                                                     measurement name from the input
-                                                                     name. */
+    std::map<std::string, std::vector<std::string>> inputNameToUkfMeasurement; /**< Map used to
+                                                                     retrieve the measurement name
+                                                                     from the input name. */
 
     bfl::Gaussian predictedState; /**< Predicted state computed by the `predict` method. */
     bfl::Gaussian correctedState; /**< Corrected state computed by the `correct` method. */
@@ -324,7 +324,7 @@ RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParameters
             log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
             return nullptr;
         }
-        estimator->m_pimpl->inputNameToUkfMeasurement[inputName] = dynamicsName;
+        estimator->m_pimpl->inputNameToUkfMeasurement[inputName].push_back(dynamicsName);
     }
 
     // Finalize the estimator
@@ -568,7 +568,6 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
     m_pimpl->ukfInput.robotBasePose = input.basePose;
     m_pimpl->ukfInput.robotBaseVelocity = input.baseVelocity;
     m_pimpl->ukfInput.robotBaseAcceleration = input.baseAcceleration;
-    log()->info("{} Base acceleration.", input.baseAcceleration);
     m_pimpl->ukfInput.robotJointPositions = input.jointPositions;
     m_pimpl->ukfInput.robotJointAccelerations.setZero();
 
@@ -582,19 +581,27 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
     // for the freeze method of the UkfCorrection
     m_pimpl->ukfMeasurementFromSensors["JOINT_VELOCITIES"] = input.jointVelocities;
     m_pimpl->ukfMeasurementFromSensors["MOTOR_CURRENTS"] = input.motorCurrents;
-    for (auto& [key, value] : input.ftWrenches)
+    for (const auto& [key, value] : input.ftWrenches)
     {
-        m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key]] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
     for (auto& [key, value] : input.linearAccelerations)
     {
-        m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key]] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
     for (auto& [key, value] : input.angularVelocities)
     {
-        m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key]] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
-    m_pimpl->ukfMeasurementFromSensors["FRICTION_TORQUES"] = input.friction;
 
     return true;
 }

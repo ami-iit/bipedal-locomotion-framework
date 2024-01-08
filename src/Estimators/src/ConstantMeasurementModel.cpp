@@ -23,8 +23,12 @@ bool RDE::ConstantMeasurementModel::initialize(
         return false;
     }
 
-    m_name = name;
-
+    if (!ptr->getParameter("associated_state", m_name))
+    {
+        log()->error("{} Error while retrieving the associated state variable.", errorPrefix);
+        return false;
+    }
+    
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
     {

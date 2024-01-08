@@ -246,14 +246,28 @@ Dataset& loadData()
     for (const auto& acc : outStruct3.fields())
     {
         temp = outStruct3[acc].asMultiDimensionalArray<double>();
-        dataset.accs[acc] = Conversions::toEigen(temp);
+        if (acc == "base_imu_0")
+        {
+            dataset.accs[acc+"_acc"] = Conversions::toEigen(temp);
+        }
+        else
+        {
+            dataset.accs[acc] = Conversions::toEigen(temp);
+        }
     }
 
     matioCpp::Struct outStruct4 = outStruct("gyros").asStruct();
     for (const auto& gyro : outStruct4.fields())
     {
         temp = outStruct4[gyro].asMultiDimensionalArray<double>();
-        dataset.gyros[gyro] = Conversions::toEigen(temp);
+        if (gyro == "base_imu_0")
+        {
+            dataset.gyros[gyro+"_gyro"] = Conversions::toEigen(temp);
+        }
+        else
+        {
+            dataset.gyros[gyro] = Conversions::toEigen(temp);
+        }
     }
 
     return dataset;
@@ -314,25 +328,32 @@ void createInitialState(Dataset& dataset,
     }
 }
 
-void setInput(Dataset& dataset, int sample, RobotDynamicsEstimatorInput& input)
+void setInput(Dataset& dataset,
+              int sample,
+              RobotDynamicsEstimatorInput& input,
+              std::unordered_map<std::string, std::vector<SensorProperty>>& sensors)
 {
+    // Set input
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
     input.motorCurrents = dataset.im.row(sample);
 
-    for (auto const& [key, value] : dataset.fts)
+    for (int idx = 0; idx < sensors["ft"].size(); idx++)
     {
-        input.ftWrenches[key] = value.row(sample);
+        input.ftWrenches[sensors["ft"][idx].sensorName]
+            = dataset.fts[sensors["ft"][idx].sensorFrame].row(sample);
     }
 
-    for (auto const& [key, value] : dataset.accs)
+    for (int idx = 0; idx < sensors["acc"].size(); idx++)
     {
-        input.linearAccelerations[key] = value.row(sample);
+        input.linearAccelerations[sensors["acc"][idx].sensorName]
+            = dataset.accs[sensors["acc"][idx].sensorName].row(sample);
     }
 
-    for (auto const& [key, value] : dataset.gyros)
+    for (int idx = 0; idx < sensors["gyro"].size(); idx++)
     {
-        input.angularVelocities[key] = value.row(sample);
+        input.angularVelocities[sensors["gyro"][idx].sensorName]
+            = dataset.gyros[sensors["gyro"][idx].sensorName].row(sample);
     }
 }
 
@@ -384,30 +405,8 @@ TEST_CASE("RobotDynamicsEstimator Test")
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {
         int sample = sample_;
-        // sample_ = numOfSamples - 1;
-
-        // Set input
-        input.jointPositions = dataset.s.row(sample);
-        input.jointVelocities = dataset.ds.row(sample);
-        input.motorCurrents = dataset.im.row(sample);
-
-        for (int idx = 0; idx < sensors["ft"].size(); idx++)
-        {
-            input.ftWrenches[sensors["ft"][idx].sensorName]
-                = dataset.fts[sensors["ft"][idx].sensorFrame].row(sample);
-        }
-
-        for (int idx = 0; idx < sensors["acc"].size(); idx++)
-        {
-            input.linearAccelerations[sensors["acc"][idx].sensorName]
-                = dataset.accs[sensors["acc"][idx].sensorName].row(sample);
-        }
-
-        for (int idx = 0; idx < sensors["gyro"].size(); idx++)
-        {
-            input.angularVelocities[sensors["gyro"][idx].sensorName]
-                = dataset.gyros[sensors["gyro"][idx].sensorName].row(sample);
-        }
+        
+        setInput(dataset, sample, input, sensors);
 
         // Set input
         REQUIRE(estimator->setInput(input));
@@ -420,17 +419,15 @@ TEST_CASE("RobotDynamicsEstimator Test")
 
         // Check output
         REQUIRE((output.ds - dataset.ds.row(sample).transpose()).isZero(0.1));
-        log()->info("Friction torque error {}", (output.tau_F.transpose() - dataset.expectedTauF.row(sample)));
         for (int idx = 0; idx < output.tau_F.size(); idx++)
         {
-            REQUIRE(std::abs(output.tau_F(idx) - dataset.expectedTauF.row(sample)(idx)) < 0.5);
+            REQUIRE(std::abs(output.tau_F(idx) - dataset.expectedTauF.row(sample)(idx)) < 0.2);
         }
         REQUIRE((output.tau_m - dataset.expectedTaum.row(sample).transpose()).isZero(0.1));
         for (int idx = 0; idx < output.tau_F.size(); idx++)
         {
-            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx)) - dataset.expectedTauj.row(sample)(idx)) < 0.5);
+            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx)) - dataset.expectedTauj.row(sample)(idx)) < 0.2);
         }
-        log()->info ("Joint torque error {}", ((output.tau_m - output.tau_F).transpose() - dataset.expectedTauj.row(sample)));
         for (int idx = 0; idx < sensors["ft"].size(); idx++)
         {
             REQUIRE(output.ftWrenches[sensors["ft"][idx].sensorName].isApprox(dataset.fts[sensors["ft"][idx].sensorFrame].row(sample).transpose(), 0.1));
