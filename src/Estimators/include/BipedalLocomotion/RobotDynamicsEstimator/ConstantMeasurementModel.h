@@ -54,8 +54,9 @@ public:
      * @note the following parameters are required by the class
      * |           Parameter Name           |   Type   |                                       Description                                                       | Mandatory |
      * |:----------------------------------:|:--------:|:-------------------------------------------------------------------------------------------------------:|:---------:|
-     * |            `input_name`            | `vector` |        Name of the variable in input to the main application corresponding to this dynamics             |    Yes    |
-     * |            `covariance`            | `vector` |                                Process covariances                                                      |    Yes    |
+     * |            `input_name`            | `string` |        Name of the variable in input to the main application corresponding to this dynamics.            |    Yes    |
+     * |         `associated_state`         | `string` |                Name of the variable in the state vector corresponding to this dynamics.                 |    Yes    |
+     * |            `covariance`            | `vector` |                                Process covariances.                                                     |    Yes    |
      * |           `dynamic_model`          | `string` |               Type of dynamic model describing the state dynamics.                                      |    Yes    |
      * |             `use_bias`             |`boolean` |     Boolean saying if the dynamics depends on a bias. False if not specified.                           |    No     |
      * @return True in case of success, false otherwise.

@@ -73,7 +73,7 @@ public:
      * @note the following parameters are required by the class
      * |           Parameter Name           |         Type          |                                       Description                                                       | Mandatory |
      * |:----------------------------------:|:---------------------:|:-------------------------------------------------------------------------------------------------------:|:---------:|
-     * |            `input_name`            | `vector` |        Name of the variable in input to the main application corresponding to this dynamics             |    Yes    |
+     * |            `input_name`            |       `string`        |        Name of the variable in input to the main application corresponding to this dynamics             |    Yes    |
      * |            `covariance`            |       `vector`        |                                Process covariances                                                      |    Yes    |
      * |         `initial_covariance`       |       `vector`        |                             Initial state covariances                                                   |    Yes    |
      * |           `dynamic_model`          |       `string`        |               Type of dynamic model describing the state dynamics.                                      |    Yes    |
