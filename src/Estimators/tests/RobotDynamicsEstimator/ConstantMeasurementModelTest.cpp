@@ -25,9 +25,9 @@ TEST_CASE("Constant Measurement Model")
     // Create variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler variableHandler;
-    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
@@ -43,6 +43,7 @@ TEST_CASE("Constant Measurement Model")
 
     parameterHandler->clear();
     parameterHandler->setParameter("name", name);
+    parameterHandler->setParameter("associated_state", name);
     parameterHandler->setParameter("covariance", covariance);
     parameterHandler->setParameter("initial_covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
