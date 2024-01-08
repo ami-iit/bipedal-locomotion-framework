@@ -60,7 +60,8 @@ struct Output
 };
 
 // Struct to represent a sensor
-struct SensorProperty {
+struct SensorProperty
+{
     std::string sensorName;
     std::string sensorFrame;
 };
@@ -248,9 +249,8 @@ Dataset& loadData()
         temp = outStruct3[acc].asMultiDimensionalArray<double>();
         if (acc == "base_imu_0")
         {
-            dataset.accs[acc+"_acc"] = Conversions::toEigen(temp);
-        }
-        else
+            dataset.accs[acc + "_acc"] = Conversions::toEigen(temp);
+        } else
         {
             dataset.accs[acc] = Conversions::toEigen(temp);
         }
@@ -262,9 +262,8 @@ Dataset& loadData()
         temp = outStruct4[gyro].asMultiDimensionalArray<double>();
         if (gyro == "base_imu_0")
         {
-            dataset.gyros[gyro+"_gyro"] = Conversions::toEigen(temp);
-        }
-        else
+            dataset.gyros[gyro + "_gyro"] = Conversions::toEigen(temp);
+        } else
         {
             dataset.gyros[gyro] = Conversions::toEigen(temp);
         }
@@ -363,7 +362,8 @@ TEST_CASE("RobotDynamicsEstimator Test")
     auto parameterHandler = loadConfiguration();
 
     // Save sensors
-    std::unordered_map<std::string, std::vector<SensorProperty>> sensors = loadSensors(parameterHandler);
+    std::unordered_map<std::string, std::vector<SensorProperty>> sensors
+        = loadSensors(parameterHandler);
 
     // Load robot model and create kindyn object
     SubModelCreator subModelCreator;
@@ -405,7 +405,7 @@ TEST_CASE("RobotDynamicsEstimator Test")
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {
         int sample = sample_;
-        
+
         setInput(dataset, sample, input, sensors);
 
         // Set input
@@ -426,11 +426,16 @@ TEST_CASE("RobotDynamicsEstimator Test")
         REQUIRE((output.tau_m - dataset.expectedTaum.row(sample).transpose()).isZero(0.1));
         for (int idx = 0; idx < output.tau_F.size(); idx++)
         {
-            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx)) - dataset.expectedTauj.row(sample)(idx)) < 0.2);
+            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx))
+                             - dataset.expectedTauj.row(sample)(idx))
+                    < 0.2);
         }
         for (int idx = 0; idx < sensors["ft"].size(); idx++)
         {
-            REQUIRE(output.ftWrenches[sensors["ft"][idx].sensorName].isApprox(dataset.fts[sensors["ft"][idx].sensorFrame].row(sample).transpose(), 0.1));
+            REQUIRE(
+                output.ftWrenches[sensors["ft"][idx].sensorName]
+                    .isApprox(dataset.fts[sensors["ft"][idx].sensorFrame].row(sample).transpose(),
+                              0.1));
         }
         for (int idx = 0; idx < sensors["contact"].size(); idx++)
         {
