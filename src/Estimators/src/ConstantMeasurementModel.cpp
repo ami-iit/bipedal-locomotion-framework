@@ -28,7 +28,7 @@ bool RDE::ConstantMeasurementModel::initialize(
         log()->error("{} Error while retrieving the associated state variable.", errorPrefix);
         return false;
     }
-    
+
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
     {
