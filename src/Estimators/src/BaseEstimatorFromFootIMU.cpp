@@ -484,10 +484,10 @@ bool BaseEstimatorFromFootIMU::advance()
                      orientationError_L,
                      orientationError_R);
     }
-    // err << "L FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_L.rotation()).transpose() << std::endl;
-    // err << "L FOOT ROTATION OUT: " << toXYZ(m_state.footPose_L.rotation()).transpose() << std::endl;
-    // err << "R FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_R.rotation()).transpose() << std::endl;
-    // err << "R FOOT ROTATION OUT: " << toXYZ(m_state.footPose_R.rotation()).transpose() << std::endl;
+    // std::cerr << "L FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_L.rotation()).transpose() << std::endl;
+    // std::cerr << "L FOOT ROTATION OUT: " << toXYZ(m_state.footPose_L.rotation()).transpose() << std::endl;
+    // std::cerr << "R FOOT ROTATION IN: " << toXYZ(m_input.measuredRotation_R.rotation()).transpose() << std::endl;
+    // std::cerr << "R FOOT ROTATION OUT: " << toXYZ(m_state.footPose_R.rotation()).transpose() << std::endl;
 
     // updating the stance foot flags.
     if (m_input.isLeftStance)
