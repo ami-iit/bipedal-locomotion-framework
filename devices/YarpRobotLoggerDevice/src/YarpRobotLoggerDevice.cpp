@@ -99,7 +99,7 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
 
     // for realtime logging
     if (streamRealTime)
-        realtimeLoggingPort.open("/testLoggerOutput");
+        realtimeLoggingPort.open("/YARPRobotLoggerRT:o");
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
@@ -114,7 +114,7 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 
     if (streamRealTime)
-        realtimeLoggingPort.open("/testLoggerOutput");
+        realtimeLoggingPort.open("/YARPRobotLoggerRT:o");
 }
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
