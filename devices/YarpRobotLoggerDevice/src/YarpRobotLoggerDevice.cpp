@@ -1295,6 +1295,10 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
             jointTorqueTimeStamp.append(time);
         }
     }
+    if (m_streamMotorStates)
+    {
+        
+    }
     // pack the data for the FT Sensors
     if (m_streamFTSensors)
     {
@@ -1540,17 +1544,13 @@ void YarpRobotLoggerDevice::run()
     if (m_streamMotorStates)
     {
         if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
-        {
-        }
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::positions");
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
-        {
-        }
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
-        {
-        }
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::accelerations");
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
-        {
-        }
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
     }
 
     if (m_streamMotorPWM)
