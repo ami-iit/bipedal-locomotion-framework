@@ -602,6 +602,7 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
             m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
         }
     }
+    m_pimpl->ukfMeasurementFromSensors["FRICTION_TORQUES"] = input.frictionTorques;
 
     return true;
 }

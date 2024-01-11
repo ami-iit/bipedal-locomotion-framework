@@ -49,7 +49,7 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
         .def_readwrite("ft_wrenches", &RobotDynamicsEstimatorInput::ftWrenches)
         .def_readwrite("linear_accelerations", &RobotDynamicsEstimatorInput::linearAccelerations)
         .def_readwrite("angular_velocities", &RobotDynamicsEstimatorInput::angularVelocities)
-        .def_readwrite("friction", &RobotDynamicsEstimatorInput::friction);
+        .def_readwrite("friction_torques", &RobotDynamicsEstimatorInput::frictionTorques);
 
     py::class_<RobotDynamicsEstimatorOutput>(module, "RobotDynamicsEstimatorOutput")
             .def(py::init())

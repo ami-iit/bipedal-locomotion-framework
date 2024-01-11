@@ -336,6 +336,8 @@ void setInput(Dataset& dataset,
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
     input.motorCurrents = dataset.im.row(sample);
+    input.frictionTorques.resize(input.motorCurrents.size());
+    input.frictionTorques.setZero();
 
     for (int idx = 0; idx < sensors["ft"].size(); idx++)
     {

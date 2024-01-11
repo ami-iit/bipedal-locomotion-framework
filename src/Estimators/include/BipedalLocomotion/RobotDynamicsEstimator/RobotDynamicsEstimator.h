@@ -41,7 +41,7 @@ struct RobotDynamicsEstimatorInput
     std::map<std::string, Eigen::VectorXd> ftWrenches; /**< Wrenches measured by force/torque sensors. */
     std::map<std::string, Eigen::VectorXd> linearAccelerations; /**< Linear accelerations measured by accelerometer sensors. */
     std::map<std::string, Eigen::VectorXd> angularVelocities; /**< Angular velocities measured by gyroscope sensors. */
-    Eigen::VectorXd friction; /**< Friction torques in Nm. */
+    Eigen::VectorXd frictionTorques; /**< Friction torques in Nm. */
 };
 
 /**
