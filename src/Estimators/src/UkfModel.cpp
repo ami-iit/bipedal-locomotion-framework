@@ -152,9 +152,8 @@ bool UkfModel::updateState()
                     value.frame));
 
                 m_baseAcceleration.coeffs().head(3).noalias()
-                    = baseHimu.rotation() * m_accMap[key] + m_tempAccelerometerVelocity.lin().cross(m_tempAccelerometerVelocity.ang())
+                    = baseHimu.rotation() * m_accMap[key]
                       - m_bOmegaIB.cross(m_bOmegaIB.cross(baseHimu.translation()));
-
             }
         }
 
