@@ -13,6 +13,9 @@
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <atomic>
+#include <fstream>
+#include <jsoncpp/json/json.h>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -166,6 +169,11 @@ private:
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
+    // for realtime data streaming
+    bool streamRealTime{true};
+    yarp::os::BufferedPort<yarp::os::Bottle> realtimeLoggingPort;
+    BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection;
+
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
@@ -191,6 +199,14 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+                            const std::string& camera, const std::string& imageType);
+
+    // for realtime data streaming
+    void SendDataToLoggerVisualizer();
+
+    void PackFlightData(std::vector<std::string> keyTokens, const std::vector<double>& values, Json::Value& jsonValueToPack, const double& time);
+
+    std::vector<std::string> tokenizeSubString(std::string input, std::string delimiter);
 };
 
 } // namespace BipedalLocomotion
