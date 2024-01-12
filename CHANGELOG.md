@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+- Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
+
+### Changed
+
+### Fixed
+
 ## [0.18.0] - 2024-01-23
 ### Changed
 - 🤖 [`ergoCubSN001`] Update `YarpRobotLoggerDevice` configuration file to exclude the head-imu and include the arms FTs  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/798)
@@ -22,7 +30,6 @@ All notable changes to this project are documented in this file.
 - Add the support of QP problems with no constraint in `QPInverseKinematics` and `QPTSID` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/784)
 - Implement `blf-joints-grid-position-tracking` application in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/787)
 - Add the possibility to resample the contact in a given contact list (https://github.com/ami-iit/bipedal-locomotion-framework/pull/788)
-- Set submodel states from IMUs in RDE (Use IMU measurements to set submodel base state in RDE)
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
@@ -525,9 +532,7 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...master
-[0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
-[0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...master
 [0.16.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...v0.15.0
