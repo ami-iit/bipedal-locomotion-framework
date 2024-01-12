@@ -700,6 +700,26 @@ bool YarpSensorBridge::getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrent
     return true;
 }
 
+bool YarpSensorBridge::getMotorTemperatures(Eigen::Ref<Eigen::VectorXd> motorTemperatures,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorTemperatures]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motors,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorTemperature))
+    {
+        return false;
+    }
+
+    motorTemperatures = m_pimpl->controlBoardRemapperMeasures.motorTemperature;
+
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
 bool YarpSensorBridge::getMotorPWM(const std::string& jointName,
                                    double& motorPWM,
                                    OptionalDoubleRef receiveTimeInSeconds)
