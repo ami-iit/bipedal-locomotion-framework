@@ -33,6 +33,7 @@
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 namespace BipedalLocomotion
 {
@@ -64,6 +65,8 @@ private:
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
+
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer vectorCollectionRTDataServer;
 
     template <typename T> struct ExogenousSignal
     {
@@ -106,6 +109,7 @@ private:
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
+
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
@@ -202,6 +206,8 @@ private:
 
     // for realtime data streaming
     void SendDataToLoggerVisualizer();
+
+    void ConfigureVectorCollectionServer();
 
     void PackFlightData(std::vector<std::string> keyTokens, const std::vector<double>& values, Json::Value& jsonValueToPack, const double& time);
 

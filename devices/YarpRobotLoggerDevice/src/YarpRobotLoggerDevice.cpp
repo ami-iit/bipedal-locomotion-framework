@@ -19,6 +19,7 @@
 #include <regex>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
@@ -892,6 +893,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
+    std::cout << "Initializing vector collection server" << std::endl;
+    ConfigureVectorCollectionServer();
+    std::cout << "Vector collection server has been initalized" << std::endl;
+
     ok = ok
          && m_bufferManager.setSaveCallback(
              [this](const std::string& filePrefix,
@@ -1252,90 +1257,106 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     }
 }
 
+void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
+{
+    auto loggerOption = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>();
+    std::cout << "About to set the parameter for the vector collection server" << std::endl;
+    loggerOption->setParameter("remote", "/testVectorCollections");
+    std::cout << "About to configure the Collection Server" << std::endl;
+    if (!vectorCollectionRTDataServer.initialize(loggerOption))
+    {
+        std::cout << "Failed to initalize the vectorsCollectionServer" << std::endl;
+        return;
+    }
+    char* tmp = std::getenv("YARP_ROBOT_NAME");
+    vectorCollectionRTDataServer.populateMetadata("robot_realtime::yarp_robot_name", {std::string(tmp)});
+
+    std::vector<std::string> joints;
+    m_robotSensorBridge->getJointsList(joints);
+    vectorCollectionRTDataServer.populateMetadata("robot_realtime::description_list", joints);
+    // confgure the metaData for the joints_state
+    if(m_streamJointStates)
+    {
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::positions", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::velocities", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::accelerations", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::torques", joints);
+    }
+
+    // configure the metadata for the FTs
+    if(m_streamFTSensors)
+    {
+        for (const auto& sensorName: m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
+        {
+            std::string fullFTSensorName = "robot_realtime::FTs::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullFTSensorName, {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"});
+        }
+    }
+
+    // configure the metadata for the inertail measurments
+    if (m_streamInertials)
+    {
+        for (const auto& sensorName: m_robotSensorBridge->getGyroscopesList())
+        {
+            std::string fullGyroSensorName = "robot_realtime::gyros::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullGyroSensorName, {"omega_x", "omega_y", "omega_z"});
+        }
+        for (const auto& sensorName: m_robotSensorBridge->getLinearAccelerometersList())
+        {
+            std::string fullAccelerometerSensorName = "robot_realtime::accelerometers::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullAccelerometerSensorName, {"a_x", "a_y", "a_z"});
+        }
+        for (const auto& sensorName: m_robotSensorBridge->getOrientationSensorsList())
+        {
+            std::string fullOrientationSensorName = "robot_realtime::orientations::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullOrientationSensorName, {"r", "p", "y"});
+        }
+        for (const auto& sensorName: m_robotSensorBridge->getMagnetometersList())
+        {
+            std::string fullMagnetometersSensorName = "robot_realtime::magnetometers::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullMagnetometersSensorName, {"mag_x", "mag_y", "mag_z"});
+        }
+    }
+
+    if(m_streamTemperatureSensors)
+    {
+        for (const auto& sensorName: m_robotSensorBridge->getTemperatureSensorsList())
+        {
+            std::string fullTemperatureSensorName = "robot_realtime::temperatures::" + sensorName;
+            vectorCollectionRTDataServer.populateMetadata(fullTemperatureSensorName, {"temperature"});
+        }
+    }
+
+    if (m_streamCartesianWrenches)
+    {
+        for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
+        {
+            std::string fullCartesianWrenchName = "robot_realtime::cartesian_wrenches::" + cartesianWrenchName;
+            vectorCollectionRTDataServer.populateMetadata(fullCartesianWrenchName, {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"});
+        }
+    }
+
+    vectorCollectionRTDataServer.finalizeMetadata();
+}
+
 void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 {
     const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
 
-    yarp::os::Bottle& realtimeOutput = realtimeLoggingPort.prepare();
-    realtimeOutput.clear();
-    Json::Value root;
-    Json::Value& robotRealtime = root["robot_realtime"];
-    Json::Value& descriptionList = robotRealtime["description_list"];
-    Json::Value& yarpRobotName = robotRealtime["yarp_robot_name"];
-    char* tmp = std::getenv("YARP_ROBOT_NAME");
-    yarpRobotName.append(std::string(tmp));
+    vectorCollectionRTDataServer.clearData();
+
     if (m_streamJointStates)
     {
-        Json::Value& jointStates = robotRealtime["joints_state"];
-        std::vector<std::string> joints;
-        m_robotSensorBridge->getJointsList(joints);
-        // prepare the json format for the joint positions
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
-        {
-            Json::Value& jointPositions = jointStates["positions"];
-            Json::Value& jointPositionData = jointPositions["data"];
-            for (unsigned int i = 0; i < m_jointSensorBuffer.rows(); i++)
-                jointPositionData.append(m_jointSensorBuffer.coeff(i,0));
-
-            Json::Value& jointPositionElementNames = jointPositions["elements_names"];
-            for(unsigned int i = 0; i < joints.size(); i++)
-            {
-                descriptionList.append(joints[i]);
-                jointPositionElementNames.append(joints[i]);
-            }
-
-            Json::Value& jointPositionTimeStamp = jointPositions["timestamps"];
-            jointPositionTimeStamp.append(time);
-        }
-
-        // prepare the json format for the joint velocities
-        if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
-        {
-            Json::Value& jointVelocities = jointStates["velocities"];
-            Json::Value& jointVelocityData = jointVelocities["data"];
-            for (unsigned int i = 0; i < m_jointSensorBuffer.rows(); i++)
-                jointVelocityData.append(m_jointSensorBuffer.coeff(i,0));
-
-            Json::Value& jointVelocityElementNames = jointVelocities["elements_names"];
-            for(unsigned int i = 0; i < joints.size(); i++)
-                jointVelocityElementNames.append(joints[i]);
-
-            Json::Value& jointVelocityTimeStamp = jointVelocities["timestamps"];
-            jointVelocityTimeStamp.append(time);
-
-        }
-        // prepare the json format for the joint accelerations
+            vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::positions", m_jointSensorBuffer);
+       if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
+            vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::velocities", m_jointSensorBuffer);
         if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
-        {
-            Json::Value& jointAccelerations = jointStates["accelerations"];
-            Json::Value& jointAccelerationData = jointAccelerations["data"];
-            for (unsigned int i = 0; i < m_jointSensorBuffer.rows(); i++)
-                jointAccelerationData.append(m_jointSensorBuffer.coeff(i,0));
-
-            Json::Value& jointAccelerationElementNames = jointAccelerations["elements_names"];
-            for(unsigned int i = 0; i < joints.size(); i++)
-                jointAccelerationElementNames.append(joints[i]);
-
-            Json::Value& jointAccelerationTimeStamp = jointAccelerations["timestamps"];
-            jointAccelerationTimeStamp.append(time);
-
-        }
-        // prepare the json format for the joint torques
+            vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::accelerations", m_jointSensorBuffer);
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
-        {
-            Json::Value& jointTorques = jointStates["torques"];
-            Json::Value& jointTorqueData = jointTorques["data"];
-            for (unsigned int i = 0; i < m_jointSensorBuffer.rows(); i++)
-                jointTorqueData.append(m_jointSensorBuffer.coeff(i,0));
-
-            Json::Value& jointTorqueElementNames = jointTorques["elements_names"];
-            for(unsigned int i = 0; i < joints.size(); i++)
-                jointTorqueElementNames.append(joints[i]);
-
-            Json::Value& jointTorqueTimeStamp = jointTorques["timestamps"];
-            jointTorqueTimeStamp.append(time);
-        }
+            vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::torques", m_jointSensorBuffer);
     }
+    /*
     if (m_streamMotorStates)
     {
         
@@ -1343,21 +1364,21 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     // pack the data for the FT Sensors
     if (m_streamFTSensors)
     {
-        Json::Value& FTSensors = robotRealtime["FTs"];
+        // Json::Value& FTSensors = robotRealtime["FTs"];
         std::string ftElementNames[] = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
         for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
         {
             if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
             {
-                Json::Value& FTSensor = FTSensors[sensorName];
-                Json::Value& FTSensorData = FTSensor["data"];
+                // Json::Value& FTSensor = FTSensors[sensorName];
+                // Json::Value& FTSensorData = FTSensor["data"];
                 for (unsigned int i = 0; i < m_ftBuffer.rows(); i++)
                     FTSensorData.append(m_ftBuffer.coeff(i, 0));
                 
-                Json::Value& FTSensorElementNames = FTSensor["elements_names"];
+                // Json::Value& FTSensorElementNames = FTSensor["elements_names"];
                 for (std::string ftElementName : ftElementNames)
                     FTSensorElementNames.append(ftElementName);
-                Json::Value& FTSensorTimeStamp = FTSensor["timestamps"];
+                // Json::Value& FTSensorTimeStamp = FTSensor["timestamps"];
                 FTSensorTimeStamp.append(time);
             }
         }
@@ -1367,85 +1388,85 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     if(m_streamInertials)
     {
         // pack the data for the gyros
-        Json::Value& gyros = robotRealtime["gyros"];
+        // Json::Value& gyros = robotRealtime["gyros"];
         std::string gyroElementNames[] = {"omega_x", "omega_y", "omega_z"};
         for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
         {
-            Json::Value& gyroSensor = gyros[sensorName];
-            Json::Value& gyroSensorData = gyroSensor["data"];
+            // Json::Value& gyroSensor = gyros[sensorName];
+            // Json::Value& gyroSensorData = gyroSensor["data"];
             if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
             {
                 for (unsigned int i = 0; i < m_gyroBuffer.rows(); i++)
                     gyroSensorData.append(m_gyroBuffer.coeff(i,0));
                 
-                Json::Value& gyroSensorElementNames = gyroSensor["elements_names"];
+                // Json::Value& gyroSensorElementNames = gyroSensor["elements_names"];
                 for(std::string gyroElementName : gyroElementNames)
                     gyroSensorElementNames.append(gyroElementName);
                 
-                Json::Value& gyroSensorTimeStamp = gyroSensor["timestamps"];
+                // Json::Value& gyroSensorTimeStamp = gyroSensor["timestamps"];
                 gyroSensorTimeStamp.append(time);
             }
         }
 
         // pack the data for the accelerometer
-        Json::Value& accelerometers = robotRealtime["accelerometers"];
+        // Json::Value& accelerometers = robotRealtime["accelerometers"];
         std::string accelerometerElementNames[] = {"a_x", "a_y", "a_z"};
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
-            Json::Value& accelerometerSensor = accelerometers[sensorName];
-            Json::Value& accelerometerSensorData = accelerometerSensor["data"];
+            // Json::Value& accelerometerSensor = accelerometers[sensorName];
+            // Json::Value& accelerometerSensorData = accelerometerSensor["data"];
             if(m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName, m_acceloremeterBuffer))
             {
                 for (unsigned int i = 0; i < m_acceloremeterBuffer.rows(); i++)
                     accelerometerSensorData.append(m_acceloremeterBuffer.coeff(i,0));
                 
-                Json::Value& accelerometerSensorElementNames = accelerometerSensor["elements_names"];
+                // Json::Value& accelerometerSensorElementNames = accelerometerSensor["elements_names"];
                 for(std::string accelerometerElementName : accelerometerElementNames)
                     accelerometerSensorElementNames.append(accelerometerElementName);
                 
-                Json::Value& accelerometerSensorTimeStamp = accelerometerSensor["timestamps"];
+                // Json::Value& accelerometerSensorTimeStamp = accelerometerSensor["timestamps"];
                 accelerometerSensorTimeStamp.append(time);
             }
         }
 
         // pack the data for the orientations
-        Json::Value& orientations = robotRealtime["orientations"];
+        // Json::Value& orientations = robotRealtime["orientations"];
         std::string orientationElementNames[] = {"r", "p", "y"};
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
-            Json::Value& orientationSensor = orientations[sensorName];
-            Json::Value& orientationSensorData = orientationSensor["data"];
+            // Json::Value& orientationSensor = orientations[sensorName];
+            // Json::Value& orientationSensorData = orientationSensor["data"];
             if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
             {
                 for (unsigned int i = 0; i < m_orientationBuffer.rows(); i++)
                     orientationSensorData.append(m_orientationBuffer.coeff(i,0));
                 
-                Json::Value& orientationSensorElementNames = orientationSensor["elements_names"];
+                // Json::Value& orientationSensorElementNames = orientationSensor["elements_names"];
                 for(std::string orientationElementName : orientationElementNames)
                     orientationSensorElementNames.append(orientationElementName);
                 
-                Json::Value& orientationSensorTimeStamp = orientationSensor["timestamps"];
+                // Json::Value& orientationSensorTimeStamp = orientationSensor["timestamps"];
                 orientationSensorTimeStamp.append(time);
             }
         }
 
         // pack the data for the magnemetometer
-        Json::Value& mangetometers = robotRealtime["mangetometers"];
+        // Json::Value& mangetometers = robotRealtime["mangetometers"];
         std::string mangetometerElementNames[] = {"mag_x", "mag_y", "mag_z"};
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
-            Json::Value& mangetometerSensor = mangetometers[sensorName];
-            Json::Value& mangetometerSensorData = mangetometerSensor["data"];
+            // Json::Value& mangetometerSensor = mangetometers[sensorName];
+            // Json::Value& mangetometerSensorData = mangetometerSensor["data"];
             if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
             {
                 for (unsigned int i = 0; i < m_magnemetometerBuffer.rows(); i++)
                     mangetometerSensorData.append(m_magnemetometerBuffer.coeff(i,0));
                 
-                Json::Value& mangetomterSensorElementNames = mangetometerSensor["elements_names"];
+                // Json::Value& mangetomterSensorElementNames = mangetometerSensor["elements_names"];
                 for(std::string mangetometerElementName : mangetometerElementNames)
                     mangetomterSensorElementNames.append(mangetometerElementName);
                 
-                Json::Value& mangetometerSensorTimeStamp = mangetometerSensor["timestamps"];
+                // Json::Value& mangetometerSensorTimeStamp = mangetometerSensor["timestamps"];
                 mangetometerSensorTimeStamp.append(time);
             }
         }
@@ -1453,19 +1474,19 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     // pack the data for the temperature
     if (m_streamTemperatureSensors)
     {
-        Json::Value& temperatures = robotRealtime["temperatures"];
+        // Json::Value& temperatures = robotRealtime["temperatures"];
         for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
-            Json::Value& temperatureSensor = temperatures[sensorName];
-            Json::Value& temperatureSensorData = temperatureSensor["data"];
+            // Json::Value& temperatureSensor = temperatures[sensorName];
+            // Json::Value& temperatureSensorData = temperatureSensor["data"];
             if (m_robotSensorBridge->getTemperature(sensorName, m_ftTemperatureBuffer))
             {
                 temperatureSensorData.append(m_ftTemperatureBuffer);
 
-                Json::Value& temperatureSensorElementNames = temperatureSensor["elements_names"];
+                // Json::Value& temperatureSensorElementNames = temperatureSensor["elements_names"];
                 temperatureSensorElementNames.append("temperature");
 
-                Json::Value& temperatureSensorTimeStamp = temperatureSensor["timestamps"];
+                // Json::Value& temperatureSensorTimeStamp = temperatureSensor["timestamps"];
                 temperatureSensorTimeStamp.append(time);
             }
         }
@@ -1474,22 +1495,22 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     // pack the data for the cartesian wrenches
     if (m_streamCartesianWrenches)
     {
-        Json::Value& cartesianWrenches = robotRealtime["cartesian_wrenches"];
+        // Json::Value& cartesianWrenches = robotRealtime["cartesian_wrenches"];
         std::string cartesianElementNames[] = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
         for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
         {
-            Json::Value& cartesianWrench = cartesianWrenches[cartesianWrenchName];
-            Json::Value& cartesianWrenchData = cartesianWrench["data"];
+            // Json::Value& cartesianWrench = cartesianWrenches[cartesianWrenchName];
+            // Json::Value& cartesianWrenchData = cartesianWrench["data"];
             if (m_robotSensorBridge->getCartesianWrench(cartesianWrenchName, m_ftBuffer))
             {
                 for (unsigned int i = 0; i < m_ftBuffer.rows(); i++)
                     cartesianWrenchData.append(m_ftBuffer(i, 0));
 
-                Json::Value& cartesianWrenchElementNames = cartesianWrench["elements_names"];
+                // Json::Value& cartesianWrenchElementNames = cartesianWrench["elements_names"];
                 for(std::string cartesianElementName : cartesianElementNames)
                     cartesianWrenchElementNames.append(cartesianElementName);
                 
-                Json::Value& cartesianWrenchTimeStamp = cartesianWrench["timestamps"];
+                // Json::Value& cartesianWrenchTimeStamp = cartesianWrench["timestamps"];
                 cartesianWrenchTimeStamp.append(time);
                 
             }
@@ -1497,7 +1518,7 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     }
 
     // pack the external data
-    Json::Value& flightData = robotRealtime["FlightData"];
+    // Json::Value& flightData = robotRealtime["FlightData"];
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1511,11 +1532,14 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
             }
         }
     }
-    Json::FastWriter fastWriter;
-    std::string jsonDataToSend = fastWriter.write(root);
+    // Json::FastWriter fastWriter;
+    // std::string jsonDataToSend = fastWriter.write(root);
 
-    realtimeOutput.addString(jsonDataToSend);
-    realtimeLoggingPort.write(true);
+    // realtimeOutput.addString(jsonDataToSend);
+    // realtimeLoggingPort.write(true);
+    */
+
+   vectorCollectionRTDataServer.sendData();
 
 }
 
@@ -1674,7 +1698,6 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
 
-        externalSignalCollection = signal.port.read(false);
         if (externalSignalCollection != nullptr)
         {
             if (!signal.dataArrived)
