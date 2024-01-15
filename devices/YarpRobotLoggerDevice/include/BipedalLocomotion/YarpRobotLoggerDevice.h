@@ -199,7 +199,6 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
-                            const std::string& camera, const std::string& imageType);
 
     // for realtime data streaming
     void SendDataToLoggerVisualizer();

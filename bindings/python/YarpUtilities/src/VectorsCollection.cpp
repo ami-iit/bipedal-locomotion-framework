@@ -10,6 +10,7 @@
 #include <pybind11/eigen.h>
 
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 
 #include <BipedalLocomotion/bindings/YarpUtilities/BufferedPort.h>
 #include <BipedalLocomotion/bindings/YarpUtilities/VectorsCollection.h>
@@ -43,6 +44,32 @@ void CreateVectorsCollectionServer(pybind11::module& module)
                 const std::string& key,
                 Eigen::Ref<const Eigen::VectorXd> data) -> bool {
                  return impl.populateData(key, data);
+             });
+}
+
+void CreateVectorsCollectionClient(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionClient>(module, "VectorsCollectionClient")
+        .def(py::init())
+        .def(
+            "initialize",
+            [](VectorsCollectionClient& impl,
+               std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"))
+        .def("connect", &VectorsCollectionClient::connect)
+        .def("disconnect", &VectorsCollectionClient::disconnect)
+        .def("getMetadata", &VectorsCollectionClient::getMetadata, py::arg("force_strict") = false)
+        .def("readData", /*&VectorsCollectionClient::readData, py::arg("shouldWait") = true,
+            py::return_value_policy::reference_internal); */
+             [](VectorsCollectionClient& impl, bool shouldWait) -> std::map<std::string, std::vector<double>>
+             {
+                BipedalLocomotion::YarpUtilities::VectorsCollection* collection = impl.readData(shouldWait);
+                return collection->vectors;
              });
 }
 } // namespace YarpUtilities
