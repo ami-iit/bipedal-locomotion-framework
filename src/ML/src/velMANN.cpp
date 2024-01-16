@@ -1,6 +1,6 @@
 /**
  * @file velMANN.cpp
- * @authors Paolo Maria Viceconte, Giulio Romualdi
+ * @authors Paolo Maria Viceconte, Giulio Romualdi, Evelyn D'Elia
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */

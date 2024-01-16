@@ -1,6 +1,6 @@
 /**
  * @file MANNTest.cpp
- * @authors Paolo Maria Viceconte, Giulio Romualdi
+ * @authors Paolo Maria Viceconte, Giulio Romualdi, Evelyn D'Elia
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -29,7 +29,7 @@ TEST_CASE("velMANN")
 
     REQUIRE(velMann.initialize(handler));
 
-    // set the input. The values are taken from a python test
+    // set the input. The values are taken from the initialization used in the python implementation (src/trajectory_generation/utils.py)
     velMANNInput input;
     input.baseLinearVelocityTrajectory.resize(3, 12);
     input.baseAngularVelocityTrajectory.resize(3, 12);

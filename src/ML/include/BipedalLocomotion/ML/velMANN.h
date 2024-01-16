@@ -1,6 +1,6 @@
 /**
  * @file velMANN.h
- * @authors Paolo Maria Viceconte, Giulio Romualdi
+ * @authors Paolo Maria Viceconte, Giulio Romualdi, Evelyn D'Elia
  * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -31,7 +31,6 @@ namespace ML
  */
 struct velMANNInput
 {   
-    // TODO check that features are correct
     /** Matrix containing the base linear velocity trajectory. The rows contain the xyz linear velocity
      * while the columns represent the velocity at each time instant. */
     Eigen::Matrix3Xd baseLinearVelocityTrajectory;
@@ -43,7 +42,6 @@ struct velMANNInput
     Eigen::VectorXd jointVelocities; /**< Vector containing the actual joint velocity in radians per
                                         seconds. */
 
-    // TODO figure out what this means for new features, how to generate dummy input with no base pos, no facing dir
     /**
      * Generate a dummy MANNInput from a given joint configuration
      * @param jointPositions vector containing the joint position in radians.
@@ -67,7 +65,6 @@ struct velMANNInput
  */
 struct velMANNOutput
 {
-    // TODO check
     /** Matrix containing the future base linear velocity trajectory. The rows contain the xyz linear velocity
      * while the columns represent the velocity at each time instant. */
     Eigen::Matrix3Xd futureBaseLinearVelocityTrajectory;
@@ -80,7 +77,6 @@ struct velMANNOutput
     Eigen::VectorXd jointVelocities; /**< Vector containing the next joint velocity in radians per
                                         seconds */
 
-    // TODO change this to new features if necessary
     /**
      * Generate a dummy MANNOutput from a given joint configuration
      * @param jointPositions vector containing the joint positions in radians.
