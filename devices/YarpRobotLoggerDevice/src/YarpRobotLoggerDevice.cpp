@@ -1274,6 +1274,8 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
     std::vector<std::string> joints;
     m_robotSensorBridge->getJointsList(joints);
     vectorCollectionRTDataServer.populateMetadata("robot_realtime::description_list", joints);
+    vectorCollectionRTDataServer.populateMetadata("robot_realtime::timestamps", {"timestamps"});
+    vectorCollectionRTDataServer.populateMetadata("robot_realtime::yarp_robot_name", {"robot_realtime"});
     // confgure the metaData for the joints_state
     if(m_streamJointStates)
     {
@@ -1342,6 +1344,8 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
 void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 {
     const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
+    Eigen::Matrix<double, 1, 1> timeData;
+    timeData << time;
 
     vectorCollectionRTDataServer.clearData();
 
