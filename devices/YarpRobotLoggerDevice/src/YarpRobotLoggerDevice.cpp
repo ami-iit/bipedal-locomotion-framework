@@ -1284,7 +1284,7 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
         vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::accelerations", joints);
         vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::torques", joints);
     }
-
+/*
     // configure the metadata for the FTs
     if(m_streamFTSensors)
     {
@@ -1336,7 +1336,7 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
             std::string fullCartesianWrenchName = "robot_realtime::cartesian_wrenches::" + cartesianWrenchName;
             vectorCollectionRTDataServer.populateMetadata(fullCartesianWrenchName, {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"});
         }
-    }
+    }*/
 
     vectorCollectionRTDataServer.finalizeMetadata();
 }
@@ -1349,17 +1349,20 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
     vectorCollectionRTDataServer.clearData();
 
+    vectorCollectionRTDataServer.populateData("robot_realtime::timestamps", timeData);
+
     if (m_streamJointStates)
     {
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::positions", m_jointSensorBuffer);
-       if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
+        if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::velocities", m_jointSensorBuffer);
         if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::accelerations", m_jointSensorBuffer);
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::torques", m_jointSensorBuffer);
     }
+    std::cout << "Sending data to the visualizer" << std::endl;
     /*
     if (m_streamMotorStates)
     {
@@ -1587,6 +1590,7 @@ std::vector<std::string> YarpRobotLoggerDevice::tokenizeSubString(std::string in
 void YarpRobotLoggerDevice::run()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
+    std::cout << "In the run loop" << std::endl;
 
     // get the data
     if (!m_robotSensorBridge->advance())
@@ -1697,7 +1701,8 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    std::string signalFullName;
+    std::cout << "About to read from the external signals" << std::endl;
+    /*std::string signalFullName;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1736,6 +1741,7 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
+    std::cout << "Read from first round of external signals" << std::endl;
 
     for (auto& [name, signal] : m_vectorSignals)
     {
@@ -1783,7 +1789,7 @@ void YarpRobotLoggerDevice::run()
         {
             break;
         }
-    }
+    }*/
 
     SendDataToLoggerVisualizer();
 }
