@@ -25,7 +25,6 @@ velMANNInput velMANNInput::generateDummyVelMANNInput(Eigen::Ref<const Eigen::Vec
                                             std::size_t projectedBaseHorizon)
 {
     velMANNInput input;
-    // TODO check
     input.jointPositions = jointPositions;
     input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     input.baseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, projectedBaseHorizon);
@@ -38,7 +37,6 @@ velMANNOutput velMANNOutput::generateDummyVelMANNOutput(Eigen::Ref<const Eigen::
                                                std::size_t futureProjectedBaseHorizon)
 {
     velMANNOutput output;
-    // TODO make these categories match my new features
     output.jointPositions = jointPositions;
     output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     output.futureBaseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, futureProjectedBaseHorizon);
@@ -138,7 +136,6 @@ bool velMANN::Impl::populateInput(const velMANNInput& input)
     };
 
     // populate input data for the network
-    // TODO update with my features
     bool ok = populateVectorData("joint_velocities", input.jointVelocities);
     ok = ok && populateVectorData("joint_positions", input.jointPositions);
     ok = ok && populateProjectedData("base_linear_velocities", input.baseLinearVelocityTrajectory);
@@ -211,7 +208,6 @@ bool velMANN::initialize(
     }
 
     // the input of the network is composed by
-    // TODO change this to reflect new features
     const std::size_t inputSize = 3 * projectedBaseDatapoints // linear velocity of the base in xyz
                                                               // coordinates in the horizon
                                   + 3 * projectedBaseDatapoints // angular velocity of the base in xyz
@@ -234,19 +230,16 @@ bool velMANN::initialize(
 
     // populate variable handler related to the input
     // the serialization matters
-    // TODO change this to new features
-    // TODO what is projectedBaseDatapoints? seems like a vestige of old features
     m_pimpl->structuredInput.handler.addVariable("base_linear_velocities", 3 * projectedBaseDatapoints);
     m_pimpl->structuredInput.handler.addVariable("base_angular_velocities", 3 * projectedBaseDatapoints);
     m_pimpl->structuredInput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredInput.handler.addVariable("joint_velocities", numberOfJoints);
 
     // populate the output
-    // TODO change this to new features
-    const std::size_t outputSize = 3 * projectedBaseDatapoints / 2 // linear velocity of the base in xyz
-                                                              // coordinates in the future horizon
-                                   + 3 * projectedBaseDatapoints / 2 // linear velocity of the base in xyz
-                                                              // coordinates in the future horizon
+    const std::size_t outputSize = 3 * (1 + projectedBaseDatapoints / 2) // linear velocity of the base in xyz
+                                                              // coordinates in the future horizon incl. current
+                                   + 3 * (1 + projectedBaseDatapoints / 2) // linear velocity of the base in xyz
+                                                              // coordinates in the future horizon incl. current
                                    + numberOfJoints // joint positions
                                    + numberOfJoints; // joint velocities
 
@@ -264,18 +257,16 @@ bool velMANN::initialize(
                                           m_pimpl->structuredOutput.shape.size());
     // populate variable handler related to the output
     // the serialization matters
-    // TODO change this to new features
     m_pimpl->structuredOutput.handler.addVariable("future_base_linear_velocities",
-                                                  3 * projectedBaseDatapoints / 2);
+                                                  3 * (1 + projectedBaseDatapoints / 2));
     m_pimpl->structuredOutput.handler.addVariable("future_base_angular_velocities",
-                                                  3 * projectedBaseDatapoints / 2);
+                                                  3 * (1 + projectedBaseDatapoints / 2));
     m_pimpl->structuredOutput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("joint_velocities", numberOfJoints);
 
     // resize the output
-    // TODO change this to new features
-    m_pimpl->output.futureBaseLinearVelocityTrajectory.resize(3, projectedBaseDatapoints / 2);
-    m_pimpl->output.futureBaseAngularVelocityTrajectory.resize(3, projectedBaseDatapoints / 2);
+    m_pimpl->output.futureBaseLinearVelocityTrajectory.resize(3, (1 + projectedBaseDatapoints / 2));
+    m_pimpl->output.futureBaseAngularVelocityTrajectory.resize(3, (1 + projectedBaseDatapoints / 2));
     m_pimpl->output.jointPositions.resize(numberOfJoints);
     m_pimpl->output.jointVelocities.resize(numberOfJoints);
 
@@ -326,7 +317,6 @@ bool velMANN::advance()
                           &(m_pimpl->structuredOutput.tensor),
                           1);
 
-    // TODO change this to new features
     unpackMatrix("future_base_linear_velocities", m_pimpl->output.futureBaseLinearVelocityTrajectory);
     unpackMatrix("future_base_angular_velocities", m_pimpl->output.futureBaseAngularVelocityTrajectory);
     unpackMatrix("joint_positions", m_pimpl->output.jointPositions);

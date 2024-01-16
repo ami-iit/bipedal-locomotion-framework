@@ -25,7 +25,7 @@ TEST_CASE("velMANN")
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("number_of_joints", 32);
     handler->setParameter("projected_base_datapoints", 12);
-    handler->setParameter("onnx_model_path", getMANNModelPath());
+    handler->setParameter("onnx_model_path", getVelMANNModelPath());
 
     REQUIRE(velMann.initialize(handler));
 
@@ -33,8 +33,8 @@ TEST_CASE("velMANN")
     velMANNInput input;
     input.baseLinearVelocityTrajectory.resize(3, 12);
     input.baseAngularVelocityTrajectory.resize(3, 12);
-    input.jointPositions.resize(26);
-    input.jointVelocities.resize(26);
+    input.jointPositions.resize(32);
+    input.jointVelocities.resize(32);
 
     std::array<double, 12 * 3> baseLinearVelTemp{3.5243694266353373e-15, 7.008199078189101e-15, 3.0614383132617574e-16, 0.012421162571032856, 
             -0.014122548398467332, -0.0017588395790161734, 0.0044019864826900425, -0.0032526431671412843,
