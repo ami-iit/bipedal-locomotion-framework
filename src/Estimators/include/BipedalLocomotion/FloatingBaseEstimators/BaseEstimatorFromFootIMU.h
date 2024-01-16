@@ -17,7 +17,7 @@
 #include <manif/SO3.h>
 
 // YARP
-#include <yarp/os/Bottle.h>
+#include <yarp/sig/Vector.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
 
@@ -151,8 +151,8 @@ private:
     BaseEstimatorFromFootIMUInput m_input; /**< Last input stored in the estimator */
     BaseEstimatorFromFootIMUState m_state; /**< Current state stored in the estimator */
 
-    yarp::os::BufferedPort<yarp::os::Bottle> m_port; /**< Port used to send the output of the
-                                                         estimator to the WalkingModule */
+    yarp::os::BufferedPort<yarp::sig::Vector> m_port; /**< Port used to send the output of the
+                                                            estimator to the WalkingModule */
 
     // Geometric quantities of the foot
     double m_footWidth; /**< Lateral dimension of the robot foot */

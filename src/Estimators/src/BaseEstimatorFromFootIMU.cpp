@@ -475,20 +475,22 @@ bool BaseEstimatorFromFootIMU::advance()
     }
 
     // yarp write the basePose in the port
-    yarp::os::Bottle& output = m_port.prepare();
+    yarp::sig::Vector output;
     output.clear();
-    output.addFloat64(m_state.basePose.translation().x());
-    output.addFloat64(m_state.basePose.translation().y());
-    output.addFloat64(m_state.basePose.translation().z());
-    output.addFloat64(toXYZ(m_state.basePose.rotation())[0]);
-    output.addFloat64(toXYZ(m_state.basePose.rotation())[1]);
-    output.addFloat64(toXYZ(m_state.basePose.rotation())[2]);
-    output.addFloat64(0.0);
-    output.addFloat64(0.0);
-    output.addFloat64(0.0);
-    output.addFloat64(0.0);
-    output.addFloat64(0.0);
-    output.addFloat64(0.0);
+    // output.resize(12);
+    output.push_back(m_state.basePose.translation().x());
+    output.push_back(m_state.basePose.translation().y());
+    output.push_back(m_state.basePose.translation().z());
+    output.push_back(toXYZ(m_state.basePose.rotation())[0]);
+    output.push_back(toXYZ(m_state.basePose.rotation())[1]);
+    output.push_back(toXYZ(m_state.basePose.rotation())[2]);
+    output.push_back(0.0);
+    output.push_back(0.0);
+    output.push_back(0.0);
+    output.push_back(0.0);
+    output.push_back(0.0);
+    output.push_back(0.0);
+    m_port.prepare() = output;
     m_port.write();
 
     double orientationError_L = (toXYZ(m_state.footPose_L.rotation()) - toXYZ(m_input.measuredRotation_L.rotation())).norm();
