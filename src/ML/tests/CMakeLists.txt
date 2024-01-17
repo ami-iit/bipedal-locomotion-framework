@@ -32,7 +32,7 @@ if(BUILD_TESTING)
    else()
      set(VELMANN_ONNX_UPDATED FALSE)
    endif()
- 
+
    if(NOT ${VELMANN_ONNX_UPDATED})
      message(STATUS "Fetching velMANN onnx model from huggingface.co/ami-iit/mann...")
      file(DOWNLOAD https://huggingface.co/ami-iit/mann/resolve/main/ergocubSN000_32j_149e_velbased_mann.onnx

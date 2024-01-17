@@ -30,7 +30,7 @@ namespace ML
  * orientation.
  */
 struct velMANNInput
-{   
+{
     /** Matrix containing the base linear velocity trajectory. The rows contain the xyz linear velocity
      * while the columns represent the velocity at each time instant. */
     Eigen::Matrix3Xd baseLinearVelocityTrajectory;
