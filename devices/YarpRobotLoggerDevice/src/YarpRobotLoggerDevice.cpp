@@ -1053,6 +1053,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         wakeUpTime += lookForExogenousSignalPeriod;
 
         // try to connect to the exogenous signals
+        std::cout << "Now connecting to exogenous data" << std::endl;
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
 
@@ -1332,6 +1333,25 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
             vectorCollectionRTDataServer.populateMetadata(fullCartesianWrenchName, {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"});
         }
     }
+
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    {
+        std::cout << "In the first loop" << std::endl;
+
+        externalSignalCollection = signal.client.readData(false);
+        if (externalSignalCollection != nullptr)
+        {
+            for (const auto& [key, vector] : externalSignalCollection->vectors)
+            {
+                std::string signalFullName = "robot_realtime::" + signal.signalName + "::" + key;
+                std::cout << "External signal key: " << signalFullName << std::endl;
+                vectorCollectionRTDataServer.populateMetadata(signalFullName, {});
+            }
+        }
+    }
+
+    std::cout << "About to finalize metadata" << std::endl;
+
     vectorCollectionRTDataServer.finalizeMetadata();
 }
 
@@ -1428,7 +1448,7 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
     // pack the external data
     // Json::Value& flightData = robotRealtime["FlightData"];
-    /*for (auto& [name, signal] : m_vectorsCollectionSignals)
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         // collection is populated from the global variable
@@ -1436,8 +1456,11 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         {
             for (const auto& [key, vector] : externalSignalCollection->vectors)
             {
-                std::vector<std::string> keyTokens = tokenizeSubString(key, "::");
-                PackFlightData(keyTokens, vector, flightData, time);
+                std::string fullSignalName = "robot_realtime::FlightData::" + key;
+                // std::cout << "populating: " << fullSignalName << std::endl;
+                vectorCollectionRTDataServer.populateData(fullSignalName, vector);
+                // std::vector<std::string> keyTokens = tokenizeSubString(key, "::");
+                // PackFlightData(keyTokens, vector, flightData, time);
             }
         }
     }
@@ -1446,7 +1469,7 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
 
     // realtimeOutput.addString(jsonDataToSend);
     // realtimeLoggingPort.write(true);
-    */
+    
 
    vectorCollectionRTDataServer.sendData();
 
@@ -1614,7 +1637,6 @@ void YarpRobotLoggerDevice::run()
             {
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
-                    std::cout << "External signal key: " << key << std::endl;
                     signalFullName = signal.signalName + "::" + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
                     if (metadata == signal.metadata.vectors.cend())
@@ -1626,6 +1648,8 @@ void YarpRobotLoggerDevice::run()
                         m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
                     } else
                     {
+                        std::cout << "MetaData for: " << key << std::endl;
+                        std::cout << metadata->second[0] << std::endl;
                         // if the metadata is found we use it
                         m_bufferManager.addChannel({signalFullName, //
                                                     {vector.size(), 1},
