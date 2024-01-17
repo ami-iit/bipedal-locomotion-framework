@@ -1602,17 +1602,19 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    /*std::string signalFullName;
+    std::string signalFullName;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
 
+        externalSignalCollection = signal.client.readData(false);
         if (externalSignalCollection != nullptr)
         {
             if (!signal.dataArrived)
             {
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
+                    std::cout << "External signal key: " << key << std::endl;
                     signalFullName = signal.signalName + "::" + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
                     if (metadata == signal.metadata.vectors.cend())
@@ -1689,7 +1691,7 @@ void YarpRobotLoggerDevice::run()
         {
             break;
         }
-    }*/
+    }
 
     SendDataToLoggerVisualizer();
 }
