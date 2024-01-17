@@ -893,10 +893,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    std::cout << "Initializing vector collection server" << std::endl;
     ConfigureVectorCollectionServer();
-    std::cout << "Vector collection server has been initalized" << std::endl;
-
     ok = ok
          && m_bufferManager.setSaveCallback(
              [this](const std::string& filePrefix,
@@ -1260,9 +1257,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
 {
     auto loggerOption = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>();
-    std::cout << "About to set the parameter for the vector collection server" << std::endl;
     loggerOption->setParameter("remote", "/testVectorCollections");
-    std::cout << "About to configure the Collection Server" << std::endl;
     if (!vectorCollectionRTDataServer.initialize(loggerOption))
     {
         std::cout << "Failed to initalize the vectorsCollectionServer" << std::endl;
@@ -1334,7 +1329,6 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
         for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
         {
             std::string fullCartesianWrenchName = "robot_realtime::cartesian_wrench::" + cartesianWrenchName;
-            std::cout << fullCartesianWrenchName << std::endl;
             vectorCollectionRTDataServer.populateMetadata(fullCartesianWrenchName, {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"});
         }
     }
@@ -1362,7 +1356,6 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::torques", m_jointSensorBuffer);
     }
-    std::cout << "Sending data to the visualizer" << std::endl;
     
     if (m_streamMotorStates)
     {
@@ -1499,7 +1492,6 @@ std::vector<std::string> YarpRobotLoggerDevice::tokenizeSubString(std::string in
 void YarpRobotLoggerDevice::run()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
-    std::cout << "In the run loop" << std::endl;
 
     // get the data
     if (!m_robotSensorBridge->advance())
@@ -1610,7 +1602,6 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    std::cout << "About to read from the external signals" << std::endl;
     /*std::string signalFullName;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
