@@ -1280,13 +1280,13 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
         vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::torques", joints);
     }
 
-    // if(m_streamMotorStates)
-    // {
-    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::positions", joints);
-    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::velocities", joints);
-    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::accelerations", joints);
-    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::currents", joints);
-    // }
+    if(m_streamMotorStates)
+    {
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::positions", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::velocities", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::accelerations", joints);
+        vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::currents", joints);
+    }
 
     // configure the metadata for the FTs
     if(m_streamFTSensors)
@@ -1379,18 +1379,18 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::torques", m_jointSensorBuffer);
     }
     
-    // if (m_streamMotorStates)
-    // {
-    //     if(m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
-    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::positions", m_jointSensorBuffer);
-    //     if(m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
-    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::velocities", m_jointSensorBuffer);
-    //     if(m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
-    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::accelerations", m_jointSensorBuffer);
-    //     if(m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
-    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::currents", m_jointSensorBuffer);
+    if (m_streamMotorStates)
+    {
+        if(m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
+            vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::positions", m_jointSensorBuffer);
+        if(m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
+            vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::velocities", m_jointSensorBuffer);
+        if(m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
+            vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::accelerations", m_jointSensorBuffer);
+        if(m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
+            vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::currents", m_jointSensorBuffer);
 
-    // }
+    }
     // pack the data for the FT Sensors
     if (m_streamFTSensors)
     {
