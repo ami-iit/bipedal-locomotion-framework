@@ -1053,7 +1053,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         wakeUpTime += lookForExogenousSignalPeriod;
 
         // try to connect to the exogenous signals
-        std::cout << "Now connecting to exogenous data" << std::endl;
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
 
@@ -1281,6 +1280,14 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
         vectorCollectionRTDataServer.populateMetadata("robot_realtime::joints_state::torques", joints);
     }
 
+    // if(m_streamMotorStates)
+    // {
+    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::positions", joints);
+    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::velocities", joints);
+    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::accelerations", joints);
+    //     vectorCollectionRTDataServer.populateMetadata("robot_realtime::motors_state::currents", joints);
+    // }
+
     // configure the metadata for the FTs
     if(m_streamFTSensors)
     {
@@ -1336,21 +1343,16 @@ void YarpRobotLoggerDevice::ConfigureVectorCollectionServer()
 
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
-        std::cout << "In the first loop" << std::endl;
-
         externalSignalCollection = signal.client.readData(false);
         if (externalSignalCollection != nullptr)
         {
             for (const auto& [key, vector] : externalSignalCollection->vectors)
             {
                 std::string signalFullName = "robot_realtime::" + signal.signalName + "::" + key;
-                std::cout << "External signal key: " << signalFullName << std::endl;
                 vectorCollectionRTDataServer.populateMetadata(signalFullName, {});
             }
         }
     }
-
-    std::cout << "About to finalize metadata" << std::endl;
 
     vectorCollectionRTDataServer.finalizeMetadata();
 }
@@ -1377,10 +1379,18 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
             vectorCollectionRTDataServer.populateData("robot_realtime::joints_state::torques", m_jointSensorBuffer);
     }
     
-    if (m_streamMotorStates)
-    {
-        
-    }
+    // if (m_streamMotorStates)
+    // {
+    //     if(m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
+    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::positions", m_jointSensorBuffer);
+    //     if(m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
+    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::velocities", m_jointSensorBuffer);
+    //     if(m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
+    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::accelerations", m_jointSensorBuffer);
+    //     if(m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
+    //         vectorCollectionRTDataServer.populateData("robot_realtime::motors_state::currents", m_jointSensorBuffer);
+
+    // }
     // pack the data for the FT Sensors
     if (m_streamFTSensors)
     {
@@ -1408,7 +1418,6 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         }
 
         // pack the data for the orientations
-        // Json::Value& orientations = robotRealtime["orientations"];
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
             if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
@@ -1447,7 +1456,6 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
     }
 
     // pack the external data
-    // Json::Value& flightData = robotRealtime["FlightData"];
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1456,60 +1464,14 @@ void YarpRobotLoggerDevice::SendDataToLoggerVisualizer()
         {
             for (const auto& [key, vector] : externalSignalCollection->vectors)
             {
-                std::string fullSignalName = "robot_realtime::FlightData::" + key;
-                // std::cout << "populating: " << fullSignalName << std::endl;
+                std::string fullSignalName = "robot_realtime::" + signal.signalName + "::" + key;
                 vectorCollectionRTDataServer.populateData(fullSignalName, vector);
-                // std::vector<std::string> keyTokens = tokenizeSubString(key, "::");
-                // PackFlightData(keyTokens, vector, flightData, time);
             }
         }
     }
-    // Json::FastWriter fastWriter;
-    // std::string jsonDataToSend = fastWriter.write(root);
-
-    // realtimeOutput.addString(jsonDataToSend);
-    // realtimeLoggingPort.write(true);
-    
 
    vectorCollectionRTDataServer.sendData();
 
-}
-
-void YarpRobotLoggerDevice::PackFlightData(std::vector<std::string> keyTokens, const std::vector<double>& values, Json::Value& jsonValueToPack, const double& time)
-{
-    if(keyTokens.size() == 1)
-    {
-        Json::Value& jsonFinalValueToPack = jsonValueToPack[keyTokens[0]];
-        Json::Value& jsonFinalValueData = jsonFinalValueToPack["data"];
-        for(unsigned int i = 0; i < values.size(); i++)
-            jsonFinalValueData.append(values[i]);
-        
-        Json::Value& jsonFinalValueTimeStamp = jsonFinalValueToPack["timestamps"];
-        jsonFinalValueTimeStamp.append(time);
-        
-        return;
-    }
-
-
-    Json::Value& subValuesToPack = jsonValueToPack[keyTokens[0]];
-    std::vector<std::string> subTokens = {keyTokens.begin() + 1, keyTokens.end()};
-    PackFlightData(subTokens, values, subValuesToPack, time);
-}
-
-std::vector<std::string> YarpRobotLoggerDevice::tokenizeSubString(std::string input, std::string delimiter)
-{
-    size_t position = 0;
-    std::string token;
-    std::vector<std::string> tokens;
-    while ((position = input.find(delimiter)) != std::string::npos)
-    {
-        token = input.substr(0, position);
-        tokens.push_back(token);
-        input.erase(0, position + delimiter.length());
-    }
-    tokens.push_back(input);
-
-    return tokens;
 }
 
 void YarpRobotLoggerDevice::run()
@@ -1630,7 +1592,7 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
 
-        externalSignalCollection = signal.client.readData(false);
+        externalSignalCollection = signal.client.readData(false);    // was false
         if (externalSignalCollection != nullptr)
         {
             if (!signal.dataArrived)
@@ -1648,8 +1610,6 @@ void YarpRobotLoggerDevice::run()
                         m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
                     } else
                     {
-                        std::cout << "MetaData for: " << key << std::endl;
-                        std::cout << metadata->second[0] << std::endl;
                         // if the metadata is found we use it
                         m_bufferManager.addChannel({signalFullName, //
                                                     {vector.size(), 1},
@@ -1667,7 +1627,6 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
-    std::cout << "Read from first round of external signals" << std::endl;
 
     for (auto& [name, signal] : m_vectorSignals)
     {
