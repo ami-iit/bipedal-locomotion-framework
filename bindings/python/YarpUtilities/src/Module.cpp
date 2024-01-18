@@ -21,7 +21,6 @@ void CreateModule(pybind11::module& module)
 
     CreateVectorsCollectionServer(module);
     CreateVectorsCollectionClient(module);
-    
 }
 } // namespace IK
 } // namespace bindings
