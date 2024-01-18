@@ -70,8 +70,7 @@ void CreateVectorsCollectionClient(pybind11::module& module)
             impl.getMetadata(metadata);
             return metadata.vectors;
         })
-        .def("readData", /*&VectorsCollectionClient::readData, py::arg("shouldWait") = true,
-            py::return_value_policy::reference_internal); */
+        .def("readData",
              [](VectorsCollectionClient& impl, bool shouldWait) -> std::map<std::string, std::vector<double>>
              {
                 BipedalLocomotion::YarpUtilities::VectorsCollection* collection = impl.readData(shouldWait);

@@ -13,9 +13,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
-#include <atomic>
-#include <fstream>
-#include <jsoncpp/json/json.h>
+
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>

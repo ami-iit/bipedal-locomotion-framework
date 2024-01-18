@@ -16,7 +16,6 @@
 #include <sstream>
 #include <string>
 #include <tuple>
-#include <regex>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
@@ -34,9 +33,6 @@
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
-#include <yarp/os/all.h>
-
-#include <sstream>
 
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
@@ -988,8 +984,6 @@ void YarpRobotLoggerDevice::unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
 
 void YarpRobotLoggerDevice::lookForExogenousSignals()
 {
-    std::cout << "Looking for exogenous signals" << std::endl;
-
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
 
     using namespace std::chrono_literals;
@@ -1074,7 +1068,6 @@ bool YarpRobotLoggerDevice::hasSubstring(const std::string& str,
 
 void YarpRobotLoggerDevice::lookForNewLogs()
 {
-    std::cout << "Looking for new logs" << std::endl;
     using namespace std::chrono_literals;
     yarp::profiler::NetworkProfiler::ports_name_set yarpPorts;
     constexpr auto textLoggingPortPrefix = "/log/";
@@ -1587,7 +1580,7 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
 
-        externalSignalCollection = signal.client.readData(false);    // was false
+        externalSignalCollection = signal.client.readData(false);
         if (externalSignalCollection != nullptr)
         {
             if (!signal.dataArrived)
