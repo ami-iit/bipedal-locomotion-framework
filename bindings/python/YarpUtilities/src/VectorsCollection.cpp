@@ -63,7 +63,7 @@ void CreateVectorsCollectionClient(pybind11::module& module)
             py::arg("handler"))
         .def("connect", &VectorsCollectionClient::connect)
         .def("disconnect", &VectorsCollectionClient::disconnect)
-        .def("getMetadata", 
+        .def("getMetadata",
         [](VectorsCollectionClient& impl) -> std::map<std::string, std::vector<std::string>>
         {
             BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
