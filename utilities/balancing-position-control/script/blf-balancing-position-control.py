@@ -487,6 +487,11 @@ def main():
         com_from_desired = kindyn.getCenterOfMassPosition().toNumPy()
         com_from_measured = kindyn_with_measured.getCenterOfMassPosition().toNumPy()
 
+        if not vectors_collection_server.prepare_data():
+            raise RuntimeError("Unable to prepare the data")
+
+        vectors_collection_server.clear_data()
+
         vectors_collection_server.populate_data("zmp::desired_planner", desired_zmp)
         vectors_collection_server.populate_data(
             "zmp::measured::global::with_joint_desired", global_zmp

@@ -43,7 +43,8 @@ void CreateVectorsCollectionServer(pybind11::module& module)
                 const std::string& key,
                 Eigen::Ref<const Eigen::VectorXd> data) -> bool {
                  return impl.populateData(key, data);
-             });
+             })
+        .def("prepare_data", &VectorsCollectionServer::prepareData);
 }
 } // namespace YarpUtilities
 } // namespace bindings

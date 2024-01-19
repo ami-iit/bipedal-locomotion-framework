@@ -11,6 +11,8 @@
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Port.h>
 
+#include <functional>
+#include <optional>
 #include <unordered_set>
 
 using namespace BipedalLocomotion::YarpUtilities;
@@ -25,7 +27,20 @@ struct VectorsCollectionServer::Impl
 
     std::atomic<bool> isMetadataFinalized{false}; /**< True if the metadata has been finalized. */
     std::unordered_set<std::string> setOfKeys; /**< Set of keys. */
+    std::optional<std::reference_wrapper<VectorsCollection>> collection; /**< Reference to the
+                                                                            collection. */
+
+    /**
+     * Check if the collection is valid.
+     * @return True if the collection is valid.
+     */
+    [[nodiscard]] bool isCollectionValid() const;
 };
+
+bool VectorsCollectionServer::Impl::isCollectionValid() const
+{
+    return collection.has_value();
+}
 
 VectorsCollectionServer::VectorsCollectionServer()
 {
@@ -129,6 +144,11 @@ bool VectorsCollectionServer::finalizeMetadata()
     return true;
 }
 
+void VectorsCollectionServer::prepareData()
+{
+    m_pimpl->collection = m_pimpl->port.prepare();
+}
+
 bool VectorsCollectionServer::populateData(const std::string& key,
                                            const iDynTree::Span<const double>& data)
 {
@@ -148,9 +168,15 @@ bool VectorsCollectionServer::populateData(const std::string& key,
         return false;
     }
 
-    // prepare the data
-    BipedalLocomotion::YarpUtilities::VectorsCollection& collection = m_pimpl->port.prepare();
-    collection.vectors[key].assign(data.begin(), data.end());
+    if (!m_pimpl->isCollectionValid())
+    {
+        log()->error("{} The data collection is not valid. Please call prepareData before "
+                     "calling this function.",
+                     logPrefix);
+        return false;
+    }
+
+    m_pimpl->collection.value().get().vectors[key].assign(data.begin(), data.end());
 
     return true;
 }
@@ -160,9 +186,18 @@ void VectorsCollectionServer::sendData(bool forceStrict /*= false */)
     m_pimpl->port.write(forceStrict);
 }
 
-void VectorsCollectionServer::clearData()
+bool VectorsCollectionServer::clearData()
 {
-    m_pimpl->port.prepare().vectors.clear();
+    // check if the reference to the collection is valid
+    if (!m_pimpl->isCollectionValid())
+    {
+        log()->error("[VectorsCollectionServer::clearData] The reference to the collection is "
+                     "invalid. Please call prepareData before calling this function.");
+        return false;
+    }
+
+    m_pimpl->collection.value().get().vectors.clear();
+    return true;
 }
 
 bool VectorsCollectionServer::areMetadataReady()
