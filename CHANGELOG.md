@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 
 ### Changed
+- 🤖 [`ergoCubSN001`] Update `YarpRobotLoggerDevice` configuration file to exclude the head-imu and include the arms FTs  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/798)
 
 ### Fixed
 
