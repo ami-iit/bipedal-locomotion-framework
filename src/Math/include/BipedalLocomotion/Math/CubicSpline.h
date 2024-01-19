@@ -22,12 +22,12 @@ namespace BipedalLocomotion
 namespace Math
 {
 /**
- * Cubic spline implements a 3-rd order polynomial spline in \$f\mathbb{R}^n\$f.
+ * Cubic spline implements a 3-rd order polynomial spline in \f$\mathbb{R}^n\f$.
  * @note The spline is defined as a set of piecewise polynomial functions of degree 3 of the form
  * \f[
- * s(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3
+ * s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3
  * \f]
- * where \$t \in [0, T_i]\$ and \$T_i\$ is the duration of the i-th polynomial.
+ * where \f$t \in [0, T_i]\f$ and \f$T_i\f$ is the duration of the i-th polynomial.
  */
 template <typename T> class CubicSpline : public Spline<T>
 {

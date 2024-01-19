@@ -15,6 +15,7 @@
 
 #include <BipedalLocomotion/Math/CubicSpline.h>
 #include <BipedalLocomotion/Math/QuinticSpline.h>
+#include <BipedalLocomotion/Math/LinearSpline.h>
 #include <BipedalLocomotion/Math/Spline.h>
 
 #include <BipedalLocomotion/bindings/Math/Spline.h>
@@ -79,6 +80,13 @@ template <typename T> void CreateSplineTmp(pybind11::module& module, const std::
              py::arg("acceleration"));
 }
 
+template <typename T> void CreateLinearSplineTmp(pybind11::module& module, const std::string& name)
+{
+    namespace py = ::pybind11;
+    using namespace BipedalLocomotion::Math;
+    py::class_<LinearSpline<T>, Spline<T>>(module, name.c_str()).def(py::init());
+}
+
 template <typename T> void CreateCubicSplineTmp(pybind11::module& module, const std::string& name)
 {
     namespace py = ::pybind11;
@@ -100,6 +108,11 @@ void CreateSpline(pybind11::module& module)
 
     CreateTrajectoryPoint<Eigen::VectorXd>(module, "TrajectoryPoint");
     CreateSplineTmp<Eigen::VectorXd>(module, "Spline");
+}
+
+void CreateLinearSpline(pybind11::module& module)
+{
+    CreateLinearSplineTmp<Eigen::VectorXd>(module, "LinearSpline");
 }
 
 void CreateCubicSpline(pybind11::module& module)
