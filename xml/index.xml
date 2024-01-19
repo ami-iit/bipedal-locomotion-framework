@@ -2878,8 +2878,9 @@
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a47e3d8463e7d6ed8bc0b017b23bf1876" kind="function"><name>populateData</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a4e86fc0a34e47a37d548ccc894a3eead" kind="function"><name>getMetadata</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab9bad32b954249921c8b393b29d4890b" kind="function"><name>areMetadataReady</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a11300c1246f96871f3952f8b0e47fb24" kind="function"><name>prepareData</name></member>
     <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab664728a5a709297618f9e94b8a3e64b" kind="function"><name>sendData</name></member>
-    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a16ede6e865d49cda04bfefcd40b76147" kind="function"><name>clearData</name></member>
+    <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a425cd46ed345c642ad4558b37914f0d7" kind="function"><name>clearData</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1System_1_1WeightProvider" kind="struct"><name>BipedalLocomotion::System::WeightProvider</name>
   </compound>

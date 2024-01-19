@@ -88,6 +88,8 @@
 <span class="n">server</span><span class="p">.</span><span class="n">populateMetadata</span><span class="p">(</span><span class="s">&quot;key2&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;metadata4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;metadata5&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;metadata6&quot;</span><span class="p">});</span>
 <span class="n">server</span><span class="p">.</span><span class="n">finalizeMetadata</span><span class="p">();</span>
 
+<span class="c1">// prepare the data</span>
+<span class="n">server</span><span class="p">.</span><span class="n">prepareData</span><span class="p">();</span>
 <span class="n">server</span><span class="p">.</span><span class="n">clearData</span><span class="p">();</span><span class="w"> </span><span class="c1">// optional</span>
 <span class="n">server</span><span class="p">.</span><span class="n">populateData</span><span class="p">(</span><span class="s">&quot;key1&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">});</span>
 <span class="n">server</span><span class="p">.</span><span class="n">populateData</span><span class="p">(</span><span class="s">&quot;key2&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0</span><span class="p">});</span>
@@ -136,11 +138,15 @@
             </dt>
             <dd>Check if the metadata is ready.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a11300c1246f96871f3952f8b0e47fb24" class="m-doc">prepareData</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Prepare the data.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">void <a href="#ab664728a5a709297618f9e94b8a3e64b" class="m-doc">sendData</a>(</span><span class="m-doc-wrap">bool forceStrict = false)</span>
             </dt>
             <dd>Send the data filled with populateData.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a16ede6e865d49cda04bfefcd40b76147" class="m-doc">clearData</a>(</span><span class="m-doc-wrap">)</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a425cd46ed345c642ad4558b37914f0d7" class="m-doc">clearData</a>(</span><span class="m-doc-wrap">) -&gt; bool</span>
             </dt>
             <dd>Deallocates the memory held by the internal buffer used to store data.</dd>
           </dl>
@@ -241,7 +247,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>this function should be called after the metadata has been finalized.</p></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>this function should be called after the metadata has been finalized and after the prepareData function has been called.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a4e86fc0a34e47a37d548ccc894a3eead"><div>
             <h3>
@@ -272,6 +278,13 @@
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="a11300c1246f96871f3952f8b0e47fb24"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />YarpUtilities::<wbr />VectorsCollectionServer::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a11300c1246f96871f3952f8b0e47fb24" class="m-doc-self">prepareData</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>Prepare the data.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>this function should be called before the data is populated.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="ab664728a5a709297618f9e94b8a3e64b"><div>
             <h3>
               <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />YarpUtilities::<wbr />VectorsCollectionServer::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab664728a5a709297618f9e94b8a3e64b" class="m-doc-self">sendData</a>(</span><span class="m-doc-wrap">bool forceStrict = false)</span></span>
@@ -289,11 +302,19 @@
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a16ede6e865d49cda04bfefcd40b76147"><div>
+          <section class="m-doc-details" id="a425cd46ed345c642ad4558b37914f0d7"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />YarpUtilities::<wbr />VectorsCollectionServer::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a16ede6e865d49cda04bfefcd40b76147" class="m-doc-self">clearData</a>(</span><span class="m-doc-wrap">)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />YarpUtilities::<wbr />VectorsCollectionServer::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a425cd46ed345c642ad4558b37914f0d7" class="m-doc-self">clearData</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
             <p>Deallocates the memory held by the internal buffer used to store data.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>true if the data has been cleared successfully, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
 <aside class="m-note m-info"><h4>Note</h4><p>If you have previously populated the object using populateData and intend to reuse it without reallocating memory, you may skip calling this function. Otherwise, use VectorsCollection::clearData to free the memory allocated in the internal buffer.</p><p>Note that this function only clears the data and does not affect the metadata.</p></aside>
           </div></section>
         </section>
