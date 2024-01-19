@@ -171,10 +171,6 @@ private:
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
-    // for realtime data streaming
-    bool streamRealTime{true};
-    yarp::os::BufferedPort<yarp::os::Bottle> realtimeLoggingPort;
-    BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection;
 
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
