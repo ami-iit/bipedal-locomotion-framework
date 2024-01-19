@@ -690,7 +690,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         // populate metadata for joint accelerations
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_ACCLERATIONS_NAME);
         vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-        
+
         // populate metadata for joint torques
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_TORQUES_NAME);
         vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
@@ -709,11 +709,11 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         // populate metadata for motor state velocities
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_VELOCITIES_NAME);
         vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-        
+
         // populate metadata for motor state accelerations
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_ACCELERATIONS_NAME);
         vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-        
+
         // populate metadata for motor state currents
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_CURRENTS_NAME);
         vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
@@ -763,7 +763,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
-            std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;   
+            std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
             ok = ok
                  && m_bufferManager.addChannel({fullAccelerometerSensorName,
                                                 {3, 1}, //
@@ -801,7 +801,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         // an IMU contains a gyro accelerometer and an orientation sensor
         for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
         {
-            std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;   
+            std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
             std::string fullGyroSensorName = std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
             std::string fullOrientationsSensorName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
             ok = ok
@@ -835,7 +835,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                  && m_bufferManager.addChannel({fullCartesianWrenchName,
                                                 {6, 1}, //
                                                 {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2], CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]}});
-            
+
             std::string rtFullCartesianWrenchName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
             vectorCollectionRTDataServer.populateMetadata(rtFullCartesianWrenchName, {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2],
                     CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]});
@@ -889,7 +889,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             }
         }
     }
-    
+
     for (auto& [name, signal] : m_vectorSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1576,7 +1576,7 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
         {
-            // it will return a tuple containing the Accelerometer, the gyro and the orientatio
+            // it will return a tuple containing the Accelerometer, the gyro and the orientation
             this->unpackIMU(m_analogSensorBuffer,
                             m_acceloremeterBuffer,
                             m_gyroBuffer,
