@@ -1591,7 +1591,7 @@ void YarpRobotLoggerDevice::run()
             m_bufferManager.push_back(m_gyroBuffer, time, signalName);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
             vectorCollectionRTDataServer.populateData(rtSignalName, m_gyroBuffer);
-            
+
             signalName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
             m_bufferManager.push_back(m_orientationBuffer, time, signalName);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
