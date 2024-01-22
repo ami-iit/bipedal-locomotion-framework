@@ -608,6 +608,22 @@ bool YarpRobotLoggerDevice::setupRobotCameraBridge(
     return true;
 }
 
+bool YarpRobotLoggerDevice::addJointRelatedChannelAndMetadata(const std::string& name, const std::vector<std::string>& jointNames)
+{
+    bool ok = m_bufferManager.addChannel({name, {jointNames.size(), 1}, jointNames});
+    std::string rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + name;
+    ok &= m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, jointNames);
+    return ok;
+}
+
+bool YarpRobotLoggerDevice::addSensorBridgeRelatedChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadataNames)
+{
+    bool ok = m_bufferManager.addChannel({nameKey, {metadataNames.size(), 1}, metadataNames});
+    std::string rtNameKey = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + nameKey;
+    ok &= m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames);
+    return ok;
+}
+
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
@@ -674,59 +690,27 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && m_bufferManager.addChannel({JOINT_STATE_POSITIONS_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({JOINT_STATE_VELOCITIES_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({JOINT_STATE_ACCLERATIONS_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({JOINT_STATE_TORQUES_NAME, {dofs, 1}, joints});
-
-        // populate metadata for joint positions
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_POSITIONS_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for joint velocities
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_VELOCITIES_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for joint accelerations
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_ACCLERATIONS_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for joint torques
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_TORQUES_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        ok &= addJointRelatedChannelAndMetadata(JOINT_STATE_POSITIONS_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(JOINT_STATE_VELOCITIES_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(JOINT_STATE_ACCLERATIONS_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(JOINT_STATE_TORQUES_NAME, joints);
     }
     if (m_streamMotorStates)
     {
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_POSITIONS_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_VELOCITIES_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_ACCELERATIONS_NAME, {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_CURRENTS_NAME, {dofs, 1}, joints});
-
-        // populate metadata for motor state positions
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_POSITIONS_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for motor state velocities
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_VELOCITIES_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for motor state accelerations
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_ACCELERATIONS_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-
-        // populate metadata for motor state currents
-        rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_CURRENTS_NAME);
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_POSITIONS_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_VELOCITIES_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_ACCELERATIONS_NAME, joints);
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_CURRENTS_NAME, joints);
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_PWM_NAME, {dofs, 1}, joints});
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_PWM_NAME, joints);
     }
 
     if (m_streamPIDs)
     {
-        ok = ok && m_bufferManager.addChannel({MOTOR_STATE_PIDS_NAME, {dofs, 1}, joints});
+        ok &= addJointRelatedChannelAndMetadata(MOTOR_STATE_PIDS_NAME, joints);
     }
 
     if (m_streamFTSensors)
@@ -734,16 +718,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
         {
             std::string fullFTSensorName = std::string(FTS_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullFTSensorName,
-                                                {6, 1}, //
-                                                {FTElementNames[0], FTElementNames[1], FTElementNames[2], FTElementNames[3], FTElementNames[4], FTElementNames[5]}});
-
-            std::string rtFullFTSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM)
-                + std::string(FTS_NAME) + std::string(TREE_DELIM) + sensorName;
-
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullFTSensorName, {FTElementNames[0], FTElementNames[1], FTElementNames[2],
-                FTElementNames[3], FTElementNames[4], FTElementNames[5]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullFTSensorName, FTElementNames);
         }
     }
 
@@ -752,50 +727,25 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
         {
             std::string fullGyroSensorName = std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullGyroSensorName,
-                                                {3, 1}, //
-                                                {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]}});
-
-            std::string rtFullGyroSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullGyroSensorName, GyroElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
             std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullAccelerometerSensorName,
-                                                {3, 1}, //
-                                                {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]}});
-
-            std::string rtFullAccelerometerSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullAccelerometerSensorName, AccelerometerElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
             std::string fullOrientationsSensorName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-
-            ok = ok
-                 && m_bufferManager.addChannel({fullOrientationsSensorName,
-                                                {3, 1}, //
-                                                {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]}});
-
-            std::string rtFullOrientationSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullOrientationsSensorName, OrientationElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
             std::string fullMagnetometersSensorName = std::string(MAGNETOMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullMagnetometersSensorName,
-                                                {3, 1}, //
-                                                {MagnetometerElementNames[0], MagnetometerElementNames[1], MagnetometerElementNames[2]}});
-
-            std::string rtFullMagnetometersSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MAGNETOMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullMagnetometersSensorName, {MagnetometerElementNames[0], MagnetometerElementNames[1], MagnetometerElementNames[2]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullMagnetometersSensorName, MagnetometerElementNames);
         }
 
         // an IMU contains a gyro accelerometer and an orientation sensor
@@ -804,25 +754,9 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             std::string fullAccelerometerSensorName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
             std::string fullGyroSensorName = std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
             std::string fullOrientationsSensorName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullAccelerometerSensorName,
-                                                {3, 1}, //
-                                                {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]}})
-                 && m_bufferManager.addChannel({fullGyroSensorName,
-                                                {3, 1}, //
-                                                {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]}})
-                 && m_bufferManager.addChannel({fullOrientationsSensorName,
-                                                {3, 1}, //
-                                                {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]}});
-
-            std::string rtFullAccelerometerSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
-
-            std::string rtFullGyroSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
-
-            std::string rtFullOrientationSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullAccelerometerSensorName, AccelerometerElementNames);
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullGyroSensorName, GyroElementNames);
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullOrientationsSensorName, OrientationElementNames);
         }
     }
 
@@ -831,14 +765,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
         {
             std::string fullCartesianWrenchName = std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullCartesianWrenchName,
-                                                {6, 1}, //
-                                                {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2], CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]}});
-
-            std::string rtFullCartesianWrenchName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullCartesianWrenchName, {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2],
-                    CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullCartesianWrenchName, CartesianWrenchNames);
         }
     }
 
@@ -847,12 +774,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
             std::string fullTemperatureSensorName = std::string(TEMPERATURE_NAME) + std::string(TREE_DELIM) + sensorName;
-            ok = ok
-                 && m_bufferManager.addChannel({fullTemperatureSensorName,
-                                                {1, 1}, //
-                                                {TemperatureNames[0]}});
-            std::string rtFullTemperatureSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(TEMPERATURE_NAME) + std::string(TREE_DELIM) + sensorName;
-            m_vectorCollectionRTDataServer.populateMetadata(rtFullTemperatureSensorName, {TemperatureNames[0]});
+            ok &= addSensorBridgeRelatedChannelAndMetadata(fullTemperatureSensorName, TemperatureNames);
         }
     }
     std::string signalName = "";
