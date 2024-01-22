@@ -652,23 +652,23 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // initialize the RT Logger Vector Collection Server
     auto loggerOption = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>();
     loggerOption->setParameter("remote", "/testVectorCollections");
-    if (!vectorCollectionRTDataServer.initialize(loggerOption))
+    if (!m_vectorCollectionRTDataServer.initialize(loggerOption))
     {
         log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
         return false;
     }
     char* tmp = std::getenv("YARP_ROBOT_NAME");
     std::string metadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(YARP_NAME);
-    vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
 
     metadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(TIMESTAMPS_NAME);
-    vectorCollectionRTDataServer.populateMetadata(metadataName, {TIMESTAMPS_NAME});
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {TIMESTAMPS_NAME});
 
 
     const unsigned dofs = joints.size();
     m_bufferManager.setDescriptionList(joints);
     std::string rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ROBOT_DESCRIPTON_LIST);
-    vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+    m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
 
     // prepare the telemetry
@@ -681,19 +681,19 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         // populate metadata for joint positions
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_POSITIONS_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for joint velocities
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_VELOCITIES_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for joint accelerations
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_ACCLERATIONS_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for joint torques
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_TORQUES_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
     }
     if (m_streamMotorStates)
     {
@@ -704,19 +704,19 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         // populate metadata for motor state positions
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_POSITIONS_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for motor state velocities
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_VELOCITIES_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for motor state accelerations
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_ACCELERATIONS_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
 
         // populate metadata for motor state currents
         rtMetadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_CURRENTS_NAME);
-        vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
     }
 
     if (m_streamMotorPWM)
@@ -742,7 +742,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             std::string rtFullFTSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM)
                 + std::string(FTS_NAME) + std::string(TREE_DELIM) + sensorName;
 
-            vectorCollectionRTDataServer.populateMetadata(rtFullFTSensorName, {FTElementNames[0], FTElementNames[1], FTElementNames[2],
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullFTSensorName, {FTElementNames[0], FTElementNames[1], FTElementNames[2],
                 FTElementNames[3], FTElementNames[4], FTElementNames[5]});
         }
     }
@@ -758,7 +758,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]}});
 
             std::string rtFullGyroSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
@@ -770,7 +770,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]}});
 
             std::string rtFullAccelerometerSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
@@ -783,7 +783,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]}});
 
             std::string rtFullOrientationSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
@@ -795,7 +795,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {MagnetometerElementNames[0], MagnetometerElementNames[1], MagnetometerElementNames[2]}});
 
             std::string rtFullMagnetometersSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MAGNETOMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullMagnetometersSensorName, {MagnetometerElementNames[0], MagnetometerElementNames[1], MagnetometerElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullMagnetometersSensorName, {MagnetometerElementNames[0], MagnetometerElementNames[1], MagnetometerElementNames[2]});
         }
 
         // an IMU contains a gyro accelerometer and an orientation sensor
@@ -816,13 +816,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]}});
 
             std::string rtFullAccelerometerSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullAccelerometerSensorName, {AccelerometerElementNames[0], AccelerometerElementNames[1], AccelerometerElementNames[2]});
 
             std::string rtFullGyroSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullGyroSensorName, {GyroElementNames[0], GyroElementNames[1], GyroElementNames[2]});
 
             std::string rtFullOrientationSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullOrientationSensorName, {OrientationElementNames[0], OrientationElementNames[1], OrientationElementNames[2]});
         }
     }
 
@@ -837,7 +837,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2], CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]}});
 
             std::string rtFullCartesianWrenchName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullCartesianWrenchName, {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2],
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullCartesianWrenchName, {CartesianWrenchNames[0], CartesianWrenchNames[1], CartesianWrenchNames[2],
                     CartesianWrenchNames[3], CartesianWrenchNames[4], CartesianWrenchNames[5]});
         }
     }
@@ -852,7 +852,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {1, 1}, //
                                                 {TemperatureNames[0]}});
             std::string rtFullTemperatureSensorName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(TEMPERATURE_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateMetadata(rtFullTemperatureSensorName, {TemperatureNames[0]});
+            m_vectorCollectionRTDataServer.populateMetadata(rtFullTemperatureSensorName, {TemperatureNames[0]});
         }
     }
     std::string signalName = "";
@@ -876,7 +876,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                     m_bufferManager.addChannel({signalName, {vector.size(), 1}});
                     rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + signalName;
 
-                    vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
+                    m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
                 } else
                 {
                     // if the metadata is found we use it
@@ -884,7 +884,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                                 {vector.size(), 1},
                                                 metadata->second});
                     rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + signalName;
-                    vectorCollectionRTDataServer.populateMetadata(rtSignalName, {metadata->second});
+                    m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {metadata->second});
                 }
             }
         }
@@ -901,13 +901,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                 m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
 
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + signal.signalName;
-                vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
+                m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
                 signal.dataArrived = true;
             }
         }
     }
 
-    vectorCollectionRTDataServer.finalizeMetadata();
+    m_vectorCollectionRTDataServer.finalizeMetadata();
 
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
@@ -1394,7 +1394,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 void YarpRobotLoggerDevice::run()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
-    vectorCollectionRTDataServer.clearData();
+    m_vectorCollectionRTDataServer.clearData();
 
     // get the data
     if (!m_robotSensorBridge->advance())
@@ -1413,7 +1413,7 @@ void YarpRobotLoggerDevice::run()
     std::string rtSignalName = "";
 
     rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(TIMESTAMPS_NAME);
-    vectorCollectionRTDataServer.populateData(rtSignalName, timeData);
+    m_vectorCollectionRTDataServer.populateData(rtSignalName, timeData);
 
     if (m_streamJointStates)
     {
@@ -1421,25 +1421,25 @@ void YarpRobotLoggerDevice::run()
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, JOINT_STATE_POSITIONS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_POSITIONS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, JOINT_STATE_VELOCITIES_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_VELOCITIES_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, JOINT_STATE_ACCLERATIONS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_ACCLERATIONS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, JOINT_STATE_TORQUES_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(JOINT_STATE_TORQUES_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
     }
 
@@ -1449,25 +1449,25 @@ void YarpRobotLoggerDevice::run()
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_POSITIONS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_POSITIONS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_VELOCITIES_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_VELOCITIES_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_ACCELERATIONS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_ACCELERATIONS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_CURRENTS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_CURRENTS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
     }
 
@@ -1477,7 +1477,7 @@ void YarpRobotLoggerDevice::run()
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_PWM_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_CURRENTS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
     }
 
@@ -1487,7 +1487,7 @@ void YarpRobotLoggerDevice::run()
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, MOTOR_STATE_PIDS_NAME);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MOTOR_STATE_PIDS_NAME);
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_jointSensorBuffer);
         }
     }
 
@@ -1500,7 +1500,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(FTS_NAME) + std::string(TREE_DELIM) + sensorName;
                 m_bufferManager.push_back(m_ftBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(FTS_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_ftBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_ftBuffer);
             }
         }
     }
@@ -1517,7 +1517,7 @@ void YarpRobotLoggerDevice::run()
                 Eigen::Matrix<double, 1, 1> temperatureData;
                 temperatureData << m_ftTemperatureBuffer;
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(TEMPERATURE_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, temperatureData);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, temperatureData);
             }
         }
     }
@@ -1531,7 +1531,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
                 m_bufferManager.push_back(m_gyroBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_gyroBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_gyroBuffer);
             }
         }
 
@@ -1543,7 +1543,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
                 m_bufferManager.push_back(m_acceloremeterBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_acceloremeterBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_acceloremeterBuffer);
             }
         }
 
@@ -1555,7 +1555,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
                 m_bufferManager.push_back(m_orientationBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_orientationBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_orientationBuffer);
             }
         }
 
@@ -1566,7 +1566,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(MAGNETOMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
                 m_bufferManager.push_back(m_magnemetometerBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(MAGNETOMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_magnemetometerBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_magnemetometerBuffer);
             }
         }
     }
@@ -1585,17 +1585,17 @@ void YarpRobotLoggerDevice::run()
             signalName = std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
             m_bufferManager.push_back(m_acceloremeterBuffer, time, signalName);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ACCELEROMETERS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_acceloremeterBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_acceloremeterBuffer);
 
             signalName = std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
             m_bufferManager.push_back(m_gyroBuffer, time, signalName);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(GYROS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_gyroBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_gyroBuffer);
 
             signalName = std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
             m_bufferManager.push_back(m_orientationBuffer, time, signalName);
             rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(ORIENTATIONS_NAME) + std::string(TREE_DELIM) + sensorName;
-            vectorCollectionRTDataServer.populateData(rtSignalName, m_orientationBuffer);
+            m_vectorCollectionRTDataServer.populateData(rtSignalName, m_orientationBuffer);
         }
     }
 
@@ -1608,7 +1608,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
                 m_bufferManager.push_back(m_ftBuffer, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(CARTESIAN_WRENCHES_NAME) + std::string(TREE_DELIM) + cartesianWrenchName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, m_ftBuffer);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, m_ftBuffer);
             }
         }
     }
@@ -1625,7 +1625,7 @@ void YarpRobotLoggerDevice::run()
                 signalName = signal.signalName + std::string(TREE_DELIM) + key;
                 m_bufferManager.push_back(vector, time, signalName);
                 rtSignalName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + signalName;
-                vectorCollectionRTDataServer.populateData(rtSignalName, vector);
+                m_vectorCollectionRTDataServer.populateData(rtSignalName, vector);
             }
         }
     }
@@ -1664,7 +1664,7 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-   vectorCollectionRTDataServer.sendData();
+   m_vectorCollectionRTDataServer.sendData();
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,

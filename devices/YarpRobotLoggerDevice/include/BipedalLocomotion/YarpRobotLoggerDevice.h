@@ -64,7 +64,7 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
-    BipedalLocomotion::YarpUtilities::VectorsCollectionServer vectorCollectionRTDataServer;
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorCollectionRTDataServer;
 
     template <typename T> struct ExogenousSignal
     {
