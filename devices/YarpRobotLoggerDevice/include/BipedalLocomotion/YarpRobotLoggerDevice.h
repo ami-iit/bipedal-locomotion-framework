@@ -14,7 +14,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
 
@@ -102,12 +101,10 @@ private:
 
         bool connect();
         void disconnect();
-
     };
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
-
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
@@ -171,7 +168,6 @@ private:
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
-
     std::mutex m_bufferManagerMutex;
     std::mutex m_textLoggingPortMutex;
     robometry::BufferManager m_bufferManager;
@@ -179,9 +175,11 @@ private:
     void lookForNewLogs();
     void lookForExogenousSignals();
 
-
-    bool addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
-    void storeAndSendLoggingData(const std::string& name, const Eigen::VectorXd& data, const double time);
+    bool
+    addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
+    void storeAndSendLoggingData(const std::string& name,
+                                 const Eigen::VectorXd& data,
+                                 const double time);
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
