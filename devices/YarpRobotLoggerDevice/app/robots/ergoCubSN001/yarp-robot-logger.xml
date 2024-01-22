@@ -7,8 +7,8 @@ BSD-3-Clause license. -->
   <param name="robot">ergocub</param>
   <param name="sampling_period_in_s">0.01</param>
 
-  <param name="rgb_cameras_fps">()</param>
-  <param name="rgb_cameras_rgb_save_mode">()</param>
+  <param name="rgb_cameras_fps">(20)</param>
+  <param name="rgb_cameras_rgb_save_mode">("video")</param>
 
   <param name="rgbd_cameras_fps">()</param>
   <param name="rgbd_cameras_depth_scale">()</param>
@@ -25,7 +25,7 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking", "GridTracking","cmw")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
@@ -35,18 +35,39 @@ BSD-3-Clause license. -->
       <param name="carrier">"udp"</param>
     </group>
 
+    <group name="cmw">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/cmw"</param>
+      <param name="remote">"/cmw-walking/log"</param>
+      <param name="signal_name">"cmw"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="Balancing">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing_position_controller"</param>
+      <param name="remote">"/balancing_position_controller/logger"</param>
+      <param name="signal_name">"balancing"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
     <group name="RobotDynamicsEstimator">
       <param name="local">"/yarp-robot-logger/exogenous_signals/rde"</param>
       <param name="remote">"/robot-dynamics-estimator/logger"</param>
       <param name="signal_name">"rde"</param>
       <param name="carrier">"udp"</param>
     </group>
+
+    <group name="GridTracking">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/joints_grid_position_tracking"</param>
+      <param name="remote">"/joints_grid_position_tracking/logger"</param>
+      <param name="signal_name">"grid_tracking"</param>
+      <param name="carrier">"udp"</param>
+    </group>
   </group>
 
   <group name="RobotCameraBridge">
-      <param name="stream_cameras">false</param>
+      <param name="stream_cameras">true</param>
       <group name="Cameras">
-        <param name="rgb_cameras_list">()</param>
+        <param name="rgb_cameras_list">("jabra")</param>
         <param name="rgbd_cameras_list">()</param>
       </group>
   </group>
@@ -63,7 +84,7 @@ BSD-3-Clause license. -->
     <param name="stream_temperatures">true</param>
 
     <group name="RemoteControlBoardRemapper">
-      <param name="joints_list">("neck_pitch", "neck_roll", "neck_yaw", "camera_tilt", "torso_roll", "torso_yaw", "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",  "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll", "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
+      <param name="joints_list">("neck_pitch", "neck_roll", "neck_yaw", "camera_tilt", "torso_pitch", "torso_roll", "torso_yaw", "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",  "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "l_hip_pitch", "l_hip_roll", "l_hip_yaw", "l_knee", "l_ankle_pitch", "l_ankle_roll", "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
     </group>
 
     <group name="SixAxisForceTorqueSensors">
@@ -80,10 +101,10 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="InertialSensors">
-      <param name="accelerometers_list">(rfeimu_acc, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)</param>
-      <param name="gyroscopes_list">(rfeimu_gyro, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)</param>
-      <param name="magnetometers_list">(rfeimu_mag, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)</param>
-      <param name="orientation_sensors_list">(rfeimu_eul, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)</param>
+      <param name="accelerometers_list">(sensor_imu_xsensmt, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)</param>
+      <param name="gyroscopes_list">(sensor_imu_xsensmt, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)</param>
+      <param name="magnetometers_list">(sensor_imu_xsensmt, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)</param>
+      <param name="orientation_sensors_list">(sensor_imu_xsensmt, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)</param>
     </group>
 
   </group>
@@ -96,11 +117,11 @@ BSD-3-Clause license. -->
       <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
       <elem name="right_front_wrench_client">right_front_wrench_client</elem>
       <elem name="right_rear_wrench_client">right_rear_wrench_client</elem>
-      <!-- <elem name="right_arm_wrench_client">right_arm_wrench_client</elem> -->
-      <!-- <elem name="left_arm_wrench_client">left_arm_wrench_client</elem> -->
+      <!--elem name="right_arm_wrench_client">right_arm_wrench_client</elem>
+      <elem name="left_arm_wrench_client">left_arm_wrench_client</elem-->
       <elem name="mas-remapper">mas-remapper</elem>
       <!-- <elem name="realsense">realsense</elem> -->
-      <!-- <elem name="jabra">jabra</elem> -->
+      <elem name="jabra">jabra</elem>
     </paramlist>
   </action>
 

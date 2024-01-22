@@ -1200,7 +1200,6 @@ bool CentroidalMPC::advance()
                 = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
 
             auto nextPlannedContact = contactList.getPresentContact(nextPlannedContactTime);
-
             if (nextPlannedContact == contactList.end())
             {
                 log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
@@ -1214,7 +1213,12 @@ bool CentroidalMPC::advance()
 
             if (!contactList.editContact(nextPlannedContact, modifiedNextPlannedContact))
             {
-                log()->error("[CentroidalMPC::advance] Unable to edit the next planned contact");
+                log()->error("{} Unable to edit the next planned contact at time {}. The contact "
+                             "list contains the following contacts: {}",
+                             errorPrefix,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 nextPlannedContactTime),
+                             contactList.toString());
                 return false;
             }
         }
@@ -1382,6 +1386,20 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         return false;
     }
 
+    for (const auto& [key, list] : contactPhaseList.lists())
+    {
+        if (!list.areContactsSampled(m_pimpl->optiSettings.samplingTime))
+        {
+            log()->error("{} The contact list {} is not sampled at the sampling time {}. Please "
+                         "resample the contacts lists before calling this method.",
+                         errorPrefix,
+                         key,
+                         std::chrono::duration_cast<std::chrono::milliseconds>(
+                             m_pimpl->optiSettings.samplingTime));
+            return false;
+        }
+    }
+
     m_pimpl->contactPhaseList = contactPhaseList;
 
     // The orientation is stored as a vectorized version of the rotation matrix
@@ -1422,8 +1440,12 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
     auto initialPhase = contactPhaseList.getPresentPhase(m_pimpl->currentTime);
     if (initialPhase == contactPhaseList.end())
     {
-        log()->error("{} Unable to find the contact phase related to the current time.",
-                     errorPrefix);
+        log()->error("{} Unable to find the contact phase related to the current at time {}. The "
+                     "contact "
+                     "list contains the following contacts: {}",
+                     errorPrefix,
+                     std::chrono::duration_cast<std::chrono::milliseconds>(m_pimpl->currentTime),
+                     contactPhaseList.toString());
         return false;
     }
 
@@ -1442,7 +1464,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         const std::chrono::nanoseconds tInitial = std::max(m_pimpl->currentTime, it->beginTime);
         const std::chrono::nanoseconds tFinal = std::min(absoluteTimeHorizon, it->endTime);
 
-        const int numberOfSamples = (tFinal - tInitial) / m_pimpl->optiSettings.samplingTime;
+        const std::chrono::nanoseconds duration = tFinal - tInitial;
+        const int numberOfSamples = duration / m_pimpl->optiSettings.samplingTime;
 
         for (const auto& [key, contact] : it->activeContacts)
         {
@@ -1504,51 +1527,6 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
 
     // we store the contact phase list for the output
     m_pimpl->output.contactPhaseList = contactPhaseList;
-
-    for (auto& [key, contact] : m_pimpl->output.contacts)
-    {
-        const ContactList& contactList = m_pimpl->output.contactPhaseList.lists().at(key);
-        auto inputContact = inputs.contacts.find(key);
-
-        // this is required for toEigen
-        using namespace BipedalLocomotion::Conversions;
-
-        int index = toEigen(*(inputContact->second.isEnabled)).size();
-        const int size = toEigen(*(inputContact->second.isEnabled)).size();
-        for (int i = 0; i < size; i++)
-        {
-            // read it as: "if the contact is active at a given time instant"
-            if (toEigen(*(inputContact->second.isEnabled))(i) > 0.5)
-            {
-                // if the contact is active now
-                if (i == 0)
-                {
-                    break;
-                } // in this case we break if the contact is active and at the previous time
-                  // step it was not active
-                else if (toEigen(*(inputContact->second.isEnabled))(i - 1) < 0.5)
-                {
-                    index = i;
-                    break;
-                }
-            }
-        }
-
-        // In this case the contact is not active and there will be a next planned contact
-        if (index < size)
-        {
-            const std::chrono::nanoseconds nextPlannedContactTime
-                = m_pimpl->currentTime + m_pimpl->optiSettings.samplingTime * index;
-
-            auto nextPlannedContact = contactList.getPresentContact(nextPlannedContactTime);
-
-            if (nextPlannedContact == contactList.end())
-            {
-                log()->error("[CentroidalMPC::advance] Unable to get the next planned contact");
-                return false;
-            }
-        }
-    }
 
     return true;
 }

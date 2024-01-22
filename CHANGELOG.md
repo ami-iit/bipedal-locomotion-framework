@@ -3,6 +3,15 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)
+
+### Changed
+- 🤖 [`ergoCubSN001`] Update `YarpRobotLoggerDevice` configuration file to exclude the head-imu and include the arms FTs  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/798)
+
+### Fixed
+
+## [0.17.0] - 2023-12-23
+### Added
 - Implement `ContactList::getNextContact` and `ContactList::getActiveContact` in `Contact` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/764)
 - Implement `MANN::generateDummyMANNOutput` and `MANN::generateDummyMANNInput` in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
 - Add `MANNAutoregressive` and `MANNTrajectoryGenerator` examples (https://github.com/ami-iit/bipedal-locomotion-framework/pull/771)
@@ -11,6 +20,11 @@ All notable changes to this project are documented in this file.
 - 🤖 Add `ergoCubSN001` configuration files for the `balancing-position-control` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
 - Implement `VectorsCollectionServer` python bindings (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
 - Implement `toString()` methods in `PlannedContact`, `ContactList`, `ContactPhase` and `ContactPhaseList` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/777)
+- Implement `LinearSpline` in `Math` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/782)
+- Add the support of QP problems with no constraint in `QPInverseKinematics` and `QPTSID` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/784)
+- Implement `blf-joints-grid-position-tracking` application in `utilities` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/787)
+- Add the possibility to resample the contact in a given contact list (https://github.com/ami-iit/bipedal-locomotion-framework/pull/788)
+
 
 ### Changed
 - Restructure of the `CentroidalMPC` class in `ReducedModelControllers` component. Specifically, the `CentroidalMPC` now provides a contact phase list instead of indicating the next active contact. Additionally, users can now switch between `ipopt` and `sqpmethod` to solve the optimization problem. Furthermore, the update allows for setting the warm-start for the non-linear solver. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/766)
@@ -24,8 +38,11 @@ All notable changes to this project are documented in this file.
 - Change use of dynamics name for fts, contacts, accelerometers, gyroscopes in `RobotDynamicsEstimator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/759)
 - 🤖 Modify the `YarpRobotLoggerDevice` of `ergoCubSN001` to be compliant with the latest [robots-configuration files](https://github.com/robotology/robots-configuration/pull/598) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/772)
 - Modify the `balancing-position-control` application to be compliant with the new implementation of the spline and the `VectorsCollectionServer` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/776)
+- Add the joint tracking error plot in joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
+- Force the MPC to require correctly time-sampled contacts (https://github.com/ami-iit/bipedal-locomotion-framework/pull/788)
 
-### Fixed
+### Removed
+- Remove the latex dependency in the joint-position-tracking script (https://github.com/ami-iit/bipedal-locomotion-framework/pull/775/)
 
 ## [0.16.1] - 2023-11-17
 ### Changed

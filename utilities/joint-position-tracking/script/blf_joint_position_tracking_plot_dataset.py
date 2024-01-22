@@ -10,10 +10,6 @@ import csv
 import matplotlib
 import matplotlib.pyplot as plt
 
-from matplotlib import rc
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-rc('text', usetex=True)
-
 def read_data(file_name):
     data = []
 
@@ -47,27 +43,35 @@ def plot_data(axes, x_data, y_data, color, linewidth = 1.0):
     return axes.plot(x_data, y_data, color = col, linewidth = linewidth)
 
 def plot_and_save(data):
-    fig, ax = plt.subplots(1)
+    fig, ax = plt.subplots(1,2)
 
     channel_0 = data[:, 0]
     channel_1 = data[:, 1]
 
-    plot_0, = plot_data(ax, times(channel_0), channel_0, "red")
-    plot_1, = plot_data(ax, times(channel_1), channel_1, "blue")
+    plot_0, = plot_data(ax[0], times(channel_0), channel_0, "red")
+    plot_1, = plot_data(ax[0], times(channel_1), channel_1, "blue")
 
     legend = [plot_0, plot_1]
-    legend = fig.legend(legend, labels = ["$\mathrm{Reference}$", "$\mathrm{Actual}$"], ncol = 2, loc = "upper center", frameon=False)
+    legend = fig.legend(legend, labels = ["Reference", "Actual"], ncol = 2, loc = "upper center", frameon=False)
 
     for line in legend.get_lines():
         line.set_linewidth(2.0)
 
     label_font_size = 10
-    ax.grid()
-    ax.set_xlabel('time [s]', fontsize = label_font_size)
-    ax.set_ylabel('position [rad]', fontsize = label_font_size)
-    ax.set_title('joint position', fontsize = label_font_size)
+    ax[0].grid()
+    ax[0].set_xlabel('time [s]', fontsize = label_font_size)
+    ax[0].set_ylabel('position [rad]', fontsize = label_font_size)
+    ax[0].set_title('joint position', fontsize = label_font_size)
+
+    error = channel_1 - channel_0
+    plot_error, = ax[1].plot(times(channel_0), error, color="green")
+    ax[1].grid()
+    ax[1].set_xlabel('time [s]', fontsize=label_font_size)
+    ax[1].set_ylabel('error [rad]', fontsize=label_font_size)
+    ax[1].set_title('Error Plot', fontsize=label_font_size)
 
     figure = plt.gcf()
+    plt.tight_layout()
     plt.savefig("./figure.png", bbox_inches='tight', dpi = 150)
 
     # plt.show()
@@ -81,5 +85,3 @@ if __name__ == "__main__":
     data = read_data(args.dataset)
 
     plot_and_save(data)
-
-

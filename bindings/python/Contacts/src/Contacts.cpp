@@ -28,29 +28,6 @@ namespace bindings
 namespace Contacts
 {
 
-std::string toString(const BipedalLocomotion::Contacts::PlannedContact& contact)
-{
-    const Eigen::IOFormat FormatEigenVector //
-        (Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", ", ", "", "", "[", "]");
-
-    const auto& position = contact.pose.coeffs().segment<3>(0);
-    const auto& quaternion = contact.pose.coeffs().segment<4>(3);
-
-    std::stringstream pose;
-    pose << "SE3 (position = " << position.format(FormatEigenVector)
-         << ", quaternion = " << quaternion.format(FormatEigenVector) << ")";
-
-    std::stringstream description;
-    description << "Contact (name = " << contact.name << ", pose = " << pose.str()
-                << std::setprecision(7) << ", activation_time = "
-                << std::chrono::duration<double>(contact.activationTime).count()
-                << ", deactivation_time = "
-                << std::chrono::duration<double>(contact.deactivationTime).count()
-                << ", type = " << static_cast<int>(contact.type) << ")";
-
-    return description.str();
-}
-
 void CreateContact(pybind11::module& module)
 {
     namespace py = ::pybind11;
@@ -71,7 +48,7 @@ void CreateContact(pybind11::module& module)
         .def(py::init())
         .def_readwrite("activation_time", &PlannedContact::activationTime)
         .def_readwrite("deactivation_time", &PlannedContact::deactivationTime)
-        .def("__repr__", &toString)
+        .def("__repr__", &PlannedContact::toString)
         .def("__eq__", &PlannedContact::operator==, py::is_operator())
         .def("__ne__", &PlannedContact::operator!=, py::is_operator())
         .def("is_contact_active", &PlannedContact::isContactActive);
@@ -209,7 +186,9 @@ void CreateContactList(pybind11::module& module)
                 }
                 return *ptr;
             },
-            py::return_value_policy::reference_internal);
+            py::return_value_policy::reference_internal)
+        .def("force_sample_time", &ContactList::forceSampleTime, py::arg("dt"))
+        .def("are_contacts_sampled", &ContactList::areContactsSampled, py::arg("dt"));
 }
 
 void CreateContactPhase(pybind11::module& module)

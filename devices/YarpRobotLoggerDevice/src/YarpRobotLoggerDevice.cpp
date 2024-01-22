@@ -1064,7 +1064,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     const std::chrono::nanoseconds lookForExogenousSignalPeriod = 1s;
     m_lookForNewExogenousSignalIsRunning = true;
 
-    auto connectToExogeneous = [](auto& signals) -> void {
+    auto connectToExogeneous = [this](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
             std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1078,14 +1078,17 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
 
             // if the connection is successful, get the metadata
             // this is required only for the vectors collection signal
-            if constexpr (std::is_same_v<
-                              std::decay_t<decltype(signal)>,
-                              std::decay_t<decltype(m_vectorsCollectionSignals)::value_type>>)
+            if constexpr (std::is_same_v<std::decay_t<decltype(signal)>,
+                                         typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
             {
                 if (!signal.connected)
                 {
                     continue;
                 }
+
+                log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
+                            "metadata for the vectors collection signal named: {}",
+                            name);
 
                 if (!signal.client.getMetadata(signal.metadata))
                 {
