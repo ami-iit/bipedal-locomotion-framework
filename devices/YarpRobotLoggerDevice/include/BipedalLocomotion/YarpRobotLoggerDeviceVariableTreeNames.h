@@ -1,9 +1,10 @@
 #ifndef BIPEDAL_LOCOMOTION_fRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_VTN_H
 #include <iostream>
+#include <vector>
 
 #define BIPEDAL_LOCOMOTION_fRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_VTN_H
 
-#define TREE_DELIM                              "::"
+constexpr std::string_view TREE_DELIM           {"::"};
 
 #define ROBOT_RT_ROOT_NAME                      "robot_realtime"
 
@@ -23,25 +24,25 @@
 
 #define FTS_NAME                                "FTs"
 
-const std::string FTElementNames[] =             {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+const std::vector<std::string> FTElementNames =             {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
 
 #define GYROS_NAME                                "gyros"
-const std::string GyroElementNames[] =            {"omega_x", "omega_y", "omega_z"};
+const std::vector<std::string> GyroElementNames =            {"omega_x", "omega_y", "omega_z"};
 
 #define ACCELEROMETERS_NAME                       "accelerometers"
-const std::string AccelerometerElementNames[] =   {"a_x", "a_y", "a_z"};
+const std::vector<std::string> AccelerometerElementNames =   {"a_x", "a_y", "a_z"};
 
 #define ORIENTATIONS_NAME                         "orientations"
-const std::string OrientationElementNames[] =     {"r", "p", "y"};
+const std::vector<std::string> OrientationElementNames =     {"r", "p", "y"};
 
 #define MAGNETOMETERS_NAME                        "magnetometers"
-const std::string MagnetometerElementNames[] =    {"mag_x", "mag_y", "mag_z"};
+const std::vector<std::string> MagnetometerElementNames =    {"mag_x", "mag_y", "mag_z"};
 
 #define CARTESIAN_WRENCHES_NAME                   "cartesian_wrenches"
-const std::string CartesianWrenchNames[] =        {FTElementNames[0], FTElementNames[1], FTElementNames[2], FTElementNames[3], FTElementNames[4], FTElementNames[5]};
+const std::vector<std::string> CartesianWrenchNames =        {FTElementNames[0], FTElementNames[1], FTElementNames[2], FTElementNames[3], FTElementNames[4], FTElementNames[5]};
 
 #define TEMPERATURE_NAME                          "temperatures"
-const std::string TemperatureNames[] =            {"temperature"};
+const std::vector<std::string> TemperatureNames =            {"temperature"};
 
 #define YARP_NAME                                 "yarp_robot_name"
 
