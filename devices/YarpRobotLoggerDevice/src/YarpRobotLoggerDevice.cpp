@@ -126,7 +126,11 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
-
+    if (!m_vectorCollectionRTDataServer.initialize(params))
+    {
+        log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
+        return false;
+    }
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
@@ -664,14 +668,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         return false;
     }
 
-    // initialize the RT Logger Vector Collection Server
-    auto loggerOption = std::make_shared<BipedalLocomotion::ParametersHandler::YarpImplementation>();
-    loggerOption->setParameter("remote", "/testVectorCollections");
-    if (!m_vectorCollectionRTDataServer.initialize(loggerOption))
-    {
-        log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
-        return false;
-    }
     char* tmp = std::getenv("YARP_ROBOT_NAME");
     std::string metadataName = std::string(ROBOT_RT_ROOT_NAME) + std::string(TREE_DELIM) + std::string(YARP_NAME);
     m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
