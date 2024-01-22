@@ -1164,6 +1164,7 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // check for new messages
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
+        m_textLoggingPortMutex.lock();
         for (const auto& port : yarpPorts)
         {
             // check if the port has not be already connected if exits, its resposive
@@ -1178,6 +1179,7 @@ void YarpRobotLoggerDevice::lookForNewLogs()
                 yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
             }
         }
+        m_textLoggingPortMutex.unlock();
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -1515,6 +1517,8 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
+
+    m_textLoggingPortMutex.lock();
     int bufferportSize = m_textLoggingPort.getPendingReads();
     BipedalLocomotion::TextLoggingEntry msg;
 
@@ -1548,6 +1552,7 @@ void YarpRobotLoggerDevice::run()
             break;
         }
     }
+    m_textLoggingPortMutex.unlock();
 
    m_vectorCollectionRTDataServer.sendData();
 }

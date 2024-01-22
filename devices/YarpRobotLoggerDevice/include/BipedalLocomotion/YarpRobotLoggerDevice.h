@@ -173,6 +173,7 @@ private:
 
 
     std::mutex m_bufferManagerMutex;
+    std::mutex m_textLoggingPortMutex;
     robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
