@@ -151,6 +151,8 @@ bool UkfModel::updateState()
                     m_kinDynWrapperList[subModelIdx]->getFrameVel(
                     value.frame));
 
+                // See reference: https://traversaro.github.io/traversaro-phd-thesis/traversaro-phd-thesis.pdf
+                // Paragraph 4.4.2
                 m_baseAcceleration.coeffs().head(3).noalias()
                     = baseHimu.rotation() * m_accMap[key]
                       - m_bOmegaIB.cross(m_bOmegaIB.cross(baseHimu.translation()));
