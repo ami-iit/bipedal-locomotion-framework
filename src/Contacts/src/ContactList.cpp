@@ -176,7 +176,7 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
 {
     if (element == end())
     {
-        log()->error("[ContactList::addContact] The element is not valid.");
+        log()->error("[ContactList::editContact] The element is not valid.");
         return false;
     }
 
@@ -188,7 +188,8 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
         --previousElement;
         if (newContact.activationTime < previousElement->deactivationTime)
         {
-            log()->error("[ContactList::addContact] The new contact cannot have an activation time "
+            log()->error("[ContactList::editContact] The new contact cannot have an activation "
+                         "time "
                          "smaller than the previous contact.");
             return false;
         }
@@ -198,7 +199,7 @@ bool ContactList::editContact(ContactList::const_iterator element, const Planned
     {
         if (newContact.deactivationTime > nextElement->activationTime)
         {
-            log()->error("[ContactList::addContact] The new contact cannot have a deactivation "
+            log()->error("[ContactList::editContact] The new contact cannot have a deactivation "
                          "time greater than the next contact.");
             return false;
         }
@@ -301,4 +302,62 @@ std::string ContactList::toString() const
         ss << contact.toString() << std::endl;
     }
     return ss.str();
+}
+
+bool ContactList::forceSampleTime(const std::chrono::nanoseconds& dT)
+{
+    using namespace std::chrono_literals;
+    PlannedContact newContact;
+    for (int i = 0; i < size(); i++)
+    {
+        newContact = (*this)[i];
+
+        // if the activation and deactivation time are already a multiple of dT, we skip the
+        // contact.
+        if (newContact.activationTime % dT == 0ns
+            && (newContact.deactivationTime % dT == 0ns
+                || newContact.deactivationTime == std::chrono::nanoseconds::max()))
+        {
+            continue;
+        }
+
+        // modify the activation and deactivation time to be a multiple of dT
+        // for the activation time we round down, for the deactivation time we round up
+        // This will increase the contact duration, but it will not change the contact sequence
+        // and location.
+        newContact.activationTime -= (newContact.activationTime % dT);
+
+        // if the deactivation time is equal to std::chrono::nanoseconds::max() we do not round
+        if (newContact.deactivationTime != std::chrono::nanoseconds::max())
+        {
+            newContact.deactivationTime += (dT - (newContact.deactivationTime % dT));
+        }
+
+        if (!this->editContact(std::next(this->begin(), i), newContact))
+        {
+            log()->error("[ContactList::forceSampleTime] Failed to edit contact {}. Original "
+                         "contact: {}. New contact: {}.",
+                         i,
+                         (*this)[i].toString(),
+                         newContact.toString());
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ContactList::areContactsSampled(const std::chrono::nanoseconds& dT) const
+{
+    using namespace std::chrono_literals;
+    for (const auto& contact : m_contacts)
+    {
+        if (contact.activationTime % dT != 0ns
+            || (contact.deactivationTime % dT != 0ns
+                && contact.deactivationTime != std::chrono::nanoseconds::max()))
+        {
+            return false;
+        }
+    }
+    return true;
 }

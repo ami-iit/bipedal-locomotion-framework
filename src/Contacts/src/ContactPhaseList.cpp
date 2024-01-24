@@ -241,3 +241,35 @@ std::string ContactPhaseList::toString() const
     }
     return ss.str();
 }
+
+bool ContactPhaseList::forceSampleTime(const std::chrono::nanoseconds& dT)
+{
+    bool updatePhasesRequired = false;
+    for (auto& [key, list] : m_contactLists)
+    {
+        const bool resampleRequired = !list.areContactsSampled(dT);
+        if (!resampleRequired)
+        {
+            continue;
+        }
+
+        // if the list has not been resampled, we need to recompute the phases
+        updatePhasesRequired = true;
+        if (!list.forceSampleTime(dT))
+        {
+            log()->error("[ContactPhaseList::forceSampleTime] Unable to force the sample time of "
+                         "the list named: {}.",
+                         key);
+            return false;
+        }
+    }
+
+    // if at least one list has been resampled, we need to recompute the phases
+    if (!updatePhasesRequired)
+    {
+        return true;
+    }
+
+    createPhases();
+    return true;
+}
