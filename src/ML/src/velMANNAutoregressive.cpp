@@ -613,10 +613,6 @@ bool velMANNAutoregressive::setInput(const Input& input)
                            halfProjectedBasedHorizon));
 
     constexpr double tauBaseVelocity = 1.3;
-    // Eigen::MatrixXd desiredFutureBaseVelocities3d(previousVelMannOutput.futureBaseLinearVelocityTrajectory.rows(), previousVelMannOutput.futureBaseLinearVelocityTrajectory.cols());
-    // desiredFutureBaseVelocities3d << input.desiredFutureBaseVelocities,
-    //                                  previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1);
-
     Eigen::Matrix3Xd desiredFutureBaseVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseLinearVelocityTrajectory.rows(), previousVelMannOutput.futureBaseLinearVelocityTrajectory.cols()) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1)).finished();
     m_pimpl->trajectoryBlending(previousVelMannOutput.futureBaseLinearVelocityTrajectory,
                                 desiredFutureBaseVelocities3d,
