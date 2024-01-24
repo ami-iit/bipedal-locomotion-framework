@@ -220,10 +220,10 @@ bool velMANNAutoregressiveInputBuilder::initialize(
     }
 
     // resize the matrices
-    //TODO needs to be updated for new features
     m_pimpl->output.desiredFutureBaseTrajectory.resize(2, m_pimpl->numberOfKnots);
     m_pimpl->output.desiredFutureBaseVelocities.resize(2, m_pimpl->numberOfKnots);
     m_pimpl->output.desiredFutureBaseDirections.resize(2, m_pimpl->numberOfKnots);
+    m_pimpl->output.desiredFutureBaseAngVelocities.resize(m_pimpl->numberOfKnots);
 
     // set the initial points of the Bezier curve. It is constant
     m_pimpl->curve.initialPoint.setZero();
@@ -325,7 +325,6 @@ bool velMANNAutoregressiveInputBuilder::advance()
             = t * m_pimpl->baseDirection + (1 - t) * m_pimpl->input.baseDirection;
     }
 
-    //TODO check ang vel calculations
     // evaluate the future base angular velocity as numerical differentiation of the base direction
     //                  ┌                              ┐
     // base_direction = │ r0,  r1,  r2,  r3,  ..., rn  │
@@ -344,9 +343,7 @@ bool velMANNAutoregressiveInputBuilder::advance()
     // 3. copy the second to last element of the base_angular_velocity computed in step 2 to
     //    the last element
 
-    Eigen::Matrix3Xd desiredFutureBaseDirections3d(m_pimpl->output.desiredFutureBaseDirections.rows() + 1, m_pimpl->output.desiredFutureBaseDirections.cols());
-    desiredFutureBaseDirections3d << m_pimpl->output.desiredFutureBaseDirections,
-                                     Eigen::VectorXd::Zero(m_pimpl->output.desiredFutureBaseVelocities.cols());
+    Eigen::Matrix3Xd desiredFutureBaseDirections3d = (Eigen::Matrix3Xd(m_pimpl->output.desiredFutureBaseDirections.rows() + 1, m_pimpl->output.desiredFutureBaseDirections.cols()) << m_pimpl->output.desiredFutureBaseDirections, Eigen::VectorXd::Zero(m_pimpl->output.desiredFutureBaseVelocities.cols())).finished();
     for (int i = 0; i < m_pimpl->numberOfKnots - 1; i++)
     {
         // [BASE ANGULAR VELOCITY EVALUATION] Step 1
