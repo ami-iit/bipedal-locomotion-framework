@@ -71,3 +71,8 @@ add_bipedal_test(
   NAME MANNTrajectoryGenerator
   SOURCES MANNTrajectoryGeneratorTest.cpp
   LINKS BipedalLocomotion::ML)
+
+add_bipedal_test(
+  NAME velMANNTrajectoryGenerator
+  SOURCES velMANNTrajectoryGeneratorTest.cpp
+  LINKS BipedalLocomotion::ML)
