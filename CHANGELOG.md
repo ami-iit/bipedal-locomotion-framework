@@ -5,10 +5,12 @@ All notable changes to this project are documented in this file.
 ### Added
 - Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)
 
+## [0.18.0] - 2024-01-23
 ### Changed
 - 🤖 [`ergoCubSN001`] Update `YarpRobotLoggerDevice` configuration file to exclude the head-imu and include the arms FTs  (https://github.com/ami-iit/bipedal-locomotion-framework/pull/798)
-
-### Fixed
+- Avoid to call `BufferedPort::prepare` every time `VectorsCollectionServer::populateData` is called (https://github.com/ami-iit/bipedal-locomotion-framework/pull/790)
+- Check that the size the gains vectors in the `IK::JointTrackingTask`, `IK::JointLimitsTask` and `TSID::JointLimitsTask` are correct (https://github.com/ami-iit/bipedal-locomotion-framework/pull/797)
+- Check that the size of the weights in `MultiStateWeightProvider` are all the same (https://github.com/ami-iit/bipedal-locomotion-framework/pull/797)
 
 ## [0.17.0] - 2023-12-23
 ### Added
@@ -527,7 +529,9 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...master
+[0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
+[0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0
 [0.16.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.14.1...v0.15.0

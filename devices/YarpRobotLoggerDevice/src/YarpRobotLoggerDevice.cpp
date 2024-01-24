@@ -1335,6 +1335,7 @@ void YarpRobotLoggerDevice::run()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
     m_vectorCollectionRTDataServer.clearData();
+    m_vectorCollectionRTDataServer.prepareData();
 
     // get the data
     if (!m_robotSensorBridge->advance())

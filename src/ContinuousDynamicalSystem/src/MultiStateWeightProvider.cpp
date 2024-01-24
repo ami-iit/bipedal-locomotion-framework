@@ -72,6 +72,28 @@ bool MultiStateWeightProvider::initialize(
         }
     }
 
+    // check that all the states have the same size
+    const std::size_t size = m_states.begin()->second.size();
+    for (const auto& state : m_states)
+    {
+        if (state.second.size() != size)
+        {
+            log()->error("{} The size of the weight associated to the state named '{}' does not "
+                         "match with the size of the weight associated to the state named '{}'. "
+                         "Size of the of the weight named '{}': {}.Size of the weight named '{}': "
+                         "{}.",
+                         logPrefix,
+                         state.first,
+                         m_states.begin()->first,
+                         state.first,
+                         state.second.size(),
+                         m_states.begin()->first,
+                         size);
+            return false;
+        }
+    }
+
+    // initialize the smoother
     std::string firstState;
     ptr->getGroup(states[0]).lock()->getParameter("name", firstState);
     return this->reset(firstState);
