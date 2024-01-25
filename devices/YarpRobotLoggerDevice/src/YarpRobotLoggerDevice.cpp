@@ -1179,7 +1179,7 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // check for new messages
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
-        
+
         // make a new scope for lock guarding text logging port
         {
             std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
