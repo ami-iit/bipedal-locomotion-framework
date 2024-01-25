@@ -1179,22 +1179,25 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // check for new messages
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
-        m_textLoggingPortMutex.lock();
-        for (const auto& port : yarpPorts)
+        
+        // make a new scope for lock guarding text logging port
         {
-            // check if the port has not be already connected if exits, its resposive
-            // it is a text logging port and it should be logged
-            if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
-                && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
-                && (m_textLoggingSubnames.empty()
-                    || this->hasSubstring(port.name, m_textLoggingSubnames))
-                && yarp::os::Network::exists(port.name))
+            std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
+            for (const auto& port : yarpPorts)
             {
-                m_textLoggingPortNames.insert(port.name);
-                yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
+                // check if the port has not be already connected if exits, its resposive
+                // it is a text logging port and it should be logged
+                if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
+                    && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
+                    && (m_textLoggingSubnames.empty()
+                        || this->hasSubstring(port.name, m_textLoggingSubnames))
+                    && yarp::os::Network::exists(port.name))
+                {
+                    m_textLoggingPortNames.insert(port.name);
+                    yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
+                }
             }
-        }
-        m_textLoggingPortMutex.unlock();
+        }   // end of scope for lock guarding text logging port
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -1538,39 +1541,41 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    m_textLoggingPortMutex.lock();
-    int bufferportSize = m_textLoggingPort.getPendingReads();
-    BipedalLocomotion::TextLoggingEntry msg;
-
-    while (bufferportSize > 0)
+    // lock guard scope for text logging port
     {
-        yarp::os::Bottle* b = m_textLoggingPort.read(false);
-        if (b != nullptr)
+        std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
+        int bufferportSize = m_textLoggingPort.getPendingReads();
+        BipedalLocomotion::TextLoggingEntry msg;
+
+        while (bufferportSize > 0)
         {
-            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b, std::to_string(time));
-            if (msg.isValid)
+            yarp::os::Bottle* b = m_textLoggingPort.read(false);
+            if (b != nullptr)
             {
-                signalName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName + "::p"
-                             + msg.processPID;
-
-                // matlab does not support the character - as a key of a struct
-                findAndReplaceAll(signalName, "-", "_");
-
-                // if it is the first time this signal is seen by the device the channel is
-                // added
-                if (m_textLogsStoredInManager.find(signalName) == m_textLogsStoredInManager.end())
+                msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b, std::to_string(time));
+                if (msg.isValid)
                 {
-                    m_bufferManager.addChannel({signalName, {1, 1}});
-                    m_textLogsStoredInManager.insert(signalName);
+                    signalName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName + "::p"
+                                + msg.processPID;
+
+                    // matlab does not support the character - as a key of a struct
+                    findAndReplaceAll(signalName, "-", "_");
+
+                    // if it is the first time this signal is seen by the device the channel is
+                    // added
+                    if (m_textLogsStoredInManager.find(signalName) == m_textLogsStoredInManager.end())
+                    {
+                        m_bufferManager.addChannel({signalName, {1, 1}});
+                        m_textLogsStoredInManager.insert(signalName);
+                    }
                 }
+                bufferportSize = m_textLoggingPort.getPendingReads();
+            } else
+            {
+                break;
             }
-            bufferportSize = m_textLoggingPort.getPendingReads();
-        } else
-        {
-            break;
         }
-    }
-    m_textLoggingPortMutex.unlock();
+    }   // end of lock guard scope for text logging port
 
     m_vectorCollectionRTDataServer.sendData();
 }
