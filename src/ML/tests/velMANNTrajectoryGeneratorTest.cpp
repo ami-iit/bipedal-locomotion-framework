@@ -35,8 +35,8 @@ TEST_CASE("velMANNTrajectoryGenerator")
                      "r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll",
                      "torso_pitch", "torso_roll", "torso_yaw",
                      "neck_pitch", "neck_roll", "neck_yaw",
-                     "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow", "l_wrist_yaw", "l_wrist_roll", "l_wrist_pitch",
-                     "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow", "r_wrist_yaw", "r_wrist_roll", "r_wrist_pitch"};
+                     "l_shoulder_pitch", "l_shoulder_roll", "l_shoulder_yaw", "l_elbow",
+                     "r_shoulder_pitch", "r_shoulder_roll", "r_shoulder_yaw", "r_elbow"};
 
     iDynTree::ModelLoader ml;
     REQUIRE(ml.loadReducedModelFromFile(getRobotModelPath(), jointsList));
@@ -105,15 +105,14 @@ TEST_CASE("velMANNTrajectoryGenerator")
     const manif::SE3d basePose = manif::SE3d(Eigen::Vector3d{0, 0, 0.7748},
                                              Eigen::AngleAxis(0.0, Eigen::Vector3d::UnitY()));
 
-    Eigen::VectorXd jointPositions(32);
+    Eigen::VectorXd jointPositions(26);
     jointPositions << -0.08914329577232137, 0.025767620112200747, 0.016600125582731447, -0.10205569019576242,
             -0.10115357046332556, -0.02590094449134414, -0.10954097755732813, -0.021888724926318617,
             0.06819316643211669, -0.07852679097651347, -0.10034170556770548, 0.020710812052444683,
             0.2413038455611485, 0.010535350226309968, 0.006275324178053386, -0.14908520025814864,
             0.08533421586871431, 0.10281322318047023, 0.32297257397277707, 0.14790247588361516,
-            -0.3129451427487485, 0.04242320961879248, 0.0022412263648723028, -0.016729676987423055,
-            0.11047971812597632, -0.12993538373842523, 0.018668904587540704, 0.033567343049341246,
-            0.3631242921725555, -0.28302209132906536, -0.3129451427487485, 0.04242320961879248;
+            -0.3129451427487485, 0.04242320961879248, -0.12993538373842523, 0.018668904587540704,
+            0.033567343049341246, 0.3631242921725555;
 
     velMANNTrajectoryGenerator generator;
     REQUIRE(generator.setRobotModel(ml.model()));
@@ -125,7 +124,7 @@ TEST_CASE("velMANNTrajectoryGenerator")
     Eigen::Vector3d initialCoMPosition = generator.getOutput().comTrajectory.front();
 
     constexpr double forwardTolerance = 2;
-    constexpr double lateralTolerance = 0.6;
+    constexpr double lateralTolerance = 1.7;
     constexpr double verticalTolerance = 0.1;
     REQUIRE(std::abs(finalCoMPosition[0] - initialCoMPosition[0]) > forwardTolerance);
     REQUIRE(std::abs(finalCoMPosition[1] - initialCoMPosition[1]) < lateralTolerance);

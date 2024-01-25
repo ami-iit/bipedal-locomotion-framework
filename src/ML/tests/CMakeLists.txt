@@ -25,7 +25,7 @@ if(BUILD_TESTING)
   endif()
 
    # Get the onnx model of the vel-based network
-   set(VELMANN_ONNX_EXPECTED_MD5 844cc900bed1df11aa29a72d37540778)
+   set(VELMANN_ONNX_EXPECTED_MD5 9cda34e91d3e48a06f6f720ba7d2c830)
    if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx")
      file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx" VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE)
      string(COMPARE EQUAL ${VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE} ${VELMANN_ONNX_EXPECTED_MD5} VELMANN_ONNX_UPDATED)
@@ -35,7 +35,7 @@ if(BUILD_TESTING)
 
    if(NOT ${VELMANN_ONNX_UPDATED})
      message(STATUS "Fetching velMANN onnx model from huggingface.co/ami-iit/mann...")
-     file(DOWNLOAD https://huggingface.co/ami-iit/mann/resolve/main/ergocubSN000_32j_149e_velbased_mann.onnx
+     file(DOWNLOAD https://huggingface.co/ami-iit/mann/resolve/main/ergocubSN000_26j_49e_velbased_mann.onnx
        ${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx
        EXPECTED_MD5 ${VELMANN_ONNX_EXPECTED_MD5})
    endif()
