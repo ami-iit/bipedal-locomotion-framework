@@ -122,11 +122,6 @@ struct velMANNAutoregressive::Impl
     Math::SchmittTrigger leftFootSchmittTrigger;
     Math::SchmittTrigger rightFootSchmittTrigger;
 
-    void trajectoryBlending(Eigen::Ref<const Eigen::Matrix3Xd> velMannOutputMatrix,
-                            Eigen::Ref<const Eigen::Matrix3Xd> desiredMatrix,
-                            const double& tau,
-                            Eigen::Ref<Eigen::Matrix3Xd> out);
-
     bool updateContact(const double referenceHeight,
                        Math::SchmittTrigger& trigger,
                        Contacts::EstimatedContact& contact);
@@ -596,7 +591,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
         }
     };
 
-    // This part update update the state.
+    // This part updates the state.
     updatePreviousInputWithTransform(m_pimpl->state.pastProjectedBaseVelocity,
                                      current_B_R_previous_B,
                                      previousVelMannOutput.futureBaseLinearVelocityTrajectory.col(0));
@@ -613,21 +608,11 @@ bool velMANNAutoregressive::setInput(const Input& input)
                        m_pimpl->velMannInput.baseAngularVelocityTrajectory.leftCols(
                            halfProjectedBasedHorizon));
 
-    constexpr double tauBaseVelocity = 1.3;
     Eigen::Matrix3Xd desiredFutureBaseVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseLinearVelocityTrajectory.rows(), previousVelMannOutput.futureBaseLinearVelocityTrajectory.cols()) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1)).finished();
-    m_pimpl->trajectoryBlending(previousVelMannOutput.futureBaseLinearVelocityTrajectory,
-                                desiredFutureBaseVelocities3d,
-                                tauBaseVelocity,
-                                m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(
-                                    halfProjectedBasedHorizon));
+    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = desiredFutureBaseVelocities3d;
 
-    constexpr double tauBaseAngVelocity = 1.3;
     Eigen::Matrix3Xd desiredFutureBaseAngVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseAngularVelocityTrajectory.rows(), previousVelMannOutput.futureBaseAngularVelocityTrajectory.cols()) << previousVelMannOutput.futureBaseAngularVelocityTrajectory.topRows(2), input.desiredFutureBaseAngVelocities).finished();
-    m_pimpl->trajectoryBlending(previousVelMannOutput.futureBaseAngularVelocityTrajectory,
-                                desiredFutureBaseAngVelocities3d,
-                                tauBaseAngVelocity,
-                                m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(
-                                    halfProjectedBasedHorizon));
+    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = desiredFutureBaseAngVelocities3d;
 
     if (!m_pimpl->velMann.setInput(m_pimpl->velMannInput))
     {
@@ -661,19 +646,6 @@ bool velMANNAutoregressive::setInput(const Input& input)
     m_pimpl->isOutputValid = false;
 
     return true;
-}
-
-void velMANNAutoregressive::Impl::trajectoryBlending(
-    Eigen::Ref<const Eigen::Matrix3Xd> velMannOutputMatrix,
-    Eigen::Ref<const Eigen::Matrix3Xd> desiredMatrix,
-    const double& tau,
-    Eigen::Ref<Eigen::Matrix3Xd> out)
-{
-    for (int i = 1; i < velMannOutputMatrix.cols(); i++)
-    {
-        const double T = std::pow((i + 1.0) / double(velMannOutputMatrix.cols()), tau);
-        out.col(i-1) = (1 - T) * velMannOutputMatrix.col(i) + T * desiredMatrix.col(i);
-    }
 }
 
 bool velMANNAutoregressive::advance()

@@ -124,7 +124,7 @@ TEST_CASE("velMANNTrajectoryGenerator")
     Eigen::Vector3d initialCoMPosition = generator.getOutput().comTrajectory.front();
 
     constexpr double forwardTolerance = 2;
-    constexpr double lateralTolerance = 1.7;
+    constexpr double lateralTolerance = 1.4;
     constexpr double verticalTolerance = 0.1;
     REQUIRE(std::abs(finalCoMPosition[0] - initialCoMPosition[0]) > forwardTolerance);
     REQUIRE(std::abs(finalCoMPosition[1] - initialCoMPosition[1]) < lateralTolerance);
