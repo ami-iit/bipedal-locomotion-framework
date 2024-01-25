@@ -202,10 +202,6 @@ private:
                             const std::string& camera,
                             const std::string& imageType);
 
-    // for realtime data streaming
-    void SendDataToLoggerVisualizer();
-
-    void ConfigureVectorCollectionServer();
 };
 
 } // namespace BipedalLocomotion
