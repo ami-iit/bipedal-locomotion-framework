@@ -116,6 +116,34 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="60" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="60" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a992631df936ee252d4952b5d5591ea55" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, Eigen::VectorXd &gt;</type>
+        <definition>std::map&lt;std::string, Eigen::VectorXd&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput::linearAccelerations</definition>
+        <argsstring></argsstring>
+        <name>linearAccelerations</name>
+        <briefdescription>
+<para>Linear acceleration of the accelerometer frames. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="61" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a81fbb4d11a1999d6b1806dd9eede2803" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, Eigen::VectorXd &gt;</type>
+        <definition>std::map&lt;std::string, Eigen::VectorXd&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput::angularVelocities</definition>
+        <argsstring></argsstring>
+        <name>angularVelocities</name>
+        <briefdescription>
+<para>Angular velocity of the gyroscope frames. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="62" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput" kindref="compound">RobotDynamicsEstimatorOutput</ref> of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimator" kindref="compound">RobotDynamicsEstimator</ref> which represents the estimation of the Unscented Kalman Filter. </para>
@@ -134,10 +162,12 @@
         <link refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput"/>
         <childnode refid="2" relation="usage">
           <edgelabel>accelerometerBiases</edgelabel>
+          <edgelabel>angularVelocities</edgelabel>
           <edgelabel>contactWrenches</edgelabel>
           <edgelabel>ftWrenches</edgelabel>
           <edgelabel>ftWrenchesBiases</edgelabel>
           <edgelabel>gyroscopeBiases</edgelabel>
+          <edgelabel>linearAccelerations</edgelabel>
         </childnode>
       </node>
       <node id="5">
@@ -167,14 +197,16 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="51" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="52" bodyend="61"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="51" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="52" bodyend="63"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a90642ea386e9cdfcffcaf7bd08b7006d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>accelerometerBiases</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a81fbb4d11a1999d6b1806dd9eede2803" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>angularVelocities</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1af065896af8b2d7f9f733c6a21c6fdee0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>contactWrenches</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a4185cf0ccf36d8081ba605ef2262a6e5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>ds</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1aee57b5405fa9d3a4f7777cefdf4bcfa0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>ftWrenches</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a874b3d767823d6986291ffde3ee86cff" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>ftWrenchesBiases</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a8779d3441eb694f539638e3e39992d14" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>gyroscopeBiases</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a992631df936ee252d4952b5d5591ea55" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>linearAccelerations</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a325b3663c7d74068e84d759f17195449" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>tau_F</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorOutput_1a2df3a4778bc8a8d3288d0d6cdd6362df" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorOutput</scope><name>tau_m</name></member>
     </listofallmembers>

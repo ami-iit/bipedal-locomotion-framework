@@ -113,15 +113,19 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1aad64e7768caf5bd331416e134c59af14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a2c418da67c204ae19df94b78618bf7f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler, const std::string &amp;name) override</argsstring>
         <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a8c24850ae58c6cdd1d4534e65ca24c7d">initialize</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a60ccb70d762e4d9d02ded424a393c64f">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
         </param>
         <briefdescription>
 <para>Initialize the state dynamics. </para>
@@ -135,17 +139,25 @@
 <para>pointer to the parameters handler. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the dynamics. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>the following parameters are required by the class <table rows="6" cols="4"><row>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="5" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
 </entry><entry thead="yes" align='center'><para>Description   </para>
 </entry><entry thead="yes" align='center'><para>Mandatory    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><computeroutput>name</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>input_name</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Name of the state contained in the <computeroutput>VariablesHandler</computeroutput> describing the state associated to this dynamics   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable in input to the main application corresponding to this dynamics   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -164,13 +176,7 @@
 <entry thead="no" align='center'><para><computeroutput>dynamic_model</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para>Type of dynamic model describing the state dynamics.   </para>
-</entry><entry thead="no" align='center'><para>Yes    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><computeroutput>elements</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector of strings describing the list of sub variables composing the state associated to this dynamics.   </para>
-</entry><entry thead="no" align='center'><para>No   </para>
+</entry><entry thead="no" align='center'><para>Yes   </para>
 </entry></row>
 </table>
 </para>
@@ -384,7 +390,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a518aaf5ff8b96345b34fdba009fc2ce5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>getCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a1ff246934d62ec52decf6a4df46150c1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>getInitialStateCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac7ad9601f0f1b7f6516e1117e4845ae2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>getUpdatedVariable</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1aad64e7768caf5bd331416e134c59af14" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a2c418da67c204ae19df94b78618bf7f3" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1adda3fb21d2afc618efa3b5da736f8a65" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>m_covariances</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1adc2b7108bea2bce00ce0f7755f02f71f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>m_currentState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1acbab99c51da6ecc85731da9e410a943b" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</scope><name>m_description</name></member>

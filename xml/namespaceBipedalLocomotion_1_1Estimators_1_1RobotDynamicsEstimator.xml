@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="144" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" declline="144" declcolumn="1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="145" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" declline="145" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="101" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" declline="101" declcolumn="1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="102" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" declline="102" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="ExternalContactStateDynamics_8h_1adeed86be1bfb9ec1dfc4d4060070e34b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -119,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="131" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" declline="131" declcolumn="1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" line="132" column="1" declfile="BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h" declline="132" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

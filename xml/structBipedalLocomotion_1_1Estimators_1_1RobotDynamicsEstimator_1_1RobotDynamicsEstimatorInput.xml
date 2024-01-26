@@ -130,11 +130,11 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="43" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="43" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a795423556bc81663e9241826177b0514" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1ae135f61b6291fd45c6551bca12c9eb38" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
-        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::friction</definition>
+        <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::frictionTorques</definition>
         <argsstring></argsstring>
-        <name>friction</name>
+        <name>frictionTorques</name>
         <briefdescription>
 <para>Friction torques in Nm. </para>
         </briefdescription>
@@ -199,7 +199,7 @@
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aab8cd644a43fbe1fc4a58ea7f75e3fb0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>baseAcceleration</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1afe146dae5d65bb208332c71b026c51ef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>basePose</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aa0d39ba2713d5d3e4d96cb7b0f817aba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>baseVelocity</name></member>
-      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a795423556bc81663e9241826177b0514" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>friction</name></member>
+      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1ae135f61b6291fd45c6551bca12c9eb38" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>frictionTorques</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a194b9f34d10cd7dcb837d718719a4abb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>ftWrenches</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a0e2239e49217500a2ac8442cfc87a9e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>jointPositions</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1afba0c469441b1d70e778bb0750b033ae" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>jointVelocities</name></member>

@@ -225,7 +225,8 @@
             </dt>
             <dd>Set the <a href="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1KinDynWrapper.html" class="m-doc">KinDynWrapper</a> object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9da605700c2f13b1c804fec70898619f" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aaf2fd96d48d133218dea475d5ccc3bc7" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
+              const std::string&amp; name) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Initialize the state dynamics.</dd>
             <dt>
@@ -280,9 +281,10 @@
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9da605700c2f13b1c804fec70898619f"><div>
+          <section class="m-doc-details" id="aaf2fd96d48d133218dea475d5ccc3bc7"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />JointVelocityStateDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9da605700c2f13b1c804fec70898619f" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />JointVelocityStateDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aaf2fd96d48d133218dea475d5ccc3bc7" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
+              const std::string&amp; name) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Initialize the state dynamics.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -294,6 +296,10 @@
                   <td style="width: 1%">paramHandler</td>
                   <td>pointer to the parameters handler.</td>
                 </tr>
+                <tr>
+                  <td>name</td>
+                  <td>name of the dynamics.</td>
+                </tr>
               </tbody>
               <tfoot>
                 <tr>
@@ -302,7 +308,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>name</code></td><td><code>string</code></td><td>Name of the state contained in the <code>VariablesHandler</code> describing the state associated to this dynamics</td><td>Yes</td></tr><tr><td><code>covariance</code></td><td><code>vector</code></td><td>Process covariances</td><td>Yes</td></tr><tr><td><code>initial_covariance</code></td><td><code>vector</code></td><td>Initial state covariances</td><td>Yes</td></tr><tr><td><code>dynamic_model</code></td><td><code>string</code></td><td>Type of dynamic model describing the state dynamics.</td><td>Yes</td></tr><tr><td><code>elements</code></td><td><code>vector</code></td><td>Vector of strings describing the list of sub variables composing the state associated to this dynamics.</td><td>No</td></tr><tr><td><code>dT</code></td><td><code>chrono::nanoseconds</code></td><td>Sampling time.</td><td>Yes</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>input_name</code></td><td><code>string</code></td><td>Name of the variable in input to the main application corresponding to this dynamics</td><td>Yes</td></tr><tr><td><code>covariance</code></td><td><code>vector</code></td><td>Process covariances</td><td>Yes</td></tr><tr><td><code>initial_covariance</code></td><td><code>vector</code></td><td>Initial state covariances</td><td>Yes</td></tr><tr><td><code>dynamic_model</code></td><td><code>string</code></td><td>Type of dynamic model describing the state dynamics.</td><td>Yes</td></tr><tr><td><code>dT</code></td><td><code>chrono::nanoseconds</code></td><td>Sampling time.</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
           <section class="m-doc-details" id="af6bbc581aba2ab3508ffd47b24becd78"><div>
             <h3>

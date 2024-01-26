@@ -137,7 +137,8 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ae3b6ab978805b9244ce84e7c5f656126" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a338230b5fe216786bbd35ffbaf54e45f" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
+              const std::string&amp; name) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Initialize the measurement object.</dd>
             <dt>
@@ -169,9 +170,10 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ae3b6ab978805b9244ce84e7c5f656126"><div>
+          <section class="m-doc-details" id="a338230b5fe216786bbd35ffbaf54e45f"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />MotorCurrentMeasurementDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae3b6ab978805b9244ce84e7c5f656126" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />MotorCurrentMeasurementDynamics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a338230b5fe216786bbd35ffbaf54e45f" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler,
+              const std::string&amp; name) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Initialize the measurement object.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -183,6 +185,10 @@
                   <td style="width: 1%">paramHandler</td>
                   <td>pointer to the parameters handler.</td>
                 </tr>
+                <tr>
+                  <td>name</td>
+                  <td>name of the dynamics.</td>
+                </tr>
               </tbody>
               <tfoot>
                 <tr>
@@ -191,7 +197,7 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>name</code></td><td><code>string</code></td><td>Name of the measurement variable contained in the <code>VariablesHandler</code> describing this dynamics</td><td>Yes</td></tr><tr><td><code>covariance</code></td><td><code>vector</code></td><td>Process covariances</td><td>Yes</td></tr><tr><td><code>dynamic_model</code></td><td><code>string</code></td><td>Type of dynamic model describing the measurement dynamics.</td><td>Yes</td></tr><tr><td><code>elements</code></td><td><code>vector</code></td><td>Vector of strings describing the list of variables composing the measurement dynamics.</td><td>No</td></tr><tr><td><code>torque_constant</code></td><td><code>vector</code></td><td>Vector of coefficients k0. For more info check the class description.</td><td>Yes</td></tr><tr><td><code>gear_ratio</code></td><td><code>vector</code></td><td>Vector of coefficients k1. For more info check the class description.</td><td>Yes</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>input_name</code></td><td><code>string</code></td><td>Name of the variable in input to the main application corresponding to this dynamics</td><td>Yes</td></tr><tr><td><code>covariance</code></td><td><code>vector</code></td><td>Process covariances</td><td>Yes</td></tr><tr><td><code>dynamic_model</code></td><td><code>string</code></td><td>Type of dynamic model describing the measurement dynamics.</td><td>Yes</td></tr><tr><td><code>torque_constant</code></td><td><code>vector</code></td><td>Vector of coefficients k0. For more info check the class description.</td><td>Yes</td></tr><tr><td><code>gear_ratio</code></td><td><code>vector</code></td><td>Vector of coefficients k1. For more info check the class description.</td><td>Yes</td></tr></tbody></table></aside>
           </div></section>
           <section class="m-doc-details" id="abbc64a8c7a6f23faa19a0e0d0110562d"><div>
             <h3>

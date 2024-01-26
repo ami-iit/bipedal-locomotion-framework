@@ -358,15 +358,19 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="80" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1af3eed0c7fa4319eab35a32dc52c98ba6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ad962443fe4ccbee6e0d9f92eeb371185" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler, const std::string &amp;name) override</argsstring>
         <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a8c24850ae58c6cdd1d4534e65ca24c7d">initialize</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a60ccb70d762e4d9d02ded424a393c64f">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
         </param>
         <briefdescription>
 <para>Initialize the state dynamics. </para>
@@ -380,6 +384,14 @@
 <para>pointer to the parameters handler. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the dynamics. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="note"><para>the following parameters are required by the class <table rows="5" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
@@ -388,9 +400,9 @@
 </entry><entry thead="yes" align='center'><para>Mandatory    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><computeroutput>name</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>input_name</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Name of the state contained in the <computeroutput>VariablesHandler</computeroutput> describing the state associated to this dynamics   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable in input to the main application corresponding to this dynamics   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -420,7 +432,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="95" column="5"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="96" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aef3f707d1e8fd37079c8fa506012e84c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -453,7 +465,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="105" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a59ee50a8a1cac780673603b5aee1f294" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -496,7 +508,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="112" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="113" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a101828f13c55b3a7a55ce17f172bc8fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -514,7 +526,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="121" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="122" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aac83a55f7a01a6620da30a479894a4a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -532,7 +544,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="127" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="128" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a9ea35db69e1605d40708c6dd3368f2bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -561,7 +573,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="134" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="135" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a6a6b5287ed77a89885d16e0e792b7267" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -590,7 +602,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="140" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="141" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -634,7 +646,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" bodystart="34" bodyend="142"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/AccelerometerMeasurementDynamics.h" bodystart="34" bodyend="143"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a3d8db53a89a3d5e53a369547d60f3f40" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>AccelerometerMeasurementDynamics</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a101828f13c55b3a7a55ce17f172bc8fb" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>checkStateVariableHandler</name></member>
@@ -642,7 +654,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a518aaf5ff8b96345b34fdba009fc2ce5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>getCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a1ff246934d62ec52decf6a4df46150c1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>getInitialStateCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac7ad9601f0f1b7f6516e1117e4845ae2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>getUpdatedVariable</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1af3eed0c7fa4319eab35a32dc52c98ba6" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ad962443fe4ccbee6e0d9f92eeb371185" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a7e4f315b9429fcf759b4c5d3ed78628e" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>m_accelerometerFameAcceleration</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ab7916830695aa8d54dad02eb62e865e8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>m_accelerometerFameVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aa562db3713ce2bdfe5bca2143fc66e0c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</scope><name>m_accelerometerFrameName</name></member>

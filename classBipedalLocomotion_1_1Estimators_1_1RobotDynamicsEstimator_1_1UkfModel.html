@@ -183,6 +183,14 @@
               std::map&lt;std::string, <a href="Wrench_8h.html#a45559f66740448bbc8253a9816dbef05" class="m-doc">Math::<wbr />Wrenchd</a>&gt; <a href="#a8106ef135d1f19dc85f73b9ed4871b4d" class="m-doc-self">m_extContactMap</a>
             </dt>
             <dd>The map contains names of the ft sensors and values of the wrench.</dd>
+            <dt id="a0d043df9cef91d596f529cac429e9051">
+              std::map&lt;std::string, Eigen::Vector3d&gt; <a href="#a0d043df9cef91d596f529cac429e9051" class="m-doc-self">m_accMap</a>
+            </dt>
+            <dd>The map contains names of the accelerometer sensors and values of the linear accelerations.</dd>
+            <dt id="ac42ee492465bf64a5b4d661637910b7b">
+              std::map&lt;std::string, Eigen::Vector3d&gt; <a href="#ac42ee492465bf64a5b4d661637910b7b" class="m-doc-self">m_gyroMap</a>
+            </dt>
+            <dd>The map contains names of the gyroscope sensors and values of the angular velocities.</dd>
             <dt id="aa65db7b88ef6d7dcfaa349ed780ee1d9">
               std::vector&lt;Eigen::VectorXd&gt; <a href="#aa65db7b88ef6d7dcfaa349ed780ee1d9" class="m-doc-self">m_totalTorqueFromContacts</a>
             </dt>
@@ -215,6 +223,34 @@
               int <a href="#a48f5c45d6b0cfd0c7f83d034b54619d8" class="m-doc-self">m_offsetMeasurement</a>
             </dt>
             <dd>Offset used to fill the measurement vector.</dd>
+            <dt id="a151531f9bdfdd38e306f898391b0d3c3">
+              std::map&lt;std::string, std::string&gt; <a href="#a151531f9bdfdd38e306f898391b0d3c3" class="m-doc-self">m_stateToUkfNames</a>
+            </dt>
+            <dd>Map used to retrieve the name of the variable passed as state and the ukf name.</dd>
+            <dt id="a8361cca08f493ee9490a2a2d9d23cd77">
+              std::map&lt;std::string, std::string&gt; <a href="#a8361cca08f493ee9490a2a2d9d23cd77" class="m-doc-self">m_ukfNamesToMeasures</a>
+            </dt>
+            <dd>Map used to retrieve the name of the variable passed as input and the ukf name.</dd>
+            <dt id="a6cb70819f2e2d3edfcc83be41939c0c6">
+              Eigen::Vector3d <a href="#a6cb70819f2e2d3edfcc83be41939c0c6" class="m-doc-self">m_sensorLinearAcceleration</a>
+            </dt>
+            <dd>Linear acceleration measured by an accelerometer.</dd>
+            <dt id="ae07e71d87519e23aefa80c37a8c2cdd3">
+              Eigen::Vector3d <a href="#ae07e71d87519e23aefa80c37a8c2cdd3" class="m-doc-self">m_bOmegaIB</a>
+            </dt>
+            <dd>Angular velocity of a frame.</dd>
+            <dt id="a0df0965e3843bf895fbfd621130d3c2d">
+              manif::SE3Tangentd <a href="#a0df0965e3843bf895fbfd621130d3c2d" class="m-doc-self">m_tempAccelerometerVelocity</a>
+            </dt>
+            <dd>Velocity of an accelerometer.</dd>
+            <dt id="a22844d91c253a93e173d616147678d5e">
+              manif::SE3Tangentd <a href="#a22844d91c253a93e173d616147678d5e" class="m-doc-self">m_baseVelocity</a>
+            </dt>
+            <dd>Submodel base velocity.</dd>
+            <dt id="a0dea9c04c3631eb8d8d7ddb0435ccead">
+              manif::SE3Tangentd <a href="#a0dea9c04c3631eb8d8d7ddb0435ccead" class="m-doc-self">m_baseAcceleration</a>
+            </dt>
+            <dd>Submodel base acceleration.</dd>
           </dl>
         </section>
         <section>

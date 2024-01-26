@@ -152,6 +152,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#aada13cbd21c82c42e67e8fe11ba9a2ff" class="m-doc">getExternalContactIndex</a>(</span><span class="m-doc-wrap">const std::string&amp; name) -&gt; const <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a>&amp;</span>
             </dt>
             <dd>access an element of the contact frame list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ae4a2e69dcc1235b9855121aa14cb07d1" class="m-doc">getImuBaseFrameName</a>(</span><span class="m-doc-wrap">) const -&gt; const std::string</span>
+            </dt>
+            <dd>getImuBaseFrameName get the name of the IMU frame rigidly attached to the sub-model base frame.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#affe2f1f7eead8a4c842327dfe0d3a15a" class="m-doc">getImuBaseFrameIndex</a>(</span><span class="m-doc-wrap">) const -&gt; int</span>
+            </dt>
+            <dd>getImuBaseFrameIndex get the index of the IMU frame rigidly attached to the sub-model base frame.</dd>
           </dl>
         </section>
         <section>
@@ -432,6 +440,34 @@
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>a <a href="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor.html" class="m-doc">Sensor</a> object corresponding to the external contact frame associated with the specified index.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ae4a2e69dcc1235b9855121aa14cb07d1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const std::string BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae4a2e69dcc1235b9855121aa14cb07d1" class="m-doc-self">getImuBaseFrameName</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>getImuBaseFrameName get the name of the IMU frame rigidly attached to the sub-model base frame.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a string containing the name of the IMU frame.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="affe2f1f7eead8a4c842327dfe0d3a15a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">int BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />SubModel::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#affe2f1f7eead8a4c842327dfe0d3a15a" class="m-doc-self">getImuBaseFrameIndex</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>getImuBaseFrameIndex get the index of the IMU frame rigidly attached to the sub-model base frame.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>an integer containing the index of the IMU frame.</td>
                 </tr>
               </tfoot>
             </table>

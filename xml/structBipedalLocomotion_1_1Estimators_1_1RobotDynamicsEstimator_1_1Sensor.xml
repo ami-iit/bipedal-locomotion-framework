@@ -33,20 +33,6 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="37" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="37" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a03564a8f160aea476bfe4603ae6b3bd0" prot="public" static="no" mutable="no">
-        <type>std::string</type>
-        <definition>std::string BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor::ukfName</definition>
-        <argsstring></argsstring>
-        <name>ukfName</name>
-        <briefdescription>
-<para>Name of the dynamics used for this sensor. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="38" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="38" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a0fdca8a212978a8ea1f9d60d8b3d1f3d" prot="public" static="no" mutable="no">
         <type>int</type>
         <definition>int BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor::frameIndex</definition>
@@ -59,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="39" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="39" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="38" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -86,7 +72,6 @@
         <childnode refid="2" relation="usage">
           <edgelabel>frame</edgelabel>
           <edgelabel>name</edgelabel>
-          <edgelabel>ukfName</edgelabel>
         </childnode>
       </node>
       <node id="3">
@@ -98,12 +83,11 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="34" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="35" bodyend="40"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" line="34" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/SubModel.h" bodystart="35" bodyend="39"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a8a43d5c50a2942822bcb31852c8b56dd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</scope><name>frame</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a0fdca8a212978a8ea1f9d60d8b3d1f3d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</scope><name>frameIndex</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a08e2ce535c0ece8ff1ddbb27a1611192" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</scope><name>name</name></member>
-      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Sensor_1a03564a8f160aea476bfe4603ae6b3bd0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::Sensor</scope><name>ukfName</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

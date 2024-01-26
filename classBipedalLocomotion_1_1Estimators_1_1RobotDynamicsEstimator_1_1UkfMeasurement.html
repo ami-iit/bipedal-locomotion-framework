@@ -152,6 +152,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a93871ca09f6b3abd89cdc57e83c68c72" class="m-doc">freeze</a>(</span><span class="m-doc-wrap">const bfl::Data&amp; data = bfl::Data()) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>freeze update the measurement using data from sensors.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a742f75b23efe037cb4d73613e2338461" class="m-doc">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::string, std::string&gt;&amp; stateToUkfNames)</span>
+            </dt>
+            <dd>setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.</dd>
           </dl>
         </section>
         <section>
@@ -493,6 +497,13 @@
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>data in this case must be a <code>std::map&lt;std::string, Eigen::VectorXd&gt;</code> where the first element represents the name of each measurement dynamics and the second element is the vector containing the measurement of the sensor associated to that variable.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a742f75b23efe037cb4d73613e2338461"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />UkfMeasurement::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a742f75b23efe037cb4d73613e2338461" class="m-doc-self">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::string, std::string&gt;&amp; stateToUkfNames)</span></span>
+            </h3>
+            <p>setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>the map should contain only the name of the state dynamics.</p></aside>
           </div></section>
         </section>
       </div>

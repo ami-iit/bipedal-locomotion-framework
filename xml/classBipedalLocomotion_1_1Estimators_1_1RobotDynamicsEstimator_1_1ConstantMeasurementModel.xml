@@ -128,15 +128,19 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a0c3e0e7da0b9e3ba923242c422727646" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aee2d7c0b10a99cfd28ac877234f55972" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel::initialize</definition>
-        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler) override</argsstring>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; paramHandler, const std::string &amp;name) override</argsstring>
         <name>initialize</name>
-        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a8c24850ae58c6cdd1d4534e65ca24c7d">initialize</reimplements>
+        <reimplements refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a60ccb70d762e4d9d02ded424a393c64f">initialize</reimplements>
         <param>
           <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
           <declname>paramHandler</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
         </param>
         <briefdescription>
 <para>Initialize the state dynamics. </para>
@@ -150,6 +154,14 @@
 <para>pointer to the parameters handler. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the dynamics. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="note"><para>the following parameters are required by the class <table rows="6" cols="4"><row>
 <entry thead="yes" align='center'><para>Parameter Name   </para>
@@ -158,15 +170,21 @@
 </entry><entry thead="yes" align='center'><para>Mandatory    </para>
 </entry></row>
 <row>
-<entry thead="no" align='center'><para><computeroutput>name</computeroutput>   </para>
+<entry thead="no" align='center'><para><computeroutput>input_name</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Name of the state contained in the <computeroutput>VariablesHandler</computeroutput> describing the state associated to this dynamics   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable in input to the main application corresponding to this dynamics.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>associated_state</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable in the state vector corresponding to this dynamics.   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>covariance</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Process covariances   </para>
+</entry><entry thead="no" align='center'><para>Process covariances.   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -174,12 +192,6 @@
 </entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para>Type of dynamic model describing the state dynamics.   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
-</entry></row>
-<row>
-<entry thead="no" align='center'><para><computeroutput>elements</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector of strings describing the list of sub variables composing the state associated to this dynamics.   </para>
-</entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>use_bias</computeroutput>   </para>
@@ -196,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="63" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="64" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a09c5d1883e2a7bd6642c002eaedbcc4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -229,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="71" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="72" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a553453efa7e0372872ff475029c7921f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -272,7 +284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="79" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="80" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aa98d3a777997261624ad92ddd0496f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -290,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="85" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="86" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1adcbe625ea8d64fe7ea12618198d5bf8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -319,7 +331,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="91" column="11"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="92" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a347786970c88d82054d1dbeda24e8050" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -348,7 +360,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="97" column="12"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="98" column="12"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -392,14 +404,14 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" bodystart="34" bodyend="99"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/ConstantMeasurementModel.h" bodystart="34" bodyend="100"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1add89f10c855f38efc715043a435cfe29" prot="private" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>checkStateVariableHandler</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a09c5d1883e2a7bd6642c002eaedbcc4a" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>finalize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a518aaf5ff8b96345b34fdba009fc2ce5" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>getCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1a1ff246934d62ec52decf6a4df46150c1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>getInitialStateCovariance</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1ac7ad9601f0f1b7f6516e1117e4845ae2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>getUpdatedVariable</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a0c3e0e7da0b9e3ba923242c422727646" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aee2d7c0b10a99cfd28ac877234f55972" prot="public" virt="virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1ab2af4023a2b9f683e8ca95c279945085" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>m_bias</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a1928651197146a4bb24936f3b52932e9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>m_biasVariableName</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics_1adda3fb21d2afc618efa3b5da736f8a65" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</scope><name>m_covariances</name></member>
