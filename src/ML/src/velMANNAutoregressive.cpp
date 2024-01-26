@@ -608,11 +608,9 @@ bool velMANNAutoregressive::setInput(const Input& input)
                        m_pimpl->velMannInput.baseAngularVelocityTrajectory.leftCols(
                            halfProjectedBasedHorizon));
 
-    Eigen::Matrix3Xd desiredFutureBaseVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseLinearVelocityTrajectory.rows(), previousVelMannOutput.futureBaseLinearVelocityTrajectory.cols()) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1)).finished();
-    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = desiredFutureBaseVelocities3d;
+    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1);
 
-    Eigen::Matrix3Xd desiredFutureBaseAngVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseAngularVelocityTrajectory.rows(), previousVelMannOutput.futureBaseAngularVelocityTrajectory.cols()) << previousVelMannOutput.futureBaseAngularVelocityTrajectory.topRows(2), input.desiredFutureBaseAngVelocities).finished();
-    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = desiredFutureBaseAngVelocities3d;
+    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) << previousVelMannOutput.futureBaseAngularVelocityTrajectory.topRows(2), input.desiredFutureBaseAngVelocities;
 
     if (!m_pimpl->velMann.setInput(m_pimpl->velMannInput))
     {
