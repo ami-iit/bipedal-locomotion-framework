@@ -5,12 +5,14 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
-bool RDE::ZeroVelocityStateDynamics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool RDE::ZeroVelocityStateDynamics::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[ZeroVelocityStateDynamics::initialize]";
 
@@ -21,12 +23,7 @@ bool RDE::ZeroVelocityStateDynamics::initialize(std::weak_ptr<const ParametersHa
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
@@ -55,7 +52,7 @@ bool RDE::ZeroVelocityStateDynamics::initialize(std::weak_ptr<const ParametersHa
     return true;
 }
 
-bool RDE::ZeroVelocityStateDynamics::finalize(const System::VariablesHandler &stateVariableHandler)
+bool RDE::ZeroVelocityStateDynamics::finalize(const System::VariablesHandler& stateVariableHandler)
 {
     constexpr auto errorPrefix = "[ZeroVelocityStateDynamics::finalize]";
 
@@ -90,7 +87,9 @@ bool RDE::ZeroVelocityStateDynamics::finalize(const System::VariablesHandler &st
     return true;
 }
 
-bool RDE::ZeroVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::ZeroVelocityStateDynamics::setSubModels(
+    const std::vector<RDE::SubModel>& /*subModelList*/,
+    const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
@@ -102,7 +101,9 @@ bool RDE::ZeroVelocityStateDynamics::checkStateVariableHandler()
     // Check if the variable handler contains the variables used by this dynamics
     if (!m_stateVariableHandler.getVariable(m_name).isValid())
     {
-        log()->error("{} The variable handler does not contain the expected state with name `{}`.", errorPrefix, m_name);
+        log()->error("{} The variable handler does not contain the expected state with name `{}`.",
+                     errorPrefix,
+                     m_name);
         return false;
     }
 

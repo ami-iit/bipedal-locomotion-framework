@@ -41,7 +41,7 @@ struct RobotDynamicsEstimatorInput
     std::map<std::string, Eigen::VectorXd> ftWrenches; /**< Wrenches measured by force/torque sensors. */
     std::map<std::string, Eigen::VectorXd> linearAccelerations; /**< Linear accelerations measured by accelerometer sensors. */
     std::map<std::string, Eigen::VectorXd> angularVelocities; /**< Angular velocities measured by gyroscope sensors. */
-    Eigen::VectorXd friction; /**< Friction torques in Nm. */
+    Eigen::VectorXd frictionTorques; /**< Friction torques in Nm. */
 };
 
 /**
@@ -58,6 +58,8 @@ struct RobotDynamicsEstimatorOutput
     std::map<std::string, Eigen::VectorXd> accelerometerBiases; /**< Biases of the accelerometer sensors. */
     std::map<std::string, Eigen::VectorXd> gyroscopeBiases; /**< Biases of the gyroscope sensors. */
     std::map<std::string, Eigen::VectorXd> contactWrenches; /**< External contact wrenches. */
+    std::map<std::string, Eigen::VectorXd> linearAccelerations; /**< Linear acceleration of the accelerometer frames. */
+    std::map<std::string, Eigen::VectorXd> angularVelocities; /**< Angular velocity of the gyroscope frames. */
 };
 
 /**

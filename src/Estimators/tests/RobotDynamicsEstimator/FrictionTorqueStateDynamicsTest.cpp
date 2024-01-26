@@ -116,10 +116,10 @@ IParametersHandler::shared_ptr createModelParameterHandler()
 
 void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
 {
-    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointPositions = jointPos;
 
-    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointAccelerations = jointAcc;
 
     manif::SE3d basePose
@@ -143,18 +143,18 @@ void createStateVector(UKFInput& input,
 {
     state.setZero();
 
-    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
-    int offset = stateVariableHandler.getVariable("ds").offset;
-    int size = stateVariableHandler.getVariable("ds").size;
+    int offset = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
+    int size = stateVariableHandler.getVariable("JOINT_VELOCITIES").size;
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         state[offset + jointIndex] = jointVel(jointIndex);
     }
 
     // Compute joint torques from inverse dynamics on the full model
-    offset = stateVariableHandler.getVariable("tau_m").offset;
-    size = stateVariableHandler.getVariable("tau_m").size;
+    offset = stateVariableHandler.getVariable("MOTOR_TORQUES").offset;
+    size = stateVariableHandler.getVariable("MOTOR_TORQUES").size;
     iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
     extWrench.zero();
     iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
@@ -174,7 +174,7 @@ IParametersHandler::shared_ptr createFrictionParameterHandler()
     // Create parameter handler
     auto parameterHandler = std::make_shared<StdImplementation>();
 
-    const std::string name = "tau_F";
+    const std::string name = "FRICTION_TORQUES";
     Eigen::VectorXd covariance(6);
     covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
     const std::string model = "FrictionTorqueStateDynamics";
@@ -208,11 +208,11 @@ void computeTauFNext(UKFInput& input,
                      IParametersHandler::shared_ptr frictionParamHandler,
                      Eigen::Ref<Eigen::VectorXd> tauFNext)
 {
-    Eigen::VectorXd jointVel(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
-    int offsetVel = stateVariableHandler.getVariable("ds").offset;
+    int offsetVel = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
 
-    for (int jointIndex = 0; jointIndex < stateVariableHandler.getVariable("ds").size; jointIndex++)
+    for (int jointIndex = 0; jointIndex < stateVariableHandler.getVariable("JOINT_VELOCITIES").size; jointIndex++)
     {
         jointVel(jointIndex) = state[offsetVel + jointIndex];
     }
@@ -233,8 +233,8 @@ void computeTauFNext(UKFInput& input,
     std::chrono::nanoseconds dT;
     REQUIRE(frictionParamHandler->getParameter("sampling_time", dT));
 
-    tauFNext = state.segment(stateVariableHandler.getVariable("tau_F").offset,
-                             stateVariableHandler.getVariable("tau_F").size)
+    tauFNext = state.segment(stateVariableHandler.getVariable("FRICTION_TORQUES").offset,
+                             stateVariableHandler.getVariable("FRICTION_TORQUES").size)
                + std::chrono::duration<double>(dT).count() * dotTauF;
 }
 
@@ -245,9 +245,9 @@ TEST_CASE("Friction Torque Dynamics")
     // Create variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler stateVariableHandler;
-    REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
 
     // Create model parameter handler
     auto modelParamHandler = createModelParameterHandler();
@@ -276,7 +276,7 @@ TEST_CASE("Friction Torque Dynamics")
     // Create friction torque dynamics
     FrictionTorqueStateDynamics tauFDynamics;
     REQUIRE(tauFDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(tauFDynamics.initialize(frictionParameterHandler));
+    REQUIRE(tauFDynamics.initialize(frictionParameterHandler, "FRICTION_TORQUES"));
     REQUIRE(tauFDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

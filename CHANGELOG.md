@@ -3,6 +3,8 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
+
 ### Changed
 ### Fixed
 ### Removed
