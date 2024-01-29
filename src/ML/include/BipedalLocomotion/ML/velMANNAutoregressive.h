@@ -154,13 +154,16 @@ public:
 
         velMANNFootState leftFootState; /**< Left foot state */
         velMANNFootState rightFootState; /**< Right foot state */
-        manif::SE3d I_H_B; /**< SE(3) transformation of the base respect to the inertial frame */
+        manif::SE3d I_H_B; /**< SE(3) transformation of the base with respect to the inertial frame */
         SupportFoot supportFoot{SupportFoot::Unknown}; /**< Support foot */
         Eigen::Vector3d projectedContactPositionInWorldFrame; /**< Projected contact position in
                                                                  world frame */
         int supportCornerIndex{-1}; /**< Index of the support corner */
 
         std::chrono::nanoseconds time; /**< Current time stored in the advanceable */
+
+        /**< For the rotational PID */
+        manif::SE3d I_H_ref; /**< SE(3) transformation of the input reference base with respect to the inertial frame */
 
         /**
          * Generate a dummy autoregressive state from the input.

@@ -78,6 +78,9 @@ velMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
 
     autoregressiveState.time = std::chrono::nanoseconds::zero();
 
+    // for rotational PID
+    autoregressiveState.I_H_ref = I_H_B;
+
     return autoregressiveState;
 }
 
@@ -102,6 +105,10 @@ struct velMANNAutoregressive::Impl
     AutoregressiveState state;
     Eigen::MatrixXd supportFootJacobian;
 
+    // For rotational PID
+    Eigen::RowVectorXd previousDesiredAngVel = Eigen::VectorXd::Zero(projectedBaseDatapoints);
+    Eigen::Vector3d previousOmegaE = Eigen::Vector3d::Zero();
+
     int rootIndex;
     int chestIndex;
 
@@ -122,10 +129,30 @@ struct velMANNAutoregressive::Impl
     Math::SchmittTrigger leftFootSchmittTrigger;
     Math::SchmittTrigger rightFootSchmittTrigger;
 
+    static double extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R);
+
     bool updateContact(const double referenceHeight,
                        Math::SchmittTrigger& trigger,
                        Contacts::EstimatedContact& contact);
 };
+
+double velMANNAutoregressive::Impl::extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R)
+{
+    if (R(2, 0) < 1.0)
+    {
+        if (R(2, 0) > -1.0)
+        {
+            return atan2(R(1, 0), R(0, 0));
+        } else
+        {
+            // Not a unique solution
+            return -atan2(-R(1, 2), R(1, 1));
+        }
+    }
+
+    // Not a unique solution
+    return atan2(-R(1, 2), R(1, 1));
+}
 
 bool velMANNAutoregressive::Impl::updateContact(const double referenceHeight,
                                              Math::SchmittTrigger& trigger,
@@ -610,7 +637,46 @@ bool velMANNAutoregressive::setInput(const Input& input)
 
     m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1);
 
-    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) << previousVelMannOutput.futureBaseAngularVelocityTrajectory.topRows(2), input.desiredFutureBaseAngVelocities;
+    // If the user input changed between the previous timestep and now, update the reference frame
+    const double newInputThresh = 1e-5;
+    m_pimpl->previousDesiredAngVel.resize(input.desiredFutureBaseAngVelocities.cols());
+
+    if ((m_pimpl->previousDesiredAngVel - input.desiredFutureBaseAngVelocities).norm() >= newInputThresh)
+    {
+        m_pimpl->state.I_H_ref = m_pimpl->state.I_H_B;
+    }
+
+    const double refYaw = Impl::extractYawAngle(m_pimpl->state.I_H_ref.quat().toRotationMatrix());
+
+    Eigen::Matrix3Xd desiredFutureBaseDirections3d = (Eigen::Matrix3Xd(input.desiredFutureBaseDirections.rows() + 1, input.desiredFutureBaseDirections.cols()) << input.desiredFutureBaseDirections, Eigen::RowVectorXd::Zero(input.desiredFutureBaseDirections.cols())).finished();
+    const double desYaw =
+        std::atan2((desiredFutureBaseDirections3d.col(desiredFutureBaseDirections3d.cols() - 1).cross(desiredFutureBaseDirections3d.col(1)))(2),
+        desiredFutureBaseDirections3d.col(desiredFutureBaseDirections3d.cols() - 1).dot(desiredFutureBaseDirections3d.col(1)));
+
+    // Construct desired angle term of rotational PID equation
+    Eigen::Matrix3d R_d
+        = manif::SE3d(0, 0, 0, //xyz translation is unimportant
+                      0, 0, desYaw + refYaw).quat().toRotationMatrix();
+
+    Eigen::Matrix3d R_mult = R_d.inverse() * m_pimpl->state.I_H_B.quat().toRotationMatrix();
+
+    Eigen::Matrix3d Sk = ((R_mult - R_mult.inverse())/2);
+    Eigen::Vector3d Skv(Sk(2,1), Sk(0,2), Sk(1,0));
+
+    // Apply rotational PID
+    const double c0 = 2.0;
+    Eigen::Matrix3Xd omega_E(3, input.desiredFutureBaseDirections.cols());
+    for (int i = 0; i < input.desiredFutureBaseDirections.cols(); i++)
+    {
+        omega_E.col(i) = previousVelMannOutput.futureBaseAngularVelocityTrajectory.col(i) - c0 * Skv;
+    }
+
+    // assign the rotational PID angular velocity output to be the future portion of the next MANN input
+    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = omega_E;
+
+    // Save PID controller output for use in base orientation update
+    m_pimpl->previousOmegaE = omega_E.col(0);
+    m_pimpl->previousDesiredAngVel = input.desiredFutureBaseAngVelocities;
 
     if (!m_pimpl->velMann.setInput(m_pimpl->velMannInput))
     {
