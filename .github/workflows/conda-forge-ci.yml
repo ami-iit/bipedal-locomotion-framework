@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: conda-incubator/setup-miniconda@v2
       if: matrix.os != 'macos-14'
       with:
         miniforge-variant: Mambaforge
@@ -31,7 +31,7 @@ jobs:
         channels: conda-forge,robostack-staging
         channel-priority: true
 
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: conda-incubator/setup-miniconda@v2
       if: matrix.os == 'macos-14'
       with:
         installer-url: https://github.com/conda-forge/miniforge/releases/download/23.11.0-0/Mambaforge-23.11.0-0-MacOSX-arm64.sh
