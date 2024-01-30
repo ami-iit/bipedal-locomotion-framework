@@ -17,16 +17,24 @@ jobs:
     strategy:
       matrix:
         build_type: [Release]
-        os: [ubuntu-latest, windows-2019, macos-latest]
+        os: [ubuntu-latest, windows-2019, macos-12, macos-14]
       fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
 
-    - uses: conda-incubator/setup-miniconda@v2
+    - uses: conda-incubator/setup-miniconda@v3
+      if: matrix.os != 'macos-14'
       with:
         miniforge-variant: Mambaforge
         miniforge-version: latest
+        channels: conda-forge,robostack-staging
+        channel-priority: true
+
+    - uses: conda-incubator/setup-miniconda@v3
+      if: matrix.os == 'macos-14'
+      with:
+        installer-url: https://github.com/conda-forge/miniforge/releases/download/23.11.0-0/Mambaforge-23.11.0-0-MacOSX-arm64.sh
         channels: conda-forge,robostack-staging
         channel-priority: true
 
