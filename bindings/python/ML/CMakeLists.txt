@@ -8,10 +8,14 @@ if(TARGET BipedalLocomotion::ML)
 
   add_bipedal_locomotion_python_module(
     NAME MLBindings
-    SOURCES src/Module.cpp src/MANN.cpp src/MANNAutoregressive.cpp
-            src/MANNTrajectoryGenerator.cpp src/MANNAutoregressiveInputBuilder.cpp
-    HEADERS ${H_PREFIX}/Module.h ${H_PREFIX}/MANN.h ${H_PREFIX}/MANNAutoregressive.h
-            ${H_PREFIX}/MANNTrajectoryGenerator.h ${H_PREFIX}/MANNAutoregressiveInputBuilder.h
+    SOURCES src/Module.cpp src/MANN.cpp src/velMANN.cpp
+            src/MANNAutoregressive.cpp src/velMANNAutoregressive.cpp
+            src/MANNTrajectoryGenerator.cpp src/velMANNTrajectoryGenerator.cpp
+            src/MANNAutoregressiveInputBuilder.cpp src/velMANNAutoregressiveInputBuilder.cpp
+    HEADERS ${H_PREFIX}/Module.h ${H_PREFIX}/MANN.h ${H_PREFIX}/velMANN.h
+            ${H_PREFIX}/MANNAutoregressive.h ${H_PREFIX}/velMANNAutoregressive.h
+            ${H_PREFIX}/MANNTrajectoryGenerator.h ${H_PREFIX}/velMANNTrajectoryGenerator.h
+            ${H_PREFIX}/MANNAutoregressiveInputBuilder.h ${H_PREFIX}/velMANNAutoregressiveInputBuilder.h
     LINK_LIBRARIES BipedalLocomotion::ML
     )
 

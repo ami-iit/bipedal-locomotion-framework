@@ -11,6 +11,10 @@
 #include <BipedalLocomotion/bindings/ML/MANNAutoregressive.h>
 #include <BipedalLocomotion/bindings/ML/MANNTrajectoryGenerator.h>
 #include <BipedalLocomotion/bindings/ML/MANNAutoregressiveInputBuilder.h>
+#include <BipedalLocomotion/bindings/ML/velMANN.h>
+#include <BipedalLocomotion/bindings/ML/velMANNAutoregressive.h>
+#include <BipedalLocomotion/bindings/ML/velMANNTrajectoryGenerator.h>
+#include <BipedalLocomotion/bindings/ML/velMANNAutoregressiveInputBuilder.h>
 
 
 namespace BipedalLocomotion
@@ -27,6 +31,10 @@ void CreateModule(pybind11::module& module)
     CreateMANNAutoregressive(module);
     CreateMANNTrajectoryGenerator(module);
     CreateMANNAutoregressiveInputBuilder(module);
+    CreateVelMANN(module);
+    CreateVelMANNAutoregressive(module);
+    CreateVelMANNTrajectoryGenerator(module);
+    CreateVelMANNAutoregressiveInputBuilder(module);
 }
 } // namespace ML
 } // namespace bindings
