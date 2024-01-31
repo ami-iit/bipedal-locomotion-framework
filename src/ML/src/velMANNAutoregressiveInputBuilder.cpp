@@ -343,7 +343,8 @@ bool velMANNAutoregressiveInputBuilder::advance()
     // 3. copy the second to last element of the base_angular_velocity computed in step 2 to
     //    the last element
 
-    Eigen::Matrix3Xd desiredFutureBaseDirections3d = (Eigen::Matrix3Xd(m_pimpl->output.desiredFutureBaseDirections.rows() + 1, m_pimpl->output.desiredFutureBaseDirections.cols()) << m_pimpl->output.desiredFutureBaseDirections, Eigen::VectorXd::Zero(m_pimpl->output.desiredFutureBaseVelocities.cols())).finished();
+    Eigen::Matrix3Xd desiredFutureBaseDirections3d = (Eigen::Matrix3Xd(m_pimpl->output.desiredFutureBaseDirections.rows() + 1, m_pimpl->output.desiredFutureBaseDirections.cols()) << m_pimpl->output.desiredFutureBaseDirections, Eigen::RowVectorXd::Zero(m_pimpl->output.desiredFutureBaseVelocities.cols())).finished();
+
     for (int i = 0; i < m_pimpl->numberOfKnots - 1; i++)
     {
         // [BASE ANGULAR VELOCITY EVALUATION] Step 1

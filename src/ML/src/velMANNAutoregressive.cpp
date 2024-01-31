@@ -389,10 +389,10 @@ bool velMANNAutoregressive::initialize(
     ok = ok && getContactCorners("LEFT_FOOT", m_pimpl->state.leftFootState.corners);
     ok = ok && getContactCorners("RIGHT_FOOT", m_pimpl->state.rightFootState.corners);
 
-    auto velMANNParamHandler = ptr->getGroup("velMANN").lock();
+    auto velMANNParamHandler = ptr->getGroup("MANN").lock();
     if (velMANNParamHandler == nullptr)
     {
-        log()->error("{} Unable to find the group named 'velMANN'.", logPrefix);
+        log()->error("{} Unable to find the group named 'MANN'.", logPrefix);
         return false;
     }
 
