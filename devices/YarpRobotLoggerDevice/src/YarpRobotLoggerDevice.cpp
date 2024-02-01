@@ -1337,8 +1337,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 void YarpRobotLoggerDevice::run()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
-    m_vectorCollectionRTDataServer.clearData();
     m_vectorCollectionRTDataServer.prepareData();
+    m_vectorCollectionRTDataServer.clearData();
 
     // get the data
     if (!m_robotSensorBridge->advance())
