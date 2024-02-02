@@ -19,7 +19,8 @@ RDE::FrictionTorqueStateDynamics::FrictionTorqueStateDynamics() = default;
 RDE::FrictionTorqueStateDynamics::~FrictionTorqueStateDynamics() = default;
 
 bool RDE::FrictionTorqueStateDynamics::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[FrictionTorqueStateDynamics::initialize]";
 
@@ -30,12 +31,7 @@ bool RDE::FrictionTorqueStateDynamics::initialize(
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
@@ -115,10 +111,10 @@ bool RDE::FrictionTorqueStateDynamics::finalize(const System::VariablesHandler& 
 
     m_size = m_covariances.size();
 
-    m_frictionTorqueFullModel.resize(m_stateVariableHandler.getVariable("tau_F").size);
+    m_frictionTorqueFullModel.resize(m_stateVariableHandler.getVariable("FRICTION_TORQUES").size);
     m_frictionTorqueFullModel.setZero();
 
-    m_jointVelocityFullModel.resize(m_stateVariableHandler.getVariable("ds").size);
+    m_jointVelocityFullModel.resize(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     m_jointVelocityFullModel.setZero();
 
     m_updatedVariable.resize(m_size);
@@ -151,17 +147,17 @@ bool RDE::FrictionTorqueStateDynamics::checkStateVariableHandler()
     constexpr auto errorPrefix = "[FrictionTorqueStateDynamics::checkStateVariableHandler]";
 
     // Check if the variable handler contains the variables used by this dynamics
-    if (!m_stateVariableHandler.getVariable("tau_F").isValid())
+    if (!m_stateVariableHandler.getVariable("FRICTION_TORQUES").isValid())
     {
         log()->error("{} The variable handler does not contain the expected state with name "
-                     "`tau_F`.",
+                     "`FRICTION_TORQUES`.",
                      errorPrefix);
         return false;
     }
 
-    if (!m_stateVariableHandler.getVariable("ds").isValid())
+    if (!m_stateVariableHandler.getVariable("JOINT_VELOCITIES").isValid())
     {
-        log()->error("{} The variable handler does not contain the expected state with name `ds`.",
+        log()->error("{} The variable handler does not contain the expected state with name `JOINT_VELOCITIES`.",
                      errorPrefix);
         return false;
     }
@@ -191,11 +187,11 @@ bool RDE::FrictionTorqueStateDynamics::update()
 
 void RDE::FrictionTorqueStateDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable("ds").offset,
-                                                m_stateVariableHandler.getVariable("ds").size);
+    m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
+                                                m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
-    m_frictionTorqueFullModel = ukfState.segment(m_stateVariableHandler.getVariable("tau_F").offset,
-                                                 m_stateVariableHandler.getVariable("tau_F").size);
+    m_frictionTorqueFullModel = ukfState.segment(m_stateVariableHandler.getVariable("FRICTION_TORQUES").offset,
+                                                 m_stateVariableHandler.getVariable("FRICTION_TORQUES").size);
 }
 
 void RDE::FrictionTorqueStateDynamics::setInput(const UKFInput& ukfInput)

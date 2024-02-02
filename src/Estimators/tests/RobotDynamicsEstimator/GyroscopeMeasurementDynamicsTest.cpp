@@ -126,10 +126,10 @@ IParametersHandler::shared_ptr createModelParameterHandler()
 
 void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
 {
-    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointPositions = jointPos;
 
-    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointAccelerations = jointAcc;
 
     manif::SE3d basePose
@@ -152,18 +152,18 @@ void createStateVector(UKFInput& input,
 {
     state.setZero();
 
-    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
-    int offset = stateVariableHandler.getVariable("ds").offset;
-    int size = stateVariableHandler.getVariable("ds").size;
+    int offset = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
+    int size = stateVariableHandler.getVariable("JOINT_VELOCITIES").size;
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         state[offset + jointIndex] = jointVel(jointIndex);
     }
 
     // Compute joint torques from inverse dynamics on the full model
-    offset = stateVariableHandler.getVariable("tau_m").offset;
-    size = stateVariableHandler.getVariable("tau_m").size;
+    offset = stateVariableHandler.getVariable("MOTOR_TORQUES").offset;
+    size = stateVariableHandler.getVariable("MOTOR_TORQUES").size;
     iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
     extWrench.zero();
     iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
@@ -193,8 +193,8 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
     gravity.setZero();
     gravity(2) = -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
-    int offset = stateVariableHandler.getVariable("ds").offset;
-    int size = stateVariableHandler.getVariable("ds").size;
+    int offset = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
+    int size = stateVariableHandler.getVariable("JOINT_VELOCITIES").size;
 
     Eigen::VectorXd jointVel(size);
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
@@ -226,8 +226,8 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
 
     // Get sub-model joint velocities
     subModelJointVel[0].resize(subModelList[0].getModel().getNrOfDOFs());
-    offset = stateVariableHandler.getVariable("ds").offset;
-    size = stateVariableHandler.getVariable("ds").size;
+    offset = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
+    size = stateVariableHandler.getVariable("JOINT_VELOCITIES").size;
     for (int jointIdx = 0; jointIdx < subModelList[0].getModel().getNrOfDOFs(); jointIdx++)
     {
         subModelJointVel[0](jointIdx) = state[offset + subModelList[0].getJointMapping()[jointIdx]];
@@ -259,9 +259,9 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     // Create state variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler stateVariableHandler;
-    REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("r_leg_ft_gyro_bias", 3));
 
     // Create parameter handler to load the model
@@ -292,7 +292,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     // Create the dynamics
     GyroscopeMeasurementDynamics gyroDynamics;
     REQUIRE(gyroDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(gyroDynamics.initialize(gyroHandler));
+    REQUIRE(gyroDynamics.initialize(gyroHandler, "r_leg_ft_gyro"));
     REQUIRE(gyroDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state

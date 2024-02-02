@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)
+- Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
+- Add streaming of arm fts in YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/803)
+
+### Changed
+### Fixed
+### Removed
 
 ## [0.18.0] - 2024-01-23
 ### Changed

@@ -43,14 +43,14 @@ TEST_CASE("External Contact State Dynamics")
     // Create variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler variableHandler;
-    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_sole", 6));
 
     ExternalContactStateDynamics r_sole_contact;
 
-    REQUIRE(r_sole_contact.initialize(parameterHandler));
+    REQUIRE(r_sole_contact.initialize(parameterHandler, "r_sole"));
     REQUIRE(r_sole_contact.finalize(variableHandler));
 
     Eigen::VectorXd currentState(covariance.size());

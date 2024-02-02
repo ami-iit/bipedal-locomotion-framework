@@ -49,7 +49,7 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
         .def_readwrite("ft_wrenches", &RobotDynamicsEstimatorInput::ftWrenches)
         .def_readwrite("linear_accelerations", &RobotDynamicsEstimatorInput::linearAccelerations)
         .def_readwrite("angular_velocities", &RobotDynamicsEstimatorInput::angularVelocities)
-        .def_readwrite("friction", &RobotDynamicsEstimatorInput::friction);
+        .def_readwrite("friction_torques", &RobotDynamicsEstimatorInput::frictionTorques);
 
     py::class_<RobotDynamicsEstimatorOutput>(module, "RobotDynamicsEstimatorOutput")
             .def(py::init())
@@ -58,7 +58,9 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
             .def_readwrite("tau_F", &RobotDynamicsEstimatorOutput::tau_F)
             .def_readwrite("ft_wrenches", &RobotDynamicsEstimatorOutput::ftWrenches)
             .def_readwrite("ft_wrenches_biases", &RobotDynamicsEstimatorOutput::ftWrenchesBiases)
+            .def_readwrite("linear_accelerations", &RobotDynamicsEstimatorOutput::linearAccelerations)
             .def_readwrite("accelerometer_biases", &RobotDynamicsEstimatorOutput::accelerometerBiases)
+            .def_readwrite("angular_velocities", &RobotDynamicsEstimatorOutput::angularVelocities)
             .def_readwrite("gyroscope_biases", &RobotDynamicsEstimatorOutput::gyroscopeBiases)
             .def_readwrite("contact_wrenches", &RobotDynamicsEstimatorOutput::contactWrenches)
             .def(py::pickle([](const RobotDynamicsEstimatorOutput &output) { //__getstate__
@@ -67,7 +69,9 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
                                       output.tau_F,
                                       output.ftWrenches,
                                       output.ftWrenchesBiases,
+                                      output.linearAccelerations,
                                       output.accelerometerBiases,
+                                      output.angularVelocities,
                                       output.gyroscopeBiases,
                                       output.contactWrenches);
                 },
@@ -80,9 +84,11 @@ void CreateRobotDynamicsEstimator(pybind11::module& module)
                       rde.tau_F = t[2].cast<Eigen::VectorXd>();
                       rde.ftWrenches = t[3].cast<std::map<std::string, Eigen::VectorXd>>();
                       rde.ftWrenchesBiases = t[4].cast<std::map<std::string, Eigen::VectorXd>>();
-                      rde.accelerometerBiases = t[5].cast<std::map<std::string, Eigen::VectorXd>>();
-                      rde.gyroscopeBiases = t[6].cast<std::map<std::string, Eigen::VectorXd>>();
-                      rde.contactWrenches = t[7].cast<std::map<std::string, Eigen::VectorXd>>();
+                      rde.linearAccelerations = t[5].cast<std::map<std::string, Eigen::VectorXd>>();
+                      rde.accelerometerBiases = t[6].cast<std::map<std::string, Eigen::VectorXd>>();
+                      rde.angularVelocities = t[7].cast<std::map<std::string, Eigen::VectorXd>>();
+                      rde.gyroscopeBiases = t[8].cast<std::map<std::string, Eigen::VectorXd>>();
+                      rde.contactWrenches = t[9].cast<std::map<std::string, Eigen::VectorXd>>();
 
                       return rde;
                  }
