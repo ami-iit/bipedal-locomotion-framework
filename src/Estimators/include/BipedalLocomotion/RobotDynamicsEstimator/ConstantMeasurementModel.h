@@ -50,17 +50,18 @@ public:
     /**
      * Initialize the state dynamics.
      * @param paramHandler pointer to the parameters handler.
+     * @param name name of the dynamics.
      * @note the following parameters are required by the class
      * |           Parameter Name           |   Type   |                                       Description                                                       | Mandatory |
      * |:----------------------------------:|:--------:|:-------------------------------------------------------------------------------------------------------:|:---------:|
-     * |               `name`               | `string` |   Name of the state contained in the `VariablesHandler` describing the state associated to this dynamics|    Yes    |
-     * |            `covariance`            | `vector` |                                Process covariances                                                      |    Yes    |
+     * |            `input_name`            | `string` |        Name of the variable in input to the main application corresponding to this dynamics.            |    Yes    |
+     * |         `associated_state`         | `string` |                Name of the variable in the state vector corresponding to this dynamics.                 |    Yes    |
+     * |            `covariance`            | `vector` |                                Process covariances.                                                     |    Yes    |
      * |           `dynamic_model`          | `string` |               Type of dynamic model describing the state dynamics.                                      |    Yes    |
-     * |             `elements`             | `vector` |  Vector of strings describing the list of sub variables composing the state associated to this dynamics.|    No     |
      * |             `use_bias`             |`boolean` |     Boolean saying if the dynamics depends on a bias. False if not specified.                           |    No     |
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler, const std::string& name) override;
 
     /**
      * Finalize the Dynamics.

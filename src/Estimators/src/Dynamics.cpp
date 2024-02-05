@@ -33,7 +33,8 @@ bool UkfInputProvider::isOutputValid() const
     return m_ukfInput.robotJointPositions.size() != 0;
 }
 
-bool Dynamics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> /**paramHandler**/)
+bool Dynamics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> /**paramHandler**/,
+                          const std::string& /**name**/)
 {
     return true;
 }

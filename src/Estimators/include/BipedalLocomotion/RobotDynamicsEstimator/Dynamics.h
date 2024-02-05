@@ -118,10 +118,11 @@ public:
     /**
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
+     * @param name name of the dynamics.
      * @return True in case of success, false otherwise.
      */
     virtual bool
-    initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
+    initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler, const std::string& name);
 
     /**
      * Finalize the Dynamics.

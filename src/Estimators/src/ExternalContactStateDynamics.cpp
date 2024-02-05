@@ -11,7 +11,8 @@
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 bool RDE::ExternalContactStateDynamics::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[ExternalContactStateDynamics::initialize]";
 
@@ -22,12 +23,7 @@ bool RDE::ExternalContactStateDynamics::initialize(
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
