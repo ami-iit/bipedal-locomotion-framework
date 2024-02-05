@@ -9,6 +9,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <vector>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -179,7 +180,7 @@ private:
     bool
     addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
     void storeAndSendLoggingData(const std::string& name,
-                                 const Eigen::Ref<Eigen::VectorXd> data,
+                                 const Eigen::VectorXd& data,
                                  const double time);
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
@@ -252,8 +253,6 @@ private:
     const std::string ROBOT_DESCRIPTON_LIST = "description_list";
 
     const std::string TIMESTAMPS_NAME = "timestamps";
-        
-
 };
 
 } // namespace BipedalLocomotion

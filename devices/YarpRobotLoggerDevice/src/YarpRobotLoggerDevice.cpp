@@ -621,7 +621,7 @@ bool YarpRobotLoggerDevice::addChannelAndMetadata(const std::string& nameKey,
 }
 
 void YarpRobotLoggerDevice::storeAndSendLoggingData(const std::string& name,
-                                                    const Eigen::Ref<Eigen::VectorXd> data,
+                                                    const Eigen::VectorXd& data,
                                                     const double time)
 {
     m_bufferManager.push_back(data, time, name);
@@ -673,7 +673,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     char* tmp = std::getenv("YARP_ROBOT_NAME");
     std::string metadataName
         = ROBOT_RT_ROOT_NAME + TREE_DELIM + YARP_NAME;
-    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {tmp});
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
 
     metadataName
         = ROBOT_RT_ROOT_NAME + TREE_DELIM + TIMESTAMPS_NAME;
