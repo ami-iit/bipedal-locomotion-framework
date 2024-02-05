@@ -83,7 +83,7 @@ TEST_CASE("velMANNTrajectoryGenerator")
 
     handler->setGroup("LEFT_FOOT", leftFootGroup);
     handler->setGroup("RIGHT_FOOT", rightFootGroup);
-    handler->setGroup("velMANN", mannGroup);
+    handler->setGroup("MANN", mannGroup);
 
     // input to generate a forward direction
     velMANNTrajectoryGeneratorInput generatorInput;
