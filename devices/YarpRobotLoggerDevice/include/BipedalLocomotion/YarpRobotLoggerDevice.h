@@ -13,6 +13,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -178,7 +179,7 @@ private:
     bool
     addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
     void storeAndSendLoggingData(const std::string& name,
-                                 const Eigen::VectorXd& data,
+                                 const Eigen::Ref<Eigen::VectorXd> data,
                                  const double time);
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
@@ -201,6 +202,57 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+
+    const std::string TREE_DELIM = "::";
+
+    const std::string ROBOT_RT_ROOT_NAME = "robot_realtime";
+
+    const std::string JOINT_STATE_POSITIONS_NAME = "joints_state::positions";
+    const std::string JOINT_STATE_VELOCITIES_NAME = "joints_state::velocities";
+    const std::string JOINT_STATE_ACCLERATIONS_NAME = "joints_state::accelerations";
+    const std::string JOINT_STATE_TORQUES_NAME = "joints_state::torques";
+
+    const std::string MOTOR_STATE_POSITIONS_NAME = "motors_state::positions";
+    const std::string MOTOR_STATE_VELOCITIES_NAME = "motors_state::velocities";
+    const std::string MOTOR_STATE_ACCELERATIONS_NAME = "motors_state::acclerations";
+    const std::string MOTOR_STATE_CURRENTS_NAME = "motors_state::currents";
+    const std::string MOTOR_STATE_PWM_NAME = "motors_state::PWM";
+
+    const std::string MOTOR_STATE_PIDS_NAME = "PIDs";
+
+    const std::string FTS_NAME = "FTs";
+
+    const std::vector<std::string> FTElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+
+    const std::string GYROS_NAME = "gyros";
+    const std::vector<std::string> GyroElementNames = {"omega_x", "omega_y", "omega_z"};
+
+    const std::string ACCELEROMETERS_NAME = "accelerometers";
+    const std::vector<std::string> AccelerometerElementNames = {"a_x", "a_y", "a_z"};
+
+    const std::string ORIENTATIONS_NAME = "orientations";
+    const std::vector<std::string> OrientationElementNames = {"r", "p", "y"};
+
+    const std::string MAGNETOMETERS_NAME = "magnetometers";
+    const std::vector<std::string> MagnetometerElementNames = {"mag_x", "mag_y", "mag_z"};
+
+    const std::string CARTESIAN_WRENCHES_NAME = "cartesian_wrenches";
+    const std::vector<std::string> CartesianWrenchNames = {FTElementNames[0],
+                                                        FTElementNames[1],
+                                                        FTElementNames[2],
+                                                        FTElementNames[3],
+                                                        FTElementNames[4],
+                                                        FTElementNames[5]};
+
+    const std::string TEMPERATURE_NAME = "temperatures";
+    const std::vector<std::string> TemperatureNames = {"temperature"};
+
+    const std::string YARP_NAME = "yarp_robot_name";
+
+    const std::string ROBOT_DESCRIPTON_LIST = "description_list";
+
+    const std::string TIMESTAMPS_NAME = "timestamps";
+        
 
 };
 
