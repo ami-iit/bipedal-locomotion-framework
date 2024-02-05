@@ -64,19 +64,51 @@ void CreateVectorsCollectionClient(pybind11::module& module)
             py::arg("handler"))
         .def("connect", &VectorsCollectionClient::connect)
         .def("disconnect", &VectorsCollectionClient::disconnect)
-        .def("getMetadata",
-        [](VectorsCollectionClient& impl) -> std::map<std::string, std::vector<std::string>>
+        .def("get_metadata",
+        [](VectorsCollectionClient& impl) -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata
         {
             BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
             impl.getMetadata(metadata);
-            return metadata.vectors;
+            return metadata;
         })
-        .def("readData",
+        .def("read_data",
              [](VectorsCollectionClient& impl, bool shouldWait) -> std::map<std::string, std::vector<double>>
              {
                 BipedalLocomotion::YarpUtilities::VectorsCollection* collection = impl.readData(shouldWait);
                 return collection->vectors;
              });
+}
+
+void CreateVectorsCollectionMetadata(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionMetadata>(module, "VectorsCollectionMetadata")
+        .def(py::init())
+        .def(py::init<const std::map<std::string, std::vector<std::string>>&>())
+        .def("readWireReader",
+             [](VectorsCollectionMetadata& impl, yarp::os::idl::WireReader& reader) -> bool {
+                 return impl.read(reader);
+             })
+        .def("readConnectionReader",
+             [](VectorsCollectionMetadata& impl, yarp::os::ConnectionReader& connection) -> bool {
+                 return impl.read(connection);
+             })
+        .def("writeWireWriter",
+             [](const VectorsCollectionMetadata& impl, const yarp::os::idl::WireWriter& writer) -> bool {
+                 return impl.write(writer);
+             })
+        .def("writeConnectionWriter",
+             [](const VectorsCollectionMetadata& impl, yarp::os::ConnectionWriter& connection) -> bool {
+                 return impl.write(connection);
+             })
+        .def("toString", &VectorsCollectionMetadata::toString)
+        .def("getVectors",
+            [](const VectorsCollectionMetadata& impl) -> std::map<std::string, std::vector<std::string>> {
+            return impl.vectors;
+        });
 }
 } // namespace YarpUtilities
 } // namespace bindings
