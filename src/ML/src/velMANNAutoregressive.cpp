@@ -567,6 +567,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
 
     // we compute the transformation between the current and the previous base direction
     const manif::SE3d current_B_H_previous_B = m_pimpl->state.I_H_B.inverse() * m_pimpl->state.I_H_B_prev;
+    const manif::SO3d current_B_R_previous_B = manif::SO3d(current_B_H_previous_B.quat());
 
     // this lambda function takes the past trajectory. then it shifts it and append the new
     // datapoint.
@@ -597,10 +598,10 @@ bool velMANNAutoregressive::setInput(const Input& input)
 
     // This part update update the state.
     updatePreviousInputWithTransform(m_pimpl->state.pastProjectedBaseVelocity,
-                                     current_B_H_previous_B,
+                                     current_B_R_previous_B,
                                      previousVelMannOutput.futureBaseLinearVelocityTrajectory.col(0));
     updatePreviousInputWithTransform(m_pimpl->state.pastProjectedBaseAngVelocity,
-                                     current_B_H_previous_B,
+                                     current_B_R_previous_B,
                                      previousVelMannOutput.futureBaseAngularVelocityTrajectory.col(0));
 
     // we subsample the past trajectory to get the input of the network
@@ -618,7 +619,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
                                 desiredFutureBaseVelocities3d,
                                 tauBaseVelocity,
                                 m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(
-                                    halfProjectedBasedHorizon+1));
+                                    halfProjectedBasedHorizon));
 
     constexpr double tauBaseAngVelocity = 1.3;
     Eigen::Matrix3Xd desiredFutureBaseAngVelocities3d = (Eigen::Matrix3Xd(previousVelMannOutput.futureBaseAngularVelocityTrajectory.rows(), previousVelMannOutput.futureBaseAngularVelocityTrajectory.cols()) << previousVelMannOutput.futureBaseAngularVelocityTrajectory.topRows(2), input.desiredFutureBaseAngVelocities).finished();
@@ -626,7 +627,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
                                 desiredFutureBaseAngVelocities3d,
                                 tauBaseAngVelocity,
                                 m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(
-                                    halfProjectedBasedHorizon+1));
+                                    halfProjectedBasedHorizon));
 
     if (!m_pimpl->velMann.setInput(m_pimpl->velMannInput))
     {
@@ -668,10 +669,10 @@ void velMANNAutoregressive::Impl::trajectoryBlending(
     const double& tau,
     Eigen::Ref<Eigen::Matrix3Xd> out)
 {
-    for (int i = 0; i < velMannOutputMatrix.cols(); i++)
+    for (int i = 1; i < velMannOutputMatrix.cols(); i++)
     {
         const double T = std::pow((i + 1.0) / double(velMannOutputMatrix.cols()), tau);
-        out.col(i) = (1 - T) * velMannOutputMatrix.col(i) + T * desiredMatrix.col(i);
+        out.col(i-1) = (1 - T) * velMannOutputMatrix.col(i) + T * desiredMatrix.col(i);
     }
 }
 
