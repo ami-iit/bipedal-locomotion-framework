@@ -11,7 +11,7 @@ max_facing_direction_angle_backward = 0.1
 max_facing_direction_angle_side_opposite_sign = 0.26
 max_facing_direction_angle_side_same_sign = 0.17
 # For vel-based MANN
-max_base_direction_angle_forward = 0.20
+max_base_direction_angle_forward = 0.79
 max_base_direction_angle_backward = 0.1
 max_base_direction_angle_side_opposite_sign = 0.26
 max_base_direction_angle_side_same_sign = 0.17
