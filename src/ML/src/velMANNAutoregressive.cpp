@@ -635,7 +635,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
                        m_pimpl->velMannInput.baseAngularVelocityTrajectory.leftCols(
                            halfProjectedBasedHorizon));
 
-    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) << input.desiredFutureBaseVelocities, previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1);
+    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon) << input.desiredFutureBaseVelocities.rightCols(halfProjectedBasedHorizon), previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1).rightCols(halfProjectedBasedHorizon);
 
     // If the user input changed between the previous timestep and now, update the reference frame
     const double newInputThresh = 1e-5;
@@ -672,7 +672,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     }
 
     // assign the rotational PID angular velocity output to be the future portion of the next MANN input
-    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon+1) = omega_E;
+    m_pimpl->velMannInput.baseAngularVelocityTrajectory.rightCols(halfProjectedBasedHorizon) = omega_E.rightCols(halfProjectedBasedHorizon);
 
     // Save PID controller output for use in base orientation update
     m_pimpl->previousOmegaE = omega_E.col(0);
@@ -744,7 +744,7 @@ bool velMANNAutoregressive::advance()
     // Integrate the base orientation
     // if the robot is stopped (i.e, if the current velMANN input and the previous one are the same)
     // we set the yaw rate equal to zero
-    //TODO need to add Baumgarte stabilization
+    //TODO check that angular velocity is expressed in the correct frame
     const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : m_pimpl->previousOmegaE;
     if (!m_pimpl->baseOrientationDynamics->setControlInput({baseAngularVelocity}))
     {
