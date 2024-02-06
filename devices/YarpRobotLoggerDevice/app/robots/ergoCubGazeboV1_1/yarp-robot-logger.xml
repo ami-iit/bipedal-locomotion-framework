@@ -9,14 +9,14 @@ BSD-3-Clause license. -->
   <param name="rgb_cameras_fps">(30)</param>
   <param name="video_codec_code">mp4v</param>
   <param name="port_prefix">/yarp-robot-logger</param>
-  <param name="text_logging_subnames">("ergoCubGazeboV1/yarprobotinterface")</param>
+  <param name="text_logging_subnames">("ergoCubGazeboV1_1/yarprobotinterface")</param>
 
   <group name="Telemetry">
     <param name="save_period">600.0</param>
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking", "fee")</param>
+    <param name="vectors_collection_exogenous_inputs">("walking", "fee")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <!--group name="Balancing">
@@ -26,7 +26,7 @@ BSD-3-Clause license. -->
       <param name="carrier">"udp"</param>
     </group-->
 
-    <group name="Walking">
+    <group name="walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking"</param>
       <param name="remote">"/walking-coordinator/logger"</param>
       <param name="signal_name">"walking"</param>
