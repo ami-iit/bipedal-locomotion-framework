@@ -588,7 +588,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     // cause issues on some robots (e.g., iCubV2.5)
 
     // we compute the transformation between the current and the previous base direction
-    const manif::SE3d current_B_H_previous_B = m_pimpl->state.I_H_B.inverse() * m_pimpl->state.I_H_B_prev;
+    const manif::SE3d current_B_H_previous_B = m_pimpl->state.I_H_B.inverse().compose(m_pimpl->state.I_H_B_prev);
     const manif::SO3d current_B_R_previous_B = manif::SO3d(current_B_H_previous_B.quat());
 
     // this lambda function takes the past trajectory. then it shifts it and append the new
@@ -654,11 +654,10 @@ bool velMANNAutoregressive::setInput(const Input& input)
         desiredFutureBaseDirections3d.col(desiredFutureBaseDirections3d.cols() - 1).dot(desiredFutureBaseDirections3d.col(1)));
 
     // Construct desired angle term of rotational PID equation
-    Eigen::Matrix3d R_d
-        = manif::SE3d(0, 0, 0, //xyz translation is unimportant
-                      0, 0, desYaw + refYaw).quat().toRotationMatrix();
+    manif::SE3d R_d = manif::SE3d(0, 0, 0, //xyz translation is unimportant
+                      0, 0, desYaw + refYaw);
 
-    Eigen::Matrix3d R_mult = R_d.inverse() * m_pimpl->state.I_H_B.quat().toRotationMatrix();
+    Eigen::Matrix3d R_mult = (R_d.inverse().compose(m_pimpl->state.I_H_B).quat().toRotationMatrix());
 
     Eigen::Matrix3d Sk = ((R_mult - R_mult.inverse())/2);
     Eigen::Vector3d Skv(Sk(2,1), Sk(0,2), Sk(1,0));
@@ -744,7 +743,7 @@ bool velMANNAutoregressive::advance()
     // Integrate the base orientation
     // if the robot is stopped (i.e, if the current velMANN input and the previous one are the same)
     // we set the yaw rate equal to zero
-    const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : m_pimpl->state.I_H_B.quat().toRotationMatrix() * m_pimpl->previousOmegaE; //here am converting to vel expressed in inertial frame, do I need to translate too?
+    const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : manif::SO3d(m_pimpl->state.I_H_B.quat()).act(m_pimpl->previousOmegaE);
     if (!m_pimpl->baseOrientationDynamics->setControlInput({baseAngularVelocity}))
     {
         log()->error("{} Unable to set the control input to the base orientation dynamics.",
