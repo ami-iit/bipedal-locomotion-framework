@@ -744,8 +744,7 @@ bool velMANNAutoregressive::advance()
     // Integrate the base orientation
     // if the robot is stopped (i.e, if the current velMANN input and the previous one are the same)
     // we set the yaw rate equal to zero
-    //TODO check that angular velocity is expressed in the correct frame
-    const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : m_pimpl->previousOmegaE;
+    const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : m_pimpl->state.I_H_B.quat().toRotationMatrix() * m_pimpl->previousOmegaE; //here am converting to vel expressed in inertial frame, do I need to translate too?
     if (!m_pimpl->baseOrientationDynamics->setControlInput({baseAngularVelocity}))
     {
         log()->error("{} Unable to set the control input to the base orientation dynamics.",
