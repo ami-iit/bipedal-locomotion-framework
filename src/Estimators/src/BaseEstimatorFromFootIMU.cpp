@@ -495,7 +495,7 @@ bool BaseEstimatorFromFootIMU::advance()
 
     double orientationError_L = (toXYZ(m_state.footPose_L.rotation()) - toXYZ(m_input.measuredRotation_L.rotation())).norm();
     double orientationError_R = (toXYZ(m_state.footPose_R.rotation()) - toXYZ(m_input.measuredRotation_R.rotation())).norm();
-    double orientationErrorThreshold = 0.001; // [rad]. TODO: get parameter from config file. 0,001 rad = 0,05729578 deg. 
+    double orientationErrorThreshold = 0.01; // [rad]. TODO: get parameter from config file. 0,01 rad = 0,5729578 deg. 
 
     if ( (orientationError_L > orientationErrorThreshold) || (orientationError_R > orientationErrorThreshold) )
     {
