@@ -644,7 +644,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     Eigen::Vector3d Skv(Sk(2,1), Sk(0,2), Sk(1,0));
 
     // Apply rotational PID
-    const double c0 = 2.0;
+    const double c0 = 0.7;
     Eigen::Matrix3Xd omega_E(3, input.desiredFutureBaseDirections.cols());
     for (int i = 0; i < input.desiredFutureBaseDirections.cols(); i++)
     {
