@@ -65,6 +65,7 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
+    bool sendDataRT;
     BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorCollectionRTDataServer;
 
     template <typename T> struct ExogenousSignal
@@ -180,6 +181,14 @@ private:
     bool
     addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
     void storeAndSendLoggingData(const std::string& name,
+                                 const Eigen::VectorXd& data,
+                                 const double time);
+    bool addChannel(const std::string& nameKey, const std::vector<std::string>& metadata);
+    void storeLoggingData(const std::string& name,
+                                 const Eigen::VectorXd& data,
+                                 const double time);
+    bool (BipedalLocomotion::YarpRobotLoggerDevice::*initMetadataFunction)(const std::string& nameKey, const std::vector<std::string>& metadata);
+    void (BipedalLocomotion::YarpRobotLoggerDevice::*loggingDataFunction)(const std::string& name,
                                  const Eigen::VectorXd& data,
                                  const double time);
 
