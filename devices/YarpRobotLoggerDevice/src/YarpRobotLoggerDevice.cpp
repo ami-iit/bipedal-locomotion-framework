@@ -840,25 +840,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                 "default one will be used.",
                                 logPrefix,
                                 signalName);
-                    m_bufferManager.addChannel({signalName, {vector.size(), 1}});
-                    if(sendDataRT)
-                    {
-                        rtSignalName
-                            = ROBOT_RT_ROOT_NAME + TREE_DELIM + signalName;
-                        m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
-                    }
+                    (*this.*initMetadataFunction)(signalName, {});
                 } else
                 {
-                    // if the metadata is found we use it
-                    m_bufferManager.addChannel({signalName, //
-                                                {vector.size(), 1},
-                                                metadata->second});
-                    if(sendDataRT)
-                    {
-                        rtSignalName
-                            = ROBOT_RT_ROOT_NAME + TREE_DELIM + signalName;
-                        m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {metadata->second});
-                    }
+                    (*this.*initMetadataFunction)(signalName, {metadata->second});
                 }
             }
         }
@@ -872,14 +857,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         {
             if (!signal.dataArrived)
             {
-                m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
-
-                if(sendDataRT)
-                {
-                    rtSignalName
-                        = ROBOT_RT_ROOT_NAME + TREE_DELIM + signal.signalName;
-                    m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {});
-                }
+                (*this.*initMetadataFunction)(signalName, {});
                 signal.dataArrived = true;
             }
         }
