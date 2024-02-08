@@ -78,6 +78,9 @@ velMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
 
     autoregressiveState.time = std::chrono::nanoseconds::zero();
 
+    // for linear PID
+    autoregressiveState.I_x_des = I_H_B.translation().topRows(2);
+
     // for rotational PID
     autoregressiveState.I_H_ref = I_H_B;
 
@@ -104,6 +107,10 @@ struct velMANNAutoregressive::Impl
 
     AutoregressiveState state;
     Eigen::MatrixXd supportFootJacobian;
+
+    // For linear PID
+    Eigen::Matrix2Xd previousDesiredVel = Eigen::Matrix2Xd::Zero(2, projectedBaseDatapoints);
+    double lambda_0 = 0.0;
 
     // For rotational PID
     Eigen::RowVectorXd previousDesiredAngVel = Eigen::VectorXd::Zero(projectedBaseDatapoints);
@@ -615,10 +622,57 @@ bool velMANNAutoregressive::setInput(const Input& input)
                        m_pimpl->velMannInput.baseAngularVelocityTrajectory.leftCols(
                            halfProjectedBasedHorizon));
 
-    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon) << input.desiredFutureBaseVelocities.rightCols(halfProjectedBasedHorizon), previousVelMannOutput.futureBaseLinearVelocityTrajectory.bottomRows(1).rightCols(halfProjectedBasedHorizon);
-
     // If the user input changed between the previous timestep and now, update the reference frame
     const double newInputThresh = 1e-5;
+    m_pimpl->previousDesiredVel.resize(2, input.desiredFutureBaseVelocities.cols());
+
+    const double des_B_scaling = 2.0;
+
+    if ((m_pimpl->previousDesiredVel - input.desiredFutureBaseVelocities).norm() >= newInputThresh)
+    {
+        //update desired base position in base frame
+        Eigen::Vector2d B_x_des = des_B_scaling * input.desiredFutureBaseTrajectory.rightCols(1);
+
+        //get z rotation in 2d
+        const double I_yaw_B = iDynTree::Rotation(m_pimpl->state.I_H_B.quat().toRotationMatrix()).asRPY()(2);
+        manif::SO2d I_yaw_rotation_B(I_yaw_B);
+
+        //rotate des x b into world frame (still 2d), then add 3rd dim later, which will be 0
+        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des);
+    }
+
+    //create the error term, where z error is 0 because it's not controlled
+    const double I_yaw_B = iDynTree::Rotation(m_pimpl->state.I_H_B.quat().toRotationMatrix()).asRPY()(2);
+    manif::SO2d I_yaw_rotation_B(I_yaw_B);
+    Eigen::Vector2d I_positionError = m_pimpl->state.I_H_B.translation().topRows(2) - m_pimpl->state.I_x_des;
+    Eigen::Vector3d B_positionError = (Eigen::Vector3d() << I_yaw_rotation_B.inverse().act(I_positionError),
+                                                            0).finished();
+
+    // Check if there is no user input or if the robot reached the desired position
+    if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= 0.25)
+    {
+        m_pimpl->lambda_0 = 0.0;
+    }
+    else
+    {
+        // This means there is no new input and robot should stop
+        m_pimpl->lambda_0 = 1.0;
+    }
+
+    // Apply linear PID
+    const double c1 = 0.25;
+    Eigen::Matrix3Xd xDot(3, input.desiredFutureBaseTrajectory.cols());
+    for (int i = 0; i < input.desiredFutureBaseTrajectory.cols(); i++)
+    {
+        xDot.col(i) = m_pimpl->lambda_0 * (previousVelMannOutput.futureBaseLinearVelocityTrajectory.col(i) - c1 * B_positionError);
+    }
+
+    // assign the linear PID velocity output to be the future portion of the next MANN input
+    m_pimpl->velMannInput.baseLinearVelocityTrajectory.rightCols(halfProjectedBasedHorizon) = xDot.rightCols(halfProjectedBasedHorizon);
+
+    m_pimpl->previousDesiredVel = input.desiredFutureBaseVelocities;
+
+    // If the user input changed between the previous timestep and now, update the reference frame
     m_pimpl->previousDesiredAngVel.resize(input.desiredFutureBaseAngVelocities.cols());
 
     if ((m_pimpl->previousDesiredAngVel - input.desiredFutureBaseAngVelocities).norm() >= newInputThresh)
