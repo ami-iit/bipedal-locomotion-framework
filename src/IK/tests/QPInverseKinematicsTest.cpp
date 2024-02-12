@@ -311,6 +311,40 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     return out;
 }
 
+inline std::string customInt2string(int i)
+{
+    std::stringstream ss;
+
+    ss << i;
+
+    return ss.str();
+}
+
+// Workaround for https://github.com/ami-iit/bipedal-locomotion-framework/issues/799
+inline iDynTree::Model customGetRandomModelWithNoPrismaticJoints(unsigned int nrOfJoints, size_t nrOfAdditionalFrames = 10, bool onlyRevoluteJoints=false)
+{
+    iDynTree::Model model;
+
+    model.addLink("baseLink", iDynTree::getRandomLink());
+
+    for(unsigned int i=0; i < nrOfJoints; i++)
+    {
+        std::string parentLink = iDynTree::getRandomLinkOfModel(model);
+        std::string linkName = "link" + customInt2string(i);
+        iDynTree::addRandomLinkToModel(model,parentLink,linkName,onlyRevoluteJoints);
+    }
+
+    for(unsigned int i=0; i < nrOfAdditionalFrames; i++)
+    {
+        std::string parentLink = iDynTree::getRandomLinkOfModel(model);
+        std::string frameName = "additionalFrame" + customInt2string(i);
+        iDynTree::addRandomAdditionalFrameToModel(model,parentLink,frameName);
+    }
+
+    return model;
+}
+
+
 TEST_CASE("QP-IK")
 {
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
@@ -329,7 +363,9 @@ TEST_CASE("QP-IK")
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
             // create the model
-            const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+            size_t nrOfAdditionalFrames = 10;
+            bool onlyRevoluteJoints = true;
+            const iDynTree::Model model = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,nrOfAdditionalFrames,onlyRevoluteJoints);
             REQUIRE(kinDyn->loadRobotModel(model));
 
             const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);

@@ -155,6 +155,16 @@ bool JointLimitsTask::initialize(
         return false;
     }
 
+    if (m_klim.size() != m_kinDyn->getNrOfDegreesOfFreedom())
+    {
+        log()->error("{} The size of the 'klim' parameter does not match with the number of "
+                     "degrees of freedom of the robot. Expected: {}. Given: {}",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     m_klim.size());
+        return false;
+    }
+
     if (!ptr->getParameter("sampling_time", m_samplingTime)
         || m_samplingTime <= std::chrono::nanoseconds::zero())
     {

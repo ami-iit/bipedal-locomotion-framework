@@ -37,16 +37,16 @@ TEST_CASE("Zero Velocity Dynamics")
     // Create variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler variableHandler;
-    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
 
     ZeroVelocityStateDynamics tau_m;
 
-    REQUIRE(tau_m.initialize(parameterHandler));
+    REQUIRE(tau_m.initialize(parameterHandler, "MOTOR_TORQUES"));
     REQUIRE(tau_m.finalize(variableHandler));
 
     Eigen::VectorXd currentState(sizeVariable);
@@ -57,7 +57,7 @@ TEST_CASE("Zero Velocity Dynamics")
 
     Eigen::VectorXd state(sizeVariable * variableHandler.getNumberOfVariables());
     state.setZero();
-    state.segment(variableHandler.getVariable("tau_m").offset, variableHandler.getVariable("tau_m").size) = currentState;
+    state.segment(variableHandler.getVariable("MOTOR_TORQUES").offset, variableHandler.getVariable("MOTOR_TORQUES").size) = currentState;
 
     tau_m.setState(state);
 

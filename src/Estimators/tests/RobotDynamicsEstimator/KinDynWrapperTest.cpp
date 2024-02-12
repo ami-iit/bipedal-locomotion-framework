@@ -28,6 +28,7 @@
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
+using namespace BipedalLocomotion;
 
 void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoader& mdlLdr)
 {
@@ -107,8 +108,22 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     emptyGroupNamesFrames->setParameter("ukf_names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
     REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
-    REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
-    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", emptyGroupNamesFrames));
+    auto gyroGroup = std::make_shared<StdImplementation>();
+    std::vector<std::string> gyroNameList = {"root_link"};
+    std::vector<std::string> gyroFrameList = {"root_link"};
+    std::vector<std::string> gyroUkfNameList = {"root_link_gyro"};
+    gyroGroup->setParameter("names", gyroNameList);
+    gyroGroup->setParameter("frames", gyroFrameList);
+    gyroGroup->setParameter("ukf_names", gyroUkfNameList);
+    REQUIRE(modelParamHandler->setGroup("GYROSCOPE", gyroGroup));
+    auto accGroup = std::make_shared<StdImplementation>();
+    std::vector<std::string> accNameList = {"root_link"};
+    std::vector<std::string> accFrameList = {"root_link"};
+    std::vector<std::string> accUkfNameList = {"root_link_acc"};
+    accGroup->setParameter("names", accNameList);
+    accGroup->setParameter("frames", accFrameList);
+    accGroup->setParameter("ukf_names", accUkfNameList);
+    REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));
     REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupNamesFrames));
 
     modelParamHandler->setParameter("joint_list", jointList);
@@ -224,4 +239,75 @@ TEST_CASE("KinDynWrapper Test")
 
     REQUIRE(nuDot.head(6).isApprox(baseAcc.coeffs(), tolerance));
     REQUIRE(nuDot.tail(numJoints).isApprox(jointAcc, tolerance));
+
+    // Test forward dynamics when written in terms of sensor proper acceleration
+    // Set the robot state with gravity equal to zero
+    baseAcc.coeffs().head(3) -= worldTBase.rotation().transpose() * gravity;
+
+    gravity.setZero();
+    REQUIRE(kinDyn->setRobotState(worldTBase.transform(),
+                                  jointPos,
+                                  iDynTree::make_span(baseVel.data(), manif::SE3d::Tangent::DoF),
+                                  jointVel,
+                                  gravity));
+
+    kinDyn->inverseDynamics(iDynTree::make_span(baseAcc.data(), manif::SE3d::Tangent::DoF),
+                            jointAcc,
+                            extWrench,
+                            jointTorques);
+
+    jointTrq = iDynTree::toEigen(jointTorques.jointTorques());
+
+    // Set the sub-model state
+    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+                                        jointPos,
+                                        iDynTree::make_span(baseVel.data(),
+                                                            manif::SE3d::Tangent::DoF),
+                                        jointVel,
+                                        gravity);
+
+    // Forward dynamics
+    Eigen::VectorXd jointAccFD2(numJoints);
+    REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
+                                                  Eigen::VectorXd::Zero(numJoints),
+                                                  Eigen::VectorXd::Zero(numJoints),
+                                                  baseAcc,
+                                                  jointAccFD2));
+
+    REQUIRE(jointAcc.isApprox(jointAccFD2, tolerance));
+
+
+    // Test forward dynamics with identity as base pose to verify that nothing depends on the base orientation
+    // Set the robot state with gravity equal to zero
+    worldTBase.setIdentity();
+
+    REQUIRE(kinDyn->setRobotState(worldTBase.transform(),
+                                  jointPos,
+                                  iDynTree::make_span(baseVel.data(), manif::SE3d::Tangent::DoF),
+                                  jointVel,
+                                  gravity));
+
+    kinDyn->inverseDynamics(iDynTree::make_span(baseAcc.data(), manif::SE3d::Tangent::DoF),
+                            jointAcc,
+                            extWrench,
+                            jointTorques);
+
+    jointTrq = iDynTree::toEigen(jointTorques.jointTorques());
+
+    // Set the sub-model state
+    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+                                        jointPos,
+                                        iDynTree::make_span(baseVel.data(),
+                                                            manif::SE3d::Tangent::DoF),
+                                        jointVel,
+                                        gravity);
+
+    // Forward dynamics
+    REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,
+                                                  Eigen::VectorXd::Zero(numJoints),
+                                                  Eigen::VectorXd::Zero(numJoints),
+                                                  baseAcc,
+                                                  jointAccFD2));
+
+    REQUIRE(jointAcc.isApprox(jointAccFD2, tolerance));
 }

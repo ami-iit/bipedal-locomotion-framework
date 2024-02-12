@@ -56,19 +56,19 @@ public:
     /**
      * Initialize the measurement object.
      * @param paramHandler pointer to the parameters handler.
+     * @param name name of the dynamics.
      * @note the following parameters are required by the class
      * |           Parameter Name           |   Type   |                                       Description                                                       | Mandatory |
      * |:----------------------------------:|:--------:|:-------------------------------------------------------------------------------------------------------:|:---------:|
-     * |               `name`               | `string` |Name of the measurement variable contained in the `VariablesHandler` describing this dynamics            |    Yes    |
+     * |            `input_name`            | `string` |        Name of the variable in input to the main application corresponding to this dynamics             |    Yes    |
      * |            `covariance`            | `vector` |                                Process covariances                                                      |    Yes    |
      * |           `dynamic_model`          | `string` |               Type of dynamic model describing the measurement dynamics.                                |    Yes    |
-     * |             `elements`             | `vector` |Vector of strings describing the list of variables composing the measurement dynamics.                   |    No     |
      * |          `torque_constant`         | `vector` |  Vector of coefficients k0. For more info check the class description.                                  |    Yes    |
      * |            `gear_ratio`            | `vector` |  Vector of coefficients k1. For more info check the class description.                                  |    Yes    |
      * @return True in case of success, false otherwise.
      */
     bool
-    initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler, const std::string& name) override;
 
     /**
      * Finalize the Dynamics.

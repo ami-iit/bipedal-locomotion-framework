@@ -75,6 +75,10 @@ protected:
                                                    values of the wrench */
     std::map<std::string, Math::Wrenchd> m_extContactMap; /**< The map contains names of the ft
                                                            sensors and values of the wrench */
+    std::map<std::string, Eigen::Vector3d> m_accMap; /**< The map contains names of the accelerometer sensors and
+                                                   values of the linear accelerations */
+    std::map<std::string, Eigen::Vector3d> m_gyroMap; /**< The map contains names of the gyroscope sensors and
+                                                    values of the angular velocities */
     std::vector<Eigen::VectorXd> m_totalTorqueFromContacts; /**< Joint torques due to known and
                                                              unknown contacts on the sub-model. */
     Math::Wrenchd m_wrench; /**< Joint torques due to a specific contact. */
@@ -85,6 +89,13 @@ protected:
     std::vector<Eigen::MatrixXd> m_tempJacobianList; /**< List of jacobians per eache submodel. */
     manif::SE3d m_worldTBase; /**< Sub-model base pose wrt the inertial frame */
     int m_offsetMeasurement; /**< Offset used to fill the measurement vector. */
+    std::map<std::string, std::string> m_stateToUkfNames; /**< Map used to retrieve the name of the variable passed as state and the ukf name. */
+    std::map<std::string, std::string> m_ukfNamesToMeasures; /**< Map used to retrieve the name of the variable passed as input and the ukf name. */
+    Eigen::Vector3d m_sensorLinearAcceleration; /**< Linear acceleration measured by an accelerometer. */
+    Eigen::Vector3d m_bOmegaIB; /**< Angular velocity of a frame. */
+    manif::SE3Tangentd m_tempAccelerometerVelocity; /**< Velocity of an accelerometer. */
+    manif::SE3Tangentd m_baseVelocity; /**< Submodel base velocity. */
+    manif::SE3Tangentd m_baseAcceleration; /**< Submodel base acceleration. */
 
 public:
     /**

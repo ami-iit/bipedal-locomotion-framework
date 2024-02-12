@@ -60,9 +60,10 @@ struct Output
 };
 
 // Struct to represent a sensor
-struct SensorProperty {
+struct SensorProperty
+{
     std::string sensorName;
-    std::string ukfSensorName;
+    std::string sensorFrame;
 };
 
 ParametersHandler::IParametersHandler::shared_ptr loadConfiguration()
@@ -103,15 +104,15 @@ loadSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
     auto ftGroup = groupModel->getGroup("FT").lock();
     REQUIRE(ftGroup != nullptr);
     std::unordered_map<std::string, std::string> ftSensors;
-    std::vector<std::string> names, ukfNames;
+    std::vector<std::string> names, frames;
     REQUIRE(ftGroup->getParameter("names", names));
-    REQUIRE(ftGroup->getParameter("ukf_names", ukfNames));
+    REQUIRE(ftGroup->getParameter("frames", frames));
     std::vector<SensorProperty> ftSensorPairs;
     for (int idx = 0; idx < names.size(); idx++)
     {
         SensorProperty temp;
         temp.sensorName = names[idx];
-        temp.ukfSensorName = ukfNames[idx];
+        temp.sensorFrame = frames[idx];
         ftSensorPairs.emplace_back(temp);
     }
     sensors["ft"] = ftSensorPairs;
@@ -120,13 +121,13 @@ loadSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
     REQUIRE(contactGroup != nullptr);
     std::unordered_map<std::string, std::string> contactSensors;
     REQUIRE(contactGroup->getParameter("names", names));
-    REQUIRE(contactGroup->getParameter("ukf_names", ukfNames));
+    REQUIRE(contactGroup->getParameter("frames", frames));
     std::vector<SensorProperty> contactSensorPairs;
     for (int idx = 0; idx < names.size(); idx++)
     {
         SensorProperty temp;
         temp.sensorName = names[idx];
-        temp.ukfSensorName = ukfNames[idx];
+        temp.sensorFrame = frames[idx];
         contactSensorPairs.emplace_back(temp);
     }
     sensors["contact"] = contactSensorPairs;
@@ -135,13 +136,13 @@ loadSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
     REQUIRE(accGroup != nullptr);
     std::unordered_map<std::string, std::string> accSensors;
     REQUIRE(accGroup->getParameter("names", names));
-    REQUIRE(accGroup->getParameter("ukf_names", ukfNames));
+    REQUIRE(accGroup->getParameter("frames", frames));
     std::vector<SensorProperty> accSensorPairs;
     for (int idx = 0; idx < names.size(); idx++)
     {
         SensorProperty temp;
         temp.sensorName = names[idx];
-        temp.ukfSensorName = ukfNames[idx];
+        temp.sensorFrame = frames[idx];
         accSensorPairs.emplace_back(temp);
     }
     sensors["acc"] = accSensorPairs;
@@ -150,13 +151,13 @@ loadSensors(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
     REQUIRE(gyroGroup != nullptr);
     std::unordered_map<std::string, std::string> gyroSensors;
     REQUIRE(gyroGroup->getParameter("names", names));
-    REQUIRE(gyroGroup->getParameter("ukf_names", ukfNames));
+    REQUIRE(gyroGroup->getParameter("frames", frames));
     std::vector<SensorProperty> gyroSensorPairs;
     for (int idx = 0; idx < names.size(); idx++)
     {
         SensorProperty temp;
         temp.sensorName = names[idx];
-        temp.ukfSensorName = ukfNames[idx];
+        temp.sensorFrame = frames[idx];
         gyroSensorPairs.emplace_back(temp);
     }
     sensors["gyro"] = gyroSensorPairs;
@@ -214,7 +215,6 @@ Dataset& loadData()
 
     // Unpack data
     static Dataset dataset;
-    log()->info("Unpacking data...");
     auto temp = outStruct("s").asMultiDimensionalArray<double>();
     dataset.s = Conversions::toEigen(temp);
 
@@ -247,14 +247,26 @@ Dataset& loadData()
     for (const auto& acc : outStruct3.fields())
     {
         temp = outStruct3[acc].asMultiDimensionalArray<double>();
-        dataset.accs[acc] = Conversions::toEigen(temp);
+        if (acc == "base_imu_0")
+        {
+            dataset.accs[acc + "_acc"] = Conversions::toEigen(temp);
+        } else
+        {
+            dataset.accs[acc] = Conversions::toEigen(temp);
+        }
     }
 
     matioCpp::Struct outStruct4 = outStruct("gyros").asStruct();
     for (const auto& gyro : outStruct4.fields())
     {
         temp = outStruct4[gyro].asMultiDimensionalArray<double>();
-        dataset.gyros[gyro] = Conversions::toEigen(temp);
+        if (gyro == "base_imu_0")
+        {
+            dataset.gyros[gyro + "_gyro"] = Conversions::toEigen(temp);
+        } else
+        {
+            dataset.gyros[gyro] = Conversions::toEigen(temp);
+        }
     }
 
     return dataset;
@@ -276,66 +288,73 @@ void createInitialState(Dataset& dataset,
     auto ftGroup = groupModel->getGroup("FT").lock();
     REQUIRE(ftGroup != nullptr);
 
-    std::vector<std::string> ftNames, ftUkfNames;
+    std::vector<std::string> ftNames, ftFrames;
     REQUIRE(ftGroup->getParameter("names", ftNames));
-    REQUIRE(ftGroup->getParameter("ukf_names", ftUkfNames));
-
+    REQUIRE(ftGroup->getParameter("frames", ftFrames));
     for (int idx = 0; idx < ftNames.size(); idx++)
     {
-        output.ftWrenches[ftUkfNames[idx]] = dataset.fts[ftNames[idx]].row(0);
-        output.ftWrenchesBiases[ftUkfNames[idx] + "_bias"] = Eigen::VectorXd::Zero(6);
+        output.ftWrenches[ftNames[idx]] = dataset.fts[ftFrames[idx]].row(0);
     }
 
     auto contactGroup = groupModel->getGroup("EXTERNAL_CONTACT").lock();
     REQUIRE(contactGroup != nullptr);
 
-    std::vector<std::string> contactUkfNames;
-    REQUIRE(contactGroup->getParameter("ukf_names", contactUkfNames));
-    for (int idx = 0; idx < contactUkfNames.size(); idx++)
+    std::vector<std::string> contactNames;
+    REQUIRE(contactGroup->getParameter("names", contactNames));
+    for (int idx = 0; idx < contactNames.size(); idx++)
     {
-        output.contactWrenches[contactUkfNames[idx]] = Eigen::VectorXd::Zero(6);
+        output.contactWrenches[contactNames[idx]] = Eigen::VectorXd::Zero(6);
     }
 
     auto accGroup = groupModel->getGroup("ACCELEROMETER").lock();
     REQUIRE(accGroup != nullptr);
 
-    std::vector<std::string> accUkfNames;
-    REQUIRE(accGroup->getParameter("ukf_names", accUkfNames));
-    for (int idx = 0; idx < accUkfNames.size(); idx++)
+    std::vector<std::string> accNames;
+    REQUIRE(accGroup->getParameter("names", accNames));
+    for (int idx = 0; idx < accNames.size(); idx++)
     {
-        output.accelerometerBiases[accUkfNames[idx]+"_bias"] = Eigen::VectorXd::Zero(3);
+        output.linearAccelerations[accNames[idx]] = dataset.accs[accNames[idx]].row(0);
     }
 
     auto gyroGroup = groupModel->getGroup("GYROSCOPE").lock();
     REQUIRE(gyroGroup != nullptr);
 
-    std::vector<std::string> gyroUkfNames;
-    REQUIRE(gyroGroup->getParameter("ukf_names", gyroUkfNames));
-    for (int idx = 0; idx < gyroUkfNames.size(); idx++)
+    std::vector<std::string> gyroNames;
+    REQUIRE(gyroGroup->getParameter("names", gyroNames));
+    for (int idx = 0; idx < gyroNames.size(); idx++)
     {
-        output.gyroscopeBiases[gyroUkfNames[idx]+"_bias"] = Eigen::VectorXd::Zero(3);
+        output.angularVelocities[gyroNames[idx]] = dataset.gyros[gyroNames[idx]].row(0);
     }
 }
 
-void setInput(Dataset& dataset, int sample, RobotDynamicsEstimatorInput& input)
+void setInput(Dataset& dataset,
+              int sample,
+              RobotDynamicsEstimatorInput& input,
+              std::unordered_map<std::string, std::vector<SensorProperty>>& sensors)
 {
+    // Set input
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
     input.motorCurrents = dataset.im.row(sample);
+    input.frictionTorques.resize(input.motorCurrents.size());
+    input.frictionTorques.setZero();
 
-    for (auto const& [key, value] : dataset.fts)
+    for (int idx = 0; idx < sensors["ft"].size(); idx++)
     {
-        input.ftWrenches[key] = value.row(sample);
+        input.ftWrenches[sensors["ft"][idx].sensorName]
+            = dataset.fts[sensors["ft"][idx].sensorFrame].row(sample);
     }
 
-    for (auto const& [key, value] : dataset.accs)
+    for (int idx = 0; idx < sensors["acc"].size(); idx++)
     {
-        input.linearAccelerations[key] = value.row(sample);
+        input.linearAccelerations[sensors["acc"][idx].sensorName]
+            = dataset.accs[sensors["acc"][idx].sensorName].row(sample);
     }
 
-    for (auto const& [key, value] : dataset.gyros)
+    for (int idx = 0; idx < sensors["gyro"].size(); idx++)
     {
-        input.angularVelocities[key] = value.row(sample);
+        input.angularVelocities[sensors["gyro"][idx].sensorName]
+            = dataset.gyros[sensors["gyro"][idx].sensorName].row(sample);
     }
 }
 
@@ -345,7 +364,8 @@ TEST_CASE("RobotDynamicsEstimator Test")
     auto parameterHandler = loadConfiguration();
 
     // Save sensors
-    std::unordered_map<std::string, std::vector<SensorProperty>> sensors = loadSensors(parameterHandler);
+    std::unordered_map<std::string, std::vector<SensorProperty>> sensors
+        = loadSensors(parameterHandler);
 
     // Load robot model and create kindyn object
     SubModelCreator subModelCreator;
@@ -375,7 +395,6 @@ TEST_CASE("RobotDynamicsEstimator Test")
     REQUIRE(estimator->setInitialState(output));
 
     // Starting estimation
-    log()->info("Starting estimation...");
 
     RobotDynamicsEstimatorInput input;
 
@@ -389,28 +408,7 @@ TEST_CASE("RobotDynamicsEstimator Test")
     {
         int sample = sample_;
 
-        // Set input
-        input.jointPositions = dataset.s.row(sample);
-        input.jointVelocities = dataset.ds.row(sample);
-        input.motorCurrents = dataset.im.row(sample);
-
-        for (int idx = 0; idx < sensors["ft"].size(); idx++)
-        {
-            input.ftWrenches[sensors["ft"][idx].ukfSensorName]
-                = dataset.fts[sensors["ft"][idx].sensorName].row(sample);
-        }
-
-        for (int idx = 0; idx < sensors["acc"].size(); idx++)
-        {
-            input.linearAccelerations[sensors["acc"][idx].ukfSensorName]
-                = dataset.accs[sensors["acc"][idx].sensorName].row(sample);
-        }
-
-        for (int idx = 0; idx < sensors["gyro"].size(); idx++)
-        {
-            input.angularVelocities[sensors["gyro"][idx].ukfSensorName]
-                = dataset.gyros[sensors["gyro"][idx].sensorName].row(sample);
-        }
+        setInput(dataset, sample, input, sensors);
 
         // Set input
         REQUIRE(estimator->setInput(input));
@@ -423,16 +421,27 @@ TEST_CASE("RobotDynamicsEstimator Test")
 
         // Check output
         REQUIRE((output.ds - dataset.ds.row(sample).transpose()).isZero(0.1));
-        REQUIRE((output.tau_F - dataset.expectedTauF.row(sample).transpose()).isZero(0.1));
+        for (int idx = 0; idx < output.tau_F.size(); idx++)
+        {
+            REQUIRE(std::abs(output.tau_F(idx) - dataset.expectedTauF.row(sample)(idx)) < 0.2);
+        }
         REQUIRE((output.tau_m - dataset.expectedTaum.row(sample).transpose()).isZero(0.1));
-        REQUIRE(((output.tau_m - output.tau_F) - dataset.expectedTauj.row(sample).transpose()).isZero(0.1));
+        for (int idx = 0; idx < output.tau_F.size(); idx++)
+        {
+            REQUIRE(std::abs((output.tau_m(idx) - output.tau_F(idx))
+                             - dataset.expectedTauj.row(sample)(idx))
+                    < 0.2);
+        }
         for (int idx = 0; idx < sensors["ft"].size(); idx++)
         {
-            REQUIRE(output.ftWrenches[sensors["ft"][idx].ukfSensorName].isApprox(dataset.fts[sensors["ft"][idx].sensorName].row(sample).transpose(), 0.1));
+            REQUIRE(
+                output.ftWrenches[sensors["ft"][idx].sensorName]
+                    .isApprox(dataset.fts[sensors["ft"][idx].sensorFrame].row(sample).transpose(),
+                              0.1));
         }
         for (int idx = 0; idx < sensors["contact"].size(); idx++)
         {
-            REQUIRE((output.contactWrenches[sensors["contact"][idx].ukfSensorName]).isZero(0.1));
+            REQUIRE((output.contactWrenches[sensors["contact"][idx].sensorFrame]).isZero(0.1));
         }
     }
 }

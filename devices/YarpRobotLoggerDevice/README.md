@@ -80,6 +80,7 @@ m_vectorsCollectionServer.finalizeMetadata(); // this should be called only once
 In the main loop, add the following code to prepare and populate the data:
 
 ```c++
+m_vectorsCollectionServer.prepareData(); // required to prepare the data to be sent
 m_vectorsCollectionServer.clearData(); // optional see the documentation
 
 // DCM
@@ -118,6 +119,7 @@ self.vectors_collection_server.finalize_metadata() # this should be called only 
 ```
 In the main loop, add the following code to prepare and populate the data:
 ```python
+self.vectors_collection_server.prepare_data() # required to prepare the data to be sent
 self.vectors_collection_server.clear_data() # optional see the documentation
 self.vectors_collection_server.populate_data("dcm::position::measured", <signal>)
 self.vectors_collection_server.populate_data("dcm::position::desired", <signal>)
