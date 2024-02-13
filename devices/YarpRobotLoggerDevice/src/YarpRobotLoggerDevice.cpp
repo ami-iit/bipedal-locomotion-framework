@@ -1602,10 +1602,7 @@ void YarpRobotLoggerDevice::run()
     }
     Eigen::Matrix<double, 1, 1> newMetadataVector;
     if(newMetadata)
-    {
-        std::cout << "Adding new metadata!!" << std::endl;
         m_updatedMetadataSignalVal = (m_updatedMetadataSignalVal + 1) % 2;
-    }
     newMetadataVector << m_updatedMetadataSignalVal;
     
     m_vectorCollectionRTDataServer.populateData(ROBOT_RT_ROOT_NAME + TREE_DELIM + "newMetadata", newMetadataVector);
