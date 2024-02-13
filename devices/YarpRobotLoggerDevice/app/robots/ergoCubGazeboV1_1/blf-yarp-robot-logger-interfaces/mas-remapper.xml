@@ -5,13 +5,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="mas-remapper" type="multipleanalogsensorsremapper">
   <param name="period">10</param>
-  <param name="ThreeAxisimuscopesNames">
+  <param name="ThreeAxisGyroscopesNames">
     (l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)
   </param>
-  <param name="ThreeAxisLinearimuelerometersNames">
+  <param name="ThreeAxisLinearAccelerometersNames">
     (l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)
   </param>
-  <param name="ThreeAxisimunetometersNames">
+  <param name="ThreeAxisMagnetometersNames">
     (l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)
   </param>
   <param name="OrientationSensorsNames">
