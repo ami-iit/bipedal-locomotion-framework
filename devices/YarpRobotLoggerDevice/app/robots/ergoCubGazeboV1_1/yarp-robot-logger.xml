@@ -37,7 +37,7 @@ BSD-3-Clause license. -->
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>
-    <param name="stream_inertials">false</param>
+    <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">false</param>
     <param name="stream_forcetorque_sensors">true</param>
     <param name="stream_pids">false</param>
@@ -56,6 +56,13 @@ BSD-3-Clause license. -->
       <param name="temperature_sensors_list">("l_arm_ft", "r_arm_ft", "l_leg_ft", "l_foot_front_ft", "l_foot_rear_ft", "r_leg_ft", "r_foot_front_ft", "r_foot_rear_ft")</param>
     </group>
 
+    <group name="InertialSensors">
+      <param name="accelerometers_list">(l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)</param>
+      <param name="gyroscopes_list">(l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)</param>
+      <param name="imunetometers_list">(l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)</param>
+      <param name="orientation_sensors_list">(l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu)</param>
+    </group>
+
   </group>
 
   <!-- ATTACH -->
@@ -63,7 +70,6 @@ BSD-3-Clause license. -->
     <paramlist name="networks">
       <elem name="all_joints">all_joints_mc</elem>
       <elem name="mas-remapper">mas-remapper</elem>
-
     </paramlist>
   </action>
 
