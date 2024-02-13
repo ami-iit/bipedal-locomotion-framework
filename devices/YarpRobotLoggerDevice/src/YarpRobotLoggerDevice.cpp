@@ -1552,7 +1552,7 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
-    
+
     bool newMetadata = false;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
@@ -1604,7 +1604,7 @@ void YarpRobotLoggerDevice::run()
     if(newMetadata)
         m_updatedMetadataSignalVal = (m_updatedMetadataSignalVal + 1) % 2;
     newMetadataVector << m_updatedMetadataSignalVal;
-    
+
     m_vectorCollectionRTDataServer.populateData(ROBOT_RT_ROOT_NAME + TREE_DELIM + "newMetadata", newMetadataVector);
 
     for (auto& [name, signal] : m_vectorSignals)
