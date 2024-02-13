@@ -105,6 +105,7 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 
+    m_updatedMetadataSignalVal = 0;
     sendDataRT = false;
 }
 
@@ -119,6 +120,7 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 
+    m_updatedMetadataSignalVal = 0;
     sendDataRT = false;
 }
 
@@ -821,8 +823,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok &= (*this.*initMetadataFunction)(fullTemperatureSensorName, TemperatureNames);
         }
     }
+
     std::string signalName = "";
     std::string rtSignalName = "";
+
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -830,21 +834,26 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             = signal.client.readData(false);
         if (externalSignalCollection != nullptr)
         {
-            for (const auto& [key, vector] : externalSignalCollection->vectors)
+            if (!signal.dataArrived)
             {
-                signalName = signal.signalName + TREE_DELIM + key;
-                const auto& metadata = signal.metadata.vectors.find(key);
-                if (metadata == signal.metadata.vectors.cend())
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
-                    log()->warn("{} Unable to find the metadata for the signal named {}. The "
-                                "default one will be used.",
-                                logPrefix,
-                                signalName);
-                    (*this.*initMetadataFunction)(signalName, {});
-                } else
-                {
-                    (*this.*initMetadataFunction)(signalName, {metadata->second});
+                    signalName = signal.signalName + TREE_DELIM + key;
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalName);
+                        (*this.*initMetadataFunction)(signalName, {});
+                    } else
+                    {
+                        std::cout << "Adding more metadata!!!" << std::endl;
+                        (*this.*initMetadataFunction)(signalName, {metadata->second});
+                    }
                 }
+                signal.dataArrived = true;
             }
         }
     }
@@ -852,8 +861,8 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     for (auto& [name, signal] : m_vectorSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::Vector* vector = signal.port.read(false);
-        if (vector != nullptr)
+        yarp::sig::Vector* collection = signal.port.read(false);
+        if (collection != nullptr)
         {
             if (!signal.dataArrived)
             {
@@ -862,6 +871,8 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             }
         }
     }
+
+    m_vectorCollectionRTDataServer.populateMetadata(ROBOT_RT_ROOT_NAME + TREE_DELIM + "newMetadata", {"newMetadata"});
 
     if(sendDataRT)
         m_vectorCollectionRTDataServer.finalizeMetadata();
@@ -1541,7 +1552,8 @@ void YarpRobotLoggerDevice::run()
             }
         }
     }
-
+    
+    bool newMetadata = false;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
@@ -1550,16 +1562,64 @@ void YarpRobotLoggerDevice::run()
             = signal.client.readData(false);
         if (externalSignalCollection != nullptr)
         {
-            for (const auto& [key, vector] : externalSignalCollection->vectors)
+            if(!signal.dataArrived)
             {
-                signalName = signal.signalName + TREE_DELIM + key;
-                m_bufferManager.push_back(vector, time, signalName);
-                if(sendDataRT)
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
-                    rtSignalName
-                        = ROBOT_RT_ROOT_NAME + TREE_DELIM + signalName;
-                    m_vectorCollectionRTDataServer.populateData(rtSignalName, vector);
+                    signalName = signal.signalName + TREE_DELIM + key;
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalName);
+                        (*this.*initMetadataFunction)(signalName, {});
+                    } else
+                    {
+                        (*this.*initMetadataFunction)(signalName, {metadata->second});
+                    }
                 }
+                signal.dataArrived = true;
+                newMetadata = true;
+            }
+            else
+            {
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                {
+                    signalName = signal.signalName + TREE_DELIM + key;
+                    m_bufferManager.push_back(vector, time, signalName);
+                    if(sendDataRT)
+                    {
+                        rtSignalName
+                            = ROBOT_RT_ROOT_NAME + TREE_DELIM + signalName;
+                        m_vectorCollectionRTDataServer.populateData(rtSignalName, vector);
+                    }
+                }
+
+            }
+        }
+    }
+    Eigen::Matrix<double, 1, 1> newMetadataVector;
+    if(newMetadata)
+    {
+        std::cout << "Adding new metadata!!" << std::endl;
+        m_updatedMetadataSignalVal = (m_updatedMetadataSignalVal + 1) % 2;
+    }
+    newMetadataVector << m_updatedMetadataSignalVal;
+    
+    m_vectorCollectionRTDataServer.populateData(ROBOT_RT_ROOT_NAME + TREE_DELIM + "newMetadata", newMetadataVector);
+
+    for (auto& [name, signal] : m_vectorSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::sig::Vector* collection = signal.port.read(false);
+        if (collection != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                (*this.*initMetadataFunction)(signalName, {});
+                signal.dataArrived = true;
             }
         }
     }

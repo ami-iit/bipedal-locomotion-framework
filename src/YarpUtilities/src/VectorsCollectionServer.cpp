@@ -96,14 +96,14 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
                                                const std::vector<std::string>& metadata)
 {
     // check if the metadata has been already populated
-    if (m_pimpl->isMetadataFinalized)
-    {
-        log()->error("[VectorsCollectionServer::populateMetadata] The metadata has been already "
-                     "populated.");
-        return false;
-    }
+    // if (m_pimpl->isMetadataFinalized)
+    // {
+    //     log()->error("[VectorsCollectionServer::populateMetadata] The metadata has been already "
+    //                  "populated.");
+    //     return false;
+    // }
 
-    // check if the key has been already used
+    // // check if the key has been already used
     if (m_pimpl->setOfKeys.find(key) != m_pimpl->setOfKeys.end())
     {
         log()->error("[VectorsCollectionServer::populateMetadata] The key {} has been already "
