@@ -5,7 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
 - Add streaming of arm fts in YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/803)
-- Add configuration files to log data from `ergoCubGazeboV1_1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/806)
+- 🤖  [ `ergoCubGazeboV1_1`] Add configuration files to log data with the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/806, https://github.com/ami-iit/bipedal-locomotion-framework/pull/808)
 
 ### Changed
 ### Fixed
