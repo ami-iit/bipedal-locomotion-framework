@@ -281,7 +281,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>x</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>Eigen::VectorXd</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>A generic vector belonging to <formula id="81">$\mathbb{R}^n$</formula>   </para>
+</entry><entry thead="no" align='center'><para>A generic vector belonging to <formula id="86">$\mathbb{R}^n$</formula>   </para>
 </entry></row>
 </table>
 </para>
@@ -293,7 +293,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>dx</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>Eigen::VectorXd</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>A state vector derivative belonging to <formula id="81">$\mathbb{R}^n$</formula>   </para>
+</entry><entry thead="no" align='center'><para>A state vector derivative belonging to <formula id="86">$\mathbb{R}^n$</formula>   </para>
 </entry></row>
 </table>
 </para>

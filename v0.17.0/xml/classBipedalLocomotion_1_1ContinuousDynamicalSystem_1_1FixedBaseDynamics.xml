@@ -240,7 +240,7 @@
 <para>Set the mass matrix regularization term. </para>
         </briefdescription>
         <detaileddescription>
-<para>i.e. <formula id="133">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="134">$M$</formula> is the mass matrix and <formula id="135">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
+<para>i.e. <formula id="186">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="187">$M$</formula> is the mass matrix and <formula id="188">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>matrix</parametername>
 </parameternamelist>
