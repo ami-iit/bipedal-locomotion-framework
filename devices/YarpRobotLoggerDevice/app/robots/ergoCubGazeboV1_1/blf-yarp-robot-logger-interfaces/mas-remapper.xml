@@ -21,7 +21,7 @@
     (l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)
   </param>
   <param name="TemperatureSensorsNames">
-    (l_arm_ft, r_arm_ft)
+    (l_arm_ft, r_arm_ft, l_leg_ft, l_foot_front_ft, l_foot_rear_ft, r_leg_ft, r_foot_front_ft, r_foot_rear_ft)
   </param>
 
   <action phase="startup" level="5" type="attach">
@@ -31,7 +31,7 @@
       <elem name="left_leg_ft_client">left_leg_ft_client</elem>
       <elem name="right_leg_ft_client">right_leg_ft_client</elem>
       <elem name="left_foot_imu_client">left_foot_imu_client</elem>
-      <elem name="right_foot_imu_client">right_foot_imu_client</elem>      
+      <elem name="right_foot_imu_client">right_foot_imu_client</elem>
     </paramlist>
   </action>
 
