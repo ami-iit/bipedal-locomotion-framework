@@ -98,7 +98,7 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
     // check if the metadata has been already populated
     // This code was temporarily removed via commenting it out, this will be discussed with the team
     // later on how to append metadata after it is finalized
-    
+
     // if (m_pimpl->isMetadataFinalized)
     // {
     //     log()->error("[VectorsCollectionServer::populateMetadata] The metadata has been already "
