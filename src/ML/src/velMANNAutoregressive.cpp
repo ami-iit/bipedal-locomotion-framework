@@ -626,7 +626,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     const double newInputThresh = 1e-5;
     m_pimpl->previousDesiredVel.resize(2, input.desiredFutureBaseVelocities.cols());
 
-    const double des_B_scaling = 2.0;
+    const double des_B_scaling = 2.5;
 
     if ((m_pimpl->previousDesiredVel - input.desiredFutureBaseVelocities).norm() >= newInputThresh)
     {
@@ -649,7 +649,8 @@ bool velMANNAutoregressive::setInput(const Input& input)
                                                             0).finished();
 
     // Check if there is no user input or if the robot reached the desired position
-    if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= 0.25)
+    const double radius = 0.3;
+    if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= radius)
     {
         m_pimpl->lambda_0 = 0.0;
     }
@@ -660,7 +661,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     }
 
     // Apply linear PID
-    const double c1 = 0.25;
+    const double c1 = 0.5;
     Eigen::Matrix3Xd xDot(3, input.desiredFutureBaseTrajectory.cols());
     for (int i = 0; i < input.desiredFutureBaseTrajectory.cols(); i++)
     {
