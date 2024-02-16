@@ -99,6 +99,7 @@ private:
         BipedalLocomotion::YarpUtilities::VectorsCollectionClient client;
         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
         std::string signalName;
+        unsigned int numMissedPackets;
         bool dataArrived{false};
         bool connected{false};
 
@@ -213,6 +214,8 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+
+    const unsigned int maxTimoutForExogenousSignal = 10;
 
     const std::string TREE_DELIM = "::";
 

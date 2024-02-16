@@ -849,7 +849,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                         (*this.*initMetadataFunction)(signalName, {});
                     } else
                     {
-                        std::cout << "Adding more metadata!!!" << std::endl;
                         (*this.*initMetadataFunction)(signalName, {metadata->second});
                     }
                 }
@@ -1560,6 +1559,7 @@ void YarpRobotLoggerDevice::run()
 
         BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
             = signal.client.readData(false);
+
         if (externalSignalCollection != nullptr)
         {
             if(!signal.dataArrived)
@@ -1581,10 +1581,12 @@ void YarpRobotLoggerDevice::run()
                     }
                 }
                 signal.dataArrived = true;
+                signal.numMissedPackets = 0;
                 newMetadata = true;
             }
             else
             {
+                signal.numMissedPackets = 0;
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
                     signalName = signal.signalName + TREE_DELIM + key;
@@ -1597,6 +1599,15 @@ void YarpRobotLoggerDevice::run()
                     }
                 }
 
+            }
+        }
+        else if (externalSignalCollection == nullptr && signal.connected)
+        {
+            signal.numMissedPackets++;
+            if (signal.numMissedPackets == maxTimoutForExogenousSignal)
+            {
+                signal.connected = false;
+                signal.numMissedPackets = 0;
             }
         }
     }
