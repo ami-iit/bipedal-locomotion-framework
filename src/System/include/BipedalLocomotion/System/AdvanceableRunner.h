@@ -274,7 +274,8 @@ std::thread AdvanceableRunner<_Advanceable>::run(std::shared_ptr<Barrier> barrie
     m_isRunning = true;
     auto function = [&](std::shared_ptr<Barrier> barrier) -> bool {
         constexpr auto logPrefix = "[AdvanceableRunner::run]";
-        // if the barrier is passed the run method, synchronization is performed
+
+        // synchronize the threads
         if (!(barrier == nullptr))
         {
             log()->debug("{} - {} This thread is waiting for the other threads.",
