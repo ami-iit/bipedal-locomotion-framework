@@ -1164,6 +1164,25 @@ bool CentroidalMPC::advance()
     ContactListMap contactListMap = m_pimpl->output.contactPhaseList.lists();
     for (auto& [key, contact] : m_pimpl->output.contacts)
     {
+        // check if the contact is found in the contact list map
+        if (contactListMap.find(key) == contactListMap.end())
+        {
+            // if the contact is not found we skip the reading of the contact
+            // we need to advance the iterator by the number of elements that we need to skip
+            // namely: 1 (isEnabled) + 1 (position) + 1 (orientation) + n_contacts (forces)
+            const std::size_t numberOfElementsToSkip = 1 // isEnabled
+                                                       + 1 // position
+                                                       + 1 // orientation
+                                                       + contact.corners.size(); // forces
+            std::advance(it, numberOfElementsToSkip);
+            log()->info("{} The contact {} is not found in the contact list map. Skipping the "
+                        "reading of the contact.",
+                        errorPrefix,
+                        key);
+            continue;
+        }
+
+        // The contact is found in the contact list map
         ContactList& contactList = contactListMap.at(key);
 
         // this is required for toEigen
