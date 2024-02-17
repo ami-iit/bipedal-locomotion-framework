@@ -556,6 +556,8 @@ struct CentroidalMPC::Impl
 
         // resize the CoM Trajectory
         this->output.comTrajectory.resize(stateHorizon);
+        this->output.comVelocityTrajectory.resize(stateHorizon);
+        this->output.angularMomentumTrajectory.resize(stateHorizon);
 
         // In case of no warmstart the variables are:
         // - centroidalVariables = 7: external force + external torque + com current + dcom current
@@ -1071,6 +1073,8 @@ struct CentroidalMPC::Impl
         }
 
         concatenateOutput(this->optiVariables.com, "com");
+        concatenateOutput(this->optiVariables.dcom, "com_velocity");
+        concatenateOutput(this->optiVariables.angularMomentum, "angular_momentum");
 
         casadi::Dict toFunctionOptions, jitOptions;
         if (casadiVersionIsAtLeast360())
@@ -1223,15 +1227,13 @@ bool CentroidalMPC::advance()
             }
         }
 
+        // Orientation
         std::advance(it, 1);
-
-        // get the orientation
         contact.pose.quat(Eigen::Quaterniond(
             Eigen::Map<const Eigen::Matrix3d>(toEigen(*it).leftCols<1>().data())));
 
-        // get the forces
+        // Forces
         std::advance(it, 1);
-
         for (std::size_t cornerIndex = 0; cornerIndex < contact.corners.size(); cornerIndex++)
         {
             if (m_pimpl->optiSettings.isWarmStartEnabled)
@@ -1258,11 +1260,29 @@ bool CentroidalMPC::advance()
     // update the contact phase list
     m_pimpl->output.contactPhaseList.setLists(contactListMap);
 
+    // CoM
     for (int i = 0; i < m_pimpl->output.comTrajectory.size(); i++)
     {
         using namespace BipedalLocomotion::Conversions;
         m_pimpl->output.comTrajectory[i] = toEigen(*it).col(i);
     }
+
+    // CoM velocity
+    std::advance(it, 1);
+    for (int i = 0; i < m_pimpl->output.comVelocityTrajectory.size(); i++)
+    {
+        using namespace BipedalLocomotion::Conversions;
+        m_pimpl->output.comVelocityTrajectory[i] = toEigen(*it).col(i);
+    }
+
+    // Angular momentum
+    std::advance(it, 1);
+    for (int i = 0; i < m_pimpl->output.angularMomentumTrajectory.size(); i++)
+    {
+        using namespace BipedalLocomotion::Conversions;
+        m_pimpl->output.angularMomentumTrajectory[i] = toEigen(*it).col(i);
+    }
+
     // advance the time
     m_pimpl->currentTime += m_pimpl->optiSettings.samplingTime;
 
