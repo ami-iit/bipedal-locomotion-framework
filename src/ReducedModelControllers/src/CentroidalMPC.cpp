@@ -942,19 +942,19 @@ struct CentroidalMPC::Impl
         auto& angularMomentumReference = this->optiVariables.angularMomentumReference;
 
         // (max - mix) * exp(-i) + min
-        casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
-        const double min = this->weights.com(2) / 2;
-        for (int i = 0; i < com.columns(); i++)
-        {
-            weightCoMZ(Sl(), i) = (this->weights.com(2) - min) * std::exp(-i) + min;
-        }
+        // casadi::DM weightCoMZ = casadi::DM::zeros(1, com.columns());
+        // const double min = this->weights.com(2) / 2;
+        // for (int i = 0; i < com.columns(); i++)
+        // {
+        //     weightCoMZ(Sl(), i) = (this->weights.com(2) - min) * std::exp(-i) + min;
+        // }
 
         casadi::MX cost
             = this->weights.angularMomentum
                   * casadi::MX::sumsqr(angularMomentum - angularMomentumReference)
               + this->weights.com(0) * casadi::MX::sumsqr(com(0, Sl()) - comReference(0, Sl()))
               + this->weights.com(1) * casadi::MX::sumsqr(com(1, Sl()) - comReference(1, Sl()))
-              + casadi::MX::sumsqr(weightCoMZ * (com(2, Sl()) - comReference(2, Sl())));
+              + this->weights.com(2) * casadi::MX::sumsqr((com(2, Sl()) - comReference(2, Sl())));
 
         casadi::MX averageForce;
         for (const auto& [key, contact] : this->optiVariables.contacts)
