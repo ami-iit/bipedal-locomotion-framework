@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file.
 - 🤖  [ `ergoCubGazeboV1_1`] Add configuration files to log data with the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/806, https://github.com/ami-iit/bipedal-locomotion-framework/pull/808)
 
 ### Changed
+- 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
+
 ### Fixed
 ### Removed
 
