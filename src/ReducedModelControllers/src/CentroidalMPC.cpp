@@ -937,6 +937,8 @@ struct CentroidalMPC::Impl
             }
         }
 
+        this->opti.subject_to(-0.03 <= this->optiVariables.comReference(2, Sl()) - com(2, Sl()) <= 0.03);
+
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
         auto& angularMomentumReference = this->optiVariables.angularMomentumReference;
