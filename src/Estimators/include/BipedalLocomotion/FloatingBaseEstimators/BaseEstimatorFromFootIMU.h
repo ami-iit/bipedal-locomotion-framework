@@ -16,11 +16,6 @@
 #include <manif/SE3.h>
 #include <manif/SO3.h>
 
-// YARP
-#include <yarp/sig/Vector.h>
-#include <yarp/os/BufferedPort.h>
-#include <yarp/os/Network.h>
-
 #include <memory>
 
 namespace BipedalLocomotion
@@ -35,9 +30,9 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
+    manif::SE3d::Tangent baseVelocity; /**< velocity of the robot  root link. */                        
     manif::SE3d footPose_L; /**< pose of the left foot */
     manif::SE3d footPose_R; /**< pose of the right foot */
-    Eigen::Vector3d centerOfMassPosition;
     std::vector<Eigen::Vector3d> stanceFootShadowCorners;
     std::vector<Eigen::Vector3d> stanceFootCorners;
     int supportCornerIndex;
@@ -52,12 +47,17 @@ struct BaseEstimatorFromFootIMUInput
     bool isRightStance; /**< true if the right foot is in contact with the ground */
     Eigen::VectorXd jointPositions; /**< vector of the robot joint positions */
     Eigen::VectorXd jointVelocities; /**< vector of the robot joint velocities */
-    manif::SE3d offsetStanceFootPose; /**< Optional offset orientation and position of the foot.
-                                      E.g. as per footstep planner output */
+    Eigen::Vector3d stanceFootPosition; /**< Optional offset orientation and position of the foot.
+                                           E.g. as per footstep planner output */
     manif::SO3d measuredRotation_L; /**< actual orientation of the left foot measured by
-                                    on-board IMU */
+                                         on-board IMU */
     manif::SO3d measuredRotation_R; /**< actual orientation of the right foot measured by
                                     on-board IMU */
+    manif::SO3Tangentd measuredAngularVelocity_L; /**< actual angular velocity of the left foot
+                                                     measured by on-board IMU */
+
+    manif::SO3Tangentd measuredAngularVelocity_R; /**< actual angular velocity of the right foot
+                                                        measured by on-board IMU */
 };
 
 /**
@@ -151,9 +151,6 @@ private:
     BaseEstimatorFromFootIMUInput m_input; /**< Last input stored in the estimator */
     BaseEstimatorFromFootIMUState m_state; /**< Current state stored in the estimator */
 
-    yarp::os::BufferedPort<yarp::sig::Vector> m_port; /**< Port used to send the output of the
-                                                            estimator to the WalkingModule */
-
     // Geometric quantities of the foot
     double m_footWidth; /**< Lateral dimension of the robot foot */
     double m_footLength; /**< Frontal dimension of the robot foot */
@@ -222,7 +219,6 @@ private:
     bool m_isLastStanceFoot_L{false}; /**< true if the last stance foot was the left one */
     bool m_isLastStanceFoot_R{false}; /**< true if the last stance foot was the right one */
 
-    bool m_isModelSet{false};
     bool m_isInitialized{false};
     bool m_isInputSet{false};
     bool m_isOutputValid{false};
