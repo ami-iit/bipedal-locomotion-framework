@@ -180,8 +180,6 @@ bool BaseEstimatorFromFootIMU::initialize(
     m_state.stanceFootShadowCorners.resize(m_cornersInInertialFrame.size());
     m_state.stanceFootCorners.resize(m_cornersInInertialFrame.size());
 
-    m_port.open("/baseEstimatorFromFootIMU/state:o");
-
     m_isInitialized = true;
 
     return ok;
@@ -473,25 +471,6 @@ bool BaseEstimatorFromFootIMU::advance()
         m_state.stanceFootCorners[i] = m_T_walk.act(
             m_T_yawDrift.act(T_supportCornerTranslation.act(m_tiltedFootCorners[i])));
     }
-
-    // yarp write the basePose in the port
-    yarp::sig::Vector output;
-    output.clear();
-    // output.resize(12);
-    output.push_back(m_state.basePose.translation().x());
-    output.push_back(m_state.basePose.translation().y());
-    output.push_back(m_state.basePose.translation().z());
-    output.push_back(toXYZ(m_state.basePose.rotation())[0]);
-    output.push_back(toXYZ(m_state.basePose.rotation())[1]);
-    output.push_back(toXYZ(m_state.basePose.rotation())[2]);
-    output.push_back(0.0);
-    output.push_back(0.0);
-    output.push_back(0.0);
-    output.push_back(0.0);
-    output.push_back(0.0);
-    output.push_back(0.0);
-    m_port.prepare() = output;
-    m_port.write();
 
     double orientationError_L = (toXYZ(m_state.footPose_L.rotation()) - toXYZ(m_input.measuredRotation_L.rotation())).norm();
     double orientationError_R = (toXYZ(m_state.footPose_R.rotation()) - toXYZ(m_input.measuredRotation_R.rotation())).norm();
