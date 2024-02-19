@@ -121,7 +121,7 @@ TEST_CASE("Test Block")
     SECTION("With synchronization")
     {
         constexpr std::size_t numberOfRunners = 2;
-        auto barrier = std::make_shared<Barrier>(numberOfRunners);
+        auto barrier = Barrier::create(numberOfRunners);
 
         // run the block
         auto thread0 = runner0.run(barrier);

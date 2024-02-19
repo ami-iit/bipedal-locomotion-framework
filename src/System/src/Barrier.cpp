@@ -5,10 +5,11 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include "BipedalLocomotion/TextLogging/Logger.h"
+#include <memory>
 #include <mutex>
 
 #include <BipedalLocomotion/System/Barrier.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::System;
 
@@ -17,6 +18,11 @@ Barrier::Barrier(const std::size_t counter)
     , m_count(counter)
     , m_generation(0)
 {
+}
+
+std::shared_ptr<Barrier> Barrier::create(const std::size_t counter)
+{
+    return std::shared_ptr<Barrier>(new Barrier(counter));
 }
 
 void Barrier::wait()
@@ -34,7 +40,7 @@ void Barrier::wait()
         m_count = m_initialCount;
 
         // notify the other threads
-        log()->info("{} All threads reached the barrier.", logPrefix);
+        log()->debug("{} All threads reached the barrier.", logPrefix);
         m_cond.notify_all();
     } else
     {
