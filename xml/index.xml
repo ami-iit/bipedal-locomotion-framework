@@ -64,7 +64,7 @@
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3d739a55360825588ef53480b166dd51" kind="function"><name>setInputResource</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1afc486d5f4d2c2ff5c4aae4c5037394ce" kind="function"><name>setOutputResource</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a0e209f5ebd347e033ccf5e911e80cfc3" kind="function"><name>getInfo</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" kind="function"><name>run</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a98e110b9c75dd9cdf8f636de96e5396e" kind="function"><name>run</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" kind="function"><name>stop</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a1bec614ffe0fb148df00eb76c8bbeec9" kind="function"><name>isRunning</name></member>
   </compound>
@@ -146,8 +146,9 @@
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1ae9484d04a650b0ccedc6507de2a11a45" kind="variable"><name>m_initialCount</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a3d7e608a2a3ae7c2d5ab50e7c12670a9" kind="variable"><name>m_count</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a18ebd1a0f593077041e4fff3e2bc2ccb" kind="variable"><name>m_generation</name></member>
-    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" kind="function"><name>Barrier</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1abfc770db421db9ca44e10fddb16ac2a4" kind="function"><name>create</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1aeb138b695cc2fb8199da7d766d123902" kind="function"><name>wait</name></member>
+    <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" kind="function"><name>Barrier</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask" kind="class"><name>BipedalLocomotion::TSID::BaseDynamicsTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1acbf2724d4eecefc32532cc916f1d131d" kind="variable"><name>m_robotAccelerationVariable</name></member>

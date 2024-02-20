@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="38" column="16" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="38" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="37" column="16" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1Barrier_1aee81539fa5cfcd960f0cb746e899b4f8" prot="private" static="no" mutable="no">
         <type>std::condition_variable</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="39" column="29" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="39" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="38" column="29" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1Barrier_1ae9484d04a650b0ccedc6507de2a11a45" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="40" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="40" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="39" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1Barrier_1a3d7e608a2a3ae7c2d5ab50e7c12670a9" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="41" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="40" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1Barrier_1a18ebd1a0f593077041e4fff3e2bc2ccb" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -67,11 +67,48 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="42" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="41" column="17" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Barrier_1abfc770db421db9ca44e10fddb16ac2a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1System_1_1Barrier" kindref="compound">Barrier</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt;Barrier&gt; BipedalLocomotion::System::Barrier::create</definition>
+        <argsstring>(const std::size_t counter)</argsstring>
+        <name>create</name>
+        <param>
+          <type>const std::size_t</type>
+          <declname>counter</declname>
+        </param>
+        <briefdescription>
+<para>Calls the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It creates a new <ref refid="classBipedalLocomotion_1_1System_1_1Barrier" kindref="compound">Barrier</ref> with the given counter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Barrier.h" line="29" column="28"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Barrier_1aeb138b695cc2fb8199da7d766d123902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::System::Barrier::wait</definition>
+        <argsstring>()</argsstring>
+        <name>wait</name>
+        <briefdescription>
+<para>Blocks this thread at the phase synchronization point until its phase completion step is run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Barrier.h" line="34" column="10"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>BipedalLocomotion::System::Barrier::Barrier</definition>
         <argsstring>(const std::size_t counter)</argsstring>
@@ -97,21 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="30" column="14"/>
-      </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1Barrier_1aeb138b695cc2fb8199da7d766d123902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void BipedalLocomotion::System::Barrier::wait</definition>
-        <argsstring>()</argsstring>
-        <name>wait</name>
-        <briefdescription>
-<para>Blocks this thread at the phase synchronization point until its phase completion step is run. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/System/Barrier.h" line="35" column="10"/>
+        <location file="BipedalLocomotion/System/Barrier.h" line="47" column="14"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -119,9 +142,10 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/System/Barrier.h" line="23" column="1" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="24" bodyend="43"/>
+    <location file="BipedalLocomotion/System/Barrier.h" line="23" column="1" bodyfile="BipedalLocomotion/System/Barrier.h" bodystart="24" bodyend="48"/>
     <listofallmembers>
-      <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>Barrier</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1afa7a75ec5b86d7442699c6f9ab2c2a01" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>Barrier</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1abfc770db421db9ca44e10fddb16ac2a4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>create</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1aee81539fa5cfcd960f0cb746e899b4f8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>m_cond</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a3d7e608a2a3ae7c2d5ab50e7c12670a9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>m_count</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Barrier_1a18ebd1a0f593077041e4fff3e2bc2ccb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::Barrier</scope><name>m_generation</name></member>

@@ -329,15 +329,15 @@
         </inbodydescription>
         <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="110" column="10" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="391" bodyend="395"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a98e110b9c75dd9cdf8f636de96e5396e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::thread</type>
         <definition>std::thread BipedalLocomotion::System::AdvanceableRunner&lt; _Advanceable &gt;::run</definition>
-        <argsstring>(std::optional&lt; std::reference_wrapper&lt; Barrier &gt;&gt; barrier={})</argsstring>
+        <argsstring>(std::shared_ptr&lt; Barrier &gt; barrier=nullptr)</argsstring>
         <name>run</name>
         <param>
-          <type>std::optional&lt; std::reference_wrapper&lt; <ref refid="classBipedalLocomotion_1_1System_1_1Barrier" kindref="compound">Barrier</ref> &gt;&gt;</type>
+          <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1System_1_1Barrier" kindref="compound">Barrier</ref> &gt;</type>
           <declname>barrier</declname>
-          <defval>{}</defval>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Run the advanceable runner. </para>
@@ -358,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="120" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="231" bodyend="376"/>
+        <location file="BipedalLocomotion/System/AdvanceableRunner.h" line="120" column="17" bodyfile="BipedalLocomotion/System/AdvanceableRunner.h" bodystart="230" bodyend="376"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a884b552a1c6a2c74db297a48aeb7aeba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -419,7 +419,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3c530347c944a52babbdc025a6951cef" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_maximumNumberOfAcceptedDeadlineMiss</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a64ab2872819c0cbb9bbad389780eb8e1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>m_output</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aaa44595f1b0aeb91c084b9d9c9e732e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>Output</name></member>
-      <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1aff152663082cfa9ee3bf24fdeb6ae7ea" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>run</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a98e110b9c75dd9cdf8f636de96e5396e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>run</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a2b043ef9689e24f903c8e0610eb300b2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setAdvanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1a3d739a55360825588ef53480b166dd51" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setInputResource</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1AdvanceableRunner_1afc486d5f4d2c2ff5c4aae4c5037394ce" prot="public" virt="non-virtual"><scope>BipedalLocomotion::System::AdvanceableRunner</scope><name>setOutputResource</name></member>
