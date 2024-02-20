@@ -118,6 +118,7 @@ bool GlobalCoPEvaluator::advance()
             continue;
         }
 
+        // Here we assume that the contact wrench is expressed in the body frame (left trivialized)
         globalCoP += contact.wrench.force()[2] * contact.pose.act(localCoP);
         totalForce += contact.wrench.force()[2];
 

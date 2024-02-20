@@ -53,3 +53,21 @@ void EstimatedContact::setContactStateStamped(const std::pair<bool, std::chrono:
     isActive = pair.first;
     switchTime = pair.second;
 }
+
+ContactWrench DiscreteGeometryContact::getContactWrench() const
+{
+
+    ContactWrench contactWrench;
+    contactWrench.index = this->index;
+    contactWrench.name = this->name;
+    contactWrench.pose = this->pose;
+    contactWrench.type = this->type;
+    contactWrench.wrench = BipedalLocomotion::Math::Wrenchd::Zero();
+    for (const auto& corner : this->corners)
+    {
+        contactWrench.wrench.force() += corner.force;
+        contactWrench.wrench.torque() += corner.position.cross(corner.force);
+    }
+
+    return contactWrench;
+}

@@ -167,6 +167,13 @@ struct Corner
 struct DiscreteGeometryContact : public ContactBase
 {
     std::vector<Corner> corners; /**< List of corners associated to the Contact. */
+
+    /**
+     * @brief Compute the ContactWrench from the DiscreteGeometryContact.
+     *
+     * @return The ContactWrench associated to the DiscreteGeometryContact.
+     */
+    ContactWrench getContactWrench() const;
 };
 
 } // namespace Contacts
