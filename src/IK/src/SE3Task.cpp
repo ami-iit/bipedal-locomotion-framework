@@ -133,6 +133,15 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
+    if (!ptr->getParameter("admittance", m_kAdmittance))
+    {
+        log()->error("{} [{} {}] Unable to get the admittance parameter.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName);
+        return false;
+    }
+
     // set the gains for the R3 controller
     double kpLinearScalar;
     Eigen::Vector3d kpLinearVector;
@@ -214,8 +223,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     {
         log()->info("{} [{} {}] Unable to find the use_position_exogenous_feedback parameter. "
                     "The default value is used: {}.",
-                    errorPrefix,
-                    descriptionPrefix,
+                    errorPrefix,                    descriptionPrefix,
                     frameName,
                     m_usePositionExogenousFeedback);
     }
@@ -267,6 +275,26 @@ bool SE3Task::update()
 
     // the angular part is always enabled
     m_b.tail<3>() = getControllerState(m_SO3Controller);
+
+    // TODO remove me
+    if (m_controllerMode == Mode::Disable)
+    {
+        /* Eigen::Vector3d error = m_localCoP.cross(m_contactWrench.force()) - m_contactWrench.torque();
+        std::cerr << "Desired local CoP --------->: " << m_localCoP.transpose() << std::endl;
+        std::cerr << "measured Local CoP --------->: " << m_contactWrench.getLocalCoP().transpose() << std::endl;
+        std::cerr << "Contact Wrench --------->: " << m_contactWrench.transpose() << std::endl;
+        std::cerr << "Error ZMP --------->: " << error.transpose() << std::endl;
+ */
+
+        Eigen::Vector3d error = m_desiredLocalCoP - m_localCoP;
+        Eigen::Vector2d error2D = error.head<2>();
+        error2D(0) = -m_kAdmittance* error(1);
+        error2D(1) = m_kAdmittance* error(0);
+
+        // apply yaw rotation
+        manif::SO2d yawRotation(m_yaw);
+        m_b.tail<3>().head<2>() = yawRotation.act(error2D);
+    }
 
     // if we want to control all 6 DoF we avoid to lose performances
     if (m_linearDoFs == m_linearVelocitySize)
@@ -378,4 +406,24 @@ void SE3Task::setTaskControllerMode(Mode mode)
 SE3Task::Mode SE3Task::getTaskControllerMode() const
 {
     return m_controllerMode;
+}
+
+void SE3Task::setContactWrench(const BipedalLocomotion::Math::Wrenchd& contactWrench)
+{
+    m_contactWrench = contactWrench;
+}
+
+void SE3Task::setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector3d>& localCoP)
+{
+    m_desiredLocalCoP = localCoP;
+}
+
+void SE3Task::setLocalCoP(const Eigen::Ref<const Eigen::Vector3d>& localCoP)
+{
+    m_localCoP = localCoP;
+}
+
+void SE3Task::setYaw(const double yaw)
+{
+    m_yaw = yaw;
 }

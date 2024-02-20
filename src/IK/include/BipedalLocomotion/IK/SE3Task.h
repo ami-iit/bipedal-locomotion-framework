@@ -14,6 +14,7 @@
 
 #include <BipedalLocomotion/IK/IKLinearTask.h>
 #include <BipedalLocomotion/System/ITaskControllerManager.h>
+#include <BipedalLocomotion/Math/Wrench.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -87,6 +88,14 @@ private:
 
     /** State of the proportional controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
+
+
+    // TODO remove me
+    manif::SE3d::Translation m_localCoP;
+    manif::SE3d::Translation m_desiredLocalCoP;
+    Math::Wrenchd m_contactWrench;
+    double m_kAdmittance;
+    double m_yaw;
 
 public:
     /**
@@ -201,6 +210,16 @@ public:
      * @return the state of the controller
      */
     Mode getTaskControllerMode() const override;
+
+    // TODO remove me, this is just a test
+    void setLocalCoP(const Eigen::Ref<const Eigen::Vector3d>& localCoP);
+
+    void setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector3d>& localCoP);    
+
+    void setContactWrench(const Math::Wrenchd& contactWrench);
+
+
+    void setYaw(const double yaw);
 };
 
 BLF_REGISTER_IK_TASK(SE3Task);
