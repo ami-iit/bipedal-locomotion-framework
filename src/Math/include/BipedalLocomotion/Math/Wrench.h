@@ -131,10 +131,11 @@ public:
  * @param wrench expressed in the frame A
  * @return the vector expressed in the frame B
  */
-template <class Scalar>
-Wrench<Scalar> operator*(const manif::SE3<Scalar>& transform, const Wrench<Scalar>& wrench)
+template <typename _Derived>
+Wrench<typename _Derived::Scalar> operator*(const manif::SE3Base<_Derived>& transform,
+                                            const Wrench<typename _Derived::Scalar>& wrench)
 {
-    Wrench<Scalar> ret;
+    Wrench<typename _Derived::Scalar> ret;
     ret.force() = transform.rotation() * wrench.force();
     ret.torque() = transform.rotation() * wrench.torque() //
                    + transform.translation().cross(transform.rotation() * wrench.force());
@@ -179,10 +180,11 @@ Wrench<Scalar> operator*(const manif::SE3<Scalar>& transform, const Wrench<Scala
  * @param wrench expressed in the frame A
  * @return the vector expressed in the frame B
  */
-template <class Scalar>
-Wrench<Scalar> operator*(const manif::SO3<Scalar>& rotation, const Wrench<Scalar>& wrench)
+template <typename _Derived>
+Wrench<typename _Derived::Scalar>
+operator*(const manif::SO3Base<_Derived>& rotation, const Wrench<typename _Derived::Scalar>& wrench)
 {
-    Wrench<Scalar> ret;
+    Wrench<typename _Derived::Scalar> ret;
     ret.force() = rotation.act(wrench.force());
     ret.torque() = rotation.act(wrench.torque());
     return ret;
