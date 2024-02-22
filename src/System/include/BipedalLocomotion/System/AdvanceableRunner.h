@@ -117,7 +117,7 @@ public:
      * @return a thread of containing the running process. If the runner was not correctly
      * initialized the thread is invalid.
      */
-    std::thread run(std::optional<std::reference_wrapper<Barrier>> barrier = {});
+    std::thread run(std::shared_ptr<Barrier> barrier = nullptr);
 
     /**
      * Stop the thread
@@ -227,8 +227,7 @@ bool AdvanceableRunner<_Advanceable>::setOutputResource(
 }
 
 template <class _Advanceable>
-std::thread
-AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrier>> barrier)
+std::thread AdvanceableRunner<_Advanceable>::run(std::shared_ptr<Barrier> barrier)
 {
     constexpr auto logPrefix = "[AdvanceableRunner::run]";
 
@@ -273,8 +272,18 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
 
     // run the thread
     m_isRunning = true;
-    auto function = [&]() -> bool {
+    auto function = [&](std::shared_ptr<Barrier> barrier) -> bool {
         constexpr auto logPrefix = "[AdvanceableRunner::run]";
+
+        // synchronize the threads
+        if (!(barrier == nullptr))
+        {
+            log()->debug("{} - {} This thread is waiting for the other threads.",
+                         logPrefix,
+                         m_info.name);
+            barrier->wait();
+        }
+
         auto time = BipedalLocomotion::clock().now();
         auto oldTime = time;
         auto wakeUpTime = time;
@@ -363,16 +372,7 @@ AdvanceableRunner<_Advanceable>::run(std::optional<std::reference_wrapper<Barrie
         return this->m_advanceable->close();
     };
 
-    // if the barrier is passed the run method, synchronization is performed
-    if (barrier.has_value())
-    {
-        log()->debug("{} - {} This thread is waiting for the other threads.",
-                     logPrefix,
-                     m_info.name);
-        barrier.value().get().wait();
-    }
-
-    return std::thread(function);
+    return std::thread(function, barrier);
 }
 
 template <class _Advanceable> void AdvanceableRunner<_Advanceable>::stop()

@@ -7,10 +7,15 @@ All notable changes to this project are documented in this file.
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/795)
 - Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
 - Add streaming of arm fts in YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/803)
-- Add configuration files to log data from `ergoCubGazeboV1_1` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/806)
+- 🤖  [ `ergoCubGazeboV1_1`] Add configuration files to log data with the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/806, https://github.com/ami-iit/bipedal-locomotion-framework/pull/808)
 
 ### Changed
+- 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
+
+
 ### Fixed
+- Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
+
 ### Removed
 
 ## [0.18.0] - 2024-01-23
