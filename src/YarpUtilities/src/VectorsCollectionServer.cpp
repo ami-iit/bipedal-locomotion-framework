@@ -158,11 +158,11 @@ bool VectorsCollectionServer::populateData(const std::string& key,
     constexpr auto logPrefix = "[VectorsCollectionServer::setData]";
 
     // check if the metadata has been finalized
-    if (!m_pimpl->isMetadataFinalized)
-    {
-        log()->error("{} The metadata has not been finalized.", logPrefix);
-        return false;
-    }
+    // if (!m_pimpl->isMetadataFinalized)
+    // {
+    //     log()->error("{} The metadata has not been finalized.", logPrefix);
+    //     return false;
+    // }
 
     // check if the key exists
     if (m_pimpl->setOfKeys.find(key) == m_pimpl->setOfKeys.end())
