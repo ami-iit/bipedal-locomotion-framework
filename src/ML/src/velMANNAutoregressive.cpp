@@ -963,10 +963,12 @@ bool velMANNAutoregressive::advance()
 
     // populate the output
     m_pimpl->output.jointsPosition = m_pimpl->state.previousVelMannOutput.jointPositions;
+    m_pimpl->output.jointsVelocity = m_pimpl->state.previousVelMannOutput.jointVelocities;
     m_pimpl->output.basePose = m_pimpl->state.I_H_B;
     m_pimpl->output.baseVelocity = baseVelocity;
     m_pimpl->output.currentTime = m_pimpl->state.time;
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    m_pimpl->output.comVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassVelocity());
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
     m_pimpl->output.leftFoot = m_pimpl->state.leftFootState.contact;

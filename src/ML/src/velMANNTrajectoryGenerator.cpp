@@ -296,8 +296,11 @@ bool velMANNTrajectoryGenerator::initialize(
     m_pimpl->mergePointStates.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.basePoses.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.jointPositions.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.jointVelocities.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.angularMomentumTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.comTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.comVelocityTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.baseVelocityTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.timestamps.resize(m_pimpl->horizon / m_pimpl->dT);
 
     m_pimpl->gravity.setZero();
@@ -476,9 +479,12 @@ bool velMANNTrajectoryGenerator::advance()
 
         // populate the output of the trajectory generator
         m_pimpl->output.jointPositions[i] = velMANNOutput.jointsPosition;
+        m_pimpl->output.jointVelocities[i] = velMANNOutput.jointsVelocity;
         m_pimpl->output.angularMomentumTrajectory[i] = velMANNOutput.angularMomentum;
         m_pimpl->output.basePoses[i] = velMANNOutput.basePose;
         m_pimpl->output.comTrajectory[i] = velMANNOutput.comPosition;
+        m_pimpl->output.comVelocityTrajectory[i] = velMANNOutput.comVelocity;
+        m_pimpl->output.baseVelocityTrajectory[i] = velMANNOutput.baseVelocity;
         m_pimpl->output.timestamps[i] = velMANNOutput.currentTime;
 
         // update the contacts lists

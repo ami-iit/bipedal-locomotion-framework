@@ -39,10 +39,17 @@ struct velMANNTrajectoryGeneratorOutput
     /** CoM trajectory expressed in the inertial frame */
     std::vector<Eigen::Vector3d> comTrajectory;
 
+    /** CoM velocity trajectory expressed in the inertial frame */
+    std::vector<Eigen::Vector3d> comVelocityTrajectory;
+
+    /** base velocity trajectory expressed in mixed representation */
+    std::vector<manif::SE3d::Tangent> baseVelocityTrajectory;
+
     /** Centroidal angular momentum trajectory expressed in the mixed representation. */
     std::vector<Eigen::Vector3d> angularMomentumTrajectory;
 
     std::vector<Eigen::VectorXd> jointPositions; /**< Joints position in radians */
+    std::vector<Eigen::VectorXd> jointVelocities; /**< Joint velocities in radians */
     std::vector<manif::SE3d> basePoses; /**< Vector containing the base pose for each instant. */
 
     std::vector<std::chrono::nanoseconds> timestamps; /**< Vector containing the time stamps. */
