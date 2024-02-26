@@ -107,6 +107,26 @@ bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParam
         m_kd = 2 * m_kp.cwiseSqrt();
     }
 
+    if (m_kp.size() != m_kinDyn->getNrOfDegreesOfFreedom())
+    {
+        log()->error("{} The size of the kp gain does not match with the one stored in kinDynComputations object. "
+                     "Expected: {}. Given: {}",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     m_kp.size());
+        return false;
+    }
+
+    if (m_kd.size() != m_kinDyn->getNrOfDegreesOfFreedom())
+    {
+        log()->error("{} The size of the kd gain does not match with the one stored in kinDynComputations object. "
+                     "Expected: {}. Given: {}",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     m_kd.size());
+        return false;
+    }
+
     // set the description
     m_description = "Joint tracking task";
 

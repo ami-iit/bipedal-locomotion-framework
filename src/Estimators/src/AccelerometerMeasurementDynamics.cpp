@@ -19,7 +19,8 @@ RDE::AccelerometerMeasurementDynamics::AccelerometerMeasurementDynamics() = defa
 RDE::AccelerometerMeasurementDynamics::~AccelerometerMeasurementDynamics() = default;
 
 bool RDE::AccelerometerMeasurementDynamics::initialize(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[AccelerometerMeasurementDynamics::initialize]";
 
@@ -30,12 +31,7 @@ bool RDE::AccelerometerMeasurementDynamics::initialize(
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covSingleVar))

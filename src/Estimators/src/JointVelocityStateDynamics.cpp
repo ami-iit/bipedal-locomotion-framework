@@ -5,9 +5,9 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <map>
-#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+#include <map>
 
 namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
@@ -15,7 +15,9 @@ RDE::JointVelocityStateDynamics::JointVelocityStateDynamics() = default;
 
 RDE::JointVelocityStateDynamics::~JointVelocityStateDynamics() = default;
 
-bool RDE::JointVelocityStateDynamics::setSubModels(const std::vector<RDE::SubModel>& /*subModelList*/, const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
+bool RDE::JointVelocityStateDynamics::setSubModels(
+    const std::vector<RDE::SubModel>& /*subModelList*/,
+    const std::vector<std::shared_ptr<RDE::KinDynWrapper>>& /*kinDynWrapperList*/)
 {
     return true;
 }
@@ -25,7 +27,9 @@ bool RDE::JointVelocityStateDynamics::checkStateVariableHandler()
     return true;
 }
 
-bool RDE::JointVelocityStateDynamics::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool RDE::JointVelocityStateDynamics::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+    const std::string& name)
 {
     constexpr auto errorPrefix = "[JointVelocityStateDynamics::initialize]";
 
@@ -36,12 +40,7 @@ bool RDE::JointVelocityStateDynamics::initialize(std::weak_ptr<const ParametersH
         return false;
     }
 
-    // Set the state dynamics name
-    if (!ptr->getParameter("name", m_name))
-    {
-        log()->error("{} Error while retrieving the name variable.", errorPrefix);
-        return false;
-    }
+    m_name = name;
 
     // Set the state process covariance
     if (!ptr->getParameter("covariance", m_covariances))
@@ -60,7 +59,7 @@ bool RDE::JointVelocityStateDynamics::initialize(std::weak_ptr<const ParametersH
     // Set the list of elements if it exists
     if (!ptr->getParameter("elements", m_elements))
     {
-        log()->info("{} Variable elements not found.", errorPrefix);
+        log()->debug("{} Variable elements not found.", errorPrefix);
     }
 
     if (!ptr->getParameter("sampling_time", m_dT))
@@ -76,7 +75,7 @@ bool RDE::JointVelocityStateDynamics::initialize(std::weak_ptr<const ParametersH
     return true;
 }
 
-bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &stateVariableHandler)
+bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler& stateVariableHandler)
 {
     constexpr auto errorPrefix = "[JointVelocityStateDynamics::finalize]";
 
@@ -96,27 +95,28 @@ bool RDE::JointVelocityStateDynamics::finalize(const System::VariablesHandler &s
 
     m_size = m_covariances.size();
 
-    m_jointVelocityFullModel.resize(m_stateVariableHandler.getVariable("ds").size);
+    m_jointVelocityFullModel.resize(m_stateVariableHandler.getVariable(m_name).size);
     m_jointVelocityFullModel.setZero();
 
-    m_updatedVariable.resize(m_stateVariableHandler.getVariable("ds").size);
+    m_updatedVariable.resize(m_stateVariableHandler.getVariable(m_name).size);
     m_updatedVariable.setZero();
 
     return true;
 }
 
-
 bool RDE::JointVelocityStateDynamics::update()
 {
-    m_updatedVariable = m_jointVelocityFullModel + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
+    m_updatedVariable
+        = m_jointVelocityFullModel
+          + std::chrono::duration<double>(m_dT).count() * m_ukfInput.robotJointAccelerations;
 
     return true;
 }
 
 void RDE::JointVelocityStateDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable("ds").offset,
-                                                m_stateVariableHandler.getVariable("ds").size);
+    m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable(m_name).offset,
+                                                m_stateVariableHandler.getVariable(m_name).size);
 }
 
 void RDE::JointVelocityStateDynamics::setInput(const UKFInput& ukfInput)

@@ -5,17 +5,17 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BayesFilters/UKFPrediction.h>
-#include <BayesFilters/UKFCorrection.h>
 #include <BayesFilters/Gaussian.h>
+#include <BayesFilters/UKFCorrection.h>
+#include <BayesFilters/UKFPrediction.h>
 
+#include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h>
+#include <BipedalLocomotion/RobotDynamicsEstimator/UkfState.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/UkfState.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h>
-#include <BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h>
 
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion;
@@ -25,10 +25,20 @@ struct RobotDynamicsEstimator::Impl
     RobotDynamicsEstimatorOutput estimatorOutput; /**< Output of the estimator. */
 
     UKFInput ukfInput; /**< Object to set the provider. */
-    std::shared_ptr<UkfInputProvider> inputProvider; /**< Shared pointer used by all the dynamics. It needs to be updated here. */
+    std::shared_ptr<UkfInputProvider> inputProvider; /**< Shared pointer used by all the dynamics.
+                                                        It needs to be updated here. */
 
-    std::map<std::string, Eigen::VectorXd> ukfMeasurementFromSensors; /**< This map containes the measurement coming from the sensors
-                                                                        and needed for the correction phase of the estimation. */
+    std::map<std::string, Eigen::VectorXd> ukfMeasurementFromSensors; /**< This map containes the
+                                                                        measurement coming from the
+                                                                        sensors and needed for the
+                                                                        correction phase of the
+                                                                        estimation. */
+
+    std::map<std::string, std::string> inputNameToUkfState; /**< Map used to retrieve the state name
+                                                               from the input name. */
+    std::map<std::string, std::vector<std::string>> inputNameToUkfMeasurement; /**< Map used to
+                                                                     retrieve the measurement name
+                                                                     from the input name. */
 
     bfl::Gaussian predictedState; /**< Predicted state computed by the `predict` method. */
     bfl::Gaussian correctedState; /**< Corrected state computed by the `correct` method. */
@@ -62,7 +72,8 @@ RobotDynamicsEstimator::RobotDynamicsEstimator()
 
 RobotDynamicsEstimator::~RobotDynamicsEstimator() = default;
 
-bool RobotDynamicsEstimator::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+bool RobotDynamicsEstimator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimator::initialize]";
 
@@ -144,10 +155,11 @@ bool RobotDynamicsEstimator::finalize(const System::VariablesHandler& stateVaria
     return m_pimpl->isFinalized;
 }
 
-std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
-                                                                      std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
-                                                                      const std::vector<SubModel>& subModelList,
-                                                                      const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList)
+std::unique_ptr<RobotDynamicsEstimator>
+RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+                              std::shared_ptr<iDynTree::KinDynComputations> kinDynFullModel,
+                              const std::vector<SubModel>& subModelList,
+                              const std::vector<std::shared_ptr<KinDynWrapper>>& kinDynWrapperList)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimator::build]";
 
@@ -161,8 +173,10 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
 
     if (!kinDynFullModel->setFrameVelocityRepresentation(iDynTree::BODY_FIXED_REPRESENTATION))
     {
-        log()->error("{} Cannot set the frame velocity representation on the `iDynTree::KinDynComputation` "
-                     "object describing the full robot model.", logPrefix);
+        log()->error("{} Cannot set the frame velocity representation on the "
+                     "`iDynTree::KinDynComputation` "
+                     "object describing the full robot model.",
+                     logPrefix);
         return nullptr;
     }
 
@@ -193,10 +207,8 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
 
     // Step 1
     // Create the state model for the ukf
-    estimator->m_pimpl->stateModel = UkfState::build(groupUKFState,
-                                                     kinDynFullModel,
-                                                     subModelList,
-                                                     kinDynWrapperList);
+    estimator->m_pimpl->stateModel
+        = UkfState::build(groupUKFState, kinDynFullModel, subModelList, kinDynWrapperList);
     if (estimator->m_pimpl->stateModel == nullptr)
     {
         log()->error("{} Error while creating the ukf state model.", logPrefix);
@@ -210,15 +222,42 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
     estimator->m_pimpl->stateModel->setUkfInputProvider(estimator->m_pimpl->inputProvider);
 
     // Get initial state covariance
-    estimator->m_pimpl->initialStateCovariance = estimator->m_pimpl->stateModel->getInitialStateCovarianceMatrix();
+    estimator->m_pimpl->initialStateCovariance
+        = estimator->m_pimpl->stateModel->getInitialStateCovarianceMatrix();
 
     // Step 2
-    // Initialize the unscented Kalman filter prediction step and pass the ownership of the state model
-    std::unique_ptr<bfl::AdditiveStateModel> stateModelTemp = std::move(estimator->m_pimpl->stateModel);
-    estimator->m_pimpl->ukfPrediction = std::make_unique<bfl::UKFPrediction>(std::move(stateModelTemp),
-                                                                             estimator->m_pimpl->alpha,
-                                                                             estimator->m_pimpl->beta,
-                                                                             estimator->m_pimpl->kappa);
+    // Initialize the unscented Kalman filter prediction step and pass the ownership of the state
+    // model
+    std::unique_ptr<bfl::AdditiveStateModel> stateModelTemp
+        = std::move(estimator->m_pimpl->stateModel);
+    estimator->m_pimpl->ukfPrediction
+        = std::make_unique<bfl::UKFPrediction>(std::move(stateModelTemp),
+                                               estimator->m_pimpl->alpha,
+                                               estimator->m_pimpl->beta,
+                                               estimator->m_pimpl->kappa);
+
+    std::vector<std::string> dynamicsList;
+    if (!groupUKFState->getParameter("dynamics_list", dynamicsList))
+    {
+        log()->error("{} Unable to find the parameter 'dynamics_list'.", logPrefix);
+        return nullptr;
+    }
+    for (auto const& dynamicsName : dynamicsList)
+    {
+        auto dynamicsGroup = groupUKFState->getGroup(dynamicsName).lock();
+        if (dynamicsGroup == nullptr)
+        {
+            log()->error("{} Unable to find the group '{}'.", logPrefix, dynamicsName);
+            return nullptr;
+        }
+        std::string inputName;
+        if (!dynamicsGroup->getParameter("input_name", inputName))
+        {
+            log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
+            return nullptr;
+        }
+        estimator->m_pimpl->inputNameToUkfState[inputName] = dynamicsName;
+    }
 
     // Step 3
     // Create the measurement model for the ukf
@@ -238,6 +277,10 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
                                                                  kinDynFullModel,
                                                                  subModelList,
                                                                  kinDynWrapperList);
+
+    estimator->m_pimpl->measurementModel->setStateNameMapping(
+        estimator->m_pimpl->inputNameToUkfState);
+
     if (estimator->m_pimpl->measurementModel == nullptr)
     {
         log()->error("{} Error while creating the ukf measurement model.", logPrefix);
@@ -245,21 +288,49 @@ std::unique_ptr<RobotDynamicsEstimator> RobotDynamicsEstimator::build(std::weak_
     }
 
     // Save a copy of the measurement variable handler
-    estimator->m_pimpl->measurementHandler = estimator->m_pimpl->measurementModel->getMeasurementVariableHandler();
+    estimator->m_pimpl->measurementHandler
+        = estimator->m_pimpl->measurementModel->getMeasurementVariableHandler();
 
     // Set the input provider
     estimator->m_pimpl->measurementModel->setUkfInputProvider(estimator->m_pimpl->inputProvider);
 
     // Step 4
-    // Initialize the unscented Kalman filter correction step and pass the ownership of the measurement model.
-    std::unique_ptr<bfl::AdditiveMeasurementModel> measurementModelTemp = std::move(estimator->m_pimpl->measurementModel);
-    estimator->m_pimpl->ukfCorrection = std::make_unique<bfl::UKFCorrection>(std::move(measurementModelTemp),
-                                                                             estimator->m_pimpl->alpha,
-                                                                             estimator->m_pimpl->beta,
-                                                                             estimator->m_pimpl->kappa);
+    // Initialize the unscented Kalman filter correction step and pass the ownership of the
+    // measurement model.
+    std::unique_ptr<bfl::AdditiveMeasurementModel> measurementModelTemp
+        = std::move(estimator->m_pimpl->measurementModel);
+    estimator->m_pimpl->ukfCorrection
+        = std::make_unique<bfl::UKFCorrection>(std::move(measurementModelTemp),
+                                               estimator->m_pimpl->alpha,
+                                               estimator->m_pimpl->beta,
+                                               estimator->m_pimpl->kappa);
+
+    if (!groupUKFMeas->getParameter("dynamics_list", dynamicsList))
+    {
+        log()->error("{} Unable to find the parameter 'dynamics_list'.", logPrefix);
+        return nullptr;
+    }
+    for (auto const& dynamicsName : dynamicsList)
+    {
+        auto dynamicsGroup = groupUKFMeas->getGroup(dynamicsName).lock();
+        if (dynamicsGroup == nullptr)
+        {
+            log()->error("{} Unable to find the group '{}'.", logPrefix, dynamicsName);
+            return nullptr;
+        }
+        std::string inputName;
+        if (!dynamicsGroup->getParameter("input_name", inputName))
+        {
+            log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
+            return nullptr;
+        }
+        estimator->m_pimpl->inputNameToUkfMeasurement[inputName].push_back(dynamicsName);
+    }
 
     // Finalize the estimator
-    estimator->finalize(estimator->m_pimpl->stateHandler, estimator->m_pimpl->measurementHandler, kinDynFullModel);
+    estimator->finalize(estimator->m_pimpl->stateHandler,
+                        estimator->m_pimpl->measurementHandler,
+                        kinDynFullModel);
 
     return estimator;
 }
@@ -270,43 +341,62 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     System::VariablesHandler::VariableDescription variable;
 
-    if (m_pimpl->stateHandler.getVariable("ds", variable))
+    if (!m_pimpl->stateHandler.getVariable("JOINT_VELOCITIES", variable))
     {
-        if (initialState.ds.size() != variable.size)
-        {
-            log()->error("{} Wrong size of variable `ds`. Found {}, expected {}.", logPrefix, initialState.ds.size(), variable.size);
-            return false;
-        }
-        m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.ds;
+        log()->error("{} Variable `JOINT_VELOCITIES` not found.", logPrefix);
+        return false;
     }
+    if (initialState.ds.size() != variable.size)
+    {
+        log()->error("{} Wrong size of variable `ds`. Found {}, expected {}.",
+                     logPrefix,
+                     initialState.ds.size(),
+                     variable.size);
+        return false;
+    }
+    m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.ds;
 
-    if (m_pimpl->stateHandler.getVariable("tau_m", variable))
+    if (!m_pimpl->stateHandler.getVariable("MOTOR_TORQUES", variable))
     {
-        if (initialState.tau_m.size() != variable.size)
-        {
-            log()->error("{} Wrong size of variable `tau_m`. Found {}, expected {}.", logPrefix, initialState.tau_m.size(), variable.size);
-            return false;
-        }
-        m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_m;
+        log()->error("{} Variable `MOTOR_TORQUES` not found.", logPrefix);
+        return false;
     }
+    if (initialState.tau_m.size() != variable.size)
+    {
+        log()->error("{} Wrong size of variable `tau_m`. Found {}, expected {}.",
+                     logPrefix,
+                     initialState.tau_m.size(),
+                     variable.size);
+        return false;
+    }
+    m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_m;
 
-    if (m_pimpl->stateHandler.getVariable("tau_F", variable))
+    if (!m_pimpl->stateHandler.getVariable("FRICTION_TORQUES", variable))
     {
-        if (initialState.tau_F.size() != variable.size)
-        {
-            log()->error("{} Wrong size of variable `tau_F`. Found {}, expected {}.", logPrefix, initialState.tau_F.size(), variable.size);
-            return false;
-        }
-        m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_F;
+        log()->error("{} Variable `FRICTION_TORQUES` not found.", logPrefix);
+        return false;
     }
+    if (initialState.tau_F.size() != variable.size)
+    {
+        log()->error("{} Wrong size of variable `tau_F`. Found {}, expected {}.",
+                     logPrefix,
+                     initialState.tau_F.size(),
+                     variable.size);
+        return false;
+    }
+    m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = initialState.tau_F;
 
     for (auto const& [key, val] : initialState.ftWrenches)
     {
-        if (m_pimpl->stateHandler.getVariable(key, variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
         {
             if (val.size() != variable.size)
             {
-                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
@@ -315,11 +405,15 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.ftWrenchesBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(key, variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
         {
             if (val.size() != variable.size)
             {
-                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
@@ -328,11 +422,15 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.gyroscopeBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(key, variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
         {
             if (val.size() != variable.size)
             {
-                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
@@ -341,11 +439,15 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.accelerometerBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(key, variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
         {
             if (val.size() != variable.size)
             {
-                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
@@ -354,11 +456,49 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.contactWrenches)
     {
-        if (m_pimpl->stateHandler.getVariable(key, variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
         {
             if (val.size() != variable.size)
             {
-                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.", logPrefix, val, val.size(), variable.size);
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
+                return false;
+            }
+            m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+    }
+
+    for (auto const& [key, val] : initialState.linearAccelerations)
+    {
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
+                return false;
+            }
+            m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+    }
+
+    for (auto const& [key, val] : initialState.angularVelocities)
+    {
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        {
+            if (val.size() != variable.size)
+            {
+                log()->error("{} Wrong size of variable `{}`. Found {}, expected {}.",
+                             logPrefix,
+                             val,
+                             val.size(),
+                             variable.size);
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
@@ -420,7 +560,7 @@ bool RobotDynamicsEstimator::advance()
     return true;
 }
 
-bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput & input)
+bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimator::setInput]";
 
@@ -439,103 +579,150 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput & input)
 
     // Set the `std::map<std::string, Eigen::VectorXd>` used as measurement object
     // for the freeze method of the UkfCorrection
-    m_pimpl->ukfMeasurementFromSensors["ds"] = input.jointVelocities;
-    m_pimpl->ukfMeasurementFromSensors["i_m"] = input.motorCurrents;
-    m_pimpl->ukfMeasurementFromSensors["dv_base"] = input.baseAcceleration.coeffs();
-    for (auto & [key, value] : input.ftWrenches)
+    m_pimpl->ukfMeasurementFromSensors["JOINT_VELOCITIES"] = input.jointVelocities;
+    m_pimpl->ukfMeasurementFromSensors["MOTOR_CURRENTS"] = input.motorCurrents;
+    for (const auto& [key, value] : input.ftWrenches)
     {
-        m_pimpl->ukfMeasurementFromSensors[key] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
-    for (auto & [key, value] : input.linearAccelerations)
+    for (auto& [key, value] : input.linearAccelerations)
     {
-        m_pimpl->ukfMeasurementFromSensors[key] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
-    for (auto & [key, value] : input.angularVelocities)
+    for (auto& [key, value] : input.angularVelocities)
     {
-        m_pimpl->ukfMeasurementFromSensors[key] = value;
+        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        {
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+        }
     }
-    m_pimpl->ukfMeasurementFromSensors["tau_F"] = input.friction;
+    m_pimpl->ukfMeasurementFromSensors["FRICTION_TORQUES"] = input.frictionTorques;
 
     return true;
 }
 
 const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
 {
-     constexpr auto logPrefix = "[RobotDynamicsEstimator::getOutput]";
+    constexpr auto logPrefix = "[RobotDynamicsEstimator::getOutput]";
 
     if (m_pimpl->isValid)
     {
-        m_pimpl->estimatorOutput.ds = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable("ds").offset,
-                                                                             m_pimpl->stateHandler.getVariable("ds").size);
+        m_pimpl->estimatorOutput.ds
+            = m_pimpl->correctedState.mean()
+                  .segment(m_pimpl->stateHandler.getVariable("JOINT_VELOCITIES").offset,
+                           m_pimpl->stateHandler.getVariable("JOINT_VELOCITIES").size);
 
-        m_pimpl->estimatorOutput.tau_m = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable("tau_m").offset,
-                                                                                m_pimpl->stateHandler.getVariable("tau_m").size);
+        m_pimpl->estimatorOutput.tau_m
+            = m_pimpl->correctedState.mean()
+                  .segment(m_pimpl->stateHandler.getVariable("MOTOR_TORQUES").offset,
+                           m_pimpl->stateHandler.getVariable("MOTOR_TORQUES").size);
 
-        m_pimpl->estimatorOutput.tau_F = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable("tau_F").offset,
-                                                                                m_pimpl->stateHandler.getVariable("tau_F").size);
+        m_pimpl->estimatorOutput.tau_F
+            = m_pimpl->correctedState.mean()
+                  .segment(m_pimpl->stateHandler.getVariable("FRICTION_TORQUES").offset,
+                           m_pimpl->stateHandler.getVariable("FRICTION_TORQUES").size);
 
-        for (auto & [key, value] : m_pimpl->estimatorOutput.ftWrenches)
+        for (auto& [key, value] : m_pimpl->estimatorOutput.ftWrenches)
         {
-            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
             {
-                m_pimpl->estimatorOutput.ftWrenches[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                  m_pimpl->stateHandler.getVariable(key).size);
-            }
-            else
+                m_pimpl->estimatorOutput.ftWrenches[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .size);
+            } else
             {
                 log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
             }
         }
 
-        for (auto & [key, value] : m_pimpl->estimatorOutput.ftWrenchesBiases)
+        for (auto& [key, value] : m_pimpl->estimatorOutput.ftWrenchesBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
             {
-                m_pimpl->estimatorOutput.ftWrenchesBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                        m_pimpl->stateHandler.getVariable(key).size);
-            }
-            else
+                m_pimpl->estimatorOutput.ftWrenchesBiases[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .size);
+            } else
             {
-                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+                log()->debug("{} Variable {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->inputNameToUkfState[key]);
             }
         }
 
-        for (auto & [key, value] : m_pimpl->estimatorOutput.accelerometerBiases)
+        for (auto& [key, value] : m_pimpl->estimatorOutput.accelerometerBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
             {
-                m_pimpl->estimatorOutput.accelerometerBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                           m_pimpl->stateHandler.getVariable(key).size);
-            }
-            else
+                m_pimpl->estimatorOutput.accelerometerBiases[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .size);
+            } else
             {
-                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+                log()->debug("{} Variable {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->inputNameToUkfState[key]);
             }
         }
 
-        for (auto & [key, value] : m_pimpl->estimatorOutput.gyroscopeBiases)
+        for (auto& [key, value] : m_pimpl->estimatorOutput.gyroscopeBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
             {
-                m_pimpl->estimatorOutput.gyroscopeBiases[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                       m_pimpl->stateHandler.getVariable(key).size);
-            }
-            else
+                m_pimpl->estimatorOutput.gyroscopeBiases[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .size);
+            } else
             {
-                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+                log()->debug("{} Variable {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->inputNameToUkfState[key]);
             }
         }
 
-        for (auto & [key, value] : m_pimpl->estimatorOutput.contactWrenches)
+        for (auto& [key, value] : m_pimpl->estimatorOutput.contactWrenches)
         {
-            if (m_pimpl->stateHandler.getVariable(key).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
             {
-                m_pimpl->estimatorOutput.contactWrenches[key] = m_pimpl->correctedState.mean().segment(m_pimpl->stateHandler.getVariable(key).offset,
-                                                                                                       m_pimpl->stateHandler.getVariable(key).size);
-            }
-            else
+                m_pimpl->estimatorOutput.contactWrenches[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .size);
+            } else
             {
-                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+                log()->debug("{} Variable {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->inputNameToUkfState[key]);
             }
         }
     }

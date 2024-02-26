@@ -25,14 +25,15 @@ TEST_CASE("Constant Measurement Model")
     // Create variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler variableHandler;
-    REQUIRE(variableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(variableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(variableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(variableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_leg_ft_bias", sizeVariable));
     REQUIRE(variableHandler.addVariable("r_foot_front_ft", sizeVariable));
 
-    Eigen::VectorXd state = Eigen::VectorXd::Zero(sizeVariable * variableHandler.getNumberOfVariables());
+    Eigen::VectorXd state
+        = Eigen::VectorXd::Zero(sizeVariable * variableHandler.getNumberOfVariables());
 
     const std::string name = "r_leg_ft";
     Eigen::VectorXd covariance(6);
@@ -42,6 +43,7 @@ TEST_CASE("Constant Measurement Model")
 
     parameterHandler->clear();
     parameterHandler->setParameter("name", name);
+    parameterHandler->setParameter("associated_state", name);
     parameterHandler->setParameter("covariance", covariance);
     parameterHandler->setParameter("initial_covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
@@ -50,7 +52,7 @@ TEST_CASE("Constant Measurement Model")
 
     ConstantMeasurementModel ft;
 
-    REQUIRE(ft.initialize(parameterHandler));
+    REQUIRE(ft.initialize(parameterHandler, name));
     REQUIRE(ft.finalize(variableHandler));
 
     Eigen::VectorXd bias(6);
@@ -59,13 +61,16 @@ TEST_CASE("Constant Measurement Model")
         bias(index) = GENERATE(take(1, random(-100, 100)));
     }
 
-    state.segment(variableHandler.getVariable("r_leg_ft_bias").offset, variableHandler.getVariable("r_leg_ft_bias").size) = bias;
+    state.segment(variableHandler.getVariable("r_leg_ft_bias").offset,
+                  variableHandler.getVariable("r_leg_ft_bias").size)
+        = bias;
 
     ft.setState(state);
     REQUIRE(ft.update());
 
     Eigen::VectorXd updatedVariable = ft.getUpdatedVariable();
-    Eigen::VectorXd ftPre = state.segment(variableHandler.getVariable("r_leg_ft").offset, variableHandler.getVariable("r_leg_ft").size);
+    Eigen::VectorXd ftPre = state.segment(variableHandler.getVariable("r_leg_ft").offset,
+                                          variableHandler.getVariable("r_leg_ft").size);
 
-    REQUIRE((ftPre+bias).isApprox(updatedVariable));
+    REQUIRE((ftPre + bias).isApprox(updatedVariable));
 }

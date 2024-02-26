@@ -102,6 +102,16 @@ bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParam
         return false;
     }
 
+    if (m_kp.size() != m_kinDyn->getNrOfDegreesOfFreedom())
+    {
+        log()->error("{} The size of the proportional gain does not match with the one stored in "
+                     "kinDynComputations object. Expected: {}. Given: {}",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     m_kp.size());
+        return false;
+    }
+
     // set the description
     m_description = "Joint tracking task";
 

@@ -127,10 +127,10 @@ IParametersHandler::shared_ptr createModelParameterHandler()
 
 void createUkfInput(VariablesHandler& stateVariableHandler, UKFInput& input)
 {
-    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointPos = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointPositions = jointPos;
 
-    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointAcc = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     input.robotJointAccelerations = jointAcc;
 
     manif::SE3d basePose
@@ -153,18 +153,18 @@ void createStateVector(UKFInput& input,
 {
     state.setZero();
 
-    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel = Eigen::VectorXd::Random(stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
-    int offset = stateVariableHandler.getVariable("ds").offset;
-    int size = stateVariableHandler.getVariable("ds").size;
+    int offset = stateVariableHandler.getVariable("JOINT_VELOCITIES").offset;
+    int size = stateVariableHandler.getVariable("JOINT_VELOCITIES").size;
     for (int jointIndex = 0; jointIndex < size; jointIndex++)
     {
         state[offset + jointIndex] = jointVel(jointIndex);
     }
 
     // Compute joint torques from inverse dynamics on the full model
-    offset = stateVariableHandler.getVariable("tau_m").offset;
-    size = stateVariableHandler.getVariable("tau_m").size;
+    offset = stateVariableHandler.getVariable("MOTOR_TORQUES").offset;
+    size = stateVariableHandler.getVariable("MOTOR_TORQUES").size;
     iDynTree::LinkNetExternalWrenches extWrench(kinDyn->model());
     extWrench.zero();
     iDynTree::FreeFloatingGeneralizedTorques jointTorques(kinDyn->model());
@@ -184,7 +184,7 @@ TEST_CASE("Joint Velocity State Dynamics")
     // Create parameter handler
     auto jointVelHandler = std::make_shared<StdImplementation>();
 
-    const std::string name = "ds";
+    const std::string name = "JOINT_VELOCITIES";
     Eigen::VectorXd covariance(6);
     covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
     const std::string model = "JointVelocityStateDynamics";
@@ -200,9 +200,9 @@ TEST_CASE("Joint Velocity State Dynamics")
     // Create state variable handler
     constexpr size_t sizeVariable = 6;
     VariablesHandler stateVariableHandler;
-    REQUIRE(stateVariableHandler.addVariable("ds", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_m", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("tau_F", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
+    REQUIRE(stateVariableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
 
     // Create parameter handler to load the model
     auto modelParamHandler = createModelParameterHandler();
@@ -232,7 +232,7 @@ TEST_CASE("Joint Velocity State Dynamics")
     // Create the dynamics
     JointVelocityStateDynamics dsDynamics;
     REQUIRE(dsDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(dsDynamics.initialize(jointVelHandler));
+    REQUIRE(dsDynamics.initialize(jointVelHandler, "JOINT_VELOCITIES"));
     REQUIRE(dsDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state
@@ -252,8 +252,8 @@ TEST_CASE("Joint Velocity State Dynamics")
     REQUIRE(dsDynamics.update());
 
     // Compute joint velocity at step k+1 by using the numerical integration
-    Eigen::VectorXd jointVel = state.segment(stateVariableHandler.getVariable("ds").offset,
-                                             stateVariableHandler.getVariable("ds").size);
+    Eigen::VectorXd jointVel = state.segment(stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
+                                             stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
     jointVel = jointVel + std::chrono::duration<double>(dT).count() * input.robotJointAccelerations;
 
     // Check the output

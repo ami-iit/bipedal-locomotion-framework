@@ -35,7 +35,6 @@ struct Sensor
 {
     std::string name;    /**< Name of the sensor in the URDF */
     std::string frame;   /**< Frame of the sensor in the URDF */
-    std::string ukfName; /**< Name of the dynamics used for this sensor. */
     int frameIndex;      /**< Index of the sensor in the URDF. */
 };
 
@@ -77,6 +76,8 @@ class SubModel
     std::unordered_map<std::string, Sensor> m_externalContactList; /**< List of the additional external contacts */
     Sensor dummySensor{}; /**< Dummy sensor. */
     FTSensor dummyFT{}; /**< Dummy FT sensor. */
+    int m_imuBaseFrameIndex; /**< Name of the IMU frame rigidly attached to the sub-model base frame. */
+    std::string m_imuBaseFrameName; /**< Name of the IMU frame rigidly attached to the sub-model base frame. */
 
 public:
     /**
@@ -199,6 +200,18 @@ public:
      * @return a Sensor object corresponding to the external contact frame associated with the specified index.
      */
     const Sensor& getExternalContactIndex(const std::string& name);
+
+    /**
+     * @brief getImuBaseFrameName get the name of the IMU frame rigidly attached to the sub-model base frame.
+     * @return a string containing the name of the IMU frame.
+    */
+    const std::string getImuBaseFrameName() const;
+
+    /**
+     * @brief getImuBaseFrameIndex get the index of the IMU frame rigidly attached to the sub-model base frame.
+     * @return an integer containing the index of the IMU frame.
+    */
+    int getImuBaseFrameIndex() const;
 
     friend class SubModelCreator;
 };
