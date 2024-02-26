@@ -109,10 +109,13 @@ struct velMANNAutoregressive::Impl
     Eigen::MatrixXd supportFootJacobian;
 
     // For linear PID
+    double radius;
+    double c1;
     Eigen::Matrix2Xd previousDesiredVel = Eigen::Matrix2Xd::Zero(2, projectedBaseDatapoints);
     double lambda_0 = 0.0;
 
     // For rotational PID
+    double c0;
     Eigen::RowVectorXd previousDesiredAngVel = Eigen::VectorXd::Zero(projectedBaseDatapoints);
     Eigen::Vector3d previousOmegaE = Eigen::Vector3d::Zero();
 
@@ -379,6 +382,30 @@ bool velMANNAutoregressive::initialize(
         log()->error("{} Unable to find the parameter named '{}'.",
                      logPrefix,
                      "past_projected_base_horizon");
+        return false;
+    }
+
+    if (!ptr->getParameter("rotational_pid_gain", m_pimpl->c0))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.",
+                     logPrefix,
+                     "rotational_pid_gain");
+        return false;
+    }
+
+    if (!ptr->getParameter("threshold_radius", m_pimpl->radius))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.",
+                     logPrefix,
+                     "threshold_radius");
+        return false;
+    }
+
+    if (!ptr->getParameter("linear_pid_gain", m_pimpl->c1))
+    {
+        log()->error("{} Unable to find the parameter named '{}'.",
+                     logPrefix,
+                     "linear_pid_gain");
         return false;
     }
 
@@ -649,8 +676,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
                                                             0).finished();
 
     // Check if there is no user input or if the robot reached the desired position
-    const double radius = 0.3;
-    if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= radius)
+    if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= m_pimpl->radius)
     {
         m_pimpl->lambda_0 = 0.0;
     }
@@ -661,11 +687,10 @@ bool velMANNAutoregressive::setInput(const Input& input)
     }
 
     // Apply linear PID
-    const double c1 = 0.5;
     Eigen::Matrix3Xd xDot(3, input.desiredFutureBaseTrajectory.cols());
     for (int i = 0; i < input.desiredFutureBaseTrajectory.cols(); i++)
     {
-        xDot.col(i) = m_pimpl->lambda_0 * (previousVelMannOutput.futureBaseLinearVelocityTrajectory.col(i) - c1 * B_positionError);
+        xDot.col(i) = m_pimpl->lambda_0 * (previousVelMannOutput.futureBaseLinearVelocityTrajectory.col(i) - m_pimpl->c1 * B_positionError);
     }
 
     // assign the linear PID velocity output to be the future portion of the next MANN input
@@ -699,11 +724,10 @@ bool velMANNAutoregressive::setInput(const Input& input)
     Eigen::Vector3d Skv(Sk(2,1), Sk(0,2), Sk(1,0));
 
     // Apply rotational PID
-    const double c0 = 0.7;
     Eigen::Matrix3Xd omega_E(3, input.desiredFutureBaseDirections.cols());
     for (int i = 0; i < input.desiredFutureBaseDirections.cols(); i++)
     {
-        omega_E.col(i) = m_pimpl->lambda_0 * (previousVelMannOutput.futureBaseAngularVelocityTrajectory.col(i) - c0 * Skv);
+        omega_E.col(i) = m_pimpl->lambda_0 * (previousVelMannOutput.futureBaseAngularVelocityTrajectory.col(i) - m_pimpl->c0 * Skv);
     }
 
     // assign the rotational PID angular velocity output to be the future portion of the next MANN input
