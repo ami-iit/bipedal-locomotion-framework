@@ -135,7 +135,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     sendDataRT = params->getParameter("remote", remote);
     if (sendDataRT)
     {
-        yInfo() << "Activating Real Time Logging on yarp port: " << remote;
+        log()->info("{} Activating Real Time Logging on yarp port: {}", logPrefix, remote);
         initMetadataFunction = &BipedalLocomotion::YarpRobotLoggerDevice::addChannelAndMetadata;
         loggingDataFunction = &BipedalLocomotion::YarpRobotLoggerDevice::storeAndSendLoggingData;
         if (!m_vectorCollectionRTDataServer.initialize(params))
@@ -146,7 +146,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     }
     else
     {
-        yInfo() << "Real time logging not activated";
+        log()->info("{} Real time logging not activated", logPrefix);
         initMetadataFunction = &BipedalLocomotion::YarpRobotLoggerDevice::addChannel;
         loggingDataFunction = &BipedalLocomotion::YarpRobotLoggerDevice::storeLoggingData;
     }
