@@ -104,7 +104,7 @@ void CreateVectorsCollectionMetadata(pybind11::module& module)
              [](const VectorsCollectionMetadata& impl, yarp::os::ConnectionWriter& connection) -> bool {
                  return impl.write(connection);
              })
-        .def("toString", &VectorsCollectionMetadata::toString)
+        .def("to_string", &VectorsCollectionMetadata::toString)
         .def("getVectors",
             [](const VectorsCollectionMetadata& impl) -> std::map<std::string, std::vector<std::string>> {
             return impl.vectors;
