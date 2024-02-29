@@ -65,7 +65,7 @@ private:
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
 
-    bool sendDataRT;
+    bool m_sendDataRT;
     BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorCollectionRTDataServer;
 
     template <typename T> struct ExogenousSignal
@@ -217,57 +217,58 @@ private:
 
     const unsigned int maxTimoutForExogenousSignal = 10;
 
-    const std::string TREE_DELIM = "::";
+    const std::string treeDelim = "::";
 
-    const std::string ROBOT_RT_ROOT_NAME = "robot_realtime";
+    const std::string robotRtRootName = "robot_realtime";
 
-    const std::string JOINT_STATE_POSITIONS_NAME = "joints_state::positions";
-    const std::string JOINT_STATE_VELOCITIES_NAME = "joints_state::velocities";
-    const std::string JOINT_STATE_ACCLERATIONS_NAME = "joints_state::accelerations";
-    const std::string JOINT_STATE_TORQUES_NAME = "joints_state::torques";
+    const std::string jointStatePositionsName = "joints_state::positions";
+    const std::string jointStateVelocitiesName = "joints_state::velocities";
+    const std::string jointStateAccelerationsName = "joints_state::accelerations";
+    const std::string jointStateTorquesName = "joints_state::torques";
 
-    const std::string MOTOR_STATE_POSITIONS_NAME = "motors_state::positions";
-    const std::string MOTOR_STATE_VELOCITIES_NAME = "motors_state::velocities";
-    const std::string MOTOR_STATE_ACCELERATIONS_NAME = "motors_state::acclerations";
-    const std::string MOTOR_STATE_CURRENTS_NAME = "motors_state::currents";
-    const std::string MOTOR_STATE_PWM_NAME = "motors_state::PWM";
+    const std::string motorStatePositionsName = "motors_state::positions";
+    const std::string motorStateVelocitiesName = "motors_state::velocities";
+    const std::string motorStateAccelerationsName = "motors_state::accelerations";
+    const std::string motorStateCurrentsName = "motors_state::currents";
+    const std::string motorStatePwmName = "motors_state::PWM";
 
-    const std::string MOTOR_STATE_PIDS_NAME = "PIDs";
+    const std::string motorStatePidsName = "PIDs";
 
-    const std::string FTS_NAME = "FTs";
+    const std::string ftsName = "FTs";
 
-    const std::vector<std::string> FTElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+    const std::vector<std::string> ftElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
 
-    const std::string GYROS_NAME = "gyros";
-    const std::vector<std::string> GyroElementNames = {"omega_x", "omega_y", "omega_z"};
+    const std::string gyrosName = "gyros";
+    const std::vector<std::string> gyroElementNames = {"omega_x", "omega_y", "omega_z"};
 
-    const std::string ACCELEROMETERS_NAME = "accelerometers";
+    const std::string accelerometersName = "accelerometers";
     const std::vector<std::string> AccelerometerElementNames = {"a_x", "a_y", "a_z"};
 
-    const std::string ORIENTATIONS_NAME = "orientations";
-    const std::vector<std::string> OrientationElementNames = {"r", "p", "y"};
+    const std::string orientationsName = "orientations";
+    const std::vector<std::string> orientationElementNames = {"r", "p", "y"};
 
-    const std::string MAGNETOMETERS_NAME = "magnetometers";
-    const std::vector<std::string> MagnetometerElementNames = {"mag_x", "mag_y", "mag_z"};
+    const std::string magnetometersName = "magnetometers";
+    const std::vector<std::string> magnetometerElementNames = {"mag_x", "mag_y", "mag_z"};
 
-    const std::string CARTESIAN_WRENCHES_NAME = "cartesian_wrenches";
-    const std::vector<std::string> CartesianWrenchNames = {FTElementNames[0],
-                                                        FTElementNames[1],
-                                                        FTElementNames[2],
-                                                        FTElementNames[3],
-                                                        FTElementNames[4],
-                                                        FTElementNames[5]};
+    const std::string cartesianWrenchesName = "cartesian_wrenches";
+    const std::vector<std::string> cartesianWrenchNames = {ftElementNames[0],
+                                                        ftElementNames[1],
+                                                        ftElementNames[2],
+                                                        ftElementNames[3],
+                                                        ftElementNames[4],
+                                                        ftElementNames[5]};
 
-    const std::string TEMPERATURE_NAME = "temperatures";
-    const std::vector<std::string> TemperatureNames = {"temperature"};
+    const std::string temperatureName = "temperatures";
+    const std::vector<std::string> temperatureNames = {"temperature"};
 
-    const std::string YARP_NAME = "yarp_robot_name";
+    const std::string robotName = "yarp_robot_name";
 
-    const std::string ROBOT_DESCRIPTON_LIST = "description_list";
+    const std::string robotDescriptionList = "description_list";
 
-    const std::string TIMESTAMPS_NAME = "timestamps";
+    const std::string timestampsName = "timestamps";
 };
 
 } // namespace BipedalLocomotion
+
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H
