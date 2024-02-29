@@ -235,6 +235,7 @@ bool BaseEstimatorFromFootIMU::advance()
         stanceFootFrameIndex = m_footFrameIndex_L;
         // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
         m_measuredRotation = m_input.measuredRotation_L.rotation();
+        m_measuredAngularVelocity = m_input.measuredAngularVelocity_L;
         // has the stance foot just changed?
         if (m_isLastStanceFoot_R)
         {
@@ -267,6 +268,7 @@ bool BaseEstimatorFromFootIMU::advance()
         stanceFootFrameIndex = m_footFrameIndex_R;
         // casting the measured foot orientation manif::SO3d --> Eigen::Matrix3d.
         m_measuredRotation = m_input.measuredRotation_R.rotation();
+        m_measuredAngularVelocity = m_input.measuredAngularVelocity_R;
         // has the stance foot just changed?
         if (m_isLastStanceFoot_L)
         {
@@ -445,7 +447,14 @@ bool BaseEstimatorFromFootIMU::advance()
                          * T_foot_tilt * stanceFootFrame_H_link;
 
     Eigen::VectorXd baseVelocity(6);
-    baseVelocity.setZero();
+    // baseVelocity.setZero();
+    auto angularVelocityInLinkFrame = stanceFootFrame_H_link.asSO3().inverse().act(m_measuredAngularVelocity.coeffs());
+    auto cornerInLinkFrame = stanceFootFrame_H_link.inverse().act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
+
+    baseVelocity.head<3>() = m_measuredFootPose.asSO3().act(cornerInLinkFrame.cross(angularVelocityInLinkFrame));
+
+    manif::SO3d measuredRotationManif = Conversions::toManifRot(m_measuredRotation);
+    baseVelocity.tail<3>() = measuredRotationManif.act(m_measuredAngularVelocity.coeffs());
 
     // setting the robot state in terms of stance foot pose and joint positions.
     if (!m_kinDyn.setRobotState(m_measuredFootPose.transform(),
@@ -462,6 +471,7 @@ bool BaseEstimatorFromFootIMU::advance()
     m_state.basePose = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_baseFrameIndex));
     m_state.footPose_L = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex_L));
     m_state.footPose_R = Conversions::toManifPose(m_kinDyn.getWorldTransform(m_footFrameIndex_R));
+    m_state.baseVelocity = Conversions::toManifTwist(m_kinDyn.getFrameVel(m_baseFrameIndex));
     m_kinDyn.getCenterOfMassPosition(m_state.centerOfMassPosition);
 
     for (int i = 0; i < m_cornersInInertialFrame.size(); i++)

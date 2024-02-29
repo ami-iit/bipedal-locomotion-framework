@@ -31,6 +31,7 @@ struct BaseEstimatorFromFootIMUState
 {
     manif::SE3d basePose; /**< final output of the estimator - pose of the robot
                              root link. */
+    manif::SE3d::Tangent baseVelocity; /**< velocity of the robot  root link. */
     manif::SE3d footPose_L; /**< pose of the left foot */
     manif::SE3d footPose_R; /**< pose of the right foot */
     Eigen::Vector3d centerOfMassPosition;
@@ -54,6 +55,10 @@ struct BaseEstimatorFromFootIMUInput
                                     on-board IMU */
     manif::SO3d measuredRotation_R; /**< actual orientation of the right foot measured by
                                     on-board IMU */
+    manif::SO3Tangentd measuredAngularVelocity_L; /**< actual angular velocity of the left foot
+                                                  measured by on-board IMU */
+    manif::SO3Tangentd measuredAngularVelocity_R; /**< actual angular velocity of the right foot
+                                                  measured by on-board IMU */
 };
 
 /**
@@ -179,6 +184,7 @@ private:
                                      converted into Euler angles */
     Eigen::Matrix3d m_measuredRotation; /**< the measured foot orientation casted manif::SO3d -->
                                            Eigen::Matrix3d */
+    manif::SO3Tangentd m_measuredAngularVelocity; /**< the measured stance foot angular velocity */
     Eigen::Vector3d m_measuredRPY; /**< the measured foot orientation converted into Euler angles */
     manif::SO3d m_measuredRotationCorrected; /**< rotation matrix that employs: measured Roll,
                                                 measured Pitch, offset Yaw */
