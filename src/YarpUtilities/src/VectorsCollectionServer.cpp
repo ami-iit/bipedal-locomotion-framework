@@ -106,7 +106,7 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
     //     return false;
     // }
 
-    // // check if the key has been already used
+    // check if the key has been already used
     if (m_pimpl->setOfKeys.find(key) != m_pimpl->setOfKeys.end())
     {
         log()->error("[VectorsCollectionServer::populateMetadata] The key {} has been already "

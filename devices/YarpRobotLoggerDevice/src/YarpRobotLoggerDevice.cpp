@@ -874,7 +874,9 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     m_vectorCollectionRTDataServer.populateMetadata(ROBOT_RT_ROOT_NAME + TREE_DELIM + "newMetadata", {"newMetadata"});
 
     if(sendDataRT)
+    {
         m_vectorCollectionRTDataServer.finalizeMetadata();
+    }
 
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
@@ -1669,7 +1671,9 @@ void YarpRobotLoggerDevice::run()
     }   // end of lock guard scope for text logging port
 
     if(sendDataRT)
+    {
         m_vectorCollectionRTDataServer.sendData();
+    }
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
