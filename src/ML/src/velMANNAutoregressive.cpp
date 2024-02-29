@@ -108,6 +108,9 @@ struct velMANNAutoregressive::Impl
     AutoregressiveState state;
     Eigen::MatrixXd supportFootJacobian;
 
+    // For setting joint positions to initial
+    Eigen::VectorXd initial_joint_positions;
+
     // For linear PID
     double radius;
     double c1;
@@ -472,6 +475,8 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
 {
     constexpr auto logPrefix = "[velMANNAutoregressive::populateInitialAutoregressiveState]";
 
+    m_pimpl->initial_joint_positions = jointPositions;
+
     // set the base velocity to zero since we do not need to evaluate any quantity related to it
     Eigen::Matrix<double, 6, 1> baseVelocity;
     baseVelocity.setZero();
@@ -583,7 +588,15 @@ bool velMANNAutoregressive::setInput(const Input& input)
     const velMANNOutput& previousVelMannOutput = m_pimpl->state.previousVelMannOutput;
 
     // the joint positions and velocities are considered as new input
-    m_pimpl->velMannInput.jointPositions = previousVelMannOutput.jointPositions;
+    // if within the radius of the desired position, set input joint positions to a standing configuration
+    if (m_pimpl->lambda_0 == 0.0)
+    {
+        m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
+    }
+    else
+    {
+        m_pimpl->velMannInput.jointPositions = previousVelMannOutput.jointPositions;
+    }
     m_pimpl->velMannInput.jointVelocities = previousVelMannOutput.jointVelocities;
 
     // we set the base velocity to zero since we do not need to evaluate any quantity related to it
@@ -682,10 +695,8 @@ bool velMANNAutoregressive::setInput(const Input& input)
     }
     else
     {
-        // This means there is no new input and robot should stop
         m_pimpl->lambda_0 = 1.0;
     }
-
     // Apply linear PID
     Eigen::Matrix3Xd xDot(3, input.desiredFutureBaseTrajectory.cols());
     for (int i = 0; i < input.desiredFutureBaseTrajectory.cols(); i++)
