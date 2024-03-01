@@ -16,7 +16,6 @@
 #include <manif/SE3.h>
 #include <manif/SO3.h>
 
-// std
 #include <memory>
 
 namespace BipedalLocomotion
@@ -221,7 +220,6 @@ private:
     bool m_isLastStanceFoot_L{false}; /**< true if the last stance foot was the left one */
     bool m_isLastStanceFoot_R{false}; /**< true if the last stance foot was the right one */
 
-    bool m_isModelSet{false};
     bool m_isInitialized{false};
     bool m_isInputSet{false};
     bool m_isOutputValid{false};

@@ -49,8 +49,6 @@ bool BaseEstimatorFromFootIMU::setModel(const iDynTree::Model& model)
 {
     constexpr auto logPrefix = "[BaseEstimatorFromFootIMU::setModel]";
 
-    m_isModelSet = false;
-
     if (!m_kinDyn.loadRobotModel(model))
     {
         log()->error("{} Unable to load the model.", logPrefix);
@@ -58,8 +56,6 @@ bool BaseEstimatorFromFootIMU::setModel(const iDynTree::Model& model)
     }
 
     m_model = model;
-
-    m_isModelSet = true;
 
     return true;
 }
@@ -71,7 +67,7 @@ bool BaseEstimatorFromFootIMU::initialize(
 
     m_isInitialized = false;
 
-    if (!m_isModelSet)
+    if (!m_model.isValid())
     {
         log()->error("{} No iDynTree::Model has been set.", logPrefix);
         return false;
@@ -136,6 +132,12 @@ bool BaseEstimatorFromFootIMU::initialize(
     // Foot dimensions. Same for both feet.
     ok = ok && populateParameter(baseEstimatorPtr, "foot_width_in_m", m_footWidth);
     ok = ok && populateParameter(baseEstimatorPtr, "foot_length_in_m", m_footLength);
+
+    if (!ok)
+    {
+        log()->error("{} Unable to retrieve all the parameters from the parameter handler.", logPrefix);
+        return false;
+    }
 
     m_gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
 
