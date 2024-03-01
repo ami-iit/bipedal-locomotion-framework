@@ -12,6 +12,8 @@ build*
 # IDEs
 .idea*
 .vscode*
+.vs*
+CMakeSettings.json
 
 # ======
 # Python (https://github.com/github/gitignore/blob/master/Python.gitignore)
