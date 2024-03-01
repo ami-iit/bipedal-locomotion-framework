@@ -485,12 +485,15 @@ bool BaseEstimatorFromFootIMU::advance()
     }
 
     double orientationError_L = (toXYZ(m_state.footPose_L.rotation()) - toXYZ(m_input.measuredRotation_L.rotation())).norm();
+    orientationError_L = std::fmod(orientationError_L, 2.0 * M_PI) * 180.0 / M_PI;
     double orientationError_R = (toXYZ(m_state.footPose_R.rotation()) - toXYZ(m_input.measuredRotation_R.rotation())).norm();
-    double orientationErrorThreshold = 0.01; // [rad]. TODO: get parameter from config file. 0,01 rad = 0,5729578 deg. 
+    orientationError_R = std::fmod(orientationError_R, 2.0 * M_PI) * 180.0 / M_PI;
+    double orientationErrorThreshold = 1.5; // [deg]. TODO: get parameter from config file. 1,5 deg = 0,0261799 rad.
 
-    if ( (orientationError_L > orientationErrorThreshold) || (orientationError_R > orientationErrorThreshold) )
+    if ( ((orientationError_L > orientationErrorThreshold) && (orientationError_L < (360.0 - orientationErrorThreshold))) ||
+         ((orientationError_R > orientationErrorThreshold) && (orientationError_R < (360.0 - orientationErrorThreshold))))
     {
-        log()->warn("{} Foot orientation error above {} threshold: {} Left, {} Right.",
+        log()->warn("{} Foot orientation error above {} [deg] threshold: {} Left, {} Right.",
                      logPrefix,
                      orientationErrorThreshold,
                      orientationError_L,
