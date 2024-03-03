@@ -1692,7 +1692,6 @@ bool YarpRobotLoggerDevice::detachAll()
 bool YarpRobotLoggerDevice::close()
 {
     this->askToStop();
-    this->stop();
 
     // stop all the video thread
     for (auto& [cameraName, writer] : m_videoWriters)
