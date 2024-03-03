@@ -117,7 +117,10 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 }
 
-YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
+YarpRobotLoggerDevice::~YarpRobotLoggerDevice()
+{
+    this->stop();
+}
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
