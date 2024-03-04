@@ -79,7 +79,7 @@ TEST_CASE("UnicyclePlannerTest")
     const double dT = 0.01;
     const auto handler = params(dT);
 
-    bool saveDataTofile = true;
+    bool saveDataTofile = false;
 
     UnicyclePlanner planner;
 
