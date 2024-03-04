@@ -21,3 +21,13 @@ add_bipedal_test(
   NAME SwingFootPlanner
   SOURCES SwingFootPlannerTest.cpp
   LINKS BipedalLocomotion::Planners)
+
+if (FRAMEWORK_COMPILE_Unicycle)
+
+  add_bipedal_test(
+    NAME UnicyclePlanner
+    SOURCES UnicyclePlannerTest.cpp
+    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle
+    )
+
+endif()
