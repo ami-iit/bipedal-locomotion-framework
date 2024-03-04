@@ -215,7 +215,7 @@ private:
                             const std::string& camera,
                             const std::string& imageType);
 
-    const unsigned int maxTimoutForExogenousSignal = 10;
+    const unsigned int maxTimoutForExogenousSignal = 1000;
 
     const std::string treeDelim = "::";
 
