@@ -20,7 +20,7 @@ using namespace BipedalLocomotion::ParametersHandler;
 #include <manif/manif.h>
 
 
-bool approxEqual(const manif::SE3d& lhs, const manif::SE3d& rhs, const double& translationTol = 1e-1, const double& rotationTol = 1e2)
+bool approxEqual(const manif::SE3d& lhs, const manif::SE3d& rhs, const double& translationTol = 1e-1, const double& rotationTol = 1e-2)
 {
     Eigen::Matrix3d rotationDiffMat = (lhs.rotation().matrix() * rhs.rotation().inverse().matrix()).eval();
     Eigen::AngleAxisd rotationDiffAA(rotationDiffMat);
