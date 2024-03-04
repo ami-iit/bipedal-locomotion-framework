@@ -1724,31 +1724,23 @@ struct YarpSensorBridge::Impl
         {
             for (int j = 0; j < controlBoardRemapperMeasures.motorTemperatureUnordered.size(); j++)
             {
-                ok &= controlBoardRemapperInterfaces.motors
-                        ->getTemperature(j, &(controlBoardRemapperMeasures.motorTemperatureUnordered[j]));
-            }
+                ok = controlBoardRemapperInterfaces.motors
+                         ->getTemperature(j,
+                                          &(controlBoardRemapperMeasures
+                                                .motorTemperatureUnordered[j]));
 
-            if (ok)
-            {
-                if (checkForNan)
+                if (!ok)
                 {
-                    if (nanExistsInVec(controlBoardRemapperMeasures.motorTemperatureUnordered,
-                                       logPrefix,
-                                       "MotorTemperatures"))
-                    {
-                        return false;
-                    }
+                    controlBoardRemapperMeasures.motorTemperatureUnordered[j] = -100;
+                    log()->warn("{} Unable to read from IMotor interface for motor {}.",
+                                logPrefix,
+                                j);
                 }
-
-                controlBoardRemapperMeasures.motorTemperature.noalias()
-                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorTemperatureUnordered;
-            } else
-            {
-                log()->error("{} Unable to read from IMotor interface, use previous "
-                             "measurement.",
-                             logPrefix);
             }
+
+            controlBoardRemapperMeasures.motorTemperature.noalias()
+                = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                  * controlBoardRemapperMeasures.motorTemperatureUnordered;
         }
 
         return true;
