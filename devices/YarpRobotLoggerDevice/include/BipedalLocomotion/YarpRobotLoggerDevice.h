@@ -109,7 +109,6 @@ private:
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
-    unsigned int m_updatedMetadataSignalVal;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
@@ -180,17 +179,8 @@ private:
     void lookForNewLogs();
     void lookForExogenousSignals();
 
-    bool
-    addChannelAndMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
-    void storeAndSendLoggingData(const std::string& name,
-                                 const Eigen::VectorXd& data,
-                                 const double time);
-    bool addChannel(const std::string& nameKey, const std::vector<std::string>& metadata);
-    void storeLoggingData(const std::string& name,
-                                 const Eigen::VectorXd& data,
-                                 const double time);
-    bool (BipedalLocomotion::YarpRobotLoggerDevice::*initMetadataFunction)(const std::string& nameKey, const std::vector<std::string>& metadata);
-    void (BipedalLocomotion::YarpRobotLoggerDevice::*loggingDataFunction)(const std::string& name,
+    bool initMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
+    void logData(const std::string& name,
                                  const Eigen::VectorXd& data,
                                  const double time);
 
@@ -214,8 +204,6 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
-
-    const unsigned int maxTimoutForExogenousSignal = 1000;
 
     const std::string treeDelim = "::";
 

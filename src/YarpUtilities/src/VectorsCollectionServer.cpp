@@ -99,12 +99,12 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
     // This code was temporarily removed via commenting it out, this will be discussed with the team
     // later on how to append metadata after it is finalized
 
-    // if (m_pimpl->isMetadataFinalized)
-    // {
-    //     log()->error("[VectorsCollectionServer::populateMetadata] The metadata has been already "
-    //                  "populated.");
-    //     return false;
-    // }
+    if (m_pimpl->isMetadataFinalized)
+    {
+        log()->error("[VectorsCollectionServer::populateMetadata] The metadata has been already "
+                     "populated.");
+        return false;
+    }
 
     // check if the key has been already used
     if (m_pimpl->setOfKeys.find(key) != m_pimpl->setOfKeys.end())
@@ -158,11 +158,11 @@ bool VectorsCollectionServer::populateData(const std::string& key,
     constexpr auto logPrefix = "[VectorsCollectionServer::setData]";
 
     // check if the metadata has been finalized
-    // if (!m_pimpl->isMetadataFinalized)
-    // {
-    //     log()->error("{} The metadata has not been finalized.", logPrefix);
-    //     return false;
-    // }
+    if (!m_pimpl->isMetadataFinalized)
+    {
+        log()->error("{} The metadata has not been finalized.", logPrefix);
+        return false;
+    }
 
     // check if the key exists
     if (m_pimpl->setOfKeys.find(key) == m_pimpl->setOfKeys.end())
