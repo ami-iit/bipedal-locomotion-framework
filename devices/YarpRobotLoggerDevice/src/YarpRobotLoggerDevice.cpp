@@ -856,8 +856,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    m_vectorCollectionRTDataServer.populateMetadata(robotRtRootName + treeDelim + "newMetadata", {"newMetadata"});
-
     if(m_sendDataRT)
     {
         m_vectorCollectionRTDataServer.finalizeMetadata();
@@ -1539,11 +1537,9 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    bool newMetadata = false;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-
         BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
             = signal.client.readData(false);
 
@@ -1568,12 +1564,9 @@ void YarpRobotLoggerDevice::run()
                     }
                 }
                 signal.dataArrived = true;
-                signal.numMissedPackets = 0;
-                newMetadata = true;
             }
             else
             {
-                signal.numMissedPackets = 0;
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
                     signalName = signal.signalName + treeDelim + key;

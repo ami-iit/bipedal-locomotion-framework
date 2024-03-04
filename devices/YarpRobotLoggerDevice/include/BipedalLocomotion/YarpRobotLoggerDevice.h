@@ -11,7 +11,6 @@
 #include <mutex>
 #include <vector>
 #include <string>
-#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -99,7 +98,6 @@ private:
         BipedalLocomotion::YarpUtilities::VectorsCollectionClient client;
         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
         std::string signalName;
-        unsigned int numMissedPackets;
         bool dataArrived{false};
         bool connected{false};
 
