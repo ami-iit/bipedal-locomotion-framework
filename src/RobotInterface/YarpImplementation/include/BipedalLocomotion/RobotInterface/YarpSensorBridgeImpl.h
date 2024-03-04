@@ -1722,8 +1722,11 @@ struct YarpSensorBridge::Impl
 
         if (controlBoardRemapperInterfaces.motors)
         {
-            ok = controlBoardRemapperInterfaces.motors->getTemperatures(
-                controlBoardRemapperMeasures.motorTemperatureUnordered.data());
+            for (int j = 0; j < controlBoardRemapperMeasures.motorTemperatureUnordered.size(); j++)
+            {
+                ok &= controlBoardRemapperInterfaces.motors
+                        ->getTemperature(j, &(controlBoardRemapperMeasures.motorTemperatureUnordered[j]));
+            }
 
             if (ok)
             {
