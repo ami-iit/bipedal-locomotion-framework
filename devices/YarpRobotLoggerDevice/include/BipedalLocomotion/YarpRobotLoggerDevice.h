@@ -178,9 +178,6 @@ private:
     void lookForExogenousSignals();
 
     bool initMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
-    void logData(const std::string& name,
-                                 const Eigen::VectorXd& data,
-                                 const double time);
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);

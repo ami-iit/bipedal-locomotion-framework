@@ -639,17 +639,6 @@ bool YarpRobotLoggerDevice::initMetadata(const std::string& nameKey, const std::
     return ok;
 }
 
-void YarpRobotLoggerDevice::logData(const std::string& name,
-                                                    const Eigen::VectorXd& data,
-                                                    const double time)
-{
-    m_bufferManager.push_back(data, time, name);
-    std::string rtName = robotRtRootName + treeDelim + name;
-    if (m_sendDataRT)
-    {
-        m_vectorCollectionRTDataServer.populateData(rtName, data);
-    }
-}
 
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
@@ -1354,6 +1343,17 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
 void YarpRobotLoggerDevice::run()
 {
+    auto logData = [this](const std::string& name,
+                      const auto& data,
+                      const double time) {
+        m_bufferManager.push_back(data, time, name);
+        std::string rtName = robotRtRootName + treeDelim + name;
+        if (m_sendDataRT)
+        {
+            m_vectorCollectionRTDataServer.populateData(rtName, data);
+        }
+    };
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
     const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
     std::string signalFullName = "";
