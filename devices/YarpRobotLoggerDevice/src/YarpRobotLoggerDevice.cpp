@@ -691,7 +691,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
     const unsigned dofs = joints.size();
     m_bufferManager.setDescriptionList(joints);
-    if(m_sendDataRT)
+    if (m_sendDataRT)
     {
         char* tmp = std::getenv("YARP_ROBOT_NAME");
         std::string metadataName
@@ -855,7 +855,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    if(m_sendDataRT)
+    if (m_sendDataRT)
     {
         m_vectorCollectionRTDataServer.finalizeMetadata();
     }
@@ -1357,7 +1357,7 @@ void YarpRobotLoggerDevice::run()
     std::string rtSignalName = "";
 
     std::lock_guard lock(m_bufferManagerMutex);
-    if(m_sendDataRT)
+    if (m_sendDataRT)
     {
         m_vectorCollectionRTDataServer.prepareData();
         m_vectorCollectionRTDataServer.clearData();
@@ -1627,7 +1627,7 @@ void YarpRobotLoggerDevice::run()
         }
     }   // end of lock guard scope for text logging port
 
-    if(m_sendDataRT)
+    if (m_sendDataRT)
     {
         m_vectorCollectionRTDataServer.sendData();
     }
