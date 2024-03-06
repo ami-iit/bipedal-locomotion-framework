@@ -1572,9 +1572,7 @@ void YarpRobotLoggerDevice::run()
                 for (const auto& [key, vector] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
-                    const Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, 1>> eVector(vector.data(),
-                                                                               vector.size());
-                    logData(signalFullName, eVector, time);
+                    logData(signalFullName, vector, time);
                 }
 
             }
