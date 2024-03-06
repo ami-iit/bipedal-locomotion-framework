@@ -876,6 +876,36 @@ struct CentroidalMPC::Impl
         this->opti.subject_to(extractFutureValuesFromState(dcom) == fullTrajectory[1]);
         this->opti.subject_to(extractFutureValuesFromState(angularMomentum) == fullTrajectory[2]);
 
+        // // add LFS constraints our state is x = [com, dcom, angularMomentum]
+        // auto stateError
+        //     = casadi::MX::vertcat({this->optiVariables.comReference - com,
+        //                            this->optiVariables.angularMomentumReference -
+        //                            angularMomentum});
+
+        // for (int i = 0; i < 1; i++)
+        // {
+        //     auto V_i_1 = casadi::MX::dot(stateError(Sl(), i + 1), stateError(Sl(), i + 1));
+        //     auto V_i = casadi::MX::dot(stateError(Sl(), i), stateError(Sl(), i));
+        //     std::cerr << "V_i_1: " << V_i_1 - V_i << std::endl;
+
+        //     this->opti.subject_to(V_i_1 - V_i <= 0.0);
+        // }
+
+        double z_min = 0.68;
+        double z_max = 0.705;
+
+        // we define the following controller barrier function for the first
+        // auto b_x_1 = -2 / ((com(2, 1) - z_min) * (-z_max + com(2, 1)));
+        // auto b_x_0 = -2 / ((com(2, 0) - z_min) * (-z_max + com(2, 0)));
+
+        double gamma = 0.5;
+
+        auto h = -0.5 * (com(2, Sl()) - z_min) * (-z_max + com(2, Sl()));
+        for (int i = 0; i < 10; i++)
+        {
+            this->opti.subject_to(h(i + 1) + (gamma - 1) * h(i) >= 0);
+        }
+
         // footstep dynamics
         std::size_t contactIndex = 0;
         for (const auto& [key, contact] : this->optiVariables.contacts)
@@ -937,7 +967,8 @@ struct CentroidalMPC::Impl
             }
         }
 
-        this->opti.subject_to(-0.03 <= this->optiVariables.comReference(2, Sl()) - com(2, Sl()) <= 0.03);
+        // this->opti.subject_to(-0.03 <= this->optiVariables.comReference(2, Sl()) - com(2, Sl())
+        // <= 0.02);
 
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
