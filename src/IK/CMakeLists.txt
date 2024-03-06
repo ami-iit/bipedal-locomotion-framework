@@ -16,7 +16,7 @@ if(FRAMEWORK_COMPILE_IK)
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen
                            BipedalLocomotion::ParametersHandler BipedalLocomotion::System
                            LieGroupControllers::LieGroupControllers
-                           MANIF::manif
+                           MANIF::manif BipedalLocomotion::Math
                            iDynTree::idyntree-high-level iDynTree::idyntree-model
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging OsqpEigen::OsqpEigen BipedalLocomotion::ManifConversions
     SUBDIRECTORIES         tests)
