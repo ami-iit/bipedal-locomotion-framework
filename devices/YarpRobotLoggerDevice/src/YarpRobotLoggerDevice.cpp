@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <iDynTree/EigenHelpers.h>
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -1570,13 +1571,8 @@ void YarpRobotLoggerDevice::run()
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
                     signalName = signal.signalName + treeDelim + key;
-                    m_bufferManager.push_back(vector, time, signalName);
-                    if(m_sendDataRT)
-                    {
-                        rtSignalName
-                            = robotRtRootName + treeDelim + signalName;
-                        m_vectorCollectionRTDataServer.populateData(rtSignalName, vector);
-                    }
+                    Eigen::Matrix<double, Eigen::Dynamic, 1> eVector(vector.size());
+                    logData(signalName, eVector, time);
                 }
 
             }
