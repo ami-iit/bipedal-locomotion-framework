@@ -450,8 +450,8 @@ bool BaseEstimatorFromFootIMU::advance()
 
     Eigen::VectorXd baseVelocity(6);
     // baseVelocity.setZero();
-    auto angularVelocityInLinkFrame = stanceFootFrame_H_link.asSO3().inverse().act(m_measuredAngularVelocity.coeffs());
-    auto cornerInLinkFrame = stanceFootFrame_H_link.inverse().act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
+    Eigen::Vector3d angularVelocityInLinkFrame = stanceFootFrame_H_link.asSO3().inverse().act(m_measuredAngularVelocity.coeffs());
+    Eigen::Vector3d cornerInLinkFrame = stanceFootFrame_H_link.inverse().act(m_cornersInInertialFrame[m_state.supportCornerIndex]);
 
     baseVelocity.head<3>() = m_measuredFootPose.asSO3().act(cornerInLinkFrame.cross(angularVelocityInLinkFrame));
 
