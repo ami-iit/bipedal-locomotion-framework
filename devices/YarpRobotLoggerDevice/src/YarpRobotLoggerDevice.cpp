@@ -28,6 +28,8 @@
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
+#include <Eigen/Core>
+
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
@@ -1569,7 +1571,8 @@ void YarpRobotLoggerDevice::run()
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
                     signalName = signal.signalName + treeDelim + key;
-                    Eigen::Matrix<double, Eigen::Dynamic, 1> eVector(vector.size());
+                    const Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, 1>> eVector(vector.data(),
+                                                                               vector.size());
                     logData(signalName, eVector, time);
                 }
 
