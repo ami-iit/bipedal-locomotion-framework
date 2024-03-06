@@ -231,10 +231,18 @@ bool BaseEstimatorFromFootIMU::advance()
         return false;
     }
 
-    const manif::SE3d I_H_foot_rotation = manif::SE3d(m_input.stanceFootPosition, measuredRotation);
+    // yaw removed from the measured rotation
+    m_measuredRPY = toXYZ(measuredRotation.rotation());
+    auto desiredFootRPY = toXYZ(m_input.stanceFootPose.rotation());
+
+    auto cleanedRotation = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), desiredFootRPY(2));
+
+
+    const manif::SE3d I_H_foot_rotation = manif::SE3d(m_input.stanceFootPose.translation(), cleanedRotation);
 
     // expressing measured orientation through RPY Euler angles.
-    m_measuredRPY = toXYZ(measuredRotation.rotation());
+   
+
 
     // get the tilt only
     m_measuredTilt = manif::SO3d(m_measuredRPY(0), m_measuredRPY(1), 0.0);
@@ -290,7 +298,7 @@ bool BaseEstimatorFromFootIMU::advance()
 
     baseVelocity.head<3>()
         = m_measuredFootPose.asSO3().act(cornerInLinkFrame.cross(angularVelocityInLinkFrame));
-    baseVelocity.tail<3>() = measuredRotation.act(measuredVelocity.coeffs());
+    baseVelocity.tail<3>() = cleanedRotation.act(measuredVelocity.coeffs());
 
     // setting the robot state in terms of stance foot pose and joint positions.
     if (!m_kinDyn.setRobotState(m_measuredFootPose.transform(),

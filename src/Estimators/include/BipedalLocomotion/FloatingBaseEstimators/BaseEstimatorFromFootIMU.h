@@ -47,7 +47,7 @@ struct BaseEstimatorFromFootIMUInput
     bool isRightStance; /**< true if the right foot is in contact with the ground */
     Eigen::VectorXd jointPositions; /**< vector of the robot joint positions */
     Eigen::VectorXd jointVelocities; /**< vector of the robot joint velocities */
-    Eigen::Vector3d stanceFootPosition; /**< Optional offset orientation and position of the foot.
+    manif::SE3d stanceFootPose; /**< Optional offset orientation and position of the foot.
                                            E.g. as per footstep planner output */
     manif::SO3d measuredRotation_L; /**< actual orientation of the left foot measured by
                                          on-board IMU */
