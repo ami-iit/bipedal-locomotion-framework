@@ -1,6 +1,6 @@
 # 🤖 MANN
 
-This tutorial aims to give the user a receipt that can be followed to use the `MANNAutoregressive` and `MANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
+This tutorial aims to give the user a receipt that can be followed to use the `MANNAutoregressive` and `MANNTrajectoryGenerator` or the `velMANNAutoregressive` and `velMANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
 
 The tutorial requires the following Python package installed:
 - `bipedal_locomotion_framework` to use MANN network;
@@ -32,3 +32,13 @@ Then you can run the notebooks by typing the following command in a terminal:
     ```
 
     https://github.com/ami-iit/bipedal-locomotion-framework/assets/16744101/7ba65d66-68f9-4bd9-aede-a8edd00d82d5
+
+3. `velMANNTrajectoryGenerator`
+    ```console
+    jupyter notebook velMANNTrajectoryGenerator.ipynb
+    ```
+
+4. `velMANNAutoregressive`
+    ```console
+    jupyter notebook velMANNAutoregressive.ipynb
+    ```
