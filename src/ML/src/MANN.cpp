@@ -201,10 +201,12 @@ bool MANN::initialize(
     // https://stackoverflow.com/questions/2573834/c-convert-string-or-char-to-wstring-or-wchar-t
     std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
                                                              networkModelPath.end());
+    Ort::SessionOptions session_options;
+    session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
 
     m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
                                                       networkModelPathAsOrtString.c_str(),
-                                                      Ort::SessionOptions{nullptr});
+                                                      session_options);
 
     if (m_pimpl->session == nullptr)
     {
