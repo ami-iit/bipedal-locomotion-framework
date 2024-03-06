@@ -9,8 +9,6 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include <iDynTree/EigenHelpers.h>
-#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -19,7 +17,6 @@
 #include <tuple>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
