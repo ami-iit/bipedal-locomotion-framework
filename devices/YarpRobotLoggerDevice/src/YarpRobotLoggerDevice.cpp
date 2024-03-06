@@ -130,12 +130,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
-    std::string remote;
-    m_sendDataRT = params->getParameter("remote", remote);
+    auto rtParameters = params->getGroup("REAL_TIME_STREAMING").lock();
+    m_sendDataRT = rtParameters != nullptr;
     if (m_sendDataRT)
     {
+        std::string remote;
         log()->info("{} Activating Real Time Logging on yarp port: {}", logPrefix, remote);
-        if (!m_vectorCollectionRTDataServer.initialize(params))
+        if (!m_vectorCollectionRTDataServer.initialize(rtParameters))
         {
             log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
             return false;
