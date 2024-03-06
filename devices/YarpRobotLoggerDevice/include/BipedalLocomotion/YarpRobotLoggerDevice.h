@@ -252,6 +252,7 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
+
 };
 
 } // namespace BipedalLocomotion

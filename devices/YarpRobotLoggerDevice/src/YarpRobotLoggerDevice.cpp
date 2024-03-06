@@ -645,7 +645,7 @@ void YarpRobotLoggerDevice::logData(const std::string& name,
 {
     m_bufferManager.push_back(data, time, name);
     std::string rtName = robotRtRootName + treeDelim + name;
-    if(m_sendDataRT)
+    if (m_sendDataRT)
     {
         m_vectorCollectionRTDataServer.populateData(rtName, data);
     }
@@ -1547,7 +1547,7 @@ void YarpRobotLoggerDevice::run()
 
         if (externalSignalCollection != nullptr)
         {
-            if(!signal.dataArrived)
+            if (!signal.dataArrived)
             {
                 for (const auto& [key, vector] : externalSignalCollection->vectors)
                 {
