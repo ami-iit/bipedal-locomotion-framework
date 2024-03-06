@@ -1542,14 +1542,14 @@ void YarpRobotLoggerDevice::run()
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+        const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
             = signal.client.readData(false);
 
-        if (externalSignalCollection != nullptr)
+        if (collection != nullptr)
         {
             if (!signal.dataArrived)
             {
-                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                for (const auto& [key, vector] : collection->vectors)
                 {
                     signalName = signal.signalName + treeDelim + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
@@ -1569,7 +1569,7 @@ void YarpRobotLoggerDevice::run()
             }
             else
             {
-                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                for (const auto& [key, vector] : collection->vectors)
                 {
                     signalName = signal.signalName + treeDelim + key;
                     const Eigen::Map<const Eigen::Matrix<double, Eigen::Dynamic, 1>> eVector(vector.data(),
@@ -1584,8 +1584,8 @@ void YarpRobotLoggerDevice::run()
     for (auto& [name, signal] : m_vectorSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::Vector* collection = signal.port.read(false);
-        if (collection != nullptr)
+        yarp::sig::Vector* vector = signal.port.read(false);
+        if (vector != nullptr)
         {
             if (!signal.dataArrived)
             {
