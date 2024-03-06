@@ -139,6 +139,8 @@ public:
      */
     const BaseEstimatorFromFootIMUState& getOutput() const override;
 
+    void resetBaseEstimatorFromFootIMU();
+
     /**
      * Set the state of the BaseEstimatorFromFootIMU.
      * @param state of the BaseEstimatorFromFootIMU

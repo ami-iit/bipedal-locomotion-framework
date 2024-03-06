@@ -538,6 +538,16 @@ const BaseEstimatorFromFootIMUState& BaseEstimatorFromFootIMU::getOutput() const
     return m_state; // m_state.basePose is the actual output
 }
 
+void BaseEstimatorFromFootIMU::resetBaseEstimatorFromFootIMU()
+{
+    m_isOutputValid = false;
+    m_yawOld = 0.0;
+    m_T_yawDrift.setIdentity();
+    m_T_walk.setIdentity();
+    m_isLastStanceFoot_L = false;
+    m_isLastStanceFoot_R = false;
+}
+
 // OPTIONAL METHOD - TO FORCE THE STATE
 
 void BaseEstimatorFromFootIMU::setState(const BaseEstimatorFromFootIMUState& state)
