@@ -88,27 +88,8 @@ void CreateVectorsCollectionMetadata(pybind11::module& module)
     py::class_<VectorsCollectionMetadata>(module, "VectorsCollectionMetadata")
         .def(py::init())
         .def(py::init<const std::map<std::string, std::vector<std::string>>&>())
-        .def("readWireReader",
-             [](VectorsCollectionMetadata& impl, yarp::os::idl::WireReader& reader) -> bool {
-                 return impl.read(reader);
-             })
-        .def("readConnectionReader",
-             [](VectorsCollectionMetadata& impl, yarp::os::ConnectionReader& connection) -> bool {
-                 return impl.read(connection);
-             })
-        .def("writeWireWriter",
-             [](const VectorsCollectionMetadata& impl, const yarp::os::idl::WireWriter& writer) -> bool {
-                 return impl.write(writer);
-             })
-        .def("writeConnectionWriter",
-             [](const VectorsCollectionMetadata& impl, yarp::os::ConnectionWriter& connection) -> bool {
-                 return impl.write(connection);
-             })
         .def("to_string", &VectorsCollectionMetadata::toString)
-        .def("getVectors",
-            [](const VectorsCollectionMetadata& impl) -> std::map<std::string, std::vector<std::string>> {
-            return impl.vectors;
-        });
+        .def_readwrite("vectors", &VectorsCollectionMetadata::vectors);
 }
 } // namespace YarpUtilities
 } // namespace bindings
