@@ -28,12 +28,60 @@ bool CoMZMPController::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
-    bool ok = ptr->getParameter("com_gain", m_CoMGain);
-    ok = ok && ptr->getParameter("zmp_gain", m_ZMPGain);
+    auto setGain
+        = [logPrefix, ptr](const std::string& gainName) -> std::shared_ptr<System::WeightProvider> {
+        auto group = ptr->getGroup(gainName).lock();
+        if (group == nullptr)
+        {
+            log()->error("{} Unable to find the group {}.", logPrefix, gainName);
+            return nullptr;
+        }
 
-    if (!ok)
+        std::string weightProviderType = "ConstantWeightProvider";
+        if (!group->getParameter("gain_provider_type", weightProviderType))
+        {
+            log()->warn("{} Unable to find the parameter 'gain_provider_type' in the group {}. The "
+                        "default value {} is used.",
+                        logPrefix,
+                        gainName,
+                        weightProviderType);
+        }
+
+        auto weightProvider = System::WeightProviderFactory::createInstance(weightProviderType);
+
+        if (weightProvider == nullptr)
+        {
+            log()->error("{} Unable to create the weight provider for the {}.",
+                         logPrefix,
+                         gainName);
+            return nullptr;
+        }
+
+        if (!weightProvider->initialize(group))
+        {
+            log()->error("{} Unable to initialize the weight provider for the {}.",
+                         logPrefix,
+                         gainName);
+            return nullptr;
+        }
+
+        return weightProvider;
+    };
+
+    m_CoMGainProvider = setGain("COM_GAIN"); // CoM gain is the gain used to control the CoM
+                                             // position
+
+    if (m_CoMGainProvider == nullptr)
     {
-        log()->error("{} Unable to load the controller gains.", logPrefix);
+        log()->error("{} Unable to create the weight provider for the com_gain.", logPrefix);
+        return false;
+    }
+
+    m_ZMPGainProvider = setGain("ZMP_GAIN"); // ZMP gain is the gain used to control the ZMP
+                                             // position
+    if (m_ZMPGainProvider == nullptr)
+    {
+        log()->error("{} Unable to create the weight provider for the zmp_gain.", logPrefix);
         return false;
     }
 
@@ -68,12 +116,14 @@ bool CoMZMPController::advance()
     m_controllerOutput = m_desiredCoMVelocity;
 
     // CoM Controller
-    m_controllerOutput.noalias() += m_I_R_B.act(
-        m_CoMGain.asDiagonal() * m_I_R_B.inverse().act(m_desiredCoMPosition - m_CoMPosition));
+    m_controllerOutput.noalias()
+        += m_I_R_B.act(m_CoMGainProvider->getOutput().asDiagonal()
+                       * m_I_R_B.inverse().act(m_desiredCoMPosition - m_CoMPosition));
 
     // ZMP Controller
-    m_controllerOutput.noalias() += m_I_R_B.act(
-        m_ZMPGain.asDiagonal() * m_I_R_B.inverse().act(m_ZMPPosition - m_desiredZMPPosition));
+    m_controllerOutput.noalias()
+        += m_I_R_B.act(m_ZMPGainProvider->getOutput().asDiagonal()
+                       * m_I_R_B.inverse().act(m_ZMPPosition - m_desiredZMPPosition));
 
     m_isOutputValid = true;
 
@@ -116,4 +166,14 @@ void CoMZMPController::setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition
                                    const double angle)
 {
     this->setFeedback(CoMPosition, ZMPPosition, manif::SO2d(angle));
+}
+
+std::shared_ptr<System::WeightProvider> CoMZMPController::getCoMGainProvider() const
+{
+    return m_CoMGainProvider;
+}
+
+std::shared_ptr<System::WeightProvider> CoMZMPController::getZMPGainProvider() const
+{
+    return m_ZMPGainProvider;
 }

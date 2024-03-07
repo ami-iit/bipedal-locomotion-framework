@@ -12,6 +12,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/System/WeightProvider.h>
 
 #include <manif/SO2.h>
 
@@ -60,6 +61,7 @@ using CoMZMPControllerOutput = Eigen::Vector2d;
 class CoMZMPController : public System::Advanceable<CoMZMPControllerInput, CoMZMPControllerOutput>
 {
 public:
+    // clang-format off
     /**
      * Initialize the controller.
      * @param handler pointer to the parameter handler.
@@ -71,84 +73,89 @@ public:
      * @return true in case of success/false otherwise.
      */
      bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+    // clang-format on
 
-     /**
-      * Get the the controller output.
-      * @return The velocity of the CoM.
-      */
-     const Output& getOutput() const final;
+    /**
+     * Get the the controller output.
+     * @return The velocity of the CoM.
+     */
+    const Output& getOutput() const final;
 
-     /**
-      * Determines the validity of the object retrieved with getOutput()
-      * @return True if the object is valid, false otherwise.
-      */
-     bool isOutputValid() const final;
+    /**
+     * Determines the validity of the object retrieved with getOutput()
+     * @return True if the object is valid, false otherwise.
+     */
+    bool isOutputValid() const final;
 
-     /**
-      * Compute the control law.
-      * @return True if the advance is successfull.
-      */
-     bool advance() final;
+    /**
+     * Compute the control law.
+     * @return True if the advance is successfull.
+     */
+    bool advance() final;
 
-     /**
+    /**
      * Set the input of the advanceable block.
      * @param input the CoMZMPControllerInput struct
      * @return true in case of success and false otherwise.
      */
-     bool setInput(const Input& input) final;
+    bool setInput(const Input& input) final;
 
-     /**
-      * Set the desired set-point.
-      * @param CoMVelocity a 2d-vector containing the x and y coordinate of the CoM velocity.
-      * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
-      * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
-      */
-     void setSetPoint(Eigen::Ref<const Eigen::Vector2d> CoMVelocity,
-                      Eigen::Ref<const Eigen::Vector2d> CoMPosition,
-                      Eigen::Ref<const Eigen::Vector2d> ZMPPosition);
+    /**
+     * Set the desired set-point.
+     * @param CoMVelocity a 2d-vector containing the x and y coordinate of the CoM velocity.
+     * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
+     * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
+     */
+    void setSetPoint(Eigen::Ref<const Eigen::Vector2d> CoMVelocity,
+                     Eigen::Ref<const Eigen::Vector2d> CoMPosition,
+                     Eigen::Ref<const Eigen::Vector2d> ZMPPosition);
 
-     /**
-      * Set the state feedback
-      * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
-      * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
-      * @param I_R_B rotation matrix that brings a vector expressed in the frame rigidly attached to
-      * the CoM (B) to the inertial frame (I).
-      * @note Since the controller is based on the LIPM assumption, the rotation matrix contains
-      * only a rotation along the z axis. The yaw angle allows the user to have different gains on
-      * the forward and lateral walking direction.
-      */
-     void setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition,
-                      Eigen::Ref<const Eigen::Vector2d> ZMPPosition,
-                      const manif::SO2d& I_R_B);
+    /**
+     * Set the state feedback
+     * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
+     * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
+     * @param I_R_B rotation matrix that brings a vector expressed in the frame rigidly attached to
+     * the CoM (B) to the inertial frame (I).
+     * @note Since the controller is based on the LIPM assumption, the rotation matrix contains
+     * only a rotation along the z axis. The yaw angle allows the user to have different gains on
+     * the forward and lateral walking direction.
+     */
+    void setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition,
+                     Eigen::Ref<const Eigen::Vector2d> ZMPPosition,
+                     const manif::SO2d& I_R_B);
 
-     /**
-      * Set the state feedback
-      * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
-      * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
-      * @param angle the yaw angle (in radians) represents the \f${}^I R_B\f$ rotation matrix. The
-      * rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the
-      * inertial frame (I). The yaw angle allows the user to have different gains on the forward and
-      * lateral walking direction.
-      */
-     void setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition,
-                      Eigen::Ref<const Eigen::Vector2d> ZMPPosition,
-                      const double angle);
+    /**
+     * Set the state feedback
+     * @param CoMPosition a 2d-vector containing the x and y coordinate of the CoM position.
+     * @param ZMPPosition a 2d-vector containing the x and y coordinate of the ZMP position.
+     * @param angle the yaw angle (in radians) represents the \f${}^I R_B\f$ rotation matrix. The
+     * rotation brings a vector expressed in the frame rigidly attached to the CoM (B) to the
+     * inertial frame (I). The yaw angle allows the user to have different gains on the forward and
+     * lateral walking direction.
+     */
+    void setFeedback(Eigen::Ref<const Eigen::Vector2d> CoMPosition,
+                     Eigen::Ref<const Eigen::Vector2d> ZMPPosition,
+                     const double angle);
 
- private:
-     manif::SO2d m_I_R_B{manif::SO2d::Identity()};
-     Eigen::Vector2d m_CoMGain{Eigen::Vector2d::Zero()};
-     Eigen::Vector2d m_ZMPGain{Eigen::Vector2d::Zero()};
+    std::shared_ptr<System::WeightProvider> getCoMGainProvider() const;
 
-     Eigen::Vector2d m_controllerOutput{Eigen::Vector2d::Zero()};
+    std::shared_ptr<System::WeightProvider> getZMPGainProvider() const;
 
-     Eigen::Vector2d m_desiredCoMVelocity{Eigen::Vector2d::Zero()};
-     Eigen::Vector2d m_CoMPosition{Eigen::Vector2d::Zero()};
-     Eigen::Vector2d m_desiredCoMPosition{Eigen::Vector2d::Zero()};
-     Eigen::Vector2d m_ZMPPosition{Eigen::Vector2d::Zero()};
-     Eigen::Vector2d m_desiredZMPPosition{Eigen::Vector2d::Zero()};
+private:
+    manif::SO2d m_I_R_B{manif::SO2d::Identity()};
+    std::shared_ptr<System::WeightProvider> m_CoMGainProvider{nullptr};
+    std::shared_ptr<System::WeightProvider> m_ZMPGainProvider{nullptr};
 
-     bool m_isOutputValid{false};
-     bool m_isInitalized{false};
+    Eigen::Vector2d m_controllerOutput{Eigen::Vector2d::Zero()};
+
+    Eigen::Vector2d m_desiredCoMVelocity{Eigen::Vector2d::Zero()};
+    Eigen::Vector2d m_CoMPosition{Eigen::Vector2d::Zero()};
+    Eigen::Vector2d m_desiredCoMPosition{Eigen::Vector2d::Zero()};
+    Eigen::Vector2d m_ZMPPosition{Eigen::Vector2d::Zero()};
+    Eigen::Vector2d m_desiredZMPPosition{Eigen::Vector2d::Zero()};
+
+    bool m_isOutputValid{false};
+    bool m_isInitalized{false};
 };
 
 } // namespace SimplifiedModelControllers
