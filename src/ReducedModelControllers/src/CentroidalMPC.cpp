@@ -898,13 +898,13 @@ struct CentroidalMPC::Impl
         // auto b_x_1 = -2 / ((com(2, 1) - z_min) * (-z_max + com(2, 1)));
         // auto b_x_0 = -2 / ((com(2, 0) - z_min) * (-z_max + com(2, 0)));
 
-        double gamma = 0.5;
+        // double gamma = 0.5;
 
-        auto h = -0.5 * (com(2, Sl()) - z_min) * (-z_max + com(2, Sl()));
-        for (int i = 0; i < 10; i++)
-        {
-            this->opti.subject_to(h(i + 1) + (gamma - 1) * h(i) >= 0);
-        }
+        // auto h = -0.5 * (com(2, Sl()) - z_min) * (-z_max + com(2, Sl()));
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     this->opti.subject_to(h(i + 1) + (gamma - 1) * h(i) >= 0);
+        // }
 
         // footstep dynamics
         std::size_t contactIndex = 0;
@@ -967,8 +967,7 @@ struct CentroidalMPC::Impl
             }
         }
 
-        // this->opti.subject_to(-0.03 <= this->optiVariables.comReference(2, Sl()) - com(2, Sl())
-        // <= 0.02);
+        this->opti.subject_to(z_min <=  com(2, Sl()) <= z_max);
 
         // create the cost function
         auto& comReference = this->optiVariables.comReference;
