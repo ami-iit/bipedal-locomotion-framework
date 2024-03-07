@@ -931,6 +931,7 @@ bool MANNAutoregressive::advance()
     m_pimpl->output.baseVelocity = baseVelocity;
     m_pimpl->output.currentTime = m_pimpl->state.time;
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    m_pimpl->output.comVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassVelocity());
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
     m_pimpl->output.leftFoot = m_pimpl->state.leftFootState.contact;

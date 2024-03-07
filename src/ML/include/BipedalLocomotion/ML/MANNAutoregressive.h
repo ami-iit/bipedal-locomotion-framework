@@ -92,6 +92,7 @@ struct MANNAutoregressiveOutput
     manif::SE3d basePose; /**< Base pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
     manif::SE3d::Tangent baseVelocity; /**< Base velocity in mixed representation */
     Eigen::Vector3d comPosition; /**< Position of the CoM with respect to the inertial frame */
+    Eigen::Vector3d comVelocity; /**< Velocity of the CoM with respect to the inertial frame */
     Eigen::Vector3d angularMomentum; /**< Centroidal angular momentum */
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */

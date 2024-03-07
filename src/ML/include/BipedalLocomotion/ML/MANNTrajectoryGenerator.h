@@ -39,6 +39,9 @@ struct MANNTrajectoryGeneratorOutput
     /** CoM trajectory expressed in the inertial frame */
     std::vector<Eigen::Vector3d> comTrajectory;
 
+    /** CoM velocity trajectory expressed in the inertial frame */
+    std::vector<Eigen::Vector3d> comVelocityTrajectory;
+
     /** Centroidal angular momentum trajectory expressed in the mixed representation. */
     std::vector<Eigen::Vector3d> angularMomentumTrajectory;
 

@@ -297,6 +297,7 @@ bool MANNTrajectoryGenerator::initialize(
     m_pimpl->output.jointPositions.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.angularMomentumTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.comTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
+    m_pimpl->output.comVelocityTrajectory.resize(m_pimpl->horizon / m_pimpl->dT);
     m_pimpl->output.timestamps.resize(m_pimpl->horizon / m_pimpl->dT);
 
     m_pimpl->gravity.setZero();
@@ -478,6 +479,7 @@ bool MANNTrajectoryGenerator::advance()
         m_pimpl->output.angularMomentumTrajectory[i] = MANNOutput.angularMomentum;
         m_pimpl->output.basePoses[i] = MANNOutput.basePose;
         m_pimpl->output.comTrajectory[i] = MANNOutput.comPosition;
+        m_pimpl->output.comVelocityTrajectory[i] = MANNOutput.comVelocity;
         m_pimpl->output.timestamps[i] = MANNOutput.currentTime;
 
         // update the contacts lists
@@ -530,6 +532,9 @@ bool MANNTrajectoryGenerator::advance()
         // if the slow down factor is equal to 1.0 then the angular momentum is not scaled
         // if the slow down factor is greater than 1.0 then the angular momentum is scaled
         m_pimpl->output.angularMomentumTrajectory[i] /= m_pimpl->slowDownFactor;
+
+        // scale the com velocity considering the time slow down factor
+        // m_pimpl->output.comVelocityTrajectory[i] /= m_pimpl->slowDownFactor;
 
         // evaluate the com scaled
         m_pimpl->output.comTrajectory[i] = m_pimpl->mergePointStates[i].com.previousScaled
