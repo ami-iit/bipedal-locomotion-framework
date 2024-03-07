@@ -3,11 +3,16 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 if(FRAMEWORK_COMPILE_Planners)
-
   add_bipedal_test(
     NAME CentroidalMPC
     SOURCES CentroidalMPCTest.cpp
     LINKS BipedalLocomotion::ReducedModelControllers BipedalLocomotion::Math
-          BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::Planners)
+    BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::Planners)
+
+    add_bipedal_test(
+    NAME StableCentroidalMPC
+    SOURCES StableCentroidalMPCTest.cpp
+    LINKS BipedalLocomotion::ReducedModelControllers BipedalLocomotion::Math
+    BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::Planners)
 
 endif()

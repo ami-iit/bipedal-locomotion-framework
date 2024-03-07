@@ -1,9 +1,3 @@
-/**
- * @file CentroidalMPCTest.cpp
- * @authors Giulio Romualdi
- * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
- * distributed under the terms of the BSD-3-Clause license.
- */
 
 #include <chrono>
 #include <fstream>
@@ -18,7 +12,7 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Math/QuinticSpline.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h>
+#include <BipedalLocomotion/ReducedModelControllers/StableCentroidalMPC.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::ReducedModelControllers;
@@ -46,7 +40,7 @@ void writeHeaderOfFile(
                       << std::endl;
 }
 
-void writeResultsToFile(const CentroidalMPC& mpc,
+void writeResultsToFile(const StableCentroidalMPC& mpc,
                         const Eigen::Vector3d& com,
                         const Eigen::Vector3d& angularMomentum,
                         const Eigen::Vector3d& comDes,
@@ -81,21 +75,21 @@ void writeResultsToFile(const CentroidalMPC& mpc,
                       << angularMomentum.transpose() << " " << elapsedTime.count() << std::endl;
 }
 
-TEST_CASE("CentroidalMPC")
+TEST_CASE("StableCentroidalMPC")
 {
 
-    constexpr bool saveDataset = false;
+    constexpr bool saveDataset = true;
 
     using namespace std::chrono_literals;
-    constexpr std::chrono::nanoseconds dT = 100ms;
+    constexpr std::chrono::nanoseconds dT = 200ms;
 
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
     handler->setParameter("sampling_time", dT);
-    handler->setParameter("time_horizon", 1s + 250ms);
+    handler->setParameter("time_horizon", 1s + 200ms);
     handler->setParameter("number_of_maximum_contacts", 2);
     handler->setParameter("number_of_slices", 1);
     handler->setParameter("static_friction_coefficient", 0.33);
-    handler->setParameter("solver_verbosity", 0);
+    handler->setParameter("solver_verbosity", 1);
     handler->setParameter("solver_name", "ipopt");
     handler->setParameter("linear_solver", "mumps");
     handler->setParameter("is_warm_start_enabled", true);
@@ -124,12 +118,12 @@ TEST_CASE("CentroidalMPC")
     handler->setGroup("CONTACT_1", contact1Handler);
 
     handler->setParameter("com_weight", std::vector<double>{1, 1, 1000});
-    handler->setParameter("contact_position_weight", 1e3);
+    handler->setParameter("contact_position_weight", 2e2);
     handler->setParameter("force_rate_of_change_weight", std::vector<double>{10, 10, 10});
-    handler->setParameter("angular_momentum_weight", 1e5);
+    handler->setParameter("angular_momentum_weight", 1e2);
     handler->setParameter("contact_force_symmetry_weight", 10.0);
 
-    CentroidalMPC mpc;
+    StableCentroidalMPC mpc;
 
     REQUIRE(mpc.initialize(handler));
 
@@ -298,7 +292,7 @@ TEST_CASE("CentroidalMPC")
     std::ofstream centroidalMPCData;
     if (saveDataset)
     {
-        centroidalMPCData.open("CentroidalMPCUnitTest.txt");
+        centroidalMPCData.open("StableCentroidalMPCUnitTest.txt");
     }
 
     int controllerIndex = 0;
@@ -308,7 +302,7 @@ TEST_CASE("CentroidalMPC")
     std::chrono::nanoseconds currentTime = 0s;
     auto phaseIt = phaseList.getPresentPhase(currentTime);
 
-    constexpr int simulationHorizon = 50;
+    constexpr int simulationHorizon = 10;
     std::vector<Eigen::Vector3d> comTrajectoryRecedingHorizon;
     for (int i = 0; i < simulationHorizon; i++)
     {
@@ -383,7 +377,7 @@ TEST_CASE("CentroidalMPC")
     const auto& [com, dcom, angularMomentum] = system->getState();
 
     // We check that the robot walked forward keeping the CoM height almost constant
-    REQUIRE(com(0) > 0.25);
+    REQUIRE(com(0) > 0.05);
     REQUIRE(std::abs(com(1) - com0(1)) < 0.1);
     REQUIRE(std::abs(com(2) - com0(2)) < 0.005);
 }
