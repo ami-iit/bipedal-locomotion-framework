@@ -13,7 +13,6 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <vector>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
