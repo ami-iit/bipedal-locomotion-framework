@@ -98,6 +98,7 @@ struct velMANNAutoregressive::Impl
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
     std::chrono::nanoseconds dT;
     std::chrono::nanoseconds pastProjectedBaseHorizon;
+    std::chrono::nanoseconds stopTime{std::chrono::nanoseconds::zero()};
     int mocapFrameRate;
 
     std::shared_ptr<ContinuousDynamicalSystem::SO3Dynamics> baseOrientationDynamics;
@@ -110,6 +111,7 @@ struct velMANNAutoregressive::Impl
 
     // For setting joint positions to initial
     Eigen::VectorXd initial_joint_positions;
+    Eigen::VectorXd initialStoppingJointPositions;
 
     // For linear PID
     double radius;
@@ -476,6 +478,7 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
     constexpr auto logPrefix = "[velMANNAutoregressive::populateInitialAutoregressiveState]";
 
     m_pimpl->initial_joint_positions = jointPositions;
+    m_pimpl->initialStoppingJointPositions = jointPositions;
 
     // set the base velocity to zero since we do not need to evaluate any quantity related to it
     Eigen::Matrix<double, 6, 1> baseVelocity;
@@ -589,9 +592,20 @@ bool velMANNAutoregressive::setInput(const Input& input)
 
     // the joint positions and velocities are considered as new input
     // if within the radius of the desired position, set input joint positions to a standing configuration
+    std::chrono::nanoseconds threshold = std::chrono::seconds(1);
+    double time_change;
     if (m_pimpl->lambda_0 == 0.0)
     {
-        m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
+        if ((m_pimpl->currentTime - m_pimpl->stopTime) <= threshold)
+        {
+            time_change = static_cast<double>((m_pimpl->currentTime - m_pimpl->stopTime).count()) / 1e9;
+            m_pimpl->velMannInput.jointPositions = m_pimpl->initialStoppingJointPositions + \
+                (m_pimpl->initial_joint_positions - m_pimpl->initialStoppingJointPositions) * time_change;
+        }
+        else
+        {
+            m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
+        }
     }
     else
     {
@@ -691,6 +705,11 @@ bool velMANNAutoregressive::setInput(const Input& input)
     // Check if there is no user input or if the robot reached the desired position
     if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= m_pimpl->radius)
     {
+        if (m_pimpl->lambda_0 == 1.0)
+        {
+            m_pimpl->stopTime = m_pimpl->currentTime;
+            m_pimpl->initialStoppingJointPositions = previousVelMannOutput.jointPositions;
+        }
         m_pimpl->lambda_0 = 0.0;
     }
     else
