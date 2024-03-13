@@ -30,7 +30,10 @@ void CreateCentroidalMPC(pybind11::module& module)
         .def(py::init())
         .def_readwrite("contacts", &CentroidalMPCOutput::contacts)
         .def_readwrite("contact_phase_list", &CentroidalMPCOutput::contactPhaseList)
-        .def_readwrite("com_trajectory", &CentroidalMPCOutput::comTrajectory);
+        .def_readwrite("com_trajectory", &CentroidalMPCOutput::comTrajectory)
+        .def_readwrite("com_velocity_trajectory", &CentroidalMPCOutput::comVelocityTrajectory)
+        .def_readwrite("angular_momentum_trajectory", &CentroidalMPCOutput::angularMomentumTrajectory);
+
 
     BipedalLocomotion::bindings::System::CreateSource<CentroidalMPCOutput>(module,
                                                                            "CentroidalMPCOutput");
