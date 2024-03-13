@@ -656,6 +656,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}, joints});
         ok = ok && m_bufferManager.addChannel({"motors_state::accelerations", {dofs, 1}, joints});
         ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}, joints});
+        ok = ok && m_bufferManager.addChannel({"motors_state::temperatures", {dofs, 1}, joints});
     }
 
     if (m_streamMotorPWM)
@@ -1293,6 +1294,10 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
             m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
+        }
+        if (m_robotSensorBridge->getMotorTemperatures(m_jointSensorBuffer))
+        {
+            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::temperatures");
         }
     }
 

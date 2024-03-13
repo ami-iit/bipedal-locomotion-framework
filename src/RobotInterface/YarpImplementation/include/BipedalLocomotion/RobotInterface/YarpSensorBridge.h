@@ -417,6 +417,18 @@ public:
                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
+     * Get all motors' currents in ampere
+     * @param[out] motorCurrents all motors' current in ampere
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorCurrents" to this method
+     * @return true/false in case of success/failure
+     */
+    bool getMotorTemperatures(Eigen::Ref<Eigen::VectorXd> motorCurrents,
+                              OptionalDoubleRef receiveTimeInSeconds = {});
+
+    /**
      * Get motor PWM
      * @param[in] jointName name of the joint
      * @param[out] motorPWM motor PWM
