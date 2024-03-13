@@ -117,7 +117,10 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
 }
 
-YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
+YarpRobotLoggerDevice::~YarpRobotLoggerDevice()
+{
+    this->stop();
+}
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
@@ -1688,6 +1691,8 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
+    this->askToStop();
+
     // stop all the video thread
     for (auto& [cameraName, writer] : m_videoWriters)
     {
