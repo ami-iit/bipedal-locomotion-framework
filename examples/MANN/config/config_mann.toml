@@ -32,7 +32,7 @@ mocap_frame_rate = 50 # Hz
 past_projected_base_horizon = 1.0
 threshold_radius = 0.3
 linear_pid_gain = 0.4
-rotational_pid_gain = 0.5
+rotational_pid_gain = 0.4
 
 [LEFT_FOOT]
 number_of_corners = 4
