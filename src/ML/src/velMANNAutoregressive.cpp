@@ -692,7 +692,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
         manif::SO2d I_yaw_rotation_B(I_yaw_B);
 
         //rotate des x b into world frame (still 2d), then add 3rd dim later, which will be 0
-        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des);
+        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des) + m_pimpl->state.I_H_B.translation().topRows(2);
     }
 
     //create the error term, where z error is 0 because it's not controlled
