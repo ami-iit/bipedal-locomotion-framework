@@ -157,7 +157,7 @@ public:
      * @param gravity the value of the gravity vector used in the system dynamics.
      * @return true in case of success, false otherwise.
      */
-    bool setGravityVector(const Eigen::Vector3d& gravity);
+    void setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity);
 };
 } // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion

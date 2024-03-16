@@ -95,8 +95,7 @@ bool CentroidalDynamics::setControlInput(const Input& controlInput)
     return true;
 }
 
-bool CentroidalDynamics::setGravityVector(const Eigen::Vector3d& gravity)
+void CentroidalDynamics::setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity)
 {
     m_gravity = gravity;
-    return true;
 }
