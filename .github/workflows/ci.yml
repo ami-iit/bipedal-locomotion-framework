@@ -16,7 +16,7 @@ env:
   YARP_TAG: v3.8.0
   iDynTree_TAG: v8.0.0
   CasADi_TAG: 3.5.5.2
-  manif_TAG: 0.0.4
+  manif_TAG: 974a2413e462774b77b4e9e68f863e250161f290
   matioCpp_TAG: v0.2.0
   LieGroupControllers_TAG: v0.2.0
   osqp_TAG: v0.6.2
