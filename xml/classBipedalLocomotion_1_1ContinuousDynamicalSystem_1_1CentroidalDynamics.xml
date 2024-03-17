@@ -237,6 +237,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="153" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a703880819abdfd66c477b0276087dd27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics::setGravityVector</definition>
+        <argsstring>(const Eigen::Ref&lt; const Eigen::Vector3d &gt; &amp;gravity)</argsstring>
+        <name>setGravityVector</name>
+        <param>
+          <type>const Eigen::Ref&lt; const Eigen::Vector3d &gt; &amp;</type>
+          <declname>gravity</declname>
+        </param>
+        <briefdescription>
+<para>Set the gravity vector of the dynamical system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gravity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of the gravity vector used in the system dynamics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true in case of success, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="160" column="10"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics" kindref="compound">CentroidalDynamics</ref> describes the centroidal dynamics of a multi-body system. </para>
@@ -343,7 +373,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="100" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" bodystart="102" bodyend="154"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="100" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" bodystart="102" bodyend="161"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1ad941e8bf871aa451ddcbb86f825cf161" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>dynamics</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1adcdb4257da331bad9af2a94ce9551b9e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>getState</name></member>
@@ -354,6 +384,7 @@
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1ad2f84f5b210068f38e0abd7d322c4bfb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>m_mass</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a592a719d8efe8e1eb67909a2a8efb52b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>m_state</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a60fa86d3a8a46ac3055203c1973a826c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>setControlInput</name></member>
+      <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a703880819abdfd66c477b0276087dd27" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>setGravityVector</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1add8efa82e13a7e4c010bba3192b06029" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>setState</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>State</name></member>
       <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" prot="public" virt="non-virtual"><scope>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</scope><name>StateDerivative</name></member>

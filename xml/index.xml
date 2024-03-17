@@ -252,6 +252,7 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1add8efa82e13a7e4c010bba3192b06029" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1adcdb4257da331bad9af2a94ce9551b9e" kind="function"><name>getState</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a60fa86d3a8a46ac3055203c1973a826c" kind="function"><name>setControlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics_1a703880819abdfd66c477b0276087dd27" kind="function"><name>setGravityVector</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC" kind="class"><name>BipedalLocomotion::ReducedModelControllers::CentroidalMPC</name>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a535ac58d984b521b3280d0fe0e14de8b" kind="variable"><name>m_pimpl</name></member>
