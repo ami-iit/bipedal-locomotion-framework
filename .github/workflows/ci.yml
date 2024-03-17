@@ -254,6 +254,7 @@ jobs:
         mkdir build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
+                     -DBUILD_PYTHON_BINDINGS:BOOL=ON \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
@@ -425,7 +426,7 @@ jobs:
         git checkout ${manif_TAG}
         mkdir build
         cd build
-        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake -DBUILD_PYTHON_BINDINGS:BOOL=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
@@ -501,14 +502,6 @@ jobs:
               -DBUILD_TESTING=OFF ..
 
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
-
-    - name: Install manifpy [Ubuntu/macOS]
-      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
-      run: |
-        git clone https://github.com/artivis/manif.git manifpy
-        cd manifpy
-        git checkout ${manif_TAG}
-        python3 -m pip install .
 
     - name: Check Python setup
       shell: bash
