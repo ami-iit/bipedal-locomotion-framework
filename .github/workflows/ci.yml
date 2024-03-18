@@ -254,7 +254,6 @@ jobs:
         mkdir build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-                     -DBUILD_PYTHON_BINDINGS:BOOL=ON \
                      -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
                      -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
@@ -426,7 +425,7 @@ jobs:
         git checkout ${manif_TAG}
         mkdir build
         cd build
-        cmake -DBUILD_PYTHON_BINDINGS:BOOL=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake -DBUILD_PYTHON_BINDINGS:BOOL=ON -DMANIFPY_PKGDIR:PATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
