@@ -98,6 +98,10 @@ struct velMANNAutoregressiveOutput
     Eigen::Vector3d comPosition; /**< Position of the CoM with respect to the inertial frame */
     Eigen::Vector3d comVelocity; /**< Time derivative of the CoM position with respect to the inertial frame */
     Eigen::Vector3d angularMomentum; /**< Centroidal angular momentum */
+    manif::SE3d leftFootPose; /**< Left foot pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
+    manif::SE3d rightFootPose; /**< Right foot pose with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
+    Eigen::VectorXd leftFootVelocity; /**< Left foot velocity with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
+    Eigen::VectorXd rightFootVelocity; /**< Right foot velocity with respect to the inertial frame, i.e., \f${}^I H_B\f$ */
     Contacts::EstimatedContact leftFoot; /**< Left foot contact */
     Contacts::EstimatedContact rightFoot; /**< Right foot contact */
     std::chrono::nanoseconds currentTime; /**< Current time stored in the advanceable */

@@ -45,6 +45,10 @@ void CreateVelMANNAutoregressive(pybind11::module& module)
         .def_readwrite("joint_velocities", &ML::velMANNAutoregressiveOutput::jointsVelocity)
         .def_readwrite("base_pose", &ML::velMANNAutoregressiveOutput::basePose)
         .def_readwrite("base_velocity", &ML::velMANNAutoregressiveOutput::baseVelocity)
+        .def_readwrite("left_foot_pose", &ML::velMANNAutoregressiveOutput::leftFootPose)
+        .def_readwrite("right_foot_pose", &ML::velMANNAutoregressiveOutput::rightFootPose)
+        .def_readwrite("left_foot_velocity", &ML::velMANNAutoregressiveOutput::leftFootVelocity)
+        .def_readwrite("right_foot_velocity", &ML::velMANNAutoregressiveOutput::rightFootVelocity)
         .def_readwrite("left_foot", &ML::velMANNAutoregressiveOutput::leftFoot)
         .def_readwrite("right_foot", &ML::velMANNAutoregressiveOutput::rightFoot);
 

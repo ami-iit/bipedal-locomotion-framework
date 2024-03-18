@@ -855,16 +855,16 @@ bool velMANNAutoregressive::advance()
                       m_pimpl->integrator.getSolution().get_from_hash<"LieGroup"_h>());
 
     manif::SE3d::Tangent baseVelocity = manif::SE3d::Tangent::Zero();
-    if (!m_pimpl->kinDyn.setRobotState(I_H_base.transform(),
-                                       velMannOutput.jointPositions,
-                                       baseVelocity.coeffs(),
-                                       velMannOutput.jointVelocities,
-                                       m_pimpl->gravity))
-    {
-        log()->error("{} Unable to set the robot state in the kindyncomputations object.",
-                     logPrefix);
-        return false;
-    }
+    // if (!m_pimpl->kinDyn.setRobotState(I_H_base.transform(),
+    //                                    velMannOutput.jointPositions,
+    //                                    baseVelocity.coeffs(),
+    //                                    velMannOutput.jointVelocities,
+    //                                    m_pimpl->gravity))
+    // {
+    //     log()->error("{} Unable to set the robot state in the kindyncomputations object.",
+    //                  logPrefix);
+    //     return false;
+    // }
 
     // The following function evaluate the position of the corners of a foot in the inertial frame
     auto evaluateFootCornersPosition
@@ -1025,6 +1025,12 @@ bool velMANNAutoregressive::advance()
     m_pimpl->output.comVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassVelocity());
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
+    m_pimpl->kinDyn.setFrameVelocityRepresentation(iDynTree::INERTIAL_FIXED_REPRESENTATION);
+    m_pimpl->output.leftFootPose = BipedalLocomotion::Conversions::toManifPose(m_pimpl->kinDyn.getWorldTransform(m_pimpl->state.leftFootState.contact.index));
+    m_pimpl->output.rightFootPose = BipedalLocomotion::Conversions::toManifPose(m_pimpl->kinDyn.getWorldTransform(m_pimpl->state.rightFootState.contact.index));
+    m_pimpl->output.leftFootVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getFrameVel(m_pimpl->state.leftFootState.contact.index));
+    m_pimpl->output.rightFootVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getFrameVel(m_pimpl->state.rightFootState.contact.index));
+    m_pimpl->kinDyn.setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
     m_pimpl->output.leftFoot = m_pimpl->state.leftFootState.contact;
     m_pimpl->output.rightFoot = m_pimpl->state.rightFootState.contact;
 
