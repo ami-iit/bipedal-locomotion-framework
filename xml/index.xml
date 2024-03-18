@@ -295,6 +295,7 @@
   <compound refid="classBipedalLocomotion_1_1IK_1_1CoMTask" kind="class"><name>BipedalLocomotion::IK::CoMTask</name>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1ab9b189c36c6700726c1b4ce4c097c73b" kind="variable"><name>m_R3Controller</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a07d5a5e878c6a197e329ed3c9d57312c" kind="variable"><name>m_robotVelocityVariable</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1abb197fba508460c10f2afa5f893610be" kind="variable"><name>m_useExogenousFeedback</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a8ff2c743ce50610fe653079d3bded38b" kind="variable"><name>m_isInitialized</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a2fbf31df737af962fed9a3bea4ef2569" kind="variable"><name>m_isValid</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1adda377f657bfa045ae413cc98bc4a7f5" kind="variable"><name>m_kinDyn</name></member>
@@ -311,6 +312,7 @@
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1ab6ca18e2a25621c49c3c48503a123b24" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a3042433b1418622521962e99e3027357" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4ccdae3479d871d3f7f9c7ab07312fd1" kind="function"><name>isValid</name></member>
+    <member refid="classBipedalLocomotion_1_1IK_1_1CoMTask_1a4eb40f18941ad76bbcb72899981eaa03" kind="function"><name>setFeedback</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TSID_1_1CoMTask" kind="class"><name>BipedalLocomotion::TSID::CoMTask</name>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3cbd9ce108e18ad263c9224b80c299f4" kind="variable"><name>m_R3Controller</name></member>

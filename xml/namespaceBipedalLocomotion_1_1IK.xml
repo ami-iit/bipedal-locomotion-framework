@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/CoMTask.h" line="142" column="1" declfile="BipedalLocomotion/IK/CoMTask.h" declline="142" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/CoMTask.h" line="155" column="1" declfile="BipedalLocomotion/IK/CoMTask.h" declline="155" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="DistanceTask_8h_1ac2b1c12c6c6d0f5ac4f674740abec9f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
