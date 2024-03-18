@@ -248,7 +248,7 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology-dependencies/manif.git 
+        git clone https://github.com/robotology-dependencies/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
@@ -420,7 +420,7 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology-dependencies/manif.git 
+        git clone https://github.com/robotology-dependencies/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
