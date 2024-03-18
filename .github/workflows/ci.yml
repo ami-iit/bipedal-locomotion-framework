@@ -384,7 +384,8 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
               -DIDYNTREE_USES_PYTHON:BOOL=ON \
               -DIDYNTREE_USES_ASSIMP:BOOL=ON \
-              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps \
+              -DIDYNTREE_PYTHON_INSTALL_DIR:PATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # osqp
