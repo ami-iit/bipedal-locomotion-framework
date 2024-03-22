@@ -9,8 +9,8 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <vector>
 #include <string>
-#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -30,6 +30,7 @@
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 namespace BipedalLocomotion
 {
@@ -61,6 +62,9 @@ private:
 
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge> m_robotSensorBridge;
     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpCameraBridge> m_cameraBridge;
+
+    bool m_sendDataRT;
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorCollectionRTDataServer;
 
     template <typename T> struct ExogenousSignal
     {
@@ -98,7 +102,6 @@ private:
 
         bool connect();
         void disconnect();
-
     };
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
@@ -167,10 +170,14 @@ private:
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
     std::mutex m_bufferManagerMutex;
+    std::mutex m_textLoggingPortMutex;
     robometry::BufferManager m_bufferManager;
 
     void lookForNewLogs();
     void lookForExogenousSignals();
+
+    bool initMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
+
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
@@ -191,8 +198,60 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+
+    const std::string treeDelim = "::";
+
+    const std::string robotRtRootName = "robot_realtime";
+
+    const std::string jointStatePositionsName = "joints_state::positions";
+    const std::string jointStateVelocitiesName = "joints_state::velocities";
+    const std::string jointStateAccelerationsName = "joints_state::accelerations";
+    const std::string jointStateTorquesName = "joints_state::torques";
+
+    const std::string motorStatePositionsName = "motors_state::positions";
+    const std::string motorStateVelocitiesName = "motors_state::velocities";
+    const std::string motorStateAccelerationsName = "motors_state::accelerations";
+    const std::string motorStateCurrentsName = "motors_state::currents";
+    const std::string motorStatePwmName = "motors_state::PWM";
+
+    const std::string motorStatePidsName = "PIDs";
+
+    const std::string ftsName = "FTs";
+
+    const std::vector<std::string> ftElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+
+    const std::string gyrosName = "gyros";
+    const std::vector<std::string> gyroElementNames = {"omega_x", "omega_y", "omega_z"};
+
+    const std::string accelerometersName = "accelerometers";
+    const std::vector<std::string> AccelerometerElementNames = {"a_x", "a_y", "a_z"};
+
+    const std::string orientationsName = "orientations";
+    const std::vector<std::string> orientationElementNames = {"r", "p", "y"};
+
+    const std::string magnetometersName = "magnetometers";
+    const std::vector<std::string> magnetometerElementNames = {"mag_x", "mag_y", "mag_z"};
+
+    const std::string cartesianWrenchesName = "cartesian_wrenches";
+    const std::vector<std::string> cartesianWrenchNames = {ftElementNames[0],
+                                                        ftElementNames[1],
+                                                        ftElementNames[2],
+                                                        ftElementNames[3],
+                                                        ftElementNames[4],
+                                                        ftElementNames[5]};
+
+    const std::string temperatureName = "temperatures";
+    const std::vector<std::string> temperatureNames = {"temperature"};
+
+    const std::string robotName = "yarp_robot_name";
+
+    const std::string robotDescriptionList = "description_list";
+
+    const std::string timestampsName = "timestamps";
+
 };
 
 } // namespace BipedalLocomotion
+
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H

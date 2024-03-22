@@ -10,6 +10,7 @@
 #include <pybind11/eigen.h>
 
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 
 #include <BipedalLocomotion/bindings/YarpUtilities/BufferedPort.h>
 #include <BipedalLocomotion/bindings/YarpUtilities/VectorsCollection.h>
@@ -45,6 +46,50 @@ void CreateVectorsCollectionServer(pybind11::module& module)
                  return impl.populateData(key, data);
              })
         .def("prepare_data", &VectorsCollectionServer::prepareData);
+}
+
+void CreateVectorsCollectionClient(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionClient>(module, "VectorsCollectionClient")
+        .def(py::init())
+        .def(
+            "initialize",
+            [](VectorsCollectionClient& impl,
+               std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"))
+        .def("connect", &VectorsCollectionClient::connect)
+        .def("disconnect", &VectorsCollectionClient::disconnect)
+        .def("get_metadata",
+        [](VectorsCollectionClient& impl) -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata
+        {
+            BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+            impl.getMetadata(metadata);
+            return metadata;
+        })
+        .def("read_data",
+             [](VectorsCollectionClient& impl, bool shouldWait) -> std::map<std::string, std::vector<double>>
+             {
+                BipedalLocomotion::YarpUtilities::VectorsCollection* collection = impl.readData(shouldWait);
+                return collection->vectors;
+             });
+}
+
+void CreateVectorsCollectionMetadata(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionMetadata>(module, "VectorsCollectionMetadata")
+        .def(py::init())
+        .def(py::init<const std::map<std::string, std::vector<std::string>>&>())
+        .def("to_string", &VectorsCollectionMetadata::toString)
+        .def_readwrite("vectors", &VectorsCollectionMetadata::vectors);
 }
 } // namespace YarpUtilities
 } // namespace bindings

@@ -20,6 +20,8 @@ void CreateModule(pybind11::module& module)
     module.doc() = "YarpUtilities module.";
 
     CreateVectorsCollectionServer(module);
+    CreateVectorsCollectionClient(module);
+    CreateVectorsCollectionMetadata(module);
 }
 } // namespace IK
 } // namespace bindings

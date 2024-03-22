@@ -157,3 +157,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# compile commands file for resolving includes
+compile_commands.json
