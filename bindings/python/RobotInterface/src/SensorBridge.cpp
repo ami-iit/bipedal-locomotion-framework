@@ -259,6 +259,20 @@ void CreateYarpSensorBridge(pybind11::module& module)
             double receiveTimeInSeconds;
             bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
             return std::make_tuple(ok, joints, receiveTimeInSeconds);
+        })
+        .def(
+            "get_joint_torque",
+            [](YarpSensorBridge& impl, const std::string& jointName) {
+                double joint, receiveTimeInSeconds;
+                bool ok = impl.getJointTorque(jointName, joint, receiveTimeInSeconds);
+                return std::make_tuple(ok, joint, receiveTimeInSeconds);
+            },
+            py::arg("motor_name"))
+        .def("get_joint_torques", [](YarpSensorBridge& impl) {
+            Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
+            double receiveTimeInSeconds;
+            bool ok = impl.getJointTorques(joints, receiveTimeInSeconds);
+            return std::make_tuple(ok, joints, receiveTimeInSeconds);
         });
 }
 
