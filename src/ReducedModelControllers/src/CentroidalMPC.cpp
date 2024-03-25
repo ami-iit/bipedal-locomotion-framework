@@ -134,6 +134,7 @@ struct CentroidalMPC::Impl
         casadi::MX linearVelocity;
         casadi::MX orientation;
         casadi::MX isEnabled;
+        casadi::MX amountOfNormalForceRespectToRobotWeight;
         std::vector<CasadiCorner> corners;
 
         std::string contactName;
@@ -157,6 +158,8 @@ struct CentroidalMPC::Impl
             this->position = casadi::MX::sym(contactName + "_position", 3);
             this->linearVelocity = casadi::MX::sym(contactName + "_linear_velocity", 3);
             this->isEnabled = casadi::MX::sym(contactName + "_is_enable");
+            this->amountOfNormalForceRespectToRobotWeight
+                = casadi::MX::sym(contactName + "_amount_of_normal_force_respect_to_robot_weight");
 
             return *this;
         }
@@ -235,6 +238,7 @@ struct CentroidalMPC::Impl
         casadi::DM* upperLimitPosition;
         casadi::DM* lowerLimitPosition;
         casadi::DM* isEnabled;
+        casadi::DM* amountOfNormalForceRespectToRobotWeight;
     };
     struct ControllerInputs
     {
@@ -274,6 +278,7 @@ struct CentroidalMPC::Impl
         Eigen::Vector3d forceRateOfChange;
         double angularMomentum;
         double contactForceSymmetry;
+        double force;
     };
     Weights weights;
 
@@ -415,6 +420,7 @@ struct CentroidalMPC::Impl
              && getParameter(ptr,
                              "contact_force_symmetry_weight",
                              this->weights.contactForceSymmetry);
+        ok = ok && getParameter(ptr, "force_weight", this->weights.force);
 
         // initialize the friction cone
         ok = ok && frictionCone.initialize(ptr);
@@ -566,11 +572,13 @@ struct CentroidalMPC::Impl
         // - centroidalVariables = 7: external force + external torque + com current + dcom current
         //                            + current angular momentum + com reference
         //                            + angular momentum reference
-        // - contactVariables = 6: for each contact we have current position + nominal position +
-        //                         orientation + is enabled + upper limit in position
-        //                         + lower limit in position
+        // - contactVariables = 7: for each contact we have current position + nominal position
+        //                          + orientation + is enabled
+        //                          + amount of normal force respect to robot weight
+        //                          + upper limit in position
+        //                          + lower limit in position
         constexpr std::size_t centroidalVariables = 7;
-        constexpr std::size_t contactVariables = 6;
+        constexpr std::size_t contactVariables = 7;
 
         std::size_t vectorizedOptiInputsSize = centroidalVariables + //
                                                (this->output.contacts.size() * contactVariables);
@@ -654,6 +662,11 @@ struct CentroidalMPC::Impl
             this->vectorizedOptiInputs.push_back(casadi::DM::zeros(1, this->optiSettings.horizon));
             this->controllerInputs.contacts[key].isEnabled = &this->vectorizedOptiInputs.back();
 
+            // The amount of normal force respect to the robot weight
+            this->vectorizedOptiInputs.push_back(casadi::DM::zeros(1, this->optiSettings.horizon));
+            this->controllerInputs.contacts[key].amountOfNormalForceRespectToRobotWeight
+                = &this->vectorizedOptiInputs.back();
+
             // Upper limit of the position of the contact. It is expressed in the contact body frame
             this->vectorizedOptiInputs.push_back(
                 casadi::DM::zeros(vector3Size, this->optiSettings.horizon));
@@ -725,6 +738,10 @@ struct CentroidalMPC::Impl
 
             // Maximum admissible contact force. It is expressed in the contact body frame
             c.isEnabled = this->opti.parameter(1, this->optiSettings.horizon);
+
+            // The amount of normal force respect to the robot weight
+            c.amountOfNormalForceRespectToRobotWeight
+                = this->opti.parameter(1, this->optiSettings.horizon);
 
             // The nominal contact position is a parameter that regularize the solution
             c.nominalPosition = this->opti.parameter(vector3Size, stateHorizon);
@@ -1002,6 +1019,12 @@ struct CentroidalMPC::Impl
                         * casadi::MX::sumsqr(forceRateOfChange(1, Sl()));
                 cost += this->weights.forceRateOfChange(2)
                         * casadi::MX::sumsqr(forceRateOfChange(2, Sl()));
+                cost += this->weights.force
+                        * casadi::MX::sumsqr(
+                            corner.force(2, Sl())
+                            - BipedalLocomotion::Math::StandardAccelerationOfGravitation
+                                  * contact.amountOfNormalForceRespectToRobotWeight
+                                  / contact.corners.size());
             }
         }
 
@@ -1051,6 +1074,8 @@ struct CentroidalMPC::Impl
             concatenateInput(contact.nominalPosition, "contact_" + key + "_nominal_position");
             concatenateInput(contact.orientation, "contact_" + key + "_orientation_input");
             concatenateInput(contact.isEnabled, "contact_" + key + "is_enable_in");
+            concatenateInput(contact.amountOfNormalForceRespectToRobotWeight,
+                             "contact_" + key + "_amount_of_normal_force_respect_to_robot_weight");
             concatenateInput(contact.upperLimitPosition,
                              "contact_" + key + "_upper_limit_position");
             concatenateInput(contact.lowerLimitPosition,
@@ -1462,6 +1487,9 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         // Maximum admissible contact force. It is expressed in the contact body frame
         toEigen(*inputs.contacts[key].isEnabled).setZero();
 
+        // Amount of normal force respect to the robot weight
+        toEigen(*inputs.contacts[key].amountOfNormalForceRespectToRobotWeight).setZero();
+
         // The nominal contact position is a parameter that regularize the solution
         toEigen(*inputs.contacts[key].nominalPosition).setZero();
     }
@@ -1500,6 +1528,8 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         const std::chrono::nanoseconds duration = tFinal - tInitial;
         const int numberOfSamples = duration / m_pimpl->optiSettings.samplingTime;
 
+        const int numberOfActiveContacts = it->activeContacts.size();
+
         for (const auto& [key, contact] : it->activeContacts)
         {
             using namespace BipedalLocomotion::Conversions;
@@ -1525,6 +1555,10 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
             toEigen(*(inputContact->second.isEnabled))
                 .middleCols(index, numberOfSamples)
                 .setConstant(isEnabled);
+
+            toEigen(*(inputContact->second.amountOfNormalForceRespectToRobotWeight))
+                .middleCols(index, numberOfSamples)
+                .setConstant(1.0 / double(numberOfActiveContacts));
         }
 
         index += numberOfSamples;
