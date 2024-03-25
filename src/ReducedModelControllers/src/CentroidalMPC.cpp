@@ -186,6 +186,8 @@ struct CentroidalMPC::Impl
     {
         int solverVerbosity{0}; /**< Verbosity of ipopt */
         std::string ipoptLinearSolver{"mumps"}; /**< Linear solved used by ipopt */
+        bool errorOnFail{true}; /**< True if the user wants to throw an error in case of failure of
+                                   the MPC */
         double ipoptTolerance{1e-8}; /**< Tolerance of ipopt
                                         (https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_tol) */
         int ipoptMaxIteration{3000}; /**< Maximum number of iteration */
@@ -437,12 +439,13 @@ struct CentroidalMPC::Impl
             getOptionalParameter(ptr, "ipopt_max_iteration", this->optiSettings.ipoptMaxIteration);
         } else
         {
-            getOptionalParameter(ptr, "jit_compilation", this->optiSettings.isJITEnabled);
             getOptionalParameter(ptr,
                                  "number_of_qp_iterations",
                                  this->optiSettings.numberOfQPIterations);
         }
 
+        getOptionalParameter(ptr, "error_on_fail", this->optiSettings.errorOnFail);
+        getOptionalParameter(ptr, "jit_compilation", this->optiSettings.isJITEnabled);
         getOptionalParameter(ptr, "solver_verbosity", this->optiSettings.solverVerbosity);
         getOptionalParameter(ptr, "is_warm_start_enabled", this->optiSettings.isWarmStartEnabled);
         getOptionalParameter(ptr, "is_cse_enabled", this->optiSettings.isCseEnabled);
@@ -776,7 +779,18 @@ struct CentroidalMPC::Impl
             solverOptions["tol"] = this->optiSettings.ipoptTolerance;
             solverOptions["linear_solver"] = this->optiSettings.ipoptLinearSolver;
             casadiOptions["expand"] = true;
-            casadiOptions["error_on_fail"] = true;
+            casadiOptions["error_on_fail"] = this->optiSettings.errorOnFail;
+
+            if (this->optiSettings.isJITEnabled)
+            {
+                casadiOptions["jit"] = true;
+                casadiOptions["compiler"] = "shell";
+
+                casadi::Dict jitOptions;
+                jitOptions["flags"] = {"-O3"};
+                jitOptions["verbose"] = true;
+                casadiOptions["jit_options"] = jitOptions;
+            }
 
             this->opti.solver("ipopt", casadiOptions, solverOptions);
             return;
@@ -799,11 +813,11 @@ struct CentroidalMPC::Impl
             casadiOptions["print_time"] = false;
             osqpOptions["verbose"] = false;
         }
-        casadiOptions["error_on_fail"] = false;
+        casadiOptions["error_on_fail"] = this->optiSettings.errorOnFail;
         casadiOptions["expand"] = true;
         casadiOptions["qpsol"] = "osqp";
 
-        solverOptions["error_on_fail"] = false;
+        solverOptions["error_on_fail"] = this->optiSettings.errorOnFail;
 
         osqpOptions["verbose"] = false;
         solverOptions["osqp"] = osqpOptions;
