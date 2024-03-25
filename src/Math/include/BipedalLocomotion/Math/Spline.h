@@ -124,6 +124,26 @@ public:
                        Eigen::Ref<T> acceleration);
 
     /**
+     * Evaluate the spline at a given point
+     * @param t instant time
+     * @param position position at time t
+     * @return True in case of success, false otherwise.
+     */
+    bool evaluatePoint(const std::chrono::nanoseconds& t, //
+                       Eigen::Ref<T> position);
+
+    /**
+     * Evaluate the spline at a given point
+     * @param t instant time
+     * @param position position at time t
+     * @param velocity velocity at time t
+     * @return True in case of success, false otherwise.
+     */
+    bool evaluatePoint(const std::chrono::nanoseconds& t, //
+                       Eigen::Ref<T> position,
+                       Eigen::Ref<T> velocity);
+
+    /**
      * Evaluate the spline at given set of points
      * @param t ordered vector containing the time instant
      * @param position position at time t
@@ -550,6 +570,22 @@ template <typename T> bool Spline<T>::computeCoefficients()
     m_areCoefficientsComputed = true;
 
     return true;
+}
+
+template <typename T>
+bool Spline<T>::evaluatePoint(const std::chrono::nanoseconds& t, Eigen::Ref<T> position)
+{
+    T dummy;
+    return this->evaluatePoint(t, position, dummy, dummy);
+}
+
+template <typename T>
+bool Spline<T>::evaluatePoint(const std::chrono::nanoseconds& t,
+                              Eigen::Ref<T> position,
+                              Eigen::Ref<T> velocity)
+{
+    T dummy;
+    return this->evaluatePoint(t, position, velocity, dummy);
 }
 
 template <typename T>
