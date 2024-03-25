@@ -122,6 +122,18 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Get the joints lower limits used by the task.
+     * @return the joints lower limits.
+     */
+    Eigen::Ref<const Eigen::VectorXd> getLowerLimits() const;
+
+    /**
+     * Get the joints upper limits used by the task.
+     * @return the joints upper limits.
+     */
+    Eigen::Ref<const Eigen::VectorXd> getUpperLimits() const;
 };
 
 BLF_REGISTER_IK_TASK(JointLimitsTask);
