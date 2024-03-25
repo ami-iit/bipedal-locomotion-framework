@@ -907,6 +907,21 @@ struct CentroidalMPC::Impl
         this->opti.subject_to(extractFutureValuesFromState(dcom) == fullTrajectory[1]);
         this->opti.subject_to(extractFutureValuesFromState(angularMomentum) == fullTrajectory[2]);
 
+        double z_min = 0.68;
+        double z_max = 0.705;
+
+        // we define the following controller barrier function for the first
+        // auto b_x_1 = -2 / ((com(2, 1) - z_min) * (-z_max + com(2, 1)));
+        // auto b_x_0 = -2 / ((com(2, 0) - z_min) * (-z_max + com(2, 0)));
+
+        double gamma = 0.6;
+
+        auto h = -0.5 * (com(2, Sl()) - z_min) * (-z_max + com(2, Sl()));
+        for (int i = 0; i < 1; i++)
+        {
+            this->opti.subject_to(h(i + 1) + (gamma - 1) * h(i) >= 0);
+        }
+
         // footstep dynamics
         std::size_t contactIndex = 0;
         for (const auto& [key, contact] : this->optiVariables.contacts)
