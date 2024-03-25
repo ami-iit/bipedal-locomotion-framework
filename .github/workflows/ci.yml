@@ -14,7 +14,7 @@ env:
   vcpkg_robotology_TAG: v0.11.0
   YCM_TAG: v0.15.3
   YARP_TAG: v3.8.0
-  iDynTree_TAG: v8.0.0
+  iDynTree_TAG: 42f2874b729348575aeee723c1775c3425735ef9
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.4.102
   matioCpp_TAG: v0.2.0
