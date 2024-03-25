@@ -64,9 +64,12 @@ private:
 
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
 
-    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
-    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
-    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector. */
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector.
+                                                            */
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector.
+                                                           */
+    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector.
+                                                            */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -79,8 +82,7 @@ private:
                                                                object */
 
     /** Mask used to select the DoFs controlled by the task */
-    std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
-    std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
+    std::array<bool, m_spatialVelocitySize> m_mask{true, true, true, true, true, true};
     std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
@@ -88,6 +90,11 @@ private:
     /** State of the proportional controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
 
+    // TODO remove me
+    manif::SE3d::Translation m_localCoP;
+    manif::SE3d::Translation m_desiredLocalCoP;
+    double m_kAdmittance;
+    bool m_enableAdmitance{false};
 public:
     /**
      * Initialize the task.
@@ -201,6 +208,16 @@ public:
      * @return the state of the controller
      */
     Mode getTaskControllerMode() const override;
+
+    void setAngularGain(const double gain);
+
+    // TODO remove me, this is just a test
+    void setLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP);
+
+    void setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP);
+
+
+    void enableAdmittance(bool enable);
 };
 
 BLF_REGISTER_IK_TASK(SE3Task);
