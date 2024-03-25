@@ -15,6 +15,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
 - Export the CoM velocity and the angular momentum trajectory in the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/818)
+- Set the gravity vector as an input argument of the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/823)
 
 ### Fixed
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
