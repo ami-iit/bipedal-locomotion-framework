@@ -124,11 +124,11 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
                == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("{} [{} {}] Error while retrieving the frame that should be controlled.",
-                     errorPrefix,
-                     descriptionPrefix,
-                     frameName);
-        return false;
+        log()->warn("{} [{} {}] Error while retrieving the frame that should be controlled. The "
+                    "user needs to provide a valid frame name via setFrameName.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName);
     }
 
     // set the gains for the R3 controller
@@ -271,6 +271,14 @@ bool SE3Task::update()
         return controller.getFeedForward().coeffs();
     };
 
+    if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("[SE3Task::update] The frame index is not valid. Please set the frame name "
+                     "via "
+                     "setFrameName method.");
+        return m_isValid;
+    }
+
     // set the state
     if (!m_useOrientationExogenousFeedback)
     {
@@ -297,7 +305,7 @@ bool SE3Task::update()
         velocity(0) = -m_kAdmittance * error(1);
         velocity(1) = m_kAdmittance * error(0);
         velocity(2) = 0.0;
-        
+
         // apply yaw rotation
         velocity
             = toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()).act(velocity);
@@ -351,6 +359,26 @@ bool SE3Task::update()
     m_isValid = true;
 
     return m_isValid;
+}
+
+bool SE3Task::setFrameName(const std::string& frameName)
+{
+
+    if (m_kinDyn == nullptr || !m_kinDyn->isValid())
+    {
+        log()->error("[SE3Task::setFrameName] Invalid kinDyn object.");
+        return false;
+    }
+
+    const iDynTree::FrameIndex index = m_kinDyn->model().getFrameIndex(frameName);
+    if (index == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("[SE3Task::setFrameName] The frame named {} is not valid.", frameName);
+        return false;
+    }
+
+    m_frameIndex = index;
+    return true;
 }
 
 bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity)

@@ -106,7 +106,7 @@ public:
      * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |   `robot_velocity_variable_name`   | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
-     * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
+     * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task. If not set the user needs to provide it via setFrameName                      |    No    |
      * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
      * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
@@ -144,6 +144,15 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool update() override;
+
+    /**
+     * Set the frame name
+     * @param frameName name of the frame controlled by the SE3Task.
+     * @return True in case of success, false otherwise.
+     * @note this function is useful if the user want to change the frame controlled by the task.
+     * (e.g. from left_foot to right_foot while walking)
+     */
+    bool setFrameName(const std::string& frameName);
 
     /**
      * Set the desired set-point of the trajectory.
