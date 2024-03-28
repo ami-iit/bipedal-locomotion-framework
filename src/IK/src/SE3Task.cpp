@@ -343,6 +343,11 @@ bool SE3Task::update()
         assert(index == m_DoFs);
     }
 
+    if (m_disableBaseControl)
+    {
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
+    }
+
     m_isValid = true;
 
     return m_isValid;
@@ -418,4 +423,9 @@ SE3Task::Mode SE3Task::getTaskControllerMode() const
 void SE3Task::enableAdmittance(bool enable)
 {
     m_enableAdmitance = enable;
+}
+
+void SE3Task::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }

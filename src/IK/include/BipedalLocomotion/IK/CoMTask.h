@@ -72,6 +72,8 @@ class CoMTask : public IKLinearTask
     std::size_t m_DoFs{m_linearVelocitySize}; /**< DoFs associated to the task */
 
     Eigen::MatrixXd m_jacobian; /**< CoM Jacobian matrix in MIXED representation */
+
+    bool m_disableBaseControl{false}; /**< True if the base control is disabled */
 public:
     /**
      * Initialize the task.
@@ -150,6 +152,13 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setFeedback(Eigen::Ref<const Eigen::Vector3d> comPosition);
+
+    /**
+     * Disable the base control. The base control is enabled by default.
+     * @param disable if true the base control is disabled.
+     * @note The base term in the jacobian is neglected by the task.
+     */
+    void disableBaseControl(bool disable);
 };
 
 BLF_REGISTER_IK_TASK(CoMTask);

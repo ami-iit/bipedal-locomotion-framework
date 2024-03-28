@@ -74,6 +74,8 @@ private:
     /** State of the proportional controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
 
+    bool m_disableBaseControl{false}; /**< True if the base control is disabled */
+
 public:
     /**
      * Initialize the task.
@@ -121,7 +123,7 @@ public:
     /**
      * Set the desired set-point of the trajectory.
      * @param I_p_F position of the origin of the frame with respect to the inertial frame.
-     * @param linear velocity of the frame. The default value is set to zero.
+     * @param velocity linear velocity of the frame. The default value is set to zero.
      * @return True in case of success, false otherwise.
      */
     bool setSetPoint(Eigen::Ref<const Eigen::Vector3d> I_p_F,
@@ -157,6 +159,13 @@ public:
      * @return the state of the controller
      */
     Mode getTaskControllerMode() const override;
+
+    /**
+     * Disable the base control. The base control is enabled by default.
+     * @param disable if true the base control is disabled.
+     * @note The base term in the jacobian is neglected by the task.
+     */
+    void disableBaseControl(bool disable);
 };
 
 BLF_REGISTER_IK_TASK(R3Task);

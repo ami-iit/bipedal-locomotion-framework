@@ -95,6 +95,9 @@ private:
     manif::SE3d::Translation m_desiredLocalCoP;
     double m_kAdmittance;
     bool m_enableAdmitance{false};
+
+    bool m_disableBaseControl{false}; /**< True if the base control is disabled */
+
 public:
     /**
      * Initialize the task.
@@ -216,8 +219,14 @@ public:
 
     void setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP);
 
-
     void enableAdmittance(bool enable);
+
+    /**
+     * Disable the base control. The base control is enabled by default.
+     * @param disable if true the base control is disabled.
+     * @note The base term in the jacobian is neglected by the task.
+     */
+    void disableBaseControl(bool disable);
 };
 
 BLF_REGISTER_IK_TASK(SE3Task);

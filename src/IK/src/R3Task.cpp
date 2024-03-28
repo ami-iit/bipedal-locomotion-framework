@@ -228,6 +228,11 @@ bool R3Task::update()
         }
     }
 
+    if (m_disableBaseControl)
+    {
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
+    }
+
     m_isValid = true;
 
     return m_isValid;
@@ -267,4 +272,9 @@ void R3Task::setTaskControllerMode(Mode mode)
 R3Task::Mode R3Task::getTaskControllerMode() const
 {
     return m_controllerMode;
+}
+
+void R3Task::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }
