@@ -8,14 +8,16 @@
 #ifndef BIPEDAL_LOCOMOTION_TSID_QP_TSID_H
 #define BIPEDAL_LOCOMOTION_TSID_QP_TSID_H
 
+#include <functional>
 #include <memory>
 #include <optional>
-#include <functional>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/System/WeightProvider.h>
+#include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
+
+#include <iDynTree/KinDynComputations.h>
 
 namespace BipedalLocomotion
 {
@@ -37,7 +39,7 @@ namespace TSID
  */
 class QPTSID : public TaskSpaceInverseDynamics
 {
-   /**
+    /**
      * Private implementation
      */
     struct Impl;
@@ -107,8 +109,8 @@ public:
      * @param weight new Weight associated to the task. A constant weight is assumed.
      * @return true if the weight has been updated
      */
-    bool setTaskWeight(const std::string& taskName,
-                       Eigen::Ref<const Eigen::VectorXd> weight) override;
+    bool
+    setTaskWeight(const std::string& taskName, Eigen::Ref<const Eigen::VectorXd> weight) override;
 
     /**
      * Get the weightProvider associated to an already existing task
@@ -184,7 +186,108 @@ public:
      * @return a vector containing the solution of the optimization problem
      */
     Eigen::Ref<const Eigen::VectorXd> getRawSolution() const override;
+
+    /**
+     * Build the inverse kinematics solver
+     * @param kinDyn a pointer to an iDynTree::KinDynComputations object that will be shared among
+     * all the tasks.
+     * @param handler pointer to the IParametersHandler interface.
+     * @note the following parameters are required by the class
+     * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
+     * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |           |           `tasks`              | `vector<string>`|         Vector containing the list of the tasks considered in the IK.                          |    Yes    |
+     * |   `IK`    | `robot_velocity_variable_name` |     `string`    | Name of the variable contained in `VariablesHandler` describing the generalized robot velocity |    Yes    |
+     * |   `IK`    |           `verbosity`          |      `bool`     |                         Verbosity of the solver. Default value `false`                         |     No    |
+     * Where the generalized robot velocity is a vector containing the base spatialvelocity
+     * (expressed in mixed representation) and the joint velocities.
+     * For **each** task listed in the parameter `tasks` the user must specify all the parameters
+     * required by the task itself but `robot_velocity_variable_name` since is already specified in
+     * the `IK` group. Moreover the following parameters are required for each task.
+     * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
+     * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
+     * |`TASK_NAME`|             `type`             |     `string`    |   String representing the type of the task. The string should match the name of the C++ class. |    Yes    |
+     * |`TASK_NAME`|           `priority`           |       `int`     | Priority associated to the task.  (Check QPInverseKinematics::addTask for further information) |    Yes    |
+     * |`TASK_NAME`|     `weight_provider_type`     |     `string`    |  String representing the type of the weight provider. The string should match the name of the C++ class. It is required only if the task is low priority. The default value in case of low priority task (`priority = 1`) is `ConstantWeightProvider`            |     No    |
+     * Given the weight type specified by `weight_provider_type`, the user must specify all the
+     * parameters required by the provider in the `TASK_NAME` group handler
+     * `TASK_NAME` is a placeholder for the name of the task contained in the `tasks` list.
+     * @note The following `ini` file presents an example of the configuration that can be used to
+     * build the IK
+     * ~~~~~{.ini}
+     * tasks                           ("COM_TASK", "RIGHT_FOOT_TASK", "LEFT_FOOT_TASK", "TORSO_TASK", "JOINT_REGULARIZATION_TASK")
+     *
+     * [IK]
+     * robot_velocity_variable_name    robot_velocity
+     *
+     * [COM_TASK]
+     * type                            CoMTask
+     * kp_linear                       2.0
+     * mask                            (true, true, true)
+     * priority                        0
+     *
+     * [RIGHT_FOOT_TASK]
+     * type                            SE3Task
+     * frame_name                      r_sole
+     * kp_linear                       7.0
+     * kp_angular                      5.0
+     * priority                        0
+     *
+     * [LEFT_FOOT_TASK]
+     * type                            SE3Task
+     * frame_name                      l_sole
+     * kp_linear                       7.0
+     * kp_angular                      5.0
+     * priority                        0
+     *
+     *
+     * [JOINT_REGULARIZATION_TASK]
+     * type                            JointTrackingTask
+     * kp                              (5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0,
+     *                                  5.0, 5.0, 5.0, 5.0, 5.0, 5.0)
+     * priority                        1
+     * weight_provider_type            ConstantWeightProvider
+     * weight                          (1.0, 1.0, 1.0,
+     *                                  2.0, 2.0, 2.0, 2.0,
+     *                                  2.0, 2.0, 2.0, 2.0,
+     *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+     *                                  1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+     *
+     * [include TORSO_TASK "./tasks/torso.ini"]
+     * ~~~~~
+     * Where the file `./tasks/torso.ini` contains the definition of a low priority task whose
+     * weight is a BipedalLocomotion::ContinuousDynamicalSystem::MultiStateWeightProvider.
+     * Since `MultiStateWeightProvider` requires the definition of subgroups, an additional file is
+     * suggested as explained in: https://github.com/robotology/yarp/discussions/2563
+     * ~~~~~{.ini}
+     * type                            SO3Task
+     * frame_name                      chest
+     * kp_angular                      5.0
+     *
+     * weight_provider_type            MultiStateWeightProvider
+     *
+     * states                          ("STANCE", "WALKING")
+     * sampling_time                   0.01
+     * settling_time                   3.0
+     *
+     * [STANCE]
+     * name                            stance
+     * weight                          (0.1, 0.1, 0.1)
+     *
+     * [WALKING]
+     * name                            walking
+     * weight                          (5.0, 5.0, 5.0)
+     * ~~~~~
+     * @return an IntegrationBasedIKProblem. In case of issues an invalid IntegrationBasedIKProblem
+     * will be returned.
+     */
+    static TaskSpaceInverseDynamicsProblem
+    build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+          std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
 };
+
 
 } // namespace TSID
 } // namespace BipedalLocomotion
