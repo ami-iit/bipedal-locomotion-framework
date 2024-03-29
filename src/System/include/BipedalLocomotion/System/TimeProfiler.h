@@ -6,24 +6,26 @@
  * @date 2018
  */
 
-#ifndef BIPEDAL_LOCOMOTION_TIME_PROFILER_H
-#define BIPEDAL_LOCOMOTION_TIME_PROFILER_H
+#ifndef BIPEDAL_LOCOMOTION_SYSTEM_TIME_PROFILER_H
+#define BIPEDAL_LOCOMOTION_SYSTEM_TIME_PROFILER_H
 
 // std
 #include <map>
 #include <memory>
+#include <chrono>
 
 namespace BipedalLocomotion
 {
-
+namespace System
+{
     /**
      * Simple timer.
      */
     class Timer
     {
-        clock_t m_initTime; /**< Init time. */
-        clock_t m_endTime; /**< End time. */
-        double m_averageDuration; /**< Average duration. */
+        std::chrono::time_point<std::chrono::steady_clock> m_initTime; /**< Init time. */
+        std::chrono::time_point<std::chrono::steady_clock> m_endTime; /**< End time. */
+        std::chrono::nanoseconds m_averageDuration; /**< Average duration. */
 
     public:
 
@@ -51,7 +53,7 @@ namespace BipedalLocomotion
          * Get the average duration.
          * @return average duration.
          */
-        const double& getAverageDuration() const;
+        const std::chrono::nanoseconds& getAverageDuration() const;
 
     };
 
@@ -98,6 +100,7 @@ namespace BipedalLocomotion
          */
         void profiling();
     };
+};
 };
 
 #endif

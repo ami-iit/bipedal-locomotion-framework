@@ -10,34 +10,35 @@
 #include <iostream>
 #include <string>
 
-#include <BipedalLocomotion/TimeProfiler/TimeProfiler.h>
+#include <BipedalLocomotion/System/TimeProfiler.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
-using namespace BipedalLocomotion;
+using namespace BipedalLocomotion::System;
 
-const double& Timer::getAverageDuration() const
+const std::chrono::nanoseconds& Timer::getAverageDuration() const
 {
     return m_averageDuration;
 }
 
 void Timer::resetAverageDuration()
 {
-    m_averageDuration = 0;
+    m_averageDuration = std::chrono::nanoseconds(0);
 }
 
 void Timer::setInitTime()
 {
-    m_initTime = clock();
+    m_initTime = std::chrono::steady_clock::now();
 }
 
 void Timer::setEndTime()
 {
-    m_endTime = clock();
+    m_endTime = std::chrono::steady_clock::now();
 }
 
 void Timer::evaluateDuration()
 {
-    clock_t duration = m_endTime - m_initTime;
-    m_averageDuration += static_cast<double>(duration) / CLOCKS_PER_SEC * 1000.0;
+    auto duration = m_endTime - m_initTime;
+    m_averageDuration += duration;
 }
 
 void TimeProfiler::setPeriod(int maxCounter)
@@ -94,14 +95,14 @@ void TimeProfiler::profiling()
         if(m_counter == m_maxCounter)
         {
             infoStream += timer->first + ": "
-                + std::to_string((timer->second->getAverageDuration())/m_counter)
-                + " ms ";
+                + std::to_string(double(timer->second->getAverageDuration().count())/m_counter)
+                + " ns ";
             timer->second->resetAverageDuration();
         }
     }
     if(m_counter == m_maxCounter)
     {
         m_counter = 0;
-        std::cout << infoStream << std::endl;
+        log()->warn("{}", infoStream);
     }
 }
