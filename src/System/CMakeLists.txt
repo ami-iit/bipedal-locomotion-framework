@@ -17,11 +17,11 @@ if(FRAMEWORK_COMPILE_System)
                            ${H_PREFIX}/IClock.h ${H_PREFIX}/StdClock.h ${H_PREFIX}/Clock.h
                            ${H_PREFIX}/SharedResource.h ${H_PREFIX}/AdvanceableRunner.h
                            ${H_PREFIX}/QuitHandler.h
-                           ${H_PREFIX}/Barrier.h
+                           ${H_PREFIX}/Barrier.h ${H_PREFIX}/TimeProfiler.h
                            ${H_PREFIX}/WeightProvider.h ${H_PREFIX}/ConstantWeightProvider.h
     SOURCES                src/VariablesHandler.cpp src/LinearTask.cpp
                            src/StdClock.cpp src/Clock.cpp src/QuitHandler.cpp src/Barrier.cpp
-                           src/ConstantWeightProvider.cpp
+                           src/ConstantWeightProvider.cpp src/TimeProfiler.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler Eigen3::Eigen
     SUBDIRECTORIES         tests YarpImplementation RosImplementation
     )
