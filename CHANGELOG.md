@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
+- InstallBasicPackageFiles: Fix bug of OVERRIDE_MODULE_PATH that corrupt CMAKE_MODULE_PATH values set by blf transitive dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/827)
 
 ### Removed
 
