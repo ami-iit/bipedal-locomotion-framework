@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file.
 - Added a member function to set the gravity vector of the `CentroidalDynamics` Continuous Dynamical System (https://github.com/ami-iit/bipedal-locomotion-framework/pull/821).
 - Add the possibility to set the exogenous signal for the `IK::CoMTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/824)
 - Add getJointTorques to python binding in SensorBridge (https://github.com/ami-iit/bipedal-locomotion-framework/pull/825)
+- Add `System::TimeProfiler` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/826)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
