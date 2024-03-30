@@ -26,9 +26,29 @@ void CreateQPTSID(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace BipedalLocomotion::TSID;
+    using namespace BipedalLocomotion::ParametersHandler;
 
     py::class_<QPTSID, TaskSpaceInverseDynamics>(module, "QPTSID")
-        .def(py::init());
+        .def(py::init())
+        .def_static(
+            "build",
+            [](std::shared_ptr<const IParametersHandler> handler,
+               py::object& obj) -> TaskSpaceInverseDynamicsProblem {
+                // get the kindyn computation object from the swig binsings
+                std::shared_ptr<iDynTree::KinDynComputations>* cls
+                    = py::detail::swig_wrapped_pointer_to_pybind<
+                        std::shared_ptr<iDynTree::KinDynComputations>>(obj);
+
+                if (cls == nullptr)
+                {
+                    throw ::pybind11::value_error("Invalid input for the function. Please provide "
+                                                  "an iDynTree::KinDynComputations object.");
+                }
+
+                return QPTSID::build(handler, *cls);
+            },
+            py::arg("param_handler"),
+            py::arg("kin_dyn"));
 }
 
 void CreateQPFixedBaseTSID(pybind11::module& module)

@@ -15,6 +15,7 @@
 #include <BipedalLocomotion/bindings/TSID/JointTrackingTask.h>
 #include <BipedalLocomotion/bindings/TSID/Module.h>
 #include <BipedalLocomotion/bindings/TSID/QPTSID.h>
+#include <BipedalLocomotion/bindings/TSID/R3Task.h>
 #include <BipedalLocomotion/bindings/TSID/SE3Task.h>
 #include <BipedalLocomotion/bindings/TSID/SO3Task.h>
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
@@ -35,6 +36,7 @@ void CreateModule(pybind11::module& module)
     CreateCoMTask(module);
     CreateSE3Task(module);
     CreateSO3Task(module);
+    CreateR3Task(module);
     CreateJointTrackingTask(module);
     CreateBaseDynamicsTask(module);
     CreateJointDynamicsTask(module);
