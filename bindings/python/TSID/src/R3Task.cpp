@@ -40,8 +40,8 @@ void CreateR3Task(pybind11::module& module)
         .def("set_set_point",
              &R3Task::setSetPoint,
              py::arg("I_p_F"),
-             py::arg("linear_velocity"),
-             py::arg("linear_acceleration"))
+             py::arg("linear_velocity") = Eigen::Vector3d::Zero(),
+             py::arg("linear_acceleration") = Eigen::Vector3d::Zero())
         .def("get_controller_output", &R3Task::getControllerOutput);
 }
 
