@@ -206,7 +206,8 @@ public:
      * Where the generalized robot acceleration is a vector containing the base spatial acceleration
      * (expressed in mixed representation) and the joint acceleration.
      * For **each** task listed in the parameter `tasks` the user must specify all the parameters
-     * required by the task itself. Moreover the following parameters are required for each task.
+     * required by the task itself but `robot_acceleration_variable_name` and `joint_torques_variable_name`
+     * since is already specified in the `IK` group. Moreover the following parameters are required for each task.
      * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
      * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
      * |`TASK_NAME`|             `type`             |     `string`    |   String representing the type of the task. The string should match the name of the C++ class. |    Yes    |
@@ -215,27 +216,18 @@ public:
      * Given the weight type specified by `weight_provider_type`, the user must specify all the
      * parameters required by the provider in the `TASK_NAME` group handler
      * `TASK_NAME` is a placeholder for the name of the task contained in the `tasks` list.
-     * Finally the user should define a group named `VARIABLES` containing the following parameters:
-     * |   Group   |         Parameter Name         |       Type      |                                           Description                                          | Mandatory |
-     * |:---------:|:------------------------------:|:---------------:|:----------------------------------------------------------------------------------------------:|:---------:|
-     * |           |       `variables_name`         | `vector<string>`| Vector containing the names of the variables used in the TSID. The order should be the same as the one used in the `variables_size` parameter. |    Yes    |
-     * |           |       `variables_size`         | `vector<int>`   | Vector containing the size of the variables used in the TSID. The order should be the same as the one used in the `variables_name` parameter. |    Yes    |
      * @note The following `ini` file presents an example of the configuration that can be used to
      * build the TSID
      * ~~~~~{.ini}
      * tasks   ("COM", "ROOT", "CHEST",
      *          "LEFT_FOOT", "RIGHT_FOOT",
-     *           "LEFT_FOOT_WRENCH", "RIGHT_FOOT_WRENCH",
-     *           "JOINT_REGULARIZATION", "JOINT_DYNAMICS_TASK", "BASE_DYNAMICS_TASK")
+     *          "LEFT_FOOT_WRENCH", "RIGHT_FOOT_WRENCH",
+     *          "JOINT_REGULARIZATION", "JOINT_DYNAMICS_TASK", "BASE_DYNAMICS_TASK")
      *
      * [TSID]
      * robot_acceleration_variable_name  "robot_acceleration"
      * joint_torques_variable_name  "joint_torques"
      * contact_wrench_variables_name ("lf_wrench", "rf_wrench")
-     * 
-     * [VARIABLES]
-     * variables_name  ("robot_acceleration", "joint_torques", "lf_wrench", "rf_wrench")
-     * variables_size (32, 26, 6, 6)
      * 
      * [LEFT_FOOT]
      * type                              SE3Task
@@ -244,8 +236,7 @@ public:
      * kp_angular                        50.0
      * kd_linear                         14.0
      * kd_angular                        14.0
-     * frame_name                        "l_sole"
-     * robot_acceleration_variable_name  "robot_acceleration"
+     * frame_name                        l_sole
      * 
      * [RIGHT_FOOT]
      * type                              SE3Task
@@ -254,8 +245,7 @@ public:
      * kp_angular                        50.0
      * kd_linear                         14.0
      * kd_angular                        14.0
-     * frame_name                        "r_sole"
-     * robot_acceleration_variable_name  "robot_acceleration"
+     * frame_name                        r_sole
      * 
      * [COM]
      * type                              CoMTask
@@ -263,25 +253,22 @@ public:
      * kd_linear                         5.0
      * priority                          0
      * mask                              (true, true, false)
-     * robot_acceleration_variable_name  "robot_acceleration"
      *     
      * [CHEST]
      * type                              SO3Task
      * kp_angular                        50.0
      * kd_angular                        4.47
-     * frame_name                        "chest"
+     * frame_name                        chest
      * priority                          1
      * weight                            (10.0, 10.0, 10.0)
-     * robot_acceleration_variable_name  "robot_acceleration"
      * 
      * [ROOT]
      * type                              R3Task
-     * frame_name                        "root_link"
+     * frame_name                        root_link
      * kp_linear                         5.0
      * kd_linear                         4.47
      * mask                              (false, false, true)
      * priority                          0
-     * robot_acceleration_variable_name  "robot_acceleration"
      *  
      * [JOINT_REGULARIZATION]
      * type                              JointTrackingTask
@@ -299,24 +286,22 @@ public:
      *                                   1.0, 1.0, 1.0,
      *                                   2.0, 2.0, 2.0, 2.0,
      *                                   2.0, 2.0, 2.0, 2.0)
-     * 
-     * robot_acceleration_variable_name "robot_acceleration"
-     * 
+     *
      * [LEFT_FOOT_WRENCH]
-     * type                             "FeasibleContactWrenchTask"
+     * type                             FeasibleContactWrenchTask
      * priority                         0
-     * variable_name                    "lf_wrench"
-     * frame_name                       "l_sole"
+     * variable_name                    lf_wrench
+     * frame_name                       l_sole
      * number_of_slices                 2
      * static_friction_coefficient      0.3
      * foot_limits_x                    (-0.1, 0.1)
      * foot_limits_y                    (-0.06, 0.06)
      * 
      * [RIGHT_FOOT_WRENCH]
-     * type                              "FeasibleContactWrenchTask"
+     * type                              FeasibleContactWrenchTask
      * priority                          0
-     * variable_name                     "rf_wrench"
-     * frame_name                        "r_sole"
+     * variable_name                     rf_wrench
+     * frame_name                        r_sole
      * number_of_slices                  2
      * static_friction_coefficient       0.3
      * foot_limits_x                    (-0.1, 0.1)
@@ -333,20 +318,18 @@ public:
      * The following code represent the content of the `./tasks/joint_dynamics_task.ini`, the other file
      * can be easily built checking the documentation 
      * ~~~~~{.ini}
-     * type                               "JointDynamicsTask"
+     * type                               JointDynamicsTask
      * priority                           0
      * 
-     * robot_acceleration_variable_name   "robot_acceleration"
-     * joint_torques_variable_name        "joint_torques"
      * max_number_of_contacts             2
      * 
      * [CONTACT_0]
-     * variable_name                      "lf_wrench"
-     * frame_name                         "l_sole"
+     * variable_name                      lf_wrench
+     * frame_name                         l_sole
      * 
      * [CONTACT_1]
-     * variable_name                      "rf_wrench"
-     * frame_name                         "r_sole"
+     * variable_name                      rf_wrench
+     * frame_name                         r_sole
      * ~~~~~
      * @return an TaskSpaceInverseDynamicsProblem. In case of issues an invalid TaskSpaceInverseDynamicsProblem
      * will be returned.
