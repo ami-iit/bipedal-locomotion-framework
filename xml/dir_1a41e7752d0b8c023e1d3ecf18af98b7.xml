@@ -20,6 +20,7 @@
     <innerfile refid="Sink_8h">Sink.h</innerfile>
     <innerfile refid="Source_8h">Source.h</innerfile>
     <innerfile refid="StdClock_8h">StdClock.h</innerfile>
+    <innerfile refid="TimeProfiler_8h">TimeProfiler.h</innerfile>
     <innerfile refid="VariablesHandler_8h">VariablesHandler.h</innerfile>
     <innerfile refid="WeightProvider_8h">WeightProvider.h</innerfile>
     <briefdescription>

@@ -3,8 +3,8 @@
   <compounddef id="IClock_8h" kind="file" language="C++">
     <compoundname>IClock.h</compoundname>
     <includes local="no">chrono</includes>
-    <includedby refid="YarpClock_8h" local="no">BipedalLocomotion/System/YarpClock.h</includedby>
     <includedby refid="RosClock_8h" local="no">BipedalLocomotion/System/RosClock.h</includedby>
+    <includedby refid="YarpClock_8h" local="no">BipedalLocomotion/System/YarpClock.h</includedby>
     <includedby refid="Clock_8h" local="no">BipedalLocomotion/System/Clock.h</includedby>
     <includedby refid="StdClock_8h" local="no">BipedalLocomotion/System/StdClock.h</includedby>
     <incdepgraph>
@@ -19,7 +19,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
+      <node id="3">
         <label>BipedalLocomotion/System/YarpClock.h</label>
         <link refid="YarpClock_8h"/>
       </node>
@@ -27,7 +27,7 @@
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
-      <node id="3">
+      <node id="2">
         <label>BipedalLocomotion/System/RosClock.h</label>
         <link refid="RosClock_8h"/>
       </node>

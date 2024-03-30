@@ -7,11 +7,11 @@
     <includes local="no">Eigen/Dense</includes>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <includes refid="Logger_8h" local="no">BipedalLocomotion/TextLogging/Logger.h</includes>
-    <includedby refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h" local="no">BipedalLocomotion/Planners/Spline.h</includedby>
-    <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
     <includedby refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h" local="no">BipedalLocomotion/Math/CubicSpline.h</includedby>
     <includedby refid="LinearSpline_8h" local="no">BipedalLocomotion/Math/LinearSpline.h</includedby>
     <includedby refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h" local="no">BipedalLocomotion/Math/QuinticSpline.h</includedby>
+    <includedby refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h" local="no">BipedalLocomotion/Planners/Spline.h</includedby>
+    <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
     <incdepgraph>
       <node id="12">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -109,25 +109,25 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="5">
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h"/>
       </node>
-      <node id="2">
+      <node id="6">
         <label>BipedalLocomotion/Planners/Spline.h</label>
         <link refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h"/>
       </node>
-      <node id="6">
+      <node id="4">
         <label>BipedalLocomotion/Math/QuinticSpline.h</label>
         <link refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="2">
         <label>BipedalLocomotion/Math/CubicSpline.h</label>
         <link refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h"/>
       </node>
-      <node id="3">
+      <node id="7">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
@@ -140,12 +140,12 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="3">
         <label>BipedalLocomotion/Math/LinearSpline.h</label>
         <link refid="LinearSpline_8h"/>
       </node>
