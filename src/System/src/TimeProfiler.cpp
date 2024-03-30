@@ -1,13 +1,11 @@
 /**
  * @file TimeProfiler.cpp
- * @authors Giulio Romualdi <giulio.romualdi@iit.it>
- * @copyright 2018 iCub Facility - Istituto Italiano di Tecnologia
- *            Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
- * @date 2018
+ * @authors Guglielmo Cervettini, Giulio Romualdi
+ * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <ctime>
-#include <iostream>
+#include <chrono>
 #include <string>
 
 #include <BipedalLocomotion/System/TimeProfiler.h>
@@ -37,7 +35,7 @@ void Timer::setEndTime()
 
 void Timer::evaluateDuration()
 {
-    auto duration = m_endTime - m_initTime;
+    const std::chrono::nanoseconds duration = m_endTime - m_initTime;
     m_averageDuration += duration;
 }
 
@@ -49,39 +47,39 @@ void TimeProfiler::setPeriod(int maxCounter)
 bool TimeProfiler::addTimer(const std::string& key)
 {
     auto timer = m_timers.find(key);
-    if(timer != m_timers.end())
+    if (timer != m_timers.end())
     {
-        std::cerr << "[TimeProfiler::addTimer] This timer already exist." <<std::endl;
+        log()->error("[TimeProfiler::addTimer] The timer named {} already exists.", key);
         return false;
     }
 
-    m_timers.insert(std::make_pair(key, std::make_unique<Timer>()));
+    m_timers.insert(std::make_pair(key, Timer()));
     return true;
 }
 
 bool TimeProfiler::setInitTime(const std::string& key)
 {
     auto timer = m_timers.find(key);
-    if(timer == m_timers.end())
+    if (timer == m_timers.end())
     {
-        std::cerr << "[TimeProfiler::setInitTime] Unable to find the timer." <<std::endl;
+        log()->error("[TimeProfiler::setInitTime] Unable to find the timer named {}.", key);
         return false;
     }
 
-    timer->second->setInitTime();
+    timer->second.setInitTime();
     return true;
 }
 
 bool TimeProfiler::setEndTime(const std::string& key)
 {
     auto timer = m_timers.find(key);
-    if(timer == m_timers.end())
+    if (timer == m_timers.end())
     {
-        std::cerr << "[TimeProfiler::setEndTime] Unable to find the timer." <<std::endl;
+        log()->error("[TimeProfiler::setEndTime] Unable to find the timer named {}.", key);
         return false;
     }
 
-    timer->second->setEndTime();
+    timer->second.setEndTime();
     return true;
 }
 
@@ -89,20 +87,28 @@ void TimeProfiler::profiling()
 {
     std::string infoStream;
     m_counter++;
-    for(auto timer = m_timers.begin(); timer != m_timers.end(); timer++)
+    for (auto& [key, timer] : m_timers)
     {
-        timer->second->evaluateDuration();
-        if(m_counter == m_maxCounter)
+        timer.evaluateDuration();
+        if (m_counter != m_maxCounter)
         {
-            infoStream += timer->first + ": "
-                + std::to_string(double(timer->second->getAverageDuration().count())/m_counter)
-                + " ns ";
-            timer->second->resetAverageDuration();
+            continue;
         }
+
+        const std::chrono::nanoseconds& durationInNs = timer.getAverageDuration();
+
+        // convert the duration in ns to ms
+        const auto durationInMs
+            = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(durationInNs)
+              / double(m_counter);
+
+        infoStream += key + ": " + std::to_string(durationInMs.count()) + " ms ";
+        timer.resetAverageDuration();
     }
-    if(m_counter == m_maxCounter)
+
+    if (m_counter == m_maxCounter)
     {
         m_counter = 0;
-        log()->warn("{}", infoStream);
+        log()->info("[TimeProfiler::profiling] {}", infoStream);
     }
 }
