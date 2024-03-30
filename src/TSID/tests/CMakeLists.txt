@@ -18,6 +18,11 @@ add_bipedal_test(
   LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions)
 
 add_bipedal_test(
+    NAME R3TaskTSID
+    SOURCES R3TaskTest.cpp
+    LINKS BipedalLocomotion::TSID BipedalLocomotion::ManifConversions)
+
+add_bipedal_test(
   NAME JointsTrackingTaskTSID
   SOURCES JointTrackingTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
