@@ -73,7 +73,7 @@ public:
      * |            `CONTACT_<i>`           |  `group` | `i` is an `int` between `0` and `max_number_of_contacts` The group must contain `variable_name` and `frame_name` |    Yes    |
      * |           `variable_name`          | `string` |                    Name of the variable contained in `VariablesHandler` describing the contact                   |    Yes    |
      * |            `frame_name`            | `string` |                                    Name of the frame associated to the contact                                   |    Yes    |
-
+     *
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
@@ -83,7 +83,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -128,6 +128,8 @@ public:
      */
     bool isValid() const override;
 };
+
+BLF_REGISTER_TSID_TASK(AngularMomentumTask);
 
 } // namespace TSID
 } // namespace BipedalLocomotion
