@@ -24,7 +24,7 @@ using namespace BipedalLocomotion::TSID;
 TEST_CASE("SE3 Task")
 {
     constexpr double kp = 1.0;
-    constexpr double kd = 2 * std::sqrt(kp);
+    const double kd = 2 * std::sqrt(kp);
     const std::string robotAcceleration = "robotAcceleration";
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
