@@ -228,7 +228,7 @@ public:
      * robot_acceleration_variable_name  "robot_acceleration"
      * joint_torques_variable_name  "joint_torques"
      * contact_wrench_variables_name ("lf_wrench", "rf_wrench")
-     * 
+     *
      * [LEFT_FOOT]
      * type                              SE3Task
      * priority                          0
@@ -237,7 +237,7 @@ public:
      * kd_linear                         14.0
      * kd_angular                        14.0
      * frame_name                        l_sole
-     * 
+     *
      * [RIGHT_FOOT]
      * type                              SE3Task
      * priority                          0
@@ -246,14 +246,14 @@ public:
      * kd_linear                         14.0
      * kd_angular                        14.0
      * frame_name                        r_sole
-     * 
+     *
      * [COM]
      * type                              CoMTask
      * kp_linear                         20.0
      * kd_linear                         5.0
      * priority                          0
      * mask                              (true, true, false)
-     *     
+     *
      * [CHEST]
      * type                              SO3Task
      * kp_angular                        50.0
@@ -261,7 +261,7 @@ public:
      * frame_name                        chest
      * priority                          1
      * weight                            (10.0, 10.0, 10.0)
-     * 
+     *
      * [ROOT]
      * type                              R3Task
      * frame_name                        root_link
@@ -269,7 +269,7 @@ public:
      * kd_linear                         4.47
      * mask                              (false, false, true)
      * priority                          0
-     *  
+     *
      * [JOINT_REGULARIZATION]
      * type                              JointTrackingTask
      * priority                          1
@@ -279,7 +279,7 @@ public:
      *                                    5.0, 5.0, 5.0,
      *                                    5.0, 5.0, 5.0, 5.0,
      *                                    5.0, 5.0, 5.0, 5.0)
-     * 
+     *
      * weight                           (1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
      *                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
      *                                   1.0, 1.0, 1.0,
@@ -296,7 +296,7 @@ public:
      * static_friction_coefficient      0.3
      * foot_limits_x                    (-0.1, 0.1)
      * foot_limits_y                    (-0.06, 0.06)
-     * 
+     *
      * [RIGHT_FOOT_WRENCH]
      * type                              FeasibleContactWrenchTask
      * priority                          0
@@ -306,9 +306,9 @@ public:
      * static_friction_coefficient       0.3
      * foot_limits_x                    (-0.1, 0.1)
      * foot_limits_y                    (-0.06, 0.06)
-     * 
+     *
      * [include JOINT_DYNAMICS_TASK "./tasks/joint_dynamics_task.ini"]
-     * 
+     *
      * [include BASE_DYNAMICS_TASK "./tasks/base_dynamics_task.ini"]
      * ~~~~~
      * Where the file `./tasks/joint_dynamics_task.ini` and `./tasks/base_dynamics_task.ini`
@@ -316,17 +316,17 @@ public:
      * Since the tasks requires the definition of subgroups, an additional file is
      * suggested as explained in: https://github.com/robotology/yarp/discussions/2563
      * The following code represent the content of the `./tasks/joint_dynamics_task.ini`, the other file
-     * can be easily built checking the documentation 
+     * can be easily built checking the documentation
      * ~~~~~{.ini}
      * type                               JointDynamicsTask
      * priority                           0
-     * 
+     *
      * max_number_of_contacts             2
-     * 
+     *
      * [CONTACT_0]
      * variable_name                      lf_wrench
      * frame_name                         l_sole
-     * 
+     *
      * [CONTACT_1]
      * variable_name                      rf_wrench
      * frame_name                         r_sole
