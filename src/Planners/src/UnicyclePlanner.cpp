@@ -106,7 +106,9 @@ public:
 
     std::shared_ptr<::FootPrint> left;
     std::shared_ptr<::FootPrint> right;
-    std::unique_ptr<::UnicyclePlanner> planner;
+    std::unique_ptr<::UnicycleGenerator> generator;
+
+    bool isInitialized = false;
 };
 
 Planners::UnicyclePlanner::UnicyclePlanner()
@@ -131,7 +133,8 @@ bool Planners::UnicyclePlanner::initialize(
     }
 
     bool okPlanner = true;
-    m_pImpl->planner = std::make_unique<::UnicyclePlanner>();
+    // m_pImpl->planner = std::make_unique<::UnicyclePlanner>();
+    m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
 
     // ==
     // dt
@@ -143,9 +146,11 @@ bool Planners::UnicyclePlanner::initialize(
                      logPrefix);
         return false;
     }
-
-    okPlanner = okPlanner && m_pImpl->planner->setPlannerPeriod(m_pImpl->dt.planner);
-    okPlanner = okPlanner && m_pImpl->planner->setMaximumIntegratorStepSize(m_pImpl->dt.planner);
+    okPlanner = okPlanner
+                && m_pImpl->generator->unicyclePlanner()->setPlannerPeriod(m_pImpl->dt.planner);
+    okPlanner = okPlanner
+                && m_pImpl->generator->unicyclePlanner()->setMaximumIntegratorStepSize(
+                    m_pImpl->dt.planner);
 
     // ==========
     // controller
@@ -166,9 +171,11 @@ bool Planners::UnicyclePlanner::initialize(
     }
 
     okPlanner = okPlanner
-                && m_pImpl->planner->setControllerGain(m_pImpl->controller.gains.unicycle);
+                && m_pImpl->generator->unicyclePlanner()->setPersonFollowingControllerGain(
+                    m_pImpl->controller.gains.unicycle);
     okPlanner = okPlanner
-                && m_pImpl->planner->setSlowWhenTurnGain(m_pImpl->controller.gains.slowWhenTurning);
+                && m_pImpl->generator->unicyclePlanner()->setSlowWhenTurnGain(
+                    m_pImpl->controller.gains.slowWhenTurning);
 
     std::vector<double> reference;
 
@@ -185,8 +192,9 @@ bool Planners::UnicyclePlanner::initialize(
     }
 
     okPlanner = okPlanner
-                && m_pImpl->planner->setDesiredPersonDistance(m_pImpl->controller.reference.x,
-                                                              m_pImpl->controller.reference.y);
+                && m_pImpl->generator->unicyclePlanner()
+                       ->setDesiredPersonDistance(m_pImpl->controller.reference.x,
+                                                  m_pImpl->controller.reference.y);
 
     // =======
     // weights
@@ -202,9 +210,9 @@ bool Planners::UnicyclePlanner::initialize(
         log()->info("{} Using default positionWeight={}.", logPrefix, m_pImpl->weights.position);
     }
 
-    okPlanner
-        = okPlanner
-          && m_pImpl->planner->setCostWeights(m_pImpl->weights.position, m_pImpl->weights.time);
+    okPlanner = okPlanner
+                && m_pImpl->generator->unicyclePlanner()->setCostWeights(m_pImpl->weights.position,
+                                                                         m_pImpl->weights.time);
 
     // ========
     // duration
@@ -229,9 +237,9 @@ bool Planners::UnicyclePlanner::initialize(
     }
 
     okPlanner = okPlanner
-                && m_pImpl->planner->setStepTimings(m_pImpl->duration.min,
-                                                    m_pImpl->duration.max,
-                                                    m_pImpl->duration.nominal);
+                && m_pImpl->generator->unicyclePlanner()->setStepTimings(m_pImpl->duration.min,
+                                                                         m_pImpl->duration.max,
+                                                                         m_pImpl->duration.nominal);
 
     // ==========
     // stepLength
@@ -249,8 +257,11 @@ bool Planners::UnicyclePlanner::initialize(
         return false;
     }
 
-    okPlanner = okPlanner && m_pImpl->planner->setMaxStepLength(m_pImpl->stepLength.max);
-    okPlanner = okPlanner && m_pImpl->planner->setMinimumStepLength(m_pImpl->stepLength.min);
+    okPlanner = okPlanner
+                && m_pImpl->generator->unicyclePlanner()->setMaxStepLength(m_pImpl->stepLength.max);
+    okPlanner
+        = okPlanner
+          && m_pImpl->generator->unicyclePlanner()->setMinimumStepLength(m_pImpl->stepLength.min);
 
     // ============
     // feetDistance
@@ -269,7 +280,7 @@ bool Planners::UnicyclePlanner::initialize(
     }
 
     okPlanner = okPlanner
-                && m_pImpl->planner->setWidthSetting( //
+                && m_pImpl->generator->unicyclePlanner()->setWidthSetting( //
                     m_pImpl->feetDistance.min,
                     m_pImpl->feetDistance.nominal);
 
@@ -291,9 +302,12 @@ bool Planners::UnicyclePlanner::initialize(
         return false;
     }
 
-    okPlanner = okPlanner && m_pImpl->planner->setMaxAngleVariation(m_pImpl->angleVariation.max);
     okPlanner = okPlanner
-                && m_pImpl->planner->setMinimumAngleForNewSteps(m_pImpl->angleVariation.min);
+                && m_pImpl->generator->unicyclePlanner()->setMaxAngleVariation(
+                    m_pImpl->angleVariation.max);
+    okPlanner = okPlanner
+                && m_pImpl->generator->unicyclePlanner()->setMinimumAngleForNewSteps(
+                    m_pImpl->angleVariation.min);
 
     // ====
     // gait
@@ -328,9 +342,10 @@ bool Planners::UnicyclePlanner::initialize(
                     m_pImpl->gait.resetStartingFootIfStill);
     }
 
-    m_pImpl->planner->startWithLeft(m_pImpl->gait.startWithLeft);
-    m_pImpl->planner->addTerminalStep(m_pImpl->gait.terminalStep);
-    m_pImpl->planner->resetStartingFootIfStill(m_pImpl->gait.resetStartingFootIfStill);
+    m_pImpl->generator->unicyclePlanner()->startWithLeft(m_pImpl->gait.startWithLeft);
+    m_pImpl->generator->unicyclePlanner()->addTerminalStep(m_pImpl->gait.terminalStep);
+    m_pImpl->generator->unicyclePlanner()->resetStartingFootIfStill(
+        m_pImpl->gait.resetStartingFootIfStill);
 
     // =====
     // names
@@ -356,6 +371,8 @@ bool Planners::UnicyclePlanner::initialize(
         return false;
     }
 
+    m_pImpl->isInitialized = true;
+
     return true;
 }
 
@@ -378,7 +395,7 @@ bool Planners::UnicyclePlanner::isOutputValid() const
 {
     constexpr auto logPrefix = "[UnicyclePlanner::isOutputValid]";
 
-    if (!m_pImpl->planner)
+    if (!m_pImpl->isInitialized)
     {
         log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
         return false;
@@ -403,7 +420,7 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
 {
     constexpr auto logPrefix = "[UnicyclePlanner::setInput]";
 
-    if (!m_pImpl->planner)
+    if (!m_pImpl->isInitialized)
     {
         log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
         return false;
@@ -428,7 +445,7 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
         return false;
     }
 
-    m_pImpl->planner->clearDesiredTrajectory();
+    m_pImpl->generator->unicyclePlanner()->clearPersonFollowingDesiredTrajectory();
 
     for (const auto& knot : input.knots)
     {
@@ -440,9 +457,10 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
         velocity[0] = knot.dx;
         velocity[1] = knot.dy;
 
-        if (!m_pImpl->planner->addDesiredTrajectoryPoint(knot.time, position, velocity))
+        if (!m_pImpl->generator->unicyclePlanner()
+                 ->addPersonFollowingDesiredTrajectoryPoint(knot.time, position, velocity))
         {
-            m_pImpl->planner->clearDesiredTrajectory();
+            m_pImpl->generator->unicyclePlanner()->clearPersonFollowingDesiredTrajectory();
             log()->error("{} Failed to insert knot in the Unicycle planner.", logPrefix);
             return false;
         }
@@ -461,7 +479,7 @@ bool Planners::UnicyclePlanner::advance()
 {
     constexpr auto logPrefix = "[UnicyclePlanner::advance]";
 
-    if (!m_pImpl->planner)
+    if (!m_pImpl->isInitialized)
     {
         log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
         return false;
@@ -544,10 +562,10 @@ bool Planners::UnicyclePlanner::advance()
         initTime = impactTime > initTime ? impactTime : initTime;
     }
 
-    if (!m_pImpl->planner->computeNewSteps(m_pImpl->left,
-                                           m_pImpl->right,
-                                           initTime,
-                                           m_pImpl->horizon.tf))
+    if (!m_pImpl->generator->unicyclePlanner()->computeNewSteps(m_pImpl->left,
+                                                                m_pImpl->right,
+                                                                initTime,
+                                                                m_pImpl->horizon.tf))
     {
         cleanup();
         log()->error("{} Failed to compute new steps.", logPrefix);
@@ -559,13 +577,12 @@ bool Planners::UnicyclePlanner::advance()
     // ===========================================
 
     // Create and configure the generator
-    auto generator = UnicycleGenerator();
-    generator.setSwitchOverSwingRatio(m_pImpl->gait.stancePhaseRatio);
-    generator.setPauseConditions(m_pImpl->duration.max, m_pImpl->duration.nominal);
+    m_pImpl->generator->setSwitchOverSwingRatio(m_pImpl->gait.stancePhaseRatio);
+    m_pImpl->generator->setPauseConditions(m_pImpl->duration.max, m_pImpl->duration.nominal);
 
     // The last step will have an infinite deactivation time, the following option
     // is necessary for the generator but it does not affect the advanceable output
-    generator.setTerminalHalfSwitchTime(1.0);
+    m_pImpl->generator->setTerminalHalfSwitchTime(1.0);
 
     // Due to how the generator works, the start time must be bigger than last impact time
     const double startLeft = m_pImpl->left->getSteps().front().impactTime;
@@ -573,10 +590,10 @@ bool Planners::UnicyclePlanner::advance()
     const double startTime = std::max(startLeft, startRight);
 
     // Compute the contact states using the generator
-    if (!generator.generateFromFootPrints(m_pImpl->left,
-                                          m_pImpl->right,
-                                          startTime,
-                                          m_pImpl->dt.planner))
+    if (!m_pImpl->generator->generateFromFootPrints(m_pImpl->left,
+                                                    m_pImpl->right,
+                                                    startTime,
+                                                    m_pImpl->dt.planner))
     {
         cleanup();
         log()->error("{} Failed to generate from footprints.", logPrefix);
@@ -586,7 +603,7 @@ bool Planners::UnicyclePlanner::advance()
     // Get the contact states over the horizon
     std::vector<bool> leftStandingPeriod;
     std::vector<bool> rightStandingPeriod;
-    generator.getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
+    m_pImpl->generator->getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
 
     // Bind dt to catch it in the next lambda
     const auto& dt = m_pImpl->dt.planner;
