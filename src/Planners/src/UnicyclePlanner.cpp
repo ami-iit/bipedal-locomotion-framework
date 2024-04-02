@@ -104,8 +104,6 @@ public:
     UnicyclePlannerOutput outputRef;
     std::optional<UnicyclePlannerOutput> output = std::nullopt;
 
-    std::shared_ptr<::FootPrint> left;
-    std::shared_ptr<::FootPrint> right;
     std::unique_ptr<::UnicycleGenerator> generator;
 
     bool isInitialized = false;
@@ -355,11 +353,13 @@ bool Planners::UnicyclePlanner::initialize(
     {
         log()->info("{} Using default left_foot_name={}.", logPrefix, m_pImpl->names.left);
     }
+    m_pImpl->generator->getLeftFootPrint()->setFootName(m_pImpl->names.left);
 
     if (!ptr->getParameter("right_foot_name", m_pImpl->names.right))
     {
         log()->info("{} Using default right_foot_name={}.", logPrefix, m_pImpl->names.right);
     }
+    m_pImpl->generator->getRightFootPrint()->setFootName(m_pImpl->names.right);
 
     // =============================
     // UnicyclePlanner configuration
@@ -401,7 +401,8 @@ bool Planners::UnicyclePlanner::isOutputValid() const
         return false;
     }
 
-    if (!m_pImpl->left || !m_pImpl->right)
+    if (!(m_pImpl->generator->getLeftFootPrint()->numberOfSteps() > 0)
+        || !(m_pImpl->generator->getRightFootPrint()->numberOfSteps() > 0))
     {
         log()->error("{} The Unicycle planner never computed the foot steps.", logPrefix);
         return false;
@@ -487,8 +488,8 @@ bool Planners::UnicyclePlanner::advance()
 
     // Lambda to clean up resources when returning false
     auto cleanup = [&]() {
-        m_pImpl->left = nullptr;
-        m_pImpl->right = nullptr;
+        m_pImpl->generator->getLeftFootPrint()->clearSteps();
+        m_pImpl->generator->getRightFootPrint()->clearSteps();
         m_pImpl->output = std::nullopt;
     };
 
@@ -498,14 +499,6 @@ bool Planners::UnicyclePlanner::advance()
     // ==================================
     // Plan contacts with UnicyclePlanner
     // ==================================
-
-    // Initialize the left FootPrint
-    m_pImpl->left = std::make_shared<FootPrint>();
-    m_pImpl->left->setFootName(m_pImpl->names.left);
-
-    // Initialize the right FootPrint
-    m_pImpl->right = std::make_shared<FootPrint>();
-    m_pImpl->right->setFootName(m_pImpl->names.right);
 
     // Convert manif to iDynTree
     auto toiDynTree = [](const manif::SE3d::Translation& translation) -> iDynTree::Vector2 {
@@ -533,15 +526,16 @@ bool Planners::UnicyclePlanner::advance()
             = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
 
         // Create the inital step
-        m_pImpl->left->addStep(toiDynTree(contact->pose.translation()),
-                               euler[2],
-                               std::chrono::duration<double>(contact->activationTime).count());
+        m_pImpl->generator->getLeftFootPrint()
+            ->addStep(toiDynTree(contact->pose.translation()),
+                      euler[2],
+                      std::chrono::duration<double>(contact->activationTime).count());
 
         const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
         initTime = impactTime > initTime ? impactTime : initTime;
     }
 
-    // Process the initial left contact configuration
+    // Process the initial right contact configuration
     if (m_pImpl->initialContacts.right)
     {
         const auto& contact = m_pImpl->initialContacts.right;
@@ -554,18 +548,20 @@ bool Planners::UnicyclePlanner::advance()
             = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
 
         // Create the inital step
-        m_pImpl->right->addStep(toiDynTree(contact->pose.translation()),
-                                euler[2],
-                                std::chrono::duration<double>(contact->activationTime).count());
+        m_pImpl->generator->getRightFootPrint()
+            ->addStep(toiDynTree(contact->pose.translation()),
+                      euler[2],
+                      std::chrono::duration<double>(contact->activationTime).count());
 
         const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
         initTime = impactTime > initTime ? impactTime : initTime;
     }
 
-    if (!m_pImpl->generator->unicyclePlanner()->computeNewSteps(m_pImpl->left,
-                                                                m_pImpl->right,
-                                                                initTime,
-                                                                m_pImpl->horizon.tf))
+    if (!m_pImpl->generator->unicyclePlanner()
+             ->computeNewSteps(m_pImpl->generator->getLeftFootPrint(),
+                               m_pImpl->generator->getRightFootPrint(),
+                               initTime,
+                               m_pImpl->horizon.tf))
     {
         cleanup();
         log()->error("{} Failed to compute new steps.", logPrefix);
@@ -585,13 +581,14 @@ bool Planners::UnicyclePlanner::advance()
     m_pImpl->generator->setTerminalHalfSwitchTime(1.0);
 
     // Due to how the generator works, the start time must be bigger than last impact time
-    const double startLeft = m_pImpl->left->getSteps().front().impactTime;
-    const double startRight = m_pImpl->right->getSteps().front().impactTime;
+    const double startLeft = m_pImpl->generator->getLeftFootPrint()->getSteps().front().impactTime;
+    const double startRight
+        = m_pImpl->generator->getRightFootPrint()->getSteps().front().impactTime;
     const double startTime = std::max(startLeft, startRight);
 
     // Compute the contact states using the generator
-    if (!m_pImpl->generator->generateFromFootPrints(m_pImpl->left,
-                                                    m_pImpl->right,
+    if (!m_pImpl->generator->generateFromFootPrints(m_pImpl->generator->getLeftFootPrint(),
+                                                    m_pImpl->generator->getRightFootPrint(),
                                                     startTime,
                                                     m_pImpl->dt.planner))
     {
@@ -663,18 +660,20 @@ bool Planners::UnicyclePlanner::advance()
 
     // Convert Step objects to PlannedContact objects
     std::vector<Contacts::PlannedContact> leftContacts
-        = convertStepsToContacts(leftStandingPeriod, m_pImpl->left->getSteps());
+        = convertStepsToContacts(leftStandingPeriod,
+                                 m_pImpl->generator->getLeftFootPrint()->getSteps());
     std::vector<Contacts::PlannedContact> rightContacts
-        = convertStepsToContacts(rightStandingPeriod, m_pImpl->right->getSteps());
+        = convertStepsToContacts(rightStandingPeriod,
+                                 m_pImpl->generator->getRightFootPrint()->getSteps());
 
-    if (m_pImpl->left->getSteps().size() != leftContacts.size())
+    if (m_pImpl->generator->getLeftFootPrint()->getSteps().size() != leftContacts.size())
     {
         cleanup();
         log()->error("{} Wrong number of converted steps for left foot.", logPrefix);
         return false;
     }
 
-    if (m_pImpl->right->getSteps().size() != rightContacts.size())
+    if (m_pImpl->generator->getRightFootPrint()->getSteps().size() != rightContacts.size())
     {
         cleanup();
         log()->error("{} Wrong number of converted steps for right foot.", logPrefix);
@@ -697,8 +696,8 @@ bool Planners::UnicyclePlanner::advance()
     };
 
     // Fill the transforms
-    fillContactTransform(leftContacts, m_pImpl->left->getSteps());
-    fillContactTransform(rightContacts, m_pImpl->right->getSteps());
+    fillContactTransform(leftContacts, m_pImpl->generator->getLeftFootPrint()->getSteps());
+    fillContactTransform(rightContacts, m_pImpl->generator->getRightFootPrint()->getSteps());
 
     // ================================
     // Create the output data structure
