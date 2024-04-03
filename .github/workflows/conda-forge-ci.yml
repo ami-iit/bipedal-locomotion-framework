@@ -41,7 +41,7 @@ jobs:
         mamba install cmake compilers make ninja pkg-config \
                       "idyntree>=8.0.0" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog \
-                      nlohmann_json manif manifpy "pybind11<2.12.0" numpy pytest scipy opencv pcl \
+                      nlohmann_json manif manifpy 'pybind11<2.12.0' numpy pytest scipy opencv pcl \
                       tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
                       ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib
 
