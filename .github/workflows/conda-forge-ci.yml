@@ -62,13 +62,13 @@ jobs:
 
     - name: Windows-workarounds [Windows]
       if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
+      shell: cmd /C CALL {0}
       run: |
-        # Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
-        # pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
-        # pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
+        :: Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
+        :: pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
+        :: pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
         mamba remove icub-models pcl
-        # pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
+        :: pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
         mamba install "pybind11<2.12.0"
 
     - name: Print used environment
