@@ -38,10 +38,10 @@ jobs:
         # Dependencies
         # pybind11 constrained to be <=2.12.0 as a workaround for
         # https://github.com/ami-iit/bipedal-locomotion-framework/issues/829
-        mamba install cmake compilers make ninja pkg-config "pybind11<2.12.0" \
+        mamba install cmake compilers make ninja pkg-config \
                       "idyntree>=8.0.0" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog \
-                      nlohmann_json manif manifpy numpy pytest scipy opencv pcl \
+                      nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl \
                       tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
                       ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib
 
@@ -58,10 +58,9 @@ jobs:
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
-        # Compilation related dependencies
         mamba install vs2019_win-64
 
-    - name: Remove icub-models and pcl [Windows]
+    - name: Windows-workarounds [Windows]
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
@@ -69,6 +68,8 @@ jobs:
         # pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
         # pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
         mamba remove icub-models pcl
+        # pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
+        mamba install "pybind11<2.12.0"
 
     - name: Print used environment
       shell: bash -l {0}
