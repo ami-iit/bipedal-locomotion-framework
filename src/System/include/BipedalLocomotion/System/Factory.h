@@ -35,7 +35,7 @@ private:
      * Get the map containing a map of idKey and the associated Builder function.
      * @return an unordered_map of idKey and pointer to create the Type
      */
-    static std::unordered_map<std::string, Builder>& getMapFactory()
+    static inline std::unordered_map<std::string, Builder>& getMapFactory()
     {
         static std::unordered_map<std::string, Builder> m_mapFactory;
         return m_mapFactory;
@@ -49,7 +49,7 @@ public:
      * @param classBuilder pointer to the function that creates a given Type.
      * @return the idKey
      */
-    static std::string registerBuilder(std::string idKey, Builder classBuilder)
+    static inline std::string registerBuilder(std::string idKey, Builder classBuilder)
     {
         getMapFactory().insert(std::pair<std::string, Builder>(idKey, classBuilder));
         return idKey;
@@ -61,7 +61,7 @@ public:
      * class type
      * @return a pointer to the Type. In case of issues, the pointer will be a nullptr.
      */
-    static std::shared_ptr<Type> createInstance(const std::string& idKey)
+    static inline std::shared_ptr<Type> createInstance(const std::string& idKey)
     {
         auto it = getMapFactory().find(idKey);
         if (it == getMapFactory().end())

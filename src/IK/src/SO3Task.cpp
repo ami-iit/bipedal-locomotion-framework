@@ -178,6 +178,12 @@ bool SO3Task::update()
 
     iDynTree::toEigen(this->subA(m_robotVelocityVariable)) = m_jacobian.bottomRows<3>();
 
+
+    if (m_disableBaseControl)
+    {
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
+    }
+
     m_isValid = true;
 
     return m_isValid;
@@ -206,4 +212,9 @@ SO3Task::Type SO3Task::type() const
 bool SO3Task::isValid() const
 {
     return m_isValid;
+}
+
+void SO3Task::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }

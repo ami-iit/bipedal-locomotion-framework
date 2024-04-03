@@ -716,12 +716,13 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
     }
 
     BipedalLocomotion::System::VariablesHandler variablesHandler;
-    if (!variablesHandler.initialize(ptr->getGroup("VARIABLES")))
+    variablesHandler.addVariable(solver->m_pimpl->robotAccelerationVariable.name,
+                                 kinDyn->getNrOfDegreesOfFreedom() + 6);
+    variablesHandler.addVariable(solver->m_pimpl->jointTorquesVariable.name,
+                                 kinDyn->getNrOfDegreesOfFreedom());
+    for (const auto& variable : solver->m_pimpl->contactWrenchVariables)
     {
-        log()->error("{} Unable to initialize the variables handler. Looking for a parameter group "
-                     "named VARIABLES.",
-                     logPrefix);
-        return TaskSpaceInverseDynamicsProblem();
+        variablesHandler.addVariable(variable.name, 6);
     }
 
     std::vector<std::string> tasks;
@@ -733,12 +734,19 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
 
     for (const auto& taskGroupName : tasks)
     {
-        auto taskGroup = ptr->getGroup(taskGroupName).lock();
-        if (taskGroup == nullptr)
+        auto taskGroupTmp = ptr->getGroup(taskGroupName).lock();
+        if (taskGroupTmp == nullptr)
         {
             log()->error("{} Unable to find the group named '{}'.", logPrefix, taskGroupName);
             return TaskSpaceInverseDynamicsProblem();
         }
+
+        // add robot_velocity_variable_name parameter since it is required by all the tasks
+        auto taskGroup = taskGroupTmp->clone();
+        taskGroup->setParameter("robot_acceleration_variable_name",
+                                solver->m_pimpl->robotAccelerationVariable.name);
+        taskGroup->setParameter("joint_torques_variable_name",
+                                solver->m_pimpl->jointTorquesVariable.name);
 
         // create an instance of the task
         std::string taskType;
@@ -750,7 +758,7 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
             return TaskSpaceInverseDynamicsProblem();
         }
 
-        std::shared_ptr<TSIDLinearTask> taskInstance = TSIDLinearTaskFactory::createInstance(taskType);
+        auto taskInstance = TSIDLinearTaskFactory::createInstance(taskType);
         if (taskInstance == nullptr)
         {
             log()->error("{} The task type '{}' has not been registered.", logPrefix, taskType);
