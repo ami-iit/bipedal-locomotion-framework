@@ -258,11 +258,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/JointDynamicsTask.h" line="89" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a23cf7b6737fffe5af57cc5cdfc404992" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ab5d63dfc51dfdb7443cb574aa6029e25" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::JointDynamicsTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -502,7 +503,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1abffc69315f59686a0875494115df093d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>m_robotAccelerationVariable</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1aa1784ffba9852adecfec6feb3041dc25" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>m_spatialVelocitySize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ac2c82e6403278af66d8d053a7ce1fd06" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>m_useMassMatrixRegularizationTerm</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a23cf7b6737fffe5af57cc5cdfc404992" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1ab5d63dfc51dfdb7443cb574aa6029e25" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1acf0ee93fa4b18091b3f04edb25013839" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>setMassMatrixRegularization</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1a9ec4e8b05e99be884070f03d6cda6fcb" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask_1add1f2d086949575cf5350d514b12e034" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointDynamicsTask</scope><name>size</name></member>

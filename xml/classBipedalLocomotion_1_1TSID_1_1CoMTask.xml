@@ -221,11 +221,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/CoMTask.h" line="81" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a2662893646184c5116ca58361769bd45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3755665cdab9f7ae7d5d0be7adab4535" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::CoMTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -302,10 +303,10 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/CoMTask.h" line="107" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd85b1f23d8e8832794ab3aa70a894de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a318949bf90cf9405898a576ad808ac24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::CoMTask::setSetPoint</definition>
-        <argsstring>(Eigen::Ref&lt; const Eigen::Vector3d &gt; position, Eigen::Ref&lt; const Eigen::Vector3d &gt; velocity, Eigen::Ref&lt; const Eigen::Vector3d &gt; acceleration)</argsstring>
+        <argsstring>(Eigen::Ref&lt; const Eigen::Vector3d &gt; position, Eigen::Ref&lt; const Eigen::Vector3d &gt; velocity=Eigen::Vector3d::Zero(), Eigen::Ref&lt; const Eigen::Vector3d &gt; acceleration=Eigen::Vector3d::Zero())</argsstring>
         <name>setSetPoint</name>
         <param>
           <type>Eigen::Ref&lt; const Eigen::Vector3d &gt;</type>
@@ -314,10 +315,12 @@
         <param>
           <type>Eigen::Ref&lt; const Eigen::Vector3d &gt;</type>
           <declname>velocity</declname>
+          <defval>Eigen::Vector3d::Zero()</defval>
         </param>
         <param>
           <type>Eigen::Ref&lt; const Eigen::Vector3d &gt;</type>
           <declname>acceleration</declname>
+          <defval>Eigen::Vector3d::Zero()</defval>
         </param>
         <briefdescription>
 <para>Set the desired set-point of the trajectory. </para>
@@ -487,8 +490,8 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3cbd9ce108e18ad263c9224b80c299f4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_R3Controller</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a1b46891a07c8931963e69ca5f4ad230f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_robotAccelerationVariable</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a7590ca0048132445108daa3d67a0e659" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_spatialVelocitySize</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a2662893646184c5116ca58361769bd45" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>setKinDyn</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd85b1f23d8e8832794ab3aa70a894de" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>setSetPoint</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3755665cdab9f7ae7d5d0be7adab4535" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a318949bf90cf9405898a576ad808ac24" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9dad79e04ccbb53e994f48261cdfedd2" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a903008ca278ca76560e8e33d92793766" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>subA</name></member>

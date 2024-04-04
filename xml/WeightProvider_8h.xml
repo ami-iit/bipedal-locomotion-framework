@@ -8,6 +8,7 @@
     <includedby refid="MultiStateWeightProvider_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</includedby>
     <includedby refid="ConstantWeightProvider_8h" local="no">BipedalLocomotion/System/ConstantWeightProvider.h</includedby>
     <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
+    <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
     <incdepgraph>
       <node id="9">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -109,6 +110,12 @@
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
+      <node id="9">
+        <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
+        <link refid="TaskSpaceInverseDynamics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
@@ -141,6 +148,8 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

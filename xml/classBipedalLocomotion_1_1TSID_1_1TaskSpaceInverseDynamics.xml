@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="55" column="13"/>
+        <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="53" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -169,7 +169,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="48" column="1" bodyfile="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" bodystart="49" bodyend="56"/>
+    <location file="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" line="47" column="1" bodyfile="BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h" bodystart="48" bodyend="54"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1a2aa760519d2a9a20045d27ca97cc1d8f" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver_1aa120f4a6ec30a664c29b0acfcca7730d" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::TSID::TaskSpaceInverseDynamics</scope><name>addTask</name></member>

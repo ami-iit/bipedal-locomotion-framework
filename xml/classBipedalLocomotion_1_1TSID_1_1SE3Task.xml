@@ -340,11 +340,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/SE3Task.h" line="103" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a41f2fc817641302f84354938a12b69cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a44e25ee03d0cdb402ed89aef18d2f94d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::SE3Task::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -600,7 +601,7 @@
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kindref="compound">SE3Task</ref> is a concrete implementation of the OptimalControlElement. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="93">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="240">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="33">$J$</formula> is the robot jacobian and <formula id="241">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame will asymptotically converge to the desired trajectory. The linear component of <formula id="241">$\dot{\mathrm{v}} ^ *$</formula> is computed with a standard PD controller in <formula id="35">$R^3$</formula> while the angular acceleration is computed by a PD controller in <formula id="36">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="93">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="241">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="33">$J$</formula> is the robot jacobian and <formula id="242">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame will asymptotically converge to the desired trajectory. The linear component of <formula id="242">$\dot{\mathrm{v}} ^ *$</formula> is computed with a standard PD controller in <formula id="35">$R^3$</formula> while the angular acceleration is computed by a PD controller in <formula id="36">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
 <simplesect kind="note"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kindref="compound">SE3Task</ref> is technically not a <formula id="37">$SE(3)$</formula> space defined task, instead is a <formula id="38">$SO(3) \times \mathbb{R}^3$</formula> task. Theoretically, there are differences between the two due to the different definitions of exponential maps and logarithm maps. Please consider that here the MIXED representation is used to define the 6d-velocity. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
 </simplesect>
@@ -695,7 +696,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ab435fe53b85f926787981babee4a2d28" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_SO3Controller</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9f9f102be69d1f42dee154efda1b51a1" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_spatialVelocitySize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa76ca34caa8a027489898626d36a67af" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>Mode</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a41f2fc817641302f84354938a12b69cd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a44e25ee03d0cdb402ed89aef18d2f94d" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a919b042e697db5ed00e442a10e5fcb24" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>setTaskControllerMode</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ae8d7bb9e44fe6a1dc30d4f721f7d398b" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>setVariablesHandler</name></member>

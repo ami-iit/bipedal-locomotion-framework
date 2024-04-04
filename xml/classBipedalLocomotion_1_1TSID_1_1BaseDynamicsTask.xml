@@ -217,11 +217,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="85" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ab327b31ccf438dff17dddcdc95580b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1aee9504a8afa6aeb5b4d8f88599b3b2c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::BaseDynamicsTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -428,7 +429,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ad5dec199e7d798ed336af4754a3329ff" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>m_massMatrix</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1acbf2724d4eecefc32532cc916f1d131d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>m_robotAccelerationVariable</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a0ab92d165ee188225344602442610af5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>m_spatialVelocitySize</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1ab327b31ccf438dff17dddcdc95580b7e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1aee9504a8afa6aeb5b4d8f88599b3b2c8" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1aa98dd96a1d97a79509a240bb1a00f2e1" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1a646c2e4849cbae8bc45edbd1d411f5de" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::BaseDynamicsTask</scope><name>subA</name></member>

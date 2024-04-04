@@ -72,6 +72,8 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
@@ -112,6 +114,10 @@
             </dt>
             <dd><a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> is a concrete class and implements a task space inverse dynamics.</dd>
             <dt>
+              class <a href="classBipedalLocomotion_1_1TSID_1_1R3Task.html" class="m-doc">R3Task</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a> is a concrete implementation of the OptimalControlElement.</dd>
+            <dt>
               class <a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a> is a concrete implementation of the OptimalControlElement.</dd>
@@ -128,6 +134,10 @@
             </dt>
             <dd><a href="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics.html" class="m-doc">TaskSpaceInverseDynamics</a> implements the interface for the task space inverse dynamics.</dd>
             <dt>
+              struct <a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a> store all the ingredients to run an modify at runtime an <a href="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics.html" class="m-doc">TaskSpaceInverseDynamics</a> problem.</dd>
+            <dt>
               struct <a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a>
             </dt>
             <dd><a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a> specializes a LinearTask in the case of Task based Inverse Dynamics.</dd>
@@ -135,6 +145,56 @@
               class <a href="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask.html" class="m-doc">VariableRegularizationTask</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask.html" class="m-doc">VariableRegularizationTask</a> is a concrete implementation of the Task.</dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt>
+              using <a href="TSIDLinearTask_8h.html#a8c786538e67769422c9f848db4bc3959" class="m-doc">TSIDLinearTaskFactory</a> = ::<a href="classBipedalLocomotion_1_1System_1_1ILinearTaskFactory.html" class="m-doc">BipedalLocomotion::<wbr />System::<wbr />ILinearTaskFactory</a>&lt;<a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a>&gt;
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h.html#a537b28de70e95a040441f08b53a3ca40" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask.html" class="m-doc">AngularMomentumTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="BaseDynamicsTask_8h.html#abf27b7686e685788cb69e0f67e800814" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask.html" class="m-doc">BaseDynamicsTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h.html#aed09641849edbf09febffe7c3eb67e6f" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1CoMTask.html" class="m-doc">CoMTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="FeasibleContactWrenchTask_8h.html#ab06fc1102de78fd12415be481f2fa2e4" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask.html" class="m-doc">FeasibleContactWrenchTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="JointDynamicsTask_8h.html#ac0ffe791d48c51466b98bd67cfb17e6a" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1JointDynamicsTask.html" class="m-doc">JointDynamicsTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h.html#a4e4d3fb33e52a3b7e099377ec3680fc3" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask.html" class="m-doc">JointTrackingTask</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2R3Task_8h.html#a31878b5f9d122e444f5c69f811156dd4" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1R3Task.html" class="m-doc">R3Task</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h.html#a0cc5e6a3fe0198a21742eeb62ce0590a" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a>)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h.html#a762d6b990fb8078342e98abb25b8b5ad" class="m-doc">BLF_REGISTER_TSID_TASK</a>(</span><span class="m-doc-wrap"><a href="classBipedalLocomotion_1_1TSID_1_1SO3Task.html" class="m-doc">SO3Task</a>)</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

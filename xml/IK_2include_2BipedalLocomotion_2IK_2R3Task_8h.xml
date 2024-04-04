@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
-  <compounddef id="R3Task_8h" kind="file" language="C++">
+  <compounddef id="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h" kind="file" language="C++">
     <compoundname>R3Task.h</compoundname>
     <includes local="no">memory</includes>
     <includes local="no">Eigen/Dense</includes>
@@ -30,7 +30,7 @@
       </node>
       <node id="1">
         <label>BipedalLocomotion/IK/R3Task.h</label>
-        <link refid="R3Task_8h"/>
+        <link refid="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
@@ -152,7 +152,7 @@
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
       <sectiondef kind="func">
-      <memberdef kind="function" id="R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
         <argsstring>(R3Task)</argsstring>

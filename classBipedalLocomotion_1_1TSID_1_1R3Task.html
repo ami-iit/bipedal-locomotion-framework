@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::TSID::CoMTask class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::TSID::R3Task class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,10 +62,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TSID.html">TSID</a>::<wbr/></span>CoMTask <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h.html">&lt;BipedalLocomotion/TSID/CoMTask.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1TSID.html">TSID</a>::<wbr/></span>R3Task <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="TSID_2include_2BipedalLocomotion_2TSID_2R3Task_8h.html">&lt;BipedalLocomotion/TSID/R3Task.h&gt;</a></div>
         </h1>
-        <p>ComTask is a concrete implementation of the <a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a>.</p>
+        <p><a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a> is a concrete implementation of the OptimalControlElement.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -73,12 +73,13 @@
               Reference
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>Please use this element if you want to control the position of the CoM. The task assumes perfect control of the robot acceleration <svg class="m-math" style="width: 0.681em; height: 0.827em; vertical-align: -0.000em;" viewBox="0 -7.934555 6.537937 7.934555">
+<p>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <svg class="m-math" style="width: 0.681em; height: 0.827em; vertical-align: -0.000em;" viewBox="0 -7.934555 6.537937 7.934555">
 <title>
 $\dot{\nu}$
 </title>
@@ -90,69 +91,62 @@ $\dot{\nu}$
 <use x='1.968296' y='0' xlink:href='#eq1-g1-95'/>
 <use x='0' y='0' xlink:href='#eq1-g0-23'/>
 </g>
-</svg> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation</p><div class="m-math"><svg style="width: 8.722em; height: 1.449em;" viewBox="152.158896 -13.912063 83.727066 13.912063">
+</svg> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation</p><div class="m-math"><svg style="width: 7.577em; height: 1.328em;" viewBox="157.650753 -12.749811 72.743368 12.749811">
 <title>
-\[ J \dot{\nu} + \dot{J} \nu = \dot{v}_{CoM} ^ * \]
+\[ J_l \dot{\nu} + \dot{J}_l \nu = \dot{v} ^ * \]
 </title>
 <defs>
-<path id='eq2-g1-67' d='M6.344209-5.395766C6.352179-5.427646 6.36812-5.475467 6.36812-5.515318C6.36812-5.571108 6.320299-5.610959 6.264508-5.610959S6.184807-5.587049 6.121046-5.515318L5.563138-4.901619C5.491407-5.00523 5.068991-5.610959 4.136488-5.610959C2.287422-5.610959 .422416-3.897385 .422416-2.064259C.422416-.67746 1.474471 .167372 2.741719 .167372C3.785803 .167372 4.670486-.470237 5.100872-1.091905C5.363885-1.482441 5.467497-1.865006 5.467497-1.912827C5.467497-1.984558 5.419676-2.016438 5.347945-2.016438C5.252304-2.016438 5.236364-1.976588 5.212453-1.888917C4.877709-.789041 3.801743-.095641 2.84533-.095641C2.032379-.095641 1.179577-.573848 1.179577-1.793275C1.179577-2.048319 1.267248-3.379328 2.15193-4.375592C2.749689-5.045081 3.56264-5.347945 4.192279-5.347945C5.196513-5.347945 5.610959-4.542964 5.610959-3.785803C5.610959-3.674222 5.579078-3.52279 5.579078-3.427148C5.579078-3.323537 5.68269-3.323537 5.71457-3.323537C5.818182-3.323537 5.834122-3.355417 5.866002-3.498879L6.344209-5.395766Z'/>
-<path id='eq2-g1-77' d='M7.738979-4.798007C7.81868-5.108842 7.83462-5.180573 8.392528-5.180573C8.575841-5.180573 8.671482-5.180573 8.671482-5.332005C8.671482-5.443587 8.56787-5.443587 8.424408-5.443587H7.396264C7.181071-5.443587 7.157161-5.443587 7.053549-5.284184L4.048817-.73325L3.339477-5.228394C3.307597-5.427646 3.299626-5.443587 3.060523-5.443587H1.984558C1.841096-5.443587 1.737484-5.443587 1.737484-5.292154C1.737484-5.180573 1.841096-5.180573 1.968618-5.180573C2.231631-5.180573 2.462765-5.180573 2.462765-5.053051C2.462765-5.021171 2.454795-5.0132 2.430884-4.909589L1.41868-.852802C1.323039-.454296 1.115816-.278954 .581818-.263014C.533998-.263014 .438356-.255044 .438356-.111582C.438356-.063761 .478207 0 .557908 0C.589788 0 .773101-.02391 1.346949-.02391C1.976588-.02391 2.096139 0 2.16787 0C2.199751 0 2.319303 0 2.319303-.151432C2.319303-.247073 2.231631-.263014 2.175841-.263014C1.888917-.270984 1.649813-.318804 1.649813-.597758C1.649813-.637609 1.673724-.749191 1.673724-.757161L2.757659-5.084932H2.765629L3.53873-.215193C3.56264-.087671 3.57061 0 3.682192 0S3.849564-.087671 3.897385-.159402L7.173101-5.148692L7.181071-5.140722L6.057285-.629639C5.985554-.326775 5.969614-.263014 5.379826-.263014C5.228394-.263014 5.132752-.263014 5.132752-.111582C5.132752-.079701 5.156663 0 5.260274 0S5.602989-.01594 5.71457-.02391H6.224658C6.965878-.02391 7.157161 0 7.212951 0C7.260772 0 7.372354 0 7.372354-.151432C7.372354-.263014 7.268742-.263014 7.13325-.263014C7.10934-.263014 6.965878-.263014 6.830386-.278954C6.663014-.294894 6.647073-.318804 6.647073-.390535C6.647073-.430386 6.663014-.478207 6.670984-.518057L7.738979-4.798007Z'/>
-<path id='eq2-g1-111' d='M3.969116-2.13599C3.969116-2.917061 3.411208-3.514819 2.582316-3.514819C1.45056-3.514819 .350685-2.414944 .350685-1.299128C.350685-.486177 .924533 .079701 1.737484 .079701C2.87721 .079701 3.969116-1.036115 3.969116-2.13599ZM1.745455-.143462C1.466501-.143462 .996264-.286924 .996264-1.020174C.996264-1.346949 1.147696-2.207721 1.530262-2.701868C1.920797-3.203985 2.359153-3.291656 2.574346-3.291656C2.901121-3.291656 3.323537-3.092403 3.323537-2.422914C3.323537-2.10411 3.180075-1.346949 2.87721-.868742C2.582316-.414446 2.14396-.143462 1.745455-.143462Z'/>
 <path id='eq2-g0-3' d='M3.291656-1.052055C3.363387-1.004234 3.387298-1.004234 3.427148-1.004234C3.55467-1.004234 3.666252-1.107846 3.666252-1.251308C3.666252-1.40274 3.58655-1.43462 3.466999-1.490411C2.933001-1.737484 2.741719-1.825156 2.351183-1.984558L3.283686-2.406974C3.347447-2.430884 3.498879-2.502615 3.56264-2.526526C3.642341-2.574346 3.666252-2.654047 3.666252-2.725778C3.666252-2.82142 3.618431-2.972852 3.379328-2.972852L2.231631-2.191781L2.343213-3.371357C2.359153-3.506849 2.343213-3.706102 2.11208-3.706102C1.968618-3.706102 1.857036-3.58655 1.880946-3.474969V-3.379328L1.992528-2.191781L.932503-2.925031C.860772-2.972852 .836862-2.972852 .797011-2.972852C.669489-2.972852 .557908-2.86924 .557908-2.725778C.557908-2.574346 .637609-2.542466 .757161-2.486675C1.291158-2.239601 1.482441-2.15193 1.872976-1.992528L.940473-1.570112C.876712-1.546202 .72528-1.474471 .661519-1.45056C.581818-1.40274 .557908-1.323039 .557908-1.251308C.557908-1.107846 .669489-1.004234 .797011-1.004234C.860772-1.004234 .876712-1.004234 1.075965-1.147696L1.992528-1.785305L1.872976-.502117C1.872976-.342715 2.008468-.270984 2.11208-.270984S2.351183-.342715 2.351183-.502117C2.351183-.581818 2.319303-.836862 2.311333-.932503C2.279452-1.203487 2.255542-1.506351 2.231631-1.785305L3.291656-1.052055Z'/>
 <path id='eq2-g3-43' d='M4.770112-2.761644H8.069738C8.237111-2.761644 8.452304-2.761644 8.452304-2.976837C8.452304-3.203985 8.249066-3.203985 8.069738-3.203985H4.770112V-6.503611C4.770112-6.670984 4.770112-6.886177 4.554919-6.886177C4.327771-6.886177 4.327771-6.682939 4.327771-6.503611V-3.203985H1.028144C.860772-3.203985 .645579-3.203985 .645579-2.988792C.645579-2.761644 .848817-2.761644 1.028144-2.761644H4.327771V.537983C4.327771 .705355 4.327771 .920548 4.542964 .920548C4.770112 .920548 4.770112 .71731 4.770112 .537983V-2.761644Z'/>
 <path id='eq2-g3-61' d='M8.069738-3.873474C8.237111-3.873474 8.452304-3.873474 8.452304-4.088667C8.452304-4.315816 8.249066-4.315816 8.069738-4.315816H1.028144C.860772-4.315816 .645579-4.315816 .645579-4.100623C.645579-3.873474 .848817-3.873474 1.028144-3.873474H8.069738ZM8.069738-1.649813C8.237111-1.649813 8.452304-1.649813 8.452304-1.865006C8.452304-2.092154 8.249066-2.092154 8.069738-2.092154H1.028144C.860772-2.092154 .645579-2.092154 .645579-1.876961C.645579-1.649813 .848817-1.649813 1.028144-1.649813H8.069738Z'/>
 <path id='eq2-g3-95' d='M2.199751-7.364384C2.199751-7.723039 1.912827-7.950187 1.625903-7.950187C1.291158-7.950187 1.0401-7.687173 1.0401-7.364384C1.0401-7.053549 1.303113-6.790535 1.613948-6.790535C1.972603-6.790535 2.199751-7.07746 2.199751-7.364384Z'/>
+<path id='eq2-g1-108' d='M2.088169-5.292154C2.096139-5.308095 2.12005-5.411706 2.12005-5.419676C2.12005-5.459527 2.088169-5.531258 1.992528-5.531258L1.187547-5.467497C.892653-5.443587 .828892-5.435616 .828892-5.292154C.828892-5.180573 .940473-5.180573 1.036115-5.180573C1.41868-5.180573 1.41868-5.132752 1.41868-5.061021C1.41868-5.037111 1.41868-5.021171 1.378829-4.877709L.390535-.924533C.358655-.797011 .358655-.67746 .358655-.669489C.358655-.175342 .765131 .079701 1.163636 .079701C1.506351 .079701 1.689664-.191283 1.777335-.366625C1.920797-.629639 2.040349-1.099875 2.040349-1.139726C2.040349-1.187547 2.016438-1.243337 1.912827-1.243337C1.841096-1.243337 1.817186-1.203487 1.817186-1.195517C1.801245-1.171606 1.761395-1.028144 1.737484-.940473C1.617933-.478207 1.466501-.143462 1.179577-.143462C.988294-.143462 .932503-.326775 .932503-.518057C.932503-.669489 .956413-.757161 .980324-.860772L2.088169-5.292154Z'/>
 <path id='eq2-g2-23' d='M2.630137-5.152677C2.630137-5.200498 2.594271-5.272229 2.49863-5.272229C2.414944-5.272229 1.291158-5.164633 1.111831-5.152677C.980324-5.140722 .860772-5.128767 .860772-4.913574C.860772-4.794022 .956413-4.794022 1.123786-4.794022C1.685679-4.794022 1.721544-4.710336 1.721544-4.578829C1.721544-4.531009 1.697634-4.387547 1.685679-4.339726L.633624-.119552C.633624-.071731 .669489 0 .753176 0H1.004234C1.171606 0 2.988792-.430386 4.387547-1.865006C5.929763-3.455044 6.144956-4.925529 6.144956-4.97335C6.144956-5.164633 5.989539-5.272229 5.834122-5.272229C5.487422-5.272229 5.403736-4.94944 5.379826-4.865753C4.674471-2.367123 3.036613-.884682 1.446575-.358655L2.630137-5.152677Z'/>
 <path id='eq2-g2-74' d='M6.38406-7.340473C6.479701-7.699128 6.503611-7.81868 7.089415-7.81868C7.280697-7.81868 7.400249-7.81868 7.400249-8.033873C7.400249-8.16538 7.292653-8.16538 7.244832-8.16538C7.041594-8.16538 6.814446-8.141469 6.599253-8.141469H5.941719C5.439601-8.141469 4.913574-8.16538 4.411457-8.16538C4.303861-8.16538 4.160399-8.16538 4.160399-7.950187C4.160399-7.830635 4.25604-7.830635 4.25604-7.81868H4.554919C5.511333-7.81868 5.511333-7.723039 5.511333-7.543711C5.511333-7.531756 5.511333-7.44807 5.463512-7.256787L4.088667-1.793275C3.777833-.573848 2.976837 .011955 2.402989 .011955C1.996513 .011955 1.422665-.179328 1.279203-.812951C1.327024-.800996 1.3868-.789041 1.43462-.789041C1.829141-.789041 2.139975-1.135741 2.139975-1.482441C2.139975-1.673724 2.020423-1.924782 1.661768-1.924782C1.446575-1.924782 .944458-1.80523 .944458-1.028144C.944458-.274969 1.566127 .251059 2.426899 .251059C3.514819 .251059 4.686426-.573848 4.97335-1.709589L6.38406-7.340473Z'/>
 <path id='eq2-g2-118' d='M5.463512-4.471233C5.463512-5.224408 5.080946-5.272229 4.985305-5.272229C4.698381-5.272229 4.435367-4.985305 4.435367-4.746202C4.435367-4.60274 4.519054-4.519054 4.566874-4.471233C4.686426-4.363636 4.99726-4.040847 4.99726-3.419178C4.99726-2.917061 4.27995-.119552 2.84533-.119552C2.116065-.119552 1.972603-.729265 1.972603-1.171606C1.972603-1.769365 2.247572-2.606227 2.570361-3.466999C2.761644-3.957161 2.809465-4.076712 2.809465-4.315816C2.809465-4.817933 2.450809-5.272229 1.865006-5.272229C.765131-5.272229 .32279-3.53873 .32279-3.443088C.32279-3.395268 .37061-3.335492 .454296-3.335492C.561893-3.335492 .573848-3.383313 .621669-3.550685C.908593-4.578829 1.374844-5.033126 1.829141-5.033126C1.936737-5.033126 2.139975-5.033126 2.139975-4.638605C2.139975-4.327771 2.008468-3.981071 1.829141-3.526775C1.255293-1.996513 1.255293-1.625903 1.255293-1.338979C1.255293-1.075965 1.291158-.585803 1.661768-.251059C2.092154 .119552 2.689913 .119552 2.797509 .119552C4.782067 .119552 5.463512-3.789788 5.463512-4.471233Z'/>
 </defs>
 <g id='eq2-page1'>
-<use x='152.158896' y='-2.955515' xlink:href='#eq2-g2-74'/>
-<use x='161.704312' y='-2.955515' xlink:href='#eq2-g3-95'/>
-<use x='159.736016' y='-2.955515' xlink:href='#eq2-g2-23'/>
-<use x='168.930601' y='-2.955515' xlink:href='#eq2-g3-43'/>
-<use x='184.80564' y='-5.977508' xlink:href='#eq2-g3-95'/>
-<use x='180.691916' y='-2.955515' xlink:href='#eq2-g2-74'/>
-<use x='188.269032' y='-2.955515' xlink:href='#eq2-g2-23'/>
-<use x='198.127794' y='-2.955515' xlink:href='#eq2-g3-61'/>
-<use x='212.296722' y='-2.955515' xlink:href='#eq2-g3-95'/>
-<use x='210.553275' y='-2.955515' xlink:href='#eq2-g2-118'/>
-<use x='216.641494' y='-7.891701' xlink:href='#eq2-g0-3'/>
-<use x='216.212545' y='0' xlink:href='#eq2-g1-67'/>
-<use x='222.811213' y='0' xlink:href='#eq2-g1-111'/>
-<use x='226.904263' y='0' xlink:href='#eq2-g1-77'/>
+<use x='157.650753' y='-1.793263' xlink:href='#eq2-g2-74'/>
+<use x='164.120909' y='0' xlink:href='#eq2-g1-108'/>
+<use x='169.209462' y='-1.793263' xlink:href='#eq2-g3-95'/>
+<use x='167.241166' y='-1.793263' xlink:href='#eq2-g2-23'/>
+<use x='176.435751' y='-1.793263' xlink:href='#eq2-g3-43'/>
+<use x='192.31079' y='-4.815256' xlink:href='#eq2-g3-95'/>
+<use x='188.197066' y='-1.793263' xlink:href='#eq2-g2-74'/>
+<use x='194.667222' y='0' xlink:href='#eq2-g1-108'/>
+<use x='197.787476' y='-1.793263' xlink:href='#eq2-g2-23'/>
+<use x='207.646238' y='-1.793263' xlink:href='#eq2-g3-61'/>
+<use x='221.815166' y='-1.793263' xlink:href='#eq2-g3-95'/>
+<use x='220.071719' y='-1.793263' xlink:href='#eq2-g2-118'/>
+<use x='226.159938' y='-6.729449' xlink:href='#eq2-g0-3'/>
 </g>
-</svg></div><p>where <svg class="m-math" style="width: 0.789em; height: 0.851em; vertical-align: -0.000em;" viewBox="0 -8.169366 7.577123 8.169366">
+</svg></div><p>where <svg class="m-math" style="width: 0.947em; height: 1.038em; vertical-align: -0.187em;" viewBox="0 -8.169366 9.092281 9.962629">
 <title>
-$J$
+$J_l$
 </title>
 <defs>
-<path id='eq3-g0-74' d='M6.38406-7.340473C6.479701-7.699128 6.503611-7.81868 7.089415-7.81868C7.280697-7.81868 7.400249-7.81868 7.400249-8.033873C7.400249-8.16538 7.292653-8.16538 7.244832-8.16538C7.041594-8.16538 6.814446-8.141469 6.599253-8.141469H5.941719C5.439601-8.141469 4.913574-8.16538 4.411457-8.16538C4.303861-8.16538 4.160399-8.16538 4.160399-7.950187C4.160399-7.830635 4.25604-7.830635 4.25604-7.81868H4.554919C5.511333-7.81868 5.511333-7.723039 5.511333-7.543711C5.511333-7.531756 5.511333-7.44807 5.463512-7.256787L4.088667-1.793275C3.777833-.573848 2.976837 .011955 2.402989 .011955C1.996513 .011955 1.422665-.179328 1.279203-.812951C1.327024-.800996 1.3868-.789041 1.43462-.789041C1.829141-.789041 2.139975-1.135741 2.139975-1.482441C2.139975-1.673724 2.020423-1.924782 1.661768-1.924782C1.446575-1.924782 .944458-1.80523 .944458-1.028144C.944458-.274969 1.566127 .251059 2.426899 .251059C3.514819 .251059 4.686426-.573848 4.97335-1.709589L6.38406-7.340473Z'/>
+<path id='eq3-g0-108' d='M2.088169-5.292154C2.096139-5.308095 2.12005-5.411706 2.12005-5.419676C2.12005-5.459527 2.088169-5.531258 1.992528-5.531258L1.187547-5.467497C.892653-5.443587 .828892-5.435616 .828892-5.292154C.828892-5.180573 .940473-5.180573 1.036115-5.180573C1.41868-5.180573 1.41868-5.132752 1.41868-5.061021C1.41868-5.037111 1.41868-5.021171 1.378829-4.877709L.390535-.924533C.358655-.797011 .358655-.67746 .358655-.669489C.358655-.175342 .765131 .079701 1.163636 .079701C1.506351 .079701 1.689664-.191283 1.777335-.366625C1.920797-.629639 2.040349-1.099875 2.040349-1.139726C2.040349-1.187547 2.016438-1.243337 1.912827-1.243337C1.841096-1.243337 1.817186-1.203487 1.817186-1.195517C1.801245-1.171606 1.761395-1.028144 1.737484-.940473C1.617933-.478207 1.466501-.143462 1.179577-.143462C.988294-.143462 .932503-.326775 .932503-.518057C.932503-.669489 .956413-.757161 .980324-.860772L2.088169-5.292154Z'/>
+<path id='eq3-g1-74' d='M6.38406-7.340473C6.479701-7.699128 6.503611-7.81868 7.089415-7.81868C7.280697-7.81868 7.400249-7.81868 7.400249-8.033873C7.400249-8.16538 7.292653-8.16538 7.244832-8.16538C7.041594-8.16538 6.814446-8.141469 6.599253-8.141469H5.941719C5.439601-8.141469 4.913574-8.16538 4.411457-8.16538C4.303861-8.16538 4.160399-8.16538 4.160399-7.950187C4.160399-7.830635 4.25604-7.830635 4.25604-7.81868H4.554919C5.511333-7.81868 5.511333-7.723039 5.511333-7.543711C5.511333-7.531756 5.511333-7.44807 5.463512-7.256787L4.088667-1.793275C3.777833-.573848 2.976837 .011955 2.402989 .011955C1.996513 .011955 1.422665-.179328 1.279203-.812951C1.327024-.800996 1.3868-.789041 1.43462-.789041C1.829141-.789041 2.139975-1.135741 2.139975-1.482441C2.139975-1.673724 2.020423-1.924782 1.661768-1.924782C1.446575-1.924782 .944458-1.80523 .944458-1.028144C.944458-.274969 1.566127 .251059 2.426899 .251059C3.514819 .251059 4.686426-.573848 4.97335-1.709589L6.38406-7.340473Z'/>
 </defs>
 <g id='eq3-page1'>
-<use x='0' y='0' xlink:href='#eq3-g0-74'/>
+<use x='0' y='0' xlink:href='#eq3-g1-74'/>
+<use x='6.470156' y='1.793263' xlink:href='#eq3-g0-108'/>
 </g>
-</svg> is the robot CoM jacobian and <svg class="m-math" style="width: 2.639em; height: 1.153em; vertical-align: -0.316em;" viewBox="0 -8.046759 25.332687 11.067308">
+</svg> is the robot jacobian and <svg class="m-math" style="width: 1.075em; height: 0.838em; vertical-align: -0.000em;" viewBox="0 -8.046759 10.322402 8.046759">
 <title>
-$\dot{v}_{CoM} ^ *$
+$\dot{v} ^ *$
 </title>
 <defs>
-<path id='eq4-g1-67' d='M6.344209-5.395766C6.352179-5.427646 6.36812-5.475467 6.36812-5.515318C6.36812-5.571108 6.320299-5.610959 6.264508-5.610959S6.184807-5.587049 6.121046-5.515318L5.563138-4.901619C5.491407-5.00523 5.068991-5.610959 4.136488-5.610959C2.287422-5.610959 .422416-3.897385 .422416-2.064259C.422416-.67746 1.474471 .167372 2.741719 .167372C3.785803 .167372 4.670486-.470237 5.100872-1.091905C5.363885-1.482441 5.467497-1.865006 5.467497-1.912827C5.467497-1.984558 5.419676-2.016438 5.347945-2.016438C5.252304-2.016438 5.236364-1.976588 5.212453-1.888917C4.877709-.789041 3.801743-.095641 2.84533-.095641C2.032379-.095641 1.179577-.573848 1.179577-1.793275C1.179577-2.048319 1.267248-3.379328 2.15193-4.375592C2.749689-5.045081 3.56264-5.347945 4.192279-5.347945C5.196513-5.347945 5.610959-4.542964 5.610959-3.785803C5.610959-3.674222 5.579078-3.52279 5.579078-3.427148C5.579078-3.323537 5.68269-3.323537 5.71457-3.323537C5.818182-3.323537 5.834122-3.355417 5.866002-3.498879L6.344209-5.395766Z'/>
-<path id='eq4-g1-77' d='M7.738979-4.798007C7.81868-5.108842 7.83462-5.180573 8.392528-5.180573C8.575841-5.180573 8.671482-5.180573 8.671482-5.332005C8.671482-5.443587 8.56787-5.443587 8.424408-5.443587H7.396264C7.181071-5.443587 7.157161-5.443587 7.053549-5.284184L4.048817-.73325L3.339477-5.228394C3.307597-5.427646 3.299626-5.443587 3.060523-5.443587H1.984558C1.841096-5.443587 1.737484-5.443587 1.737484-5.292154C1.737484-5.180573 1.841096-5.180573 1.968618-5.180573C2.231631-5.180573 2.462765-5.180573 2.462765-5.053051C2.462765-5.021171 2.454795-5.0132 2.430884-4.909589L1.41868-.852802C1.323039-.454296 1.115816-.278954 .581818-.263014C.533998-.263014 .438356-.255044 .438356-.111582C.438356-.063761 .478207 0 .557908 0C.589788 0 .773101-.02391 1.346949-.02391C1.976588-.02391 2.096139 0 2.16787 0C2.199751 0 2.319303 0 2.319303-.151432C2.319303-.247073 2.231631-.263014 2.175841-.263014C1.888917-.270984 1.649813-.318804 1.649813-.597758C1.649813-.637609 1.673724-.749191 1.673724-.757161L2.757659-5.084932H2.765629L3.53873-.215193C3.56264-.087671 3.57061 0 3.682192 0S3.849564-.087671 3.897385-.159402L7.173101-5.148692L7.181071-5.140722L6.057285-.629639C5.985554-.326775 5.969614-.263014 5.379826-.263014C5.228394-.263014 5.132752-.263014 5.132752-.111582C5.132752-.079701 5.156663 0 5.260274 0S5.602989-.01594 5.71457-.02391H6.224658C6.965878-.02391 7.157161 0 7.212951 0C7.260772 0 7.372354 0 7.372354-.151432C7.372354-.263014 7.268742-.263014 7.13325-.263014C7.10934-.263014 6.965878-.263014 6.830386-.278954C6.663014-.294894 6.647073-.318804 6.647073-.390535C6.647073-.430386 6.663014-.478207 6.670984-.518057L7.738979-4.798007Z'/>
-<path id='eq4-g1-111' d='M3.969116-2.13599C3.969116-2.917061 3.411208-3.514819 2.582316-3.514819C1.45056-3.514819 .350685-2.414944 .350685-1.299128C.350685-.486177 .924533 .079701 1.737484 .079701C2.87721 .079701 3.969116-1.036115 3.969116-2.13599ZM1.745455-.143462C1.466501-.143462 .996264-.286924 .996264-1.020174C.996264-1.346949 1.147696-2.207721 1.530262-2.701868C1.920797-3.203985 2.359153-3.291656 2.574346-3.291656C2.901121-3.291656 3.323537-3.092403 3.323537-2.422914C3.323537-2.10411 3.180075-1.346949 2.87721-.868742C2.582316-.414446 2.14396-.143462 1.745455-.143462Z'/>
 <path id='eq4-g0-3' d='M3.291656-1.052055C3.363387-1.004234 3.387298-1.004234 3.427148-1.004234C3.55467-1.004234 3.666252-1.107846 3.666252-1.251308C3.666252-1.40274 3.58655-1.43462 3.466999-1.490411C2.933001-1.737484 2.741719-1.825156 2.351183-1.984558L3.283686-2.406974C3.347447-2.430884 3.498879-2.502615 3.56264-2.526526C3.642341-2.574346 3.666252-2.654047 3.666252-2.725778C3.666252-2.82142 3.618431-2.972852 3.379328-2.972852L2.231631-2.191781L2.343213-3.371357C2.359153-3.506849 2.343213-3.706102 2.11208-3.706102C1.968618-3.706102 1.857036-3.58655 1.880946-3.474969V-3.379328L1.992528-2.191781L.932503-2.925031C.860772-2.972852 .836862-2.972852 .797011-2.972852C.669489-2.972852 .557908-2.86924 .557908-2.725778C.557908-2.574346 .637609-2.542466 .757161-2.486675C1.291158-2.239601 1.482441-2.15193 1.872976-1.992528L.940473-1.570112C.876712-1.546202 .72528-1.474471 .661519-1.45056C.581818-1.40274 .557908-1.323039 .557908-1.251308C.557908-1.107846 .669489-1.004234 .797011-1.004234C.860772-1.004234 .876712-1.004234 1.075965-1.147696L1.992528-1.785305L1.872976-.502117C1.872976-.342715 2.008468-.270984 2.11208-.270984S2.351183-.342715 2.351183-.502117C2.351183-.581818 2.319303-.836862 2.311333-.932503C2.279452-1.203487 2.255542-1.506351 2.231631-1.785305L3.291656-1.052055Z'/>
-<path id='eq4-g2-118' d='M5.463512-4.471233C5.463512-5.224408 5.080946-5.272229 4.985305-5.272229C4.698381-5.272229 4.435367-4.985305 4.435367-4.746202C4.435367-4.60274 4.519054-4.519054 4.566874-4.471233C4.686426-4.363636 4.99726-4.040847 4.99726-3.419178C4.99726-2.917061 4.27995-.119552 2.84533-.119552C2.116065-.119552 1.972603-.729265 1.972603-1.171606C1.972603-1.769365 2.247572-2.606227 2.570361-3.466999C2.761644-3.957161 2.809465-4.076712 2.809465-4.315816C2.809465-4.817933 2.450809-5.272229 1.865006-5.272229C.765131-5.272229 .32279-3.53873 .32279-3.443088C.32279-3.395268 .37061-3.335492 .454296-3.335492C.561893-3.335492 .573848-3.383313 .621669-3.550685C.908593-4.578829 1.374844-5.033126 1.829141-5.033126C1.936737-5.033126 2.139975-5.033126 2.139975-4.638605C2.139975-4.327771 2.008468-3.981071 1.829141-3.526775C1.255293-1.996513 1.255293-1.625903 1.255293-1.338979C1.255293-1.075965 1.291158-.585803 1.661768-.251059C2.092154 .119552 2.689913 .119552 2.797509 .119552C4.782067 .119552 5.463512-3.789788 5.463512-4.471233Z'/>
-<path id='eq4-g3-95' d='M2.199751-7.364384C2.199751-7.723039 1.912827-7.950187 1.625903-7.950187C1.291158-7.950187 1.0401-7.687173 1.0401-7.364384C1.0401-7.053549 1.303113-6.790535 1.613948-6.790535C1.972603-6.790535 2.199751-7.07746 2.199751-7.364384Z'/>
+<path id='eq4-g1-118' d='M5.463512-4.471233C5.463512-5.224408 5.080946-5.272229 4.985305-5.272229C4.698381-5.272229 4.435367-4.985305 4.435367-4.746202C4.435367-4.60274 4.519054-4.519054 4.566874-4.471233C4.686426-4.363636 4.99726-4.040847 4.99726-3.419178C4.99726-2.917061 4.27995-.119552 2.84533-.119552C2.116065-.119552 1.972603-.729265 1.972603-1.171606C1.972603-1.769365 2.247572-2.606227 2.570361-3.466999C2.761644-3.957161 2.809465-4.076712 2.809465-4.315816C2.809465-4.817933 2.450809-5.272229 1.865006-5.272229C.765131-5.272229 .32279-3.53873 .32279-3.443088C.32279-3.395268 .37061-3.335492 .454296-3.335492C.561893-3.335492 .573848-3.383313 .621669-3.550685C.908593-4.578829 1.374844-5.033126 1.829141-5.033126C1.936737-5.033126 2.139975-5.033126 2.139975-4.638605C2.139975-4.327771 2.008468-3.981071 1.829141-3.526775C1.255293-1.996513 1.255293-1.625903 1.255293-1.338979C1.255293-1.075965 1.291158-.585803 1.661768-.251059C2.092154 .119552 2.689913 .119552 2.797509 .119552C4.782067 .119552 5.463512-3.789788 5.463512-4.471233Z'/>
+<path id='eq4-g2-95' d='M2.199751-7.364384C2.199751-7.723039 1.912827-7.950187 1.625903-7.950187C1.291158-7.950187 1.0401-7.687173 1.0401-7.364384C1.0401-7.053549 1.303113-6.790535 1.613948-6.790535C1.972603-6.790535 2.199751-7.07746 2.199751-7.364384Z'/>
 </defs>
 <g id='eq4-page1'>
-<use x='1.743447' y='0' xlink:href='#eq4-g3-95'/>
-<use x='0' y='0' xlink:href='#eq4-g2-118'/>
+<use x='1.743447' y='0' xlink:href='#eq4-g2-95'/>
+<use x='0' y='0' xlink:href='#eq4-g1-118'/>
 <use x='6.088219' y='-4.338437' xlink:href='#eq4-g0-3'/>
-<use x='5.65927' y='3.020549' xlink:href='#eq4-g1-67'/>
-<use x='12.257938' y='3.020549' xlink:href='#eq4-g1-111'/>
-<use x='16.350988' y='3.020549' xlink:href='#eq4-g1-77'/>
 </g>
-</svg> is the desired acceleration. The desired acceleration is chosen such that the CoM will asymptotically converge to the desired trajectory. <svg class="m-math" style="width: 1.075em; height: 0.838em; vertical-align: -0.000em;" viewBox="0 -8.046759 10.322402 8.046759">
+</svg> is the desired acceleration. The desired acceleration is chosen such that the frame will asymptotically converge to the desired trajectory. The linear component of <svg class="m-math" style="width: 1.075em; height: 0.838em; vertical-align: -0.000em;" viewBox="0 -8.046759 10.322402 8.046759">
 <title>
 $\dot{v} ^ *$
 </title>
@@ -186,54 +180,79 @@ $R^3$
               struct <a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a>
             </dt>
             <dd><a href="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask.html" class="m-doc">TSIDLinearTask</a> specializes a LinearTask in the case of Task based Inverse Dynamics.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">BipedalLocomotion::System::ITaskControllerManager</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html" class="m-doc">ITaskControllerManager</a> is an interface that can help you to handle tasks containing controllers.</dd>
+          </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a5ce26e3ecbf047f4e368266bbf0995e3">
+              using <a href="#a5ce26e3ecbf047f4e368266bbf0995e3" class="m-doc-self">Mode</a> = <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">System::<wbr />ITaskControllerManager::<wbr />Mode</a>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab2f946ab57ef2f71953512251a307559" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9dc6b5d2e4dfa21f77330ed43977fa88" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>Initialize the task.</dd>
+            <dd>Initialize the planner.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3755665cdab9f7ae7d5d0be7adab4535" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1325a449ec25f92946d4090c931b71b2" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Set the kinDynComputations object.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a9dad79e04ccbb53e994f48261cdfedd2" class="m-doc">setVariablesHandler</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6261b28b7b363e327323a09b87e4d619" class="m-doc">setVariablesHandler</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Set the set of variables required by the task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a51f32365f6d523620a057332f59cd9ac" class="m-doc">update</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0728f33e7c716c109e114ca48a38cc4c" class="m-doc">update</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Update the content of the element.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a318949bf90cf9405898a576ad808ac24" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; position,
+              <span class="m-doc-wrap-bumper">auto <a href="#a83dd7f850dd3d7a5ce5c5859f345de64" class="m-doc">setSetPoint</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; I_p_F,
               Eigen::Ref&lt;const Eigen::Vector3d&gt; velocity = Eigen::Vector3d::Zero(),
               Eigen::Ref&lt;const Eigen::Vector3d&gt; acceleration = Eigen::Vector3d::Zero()) -&gt; bool</span>
             </dt>
             <dd>Set the desired set-point of the trajectory.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a903008ca278ca76560e8e33d92793766" class="m-doc">size</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a171f0acd9e93b04adc8a5d87471f68e0" class="m-doc">size</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the size of the task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#afd58f75e69dedcec3085b8ad1a320183" class="m-doc">type</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a2f9d37ec58342f227021c12a4a539748" class="m-doc">Type</a> <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad3bcdd2760c931946f03882df442d167" class="m-doc">type</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a2f9d37ec58342f227021c12a4a539748" class="m-doc">Type</a> <span class="m-label m-flat m-warning">override</span></span>
             </dt>
-            <dd>The <a href="classBipedalLocomotion_1_1TSID_1_1CoMTask.html" class="m-doc">CoMTask</a> is an equality task.</dd>
+            <dd>The <a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a> is an equality task.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa54d65b28cbfc9624c4a98cf7e3a2a30" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6850e909c860437c831b58d4a71dac33" class="m-doc">isValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#ad510fff46eb9cbbc65775b1a9490e297" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a8c65780b85d3927038c3320d3cfca730" class="m-doc">getB()</a></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#a640fdcb6927156c8b66714f82953c74b" class="m-doc">setTaskControllerMode</a>(</span><span class="m-doc-wrap"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> mode) <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Set the task controller mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a39af3ac77b60c05935fe2e770dcdef65" class="m-doc">getTaskControllerMode</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Get the task controller mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a54b4835e42ae135c750a8aee5a31aa57" class="m-doc">getControllerOutput</a>(</span><span class="m-doc-wrap">) const -&gt; Eigen::Ref&lt;const Eigen::VectorXd&gt;</span>
+            </dt>
+            <dd>Get the controller output.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ab2f946ab57ef2f71953512251a307559"><div>
+          <section class="m-doc-details" id="a9dc6b5d2e4dfa21f77330ed43977fa88"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab2f946ab57ef2f71953512251a307559" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9dc6b5d2e4dfa21f77330ed43977fa88" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; paramHandler) <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>Initialize the task.</p>
+            <p>Initialize the planner.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -247,15 +266,15 @@ $R^3$
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>True in case of success, false otherwise. Where the generalized robot velocity is a vector containing the base spatial-velocity (expressed in mixed representation) and the joint velocities.</td>
+                  <td>True in case of success, false otherwise.</td>
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>kp_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the position controller</td><td>Yes</td></tr><tr><td><code>kd_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the linear velocity controller</td><td>Yes</td></tr><tr><td><code>mask</code></td><td><code>vector&lt;bool&gt;</code></td><td>Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])</td><td>No</td></tr></tbody></table></aside>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>frame_name</code></td><td><code>string</code></td><td>Name of the frame controlled by the <a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a></td><td>Yes</td></tr><tr><td><code>kp_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gains of the position controller</td><td>Yes</td></tr><tr><td><code>kd_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gains of the linear velocity controller</td><td>Yes</td></tr><tr><td><code>mask</code></td><td><code>vector&lt;bool&gt;</code></td><td>Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])</td><td>No</td></tr></tbody></table></aside>
           </div></section>
-          <section class="m-doc-details" id="a3755665cdab9f7ae7d5d0be7adab4535"><div>
+          <section class="m-doc-details" id="a1325a449ec25f92946d4090c931b71b2"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3755665cdab9f7ae7d5d0be7adab4535" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1325a449ec25f92946d4090c931b71b2" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Set the kinDynComputations object.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -276,9 +295,9 @@ $R^3$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9dad79e04ccbb53e994f48261cdfedd2"><div>
+          <section class="m-doc-details" id="a6261b28b7b363e327323a09b87e4d619"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9dad79e04ccbb53e994f48261cdfedd2" class="m-doc-self">setVariablesHandler</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6261b28b7b363e327323a09b87e4d619" class="m-doc-self">setVariablesHandler</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>&amp; variablesHandler) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Set the set of variables required by the task.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -300,9 +319,9 @@ $R^3$
             </table>
 <p>The variables are stored in the <a href="classBipedalLocomotion_1_1System_1_1VariablesHandler.html" class="m-doc">System::<wbr />VariablesHandler</a>.</p><aside class="m-note m-info"><h4>Note</h4><p>The handler must contain a variable named as the parameter <code>robot_acceleration_variable_name</code> stored in the parameter handler. The variable represents the generalized acceleration of the robot. Where the generalized robot acceleration is a vector containing the base spatial-acceleration (expressed in mixed representation) and the joints acceleration.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a51f32365f6d523620a057332f59cd9ac"><div>
+          <section class="m-doc-details" id="a0728f33e7c716c109e114ca48a38cc4c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a51f32365f6d523620a057332f59cd9ac" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0728f33e7c716c109e114ca48a38cc4c" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Update the content of the element.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -314,9 +333,9 @@ $R^3$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a318949bf90cf9405898a576ad808ac24"><div>
+          <section class="m-doc-details" id="a83dd7f850dd3d7a5ce5c5859f345de64"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a318949bf90cf9405898a576ad808ac24" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; position,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a83dd7f850dd3d7a5ce5c5859f345de64" class="m-doc-self">setSetPoint</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; I_p_F,
               Eigen::Ref&lt;const Eigen::Vector3d&gt; velocity = Eigen::Vector3d::Zero(),
               Eigen::Ref&lt;const Eigen::Vector3d&gt; acceleration = Eigen::Vector3d::Zero())</span></span>
             </h3>
@@ -327,16 +346,16 @@ $R^3$
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">position</td>
-                  <td>position of the CoM</td>
+                  <td style="width: 1%">I_p_F</td>
+                  <td>position of the origin of the frame with respect to the inertial frame.</td>
                 </tr>
                 <tr>
                   <td>velocity</td>
-                  <td>velocity of the CoM expressed in mixed representation</td>
+                  <td>linear velocity of the frame. The default value is set to zero.</td>
                 </tr>
                 <tr>
                   <td>acceleration</td>
-                  <td>acceleration of the CoM expressed in mixed representation</td>
+                  <td>linear acceleration of the frame. The default value is set to zero.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -347,9 +366,9 @@ $R^3$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a903008ca278ca76560e8e33d92793766"><div>
+          <section class="m-doc-details" id="a171f0acd9e93b04adc8a5d87471f68e0"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a903008ca278ca76560e8e33d92793766" class="m-doc-self">size</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">std::size_t BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a171f0acd9e93b04adc8a5d87471f68e0" class="m-doc-self">size</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Get the size of the task.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -362,23 +381,23 @@ $R^3$
             </table>
 <p>(I.e the number of rows of the vector b)</p>
           </div></section>
-          <section class="m-doc-details" id="afd58f75e69dedcec3085b8ad1a320183"><div>
+          <section class="m-doc-details" id="ad3bcdd2760c931946f03882df442d167"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a2f9d37ec58342f227021c12a4a539748" class="m-doc">Type</a> BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#afd58f75e69dedcec3085b8ad1a320183" class="m-doc-self">type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper"><a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a2f9d37ec58342f227021c12a4a539748" class="m-doc">Type</a> BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad3bcdd2760c931946f03882df442d167" class="m-doc-self">type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
-            <p>The <a href="classBipedalLocomotion_1_1TSID_1_1CoMTask.html" class="m-doc">CoMTask</a> is an equality task.</p>
+            <p>The <a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a> is an equality task.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>the size of the task.</td>
+                  <td>the type of the task.</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aa54d65b28cbfc9624c4a98cf7e3a2a30"><div>
+          <section class="m-doc-details" id="a6850e909c860437c831b58d4a71dac33"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />CoMTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa54d65b28cbfc9624c4a98cf7e3a2a30" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6850e909c860437c831b58d4a71dac33" class="m-doc-self">isValid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Determines the validity of the objects retrieved with <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#ad510fff46eb9cbbc65775b1a9490e297" class="m-doc">getA()</a> and <a href="classBipedalLocomotion_1_1System_1_1LinearTask.html#a8c65780b85d3927038c3320d3cfca730" class="m-doc">getB()</a></p>
             <table class="m-table m-fullwidth m-flat">
@@ -389,6 +408,42 @@ $R^3$
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a640fdcb6927156c8b66714f82953c74b"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a640fdcb6927156c8b66714f82953c74b" class="m-doc-self">setTaskControllerMode</a>(</span><span class="m-doc-wrap"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> mode) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Set the task controller mode.</p>
+<p>Please use this method to disable/enable the Proportional Derivative controller implemented in this task.</p>
+          </div></section>
+          <section class="m-doc-details" id="a39af3ac77b60c05935fe2e770dcdef65"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a href="structBipedalLocomotion_1_1System_1_1ITaskControllerManager.html#a596df9ff6f6a3efa2a7f27ce1422e050" class="m-doc">Mode</a> BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a39af3ac77b60c05935fe2e770dcdef65" class="m-doc-self">getTaskControllerMode</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Get the task controller mode.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>the state of the controller</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a54b4835e42ae135c750a8aee5a31aa57"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">Eigen::Ref&lt;const Eigen::VectorXd&gt; BipedalLocomotion::<wbr />TSID::<wbr />R3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a54b4835e42ae135c750a8aee5a31aa57" class="m-doc-self">getControllerOutput</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>Get the controller output.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>a const reference to the controller output.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the value of the controller output is changed by the update method.</p></aside>
           </div></section>
         </section>
       </div>

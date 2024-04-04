@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="44" column="21" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="46" column="21" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="50" column="5"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="52" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a3f17e23e66667d4480986e20f448f0d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="55" column="13"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="57" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="73" column="5"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="75" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a876c8497d3bf307df0c9a4a3d0849aa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="90" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="92" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1aae215634b3570c759197a08cf73dc787" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -231,7 +231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="101" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="103" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1350f108b174380ac457e31b32dc0aa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -274,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="113" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1384c7afc1b98be5d6964aa89ef8ce1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::weak_ptr&lt; const <ref refid="ILinearTaskSolver_8h_1aa0b9c4f50fc80885f1a6401dba73ad50" kindref="member">System::WeightProviderPort</ref> &gt;</type>
@@ -305,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="120" column="5"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="122" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ab9f5f896dc418c0370f87a083bfd9c32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -323,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="126" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="128" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0f9c32fae276d489e803a942fafaf38e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::weak_ptr&lt; Task &gt;</type>
@@ -354,7 +354,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="134" column="19"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="136" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1aca3a936b802b5c90717a5c1a3f53f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -418,7 +418,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="150" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="153" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -451,7 +451,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="158" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="162" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -469,7 +469,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="164" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="168" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const State &amp;</type>
@@ -487,7 +487,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="170" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="174" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae1312f6965a91d4b2472c30ff95c4e5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -502,7 +502,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="175" column="10"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="179" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a0875e576675b9f0c8dffbe231abb21cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -517,7 +517,7 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="180" column="17"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="184" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a29cac804112c38c5dc69267e9c6a5feb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -535,7 +535,230 @@ Where the generalized robot acceleration is a vector containing the base acceler
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/QPTSID.h" line="186" column="16"/>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="190" column="16"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1QPTSID_1af940e76a562ca42b6dd61c04f4cbdf4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem" kindref="compound">TaskSpaceInverseDynamicsProblem</ref></type>
+        <definition>static TaskSpaceInverseDynamicsProblem BipedalLocomotion::TSID::QPTSID::build</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <name>build</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
+          <declname>kinDyn</declname>
+        </param>
+        <briefdescription>
+<para>Build <ref refid="classBipedalLocomotion_1_1TSID_1_1QPTSID" kindref="compound">QPTSID</ref> problem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kinDyn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a pointer to an iDynTree::KinDynComputations object that will be shared among all the tasks. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to the IParametersHandler interface. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>the following parameters are required by the class <table rows="6" cols="5"><row>
+<entry thead="yes" align='center'><para>Group   </para>
+</entry><entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para></para>
+</entry><entry thead="no" align='center'><para><computeroutput>tasks</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the list of the tasks considered in the TSID.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TSID</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>robot_acceleration_variable_name</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable contained in <computeroutput>VariablesHandler</computeroutput> representing the generalized robot acceleration.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TSID</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>joint_torques_variable_name</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Name of the variable contained in <computeroutput>VariablesHandler</computeroutput> representing the joints torque.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TSID</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>contact_wrench_variables_name</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>vector&lt;string&gt;</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Vector containing the names of the variable contained in <computeroutput>VariablesHandler</computeroutput> representing the contact wrench.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TSID</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>verbosity</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>bool</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Verbosity of the solver. Default value <computeroutput>false</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
+</entry></row>
+</table>
+Where the generalized robot acceleration is a vector containing the base spatial acceleration (expressed in mixed representation) and the joint acceleration. For <bold>each</bold> task listed in the parameter <computeroutput>tasks</computeroutput> the user must specify all the parameters required by the task itself but <computeroutput>robot_acceleration_variable_name</computeroutput> and <computeroutput>joint_torques_variable_name</computeroutput> since is already specified in the <computeroutput>IK</computeroutput> group. Moreover the following parameters are required for each task. <table rows="4" cols="5"><row>
+<entry thead="yes" align='center'><para>Group   </para>
+</entry><entry thead="yes" align='center'><para>Parameter Name   </para>
+</entry><entry thead="yes" align='center'><para>Type   </para>
+</entry><entry thead="yes" align='center'><para>Description   </para>
+</entry><entry thead="yes" align='center'><para>Mandatory    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TASK_NAME</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>type</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>String representing the type of the task. The string should match the name of the C++ class.   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TASK_NAME</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>priority</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>int</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>Priority associated to the task. (Check QPInverseKinematics::addTask for further information)   </para>
+</entry><entry thead="no" align='center'><para>Yes    </para>
+</entry></row>
+<row>
+<entry thead="no" align='center'><para><computeroutput>TASK_NAME</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>weight_provider_type</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para><computeroutput>string</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>String representing the type of the weight provider. The string should match the name of the C++ class. It is required only if the task is low priority. The default value in case of low priority task (<computeroutput>priority = 1</computeroutput>) is <computeroutput>ConstantWeightProvider</computeroutput>   </para>
+</entry><entry thead="no" align='center'><para>No   </para>
+</entry></row>
+</table>
+Given the weight type specified by <computeroutput>weight_provider_type</computeroutput>, the user must specify all the parameters required by the provider in the <computeroutput>TASK_NAME</computeroutput> group handler <computeroutput>TASK_NAME</computeroutput> is a placeholder for the name of the task contained in the <computeroutput>tasks</computeroutput> list. </para>
+</simplesect>
+<simplesect kind="note"><para>The following <computeroutput>ini</computeroutput> file presents an example of the configuration that can be used to build the TSID <programlisting filename=".ini"><codeline><highlight class="normal">tasks<sp/><sp/><sp/>(&quot;COM&quot;,<sp/>&quot;ROOT&quot;,<sp/>&quot;CHEST&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;LEFT_FOOT&quot;,<sp/>&quot;RIGHT_FOOT&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;LEFT_FOOT_WRENCH&quot;,<sp/>&quot;RIGHT_FOOT_WRENCH&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;JOINT_REGULARIZATION&quot;,<sp/>&quot;JOINT_DYNAMICS_TASK&quot;,<sp/>&quot;BASE_DYNAMICS_TASK&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[TSID]</highlight></codeline>
+<codeline><highlight class="normal">robot_acceleration_variable_name<sp/><sp/>&quot;robot_acceleration&quot;</highlight></codeline>
+<codeline><highlight class="normal">joint_torques_variable_name<sp/><sp/>&quot;joint_torques&quot;</highlight></codeline>
+<codeline><highlight class="normal">contact_wrench_variables_name<sp/>(&quot;lf_wrench&quot;,<sp/>&quot;rf_wrench&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[LEFT_FOOT]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SE3Task</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline><highlight class="normal">kp_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500.0</highlight></codeline>
+<codeline><highlight class="normal">kp_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50.0</highlight></codeline>
+<codeline><highlight class="normal">kd_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>14.0</highlight></codeline>
+<codeline><highlight class="normal">kd_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>14.0</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l_sole</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[RIGHT_FOOT]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SE3Task</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline><highlight class="normal">kp_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>500.0</highlight></codeline>
+<codeline><highlight class="normal">kp_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50.0</highlight></codeline>
+<codeline><highlight class="normal">kd_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>14.0</highlight></codeline>
+<codeline><highlight class="normal">kd_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>14.0</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r_sole</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[COM]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CoMTask</highlight></codeline>
+<codeline><highlight class="normal">kp_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>20.0</highlight></codeline>
+<codeline><highlight class="normal">kd_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline><highlight class="normal">mask<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(true,<sp/>true,<sp/>false)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[CHEST]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SO3Task</highlight></codeline>
+<codeline><highlight class="normal">kp_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50.0</highlight></codeline>
+<codeline><highlight class="normal">kd_angular<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>4.47</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chest</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight></codeline>
+<codeline><highlight class="normal">weight<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(10.0,<sp/>10.0,<sp/>10.0)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[ROOT]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R3Task</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>root_link</highlight></codeline>
+<codeline><highlight class="normal">kp_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0</highlight></codeline>
+<codeline><highlight class="normal">kd_linear<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>4.47</highlight></codeline>
+<codeline><highlight class="normal">mask<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(false,<sp/>false,<sp/>true)</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[JOINT_REGULARIZATION]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JointTrackingTask</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight></codeline>
+<codeline><highlight class="normal">kp<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>5.0,<sp/>5.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>5.0,<sp/>5.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5.0,<sp/>5.0,<sp/>5.0,<sp/>5.0)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">weight<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,<sp/>1.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0,<sp/>1.0,<sp/>1.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0,<sp/>1.0,<sp/>1.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.0,<sp/>2.0,<sp/>2.0,<sp/>2.0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.0,<sp/>2.0,<sp/>2.0,<sp/>2.0)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[LEFT_FOOT_WRENCH]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FeasibleContactWrenchTask</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline><highlight class="normal">variable_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lf_wrench</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l_sole</highlight></codeline>
+<codeline><highlight class="normal">number_of_slices<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight></codeline>
+<codeline><highlight class="normal">static_friction_coefficient<sp/><sp/><sp/><sp/><sp/><sp/>0.3</highlight></codeline>
+<codeline><highlight class="normal">foot_limits_x<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(-0.1,<sp/>0.1)</highlight></codeline>
+<codeline><highlight class="normal">foot_limits_y<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(-0.06,<sp/>0.06)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[RIGHT_FOOT_WRENCH]</highlight></codeline>
+<codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FeasibleContactWrenchTask</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline><highlight class="normal">variable_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rf_wrench</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r_sole</highlight></codeline>
+<codeline><highlight class="normal">number_of_slices<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight></codeline>
+<codeline><highlight class="normal">static_friction_coefficient<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.3</highlight></codeline>
+<codeline><highlight class="normal">foot_limits_x<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(-0.1,<sp/>0.1)</highlight></codeline>
+<codeline><highlight class="normal">foot_limits_y<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(-0.06,<sp/>0.06)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[include<sp/>JOINT_DYNAMICS_TASK<sp/>&quot;./tasks/joint_dynamics_task.ini&quot;]</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[include<sp/>BASE_DYNAMICS_TASK<sp/>&quot;./tasks/base_dynamics_task.ini&quot;]</highlight></codeline>
+</programlisting> Where the file <computeroutput>./tasks/joint_dynamics_task.ini</computeroutput> and <computeroutput>./tasks/base_dynamics_task.ini</computeroutput> contains the definition of the <computeroutput>JointsDynamicsTask</computeroutput> and <computeroutput><ref refid="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask" kindref="compound">BaseDynamicsTask</ref></computeroutput>. Since the tasks requires the definition of subgroups, an additional file is suggested as explained in: <ulink url="https://github.com/robotology/yarp/discussions/2563">https://github.com/robotology/yarp/discussions/2563</ulink> The following code represent the content of the <computeroutput>./tasks/joint_dynamics_task.ini</computeroutput>, the other file can be easily built checking the documentation <programlisting filename=".ini"><codeline><highlight class="normal">type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JointDynamicsTask</highlight></codeline>
+<codeline><highlight class="normal">priority<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">max_number_of_contacts<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[CONTACT_0]</highlight></codeline>
+<codeline><highlight class="normal">variable_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lf_wrench</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l_sole</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">[CONTACT_1]</highlight></codeline>
+<codeline><highlight class="normal">variable_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rf_wrench</highlight></codeline>
+<codeline><highlight class="normal">frame_name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r_sole</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+<simplesect kind="return"><para>an <ref refid="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem" kindref="compound">TaskSpaceInverseDynamicsProblem</ref>. In case of issues an invalid <ref refid="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem" kindref="compound">TaskSpaceInverseDynamicsProblem</ref> will be returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/QPTSID.h" line="338" column="5"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -693,7 +916,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/QPTSID.h" line="38" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="39" bodyend="187"/>
+    <location file="BipedalLocomotion/TSID/QPTSID.h" line="40" column="1" bodyfile="BipedalLocomotion/TSID/QPTSID.h" bodystart="41" bodyend="341"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1ae9cafa680ca8f1138acf880c04181970" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a876c8497d3bf307df0c9a4a3d0849aa4" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>addTask</name></member>
@@ -703,6 +926,7 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1aaeb3eba3073fbc844dea1eba4c9b68f3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ac1549cb26bd896e27370e97b0795ba3f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>Advanceable</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1af940e76a562ca42b6dd61c04f4cbdf4e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>build</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a1170659f577972b199a9e61d143da04e" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>finalize</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1a483e2dca295dd4dad89f0c268c4afeaa" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::QPTSID</scope><name>getOutput</name></member>

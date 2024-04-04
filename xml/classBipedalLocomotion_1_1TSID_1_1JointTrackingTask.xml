@@ -242,11 +242,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="66" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a625db1a9ca94c799d4b072fc2547da40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a785ee191931e5f44c287519113b1682a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::JointTrackingTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -584,7 +585,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a0e365b630043bc92ba96286481647565" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_kp</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a69ea5a8fe0f1ef2b2edc80814dab7e51" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_robotAccelerationVariableName</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1af67605b6cb23add921dc6f60e1ff4681" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_zero</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a625db1a9ca94c799d4b072fc2547da40" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a785ee191931e5f44c287519113b1682a" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1acb6c520e023fa2a11f6db4eee6b5b30e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a2100edf0419bdcc5f9cd371c512c2a32" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a6c9ac17e12dbb8a7c2be7321f1b86b71" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>setSetPoint</name></member>

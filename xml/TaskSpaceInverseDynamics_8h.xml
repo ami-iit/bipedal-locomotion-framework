@@ -7,6 +7,7 @@
     <includes local="no">manif/SE3.h</includes>
     <includes refid="Contact_8h" local="no">BipedalLocomotion/Contacts/Contact.h</includes>
     <includes refid="ILinearTaskSolver_8h" local="no">BipedalLocomotion/System/ILinearTaskSolver.h</includes>
+    <includes refid="WeightProvider_8h" local="no">BipedalLocomotion/System/WeightProvider.h</includes>
     <includes refid="TSIDLinearTask_8h" local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includes>
     <includedby refid="QPTSID_8h" local="no">BipedalLocomotion/TSID/QPTSID.h</includedby>
     <incdepgraph>
@@ -66,10 +67,14 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="30">
         <label>BipedalLocomotion/TSID/TSIDLinearTask.h</label>
         <link refid="TSIDLinearTask_8h"/>
         <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -77,6 +82,22 @@
       </node>
       <node id="8">
         <label>string</label>
+      </node>
+      <node id="31">
+        <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
+        <link refid="ILinearTaskFactory_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
       </node>
       <node id="13">
         <label>BipedalLocomotion/System/ILinearTaskSolver.h</label>
@@ -135,8 +156,25 @@
       <node id="7">
         <label>ratio</label>
       </node>
+      <node id="28">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>Eigen/Dense</label>
+      </node>
+      <node id="32">
+        <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="15">
         <label>optional</label>
@@ -156,6 +194,8 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>vector</label>
@@ -169,6 +209,9 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+      </node>
+      <node id="29">
+        <label>utility</label>
       </node>
       <node id="22">
         <label>BipedalLocomotion/System/OutputPort.h</label>
@@ -192,6 +235,14 @@
       </node>
       <node id="16">
         <label>type_traits</label>
+      </node>
+      <node id="27">
+        <label>BipedalLocomotion/System/WeightProvider.h</label>
+        <link refid="WeightProvider_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
       <node id="19">
         <label>iDynTree/Core/MatrixView.h</label>
@@ -220,14 +271,18 @@
     </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TSIDState" prot="public">BipedalLocomotion::TSID::TSIDState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" prot="public">BipedalLocomotion::TSID::TaskSpaceInverseDynamics</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem" prot="public">BipedalLocomotion::TSID::TaskSpaceInverseDynamicsProblem</innerclass>
+    <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
+    <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><simplesect kind="authors"><para>Ines Sorrentino, Giulio Romualdi </para>
 </simplesect>
-<simplesect kind="copyright"><para>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
+<simplesect kind="copyright"><para>2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license. </para>
 </simplesect>
 </para>
     </detaileddescription>

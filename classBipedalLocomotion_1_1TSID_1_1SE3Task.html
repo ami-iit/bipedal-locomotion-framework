@@ -258,7 +258,7 @@ $SO(3) \times \mathbb{R}^3$
             </dt>
             <dd>Initialize the planner.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a41f2fc817641302f84354938a12b69cd" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a44e25ee03d0cdb402ed89aef18d2f94d" class="m-doc">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Set the kinDynComputations object.</dd>
             <dt>
@@ -327,9 +327,9 @@ $SO(3) \times \mathbb{R}^3$
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> describing the robot acceleration</td><td>Yes</td></tr><tr><td><code>frame_name</code></td><td><code>string</code></td><td>Name of the frame controlled by the <a href="classBipedalLocomotion_1_1TSID_1_1SE3Task.html" class="m-doc">SE3Task</a></td><td>Yes</td></tr><tr><td><code>kp_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gains of the position controller</td><td>Yes</td></tr><tr><td><code>kd_linear</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gains of the linear velocity controller</td><td>Yes</td></tr><tr><td><code>kp_angular</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the orientation controller</td><td>Yes</td></tr><tr><td><code>kd_angular</code></td><td><code>double</code> or <code>vector&lt;double&gt;</code></td><td>Gain of the angular velocity controller</td><td>Yes</td></tr><tr><td><code>mask</code></td><td><code>vector&lt;bool&gt;</code></td><td>Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])</td><td>No</td></tr></tbody></table></aside>
           </div></section>
-          <section class="m-doc-details" id="a41f2fc817641302f84354938a12b69cd"><div>
+          <section class="m-doc-details" id="a44e25ee03d0cdb402ed89aef18d2f94d"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a41f2fc817641302f84354938a12b69cd" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />SE3Task::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a44e25ee03d0cdb402ed89aef18d2f94d" class="m-doc-self">setKinDyn</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Set the kinDynComputations object.</p>
             <table class="m-table m-fullwidth m-flat">

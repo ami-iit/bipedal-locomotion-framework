@@ -129,7 +129,7 @@
         </inbodydescription>
         <location file="BipedalLocomotion/IK/JointTrackingTask.h" line="129" column="1" declfile="BipedalLocomotion/IK/JointTrackingTask.h" declline="129" declcolumn="1"/>
       </memberdef>
-      <memberdef kind="function" id="R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
         <argsstring>(R3Task)</argsstring>

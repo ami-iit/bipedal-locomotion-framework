@@ -26,9 +26,29 @@
         <link refid="TSIDLinearTask_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>string</label>
+      </node>
+      <node id="14">
+        <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
+        <link refid="ILinearTaskFactory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>BipedalLocomotion/TSID/BaseDynamicsTask.h</label>
@@ -43,7 +63,7 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -76,14 +96,31 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="17">
+        <label>BipedalLocomotion/System/Factory.h</label>
+        <link refid="Factory_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
-      <node id="14">
+      <node id="18">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
       <node id="2">
         <label>vector</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
       </node>
       <node id="6">
         <label>cstddef</label>
@@ -93,6 +130,9 @@
       </node>
       <node id="10">
         <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
       </node>
       <node id="13">
         <label>iDynTree/Core/MatrixView.h</label>
@@ -105,6 +145,24 @@
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask_1_1ContactWrench" prot="private">BipedalLocomotion::TSID::BaseDynamicsTask::ContactWrench</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="BaseDynamicsTask_8h_1abf27b7686e685788cb69e0f67e800814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::TSID::BLF_REGISTER_TSID_TASK</definition>
+        <argsstring>(BaseDynamicsTask)</argsstring>
+        <name>BLF_REGISTER_TSID_TASK</name>
+        <param>
+          <type>BaseDynamicsTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/BaseDynamicsTask.h" line="133" column="1" declfile="BipedalLocomotion/TSID/BaseDynamicsTask.h" declline="133" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

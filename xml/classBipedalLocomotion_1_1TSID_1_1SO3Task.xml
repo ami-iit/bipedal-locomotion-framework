@@ -203,11 +203,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/SO3Task.h" line="76" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a8524387ecc72645235f5dfb5f8d70059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SO3Task_1ac6b32e397886d24e168c100b1256df6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::SO3Task::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -397,7 +398,7 @@
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" kindref="compound">SO3Task</ref> is a concrete implementation of the <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="93">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="240">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="33">$J$</formula> is the robot jacobian and <formula id="241">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame orientation will asymptotically converge to the desired trajectory. The angular acceleration is computed by a PD controller in <formula id="36">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="93">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="241">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="33">$J$</formula> is the robot jacobian and <formula id="242">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame orientation will asymptotically converge to the desired trajectory. The angular acceleration is computed by a PD controller in <formula id="36">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -468,7 +469,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a2dc271ea6396f7d3fc2c15a051950fb3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>m_robotAccelerationVariable</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1add9230aa4314eeadae242a9b4f26baf4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>m_SO3Controller</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a72c456b80feecbe6368b386fc561fb4d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>m_spatialVelocitySize</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a8524387ecc72645235f5dfb5f8d70059" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1ac6b32e397886d24e168c100b1256df6a" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1ad30433ca6999d030acd8269f53b17b58" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a054c0ac60226444020aee0eabf50d458" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SO3Task_1a08f028e5b1f82bc76dd2e452a01e81d3" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SO3Task</scope><name>size</name></member>

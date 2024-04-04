@@ -168,11 +168,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/FeasibleContactWrenchTask.h" line="71" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a4579d2f58ef9835249221046347bc2a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a94707e8e15905dabfbede6be664e2c22" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::FeasibleContactWrenchTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -403,7 +404,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a0e8aac3be25c201b35ce23f9d90f819c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a545f125ac72cc9703cd557ed45583fdb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>m_kinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1ad4b34adf4fdd9e957f052c42d8ecb440" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>setContactActive</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a4579d2f58ef9835249221046347bc2a0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a94707e8e15905dabfbede6be664e2c22" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a14b903533e5ed685afe108ea8eeca187" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1FeasibleContactWrenchTask_1a54644189c069a7ae4445f515770ea1d6" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::FeasibleContactWrenchTask</scope><name>subA</name></member>

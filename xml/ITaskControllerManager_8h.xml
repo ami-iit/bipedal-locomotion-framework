@@ -2,8 +2,9 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="ITaskControllerManager_8h" kind="file" language="C++">
     <compoundname>ITaskControllerManager.h</compoundname>
-    <includedby refid="R3Task_8h" local="no">BipedalLocomotion/IK/R3Task.h</includedby>
+    <includedby refid="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h" local="no">BipedalLocomotion/IK/R3Task.h</includedby>
     <includedby refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h" local="no">BipedalLocomotion/IK/SE3Task.h</includedby>
+    <includedby refid="TSID_2include_2BipedalLocomotion_2TSID_2R3Task_8h" local="no">BipedalLocomotion/TSID/R3Task.h</includedby>
     <includedby refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h" local="no">BipedalLocomotion/TSID/SE3Task.h</includedby>
     <invincdepgraph>
       <node id="1">
@@ -18,7 +19,7 @@
       </node>
       <node id="2">
         <label>BipedalLocomotion/IK/R3Task.h</label>
-        <link refid="R3Task_8h"/>
+        <link refid="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h"/>
       </node>
       <node id="3">
         <label>BipedalLocomotion/IK/SE3Task.h</label>

@@ -74,6 +74,7 @@
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
@@ -98,6 +99,16 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
               class <a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID.html" class="m-doc">QPFixedBaseTSID</a> is specialization of <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> class in the case of fixed base system.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a href="#af940e76a562ca42b6dd61c04f4cbdf4e" class="m-doc">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn) -&gt; <a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a></span>
+            </dt>
+            <dd>Build <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> problem.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -184,6 +195,136 @@ Architectures for Position, Velocity and Torque-Controlled Humanoid Robots&quot;
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="af940e76a562ca42b6dd61c04f4cbdf4e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">static <a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a> BipedalLocomotion::<wbr />TSID::<wbr />QPTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af940e76a562ca42b6dd61c04f4cbdf4e" class="m-doc-self">build</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              std::shared_ptr&lt;iDynTree::KinDynComputations&gt; kinDyn)</span></span>
+            </h3>
+            <p>Build <a href="classBipedalLocomotion_1_1TSID_1_1QPTSID.html" class="m-doc">QPTSID</a> problem.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>pointer to the IParametersHandler interface.</td>
+                </tr>
+                <tr>
+                  <td>kinDyn</td>
+                  <td>a pointer to an iDynTree::KinDynComputations object that will be shared among all the tasks.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>an <a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a>. In case of issues an invalid <a href="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem.html" class="m-doc">TaskSpaceInverseDynamicsProblem</a> will be returned.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td></td><td><code>tasks</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the list of the tasks considered in the TSID.</td><td>Yes</td></tr><tr><td><code>TSID</code></td><td><code>robot_acceleration_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> representing the generalized robot acceleration.</td><td>Yes</td></tr><tr><td><code>TSID</code></td><td><code>joint_torques_variable_name</code></td><td><code>string</code></td><td>Name of the variable contained in <code>VariablesHandler</code> representing the joints torque.</td><td>Yes</td></tr><tr><td><code>TSID</code></td><td><code>contact_wrench_variables_name</code></td><td><code>vector&lt;string&gt;</code></td><td>Vector containing the names of the variable contained in <code>VariablesHandler</code> representing the contact wrench.</td><td>Yes</td></tr><tr><td><code>TSID</code></td><td><code>verbosity</code></td><td><code>bool</code></td><td>Verbosity of the solver. Default value <code>false</code></td><td>No</td></tr></tbody></table><p>Where the generalized robot acceleration is a vector containing the base spatial acceleration (expressed in mixed representation) and the joint acceleration. For <strong>each</strong> task listed in the parameter <code>tasks</code> the user must specify all the parameters required by the task itself but <code>robot_acceleration_variable_name</code> and <code>joint_torques_variable_name</code> since is already specified in the <code>IK</code> group. Moreover the following parameters are required for each task.</p><table class="m-table"><thead><tr><th>Group</th><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>TASK_NAME</code></td><td><code>type</code></td><td><code>string</code></td><td>String representing the type of the task. The string should match the name of the C++ class.</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>priority</code></td><td><code>int</code></td><td>Priority associated to the task. (Check QPInverseKinematics::addTask for further information)</td><td>Yes</td></tr><tr><td><code>TASK_NAME</code></td><td><code>weight_provider_type</code></td><td><code>string</code></td><td>String representing the type of the weight provider. The string should match the name of the C++ class. It is required only if the task is low priority. The default value in case of low priority task (<code>priority = 1</code>) is <code>ConstantWeightProvider</code></td><td>No</td></tr></tbody></table><p>Given the weight type specified by <code>weight_provider_type</code>, the user must specify all the parameters required by the provider in the <code>TASK_NAME</code> group handler <code>TASK_NAME</code> is a placeholder for the name of the task contained in the <code>tasks</code> list.</p><p>The following <code>ini</code> file presents an example of the configuration that can be used to build the TSID</p><pre class="m-code"><span class="na">tasks   (&quot;COM&quot;, &quot;ROOT&quot;, &quot;CHEST&quot;,</span>
+<span class="w">         </span><span class="na">&quot;LEFT_FOOT&quot;, &quot;RIGHT_FOOT&quot;,</span>
+<span class="w">         </span><span class="na">&quot;LEFT_FOOT_WRENCH&quot;, &quot;RIGHT_FOOT_WRENCH&quot;,</span>
+<span class="w">         </span><span class="na">&quot;JOINT_REGULARIZATION&quot;, &quot;JOINT_DYNAMICS_TASK&quot;, &quot;BASE_DYNAMICS_TASK&quot;)</span>
+
+<span class="k">[TSID]</span>
+<span class="na">robot_acceleration_variable_name  &quot;robot_acceleration&quot;</span>
+<span class="na">joint_torques_variable_name  &quot;joint_torques&quot;</span>
+<span class="na">contact_wrench_variables_name (&quot;lf_wrench&quot;, &quot;rf_wrench&quot;)</span>
+
+<span class="k">[LEFT_FOOT]</span>
+<span class="na">type                              SE3Task</span>
+<span class="na">priority                          0</span>
+<span class="na">kp_linear                         500.0</span>
+<span class="na">kp_angular                        50.0</span>
+<span class="na">kd_linear                         14.0</span>
+<span class="na">kd_angular                        14.0</span>
+<span class="na">frame_name                        l_sole</span>
+
+<span class="k">[RIGHT_FOOT]</span>
+<span class="na">type                              SE3Task</span>
+<span class="na">priority                          0</span>
+<span class="na">kp_linear                         500.0</span>
+<span class="na">kp_angular                        50.0</span>
+<span class="na">kd_linear                         14.0</span>
+<span class="na">kd_angular                        14.0</span>
+<span class="na">frame_name                        r_sole</span>
+
+<span class="k">[COM]</span>
+<span class="na">type                              CoMTask</span>
+<span class="na">kp_linear                         20.0</span>
+<span class="na">kd_linear                         5.0</span>
+<span class="na">priority                          0</span>
+<span class="na">mask                              (true, true, false)</span>
+
+<span class="k">[CHEST]</span>
+<span class="na">type                              SO3Task</span>
+<span class="na">kp_angular                        50.0</span>
+<span class="na">kd_angular                        4.47</span>
+<span class="na">frame_name                        chest</span>
+<span class="na">priority                          1</span>
+<span class="na">weight                            (10.0, 10.0, 10.0)</span>
+
+<span class="k">[ROOT]</span>
+<span class="na">type                              R3Task</span>
+<span class="na">frame_name                        root_link</span>
+<span class="na">kp_linear                         5.0</span>
+<span class="na">kd_linear                         4.47</span>
+<span class="na">mask                              (false, false, true)</span>
+<span class="na">priority                          0</span>
+
+<span class="k">[JOINT_REGULARIZATION]</span>
+<span class="na">type                              JointTrackingTask</span>
+<span class="na">priority                          1</span>
+<span class="na">kp                                (5.0, 5.0, 5.0, 5.0, 5.0, 5.0,</span>
+<span class="w">                                   </span><span class="na">5.0, 5.0, 5.0, 5.0, 5.0, 5.0</span>
+<span class="w">                                   </span><span class="na">5.0, 5.0, 5.0,</span>
+<span class="w">                                   </span><span class="na">5.0, 5.0, 5.0,</span>
+<span class="w">                                   </span><span class="na">5.0, 5.0, 5.0, 5.0,</span>
+<span class="w">                                   </span><span class="na">5.0, 5.0, 5.0, 5.0)</span>
+
+<span class="na">weight                           (1.0, 1.0, 1.0, 1.0, 1.0, 1.0,</span>
+<span class="w">                                  </span><span class="na">1.0, 1.0, 1.0, 1.0, 1.0, 1.0,</span>
+<span class="w">                                  </span><span class="na">1.0, 1.0, 1.0,</span>
+<span class="w">                                  </span><span class="na">1.0, 1.0, 1.0,</span>
+<span class="w">                                  </span><span class="na">2.0, 2.0, 2.0, 2.0,</span>
+<span class="w">                                  </span><span class="na">2.0, 2.0, 2.0, 2.0)</span>
+
+<span class="k">[LEFT_FOOT_WRENCH]</span>
+<span class="na">type                             FeasibleContactWrenchTask</span>
+<span class="na">priority                         0</span>
+<span class="na">variable_name                    lf_wrench</span>
+<span class="na">frame_name                       l_sole</span>
+<span class="na">number_of_slices                 2</span>
+<span class="na">static_friction_coefficient      0.3</span>
+<span class="na">foot_limits_x                    (-0.1, 0.1)</span>
+<span class="na">foot_limits_y                    (-0.06, 0.06)</span>
+
+<span class="k">[RIGHT_FOOT_WRENCH]</span>
+<span class="na">type                              FeasibleContactWrenchTask</span>
+<span class="na">priority                          0</span>
+<span class="na">variable_name                     rf_wrench</span>
+<span class="na">frame_name                        r_sole</span>
+<span class="na">number_of_slices                  2</span>
+<span class="na">static_friction_coefficient       0.3</span>
+<span class="na">foot_limits_x                    (-0.1, 0.1)</span>
+<span class="na">foot_limits_y                    (-0.06, 0.06)</span>
+
+<span class="k">[include JOINT_DYNAMICS_TASK &quot;./tasks/joint_dynamics_task.ini&quot;]</span>
+
+<span class="k">[include BASE_DYNAMICS_TASK &quot;./tasks/base_dynamics_task.ini&quot;]</span></pre><p>Where the file <code>./tasks/joint_dynamics_task.ini</code> and <code>./tasks/base_dynamics_task.ini</code> contains the definition of the <code>JointsDynamicsTask</code> and <code><a href="classBipedalLocomotion_1_1TSID_1_1BaseDynamicsTask.html" class="m-doc">BaseDynamicsTask</a></code>. Since the tasks requires the definition of subgroups, an additional file is suggested as explained in: <a href="https://github.com/robotology/yarp/discussions/2563">https:/<wbr />/<wbr />github.com/<wbr />robotology/<wbr />yarp/<wbr />discussions/<wbr />2563</a> The following code represent the content of the <code>./tasks/joint_dynamics_task.ini</code>, the other file can be easily built checking the documentation</p><pre class="m-code"><span class="na">type                               JointDynamicsTask</span>
+<span class="na">priority                           0</span>
+
+<span class="na">max_number_of_contacts             2</span>
+
+<span class="k">[CONTACT_0]</span>
+<span class="na">variable_name                      lf_wrench</span>
+<span class="na">frame_name                         l_sole</span>
+
+<span class="k">[CONTACT_1]</span>
+<span class="na">variable_name                      rf_wrench</span>
+<span class="na">frame_name                         r_sole</span></pre></aside>
+          </div></section>
           <section class="m-doc-details" id="ae9cafa680ca8f1138acf880c04181970"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />QPTSID::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ae9cafa680ca8f1138acf880c04181970" class="m-doc-self">addTask</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;Task&gt; task,

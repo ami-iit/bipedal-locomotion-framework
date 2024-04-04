@@ -167,11 +167,12 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="79" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a25c3ee24eb86183acc3e18c2ad7da094" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eeaba156cd7325f8229f1a8b3f93cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::TSID::AngularMomentumTask::setKinDyn</definition>
-        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn)</argsstring>
+        <argsstring>(std::shared_ptr&lt; iDynTree::KinDynComputations &gt; kinDyn) override</argsstring>
         <name>setKinDyn</name>
+        <reimplements refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask_1aaf85cf18e73ca8334e0473393d2f7f81">setKinDyn</reimplements>
         <param>
           <type>std::shared_ptr&lt; iDynTree::KinDynComputations &gt;</type>
           <declname>kinDyn</declname>
@@ -415,7 +416,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a10108f5939ddea2e5fa531c4b82743b5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac7860f6d5fb61e79b4c74d06d9ee154a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_kinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eb60bd141ba8bc69833e54886399554" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_R3Controller</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a25c3ee24eb86183acc3e18c2ad7da094" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>setKinDyn</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eeaba156cd7325f8229f1a8b3f93cb9" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>setKinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac79b986221c2b3c91c51ff6ca9150839" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>setSetPoint</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a478a45a91d950bb0531e7abaef523465" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>setVariablesHandler</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4984a250856cf3eb2ca7f2e768682efb" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>size</name></member>
