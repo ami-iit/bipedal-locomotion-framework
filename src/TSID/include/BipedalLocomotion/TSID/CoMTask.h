@@ -85,7 +85,7 @@ public:
      * @param kinDyn pointer to a kinDynComputations object.
      * @return True in case of success, false otherwise.
      */
-    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn);
+    bool setKinDyn(std::shared_ptr<iDynTree::KinDynComputations> kinDyn) override;
 
     /**
      * Set the set of variables required by the task. The variables are stored in the
@@ -114,8 +114,8 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
-                     Eigen::Ref<const Eigen::Vector3d> velocity,
-                     Eigen::Ref<const Eigen::Vector3d> acceleration);
+                     Eigen::Ref<const Eigen::Vector3d> velocity = Eigen::Vector3d::Zero(),
+                     Eigen::Ref<const Eigen::Vector3d> acceleration = Eigen::Vector3d::Zero());
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -135,6 +135,8 @@ public:
      */
     bool isValid() const override;
 };
+
+BLF_REGISTER_TSID_TASK(CoMTask);
 
 } // namespace TSID
 } // namespace BipedalLocomotion

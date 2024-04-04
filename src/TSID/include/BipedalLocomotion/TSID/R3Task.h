@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H
-#define BIPEDAL_LOCOMOTION_TSID_SE3_TASK_H
+#ifndef BIPEDAL_LOCOMOTION_TSID_R3_TASK_H
+#define BIPEDAL_LOCOMOTION_TSID_R3_TASK_H
 
 #include <manif/manif.h>
 
@@ -29,29 +29,22 @@ namespace TSID
  * linear and angular acceleration expressed in mixed representation and the joints acceleration.
  * The task represents the following equation
  * \f[
- * J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ *
+ * J_l \dot{\nu} + \dot{J}_l \nu = \dot{v} ^ *
  * \f]
- * where \f$J\f$ is the robot jacobian and \f$\dot{\mathrm{v}} ^ *\f$ is the desired acceleration.
+ * where \f$J_l\f$ is the robot jacobian and \f$\dot{v} ^ *\f$ is the desired acceleration.
  * The desired acceleration is chosen such that the frame will asymptotically converge to the
- * desired trajectory. The linear component of \f$\dot{\mathrm{v}} ^ *\f$ is computed with a
- * standard PD controller in \f$R^3\f$ while the angular acceleration is computed by a PD controller
- * in \f$SO(3)\f$.
+ * desired trajectory. The linear component of \f$\dot{v} ^ *\f$ is computed with a
+ * standard PD controller in \f$R^3\f$.
  * @note Please refer to https://github.com/ami-iit/lie-group-controllers if you are interested in
  * the implementation of the PD controllers.
- * @note The SE3Task is technically not a \f$SE(3)\f$ space defined task, instead is a \f$SO(3)
- * \times \mathbb{R}^3\f$ task. Theoretically, there are differences between the two due to the
- * different definitions of exponential maps and logarithm maps. Please consider that here the MIXED
- * representation is used to define the 6d-velocity. You can find further details in Section 2.3.4
- * of https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf.
+
  */
-class SE3Task : public TSIDLinearTask, public BipedalLocomotion::System::ITaskControllerManager
+class R3Task : public TSIDLinearTask, public BipedalLocomotion::System::ITaskControllerManager
 {
 public:
     using Mode = System::ITaskControllerManager::Mode;
 
 private:
-    LieGroupControllers::ProportionalDerivativeControllerSO3d m_SO3Controller; /**< PD Controller in
-                                                                                  SO(3) */
     LieGroupControllers::ProportionalDerivativeControllerR3d m_R3Controller; /**< PD Controller in
                                                                                   R3 */
 
@@ -76,7 +69,7 @@ private:
     /** Mask used to select the DoFs controlled by the task */
     std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
     std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
-    std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
+    std::size_t m_DoFs{m_linearVelocitySize}; /**< DoFs associated to the entire task */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
     Eigen::VectorXd m_controllerOutput; /**< Controller output */
@@ -95,8 +88,6 @@ public:
      * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
      * |             `kp_linear`            | `double` or `vector<double>` |                             Gains of the position controller                            |    Yes    |
      * |             `kd_linear`            | `double` or `vector<double>` |                         Gains of the linear velocity controller                         |    Yes    |
-     * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
-     * |            `kd_angular`            | `double` or `vector<double>` |                         Gain of the angular velocity controller                        |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
      * @return True in case of success, false otherwise.
      */
@@ -129,15 +120,15 @@ public:
     bool update() override;
 
     /**
-     * Set the desired reference trajectory.
-     * @param I_H_F Homogeneous transform between the link and the inertial frame.
-     * @param mixedVelocity 6D-velocity written in mixed representation.
-     * @param mixedAcceleration 6D-acceleration written in mixed representation.
+     * Set the desired set-point of the trajectory.
+     * @param I_p_F position of the origin of the frame with respect to the inertial frame.
+     * @param velocity linear velocity of the frame. The default value is set to zero.
+     * @param acceleration linear acceleration of the frame. The default value is set to zero.
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(const manif::SE3d& I_H_F,
-                     const manif::SE3d::Tangent& mixedVelocity,
-                     const manif::SE3d::Tangent& mixedAcceleration);
+    bool setSetPoint(Eigen::Ref<const Eigen::Vector3d> I_p_F,
+                     Eigen::Ref<const Eigen::Vector3d> velocity = Eigen::Vector3d::Zero(),
+                     Eigen::Ref<const Eigen::Vector3d> acceleration = Eigen::Vector3d::Zero());
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -176,10 +167,9 @@ public:
      * @return a const reference to the controller output.
      */
     Eigen::Ref<const Eigen::VectorXd> getControllerOutput() const;
-
 };
 
-BLF_REGISTER_TSID_TASK(SE3Task);
+BLF_REGISTER_TSID_TASK(R3Task);
 
 } // namespace TSID
 } // namespace BipedalLocomotion

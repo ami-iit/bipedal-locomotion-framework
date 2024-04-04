@@ -684,3 +684,188 @@ Eigen::Ref<const Eigen::VectorXd> QPTSID::getRawSolution() const
 {
     return m_pimpl->solver.getSolution();
 }
+
+TaskSpaceInverseDynamicsProblem
+QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+              std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
+{
+    constexpr auto logPrefix = "[QPTSID::build]";
+    auto ptr = handler.lock();
+
+    if (ptr == nullptr)
+    {
+        log()->error("{} Invalid parameter handler.", logPrefix);
+        return TaskSpaceInverseDynamicsProblem();
+    }
+
+    if (kinDyn == nullptr || !kinDyn->isValid())
+    {
+        log()->error("{} Invalid iDynTree::KinDynComputations object.", logPrefix);
+        return TaskSpaceInverseDynamicsProblem();
+    }
+
+    std::unique_ptr<QPTSID> solver = std::make_unique<QPTSID>();
+    std::unordered_map<std::string, std::shared_ptr<System::WeightProvider>> weights;
+
+    if (!solver->initialize(ptr->getGroup("TSID")))
+    {
+        log()->error("{} Unable to initialize the TSID solver. Looking for a parameter group named "
+                     "TSID.",
+                     logPrefix);
+        return TaskSpaceInverseDynamicsProblem();
+    }
+
+    BipedalLocomotion::System::VariablesHandler variablesHandler;
+    variablesHandler.addVariable(solver->m_pimpl->robotAccelerationVariable.name,
+                                 kinDyn->getNrOfDegreesOfFreedom() + 6);
+    variablesHandler.addVariable(solver->m_pimpl->jointTorquesVariable.name,
+                                 kinDyn->getNrOfDegreesOfFreedom());
+    for (const auto& variable : solver->m_pimpl->contactWrenchVariables)
+    {
+        variablesHandler.addVariable(variable.name, 6);
+    }
+
+    std::vector<std::string> tasks;
+    if (!ptr->getParameter("tasks", tasks))
+    {
+        log()->error("{} Unable to find the parameter 'tasks'.", logPrefix);
+        return TaskSpaceInverseDynamicsProblem();
+    }
+
+    for (const auto& taskGroupName : tasks)
+    {
+        auto taskGroupTmp = ptr->getGroup(taskGroupName).lock();
+        if (taskGroupTmp == nullptr)
+        {
+            log()->error("{} Unable to find the group named '{}'.", logPrefix, taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        // add robot_velocity_variable_name parameter since it is required by all the tasks
+        auto taskGroup = taskGroupTmp->clone();
+        taskGroup->setParameter("robot_acceleration_variable_name",
+                                solver->m_pimpl->robotAccelerationVariable.name);
+        taskGroup->setParameter("joint_torques_variable_name",
+                                solver->m_pimpl->jointTorquesVariable.name);
+
+        // create an instance of the task
+        std::string taskType;
+        if (!taskGroup->getParameter("type", taskType))
+        {
+            log()->error("{} Unable to find the parameter 'type' in the group named '{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        auto taskInstance = TSIDLinearTaskFactory::createInstance(taskType);
+        if (taskInstance == nullptr)
+        {
+            log()->error("{} The task type '{}' has not been registered.", logPrefix, taskType);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        if (!taskInstance->setKinDyn(kinDyn))
+        {
+            log()->error("{} Unable to set the kinDynComputations object for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        if (!taskInstance->initialize(taskGroup))
+        {
+            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        int priority{0};
+        if (!taskGroup->getParameter("priority", priority))
+        {
+            log()->error("{} Unable to get the parameter 'priority' for the task in the group "
+                         "'{}'.",
+                         logPrefix,
+                         taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        if (priority != 0 && priority != 1)
+        {
+            log()->error("{} Invalid priority provided for the task named '{}'. For the time being "
+                         "we support only priority equal to 0 or 1.",
+                         logPrefix,
+                         taskGroupName);
+            return TaskSpaceInverseDynamicsProblem();
+        }
+
+        if (priority == 1)
+        {
+            std::string weightProviderType = "ConstantWeightProvider";
+            if (!taskGroup->getParameter("weight_provider_type", weightProviderType))
+            {
+                log()->warn("{} Unable to get the parameter 'weight_provider_type' for the task "
+                            "in the group "
+                            "'{}'. The default one will be used. Default: '{}'.",
+                            logPrefix,
+                            taskGroupName,
+                            weightProviderType);
+            }
+
+            auto weightProvider = BipedalLocomotion::System::WeightProviderFactory::createInstance(
+                weightProviderType);
+
+            if (weightProvider == nullptr)
+            {
+                log()->error("{} The weight provider '{}' has not been registered.",
+                             logPrefix,
+                             weightProviderType);
+                return TaskSpaceInverseDynamicsProblem();
+            }
+
+            if (!weightProvider->initialize(taskGroup))
+            {
+                log()->error("{} Unable to initialize the weight provider for the task in the "
+                             "group "
+                             "'{}'.",
+                             logPrefix,
+                             taskGroupName);
+                return TaskSpaceInverseDynamicsProblem();
+            }
+
+            // the weight is considered only if priority is equal to 1
+            if (!solver->addTask(taskInstance, taskGroupName, priority, weightProvider))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return TaskSpaceInverseDynamicsProblem();
+            }
+
+            weights[taskGroupName] = weightProvider;
+
+        } else
+        {
+            if (!solver->addTask(taskInstance, taskGroupName, priority))
+            {
+                log()->error("{} Unable to add the task named '{}' in the solver.",
+                             logPrefix,
+                             taskGroupName);
+                return TaskSpaceInverseDynamicsProblem();
+            }
+        }
+    }
+
+    if (!solver->finalize(variablesHandler))
+    {
+        log()->error("{} Unable to finalize the solver.", logPrefix);
+        return TaskSpaceInverseDynamicsProblem();
+    }
+
+    TaskSpaceInverseDynamicsProblem problem;
+    problem.tsid = std::move(solver);
+    problem.variablesHandler = std::move(variablesHandler);
+    problem.weights = std::move(weights);
+
+    return problem;
+}
