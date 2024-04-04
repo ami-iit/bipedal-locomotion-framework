@@ -1,13 +1,16 @@
 /**
  * @file UnicyclePlanner.h
- * @authors Diego Ferigo, Stefano Dafarra
+ * @authors Lorenzo Moretti, Diego Ferigo, Giulio Romualdi, Stefano Dafarra
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include "BipedalLocomotion/Math/Constants.h"
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <Eigen/src/Core/Matrix.h>
+#include <Eigen/src/Core/util/Constants.h>
 #include <FootPrint.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
@@ -18,82 +21,22 @@
 
 #include <cassert>
 #include <limits>
+#include <string>
 
 using namespace BipedalLocomotion;
 
 class Planners::UnicyclePlanner::Impl
 {
+
 public:
-    struct
+    enum class FSM
     {
-        double planner;
-    } dt;
+        NotInitialized,
+        Initialized,
+        Running,
+    };
 
-    struct
-    {
-        double t0;
-        double tf;
-    } horizon;
-
-    struct
-    {
-        struct
-        {
-            double x = 0.10;
-            double y = 0.00;
-        } reference;
-
-        struct
-        {
-            double unicycle = 10.0;
-            double slowWhenTurning = 0.0;
-        } gains;
-    } controller;
-
-    struct
-    {
-        double time = 1.0;
-        double position = 1.0;
-    } weights;
-
-    struct
-    {
-        double min;
-        double max;
-        double nominal;
-    } duration;
-
-    struct
-    {
-        double min;
-        double max;
-    } stepLength;
-
-    struct
-    {
-        double min;
-        double nominal;
-    } feetDistance;
-
-    struct
-    {
-        double min;
-        double max;
-    } angleVariation;
-
-    struct
-    {
-        double stancePhaseRatio;
-        bool startWithLeft = false;
-        bool terminalStep = true;
-        bool resetStartingFootIfStill = false;
-    } gait;
-
-    struct
-    {
-        std::string left = "left";
-        std::string right = "right";
-    } names;
+    FSM state{FSM::NotInitialized};
 
     struct
     {
@@ -105,9 +48,22 @@ public:
     std::optional<UnicyclePlannerOutput> output = std::nullopt;
 
     std::unique_ptr<::UnicycleGenerator> generator;
-
-    bool isInitialized = false;
 };
+
+UnicycleController Planners::UnicyclePlanner::getUnicycleControllerFromString(
+    const std::string& unicycleControllerAsString)
+{
+    if (unicycleControllerAsString == "personFollowing")
+    {
+        return UnicycleController::PERSON_FOLLOWING;
+    } else if (unicycleControllerAsString == "direct")
+    {
+        return UnicycleController::DIRECT;
+    } else
+    {
+        return UnicycleController::DIRECT;
+    }
+}
 
 Planners::UnicyclePlanner::UnicyclePlanner()
     : m_pImpl{std::make_unique<Impl>()}
@@ -125,255 +81,182 @@ bool Planners::UnicyclePlanner::initialize(
 
     if (ptr == nullptr)
     {
-        log()->error("{} The handler has to point to an already initialized IParametersHandler.",
-                     logPrefix);
+        log()->error("{} Invalid parameter handler.", logPrefix);
         return false;
     }
 
-    bool okPlanner = true;
-    // m_pImpl->planner = std::make_unique<::UnicyclePlanner>();
+    // lambda function to parse parameters
+    auto loadParam = [ptr, logPrefix](const std::string& paramName, auto& param) -> bool {
+        if (!ptr->getParameter(paramName, param))
+        {
+            log()->error("{} Unable to get the parameter named '{}'.", logPrefix, paramName);
+            return false;
+        }
+        return true;
+    };
+
+    // TO DO: write a variant of the lambda function with fallback option
+    // clang-format off
+    // auto loadParam = [ptr, logPrefix](const std::string& paramName, auto& param, auto fallback) -> bool {
+    //     if (!ptr->getParameter(paramName, param))
+    //     { 
+    //         log()->warn("{} Unable to find the parameter named '{}'. The default one with value [{}] will be used.", logPrefix, paramName, fallback);
+    //     }
+    //     return true;
+    // };
+    // clang-format on
+
+    // initialization parameters
+    Eigen::Vector2d referencePointDistance;
+    std::string unicycleControllerAsString{"direct"};
+
+    double unicycleGain;
+    double slowWhenTurningGain;
+    double slowWhenBackwardFactor;
+    double slowWhenSidewaysFactor;
+
+    double dt;
+
+    double positionWeight;
+    double timeWeight;
+
+    double maxStepLength;
+    double minStepLength;
+    double maxLengthBackwardFactor;
+    double nominalWidth;
+    double minWidth;
+    double minStepDuration;
+    double maxStepDuration;
+    double nominalDuration;
+    double maxAngleVariation;
+    double minAngleVariation;
+
+    Eigen::Vector2d saturationFactors;
+    double leftYawDeltaInRad;
+    double rightYawDeltaInRad;
+
+    bool startWithLeft{true};
+    bool startWithSameFoot{true};
+
+    double freeSpaceConservativeFactor{2.0};
+    double innerEllipseSemiMajorOffset{0.0};
+    double innerEllipseSemiMinorOffset{0.0};
+
+    Eigen::Vector2d mergePointRatios;
+    double switchOverSwingRatio;
+    double lastStepSwitchTime;
+    bool isPauseActive{true};
+
+    double comHeight;
+    double comHeightDelta;
+    Eigen::Vector2d leftZMPDelta;
+    Eigen::Vector2d rightZMPDelta;
+    double lastStepDCMOffset;
+
+    // parse initialization parameters
+    bool ok = true;
+
+    ok = ok && loadParam("referencePosition", referencePointDistance);
+    ok = ok && loadParam("controlType", unicycleControllerAsString);
+    ok = ok && loadParam("unicycleGain", unicycleGain);
+    ok = ok && loadParam("slowWhenTurningGain", slowWhenTurningGain);
+    ok = ok && loadParam("slowWhenBackwardFactor", slowWhenBackwardFactor);
+    ok = ok && loadParam("slowWhenSidewaysFactor", slowWhenSidewaysFactor);
+    ok = ok && loadParam("dt", dt);
+    ok = ok && loadParam("positionWeight", positionWeight);
+    ok = ok && loadParam("timeWeight", timeWeight);
+    ok = ok && loadParam("maxStepLength", maxStepLength);
+    ok = ok && loadParam("minStepLength", minStepLength);
+    ok = ok && loadParam("maxLengthBackwardFactor", maxLengthBackwardFactor);
+    ok = ok && loadParam("nominalWidth", nominalWidth);
+    ok = ok && loadParam("minWidth", minWidth);
+    ok = ok && loadParam("minStepDuration", minStepDuration);
+    ok = ok && loadParam("maxStepDuration", maxStepDuration);
+    ok = ok && loadParam("nominalDuration", nominalDuration);
+    ok = ok && loadParam("maxAngleVariation", maxAngleVariation);
+    ok = ok && loadParam("minAngleVariation", minAngleVariation);
+    ok = ok && loadParam("saturationFactors", saturationFactors);
+    ok = ok && loadParam("leftYawDeltaInDeg", leftYawDeltaInRad);
+    ok = ok && loadParam("rightYawDeltaInDeg", rightYawDeltaInRad);
+    ok = ok && loadParam("swingLeft", startWithLeft);
+    ok = ok && loadParam("startAlwaysSameFoot", startWithSameFoot);
+    ok = ok && loadParam("conservative_factor", freeSpaceConservativeFactor);
+    ok = ok && loadParam("inner_offset_major", innerEllipseSemiMajorOffset);
+    ok = ok && loadParam("inner_offset_minor", innerEllipseSemiMinorOffset);
+    ok = ok && loadParam("mergePointRatios", mergePointRatios);
+    ok = ok && loadParam("switchOverSwingRatio", switchOverSwingRatio);
+    ok = ok && loadParam("lastStepSwitchTime", lastStepSwitchTime);
+    ok = ok && loadParam("isPauseActive", isPauseActive);
+    ok = ok && loadParam("comHeight", comHeight);
+    ok = ok && loadParam("comHeightDelta", comHeightDelta);
+    ok = ok && loadParam("leftZMPDelta", leftZMPDelta);
+    ok = ok && loadParam("rightZMPDelta", rightZMPDelta);
+    ok = ok && loadParam("lastStepDCMOffset", lastStepDCMOffset);
+
+    // try to configure the planner
     m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
+    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
 
-    // ==
-    // dt
-    // ==
+    ok = ok
+         && unicyclePlanner->setDesiredPersonDistance(referencePointDistance[0],
+                                                      referencePointDistance[1]);
+    ok = ok && unicyclePlanner->setPersonFollowingControllerGain(unicycleGain);
+    ok = ok && unicyclePlanner->setSlowWhenTurnGain(slowWhenTurningGain);
+    ok = ok && unicyclePlanner->setSlowWhenBackwardFactor(slowWhenBackwardFactor);
+    ok = ok && unicyclePlanner->setSlowWhenSidewaysFactor(slowWhenBackwardFactor);
+    ok = ok && unicyclePlanner->setMaxStepLength(maxStepLength, maxLengthBackwardFactor);
+    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(dt);
+    ok = ok && unicyclePlanner->setWidthSetting(minWidth, nominalWidth);
+    ok = ok && unicyclePlanner->setMaxAngleVariation(maxAngleVariation);
+    ok = ok && unicyclePlanner->setMinimumAngleForNewSteps(minAngleVariation);
+    ok = ok && unicyclePlanner->setCostWeights(positionWeight, timeWeight);
+    ok = ok && unicyclePlanner->setStepTimings(minStepDuration, maxStepDuration, nominalDuration);
+    ok = ok && unicyclePlanner->setPlannerPeriod(dt);
+    ok = ok && unicyclePlanner->setMinimumStepLength(minStepLength);
+    ok = ok
+         && unicyclePlanner->setSaturationsConservativeFactors(saturationFactors(0),
+                                                               saturationFactors(1));
+    unicyclePlanner->setLeftFootYawOffsetInRadians(leftYawDeltaInRad);
+    unicyclePlanner->setRightFootYawOffsetInRadians(rightYawDeltaInRad);
+    unicyclePlanner->addTerminalStep(true);
+    unicyclePlanner->startWithLeft(startWithLeft);
+    unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
+    ok = ok && unicyclePlanner->setFreeSpaceEllipseConservativeFactor(freeSpaceConservativeFactor);
+    ok = ok
+         && unicyclePlanner->setInnerFreeSpaceEllipseOffsets(innerEllipseSemiMajorOffset,
+                                                             innerEllipseSemiMinorOffset);
+    auto unicycleController = getUnicycleControllerFromString(unicycleControllerAsString);
+    ok = ok && unicyclePlanner->setUnicycleController(unicycleController);
 
-    if (!ptr->getParameter("sampling_time", m_pImpl->dt.planner))
+    ok = ok && m_pImpl->generator->setSwitchOverSwingRatio(switchOverSwingRatio);
+    ok = ok && m_pImpl->generator->setTerminalHalfSwitchTime(lastStepSwitchTime);
+    ok = ok && m_pImpl->generator->setPauseConditions(maxStepDuration, nominalDuration);
+    ok = ok && m_pImpl->generator->setMergePointRatio(mergePointRatios[0], mergePointRatios[1]);
+
+    m_pImpl->generator->setPauseActive(isPauseActive);
+
+    auto comHeightGenerator = m_pImpl->generator->addCoMHeightTrajectoryGenerator();
+    ok = ok && comHeightGenerator->setCoMHeightSettings(comHeight, comHeightDelta);
+
+    auto dcmGenerator = m_pImpl->generator->addDCMTrajectoryGenerator();
+    iDynTree::Vector2 leftZMPDeltaVec{leftZMPDelta};
+    iDynTree::Vector2 rightZMPDeltaVec{rightZMPDelta};
+    dcmGenerator->setFootOriginOffset(leftZMPDeltaVec, rightZMPDeltaVec);
+    dcmGenerator->setOmega(
+        sqrt(BipedalLocomotion::Math::StandardAccelerationOfGravitation / comHeight));
+    dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
+    ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
+
+    // m_correctLeft = true;
+
+    // m_newFreeSpaceEllipse = false;
+
+    if (ok)
     {
-        log()->error("{} Unable to load the sampling time of the planner (sampling_time).",
-                     logPrefix);
-        return false;
-    }
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setPlannerPeriod(m_pImpl->dt.planner);
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setMaximumIntegratorStepSize(
-                    m_pImpl->dt.planner);
-
-    // ==========
-    // controller
-    // ==========
-
-    if (!ptr->getParameter("unicycleGain", m_pImpl->controller.gains.unicycle))
-    {
-        log()->info("{} Using default unicycleGain={}.",
-                    logPrefix,
-                    m_pImpl->controller.gains.unicycle);
-    }
-
-    if (!ptr->getParameter("slowWhenTurningGain", m_pImpl->controller.gains.slowWhenTurning))
-    {
-        log()->info("{} Using default slowWhenTurningGain={}.",
-                    logPrefix,
-                    m_pImpl->controller.gains.slowWhenTurning);
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setPersonFollowingControllerGain(
-                    m_pImpl->controller.gains.unicycle);
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setSlowWhenTurnGain(
-                    m_pImpl->controller.gains.slowWhenTurning);
-
-    std::vector<double> reference;
-
-    if (!(ptr->getParameter("referencePosition", reference) && reference.size() == 2))
-    {
-        log()->info("{} Using default referencePosition=({}, {}).",
-                    logPrefix,
-                    m_pImpl->controller.reference.x,
-                    m_pImpl->controller.reference.y);
-    } else
-    {
-        m_pImpl->controller.reference.x = reference[0];
-        m_pImpl->controller.reference.y = reference[1];
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()
-                       ->setDesiredPersonDistance(m_pImpl->controller.reference.x,
-                                                  m_pImpl->controller.reference.y);
-
-    // =======
-    // weights
-    // =======
-
-    if (!ptr->getParameter("timeWeight", m_pImpl->weights.time))
-    {
-        log()->info("{} Using default timeWeight={}.", logPrefix, m_pImpl->weights.time);
+        m_pImpl->state = Impl::FSM::Initialized;
     }
 
-    if (!ptr->getParameter("positionWeight", m_pImpl->weights.position))
-    {
-        log()->info("{} Using default positionWeight={}.", logPrefix, m_pImpl->weights.position);
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setCostWeights(m_pImpl->weights.position,
-                                                                         m_pImpl->weights.time);
-
-    // ========
-    // duration
-    // ========
-
-    if (!ptr->getParameter("minStepDuration", m_pImpl->duration.min))
-    {
-        log()->error("{} Unable to load the min step duration (minStepDuration).", logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("maxStepDuration", m_pImpl->duration.max))
-    {
-        log()->error("{} Unable to load the max step duration (maxStepDuration).", logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("nominalDuration", m_pImpl->duration.nominal))
-    {
-        log()->error("{} Unable to load the nominal step duration (nominalDuration).", logPrefix);
-        return false;
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setStepTimings(m_pImpl->duration.min,
-                                                                         m_pImpl->duration.max,
-                                                                         m_pImpl->duration.nominal);
-
-    // ==========
-    // stepLength
-    // ==========
-
-    if (!ptr->getParameter("minStepLength", m_pImpl->stepLength.min))
-    {
-        log()->error("{} Unable to load the min step length (minStepLength).", logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("maxStepLength", m_pImpl->stepLength.max))
-    {
-        log()->error("{} Unable to load the max step length (maxStepLength).", logPrefix);
-        return false;
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setMaxStepLength(m_pImpl->stepLength.max);
-    okPlanner
-        = okPlanner
-          && m_pImpl->generator->unicyclePlanner()->setMinimumStepLength(m_pImpl->stepLength.min);
-
-    // ============
-    // feetDistance
-    // ============
-
-    if (!ptr->getParameter("minWidth", m_pImpl->feetDistance.min))
-    {
-        log()->error("{} Unable to load the min feet distance (minWidth).", logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("nominalWidth", m_pImpl->feetDistance.nominal))
-    {
-        log()->error("{} Unable to load the nominal feet distance (nominalWidth).", logPrefix);
-        return false;
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setWidthSetting( //
-                    m_pImpl->feetDistance.min,
-                    m_pImpl->feetDistance.nominal);
-
-    // ==============
-    // angleVariation
-    // ==============
-
-    if (!ptr->getParameter("minAngleVariation", m_pImpl->angleVariation.min))
-    {
-        log()->error("{} Unable to load the min foot angle variation (minAngleVariation).",
-                     logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("maxAngleVariation", m_pImpl->angleVariation.max))
-    {
-        log()->error("{} Unable to load the max foot angle variation (maxAngleVariation).",
-                     logPrefix);
-        return false;
-    }
-
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setMaxAngleVariation(
-                    m_pImpl->angleVariation.max);
-    okPlanner = okPlanner
-                && m_pImpl->generator->unicyclePlanner()->setMinimumAngleForNewSteps(
-                    m_pImpl->angleVariation.min);
-
-    // ====
-    // gait
-    // ====
-
-    if (!ptr->getParameter("switchOverSwingRatio", m_pImpl->gait.stancePhaseRatio))
-    {
-        log()->error("{} Unable to load the stance phase ratio (switchOverSwingRatio).", logPrefix);
-        return false;
-    }
-
-    if (m_pImpl->gait.stancePhaseRatio <= 0)
-    {
-        log()->error("{} The switchOverSwingRatio cannot be <= 0.", logPrefix);
-        return false;
-    }
-
-    if (!ptr->getParameter("swingLeft", m_pImpl->gait.startWithLeft))
-    {
-        log()->info("{} Using default swingLeft={}.", logPrefix, m_pImpl->gait.startWithLeft);
-    }
-
-    if (!ptr->getParameter("terminalStep", m_pImpl->gait.terminalStep))
-    {
-        log()->info("{} Using default terminalStep={}.", logPrefix, m_pImpl->gait.terminalStep);
-    }
-
-    if (!ptr->getParameter("startAlwaysSameFoot", m_pImpl->gait.resetStartingFootIfStill))
-    {
-        log()->info("{} Using default startAlwaysSameFoot={}.",
-                    logPrefix,
-                    m_pImpl->gait.resetStartingFootIfStill);
-    }
-
-    m_pImpl->generator->unicyclePlanner()->startWithLeft(m_pImpl->gait.startWithLeft);
-    m_pImpl->generator->unicyclePlanner()->addTerminalStep(m_pImpl->gait.terminalStep);
-    m_pImpl->generator->unicyclePlanner()->resetStartingFootIfStill(
-        m_pImpl->gait.resetStartingFootIfStill);
-
-    // =====
-    // names
-    // =====
-
-    if (!ptr->getParameter("left_foot_name", m_pImpl->names.left))
-    {
-        log()->info("{} Using default left_foot_name={}.", logPrefix, m_pImpl->names.left);
-    }
-    m_pImpl->generator->getLeftFootPrint()->setFootName(m_pImpl->names.left);
-
-    if (!ptr->getParameter("right_foot_name", m_pImpl->names.right))
-    {
-        log()->info("{} Using default right_foot_name={}.", logPrefix, m_pImpl->names.right);
-    }
-    m_pImpl->generator->getRightFootPrint()->setFootName(m_pImpl->names.right);
-
-    // =============================
-    // UnicyclePlanner configuration
-    // =============================
-
-    if (!okPlanner)
-    {
-        log()->error("{} Failed to configure UnicyclePlanner.", logPrefix);
-        return false;
-    }
-
-    m_pImpl->isInitialized = true;
-
-    return true;
+    return ok;
 }
 
 const Planners::UnicyclePlannerOutput& Planners::UnicyclePlanner::getOutput() const

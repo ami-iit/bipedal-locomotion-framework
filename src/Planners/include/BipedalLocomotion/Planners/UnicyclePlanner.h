@@ -15,8 +15,15 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 
+#include <Eigen/src/Core/Matrix.h>
+#include <iDynTree/Core/VectorDynSize.h>
+
 #include <memory>
 #include <optional>
+
+#include <UnicyclePlanner.h>
+
+#include <CoMHeightTrajectoryGenerator.h>
 
 namespace BipedalLocomotion::Planners
 {
@@ -160,6 +167,9 @@ public:
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
+
+    UnicycleController
+    getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
 };
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
