@@ -128,13 +128,15 @@
             </dt>
             <dd>Set the desired control mode.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab229c5fe700419a24550d89f042e68b1" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a6e9c89964582229a11b5944e02ba6017" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
+              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes,
+              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; currentJointValues = {}) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the desired reference.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a94bc2f427bffa43aa1bd4da7ff0a9ad8" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ad19d7c06a0f9acd3685075595660a2d7" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
+              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode,
+              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; currentJointValues = {}) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the desired reference.</dd>
             <dt>
@@ -269,10 +271,11 @@
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ab229c5fe700419a24550d89f042e68b1"><div>
+          <section class="m-doc-details" id="a6e9c89964582229a11b5944e02ba6017"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab229c5fe700419a24550d89f042e68b1" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; jointValues,
-              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a6e9c89964582229a11b5944e02ba6017" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
+              const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes,
+              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; currentJointValues = {}) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the desired reference.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -281,12 +284,16 @@
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">jointValues</td>
+                  <td style="width: 1%">desiredJointValues</td>
                   <td>desired joint values.</td>
                 </tr>
                 <tr>
                   <td>controlModes</td>
                   <td>vector containing the control mode for each joint.</td>
+                </tr>
+                <tr>
+                  <td>currentJointValues</td>
+                  <td></td>
                 </tr>
               </tbody>
               <tfoot>
@@ -298,16 +305,34 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>In case of position control the values has to be expressed in rad, in case of velocity control in rad/s. If the robot is controlled in torques, the desired joint values are expressed in Nm. If the robot is controlled in PWM, the desired joint values are between -100 and 100.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>At the current stage only revolute joints are supported.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a94bc2f427bffa43aa1bd4da7ff0a9ad8"><div>
+          <section class="m-doc-details" id="ad19d7c06a0f9acd3685075595660a2d7"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a94bc2f427bffa43aa1bd4da7ff0a9ad8" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
-              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) <span class="m-label m-warning">final</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad19d7c06a0f9acd3685075595660a2d7" class="m-doc-self">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
+              const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode,
+              std::optional&lt;Eigen::Ref&lt;const Eigen::VectorXd&gt;&gt; currentJointValues = {}) <span class="m-label m-warning">final</span></span></span>
             </h3>
             <p>Set the desired reference.</p>
             <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">desiredJointValues</td>
+                  <td>desired joint values.</td>
+                </tr>
+                <tr>
+                  <td>mode</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>currentJointValues</td>
+                  <td></td>
+                </tr>
+              </tbody>
               <tfoot>
                 <tr>
-                  <th style="width: 1%">Returns</th>
+                  <th>Returns</th>
                   <td>True/False in case of success/failure.</td>
                 </tr>
               </tfoot>

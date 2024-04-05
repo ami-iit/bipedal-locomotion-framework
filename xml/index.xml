@@ -1257,8 +1257,8 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a470535808ebda4b9634455c638a1649c" kind="typedef"><name>weak_ptr</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ae6bb2f00cd191a0cc65c062928b65327" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1d8c631649d6111f17a9ba821f550497" kind="function"><name>checkMotionDone</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1adbbafcb80056c18f40e25cf4865dfe56" kind="function"><name>setReferences</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1abaeb6208365c23fe845893b6e59e84ac" kind="function"><name>setReferences</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ade3791093f875c8a242c0e84dcc5a40b" kind="function"><name>setReferences</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ad8e86bfcea12e99fa5c077d4f01d7ef1" kind="function"><name>setReferences</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" kind="function"><name>setControlMode</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" kind="function"><name>setControlMode</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a039679ebcb7f4317aebdc1218410639c" kind="function"><name>getJointList</name></member>
@@ -3056,8 +3056,8 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a69d3aac94055729d5fbff666ae1ceb83" kind="function"><name>checkMotionDone</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1afe135a4312087eb0b666ddbbe3dc25bf" kind="function"><name>setControlMode</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1acdbfb92bd7a2a6bc31ba156600a4ffc9" kind="function"><name>setControlMode</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1ab229c5fe700419a24550d89f042e68b1" kind="function"><name>setReferences</name></member>
-    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a94bc2f427bffa43aa1bd4da7ff0a9ad8" kind="function"><name>setReferences</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a6e9c89964582229a11b5944e02ba6017" kind="function"><name>setReferences</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1ad19d7c06a0f9acd3685075595660a2d7" kind="function"><name>setReferences</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a4968e571c4433e54b89a7c83fdfeace2" kind="function"><name>getJointList</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a3aa8d45bff0791af4143ab65f0cbd75c" kind="function"><name>isValid</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a2fc36acedb0eb8d541d20a720247f83f" kind="function"><name>~YarpRobotControl</name></member>
