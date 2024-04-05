@@ -9,6 +9,8 @@
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_IROBOT_CONTROL_H
 
 #include <memory>
+#include <optional>
+#include <vector>
 
 #include <Eigen/Dense>
 
@@ -64,24 +66,29 @@ public:
      */
     virtual bool checkMotionDone(bool& motionDone,
                                  bool& isTimerExpired,
-                                 std::vector<std::pair<std::string, double>>& info) = 0;
+                                 std::vector<std::pair<std::string, double>>& info)
+        = 0;
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlModes vector containing the control mode for each joint.
+     * @param currentJointValues current joint values.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
      * expressed in Nm.
      */
-    virtual bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                               const std::vector<IRobotControl::ControlMode>& controlModes) = 0;
+    virtual bool setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                               const std::vector<IRobotControl::ControlMode>& controlModes,
+                               std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {})
+        = 0;
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlMode a control mode for all the joints.
+     * @param currentJointValues current joint values.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
@@ -91,7 +98,9 @@ public:
      * std::vector<IRobotControl::ControlMode>&).
      */
     virtual bool setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                               const IRobotControl::ControlMode& controlMode) = 0;
+                               const IRobotControl::ControlMode& controlMode,
+                               std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {})
+        = 0;
 
     /**
      * Set the control mode.
@@ -126,7 +135,6 @@ public:
      * Destructor.
      */
     virtual ~IRobotControl() = default;
-
 };
 } // namespace RobotInterface
 } // namespace BipedalLocomotion
