@@ -36,6 +36,8 @@ from datetime import timedelta
 
 class Application:
     def __init__(self, config_file: str):
+        self.first_iteration = True
+
         param_handler = blf.parameters_handler.YarpParametersHandler()
         if not param_handler.set_from_filename(config_file):
             raise ValueError("Unable to set the parameter handler from the file.")
@@ -141,7 +143,10 @@ class Application:
             param_handler=param_handler.get_group("TSID"),
             kindyn=self.kindyn_with_measured,
         )
+
+        # print the solver to check if it is correct
         print(self.tsid.solver)
+
         I_H_r_sole = self.kindyn_with_measured.getWorldTransform(
             self.right_contact_frame
         )
@@ -221,9 +226,29 @@ class Application:
         self.index = 0
         self.knot_index = 1
 
-        self.port = blf.yarp_utilities.BufferedPortVectorsCollection()
-        if not self.port.open("/balancing_controller/logger/data:o"):
-            raise ValueError("Impossible to open the port.")
+        self.vectors_collection_server = blf.yarp_utilities.VectorsCollectionServer()
+        if not self.vectors_collection_server.initialize(
+            param_handler.get_group("DATA_LOGGING")
+        ):
+            raise RuntimeError("Unable to initialize the vectors collection server")
+
+        # populate the metadata
+        self.vectors_collection_server.populate_metadata("global_zmp", ["x", "y"])
+        self.vectors_collection_server.populate_metadata(
+            "global_zmp_from_measured", ["x", "y"]
+        )
+        self.vectors_collection_server.populate_metadata("local_zmp_left", ["x", "y"])
+        self.vectors_collection_server.populate_metadata("local_zmp_right", ["x", "y"])
+        self.vectors_collection_server.populate_metadata(
+            "com_from_desired", ["x", "y", "z"]
+        )
+        self.vectors_collection_server.populate_metadata(
+            "com_from_measured", ["x", "y", "z"]
+        )
+        self.vectors_collection_server.populate_metadata(
+            "desired_torque", self.robot_control.get_joint_list()
+        )
+        self.vectors_collection_server.finalize_metadata()
 
     def build_remote_control_board_driver(
         self,
@@ -382,6 +407,16 @@ class Application:
             self.tsid.solver.get_output().joint_accelerations * self.dt.total_seconds()
         )
 
+        # if is the first iteration we switch the control mode to torque control
+        if self.first_iteration:
+            if not self.robot_control.set_control_mode(
+                blf.robot_interface.YarpRobotControl.Torque
+            ):
+                blf.log().error("Impossible to set the control mode.")
+                return False
+
+            self.first_iteration = False
+
         # send the joint torques
         if not self.robot_control.set_references(
             self.tsid.solver.get_output().joint_torques,
@@ -438,17 +473,26 @@ class Application:
             self.kindyn_with_measured.getCenterOfMassPosition().toNumPy()
         )
 
-        data = self.port.prepare()
-        data.vectors = {
-            "global_zmp": global_zmp,
-            "global_zmp_from_measured": global_zmp_from_measured,
-            "local_zmp_left": local_zmp_left,
-            "local_zmp_right": local_zmp_right,
-            "com_from_desired": com_from_desired,
-            "com_from_measured": com_from_measured,
-            "desired_torque": self.tsid.solver.get_output().joint_torques,
-        }
-        self.port.write()
+        self.vectors_collection_server.prepare_data()
+        self.vectors_collection_server.clear_data()
+
+        self.vectors_collection_server.populate_data("global_zmp", global_zmp)
+        self.vectors_collection_server.populate_data(
+            "global_zmp_from_measured", global_zmp_from_measured
+        )
+        self.vectors_collection_server.populate_data("local_zmp_left", local_zmp_left)
+        self.vectors_collection_server.populate_data("local_zmp_right", local_zmp_right)
+        self.vectors_collection_server.populate_data(
+            "com_from_desired", com_from_desired
+        )
+        self.vectors_collection_server.populate_data(
+            "com_from_measured", com_from_measured
+        )
+        self.vectors_collection_server.populate_data(
+            "desired_torque", self.tsid.solver.get_output().joint_torques
+        )
+
+        self.vectors_collection_server.send_data()
 
         if self.index * self.dt >= self.motion_duration + self.motion_timeout:
             if self.knot_index + 1 >= len(self.com_knots_delta_x):
@@ -486,17 +530,13 @@ class Application:
         return True
 
     def __del__(self):
-        print("chiudo tutto e devo mori")
-
         # switch the control mode to position control
         if self.robot_control.is_valid():
             self.robot_control.set_control_mode(
                 blf.robot_interface.YarpRobotControl.Position
             )
 
-        # close the port
-        if not self.port.is_closed():
-            self.port.close()
+        blf.log().info("Closing the application.")
 
 
 def main():
