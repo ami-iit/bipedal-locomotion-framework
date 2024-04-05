@@ -115,6 +115,9 @@
       <node id="9">
         <label>vector</label>
       </node>
+      <node id="11">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="15">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
@@ -134,9 +137,6 @@
       </node>
       <node id="5">
         <label>type_traits</label>
-      </node>
-      <node id="11">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="2">
         <label>memory</label>

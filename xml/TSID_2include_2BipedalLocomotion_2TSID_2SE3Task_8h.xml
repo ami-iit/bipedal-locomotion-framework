@@ -129,6 +129,9 @@
       <node id="18">
         <label>utility</label>
       </node>
+      <node id="9">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="14">
         <label>cstddef</label>
       </node>
@@ -140,9 +143,6 @@
       </node>
       <node id="17">
         <label>type_traits</label>
-      </node>
-      <node id="9">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="6">
         <label>memory</label>

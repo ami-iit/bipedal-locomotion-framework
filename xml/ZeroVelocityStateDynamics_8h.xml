@@ -25,8 +25,8 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="25">
-        <label>iDynTree/Core/EigenHelpers.h</label>
+      <node id="21">
+        <label>iDynTree/Model.h</label>
       </node>
       <node id="10">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -58,9 +58,6 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="22">
-        <label>iDynTree/ModelIO/ModelLoader.h</label>
-      </node>
       <node id="31">
         <label>manif/SE3.h</label>
       </node>
@@ -69,6 +66,9 @@
       </node>
       <node id="24">
         <label>map</label>
+      </node>
+      <node id="22">
+        <label>iDynTree/ModelLoader.h</label>
       </node>
       <node id="3">
         <label>BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</label>
@@ -114,6 +114,9 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="27">
+        <label>iDynTree/Transform.h</label>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/System/Factory.h</label>
         <link refid="Factory_8h"/>
@@ -134,9 +137,6 @@
       <node id="20">
         <label>iDynTree/KinDynComputations.h</label>
       </node>
-      <node id="21">
-        <label>iDynTree/Model/Model.h</label>
-      </node>
       <node id="14">
         <label>vector</label>
       </node>
@@ -152,9 +152,6 @@
       </node>
       <node id="9">
         <label>utility</label>
-      </node>
-      <node id="28">
-        <label>iDynTree/Core/Twist.h</label>
       </node>
       <node id="26">
         <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
@@ -186,12 +183,12 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
+      <node id="25">
+        <label>iDynTree/EigenHelpers.h</label>
+      </node>
       <node id="16">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
-      </node>
-      <node id="27">
-        <label>iDynTree/Core/Transform.h</label>
       </node>
       <node id="18">
         <label>cstddef</label>
@@ -211,6 +208,9 @@
       </node>
       <node id="7">
         <label>type_traits</label>
+      </node>
+      <node id="28">
+        <label>iDynTree/Twist.h</label>
       </node>
       <node id="2">
         <label>memory</label>

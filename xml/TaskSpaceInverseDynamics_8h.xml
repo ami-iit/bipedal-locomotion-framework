@@ -213,6 +213,9 @@
       <node id="29">
         <label>utility</label>
       </node>
+      <node id="19">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="22">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
@@ -243,9 +246,6 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-      </node>
-      <node id="19">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="14">
         <label>memory</label>

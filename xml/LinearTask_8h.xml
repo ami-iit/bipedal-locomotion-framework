@@ -5,7 +5,7 @@
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes local="no">Eigen/Dense</includes>
-    <includes local="no">iDynTree/Core/MatrixView.h</includes>
+    <includes local="no">iDynTree/MatrixView.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includedby refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includedby>
@@ -64,6 +64,9 @@
       <node id="8">
         <label>vector</label>
       </node>
+      <node id="5">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="10">
         <label>cstddef</label>
       </node>
@@ -72,9 +75,6 @@
       </node>
       <node id="7">
         <label>chrono</label>
-      </node>
-      <node id="5">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="2">
         <label>memory</label>

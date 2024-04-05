@@ -7,8 +7,8 @@
     <includes local="no">vector</includes>
     <includes local="no">unordered_map</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
-    <includes local="no">iDynTree/Model/Model.h</includes>
-    <includes local="no">iDynTree/ModelIO/ModelLoader.h</includes>
+    <includes local="no">iDynTree/Model.h</includes>
+    <includes local="no">iDynTree/ModelLoader.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includedby refid="Dynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/Dynamics.h</includedby>
     <includedby refid="JointVelocityStateDynamics_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</includedby>
@@ -38,6 +38,9 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
+      <node id="7">
+        <label>iDynTree/Model.h</label>
+      </node>
       <node id="9">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
@@ -50,17 +53,14 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>iDynTree/ModelIO/ModelLoader.h</label>
-      </node>
       <node id="3">
         <label>string</label>
       </node>
+      <node id="8">
+        <label>iDynTree/ModelLoader.h</label>
+      </node>
       <node id="6">
         <label>iDynTree/KinDynComputations.h</label>
-      </node>
-      <node id="7">
-        <label>iDynTree/Model/Model.h</label>
       </node>
       <node id="4">
         <label>vector</label>

@@ -6,11 +6,14 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="Advanceable_8h" local="no">BipedalLocomotion/System/Advanceable.h</includes>
     <includes local="no">iDynTree/KinDynComputations.h</includes>
-    <includes local="no">iDynTree/Model/Model.h</includes>
+    <includes local="no">iDynTree/Model.h</includes>
     <includes local="no">manif/SE3.h</includes>
     <includes local="no">manif/SO3.h</includes>
     <includes local="no">memory</includes>
     <incdepgraph>
+      <node id="13">
+        <label>iDynTree/Model.h</label>
+      </node>
       <node id="8">
         <label>BipedalLocomotion/System/Advanceable.h</label>
         <link refid="Advanceable_8h"/>
@@ -70,9 +73,6 @@
       </node>
       <node id="12">
         <label>iDynTree/KinDynComputations.h</label>
-      </node>
-      <node id="13">
-        <label>iDynTree/Model/Model.h</label>
       </node>
       <node id="7">
         <label>vector</label>

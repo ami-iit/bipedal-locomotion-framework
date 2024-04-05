@@ -32,8 +32,8 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="13">
-        <label>iDynTree/Core/EigenHelpers.h</label>
+      <node id="23">
+        <label>iDynTree/Model.h</label>
       </node>
       <node id="17">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -65,9 +65,6 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="24">
-        <label>iDynTree/ModelIO/ModelLoader.h</label>
-      </node>
       <node id="27">
         <label>manif/SE3.h</label>
       </node>
@@ -76,6 +73,9 @@
       </node>
       <node id="5">
         <label>map</label>
+      </node>
+      <node id="24">
+        <label>iDynTree/ModelLoader.h</label>
       </node>
       <node id="6">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
@@ -91,14 +91,14 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
+      <node id="14">
+        <label>iDynTree/Transform.h</label>
+      </node>
       <node id="4">
         <label>Eigen/Dense</label>
       </node>
       <node id="22">
         <label>iDynTree/KinDynComputations.h</label>
-      </node>
-      <node id="23">
-        <label>iDynTree/Model/Model.h</label>
       </node>
       <node id="11">
         <label>vector</label>
@@ -112,9 +112,6 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-      </node>
-      <node id="15">
-        <label>iDynTree/Core/Twist.h</label>
       </node>
       <node id="12">
         <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
@@ -146,12 +143,12 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
+      <node id="13">
+        <label>iDynTree/EigenHelpers.h</label>
+      </node>
       <node id="20">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
-      </node>
-      <node id="14">
-        <label>iDynTree/Core/Transform.h</label>
       </node>
       <node id="7">
         <label>cstddef</label>
@@ -190,6 +187,9 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
+      </node>
+      <node id="15">
+        <label>iDynTree/Twist.h</label>
       </node>
       <node id="2">
         <label>memory</label>

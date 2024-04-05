@@ -106,6 +106,9 @@
       <node id="16">
         <label>utility</label>
       </node>
+      <node id="8">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="12">
         <label>cstddef</label>
       </node>
@@ -133,9 +136,6 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-      </node>
-      <node id="8">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="3">
         <label>memory</label>

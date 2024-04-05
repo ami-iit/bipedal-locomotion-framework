@@ -173,6 +173,9 @@
       <node id="18">
         <label>utility</label>
       </node>
+      <node id="12">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="6">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
         <link refid="IntegrationBasedIK_8h"/>
@@ -220,9 +223,6 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-      </node>
-      <node id="12">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="10">
         <label>BipedalLocomotion/IK/IKLinearTask.h</label>

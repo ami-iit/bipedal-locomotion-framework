@@ -5,7 +5,7 @@
     <includes local="no">chrono</includes>
     <includes local="no">tuple</includes>
     <includes local="no">type_traits</includes>
-    <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
+    <includes local="no">iDynTree/EigenHelpers.h</includes>
     <includes refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includes>
     <includes refid="NamedTuple_8h" local="no">BipedalLocomotion/GenericContainer/NamedTuple.h</includes>
     <includedby refid="FirstOrderSmoother_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</includedby>
@@ -21,9 +21,6 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>iDynTree/Core/EigenHelpers.h</label>
       </node>
       <node id="10">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
@@ -125,6 +122,9 @@
       </node>
       <node id="14">
         <label>utility</label>
+      </node>
+      <node id="5">
+        <label>iDynTree/EigenHelpers.h</label>
       </node>
       <node id="2">
         <label>chrono</label>

@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="Vector_8h" kind="file" language="C++">
     <compoundname>Vector.h</compoundname>
-    <includes local="no">iDynTree/Core/Span.h</includes>
+    <includes local="no">iDynTree/Span.h</includes>
     <includes refid="TemplateHelpers_8h" local="no">BipedalLocomotion/GenericContainer/TemplateHelpers.h</includes>
     <includes local="no">functional</includes>
     <includes local="no">cassert</includes>
@@ -17,11 +17,11 @@
       <node id="3">
         <label>functional</label>
       </node>
+      <node id="2">
+        <label>iDynTree/Span.h</label>
+      </node>
       <node id="4">
         <label>cassert</label>
-      </node>
-      <node id="2">
-        <label>iDynTree/Core/Span.h</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/GenericContainer/Vector.h</label>

@@ -3,20 +3,14 @@
   <compounddef id="matioCppConversions_8h" kind="file" language="C++">
     <compoundname>matioCppConversions.h</compoundname>
     <includes local="no">Eigen/Core</includes>
-    <includes local="no">iDynTree/Core/MatrixDynSize.h</includes>
-    <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
-    <includes local="no">iDynTree/Core/MatrixFixSize.h</includes>
+    <includes local="no">iDynTree/MatrixDynSize.h</includes>
+    <includes local="no">iDynTree/EigenHelpers.h</includes>
+    <includes local="no">iDynTree/MatrixFixSize.h</includes>
     <includes local="no">matioCpp/matioCpp.h</includes>
     <includes refid="Vector_8h" local="no">BipedalLocomotion/GenericContainer/Vector.h</includes>
     <incdepgraph>
-      <node id="4">
-        <label>iDynTree/Core/EigenHelpers.h</label>
-      </node>
       <node id="6">
         <label>matioCpp/matioCpp.h</label>
-      </node>
-      <node id="5">
-        <label>iDynTree/Core/MatrixFixSize.h</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/Conversions/matioCppConversions.h</label>
@@ -36,7 +30,13 @@
         <label>Eigen/Core</label>
       </node>
       <node id="3">
-        <label>iDynTree/Core/MatrixDynSize.h</label>
+        <label>iDynTree/MatrixDynSize.h</label>
+      </node>
+      <node id="4">
+        <label>iDynTree/EigenHelpers.h</label>
+      </node>
+      <node id="5">
+        <label>iDynTree/MatrixFixSize.h</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>

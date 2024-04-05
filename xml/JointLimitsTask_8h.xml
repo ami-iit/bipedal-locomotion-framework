@@ -109,6 +109,9 @@
       <node id="17">
         <label>utility</label>
       </node>
+      <node id="10">
+        <label>iDynTree/MatrixView.h</label>
+      </node>
       <node id="13">
         <label>cstddef</label>
       </node>
@@ -120,9 +123,6 @@
       </node>
       <node id="16">
         <label>type_traits</label>
-      </node>
-      <node id="10">
-        <label>iDynTree/Core/MatrixView.h</label>
       </node>
       <node id="6">
         <label>BipedalLocomotion/IK/IKLinearTask.h</label>

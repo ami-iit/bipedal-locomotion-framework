@@ -2,21 +2,18 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="ManifConversions_8h" kind="file" language="C++">
     <compoundname>ManifConversions.h</compoundname>
-    <includes local="no">iDynTree/Core/EigenHelpers.h</includes>
-    <includes local="no">iDynTree/Core/Transform.h</includes>
-    <includes local="no">iDynTree/Core/Twist.h</includes>
+    <includes local="no">iDynTree/EigenHelpers.h</includes>
+    <includes local="no">iDynTree/Transform.h</includes>
+    <includes local="no">iDynTree/Twist.h</includes>
     <includes local="no">manif/manif.h</includes>
     <includedby refid="KinDynWrapper_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h</includedby>
     <includedby refid="RobotDynamicsEstimator_8h" local="no">BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h</includedby>
     <incdepgraph>
-      <node id="2">
-        <label>iDynTree/Core/EigenHelpers.h</label>
-      </node>
       <node id="5">
         <label>manif/manif.h</label>
       </node>
-      <node id="4">
-        <label>iDynTree/Core/Twist.h</label>
+      <node id="3">
+        <label>iDynTree/Transform.h</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/Conversions/ManifConversions.h</label>
@@ -30,8 +27,11 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>iDynTree/Core/Transform.h</label>
+      <node id="2">
+        <label>iDynTree/EigenHelpers.h</label>
+      </node>
+      <node id="4">
+        <label>iDynTree/Twist.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>

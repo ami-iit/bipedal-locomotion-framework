@@ -22,9 +22,6 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="19">
-        <label>iDynTree/Core/EigenHelpers.h</label>
-      </node>
       <node id="9">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</label>
         <link refid="DynamicalSystem_8h"/>
@@ -177,6 +174,9 @@
       </node>
       <node id="16">
         <label>utility</label>
+      </node>
+      <node id="19">
+        <label>iDynTree/EigenHelpers.h</label>
       </node>
       <node id="30">
         <label>BipedalLocomotion/System/OutputPort.h</label>

@@ -6,8 +6,11 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes local="no">BipedalLocomotion/YarpUtilities/VectorsCollection.h</includes>
     <includes local="no">BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h</includes>
-    <includes local="no">iDynTree/Core/Span.h</includes>
+    <includes local="no">iDynTree/Span.h</includes>
     <incdepgraph>
+      <node id="9">
+        <label>iDynTree/Span.h</label>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
@@ -36,9 +39,6 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-      </node>
-      <node id="9">
-        <label>iDynTree/Core/Span.h</label>
       </node>
       <node id="8">
         <label>BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h</label>

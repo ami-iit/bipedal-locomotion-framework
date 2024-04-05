@@ -6,16 +6,19 @@
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes local="no">unordered_map</includes>
-    <includes local="no">iDynTree/Core/MatrixDynSize.h</includes>
-    <includes local="no">iDynTree/Core/MatrixFixSize.h</includes>
-    <includes local="no">iDynTree/Core/Transform.h</includes>
-    <includes local="no">iDynTree/Core/Twist.h</includes>
-    <includes local="no">iDynTree/Core/VectorFixSize.h</includes>
-    <includes local="no">iDynTree/Core/Wrench.h</includes>
+    <includes local="no">iDynTree/MatrixDynSize.h</includes>
+    <includes local="no">iDynTree/MatrixFixSize.h</includes>
+    <includes local="no">iDynTree/Transform.h</includes>
+    <includes local="no">iDynTree/Twist.h</includes>
+    <includes local="no">iDynTree/VectorFixSize.h</includes>
+    <includes local="no">iDynTree/Wrench.h</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includedby refid="CompliantContactWrench_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</includedby>
     <includedby refid="ContinuousContactModel_8h" local="no">BipedalLocomotion/ContactModels/ContinuousContactModel.h</includedby>
     <incdepgraph>
+      <node id="11">
+        <label>iDynTree/Wrench.h</label>
+      </node>
       <node id="12">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
@@ -28,14 +31,11 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>iDynTree/Core/MatrixFixSize.h</label>
+      <node id="6">
+        <label>iDynTree/MatrixDynSize.h</label>
       </node>
       <node id="4">
         <label>string</label>
-      </node>
-      <node id="6">
-        <label>iDynTree/Core/MatrixDynSize.h</label>
       </node>
       <node id="1">
         <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
@@ -63,8 +63,8 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>iDynTree/Core/VectorFixSize.h</label>
+      <node id="8">
+        <label>iDynTree/Transform.h</label>
       </node>
       <node id="2">
         <label>any</label>
@@ -72,20 +72,20 @@
       <node id="14">
         <label>vector</label>
       </node>
-      <node id="9">
-        <label>iDynTree/Core/Twist.h</label>
-      </node>
-      <node id="8">
-        <label>iDynTree/Core/Transform.h</label>
-      </node>
-      <node id="11">
-        <label>iDynTree/Core/Wrench.h</label>
-      </node>
       <node id="5">
         <label>unordered_map</label>
       </node>
       <node id="13">
         <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>iDynTree/MatrixFixSize.h</label>
+      </node>
+      <node id="10">
+        <label>iDynTree/VectorFixSize.h</label>
+      </node>
+      <node id="9">
+        <label>iDynTree/Twist.h</label>
       </node>
       <node id="3">
         <label>memory</label>
