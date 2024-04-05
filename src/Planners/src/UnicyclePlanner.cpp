@@ -12,8 +12,8 @@
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
 #include <chrono>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/VectorFixSize.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/VectorFixSize.h>
 #include <manif/SE3.h>
 
 #include <cassert>

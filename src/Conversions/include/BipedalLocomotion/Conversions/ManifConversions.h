@@ -8,9 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_MANIF_CONVERSIONS_H
 #define BIPEDAL_LOCOMOTION_MANIF_CONVERSIONS_H
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Transform.h>
+#include <iDynTree/Twist.h>
 
 #include <manif/manif.h>
 

@@ -9,9 +9,9 @@
 #define BIPEDAL_LOCOMOTION_MATIOCPPCONVERSIONS_H
 
 #include <Eigen/Core>
-#include <iDynTree/Core/MatrixDynSize.h>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/MatrixFixSize.h>
+#include <iDynTree/MatrixDynSize.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/MatrixFixSize.h>
 #include <matioCpp/matioCpp.h>
 #include <BipedalLocomotion/GenericContainer/Vector.h>
 

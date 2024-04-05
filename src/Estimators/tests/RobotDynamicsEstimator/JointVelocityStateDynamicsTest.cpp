@@ -13,10 +13,10 @@
 #include <yarp/os/ResourceFinder.h>
 
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/FreeFloatingState.h>
-#include <iDynTree/Model/Model.h>
-#include <iDynTree/Model/ModelTestUtils.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/FreeFloatingState.h>
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelTestUtils.h>
+#include <iDynTree/ModelLoader.h>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>

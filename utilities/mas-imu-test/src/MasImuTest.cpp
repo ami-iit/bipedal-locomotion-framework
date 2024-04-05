@@ -10,11 +10,11 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/SO3Utils.h>
-#include <iDynTree/Model/IJoint.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
-#include <iDynTree/yarp/YARPConfigurationsLoader.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/SO3Utils.h>
+#include <iDynTree/IJoint.h>
+#include <iDynTree/ModelLoader.h>
+#include <iDynTree/YARPConfigurationsLoader.h>
 
 #include <yarp/os/LogStream.h>
 

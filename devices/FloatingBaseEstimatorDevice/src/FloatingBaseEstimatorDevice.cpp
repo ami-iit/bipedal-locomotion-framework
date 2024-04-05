@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/yarp/YARPConversions.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/YARPConversions.h>
 #include <yarp/os/LogStream.h>
 
 using namespace BipedalLocomotion;

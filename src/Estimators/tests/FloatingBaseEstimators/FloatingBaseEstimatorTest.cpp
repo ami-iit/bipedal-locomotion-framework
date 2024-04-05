@@ -14,8 +14,8 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
-#include <iDynTree/Core/TestUtils.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/TestUtils.h>
+#include <iDynTree/ModelLoader.h>
 
 #include <iCubModels/iCubModels.h>
 

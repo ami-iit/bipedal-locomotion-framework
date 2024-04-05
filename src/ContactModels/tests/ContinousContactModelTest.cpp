@@ -10,8 +10,8 @@
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/SpatialAcc.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/SpatialAcc.h>
 
 #include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>

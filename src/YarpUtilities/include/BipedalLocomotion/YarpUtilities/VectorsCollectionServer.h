@@ -16,7 +16,7 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadataService.h>
 
-#include <iDynTree/Core/Span.h>
+#include <iDynTree/Span.h>
 
 namespace BipedalLocomotion
 {

@@ -11,7 +11,7 @@
 #include <memory>
 
 #include <BipedalLocomotion/ContactModels/ContactModel.h>
-#include <iDynTree/Model/Indices.h>
+#include <iDynTree/Indices.h>
 
 namespace BipedalLocomotion
 {

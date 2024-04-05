@@ -20,7 +20,7 @@
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/ModelLoader.h>
 
 #include <ConfigFolderPath.h>
 

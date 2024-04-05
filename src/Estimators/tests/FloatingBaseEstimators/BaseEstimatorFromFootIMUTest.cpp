@@ -11,8 +11,8 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <iCubModels/iCubModels.h>
-#include <iDynTree/Core/TestUtils.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/TestUtils.h>
+#include <iDynTree/ModelLoader.h>
 
 #include <Eigen/Dense>
 #include <catch2/catch_test_macros.hpp>

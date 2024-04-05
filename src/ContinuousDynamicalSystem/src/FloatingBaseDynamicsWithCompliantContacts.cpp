@@ -5,9 +5,9 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Twist.h>
+#include <iDynTree/Model.h>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h>
 #include <BipedalLocomotion/Conversions/CommonConversions.h>
