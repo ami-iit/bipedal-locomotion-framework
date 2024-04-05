@@ -10,6 +10,7 @@
 
 // std
 #include <memory>
+#include <optional>
 
 // Eigen
 #include <Eigen/Dense>
@@ -94,7 +95,7 @@ public:
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlModes vector containing the control mode for each joint.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
@@ -103,12 +104,13 @@ public:
      * between -100 and 100.
      * @warning At the current stage only revolute joints are supported.
      */
-    bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                       const std::vector<IRobotControl::ControlMode>& controlModes) final;
+    bool setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                       const std::vector<IRobotControl::ControlMode>& controlModes,
+                       std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {}) final;
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlMode a control mode for all the joints.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
@@ -120,7 +122,8 @@ public:
      * std::vector<IRobotControl::ControlMode>&).
      */
     bool setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                       const IRobotControl::ControlMode& mode) final;
+                       const IRobotControl::ControlMode& mode,
+                       std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {}) final;
 
     /**
      * Get the list of the controlled joints

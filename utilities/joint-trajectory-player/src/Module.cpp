@@ -14,7 +14,6 @@
 
 #include <Eigen/Dense>
 
-
 #include <BipedalLocomotion/JointTrajectoryPlayer/Module.h>
 
 #include <yarp/dev/IEncoders.h>
@@ -31,18 +30,18 @@ double Module::getPeriod()
 
 bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[Module::createPolydriver]";
     auto ptr = handler->getGroup("ROBOT_INTERFACE").lock();
     if (ptr == nullptr)
     {
-        std::cerr << "[Module::createPolydriver] Robot interface options is empty." << std::endl;
+        log()->error("{} Unable to find the group ROBOT_INTERFACE.", logPrefix);
         return false;
     }
     ptr->setParameter("local_prefix", this->getName());
     m_controlBoard = RobotInterface::constructRemoteControlBoardRemapper(ptr);
     if (!m_controlBoard.isValid())
     {
-        std::cerr << "[Module::createPolydriver] the robot polydriver has not been constructed."
-                  << std::endl;
+        log()->error("{} Unable to create the polydriver.", logPrefix);
         return false;
     }
 
@@ -51,18 +50,15 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
 
 bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[Module::initializeRobotControl]";
     if (!m_robotControl.initialize(handler->getGroup("ROBOT_CONTROL")))
     {
-        std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
-                     "control board"
-                  << std::endl;
+        log()->error("{} Unable to initialize the robot control.", logPrefix);
         return false;
     }
     if (!m_robotControl.setDriver(m_controlBoard.poly))
     {
-        std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
-                     "control board"
-                  << std::endl;
+        log()->error("{} Unable to set the driver.", logPrefix);
         return false;
     }
 
@@ -71,10 +67,10 @@ bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParamete
 
 bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[Module::instantiateSensorBridge]";
     if (!m_sensorBridge.initialize(handler->getGroup("SENSOR_BRIDGE")))
     {
-        std::cerr << "[Module::initializeSensorBridge] Unable to initialize the sensor bridge"
-                  << std::endl;
+        log()->error("{} Unable to initialize the sensor bridge.", logPrefix);
         return false;
     }
 
@@ -82,7 +78,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
     list.push(m_controlBoard.poly.get(), m_controlBoard.key.c_str());
     if (!m_sensorBridge.setDriversList(list))
     {
-        std::cerr << "[Module::initializeSensorBridge] Unable to set the driver list" << std::endl;
+        log()->error("{} Unable to set the drivers list.", logPrefix);
         return false;
     }
 
@@ -91,13 +87,14 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
 
 bool Module::readStateFromFile(const std::string& filename, const std::size_t numFields)
 {
+    constexpr auto logPrefix = "[Module::readStateFromFile]";
     std::deque<Eigen::VectorXd> data;
 
     matioCpp::File input(filename);
 
     if (!input.isOpen())
     {
-        std::cout << "[Module::readStateFromFile] Failed to open " << filename << "." << std::endl;
+        log()->error("{} Unable to open the file {}.", logPrefix, filename);
         return false;
     } else
     {
@@ -105,8 +102,7 @@ bool Module::readStateFromFile(const std::string& filename, const std::size_t nu
                                                                        // array named "traj"
         if (!m_traj.isValid())
         {
-            std::cerr << "[Module::readStateFromFile] Error reading input file: " << filename << "."
-                      << std::endl;
+            log()->error("{} Unable to read the trajectory from the file.", logPrefix);
             return false;
         }
 
@@ -116,43 +112,50 @@ bool Module::readStateFromFile(const std::string& filename, const std::size_t nu
 
 bool Module::configure(yarp::os::ResourceFinder& rf)
 {
+    constexpr auto logPrefix = "[Module::configure]";
     auto parametersHandler = std::make_shared<ParametersHandler::YarpImplementation>(rf);
 
     std::string name;
     if (!parametersHandler->getParameter("name", name))
+    {
+        log()->error("{} Unable to find the parameter 'name'.", logPrefix);
         return false;
+    }
     this->setName(name.c_str());
 
     if (!parametersHandler->getParameter("sampling_time", m_dT))
+    {
+        log()->error("{} Unable to find the parameter 'sampling_time'.", logPrefix);
         return false;
+    }
 
     std::string trajectoryFile;
     if (!parametersHandler->getParameter("trajectory_file", trajectoryFile))
     {
-        std::cerr << "[Module::configure] Trajectory_file parameter not specified." << std::endl;
+        log()->error("{} Unable to find the parameter 'trajectory_file'.", logPrefix);
         return false;
     }
 
     if (!this->createPolydriver(parametersHandler))
     {
-        std::cerr << "[Module::configure] Unable to create the polydriver." << std::endl;
+        log()->error("{} Unable to create the polydriver.", logPrefix);
         return false;
     }
     if (!this->initializeRobotControl(parametersHandler))
     {
-        std::cerr << "[Module::configure] Unable to initialize the robotControl interface." << std::endl;
+        log()->error("{} Unable to initialize the robot control.", logPrefix);
         return false;
     }
     if (!this->instantiateSensorBridge(parametersHandler))
     {
-        std::cerr << "[Module::configure] Unable toinitialize the sensorBridge interface." << std::endl;
+        log()->error("{} Unable to instantiate the sensor bridge.", logPrefix);
         return false;
     }
 
     m_numOfJoints = m_robotControl.getJointList().size();
     if (m_numOfJoints == 0)
     {
-        std::cerr << "[Module::configure] No joints to control." << std::endl;
+        log()->error("{} Are you trying to control a robot without joints?", logPrefix);
         return false;
     }
 
@@ -164,14 +167,26 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     if (!readStateFromFile(trajectoryFile, m_numOfJoints))
     {
+        log()->error("{} Unable to read the trajectory from the file.", logPrefix);
         return false;
     }
 
-    std::cout << "[Module::configure] Starting the experiment." << std::endl;
+    log()->info("{} Module configured.", logPrefix);
+
+    // switch to position control
+    if (!m_robotControl.setControlMode(RobotInterface::IRobotControl::ControlMode::Position))
+    {
+        log()->error("{} Unable to set the control mode to position.", logPrefix);
+        return false;
+    }
 
     // Reach the first position of the desired trajectory in position control
-    m_robotControl.setReferences(Conversions::toEigen(m_traj).row(m_idxTraj),
-                                 RobotInterface::IRobotControl::ControlMode::Position);
+    if (!m_robotControl.setReferences(Conversions::toEigen(m_traj).row(m_idxTraj),
+                                      RobotInterface::IRobotControl::ControlMode::Position))
+    {
+        log()->error("{} Error while setting the reference position.", logPrefix);
+        return false;
+    }
 
     m_state = State::positioning;
 
@@ -180,6 +195,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
 bool Module::updateModule()
 {
+    constexpr auto logPrefix = "[Module::updateModule]";
     bool isMotionDone;
     bool isTimeExpired;
     std::vector<std::pair<std::string, double>> jointlist;
@@ -189,23 +205,33 @@ bool Module::updateModule()
     case State::positioning:
         if (!m_robotControl.checkMotionDone(isMotionDone, isTimeExpired, jointlist))
         {
-            std::cerr << "[Module::updateModule] Impossible to check if the motion is done."
-                      << std::endl;
+            log()->error("{} Unable to check if the motion is done.", logPrefix);
             return false;
         }
         if (isTimeExpired)
         {
-            std::cerr << "[Module::updateModule] List of joints not finishing in time: "
-                      << std::endl;
+            log()->error("{} The timer expired.", logPrefix);
             for (int i = 0; i < jointlist.size(); i++)
             {
-                std::cerr << "Joint " << jointlist[i].first << "--> Error  " << jointlist[i].second
-                          << " rad" << std::endl;
+                log()->error("{} Joint {} --> Error {} rad",
+                             logPrefix,
+                             jointlist[i].first,
+                             jointlist[i].second);
             }
             return false;
         }
         if (isMotionDone)
         {
+            log()->info("{} Positioning done.", logPrefix);
+
+            // switch in position direct control
+            if (!m_robotControl.setControlMode(
+                    RobotInterface::IRobotControl::ControlMode::PositionDirect))
+            {
+                log()->error("{} Unable to switch in position direct control.", logPrefix);
+                return false;
+            }
+
             m_state = State::running;
         }
         break;
@@ -213,25 +239,25 @@ bool Module::updateModule()
     case State::running:
         if (!m_sensorBridge.advance())
         {
-            std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
+            log()->error("{} Unable to read the sensor.", logPrefix);
             return false;
         }
 
         if (!m_sensorBridge.getJointPositions(m_currentJointPos))
         {
-            std::cerr << "[Module::updateModule] Error in reading current position." << std::endl;
+            log()->error("{} Unable to get the joint position.", logPrefix);
             return false;
         }
 
         if (!m_sensorBridge.getJointVelocities(m_currentJointVel))
         {
-            std::cerr << "[Module::updateModule] Error in reading current velocity." << std::endl;
+            log()->error("{} Unable to get the joint velocity.", logPrefix);
             return false;
         }
 
         if (!m_sensorBridge.getMotorCurrents(m_currentMotorCurr))
         {
-            std::cerr << "[Module::updateModule] Error in reading motor currents." << std::endl;
+            log()->error("{} Unable to get the motor currents.", logPrefix);
             return false;
         }
 
@@ -256,8 +282,7 @@ bool Module::updateModule()
         m_idxTraj++;
         if (m_idxTraj == Conversions::toEigen(m_traj).rows())
         {
-            std::cout << "[Module::updateModule] Experiment finished." << std::endl;
-
+            log()->info("{} Trajectory ended.", logPrefix);
             return false;
         }
 
@@ -266,16 +291,14 @@ bool Module::updateModule()
                  .setReferences(Conversions::toEigen(m_traj).row(m_idxTraj),
                                 RobotInterface::IRobotControl::ControlMode::PositionDirect))
         {
-            std::cerr << "[Module::updateModule] Error while setting the reference position to "
-                         "iCub."
-                      << std::endl;
+            log()->error("{} Unable to set the reference.", logPrefix);
             return false;
         }
 
         break;
 
     default:
-        std::cerr << "[Module::updateModule] The program is in an unknown state. Cannot proceed.";
+        log()->error("{} Unknown state.", logPrefix);
         return false;
     }
 
@@ -284,7 +307,7 @@ bool Module::updateModule()
 
 bool Module::close()
 {
-    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
+    log()->info("[Module::close] Storing the dataset.");
 
     // set the file name
     std::time_t t = std::time(nullptr);
@@ -304,11 +327,14 @@ bool Module::close()
         file.write(out);
     }
 
-    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
+    log()->info("[Module::close] Dataset stored in {}.", fileName.str());
 
     // switch back in position control
-    m_robotControl.setReferences(m_currentJointPos,
-                                 RobotInterface::IRobotControl::ControlMode::Position);
+    if (!m_robotControl.setControlMode(RobotInterface::IRobotControl::ControlMode::Position))
+    {
+        log()->error("[Module::close] Unable to switch back in position control.");
+        return false;
+    }
 
     return true;
 }
