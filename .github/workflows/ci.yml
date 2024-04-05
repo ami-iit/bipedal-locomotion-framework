@@ -14,9 +14,9 @@ env:
   vcpkg_robotology_TAG: v0.11.0
   YCM_TAG: v0.15.3
   YARP_TAG: v3.8.0
-  iDynTree_TAG: v8.0.0
+  iDynTree_TAG: 42f2874b729348575aeee723c1775c3425735ef9
   CasADi_TAG: 3.5.5.2
-  manif_TAG: 0.0.4
+  manif_TAG: 0.0.4.102
   matioCpp_TAG: v0.2.0
   LieGroupControllers_TAG: v0.2.0
   osqp_TAG: v0.6.2
@@ -58,7 +58,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-2019, macos-latest]
+        os: [ubuntu-20.04, windows-2019]
       fail-fast: false
 
     steps:
@@ -92,25 +92,6 @@ jobs:
         unzip vcpkg-robotology.zip -d C:/
         rm vcpkg-robotology.zip
 
-    - name: Fixup brew [macOS]
-      if: matrix.os == 'macos-latest'
-      run: |
-          # Unlink and re-link to prevent errors when github mac runner images
-          # install python outside of brew, for example:
-          # https://github.com/orgs/Homebrew/discussions/3895
-          # https://github.com/actions/setup-python/issues/577
-          # https://github.com/actions/runner-images/issues/6459
-          # https://github.com/actions/runner-images/issues/6507
-          # https://github.com/actions/runner-images/issues/2322
-          brew list -1 | grep python | while read formula; do brew unlink $formula; brew link --overwrite $formula; done
-
-    - name: Dependencies [macOS]
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew update
-        brew install ace boost eigen swig qt5 orocos-kdl qhull ipopt cppad pkg-config pybind11 \
-                     libmatio spdlog librealsense nlohmann-json numpy assimp
-
     - name: Dependencies [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: |
@@ -142,10 +123,6 @@ jobs:
     - name: Get number of cores to speed up cmake build [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
       run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
-
-    - name: Get number of cores to speed up cmake build [macOS]
-      if: matrix.os == 'macos-latest'
-      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`sysctl -n hw.logicalcpu`" >> $GITHUB_ENV
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -248,7 +225,7 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/artivis/manif.git
+        git clone https://github.com/robotology-dependencies/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
@@ -339,8 +316,8 @@ jobs:
                      -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: Source-based Dependencies [Ubuntu/macOS]
-      if: steps.cache-source-deps.outputs.cache-hit != 'true' && (startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest')
+    - name: Source-based Dependencies [Ubuntu]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
       shell: bash
       run: |
 
@@ -420,12 +397,12 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/artivis/manif.git
+        git clone https://github.com/robotology-dependencies/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
         cd build
-        cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake -DBUILD_PYTHON_BINDINGS:BOOL=ON -DMANIFPY_PKGDIR:PATH=${GITHUB_WORKSPACE}/install/deps/lib/python3/dist-packages -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # matioCpp
@@ -502,14 +479,6 @@ jobs:
 
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
-    - name: Install manifpy [Ubuntu/macOS]
-      if: startsWith(matrix.os, 'ubuntu') || matrix.os == 'macos-latest'
-      run: |
-        git clone https://github.com/artivis/manif.git manifpy
-        cd manifpy
-        git checkout ${manif_TAG}
-        python3 -m pip install .
-
     - name: Check Python setup
       shell: bash
       run: |
@@ -553,20 +522,6 @@ jobs:
               -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
               -DENABLE_YarpRobotLoggerDevice:BOOL=ON \
               -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
-
-    - name: Configure [macOS]
-      if: matrix.os == 'macos-latest'
-      shell: bash
-      run: |
-        mkdir -p build
-        cd build
-        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps \
-              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
-              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
-              -DFRAMEWORK_TEST_PYTHON_BINDINGS:BOOL=OFF \
-              -DBUILD_TESTING:BOOL=ON ..
 
     - name: Check build if some dependencies are not enabled [Ubuntu]
       if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
