@@ -7,10 +7,10 @@
 
 // Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Core/TestUtils.h>
-#include <iDynTree/Core/Transform.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
+#include <iDynTree/TestUtils.h>
+#include <iDynTree/Transform.h>
 #include <memory>
 #include <vector>
 #include <string>

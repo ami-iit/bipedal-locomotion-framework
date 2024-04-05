@@ -8,9 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
 #define BIPEDAL_LOCOMOTION_CONTACT_MODELS_CONTINUOUS_CONTACT_MODEL_H
 
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/Wrench.h>
+#include <iDynTree/Transform.h>
+#include <iDynTree/Twist.h>
+#include <iDynTree/Wrench.h>
 
 #include <BipedalLocomotion/ContactModels/ContactModel.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>

@@ -6,7 +6,7 @@
  */
 
 #include <BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h>
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 #include <manif/manif.h>
 

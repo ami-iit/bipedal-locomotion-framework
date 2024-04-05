@@ -11,7 +11,7 @@
 
 #include <chrono>
 
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model.h>
 
 using namespace BipedalLocomotion;
 using namespace BipedalLocomotion::Estimators;

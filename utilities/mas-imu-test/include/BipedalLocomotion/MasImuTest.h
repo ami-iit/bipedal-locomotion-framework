@@ -21,12 +21,12 @@
 #include <yarp/dev/IEncodersTimed.h>
 
 // iDynTree
-#include <iDynTree/Model/Model.h>
-#include <iDynTree/Model/Traversal.h>
-#include <iDynTree/Core/Rotation.h>
+#include <iDynTree/Model.h>
+#include <iDynTree/Traversal.h>
+#include <iDynTree/Rotation.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/Transform.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/Transform.h>
 
 // Eigen
 #include <Eigen/Core>

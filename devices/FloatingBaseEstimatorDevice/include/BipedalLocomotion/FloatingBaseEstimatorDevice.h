@@ -13,7 +13,7 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
 #include <iDynTree/Estimation/ContactStateMachine.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/ModelLoader.h>
 
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/dev/DeviceDriver.h>

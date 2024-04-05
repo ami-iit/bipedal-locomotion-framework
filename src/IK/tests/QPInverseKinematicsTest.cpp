@@ -33,8 +33,8 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/ModelTestUtils.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;

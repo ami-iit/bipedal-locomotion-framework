@@ -8,7 +8,7 @@
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
-#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/VectorDynSize.h>
 #include <unordered_map>
 #include <map>
 #include <set>

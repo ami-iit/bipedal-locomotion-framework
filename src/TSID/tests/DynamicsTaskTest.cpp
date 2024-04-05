@@ -14,8 +14,8 @@
 #include <BipedalLocomotion/TSID/BaseDynamicsTask.h>
 #include <BipedalLocomotion/TSID/JointDynamicsTask.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/ModelTestUtils.h>
 
 #include <Eigen/Dense>
 

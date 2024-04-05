@@ -5,7 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 #include <BipedalLocomotion/ContactModels/ContinuousContactModel.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>

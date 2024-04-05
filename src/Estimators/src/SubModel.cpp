@@ -6,10 +6,10 @@
  */
 
 // iDyn
-#include <iDynTree/Model/SubModel.h>
-#include <iDynTree/Model/Traversal.h>
-#include <iDynTree/Model/ModelTransformers.h>
-#include <iDynTree/Sensors/SixAxisForceTorqueSensor.h>
+#include <iDynTree/SubModel.h>
+#include <iDynTree/Traversal.h>
+#include <iDynTree/ModelTransformers.h>
+#include <iDynTree/SixAxisForceTorqueSensor.h>
 
 // BLF
 #include <BipedalLocomotion/TextLogging/Logger.h>

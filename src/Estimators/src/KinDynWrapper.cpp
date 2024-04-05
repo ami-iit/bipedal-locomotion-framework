@@ -7,9 +7,9 @@
 
 #include <Eigen/QR>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/MatrixView.h>
-#include <iDynTree/Core/Span.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/MatrixView.h>
+#include <iDynTree/Span.h>
 
 // BLF
 #include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>

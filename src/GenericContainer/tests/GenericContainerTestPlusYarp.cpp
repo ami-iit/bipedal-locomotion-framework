@@ -7,9 +7,9 @@
 
 // Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <iDynTree/Core/VectorDynSize.h>
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Core/TestUtils.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
+#include <iDynTree/TestUtils.h>
 
 #include <yarp/sig/Vector.h>
 

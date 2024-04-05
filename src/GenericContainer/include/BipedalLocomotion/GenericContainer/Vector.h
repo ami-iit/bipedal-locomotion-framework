@@ -9,7 +9,7 @@
 #define BIPEDAL_LOCOMOTION_GENERIC_CONTAINER_VECTOR_H
 
 // iDynTree
-#include <iDynTree/Core/Span.h>
+#include <iDynTree/Span.h>
 
 // Template helpers
 #include <BipedalLocomotion/GenericContainer/TemplateHelpers.h>

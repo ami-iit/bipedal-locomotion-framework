@@ -10,7 +10,7 @@
 
 #include <BipedalLocomotion/Conversions/CommonConversions.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 TEST_CASE("Manif Conversions")
 {
