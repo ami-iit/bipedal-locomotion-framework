@@ -5,7 +5,9 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include "BipedalLocomotion/Math/Constants.h"
+#include "BipedalLocomotion/Contacts/ContactList.h"
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -19,8 +21,6 @@
 #include <iDynTree/VectorFixSize.h>
 #include <manif/SE3.h>
 
-#include <cassert>
-#include <limits>
 #include <string>
 
 using namespace BipedalLocomotion;
@@ -38,14 +38,13 @@ public:
 
     FSM state{FSM::NotInitialized};
 
-    struct
-    {
-        std::optional<Contacts::PlannedContact> left;
-        std::optional<Contacts::PlannedContact> right;
-    } initialContacts;
+    // struct
+    // {
+    //     std::optional<Contacts::PlannedContact> left;
+    //     std::optional<Contacts::PlannedContact> right;
+    // } initialContacts;
 
-    UnicyclePlannerOutput outputRef;
-    std::optional<UnicyclePlannerOutput> output = std::nullopt;
+    UnicyclePlannerOutput output;
 
     std::unique_ptr<::UnicycleGenerator> generator;
 };
@@ -107,7 +106,7 @@ bool Planners::UnicyclePlanner::initialize(
     // clang-format on
 
     // initialization parameters
-    Eigen::Vector2d referencePointDistance;
+    // Eigen::Vector2d referencePointDistance;
     std::string unicycleControllerAsString{"direct"};
 
     double unicycleGain;
@@ -115,7 +114,8 @@ bool Planners::UnicyclePlanner::initialize(
     double slowWhenBackwardFactor;
     double slowWhenSidewaysFactor;
 
-    double dt;
+    // double dt;
+    // double plannerHorizon;
 
     double positionWeight;
     double timeWeight;
@@ -123,7 +123,7 @@ bool Planners::UnicyclePlanner::initialize(
     double maxStepLength;
     double minStepLength;
     double maxLengthBackwardFactor;
-    double nominalWidth;
+    // double nominalWidth;
     double minWidth;
     double minStepDuration;
     double maxStepDuration;
@@ -132,8 +132,8 @@ bool Planners::UnicyclePlanner::initialize(
     double minAngleVariation;
 
     Eigen::Vector2d saturationFactors;
-    double leftYawDeltaInRad;
-    double rightYawDeltaInRad;
+    // double leftYawDeltaInRad;
+    // double rightYawDeltaInRad;
 
     bool startWithLeft{true};
     bool startWithSameFoot{true};
@@ -156,19 +156,20 @@ bool Planners::UnicyclePlanner::initialize(
     // parse initialization parameters
     bool ok = true;
 
-    ok = ok && loadParam("referencePosition", referencePointDistance);
+    ok = ok && loadParam("referencePosition", m_referencePointDistance);
     ok = ok && loadParam("controlType", unicycleControllerAsString);
     ok = ok && loadParam("unicycleGain", unicycleGain);
     ok = ok && loadParam("slowWhenTurningGain", slowWhenTurningGain);
     ok = ok && loadParam("slowWhenBackwardFactor", slowWhenBackwardFactor);
     ok = ok && loadParam("slowWhenSidewaysFactor", slowWhenSidewaysFactor);
-    ok = ok && loadParam("dt", dt);
+    ok = ok && loadParam("dt", m_dt);
+    ok = ok && loadParam("plannerHorizon", m_plannerHorizon);
     ok = ok && loadParam("positionWeight", positionWeight);
     ok = ok && loadParam("timeWeight", timeWeight);
     ok = ok && loadParam("maxStepLength", maxStepLength);
     ok = ok && loadParam("minStepLength", minStepLength);
     ok = ok && loadParam("maxLengthBackwardFactor", maxLengthBackwardFactor);
-    ok = ok && loadParam("nominalWidth", nominalWidth);
+    ok = ok && loadParam("nominalWidth", m_nominalWidth);
     ok = ok && loadParam("minWidth", minWidth);
     ok = ok && loadParam("minStepDuration", minStepDuration);
     ok = ok && loadParam("maxStepDuration", maxStepDuration);
@@ -176,8 +177,8 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("maxAngleVariation", maxAngleVariation);
     ok = ok && loadParam("minAngleVariation", minAngleVariation);
     ok = ok && loadParam("saturationFactors", saturationFactors);
-    ok = ok && loadParam("leftYawDeltaInDeg", leftYawDeltaInRad);
-    ok = ok && loadParam("rightYawDeltaInDeg", rightYawDeltaInRad);
+    ok = ok && loadParam("leftYawDeltaInDeg", m_leftYawDeltaInRad);
+    ok = ok && loadParam("rightYawDeltaInDeg", m_rightYawDeltaInRad);
     ok = ok && loadParam("swingLeft", startWithLeft);
     ok = ok && loadParam("startAlwaysSameFoot", startWithSameFoot);
     ok = ok && loadParam("conservative_factor", freeSpaceConservativeFactor);
@@ -198,26 +199,26 @@ bool Planners::UnicyclePlanner::initialize(
     auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
 
     ok = ok
-         && unicyclePlanner->setDesiredPersonDistance(referencePointDistance[0],
-                                                      referencePointDistance[1]);
+         && unicyclePlanner->setDesiredPersonDistance(m_referencePointDistance[0],
+                                                      m_referencePointDistance[1]);
     ok = ok && unicyclePlanner->setPersonFollowingControllerGain(unicycleGain);
     ok = ok && unicyclePlanner->setSlowWhenTurnGain(slowWhenTurningGain);
     ok = ok && unicyclePlanner->setSlowWhenBackwardFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setSlowWhenSidewaysFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setMaxStepLength(maxStepLength, maxLengthBackwardFactor);
-    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(dt);
-    ok = ok && unicyclePlanner->setWidthSetting(minWidth, nominalWidth);
+    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(m_dt);
+    ok = ok && unicyclePlanner->setWidthSetting(minWidth, m_nominalWidth);
     ok = ok && unicyclePlanner->setMaxAngleVariation(maxAngleVariation);
     ok = ok && unicyclePlanner->setMinimumAngleForNewSteps(minAngleVariation);
     ok = ok && unicyclePlanner->setCostWeights(positionWeight, timeWeight);
     ok = ok && unicyclePlanner->setStepTimings(minStepDuration, maxStepDuration, nominalDuration);
-    ok = ok && unicyclePlanner->setPlannerPeriod(dt);
+    ok = ok && unicyclePlanner->setPlannerPeriod(m_dt);
     ok = ok && unicyclePlanner->setMinimumStepLength(minStepLength);
     ok = ok
          && unicyclePlanner->setSaturationsConservativeFactors(saturationFactors(0),
                                                                saturationFactors(1));
-    unicyclePlanner->setLeftFootYawOffsetInRadians(leftYawDeltaInRad);
-    unicyclePlanner->setRightFootYawOffsetInRadians(rightYawDeltaInRad);
+    unicyclePlanner->setLeftFootYawOffsetInRadians(m_leftYawDeltaInRad);
+    unicyclePlanner->setRightFootYawOffsetInRadians(m_rightYawDeltaInRad);
     unicyclePlanner->addTerminalStep(true);
     unicyclePlanner->startWithLeft(startWithLeft);
     unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
@@ -247,9 +248,9 @@ bool Planners::UnicyclePlanner::initialize(
     dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
 
-    // m_correctLeft = true;
-
-    // m_newFreeSpaceEllipse = false;
+    /////++++++
+    // GENERATE_TRAJECTORIES FOR THE FIRST TIME: TO BE ADDED (MAYBE HERE)
+    /////++++++
 
     if (ok)
     {
@@ -263,98 +264,28 @@ const Planners::UnicyclePlannerOutput& Planners::UnicyclePlanner::getOutput() co
 {
     constexpr auto logPrefix = "[UnicyclePlanner::getOutput]";
 
-    if (!this->isOutputValid())
-    {
-        log()->warn("{} Returning an empty output.", logPrefix);
-        m_pImpl->outputRef = {};
-        return m_pImpl->outputRef;
-    }
-
-    m_pImpl->outputRef = *m_pImpl->output;
-    return m_pImpl->outputRef;
+    return m_pImpl->output;
 }
 
 bool Planners::UnicyclePlanner::isOutputValid() const
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::isOutputValid]";
-
-    if (!m_pImpl->isInitialized)
-    {
-        log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
-        return false;
-    }
-
-    if (!(m_pImpl->generator->getLeftFootPrint()->numberOfSteps() > 0)
-        || !(m_pImpl->generator->getRightFootPrint()->numberOfSteps() > 0))
-    {
-        log()->error("{} The Unicycle planner never computed the foot steps.", logPrefix);
-        return false;
-    }
-
-    if (!m_pImpl->output)
-    {
-        log()->error("{} The output has never been computed.", logPrefix);
-        return false;
-    }
-
-    return true;
+    return m_pImpl->state == Impl::FSM::Running;
 }
 
 bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
 {
     constexpr auto logPrefix = "[UnicyclePlanner::setInput]";
 
-    if (!m_pImpl->isInitialized)
+    if (m_pImpl->state == Impl::FSM::NotInitialized)
     {
         log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
         return false;
     }
 
-    auto getMaxKnotTime = [](const UnicyclePlannerInput& input) -> double {
-        double maxKnotTime = 0.0;
-
-        for (const auto& knot : input.knots)
-        {
-            if (knot.time > maxKnotTime)
-                maxKnotTime = knot.time;
-        }
-
-        return maxKnotTime;
-    };
-
-    if (input.tf < getMaxKnotTime(input))
-    {
-        log()->error("{} The input contains a knot whose time is over the planner horizon.",
-                     logPrefix);
-        return false;
-    }
-
-    m_pImpl->generator->unicyclePlanner()->clearPersonFollowingDesiredTrajectory();
-
-    for (const auto& knot : input.knots)
-    {
-        auto position = iDynTree::Vector2();
-        position[0] = knot.x;
-        position[1] = knot.y;
-
-        auto velocity = iDynTree::Vector2();
-        velocity[0] = knot.dx;
-        velocity[1] = knot.dy;
-
-        if (!m_pImpl->generator->unicyclePlanner()
-                 ->addPersonFollowingDesiredTrajectoryPoint(knot.time, position, velocity))
-        {
-            m_pImpl->generator->unicyclePlanner()->clearPersonFollowingDesiredTrajectory();
-            log()->error("{} Failed to insert knot in the Unicycle planner.", logPrefix);
-            return false;
-        }
-    }
-
-    m_pImpl->horizon.t0 = input.t0;
-    m_pImpl->horizon.tf = input.tf;
-
-    m_pImpl->initialContacts.left = input.initialLeftContact;
-    m_pImpl->initialContacts.right = input.initialRightContact;
+    m_input.dcmInitialState = input.dcmInitialState;
+    m_input.plannerInput = input.plannerInput;
+    m_input.correctLeft = input.correctLeft;
+    m_input.measuredTransform = input.measuredTransform;
 
     return true;
 }
@@ -363,246 +294,197 @@ bool Planners::UnicyclePlanner::advance()
 {
     constexpr auto logPrefix = "[UnicyclePlanner::advance]";
 
-    if (!m_pImpl->isInitialized)
+    if (m_pImpl->state == Impl::FSM::NotInitialized)
     {
         log()->error("{} The Unicycle planner has never been initialized.", logPrefix);
         return false;
     }
 
-    // Lambda to clean up resources when returning false
-    auto cleanup = [&]() {
-        m_pImpl->generator->getLeftFootPrint()->clearSteps();
-        m_pImpl->generator->getRightFootPrint()->clearSteps();
-        m_pImpl->output = std::nullopt;
-    };
+    bool correctLeft{m_input.correctLeft};
 
-    // Cleanup first
-    cleanup();
+    // set timings
+    double dt{m_dt};
+    double initTime{m_input.initTime};
+    double endTime = initTime + m_plannerHorizon;
 
-    // ==================================
-    // Plan contacts with UnicyclePlanner
-    // ==================================
+    // set desired point
+    Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
+    desiredPointInRelativeFrame(0) = m_input.plannerInput(0);
+    desiredPointInRelativeFrame(0) = m_input.plannerInput(1);
 
-    // Convert manif to iDynTree
-    auto toiDynTree = [](const manif::SE3d::Translation& translation) -> iDynTree::Vector2 {
-        iDynTree::Vector2 position;
-        position[0] = translation[0];
-        position[1] = translation[1];
-        return position;
-    };
+    // left foot
+    Eigen::Vector2d measuredPositionLeft;
+    double measuredAngleLeft;
+    double leftYawDeltaInRad;
+    measuredPositionLeft(0) = m_input.measuredTransform.getPosition()(0);
+    measuredPositionLeft(1) = m_input.measuredTransform.getPosition()(1);
+    measuredAngleLeft = m_input.measuredTransform.getRotation().asRPY()(2);
+    leftYawDeltaInRad = m_leftYawDeltaInRad;
 
-    // The initTime of the UnicyclePlanner cannot be smaller than
-    // the impact time of the last step.
-    // If an initial step configuration is passed, the initial time must be updated.
-    double initTime = m_pImpl->horizon.t0;
+    // right foot
+    Eigen::Vector2d measuredPositionRight;
+    double measuredAngleRight;
+    double rightYawDeltaInRad;
+    measuredPositionRight(0) = m_input.measuredTransform.getPosition()(0);
+    measuredPositionRight(1) = m_input.measuredTransform.getPosition()(1);
+    measuredAngleRight = m_input.measuredTransform.getRotation().asRPY()(2);
+    rightYawDeltaInRad = m_rightYawDeltaInRad;
 
-    // Process the initial left contact configuration
-    if (m_pImpl->initialContacts.left)
+    // get unicycle pose
+    double measuredAngle;
+    measuredAngle = correctLeft ? measuredAngleLeft : measuredAngleRight;
+    Eigen::Vector2d measuredPosition = correctLeft ? measuredPositionLeft : measuredPositionRight;
+
+    Eigen::Vector2d unicyclePositionFromStanceFoot, footPosition, unicyclePosition;
+    unicyclePositionFromStanceFoot(0) = 0.0;
+
+    Eigen::Matrix2d unicycleRotation;
+    double unicycleAngle;
+
+    if (correctLeft)
     {
-        const auto& contact = m_pImpl->initialContacts.left;
-
-        // Here we decompose the quaternion to YXZ intrinsic Euler angles (default in Eigen).
-        // The most reliable decomposition is ZXY extrinsic, that is equivalent since the two
-        // commute when the order is reversed. This decomposition, having Z as first rotation,
-        // should get the correct yaw in most cases.
-        const auto& euler
-            = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
-
-        // Create the inital step
-        m_pImpl->generator->getLeftFootPrint()
-            ->addStep(toiDynTree(contact->pose.translation()),
-                      euler[2],
-                      std::chrono::duration<double>(contact->activationTime).count());
-
-        const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
-        initTime = impactTime > initTime ? impactTime : initTime;
+        unicyclePositionFromStanceFoot(1) = -m_nominalWidth / 2;
+        unicycleAngle = measuredAngleLeft - leftYawDeltaInRad;
+        footPosition = measuredPositionLeft;
+    } else
+    {
+        unicyclePositionFromStanceFoot(1) = m_nominalWidth / 2;
+        unicycleAngle = measuredAngleRight - rightYawDeltaInRad;
+        footPosition = measuredPositionRight;
     }
 
-    // Process the initial right contact configuration
-    if (m_pImpl->initialContacts.right)
+    double s_theta = std::sin(unicycleAngle);
+    double c_theta = std::cos(unicycleAngle);
+
+    unicycleRotation(0, 0) = c_theta;
+    unicycleRotation(0, 1) = -s_theta;
+    unicycleRotation(1, 0) = s_theta;
+    unicycleRotation(1, 1) = c_theta;
+
+    unicyclePosition = unicycleRotation * unicyclePositionFromStanceFoot + footPosition;
+
+    // apply the homogeneous transformation w_H_{unicycle}
+    desiredPointInAbsoluteFrame
+        = unicycleRotation * (m_referencePointDistance + desiredPointInRelativeFrame)
+          + unicyclePosition;
+
+    // clear the old trajectory
+    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
+    unicyclePlanner->clearPersonFollowingDesiredTrajectory();
+
+    // add new point
+    if (!unicyclePlanner->addPersonFollowingDesiredTrajectoryPoint(endTime,
+                                                                   iDynTree::Vector2(
+                                                                       desiredPointInAbsoluteFrame)))
     {
-        const auto& contact = m_pImpl->initialContacts.right;
-
-        // Here we decompose the quaternion to YXZ intrinsic Euler angles (default in Eigen).
-        // The most reliable decomposition is ZXY extrinsic, that is equivalent since the two
-        // commute when the order is reversed. This decomposition, having Z as first rotation,
-        // should get the correct yaw in most cases.
-        const auto& euler
-            = contact->pose.quat().normalized().toRotationMatrix().eulerAngles(1, 0, 2);
-
-        // Create the inital step
-        m_pImpl->generator->getRightFootPrint()
-            ->addStep(toiDynTree(contact->pose.translation()),
-                      euler[2],
-                      std::chrono::duration<double>(contact->activationTime).count());
-
-        const double impactTime = std::chrono::duration<double>(contact->activationTime).count();
-        initTime = impactTime > initTime ? impactTime : initTime;
-    }
-
-    if (!m_pImpl->generator->unicyclePlanner()
-             ->computeNewSteps(m_pImpl->generator->getLeftFootPrint(),
-                               m_pImpl->generator->getRightFootPrint(),
-                               initTime,
-                               m_pImpl->horizon.tf))
-    {
-        cleanup();
-        log()->error("{} Failed to compute new steps.", logPrefix);
+        log()->error("{} Error while setting the new reference.", logPrefix);
         return false;
     }
 
-    // ===========================================
-    // Compute step timings with UnicycleGenerator
-    // ===========================================
+    // set the desired direct control
+    unicyclePlanner->setDesiredDirectControl(m_input.plannerInput(0),
+                                             m_input.plannerInput(1),
+                                             m_input.plannerInput(2));
 
-    // Create and configure the generator
-    m_pImpl->generator->setSwitchOverSwingRatio(m_pImpl->gait.stancePhaseRatio);
-    m_pImpl->generator->setPauseConditions(m_pImpl->duration.max, m_pImpl->duration.nominal);
+    // set the initial state of the DCM trajectory generator
+    auto dcmGenerator = m_pImpl->generator->addDCMTrajectoryGenerator();
 
-    // The last step will have an infinite deactivation time, the following option
-    // is necessary for the generator but it does not affect the advanceable output
-    m_pImpl->generator->setTerminalHalfSwitchTime(1.0);
-
-    // Due to how the generator works, the start time must be bigger than last impact time
-    const double startLeft = m_pImpl->generator->getLeftFootPrint()->getSteps().front().impactTime;
-    const double startRight
-        = m_pImpl->generator->getRightFootPrint()->getSteps().front().impactTime;
-    const double startTime = std::max(startLeft, startRight);
-
-    // Compute the contact states using the generator
-    if (!m_pImpl->generator->generateFromFootPrints(m_pImpl->generator->getLeftFootPrint(),
-                                                    m_pImpl->generator->getRightFootPrint(),
-                                                    startTime,
-                                                    m_pImpl->dt.planner))
+    if (!dcmGenerator->setDCMInitialState(m_input.dcmInitialState))
     {
-        cleanup();
-        log()->error("{} Failed to generate from footprints.", logPrefix);
+        log()->error("{} Failed to set the initial state.", logPrefix);
         return false;
     }
 
-    // Get the contact states over the horizon
-    std::vector<bool> leftStandingPeriod;
-    std::vector<bool> rightStandingPeriod;
+    // generate the new trajectory
+    if (!(m_pImpl->generator->reGenerate(initTime,
+                                         dt,
+                                         endTime,
+                                         correctLeft,
+                                         iDynTree::Vector2(measuredPosition),
+                                         measuredAngle)))
+    {
+        log()->error("{} Failed in computing new trajectory.", logPrefix);
+        return false;
+    }
+
+    // get the contact phase lists
+    BipedalLocomotion::Contacts::ContactListMap leftContactListMap, rightContactListMap;
+    std::vector<StepPhase> leftPhases, rightPhases;
+    m_pImpl->generator->getStepPhases(leftPhases, rightPhases);
+    std::vector<bool> leftStandingPeriod, rightStandingPeriod;
     m_pImpl->generator->getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
+    auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
+    auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
 
-    // Bind dt to catch it in the next lambda
-    const auto& dt = m_pImpl->dt.planner;
+    m_pImpl->output.leftContactPhaseList.setLists(leftContactListMap);
+    m_pImpl->output.rightContactPhaseList.setLists(rightContactListMap);
 
-    // Lambda to convert Step to Contact, filling only the timings.
-    // Transforms will be included in a later stage.
-    auto convertStepsToContacts
-        = [dt](const std::vector<bool>& isFootInContactVector,
-               const StepList& steps) -> std::vector<Contacts::PlannedContact> {
-        std::vector<Contacts::PlannedContact> contacts;
+    auto getContactList
+        = [](const double initTime,
+             const double dt,
+             const std::vector<bool>& stepPhases,
+             const std::vector<Step>& steps,
+             const std::string& contactName) -> BipedalLocomotion::Contacts::ContactList {
+        BipedalLocomotion::Contacts::ContactList contactList;
 
-        for (const auto& step : steps)
+        double currentTime{initTime};
+
+        auto stepIterator = steps.begin();
+
+        int contactIndex{0};
+
+        while (stepIterator != steps.end())
         {
-            using namespace std::chrono_literals;
-            auto contact = Contacts::PlannedContact();
-            contact.name = step.footName;
-            contact.activationTime
-                = std::chrono::duration_cast<std::chrono::nanoseconds>(step.impactTime * 1s);
-            contact.deactivationTime = contact.activationTime;
-            contacts.push_back(contact);
-        }
+            auto step = *stepIterator;
 
-        size_t contactIdx = 0;
-        double activeTime = 0.0;
+            BipedalLocomotion::Contacts::PlannedContact contact{};
 
-        for (size_t idx = 1; idx < isFootInContactVector.size(); ++idx)
-        {
-            // Get the active contact
-            auto& contact = contacts[contactIdx];
+            contact.index = contactIndex;
+            contact.name = contactName;
+            contact.pose = manif::SE3d::Identity();
 
-            const bool thisState = isFootInContactVector[idx];
-            const bool lastState = isFootInContactVector[idx - 1];
-
-            // Increase the active time
-            activeTime += dt;
-
-            // During impact, reset the active time counter
-            if (lastState == 0 && thisState == 1)
-                activeTime = 0.0;
-
-            // During lift, store the time in the active contact and get the new contact
-            if (lastState == 1 && thisState == 0)
+            for (auto i = static_cast<int>((currentTime - initTime) / dt); i < stepPhases.size();
+                 i++)
             {
-                using namespace std::chrono_literals;
-                contact.deactivationTime
-                    = contact.activationTime
-                      + std::chrono::duration_cast<std::chrono::nanoseconds>(activeTime * 1s);
-                contactIdx++;
+                contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    currentTime * std::chrono::seconds(1));
+                contact.deactivationTime = contact.activationTime;
             }
-        }
 
-        // The deactivation time of the last contact has not yet been processed
-        contacts.back().deactivationTime = std::chrono::nanoseconds::max();
+            contactList.addContact(contact);
+            currentTime += dt;
+            stepIterator++;
+        };
 
-        return contacts;
+        return contactList;
     };
 
-    // Convert Step objects to PlannedContact objects
-    std::vector<Contacts::PlannedContact> leftContacts
-        = convertStepsToContacts(leftStandingPeriod,
-                                 m_pImpl->generator->getLeftFootPrint()->getSteps());
-    std::vector<Contacts::PlannedContact> rightContacts
-        = convertStepsToContacts(rightStandingPeriod,
-                                 m_pImpl->generator->getRightFootPrint()->getSteps());
+    // get the DCM trajectory
+    auto convertToEigen
+        = [](const std::vector<iDynTree::Vector2>& inputVect) -> std::vector<Eigen::Vector2d> {
+        std::vector<Eigen::Vector2d> outputVect;
+        outputVect.reserve(inputVect.size());
 
-    if (m_pImpl->generator->getLeftFootPrint()->getSteps().size() != leftContacts.size())
-    {
-        cleanup();
-        log()->error("{} Wrong number of converted steps for left foot.", logPrefix);
-        return false;
-    }
-
-    if (m_pImpl->generator->getRightFootPrint()->getSteps().size() != rightContacts.size())
-    {
-        cleanup();
-        log()->error("{} Wrong number of converted steps for right foot.", logPrefix);
-        return false;
-    }
-
-    // =======================================
-    // Convert Step transforms to Contact pose
-    // =======================================
-
-    // Lambda to fill the transforms of the PlannedContact objects
-    auto fillContactTransform = [](std::vector<Contacts::PlannedContact>& contacts,
-                                   decltype(::FootPrint().getSteps())& steps) -> void {
-        assert(contacts.size() == steps.size());
-        for (size_t i = 0; i < contacts.size(); ++i)
+        for (const auto& v : inputVect)
         {
-            contacts[i].pose.quat(Eigen::AngleAxisd(steps[i].angle, Eigen::Vector3d::UnitZ()));
-            contacts[i].pose.translation({steps[i].position[0], steps[i].position[1], 0.0});
-        }
+            outputVect.push_back(iDynTree::toEigen(v));
+        };
+
+        return outputVect;
     };
 
-    // Fill the transforms
-    fillContactTransform(leftContacts, m_pImpl->generator->getLeftFootPrint()->getSteps());
-    fillContactTransform(rightContacts, m_pImpl->generator->getRightFootPrint()->getSteps());
+    m_pImpl->output.dcmTrajectory.dcmPosition = convertToEigen(dcmGenerator->getDCMPosition());
+    m_pImpl->output.dcmTrajectory.dcmVelocity = convertToEigen(dcmGenerator->getDCMVelocity());
 
-    // ================================
-    // Create the output data structure
-    // ================================
+    // get the CoM height trajectory
+    auto comHeightGenerator = m_pImpl->generator->addCoMHeightTrajectoryGenerator();
+    comHeightGenerator->getCoMHeightTrajectory(
+        m_pImpl->output.comHeightTrajectory.comHeightPosition);
+    comHeightGenerator->getCoMHeightVelocity(m_pImpl->output.comHeightTrajectory.comHeightVelocity);
+    comHeightGenerator->getCoMHeightAccelerationProfile(
+        m_pImpl->output.comHeightTrajectory.comHeightAcceleration);
 
-    // Lambda to convert vector of PlannedContact to ConctactList
-    auto convertToContactList
-        = [](const std::vector<Contacts::PlannedContact>& contacts) -> Contacts::ContactList {
-        Contacts::ContactList list;
-        for (const auto& contact : contacts)
-            list.addContact(contact);
-        return list;
-    };
-
-    // Create the system's output
-    m_pImpl->output = std::make_optional<UnicyclePlannerOutput>();
-
-    m_pImpl->output->left = convertToContactList(leftContacts);
-    m_pImpl->output->right = convertToContactList(rightContacts);
-
-    m_pImpl->output->left.setDefaultName(m_pImpl->names.left);
-    m_pImpl->output->right.setDefaultName(m_pImpl->names.right);
+    m_pImpl->state = Impl::FSM::Running;
 
     return true;
 }

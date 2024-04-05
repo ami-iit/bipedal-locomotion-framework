@@ -8,9 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
 
-#include "BipedalLocomotion/Contacts/ContactList.h"
-#include "BipedalLocomotion/ParametersHandler/IParametersHandler.h"
-#include "BipedalLocomotion/System/Advanceable.h"
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/Advanceable.h>
 
 #include <Eigen/Core>
 #include <Eigen/Dense>
@@ -19,8 +19,8 @@
 #include <iDynTree/Core/VectorDynSize.h>
 
 #include <memory>
-#include <optional>
 
+#include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
 
 #include <CoMHeightTrajectoryGenerator.h>
@@ -33,82 +33,44 @@ struct UnicyclePlannerInput;
 struct UnicyclePlannerOutput;
 } // namespace BipedalLocomotion::Planners
 
-struct BipedalLocomotion::Planners::UnicycleKnot
-{
-    UnicycleKnot(const double _x = 0.0,
-                 const double _y = 0.0,
-                 const double _dx = 0.0,
-                 const double _dy = 0.0,
-                 const double _t = 0.0)
-        : x(_x)
-        , y(_y)
-        , dx(_dx)
-        , dy(_dy)
-        , time(_t)
-    {
-    }
-
-    UnicycleKnot(const Eigen::Vector2d& _position = {0, 0},
-                 const Eigen::Vector2d& _velocity = {0, 0},
-                 const double _time = 0.0)
-        : x(_position[0])
-        , y(_position[1])
-        , dx(_velocity[0])
-        , dy(_velocity[1])
-        , time(_time)
-    {
-    }
-
-    bool operator==(const UnicycleKnot& rhs)
-    {
-        return this->x == rhs.x && this->y == rhs.y && this->dx == rhs.dx && this->dy == rhs.dy
-               && this->time == rhs.time;
-    }
-
-    double x; ///< The knot x coordinates.
-    double y; ///< The knot y coordinates.
-
-    double dx = 0.0; ///< The knot x velocity.
-    double dy = 0.0; ///< The knot y velocity.
-
-    double time = 0.0; ///< The knot activation time.
-};
-
 struct BipedalLocomotion::Planners::UnicyclePlannerInput
 {
-    UnicyclePlannerInput(const std::vector<UnicycleKnot>& _knots,
-                         const double _tf = 0.0,
-                         const std::optional<Contacts::PlannedContact>& _initialLeftContact = {},
-                         const std::optional<Contacts::PlannedContact>& _initialRightContact = {},
-                         const double _t0 = 0.0)
-        : t0(_t0)
-        , tf(_tf)
-        , initialLeftContact(_initialLeftContact)
-        , initialRightContact(_initialRightContact)
-        , knots(_knots)
-    {
-    }
+    /*
+    if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
+    if UnicycleController::DIRECT, the plannerInput is a vector of size 3 (i.e., [xdot, ydot, wz])
+    */
+    Eigen::VectorXd plannerInput; // The input to the unicycle planner .
 
-    double t0; ///< The beginning of the planner horizon.
-    double tf; ///< The end of the planner horizon.
+    DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
 
-    std::optional<Contacts::PlannedContact> initialLeftContact; ///< Left contact initialization
-    std::optional<Contacts::PlannedContact> initialRightContact; ///< Right contact initialization
+    bool correctLeft; // Whether to correct the left foot pose.
 
-    std::vector<UnicycleKnot> knots; ///< A list of knots.
+    double initTime; // The initial time of the trajectory.
+
+    iDynTree::Transform measuredTransform; // The measured transform of the foot.
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerOutput
 {
-    UnicyclePlannerOutput(const Contacts::ContactList& _left = {},
-                          const Contacts::ContactList& _right = {})
-        : left(_left)
-        , right(_right)
+    struct COMHeightTrajectory
     {
-    }
+        std::vector<double> comHeightPosition;
+        std::vector<double> comHeightVelocity;
+        std::vector<double> comHeightAcceleration;
+    };
 
-    Contacts::ContactList left; ///< The list of left foot contacts;
-    Contacts::ContactList right; ///< The list of right foot contacts;
+    struct DCMTrajectory
+    {
+        std::vector<Eigen::Vector2d> dcmPosition;
+        std::vector<Eigen::Vector2d> dcmVelocity;
+    };
+
+    COMHeightTrajectory comHeightTrajectory; // The CoM height trajectory;
+
+    DCMTrajectory dcmTrajectory; // The DCM trajectory;
+
+    Contacts::ContactPhaseList leftContactPhaseList; // The list of left foot contact phases;
+    Contacts::ContactPhaseList rightContactPhaseList; // The list of right foot contact phases;
 };
 
 class BipedalLocomotion::Planners::UnicyclePlanner final
@@ -170,6 +132,15 @@ private:
 
     UnicycleController
     getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
+
+    UnicyclePlannerInput m_input;
+
+    double m_dt;
+    double m_plannerHorizon;
+    double m_leftYawDeltaInRad;
+    double m_rightYawDeltaInRad;
+    double m_nominalWidth;
+    Eigen::Vector2d m_referencePointDistance;
 };
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
