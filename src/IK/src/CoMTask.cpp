@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/IK/CoMTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/EigenHelpers.h>
-#include <iDynTree/Model.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Model/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -216,6 +216,11 @@ bool CoMTask::update()
         }
     }
 
+    if (m_disableBaseControl)
+    {
+        toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
+    }
+
     // A and b are now valid
     m_isValid = true;
     return m_isValid;
@@ -255,4 +260,9 @@ bool CoMTask::setFeedback(Eigen::Ref<const Eigen::Vector3d> feedback)
     }
 
     return ok;
+}
+
+void CoMTask::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }

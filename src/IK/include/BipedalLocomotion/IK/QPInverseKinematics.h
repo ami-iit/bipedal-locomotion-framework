@@ -153,6 +153,7 @@ public:
      * |:------------------------------:|:--------:|:----------------------------------------------------------------------------------------------:|:---------:|
      * | `robot_velocity_variable_name` | `string` | Name of the variable contained in `VariablesHandler` describing the generalized robot velocity |    Yes    |
      * |           `verbosity`          |  `bool`  |                         Verbosity of the solver. Default value `false`                         |     No    |
+     * |           `precision`             | `double` |                          Precision of the solver. Default value `1e-6`                         |     No    |
      * Where the generalized robot velocity is a vector containing the base spatial velocity
      * (expressed in mixed representation) and the joint velocities.
      * @return True in case of success, false otherwise.

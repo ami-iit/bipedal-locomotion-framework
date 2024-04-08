@@ -14,8 +14,8 @@
 #include <BipedalLocomotion/IK/JointLimitsTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/EigenHelpers.h>
-#include <iDynTree/Model.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Model/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::IK;
@@ -109,9 +109,13 @@ bool JointLimitsTask::setVariablesHandler(const System::VariablesHandler& variab
     //     | 0_{6x6} -I_{nxn} |
     //     |_                _|
     iDynTree::toEigen(this->subA(robotVelocityVariable))
-        .topRightCorner(m_kinDyn->getNrOfDegreesOfFreedom(), m_kinDyn->getNrOfDegreesOfFreedom()).diagonal().setConstant(1);
+        .topRightCorner(m_kinDyn->getNrOfDegreesOfFreedom(), m_kinDyn->getNrOfDegreesOfFreedom())
+        .diagonal()
+        .setConstant(1);
     iDynTree::toEigen(this->subA(robotVelocityVariable))
-        .bottomRightCorner(m_kinDyn->getNrOfDegreesOfFreedom(), m_kinDyn->getNrOfDegreesOfFreedom()).diagonal().setConstant(-1);
+        .bottomRightCorner(m_kinDyn->getNrOfDegreesOfFreedom(), m_kinDyn->getNrOfDegreesOfFreedom())
+        .diagonal()
+        .setConstant(-1);
 
     return true;
 }
@@ -233,9 +237,9 @@ bool JointLimitsTask::update()
     } else
     {
         Eigen::DenseBase<Eigen::Matrix<double, -1, 1, 0, -1, 1>>::SegmentReturnType upperLimitPart
-                = m_b.head(m_kinDyn->getNrOfDegreesOfFreedom());
+            = m_b.head(m_kinDyn->getNrOfDegreesOfFreedom());
         Eigen::DenseBase<Eigen::Matrix<double, -1, 1, 0, -1, 1>>::SegmentReturnType lowerLimitPart
-                = m_b.tail(m_kinDyn->getNrOfDegreesOfFreedom());
+            = m_b.tail(m_kinDyn->getNrOfDegreesOfFreedom());
 
         for (int i = 0; i < m_upperLimits.size(); i++)
         {
@@ -282,4 +286,14 @@ JointLimitsTask::Type JointLimitsTask::type() const
 bool JointLimitsTask::isValid() const
 {
     return m_isValid;
+}
+
+Eigen::Ref<const Eigen::VectorXd> JointLimitsTask::getLowerLimits() const
+{
+    return m_lowerLimits;
+}
+
+Eigen::Ref<const Eigen::VectorXd> JointLimitsTask::getUpperLimits() const
+{
+    return m_upperLimits;
 }

@@ -64,9 +64,12 @@ private:
 
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the OptimalControlElement */
 
-    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
-    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
-    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector. */
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector.
+                                                            */
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector.
+                                                           */
+    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector.
+                                                            */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -79,14 +82,21 @@ private:
                                                                object */
 
     /** Mask used to select the DoFs controlled by the task */
-    std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
-    std::size_t m_linearDoFs{m_linearVelocitySize}; /**< DoFs associated to the linear task */
+    std::array<bool, m_spatialVelocitySize> m_mask{true, true, true, true, true, true};
     std::size_t m_DoFs{m_spatialVelocitySize}; /**< DoFs associated to the entire task */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian matrix in MIXED representation */
 
     /** State of the proportional controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
+
+    // TODO remove me
+    manif::SE3d::Translation m_localCoP;
+    manif::SE3d::Translation m_desiredLocalCoP;
+    double m_kAdmittance;
+    bool m_enableAdmitance{false};
+
+    bool m_disableBaseControl{false}; /**< True if the base control is disabled */
 
 public:
     /**
@@ -96,7 +106,7 @@ public:
      * |           Parameter Name           |   Type   |                                       Description                                      | Mandatory |
      * |:----------------------------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
      * |   `robot_velocity_variable_name`   | `string` |   Name of the variable contained in `VariablesHandler` describing the robot velocity   |    Yes    |
-     * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task                      |    Yes    |
+     * |            `frame_name`            | `string` |                       Name of the frame controlled by the SE3Task. If not set the user needs to provide it via setFrameName                      |    No    |
      * |             `kp_linear`            | `double` or `vector<double>` |                             Gain of the position controller                            |    Yes    |
      * |            `kp_angular`            | `double` or `vector<double>` |                           Gain of the orientation controller                           |    Yes    |
      * |               `mask`               | `vector<bool>` |  Mask representing the linear DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only and the angular part. (Default value, [1,1,1])   |    No    |
@@ -134,6 +144,15 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool update() override;
+
+    /**
+     * Set the frame name
+     * @param frameName name of the frame controlled by the SE3Task.
+     * @return True in case of success, false otherwise.
+     * @note this function is useful if the user want to change the frame controlled by the task.
+     * (e.g. from left_foot to right_foot while walking)
+     */
+    bool setFrameName(const std::string& frameName);
 
     /**
      * Set the desired set-point of the trajectory.
@@ -201,6 +220,22 @@ public:
      * @return the state of the controller
      */
     Mode getTaskControllerMode() const override;
+
+    void setAngularGain(const double gain);
+
+    // TODO remove me, this is just a test
+    void setLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP);
+
+    void setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP);
+
+    void enableAdmittance(bool enable);
+
+    /**
+     * Disable the base control. The base control is enabled by default.
+     * @param disable if true the base control is disabled.
+     * @note The base term in the jacobian is neglected by the task.
+     */
+    void disableBaseControl(bool disable);
 };
 
 BLF_REGISTER_IK_TASK(SE3Task);

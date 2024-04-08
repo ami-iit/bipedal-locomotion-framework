@@ -40,6 +40,8 @@ struct QPInverseKinematics::Impl
 
     OsqpEigen::Solver solver; /**< Optimization solver. */
     bool isVerbose{false};
+    double sparseViewEpsilon{Eigen::NumTraits<double>::dummy_precision()};
+    double sparseViewReference{0};
 
     std::unordered_map<std::string, TaskWithPriority> tasks;
 
@@ -53,15 +55,74 @@ struct QPInverseKinematics::Impl
     Eigen::VectorXd lowerBound;
     Eigen::VectorXd upperBound;
 
+    Eigen::VectorXd variableScalingFactors;
+    Eigen::VectorXd constraintScalingFactors;
+
     bool isFirstIteration{true};
     bool isValid{false};
     bool isInitialized{false};
     bool isFinalized{false};
+    bool automaticScaling{false};
+
+    void scaleQP()
+    {
+        this->variableScalingFactors
+            = this->gradient.cwiseAbs().cwiseMax(this->hessian.diagonal().cwiseAbs2().cwiseSqrt());
+
+        std::cerr << "variable scaling: " << this->variableScalingFactors.rows() << " "
+                  << variableScalingFactors.cols() << std::endl;
+
+        // construct the scaling matrix
+        Eigen::MatrixXd scalingMatrix
+            = this->variableScalingFactors * this->variableScalingFactors.transpose();
+
+        std::cerr << "scaling matrix: " << scalingMatrix.rows() << " " << scalingMatrix.cols()
+                  << std::endl;
+        std::cerr << "hessian " << hessian.rows() << " " << hessian.cols() << std::endl;
+
+        // compute the component wise division hessian = hessian / scalingMatrix
+        this->hessian = (this->hessian.array() * scalingMatrix.array().cwiseInverse()).matrix();
+        std::cerr << "hessian " << hessian.rows() << " " << hessian.cols() << std::endl;
+
+        this->gradient = (this->gradient.array() / scalingMatrix.array()).matrix();
+
+        if (numberOfConstraints > 0)
+        {
+            Eigen::ArrayXd upperAbs = this->upperBound.cwiseAbs();
+            this->constraintScalingFactors
+                = (this->constraintMatrix.array().abs().rowwise().maxCoeff()).cwiseMax(upperAbs);
+
+            // construct the scaling matrix
+            Eigen::MatrixXd scalingMatrixConstraint
+                = this->constraintScalingFactors * this->variableScalingFactors.transpose();
+            this->constraintMatrix
+                = this->constraintMatrix.cwiseProduct(scalingMatrixConstraint.cwiseInverse());
+
+            // we scale all the elements except the one that have OSQP::INFTY
+            for (int i = 0; i < numberOfConstraints; i++)
+            {
+                if (this->upperBound(i) != OsqpEigen::INFTY)
+                {
+                    this->upperBound(i) /= this->constraintScalingFactors(i);
+                }
+                if (this->lowerBound(i) != -OsqpEigen::INFTY)
+                {
+                    this->lowerBound(i) /= this->constraintScalingFactors(i);
+                }
+            }
+        }
+    }
 
     bool initializeSolver()
     {
         constexpr auto logPrefix = "[QPInversekinematics::Impl::initializeSolver]";
         // Hessian matrix
+
+        if (this->automaticScaling)
+        {
+            this->scaleQP();
+        }
+
         Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
         if (!this->solver.data()->setHessianMatrix(hessianSparse))
         {
@@ -106,6 +167,12 @@ struct QPInverseKinematics::Impl
     bool updateSolver()
     {
         constexpr auto logPrefix = "[QPInversekinematics::Impl::updateSolver]";
+
+        if (this->automaticScaling)
+        {
+            this->scaleQP();
+        }
+
         // Hessian matrix
         Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
         if (!this->solver.updateHessianMatrix(hessianSparse))
@@ -129,7 +196,8 @@ struct QPInverseKinematics::Impl
 
         // in this case the number of constraint is different from zero, so we have to update the
         // constraint matrix and the bounds
-        Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
+        Eigen::SparseMatrix<double> constraintsMatrixSparse
+            = this->constraintMatrix.sparseView(this->sparseViewReference, this->sparseViewEpsilon);
         if (!this->solver.updateLinearConstraintsMatrix(constraintsMatrixSparse))
         {
             log()->error("{} Unable to set the constraint matrix.", logPrefix);
@@ -490,6 +558,13 @@ bool QPInverseKinematics::advance()
         index += constraint.get().task->size();
     }
 
+    // print the matrices
+    /*     std::cerr << "Hessian: " << std::endl << m_pimpl->hessian << std::endl;
+        std::cerr << "Gradient: " << std::endl << m_pimpl->gradient << std::endl;
+        std::cerr << "Constraint matrix: " << std::endl << m_pimpl->constraintMatrix << std::endl;
+        std::cerr << "Lower bound: " << std::endl << m_pimpl->lowerBound.transpose() << std::endl;
+        std::cerr << "Upper bound: " << std::endl << m_pimpl->upperBound.transpose() << std::endl;
+     */
     // update the solver
     if (!m_pimpl->isFirstIteration)
     {
@@ -539,6 +614,20 @@ bool QPInverseKinematics::advance()
     m_pimpl->solution.baseVelocity.coeffs()
         = m_pimpl->solver.getSolution().segment<spatialVelocitySize>(
             m_pimpl->robotVelocityVariable.offset);
+
+    if (m_pimpl->automaticScaling)
+    {
+        m_pimpl->solution.jointVelocity = m_pimpl->solution.jointVelocity.cwiseProduct(
+            m_pimpl->variableScalingFactors
+                .segment(m_pimpl->robotVelocityVariable.offset + spatialVelocitySize, joints)
+                .cwiseInverse());
+
+        m_pimpl->solution.baseVelocity.coeffs()
+            = m_pimpl->solution.baseVelocity.coeffs().cwiseProduct(
+                m_pimpl->variableScalingFactors
+                    .segment<spatialVelocitySize>(m_pimpl->robotVelocityVariable.offset)
+                    .cwiseInverse());
+    }
 
     m_pimpl->isValid = true;
 
@@ -594,6 +683,26 @@ bool QPInverseKinematics::initialize(
         log()->info("{} 'verbosity' not found. The following parameter will be used '{}'.",
                     logPrefix,
                     m_pimpl->isVerbose);
+    }
+
+    if (!ptr->getParameter("sparse_epsilon", m_pimpl->sparseViewEpsilon))
+    {
+        log()->info("{} 'sparse_epsilon' not found. The following parameter will be used '{}'.",
+                    logPrefix,
+                    m_pimpl->sparseViewEpsilon);
+    }
+    if (!ptr->getParameter("sparse_reference", m_pimpl->sparseViewReference))
+    {
+        log()->info("{} 'sparse_reference' not found. The following parameter will be used '{}'.",
+                    logPrefix,
+                    m_pimpl->sparseViewReference);
+    }
+
+    if (!ptr->getParameter("automatic_scaling", m_pimpl->automaticScaling))
+    {
+        log()->info("{} 'automatic_scaling' not found. The following parameter will be used '{}'.",
+                    logPrefix,
+                    m_pimpl->automaticScaling);
     }
 
     m_pimpl->isInitialized = true;
