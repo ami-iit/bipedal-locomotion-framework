@@ -40,6 +40,11 @@ struct SwingFootPlannerState
  * SwingFootPlanner implement a minimum jerk trajectory planner for the swing foot. The planner is
  * designed in SE(3) and we assume that initial 6d-acceleration and 6d-velocity of the  foot is
  * always equal to zero at take off. The trajectory of the foot will belong to the Geodesic.
+ * @note The user can decide to use a constant step height for the swing foot planner. In this case
+ * the user must provide the step height. If the user decides to use a variable step height, the
+ * user must provide the swing foot duration knots and the step height knots. In this latter case,
+ * the planner will compute a first order spline for the step height. This can be used in case of
+ * variable walking velocity where we want to modify the step height according to the walking speed.
  */
 class SwingFootPlanner : public System::Source<SwingFootPlannerState>
 {
@@ -68,9 +73,13 @@ class SwingFootPlanner : public System::Source<SwingFootPlannerState>
                                                                                    z coordinate of
                                                                                    the foot */
 
-    double m_stepHeight{0.0}; /**< Height of the swing foot. Note that this value could not be the
-                                 maximum height of the foot. If m_footApexTime is set to 0.5 the
-                                 stepHeight is the maximum of the trajectory. */
+    /** Interpolator for the  Height of the swing foot. Note that this value could not be the
+     * maximum height of the foot. If m_footApexTime is set to 0.5 the stepHeight is the maximum of
+     * the trajectory. */
+    std::unique_ptr<Math::Spline<Eigen::Matrix<double, 1, 1>>> m_stepHeightInterpolator;
+    Eigen::Matrix<double, 1, 1> m_stepHeight; /**< Variable representing the step height */
+    double m_maxStepHeight{0.0}; /**< Maximum value of the step height */
+
     double m_footApexTime{0.5}; /**< Number between 0 and 1 representing the foot apex instant */
     double m_positionTolerance{1e-6}; /**< Position tolerance in \f$m\f$ */
     double m_orientationTolerance{1e-6}; /**< Orientation tolerance in \f$rad\f$ */
@@ -124,7 +133,6 @@ public:
      * |         Parameter Name       |   Type   |                                                             Description                                                                                    | Mandatory |
      * |:----------------------------:|:--------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------:|
      * |        `sampling_time`       | `double` |                                               Sampling time of the planner in seconds                                                                      |    Yes    |
-     * |         `step_height`        | `double` |                              Height of the  swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum         |    Yes    |
      * |        `foot_apex_time`      | `double` |            Number between 0 and 1 representing the foot apex instant. If 0 the apex happens at take off if 1 at touch down                                 |    Yes    |
      * |    `foot_landing_velocity`   | `double` |                                               Landing vertical velocity (default value 0.0)                                                                |    No     |
      * |  `foot_landing_acceleration` | `double` |                                             Landing vertical acceleration (default value 0.0)                                                              |    No     |
@@ -133,6 +141,11 @@ public:
      * |    `interpolation_method`    | `string` | Define the interpolation method for the trajectory of the position. Accepted parameters: `min_acceleration`, `min_jerk` (default value `min_acceleration`) |    No     |
      * |    `position_tolerance`      | `double` |                          Position tolerance in meters considered in SwingFootPlanner::setContactList. (default value 1e-6)                                 |    No     |
      * |    `orientation_tolerance`   | `double` |                        Orientation tolerance in radians considered in SwingFootPlanner::setContactList. (default value 1e-6)                               |    No     |
+     * |   `use_constant_step_height` |  `bool`  |                       Use a constant step height for the swing foot planner. If set to true `step_height` must be provided. If `false`, `step_height_time_knots` and `step_height_knots` need to be provided. (default value `true`)        |
+     * |         `step_height`        | `double` |                              Height of the  swing foot. It is not the maximum height of the foot. If apex time is 0.5 `step_height` is the maximum         |  (see `use_constant_step_height`) |
+     * |   `step_height_time_knots`   | `vector` |  Vector representing the swing foot duration time knots. Each element will be associated to the corresponding element of `step_height_knots`.              | (see `use_constant_step_height`) |
+     * |      `step_height_knots`     | `vector` |  Vector the step height knots. Each element will be associated to the corresponding element of `step_height_time_knots`.                                   | (see `use_constant_step_height`) |
+     * |       `max_step_height`      | `double` |    This is a safety parameter. Independently from the usage of different step height interpolation method, it sets the maximum value of step knot.         |    Yes     |
      * @return True in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;

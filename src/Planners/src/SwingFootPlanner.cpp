@@ -7,7 +7,9 @@
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Math/CubicSpline.h>
+#include <BipedalLocomotion/Math/LinearSpline.h>
 #include <BipedalLocomotion/Math/QuinticSpline.h>
+#include <BipedalLocomotion/Math/ZeroOrderSpline.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -43,11 +45,85 @@ bool SwingFootPlanner::initialize(std::weak_ptr<const IParametersHandler> handle
         return false;
     }
 
-    if (!ptr->getParameter("step_height", m_stepHeight))
+    if (!ptr->getParameter("max_step_height", m_maxStepHeight))
     {
-        log()->error("{} Unable to initialize the step height.", logPrefix);
+        log()->error("{} Unable to initialize the maximum step height.", logPrefix);
         return false;
     }
+
+    bool useConstantStepHeight{true};
+    if (!ptr->getParameter("use_constant_step_height", useConstantStepHeight))
+    {
+        log()->info("{} The parameter named 'use_constant_step_height' not found. The default "
+                    "value "
+                    "will be used. The default value is {}.",
+                    logPrefix,
+                    useConstantStepHeight);
+    }
+    if (useConstantStepHeight)
+    {
+        double stepHeight{0.0};
+        if (!ptr->getParameter("step_height", stepHeight))
+        {
+            log()->error("{} Unable to initialize the step height.", logPrefix);
+            return false;
+        }
+
+        m_stepHeightInterpolator = std::make_unique<Math::ZeroOrderSpline<Vector1d>>();
+        m_stepHeightInterpolator->setKnots({Vector1d::Constant(stepHeight),
+                                            Vector1d::Constant(stepHeight)},
+                                           {std::chrono::nanoseconds::zero(),
+                                            std::chrono::nanoseconds::max()});
+
+    } else
+    {
+        std::vector<double> stepHeightKnots;
+        std::vector<std::chrono::nanoseconds> stepHeightTimesKnots;
+        if (!ptr->getParameter("step_height_knots", stepHeightKnots))
+        {
+            log()->error("{} Unable to initialize the 'step_height_knots'. This is required since "
+                         "'use_constant_step_height' is set to {}.",
+                         logPrefix,
+                         useConstantStepHeight);
+            return false;
+        }
+        if (!ptr->getParameter("step_height_times_knots", stepHeightTimesKnots))
+        {
+            log()->error("{} Unable to initialize the 'step_height_times_knots'. This is required "
+                         "since 'use_constant_step_height' is set to {}.",
+                         logPrefix,
+                         useConstantStepHeight);
+            return false;
+        }
+
+        if (stepHeightKnots.size() != stepHeightTimesKnots.size())
+        {
+            log()->error("{} The size of the 'step_height_knots' and 'step_height_times_knots' "
+                         "should be the same. The size of 'step_height_knots' is {} and the size "
+                         "of "
+                         "'step_height_times_knots' is {}.",
+                         logPrefix,
+                         stepHeightKnots.size(),
+                         stepHeightTimesKnots.size());
+            return false;
+        }
+        std::vector<Vector1d> stepHeightKnotsVector;
+        for (int i = 0; i < stepHeightKnots.size(); i++)
+        {
+            stepHeightKnotsVector.push_back(Vector1d::Constant(stepHeightKnots[i]));
+        }
+
+        m_stepHeightInterpolator = std::make_unique<Math::LinearSpline<Vector1d>>();
+        if (!m_stepHeightInterpolator->setKnots(stepHeightKnotsVector, stepHeightTimesKnots))
+        {
+            log()->error("{} Unable to set the knots for the step height interpolator.", logPrefix);
+            return false;
+        }
+    }
+
+    // independently from the interpolation method we set the initial velocity and acceleration to 0
+    m_stepHeightInterpolator->setInitialConditions(Vector1d::Zero(), Vector1d::Zero());
+    m_stepHeightInterpolator->setFinalConditions(Vector1d::Zero(), Vector1d::Zero());
 
     if (!ptr->getParameter("foot_apex_time", m_footApexTime))
     {
@@ -367,13 +443,19 @@ bool SwingFootPlanner::createSE3Traj(const manif::SE3d& initialPose,
     // The foot maximum height point is given by the highest point plus the offset
     // If the robot is walking on a plane with height equal to zero, the footHeightViaPointPos is
     // given by the stepHeight
-    const double footHeightViaPointPos
-        = std::max(m_lastValidContact.pose.translation()(2), nextContact->pose.translation()(2))
-          + m_stepHeight;
-
-    // the cast is required since m_footApexTime is a floating point number between 0 and 1
     const std::chrono::nanoseconds swingFootDuration
         = nextContact->activationTime - m_lastValidContact.deactivationTime;
+    if (!m_stepHeightInterpolator->evaluatePoint(swingFootDuration, m_stepHeight))
+    {
+        log()->error("{} Unable to evaluate the step height.", logPrefix);
+        return false;
+    }
+
+    const double footHeightViaPointPos
+        = std::max(m_lastValidContact.pose.translation()(2), nextContact->pose.translation()(2))
+          + std::min(m_maxStepHeight, m_stepHeight(0));
+
+    // the cast is required since m_footApexTime is a floating point number between 0 and 1
     const std::chrono::nanoseconds footHeightViaPointTime
         = std::chrono::duration_cast<std::chrono::nanoseconds>(
             m_footApexTime * swingFootDuration + m_lastValidContact.deactivationTime);
