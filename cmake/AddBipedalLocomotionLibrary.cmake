@@ -4,7 +4,7 @@
 
 function(add_bipedal_locomotion_library)
 
-  set(options IS_INTERFACE SKIP_INSTALL_CHECK)
+  set(options IS_INTERFACE SKIP_INSTALL_CHECK SKIP_INSTALL)
   set(oneValueArgs NAME INSTALLATION_FOLDER)
   set(multiValueArgs
     SOURCES
@@ -26,6 +26,7 @@ function(add_bipedal_locomotion_library)
   set(installation_folder ${${prefix}_INSTALLATION_FOLDER})
   set(is_interface ${${prefix}_IS_INTERFACE})
   set(skip_install_check ${${prefix}_SKIP_INSTALL_CHECK})
+  set(skip_install ${${prefix}_SKIP_INSTALL})
   set(sources ${${prefix}_SOURCES})
   set(public_headers ${${prefix}_PUBLIC_HEADERS})
   set(private_headers ${${prefix}_PRIVATE_HEADERS})
@@ -58,8 +59,10 @@ function(add_bipedal_locomotion_library)
       EXPORT               ${PROJECT_NAME}
       COMPONENT            runtime)
 
-    install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}")
-    install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl")
+    if (NOT ${skip_install})
+      install(FILES ${public_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}")
+      install(FILES ${private_headers} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl")
+    endif()
 
   else()
 
@@ -86,15 +89,17 @@ function(add_bipedal_locomotion_library)
     target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
       "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
 
-    # Specify installation targets, typology and destination folders.
-    install(TARGETS    ${name}
-      EXPORT           ${PROJECT_NAME}
-      COMPONENT        runtime
-      LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT shlib
-      ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT lib
-      RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                    COMPONENT bin
-      PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}"       COMPONENT dev
-      PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl"  COMPONENT dev)
+    if (NOT ${skip_install})
+      # Specify installation targets, typology and destination folders.
+      install(TARGETS    ${name}
+        EXPORT           ${PROJECT_NAME}
+        COMPONENT        runtime
+        LIBRARY          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT shlib
+        ARCHIVE          DESTINATION "${CMAKE_INSTALL_LIBDIR}"                                                    COMPONENT lib
+        RUNTIME          DESTINATION "${CMAKE_INSTALL_BINDIR}"                                                    COMPONENT bin
+        PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}"       COMPONENT dev
+        PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl"  COMPONENT dev)
+    endif()
 
   endif()
 
@@ -129,7 +134,9 @@ function(add_bipedal_locomotion_library)
     add_subdirectory(${subdir})
   endforeach()
 
-  set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_TARGETS ${name})
+  if (NOT ${skip_install})
+    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_INSTALLED_TARGETS ${name})
+  endif()
 
   message(STATUS "Created target ${name} for export ${PROJECT_NAME}.")
 

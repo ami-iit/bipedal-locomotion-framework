@@ -120,7 +120,7 @@ install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
                             VERSION ${BipedalLocomotionFramework_VERSION}
                             COMPATIBILITY AnyNewerVersion
-                            TARGETS_PROPERTY BipedalLocomotionFramework_TARGETS
+                            TARGETS_PROPERTY BipedalLocomotionFramework_INSTALLED_TARGETS
                             VARS_PREFIX ${PROJECT_NAME}
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
                             DEPENDENCIES ${FRAMEWORK_PUBLIC_DEPENDENCIES}
