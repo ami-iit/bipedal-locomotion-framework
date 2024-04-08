@@ -13,6 +13,8 @@ All notable changes to this project are documented in this file.
 - Add getJointTorques to python binding in SensorBridge (https://github.com/ami-iit/bipedal-locomotion-framework/pull/825)
 - Add `System::TimeProfiler` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/826)
 - Add the possibility to programmatically build a `QPTSID` problem from the content of a `ParametersHandler` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/828)
+- Implement `Math::ZeroOrderSpline` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/834)
+- Add the possibility to get only position or position/velocity from the spline (https://github.com/ami-iit/bipedal-locomotion-framework/pull/834)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
