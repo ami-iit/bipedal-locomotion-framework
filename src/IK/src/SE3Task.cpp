@@ -11,8 +11,8 @@
 
 #include <Eigen/src/Geometry/Quaternion.h>
 
-#include <iDynTree/EigenHelpers.h>
-#include <iDynTree/Model.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Model/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -40,8 +40,7 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // get the variable
-    if (!variablesHandler.getVariable(m_robotVelocityVariable.name,
-                                      m_robotVelocityVariable))
+    if (!variablesHandler.getVariable(m_robotVelocityVariable.name, m_robotVelocityVariable))
     {
         log()->error("[SE3Task::setVariablesHandler] Unable to get the variable named {}.",
                      m_robotVelocityVariable.name);
@@ -76,11 +75,10 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     std::string maskDescription = "";
     auto boolToString = [](bool b) { return b ? " true" : " false"; };
-    for(const auto flag : m_mask)
+    for (const auto flag : m_mask)
     {
         maskDescription += boolToString(flag);
     }
-
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -126,25 +124,23 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         || (m_frameIndex = m_kinDyn->model().getFrameIndex(frameName))
                == iDynTree::FRAME_INVALID_INDEX)
     {
-        log()->error("{} [{} {}] Error while retrieving the frame that should be controlled.",
-                     errorPrefix,
-                     descriptionPrefix,
-                     frameName);
-        return false;
+        log()->warn("{} [{} {}] Error while retrieving the frame that should be controlled. The "
+                    "user needs to provide a valid frame name via setFrameName.",
+                    errorPrefix,
+                    descriptionPrefix,
+                    frameName);
     }
 
     // set the gains for the R3 controller
     double kpLinearScalar;
     Eigen::Vector3d kpLinearVector;
-    if(ptr->getParameter("kp_linear", kpLinearScalar))
+    if (ptr->getParameter("kp_linear", kpLinearScalar))
     {
         m_R3Controller.setGains(kpLinearScalar);
-    }
-    else if(ptr->getParameter("kp_linear", kpLinearVector))
+    } else if (ptr->getParameter("kp_linear", kpLinearVector))
     {
         m_R3Controller.setGains(kpLinearVector);
-    }
-    else
+    } else
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -153,18 +149,27 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
+    if (!ptr->getParameter("k_admittance", m_kAdmittance))
+    {
+        log()->error("{} [{} {}] Unable to find the k_admittance parameter. "
+                     "The default value is used: {}.",
+                     errorPrefix,
+                     descriptionPrefix,
+                     frameName,
+                     m_kAdmittance);
+        return false;
+    }
+
     // set gains for the SO3 controller
     double kpAngularScalar;
     Eigen::Vector3d kpAngularVector;
-    if(ptr->getParameter("kp_angular", kpAngularScalar))
+    if (ptr->getParameter("kp_angular", kpAngularScalar))
     {
         m_SO3Controller.setGains(kpAngularScalar);
-    }
-    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    } else if (ptr->getParameter("kp_angular", kpAngularVector))
     {
         m_SO3Controller.setGains(kpAngularVector);
-    }
-    else
+    } else
     {
         log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -174,26 +179,23 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     std::vector<bool> mask;
-    if (!ptr->getParameter("mask", mask) || (mask.size() != m_linearVelocitySize))
+    if (!ptr->getParameter("mask", mask) || (mask.size() != m_spatialVelocitySize))
     {
         log()->info("{} [{} {}] Unable to find the mask parameter. The default value is used:{}.",
                     errorPrefix,
                     descriptionPrefix,
                     frameName,
                     maskDescription);
-    }
-    else
+    } else
     {
         // covert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
         // compute the DoFs associated to the task
-        m_linearDoFs = std::count(m_mask.begin(), m_mask.end(), true);
-
-        m_DoFs = m_linearDoFs + m_angularVelocitySize;
+        m_DoFs = std::count(m_mask.begin(), m_mask.end(), true);
 
         // Update the mask description
         maskDescription.clear();
-        for(const auto flag : m_mask)
+        for (const auto flag : m_mask)
         {
             maskDescription += boolToString(flag);
         }
@@ -221,17 +223,36 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     m_description = descriptionPrefix + frameName + " Mask:" + maskDescription
-      + ". Use exogenous feedback position:" + boolToString(m_usePositionExogenousFeedback)
-      + ". Use exogenous feedback orientation:" + boolToString(m_useOrientationExogenousFeedback)
-      + ".";
+                    + ". Use exogenous feedback position:"
+                    + boolToString(m_usePositionExogenousFeedback)
+                    + ". Use exogenous feedback orientation:"
+                    + boolToString(m_useOrientationExogenousFeedback) + ".";
 
     // initialize the feedback of the controller
     m_R3Controller.setState(manif::SE3d::Translation::Zero());
     m_SO3Controller.setState(Eigen::Quaterniond::Identity());
 
+    m_desiredLocalCoP.setZero();
+    m_localCoP.setZero();
+
     m_isInitialized = true;
 
     return true;
+}
+
+void SE3Task::setAngularGain(const double gain)
+{
+    m_SO3Controller.setGains(gain);
+}
+
+void SE3Task::setDesiredLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP)
+{
+    m_desiredLocalCoP.head<2>() = localCoP;
+}
+
+void SE3Task::setLocalCoP(const Eigen::Ref<const Eigen::Vector2d>& localCoP)
+{
+    m_localCoP.head<2>() = localCoP;
 }
 
 bool SE3Task::update()
@@ -250,6 +271,14 @@ bool SE3Task::update()
         return controller.getFeedForward().coeffs();
     };
 
+    if (m_frameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("[SE3Task::update] The frame index is not valid. Please set the frame name "
+                     "via "
+                     "setFrameName method.");
+        return m_isValid;
+    }
+
     // set the state
     if (!m_useOrientationExogenousFeedback)
     {
@@ -265,13 +294,28 @@ bool SE3Task::update()
     m_SO3Controller.computeControlLaw();
     m_R3Controller.computeControlLaw();
 
-    // the angular part is always enabled
-    m_b.tail<3>() = getControllerState(m_SO3Controller);
+    Eigen::Matrix<double, 6, 1> mixedVelocity;
+    mixedVelocity.head<3>() = getControllerState(m_R3Controller);
+    mixedVelocity.tail<3>() = getControllerState(m_SO3Controller);
 
-    // if we want to control all 6 DoF we avoid to lose performances
-    if (m_linearDoFs == m_linearVelocitySize)
+    if (m_enableAdmitance)
     {
-        m_b.head<3>() = getControllerState(m_R3Controller);
+        Eigen::Vector3d error = m_desiredLocalCoP - m_localCoP;
+        Eigen::Vector3d velocity;
+        velocity(0) = -m_kAdmittance * error(1);
+        velocity(1) = m_kAdmittance * error(0);
+        velocity(2) = 0.0;
+
+        // apply yaw rotation
+        velocity
+            = toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()).act(velocity);
+
+        mixedVelocity.tail<3>().head<2>() += velocity.head<2>();
+    }
+    // if we want to control all 6 DoF we avoid to lose performances
+    if (m_DoFs == m_spatialVelocitySize)
+    {
+        m_b = mixedVelocity;
 
         if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
                                                     this->subA(m_robotVelocityVariable)))
@@ -292,25 +336,49 @@ bool SE3Task::update()
         std::size_t index = 0;
 
         // linear components
-        for (std::size_t i = 0; i < 3; i++)
+        for (std::size_t i = 0; i < m_spatialVelocitySize; i++)
         {
-            if (m_mask[i])
+            if (!m_mask[i])
             {
-                m_b(index) = getControllerState(m_R3Controller)(i);
-                iDynTree::toEigen(this->subA(m_robotVelocityVariable)).row(index)
-                    = m_jacobian.row(i);
-                index++;
+                continue;
             }
+
+            m_b(index) = mixedVelocity(i);
+            iDynTree::toEigen(this->subA(m_robotVelocityVariable)).row(index) = m_jacobian.row(i);
+            index++;
         }
 
-        // take the all angular part
-        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).bottomRows<3>()
-            = m_jacobian.bottomRows<3>();
+        assert(index == m_DoFs);
+    }
+
+    if (m_disableBaseControl)
+    {
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
     }
 
     m_isValid = true;
 
     return m_isValid;
+}
+
+bool SE3Task::setFrameName(const std::string& frameName)
+{
+
+    if (m_kinDyn == nullptr || !m_kinDyn->isValid())
+    {
+        log()->error("[SE3Task::setFrameName] Invalid kinDyn object.");
+        return false;
+    }
+
+    const iDynTree::FrameIndex index = m_kinDyn->model().getFrameIndex(frameName);
+    if (index == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("[SE3Task::setFrameName] The frame named {} is not valid.", frameName);
+        return false;
+    }
+
+    m_frameIndex = index;
+    return true;
 }
 
 bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& mixedVelocity)
@@ -378,4 +446,14 @@ void SE3Task::setTaskControllerMode(Mode mode)
 SE3Task::Mode SE3Task::getTaskControllerMode() const
 {
     return m_controllerMode;
+}
+
+void SE3Task::enableAdmittance(bool enable)
+{
+    m_enableAdmitance = enable;
+}
+
+void SE3Task::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }

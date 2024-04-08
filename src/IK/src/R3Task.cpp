@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/IK/R3Task.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/EigenHelpers.h>
-#include <iDynTree/Model.h>
+#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/Model/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -38,8 +38,7 @@ bool R3Task::setVariablesHandler(const System::VariablesHandler& variablesHandle
     }
 
     // get the variable
-    if (!variablesHandler.getVariable(m_robotVelocityVariable.name,
-                                      m_robotVelocityVariable))
+    if (!variablesHandler.getVariable(m_robotVelocityVariable.name, m_robotVelocityVariable))
     {
         log()->error("[R3Task::setVariablesHandler] Unable to get the variable named {}.",
                      m_robotVelocityVariable.name);
@@ -74,11 +73,10 @@ bool R3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
 
     std::string maskDescription = "";
     auto boolToString = [](bool b) { return b ? " true" : " false"; };
-    for(const auto flag : m_mask)
+    for (const auto flag : m_mask)
     {
         maskDescription += boolToString(flag);
     }
-
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -137,8 +135,7 @@ bool R3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
     if (ptr->getParameter("kp_linear", scalarBuffer))
     {
         kpLinear.setConstant(scalarBuffer);
-    }
-    else if(!ptr->getParameter("kp_linear", kpLinear))
+    } else if (!ptr->getParameter("kp_linear", kpLinear))
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -156,8 +153,7 @@ bool R3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
                     descriptionPrefix,
                     frameName,
                     maskDescription);
-    }
-    else
+    } else
     {
         // covert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
@@ -166,7 +162,7 @@ bool R3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
 
         // Update the mask description
         maskDescription.clear();
-        for(const auto flag : m_mask)
+        for (const auto flag : m_mask)
         {
             maskDescription += boolToString(flag);
         }
@@ -228,6 +224,11 @@ bool R3Task::update()
         }
     }
 
+    if (m_disableBaseControl)
+    {
+        iDynTree::toEigen(this->subA(m_robotVelocityVariable)).leftCols<6>().setZero();
+    }
+
     m_isValid = true;
 
     return m_isValid;
@@ -267,4 +268,9 @@ void R3Task::setTaskControllerMode(Mode mode)
 R3Task::Mode R3Task::getTaskControllerMode() const
 {
     return m_controllerMode;
+}
+
+void R3Task::disableBaseControl(bool disable)
+{
+    m_disableBaseControl = disable;
 }
