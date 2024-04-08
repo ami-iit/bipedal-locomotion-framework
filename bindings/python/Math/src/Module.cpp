@@ -27,6 +27,7 @@ void CreateModule(pybind11::module& module)
     CreateSchmittTrigger(module);
     CreateWrench<double>(module, "d");
     CreateSpline(module);
+    CreateZeroOrderSpline(module);
     CreateLinearSpline(module);
     CreateCubicSpline(module);
     CreateQuinticSpline(module);

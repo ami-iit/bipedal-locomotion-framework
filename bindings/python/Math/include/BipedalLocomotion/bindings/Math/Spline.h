@@ -18,6 +18,7 @@ namespace Math
 {
 
 void CreateSpline(pybind11::module& module);
+void CreateZeroOrderSpline(pybind11::module& module);
 void CreateLinearSpline(pybind11::module& module);
 void CreateCubicSpline(pybind11::module& module);
 void CreateQuinticSpline(pybind11::module& module);
