@@ -19,6 +19,7 @@
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1SimplifiedModelControllers">BipedalLocomotion::SimplifiedModelControllers</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1TestUtils">BipedalLocomotion::TestUtils</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging">BipedalLocomotion::TextLogging</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1YarpUtilities">BipedalLocomotion::YarpUtilities</innernamespace>
