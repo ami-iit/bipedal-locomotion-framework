@@ -11,6 +11,8 @@
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <yarp/os/RFModule.h>
+
 #include <Eigen/src/Core/Matrix.h>
 #include <Eigen/src/Core/util/Constants.h>
 #include <FootPrint.h>
@@ -18,10 +20,17 @@
 #include <UnicyclePlanner.h>
 #include <chrono>
 #include <iDynTree/EigenHelpers.h>
+#include <iDynTree/KinDynComputations.h>
+#include <iDynTree/MatrixFixSize.h>
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/Rotation.h>
 #include <iDynTree/VectorFixSize.h>
 #include <manif/SE3.h>
 
+#include <manif/impl/se3/SE3.h>
 #include <string>
+#include <vector>
 
 using namespace BipedalLocomotion;
 
@@ -120,6 +129,9 @@ bool Planners::UnicyclePlanner::initialize(
     double positionWeight;
     double timeWeight;
 
+    std::string leftContactFrameName;
+    std::string rightContactFrameName;
+
     double maxStepLength;
     double minStepLength;
     double maxLengthBackwardFactor;
@@ -193,6 +205,8 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("leftZMPDelta", leftZMPDelta);
     ok = ok && loadParam("rightZMPDelta", rightZMPDelta);
     ok = ok && loadParam("lastStepDCMOffset", lastStepDCMOffset);
+    ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
+    ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
 
     // try to configure the planner
     m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
@@ -235,6 +249,34 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && m_pImpl->generator->setMergePointRatio(mergePointRatios[0], mergePointRatios[1]);
 
     m_pImpl->generator->setPauseActive(isPauseActive);
+
+    std::string modelPath
+        = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName("model.urdf");
+    BipedalLocomotion::log()->info("{} Model path: {}", logPrefix, modelPath);
+
+    iDynTree::ModelLoader ml;
+    if (!ml.loadModelFromFile(modelPath))
+    {
+        log()->error("{} Unable to load the model.urdf from {}", logPrefix, modelPath);
+        return false;
+    }
+
+    auto tmpKinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    tmpKinDyn->loadRobotModel(ml.model());
+
+    auto m_leftContactFrameIndex = tmpKinDyn->model().getFrameIndex(leftContactFrameName);
+    if (m_leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
+        return false;
+    }
+
+    auto m_rightContactFrameIndex = tmpKinDyn->model().getFrameIndex(rightContactFrameName);
+    if (m_rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Unable to find the frame named {}.", logPrefix, rightContactFrameName);
+        return false;
+    }
 
     auto comHeightGenerator = m_pImpl->generator->addCoMHeightTrajectoryGenerator();
     ok = ok && comHeightGenerator->setCoMHeightSettings(comHeight, comHeightDelta);
@@ -408,30 +450,25 @@ bool Planners::UnicyclePlanner::advance()
     }
 
     // get the contact phase lists
-    BipedalLocomotion::Contacts::ContactListMap leftContactListMap, rightContactListMap;
-    std::vector<StepPhase> leftPhases, rightPhases;
-    m_pImpl->generator->getStepPhases(leftPhases, rightPhases);
-    std::vector<bool> leftStandingPeriod, rightStandingPeriod;
-    m_pImpl->generator->getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
+    BipedalLocomotion::Contacts::ContactListMap ContactListMap;
+    std::vector<StepPhase> leftStepPhases, rightStepPhases;
+    m_pImpl->generator->getStepPhases(leftStepPhases, rightStepPhases);
+    // std::vector<bool> leftStandingPeriod, rightStandingPeriod;
+    // m_pImpl->generator->getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
     auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
     auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
-
-    m_pImpl->output.leftContactPhaseList.setLists(leftContactListMap);
-    m_pImpl->output.rightContactPhaseList.setLists(rightContactListMap);
 
     auto getContactList
         = [](const double initTime,
              const double dt,
-             const std::vector<bool>& stepPhases,
-             const std::vector<Step>& steps,
+             const std::vector<StepPhase>& stepPhases,
+             const std::deque<Step>& steps,
+             const int contactFrameIndex,
              const std::string& contactName) -> BipedalLocomotion::Contacts::ContactList {
         BipedalLocomotion::Contacts::ContactList contactList;
 
-        double currentTime{initTime};
-
+        size_t timeIndex{1};
         auto stepIterator = steps.begin();
-
-        int contactIndex{0};
 
         while (stepIterator != steps.end())
         {
@@ -439,25 +476,51 @@ bool Planners::UnicyclePlanner::advance()
 
             BipedalLocomotion::Contacts::PlannedContact contact{};
 
-            contact.index = contactIndex;
+            contact.index = contactFrameIndex;
             contact.name = contactName;
-            contact.pose = manif::SE3d::Identity();
+            contact.pose.translation().head(2) = iDynTree::toEigen(step.position);
+            contact.pose.rotation() = iDynTree::toEigen(iDynTree::Rotation::RotZ(step.angle));
+            contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                step.impactTime * std::chrono::seconds(1));
+            contact.deactivationTime = std::chrono::nanoseconds::max();
 
-            for (auto i = static_cast<int>((currentTime - initTime) / dt); i < stepPhases.size();
-                 i++)
+            for (auto t = timeIndex; t < stepPhases.size(); t++)
             {
-                contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    currentTime * std::chrono::seconds(1));
-                contact.deactivationTime = contact.activationTime;
+                if ((stepPhases.at(t) == StepPhase::Swing)
+                    && (stepPhases.at(t - 1) == StepPhase::SwitchOut))
+                {
+                    contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        (initTime + dt * (t - 1)) * std::chrono::seconds(1));
+
+                    timeIndex += (t + 1);
+                    break;
+                }
             }
 
             contactList.addContact(contact);
-            currentTime += dt;
             stepIterator++;
         };
 
         return contactList;
     };
+
+    auto leftContactList = getContactList(initTime,
+                                          dt,
+                                          leftStepPhases,
+                                          leftSteps,
+                                          m_leftContactFrameIndex,
+                                          "left_foot");
+
+    auto rightContactList = getContactList(initTime,
+                                           dt,
+                                           rightStepPhases,
+                                           rightSteps,
+                                           m_rightContactFrameIndex,
+                                           "right_foot");
+
+    ContactListMap["left_foot"] = leftContactList;
+    ContactListMap["right_foot"] = rightContactList;
+    m_pImpl->output.ContactPhaseList.setLists(ContactListMap);
 
     // get the DCM trajectory
     auto convertToEigen

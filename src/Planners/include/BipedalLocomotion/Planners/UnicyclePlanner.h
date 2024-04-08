@@ -69,8 +69,7 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
 
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
 
-    Contacts::ContactPhaseList leftContactPhaseList; // The list of left foot contact phases;
-    Contacts::ContactPhaseList rightContactPhaseList; // The list of right foot contact phases;
+    Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
 };
 
 class BipedalLocomotion::Planners::UnicyclePlanner final
@@ -140,6 +139,8 @@ private:
     double m_leftYawDeltaInRad;
     double m_rightYawDeltaInRad;
     double m_nominalWidth;
+    int m_leftContactFrameIndex;
+    int m_rightContactFrameIndex;
     Eigen::Vector2d m_referencePointDistance;
 };
 
