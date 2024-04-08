@@ -28,6 +28,9 @@ TEST_CASE("Quintic spline")
     constexpr std::chrono::nanoseconds finalTime = 2s + 640s;
 
     constexpr std::chrono::nanoseconds dT = (finalTime - initTime) / (numberOfPoints - 1);
+
+    constexpr double tolerance = 1e-5;
+
     std::array<Eigen::Vector4d, 6> coefficients;
     for (auto& coeff : coefficients)
     {
@@ -89,21 +92,21 @@ TEST_CASE("Quintic spline")
                    + coefficients[4] * std::pow(tDouble, 4)
                    + coefficients[5] * std::pow(tDouble, 5);
 
-        REQUIRE(expected.isApprox(position, 1e-5));
+        REQUIRE(expected.isApprox(position, tolerance));
 
         // check velocity
         expected = coefficients[1] + 2 * coefficients[2] * tDouble
                    + 3 * coefficients[3] * std::pow(tDouble, 2)
                    + 4 * coefficients[4] * std::pow(tDouble, 3)
                    + 5 * coefficients[5] * std::pow(tDouble, 4);
-        REQUIRE(expected.isApprox(velocity, 1e-5));
+        REQUIRE(expected.isApprox(velocity, tolerance));
 
         // check acceleration
         expected = 2 * coefficients[2] + 3 * 2 * coefficients[3] * tDouble
                    + 4 * 3 * coefficients[4] * std::pow(tDouble, 2)
                    + 5 * 4 * coefficients[5] * std::pow(tDouble, 3);
 
-        REQUIRE(expected.isApprox(acceleration, 1e-5));
+        REQUIRE(expected.isApprox(acceleration, tolerance));
     }
 
     SECTION("Advance capabilities")
@@ -125,19 +128,19 @@ TEST_CASE("Quintic spline")
                        + coefficients[3] * std::pow(t, 3) + coefficients[4] * std::pow(t, 4)
                        + coefficients[5] * std::pow(t, 5);
 
-            REQUIRE(expected.isApprox(traj.position, 1e-5));
+            REQUIRE(expected.isApprox(traj.position, tolerance));
 
             // check velocity
             expected = coefficients[1] + 2 * coefficients[2] * t
                        + 3 * coefficients[3] * std::pow(t, 2) + 4 * coefficients[4] * std::pow(t, 3)
                        + 5 * coefficients[5] * std::pow(t, 4);
-            REQUIRE(expected.isApprox(traj.velocity, 1e-5));
+            REQUIRE(expected.isApprox(traj.velocity, tolerance));
 
             // check acceleration
             expected = 2 * coefficients[2] + 3 * 2 * coefficients[3] * t
                        + 4 * 3 * coefficients[4] * std::pow(t, 2)
                        + 5 * 4 * coefficients[5] * std::pow(t, 3);
-            REQUIRE(expected.isApprox(traj.acceleration, 1e-5));
+            REQUIRE(expected.isApprox(traj.acceleration, tolerance));
         }
     }
 
@@ -164,19 +167,19 @@ TEST_CASE("Quintic spline")
                        + coefficients[3] * std::pow(t, 3) + coefficients[4] * std::pow(t, 4)
                        + coefficients[5] * std::pow(t, 5);
 
-            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+            REQUIRE(expected.isApprox(positionVector[i], tolerance));
 
             // check velocity
             expected = coefficients[1] + 2 * coefficients[2] * t
                        + 3 * coefficients[3] * std::pow(t, 2) + 4 * coefficients[4] * std::pow(t, 3)
                        + 5 * coefficients[5] * std::pow(t, 4);
-            REQUIRE(expected.isApprox(velocityVector[i], 1e-5));
+            REQUIRE(expected.isApprox(velocityVector[i], tolerance));
 
             // check acceleration
             expected = 2 * coefficients[2] + 3 * 2 * coefficients[3] * t
                        + 4 * 3 * coefficients[4] * std::pow(t, 2)
                        + 5 * 4 * coefficients[5] * std::pow(t, 3);
-            REQUIRE(expected.isApprox(accelerationVector[i], 1e-5));
+            REQUIRE(expected.isApprox(accelerationVector[i], tolerance));
         }
     }
 }
@@ -190,6 +193,9 @@ TEST_CASE("Cubic spline")
     constexpr std::chrono::nanoseconds finalTime = 2s + 640s;
 
     constexpr std::chrono::nanoseconds dT = (finalTime - initTime) / (numberOfPoints - 1);
+
+    constexpr double tolerance = 1e-5;
+
     std::array<Eigen::Vector4d, 6> coefficients;
     for (auto& coeff : coefficients)
     {
@@ -242,12 +248,12 @@ TEST_CASE("Cubic spline")
                    + coefficients[2] * std::pow(tSeconds, 2)
                    + coefficients[3] * std::pow(tSeconds, 3);
 
-        REQUIRE(expected.isApprox(position, 1e-5));
+        REQUIRE(expected.isApprox(position, tolerance));
 
         // check velocity
         expected = coefficients[1] + 2 * coefficients[2] * tSeconds
                    + 3 * coefficients[3] * std::pow(tSeconds, 2);
-        REQUIRE(expected.isApprox(velocity, 1e-5));
+        REQUIRE(expected.isApprox(velocity, tolerance));
     }
 
     SECTION("Advance capabilities")
@@ -270,13 +276,13 @@ TEST_CASE("Cubic spline")
                        + coefficients[2] * std::pow(t, 2) //
                        + coefficients[3] * std::pow(t, 3);
 
-            REQUIRE(expected.isApprox(traj.position, 1e-5));
+            REQUIRE(expected.isApprox(traj.position, tolerance));
 
             // check velocity
             expected = coefficients[1] //
                        + 2 * coefficients[2] * t //
                        + 3 * coefficients[3] * std::pow(t, 2);
-            REQUIRE(expected.isApprox(traj.velocity, 1e-5));
+            REQUIRE(expected.isApprox(traj.velocity, tolerance));
         }
     }
 
@@ -302,13 +308,13 @@ TEST_CASE("Cubic spline")
             expected = coefficients[0] + coefficients[1] * t + coefficients[2] * std::pow(t, 2)
                        + coefficients[3] * std::pow(t, 3);
 
-            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+            REQUIRE(expected.isApprox(positionVector[i], tolerance));
 
             // check velocity
             expected = coefficients[1] //
                        + 2 * coefficients[2] * t //
                        + 3 * coefficients[3] * std::pow(t, 2);
-            REQUIRE(expected.isApprox(velocityVector[i], 1e-5));
+            REQUIRE(expected.isApprox(velocityVector[i], tolerance));
         }
     }
 }
@@ -322,6 +328,9 @@ TEST_CASE("Linear spline")
     constexpr std::chrono::nanoseconds finalTime = 2s + 640s;
 
     constexpr std::chrono::nanoseconds dT = (finalTime - initTime) / (numberOfPoints - 1);
+
+    constexpr double tolerance = 1e-5;
+
     std::array<Eigen::Vector4d, 2> coefficients;
     for (auto& coeff : coefficients)
     {
@@ -368,7 +377,7 @@ TEST_CASE("Linear spline")
         // check position
         expected = coefficients[0] + coefficients[1] * tSeconds;
 
-        REQUIRE(expected.isApprox(position, 1e-5));
+        REQUIRE(expected.isApprox(position, tolerance));
     }
 
     SECTION("Advance capabilities")
@@ -388,7 +397,7 @@ TEST_CASE("Linear spline")
             // check position
             expected = coefficients[0] + coefficients[1] * t;
 
-            REQUIRE(expected.isApprox(traj.position, 1e-5));
+            REQUIRE(expected.isApprox(traj.position, tolerance));
         }
     }
 
@@ -413,11 +422,11 @@ TEST_CASE("Linear spline")
             // check position
             expected = coefficients[0] + coefficients[1] * t;
 
-            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+            REQUIRE(expected.isApprox(positionVector[i], tolerance));
 
             // check velocity
             expected = coefficients[1];
-            REQUIRE(expected.isApprox(velocityVector[i], 1e-5));
+            REQUIRE(expected.isApprox(velocityVector[i], tolerance));
         }
     }
 }
@@ -429,6 +438,8 @@ TEST_CASE("Zero Order spline")
     constexpr std::size_t numberOfPoints = 100;
     constexpr std::chrono::nanoseconds initTime = 320ms;
     constexpr std::chrono::nanoseconds finalTime = 2s + 640s;
+
+    constexpr double tolerance = 1e-5;
 
     constexpr std::chrono::nanoseconds dT = (finalTime - initTime) / (numberOfPoints - 1);
     std::array<Eigen::Vector4d, 1> coefficients;
@@ -477,7 +488,7 @@ TEST_CASE("Zero Order spline")
         // check position
         expected = coefficients[0];
 
-        REQUIRE(expected.isApprox(position, 1e-5));
+        REQUIRE(expected.isApprox(position, tolerance));
     }
 
     SECTION("Advance capabilities")
@@ -497,7 +508,7 @@ TEST_CASE("Zero Order spline")
             // check position
             expected = coefficients[0];
 
-            REQUIRE(expected.isApprox(traj.position, 1e-5));
+            REQUIRE(expected.isApprox(traj.position, tolerance));
         }
     }
 
@@ -522,10 +533,12 @@ TEST_CASE("Zero Order spline")
             // check position
             expected = coefficients[0];
 
-            REQUIRE(expected.isApprox(positionVector[i], 1e-5));
+            REQUIRE(expected.isApprox(positionVector[i], tolerance));
 
-            // check velocity
-            REQUIRE(expected.isZero(1e-5));
+            // check velocity and acceleration
+            REQUIRE(velocityVector[i].isZero(tolerance));
+
+            REQUIRE(accelerationVector[i].isZero(tolerance));
         }
     }
 }
