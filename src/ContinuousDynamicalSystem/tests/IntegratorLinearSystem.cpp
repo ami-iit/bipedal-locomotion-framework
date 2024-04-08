@@ -16,8 +16,10 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/RK4.h>
+#include <BipedalLocomotion/TestUtils/MemoryAllocationMonitor.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
+using namespace BipedalLocomotion::TestUtils;
 
 TEST_CASE("Integrator - Linear system")
 {
@@ -76,7 +78,18 @@ TEST_CASE("Integrator - Linear system")
             REQUIRE(
                 solution.isApprox(closeFormSolution(std::chrono::duration<double>(dT * i).count()),
                                   tolerance));
+
+            // We only test no memory allocation from the second step,
+            // as ForwardEuler allocates memory at the first step
+            if (i >= 1)
+            {
+                MemoryAllocationMonitor::startMonitor();
+            }
             REQUIRE(integrator.integrate(0s, dT));
+            if (i >= 1)
+            {
+                REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+            }
         }
     }
 
@@ -94,7 +107,18 @@ TEST_CASE("Integrator - Linear system")
             REQUIRE(
                 solution.isApprox(closeFormSolution(std::chrono::duration<double>(dT * i).count()),
                                   tolerance));
+
+            // We only test no memory allocation from the second step,
+            // as RK4 allocates memory at the first step
+            if (i >= 1)
+            {
+                MemoryAllocationMonitor::startMonitor();
+            }
             REQUIRE(integrator.integrate(0s, dT));
+            if (i >=1)
+            {
+                REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+            }
         }
     }
 }

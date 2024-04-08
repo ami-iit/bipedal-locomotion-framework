@@ -16,8 +16,10 @@
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
+#include <BipedalLocomotion/TestUtils/MemoryAllocationMonitor.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
+using namespace BipedalLocomotion::TestUtils;
 
 TEST_CASE("First order smoother")
 {
@@ -89,7 +91,18 @@ TEST_CASE("First order smoother")
         }
 
         // advance the smoother
+
+        // We only test no memory allocation from the second step,
+        // as FirstOrderSmoother allocates memory at the first step
+        if (i >= 1)
+        {
+            MemoryAllocationMonitor::startMonitor();
+        }
         REQUIRE(smoother.advance());
+        if (i >= 1)
+        {
+            REQUIRE(MemoryAllocationMonitor::endMonitorAndCheckNoMemoryAllocationInLastMonitor());
+        }
     }
 
     // check the settling time
