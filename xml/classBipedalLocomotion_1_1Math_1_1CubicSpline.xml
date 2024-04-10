@@ -476,6 +476,8 @@
       <member refid="classBipedalLocomotion_1_1Math_1_1CubicSpline_1a694796a466e355cc82dbbcc8ad3e2cf8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>durationToSeconds</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a2de97d0a599929a5b702317ed4745b64" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>evaluateOrderedPoints</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a98e97511aed7db9f13007ad55b6d7b5d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a40df1bf5d140a620b2cf365047c60215" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>evaluatePoint</name></member>
+      <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a14fcc91da964940098ff0a6f0536f622" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a9481d1827dc2abcee390361dc84671ff" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>evaluatePoint</name></member>
       <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a5b22ec55c97bccb788fc7ea18dd9510a" prot="public" virt="virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a6db247d3db83217a16e963d01f6bcb77" prot="public" virt="virtual"><scope>BipedalLocomotion::Math::CubicSpline</scope><name>initialize</name></member>

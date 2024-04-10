@@ -2400,6 +2400,7 @@
   <compound refid="classBipedalLocomotion_1_1Math_1_1Spline" kind="class"><name>BipedalLocomotion::Math::Spline</name>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1ac7c3ffafdc2f04a85b8cc2c25d953f64" kind="variable"><name>m_knots</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1acff8ec4aa58769503bc251d8cfc689c7" kind="variable"><name>m_polynomials</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1aaa3ab6ae7a525cf56a9720a33ca87595" kind="variable"><name>m_dummy</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1aecdbdde582a1deffdaef21a7da245f70" kind="variable"><name>m_currentTrajectoryPoint</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a61f107976f0a2641d9f8bdf1ae75853c" kind="variable"><name>m_isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1ae489f71f71153c87384222b1915320ae" kind="variable"><name>m_advanceCurrentTime</name></member>
@@ -2415,6 +2416,8 @@
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a1bddbcb7b19b36aadbbb5339786036a4" kind="function"><name>setInitialConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a42d9ee9e30261fd741b8344d8fca1832" kind="function"><name>setFinalConditions</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a98e97511aed7db9f13007ad55b6d7b5d" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a40df1bf5d140a620b2cf365047c60215" kind="function"><name>evaluatePoint</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a14fcc91da964940098ff0a6f0536f622" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a2de97d0a599929a5b702317ed4745b64" kind="function"><name>evaluateOrderedPoints</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a9481d1827dc2abcee390361dc84671ff" kind="function"><name>evaluatePoint</name></member>
     <member refid="classBipedalLocomotion_1_1Math_1_1Spline_1a016211240b78f71eca3fcbe0db741464" kind="function"><name>isOutputValid</name></member>
@@ -3135,6 +3138,10 @@
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1ad9f365bbabbd35f8764487ddc5531007" kind="function"><name>sink_it_</name></member>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1sinks_1_1YarpSink_1a47a754ca24dc3823a1817831ae49b06e" kind="function"><name>flush_</name></member>
   </compound>
+  <compound refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline" kind="class"><name>BipedalLocomotion::Math::ZeroOrderSpline</name>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline_1af9ef09ca388433e2d0a5436cc472fcc8" kind="function"><name>updatePolynomialCoefficients</name></member>
+    <member refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline_1a98e9c06997a0b0a2ae0e8d05df8afc3a" kind="function"><name>computeIntermediateQuantities</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a6361ad33d84382b06414143c70ef3df0" kind="variable"><name>m_currentState</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1a9bcb8c7dac9b73971b999273b96920bb" kind="variable"><name>m_name</name></member>
@@ -3629,6 +3636,8 @@
     <member refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kind="typedef"><name>Wrenchd</name></member>
     <member refid="Wrench_8h_1ab4a25ba86637fb8d91b30827c776d934" kind="function"><name>operator*</name></member>
     <member refid="Wrench_8h_1ad07cd1eb9f2b00e87f9c8c5ddeaeecfe" kind="function"><name>operator*</name></member>
+  </compound>
+  <compound refid="ZeroOrderSpline_8h" kind="file"><name>ZeroOrderSpline.h</name>
   </compound>
   <compound refid="MANN_8h" kind="file"><name>MANN.h</name>
   </compound>

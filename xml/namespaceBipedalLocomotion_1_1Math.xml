@@ -16,6 +16,7 @@
     <innerclass refid="structBipedalLocomotion_1_1Math_1_1TrajectoryPoint" prot="public">BipedalLocomotion::Math::TrajectoryPoint</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1Spline" prot="public">BipedalLocomotion::Math::Spline</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Math_1_1Wrench" prot="public">BipedalLocomotion::Math::Wrench</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline" prot="public">BipedalLocomotion::Math::ZeroOrderSpline</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" prot="public" static="no">
         <type><ref refid="classBipedalLocomotion_1_1Math_1_1Wrench" kindref="compound">Wrench</ref>&lt; double &gt;</type>
