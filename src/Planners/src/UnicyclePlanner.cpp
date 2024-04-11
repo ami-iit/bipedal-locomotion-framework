@@ -11,6 +11,9 @@
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <Eigen/src/Core/Ref.h>
+#include <cmath>
+#include <iDynTree/Position.h>
 #include <yarp/os/RFModule.h>
 
 #include <Eigen/src/Core/Matrix.h>
@@ -54,6 +57,20 @@ public:
     std::unique_ptr<::UnicycleGenerator> generator;
 };
 
+BipedalLocomotion::Planners::UnicyclePlannerInput
+BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerInput()
+{
+    UnicyclePlannerInput input;
+
+    input.plannerInput = Eigen::VectorXd::Zero(3);
+    input.dcmInitialState = DCMInitialState();
+    input.correctLeft = true;
+    input.initTime = 0.0;
+    input.measuredTransform = iDynTree::Transform::Identity();
+
+    return input;
+}
+
 UnicycleController Planners::UnicyclePlanner::getUnicycleControllerFromString(
     const std::string& unicycleControllerAsString)
 {
@@ -70,8 +87,8 @@ UnicycleController Planners::UnicyclePlanner::getUnicycleControllerFromString(
 }
 
 Planners::UnicyclePlanner::UnicyclePlanner()
-    : m_pImpl{std::make_unique<Impl>()}
 {
+    m_pImpl = std::make_unique<UnicyclePlanner::Impl>();
 }
 
 Planners::UnicyclePlanner::~UnicyclePlanner() = default;
@@ -148,10 +165,6 @@ bool Planners::UnicyclePlanner::initialize(
     bool startWithLeft{true};
     bool startWithSameFoot{true};
 
-    double freeSpaceConservativeFactor{2.0};
-    double innerEllipseSemiMajorOffset{0.0};
-    double innerEllipseSemiMinorOffset{0.0};
-
     Eigen::Vector2d mergePointRatios;
     double switchOverSwingRatio;
     double lastStepSwitchTime;
@@ -191,9 +204,6 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("rightYawDeltaInDeg", m_rightYawDeltaInRad);
     ok = ok && loadParam("swingLeft", startWithLeft);
     ok = ok && loadParam("startAlwaysSameFoot", startWithSameFoot);
-    ok = ok && loadParam("conservative_factor", freeSpaceConservativeFactor);
-    ok = ok && loadParam("inner_offset_major", innerEllipseSemiMajorOffset);
-    ok = ok && loadParam("inner_offset_minor", innerEllipseSemiMinorOffset);
     ok = ok && loadParam("mergePointRatios", mergePointRatios);
     ok = ok && loadParam("switchOverSwingRatio", switchOverSwingRatio);
     ok = ok && loadParam("lastStepSwitchTime", lastStepSwitchTime);
@@ -234,10 +244,7 @@ bool Planners::UnicyclePlanner::initialize(
     unicyclePlanner->addTerminalStep(true);
     unicyclePlanner->startWithLeft(startWithLeft);
     unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
-    ok = ok && unicyclePlanner->setFreeSpaceEllipseConservativeFactor(freeSpaceConservativeFactor);
-    ok = ok
-         && unicyclePlanner->setInnerFreeSpaceEllipseOffsets(innerEllipseSemiMajorOffset,
-                                                             innerEllipseSemiMinorOffset);
+
     auto unicycleController = getUnicycleControllerFromString(unicycleControllerAsString);
     ok = ok && unicyclePlanner->setUnicycleController(unicycleController);
 
@@ -288,9 +295,9 @@ bool Planners::UnicyclePlanner::initialize(
     dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
 
-    /////++++++
-    // GENERATE_TRAJECTORIES FOR THE FIRST TIME: TO BE ADDED (MAYBE HERE)
-    /////++++++
+    // genereateFirstTrajectory();
+    Eigen::Vector3d initialBasePosition = Eigen::Vector3d::Zero();
+    ok = ok && generateFirstTrajectory(initialBasePosition);
 
     if (ok)
     {
@@ -542,6 +549,62 @@ bool Planners::UnicyclePlanner::advance()
         m_pImpl->output.comHeightTrajectory.comHeightAcceleration);
 
     m_pImpl->state = Impl::FSM::Running;
+
+    return true;
+}
+
+bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory(
+    const Eigen::Ref<Eigen::Vector3d>& initialBasePosition)
+{
+
+    constexpr auto logPrefix = "[UnicyclePlanner::generateFirstTrajectory]";
+
+    // clear the all trajectory
+    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
+    unicyclePlanner->clearPersonFollowingDesiredTrajectory();
+    unicyclePlanner->setDesiredDirectControl(0.0, 0.0, 0.0);
+
+    // clear left and right footsteps
+    m_pImpl->generator->getLeftFootPrint()->clearSteps();
+    m_pImpl->generator->getRightFootPrint()->clearSteps();
+
+    // set initial and final times
+    double initTime = 0;
+    double endTime = initTime + m_plannerHorizon;
+
+    // at the beginning iCub has to stop
+    Eigen::Vector2d m_personFollowingDesiredPoint;
+    m_personFollowingDesiredPoint(0) = m_referencePointDistance(0) + initialBasePosition(0);
+    m_personFollowingDesiredPoint(1) = m_referencePointDistance(1) + initialBasePosition(1);
+
+    // add the initial point
+    if (!unicyclePlanner
+             ->addPersonFollowingDesiredTrajectoryPoint(initTime,
+                                                        iDynTree::Vector2(
+                                                            m_personFollowingDesiredPoint)))
+    {
+        log()->error("{} Error while setting the initial point.", logPrefix);
+        return false;
+    }
+
+    // add the final point
+    if (!unicyclePlanner
+             ->addPersonFollowingDesiredTrajectoryPoint(endTime,
+                                                        iDynTree::Vector2(
+                                                            m_personFollowingDesiredPoint)))
+    {
+        log()->error("{} Error while setting the final point.", logPrefix);
+        return false;
+    }
+
+    // generate the first trajectories
+    if (!m_pImpl->generator->generate(initTime, m_dt, endTime))
+    {
+
+        log()->error("{} Error while computing the first trajectories.", logPrefix);
+
+        return false;
+    }
 
     return true;
 }

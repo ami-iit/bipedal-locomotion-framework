@@ -48,6 +48,8 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
     double initTime; // The initial time of the trajectory.
 
     iDynTree::Transform measuredTransform; // The measured transform of the foot.
+
+    static UnicyclePlannerInput generateDummyUnicyclePlannerInput();
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerOutput
@@ -131,6 +133,8 @@ private:
 
     UnicycleController
     getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
+
+    bool generateFirstTrajectory(const Eigen::Ref<Eigen::Vector3d>& initialBasePosition);
 
     double m_dt;
     double m_plannerHorizon;
