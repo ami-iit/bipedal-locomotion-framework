@@ -69,20 +69,12 @@ struct QPInverseKinematics::Impl
         this->variableScalingFactors
             = this->gradient.cwiseAbs().cwiseMax(this->hessian.diagonal().cwiseAbs2().cwiseSqrt());
 
-        std::cerr << "variable scaling: " << this->variableScalingFactors.rows() << " "
-                  << variableScalingFactors.cols() << std::endl;
-
         // construct the scaling matrix
         Eigen::MatrixXd scalingMatrix
             = this->variableScalingFactors * this->variableScalingFactors.transpose();
 
-        std::cerr << "scaling matrix: " << scalingMatrix.rows() << " " << scalingMatrix.cols()
-                  << std::endl;
-        std::cerr << "hessian " << hessian.rows() << " " << hessian.cols() << std::endl;
-
         // compute the component wise division hessian = hessian / scalingMatrix
         this->hessian = (this->hessian.array() * scalingMatrix.array().cwiseInverse()).matrix();
-        std::cerr << "hessian " << hessian.rows() << " " << hessian.cols() << std::endl;
 
         this->gradient = (this->gradient.array() / scalingMatrix.array()).matrix();
 
