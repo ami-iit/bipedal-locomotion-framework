@@ -132,8 +132,6 @@ private:
     UnicycleController
     getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
 
-    UnicyclePlannerInput m_input;
-
     double m_dt;
     double m_plannerHorizon;
     double m_leftYawDeltaInRad;

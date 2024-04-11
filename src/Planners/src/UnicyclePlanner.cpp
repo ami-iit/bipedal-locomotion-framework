@@ -47,13 +47,9 @@ public:
 
     FSM state{FSM::NotInitialized};
 
-    // struct
-    // {
-    //     std::optional<Contacts::PlannedContact> left;
-    //     std::optional<Contacts::PlannedContact> right;
-    // } initialContacts;
-
     UnicyclePlannerOutput output;
+
+    UnicyclePlannerInput input;
 
     std::unique_ptr<::UnicycleGenerator> generator;
 };
@@ -105,10 +101,12 @@ bool Planners::UnicyclePlanner::initialize(
 
     // TO DO: write a variant of the lambda function with fallback option
     // clang-format off
-    // auto loadParam = [ptr, logPrefix](const std::string& paramName, auto& param, auto fallback) -> bool {
+    // template<typename T>
+    // auto loadParam = [ptr, logPrefix](const std::string& paramName, T& param, const T& fallback) -> bool {
     //     if (!ptr->getParameter(paramName, param))
     //     { 
     //         log()->warn("{} Unable to find the parameter named '{}'. The default one with value [{}] will be used.", logPrefix, paramName, fallback);
+    //         param = fallback;
     //     }
     //     return true;
     // };
@@ -324,10 +322,7 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
         return false;
     }
 
-    m_input.dcmInitialState = input.dcmInitialState;
-    m_input.plannerInput = input.plannerInput;
-    m_input.correctLeft = input.correctLeft;
-    m_input.measuredTransform = input.measuredTransform;
+    m_pImpl->input = input;
 
     return true;
 }
@@ -342,34 +337,34 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    bool correctLeft{m_input.correctLeft};
+    bool correctLeft{m_pImpl->input.correctLeft};
 
     // set timings
     double dt{m_dt};
-    double initTime{m_input.initTime};
+    double initTime{m_pImpl->input.initTime};
     double endTime = initTime + m_plannerHorizon;
 
     // set desired point
     Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
-    desiredPointInRelativeFrame(0) = m_input.plannerInput(0);
-    desiredPointInRelativeFrame(0) = m_input.plannerInput(1);
+    desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(0);
+    desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(1);
 
     // left foot
     Eigen::Vector2d measuredPositionLeft;
     double measuredAngleLeft;
     double leftYawDeltaInRad;
-    measuredPositionLeft(0) = m_input.measuredTransform.getPosition()(0);
-    measuredPositionLeft(1) = m_input.measuredTransform.getPosition()(1);
-    measuredAngleLeft = m_input.measuredTransform.getRotation().asRPY()(2);
+    measuredPositionLeft(0) = m_pImpl->input.measuredTransform.getPosition()(0);
+    measuredPositionLeft(1) = m_pImpl->input.measuredTransform.getPosition()(1);
+    measuredAngleLeft = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
     leftYawDeltaInRad = m_leftYawDeltaInRad;
 
     // right foot
     Eigen::Vector2d measuredPositionRight;
     double measuredAngleRight;
     double rightYawDeltaInRad;
-    measuredPositionRight(0) = m_input.measuredTransform.getPosition()(0);
-    measuredPositionRight(1) = m_input.measuredTransform.getPosition()(1);
-    measuredAngleRight = m_input.measuredTransform.getRotation().asRPY()(2);
+    measuredPositionRight(0) = m_pImpl->input.measuredTransform.getPosition()(0);
+    measuredPositionRight(1) = m_pImpl->input.measuredTransform.getPosition()(1);
+    measuredAngleRight = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
     rightYawDeltaInRad = m_rightYawDeltaInRad;
 
     // get unicycle pose
@@ -424,14 +419,14 @@ bool Planners::UnicyclePlanner::advance()
     }
 
     // set the desired direct control
-    unicyclePlanner->setDesiredDirectControl(m_input.plannerInput(0),
-                                             m_input.plannerInput(1),
-                                             m_input.plannerInput(2));
+    unicyclePlanner->setDesiredDirectControl(m_pImpl->input.plannerInput(0),
+                                             m_pImpl->input.plannerInput(1),
+                                             m_pImpl->input.plannerInput(2));
 
     // set the initial state of the DCM trajectory generator
     auto dcmGenerator = m_pImpl->generator->addDCMTrajectoryGenerator();
 
-    if (!dcmGenerator->setDCMInitialState(m_input.dcmInitialState))
+    if (!dcmGenerator->setDCMInitialState(m_pImpl->input.dcmInitialState))
     {
         log()->error("{} Failed to set the initial state.", logPrefix);
         return false;
@@ -453,8 +448,7 @@ bool Planners::UnicyclePlanner::advance()
     BipedalLocomotion::Contacts::ContactListMap ContactListMap;
     std::vector<StepPhase> leftStepPhases, rightStepPhases;
     m_pImpl->generator->getStepPhases(leftStepPhases, rightStepPhases);
-    // std::vector<bool> leftStandingPeriod, rightStandingPeriod;
-    // m_pImpl->generator->getFeetStandingPeriods(leftStandingPeriod, rightStandingPeriod);
+
     auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
     auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
 
