@@ -129,11 +129,12 @@ public:
      * Initialize the network.
      * @param paramHandler pointer to the parameters handler.
      * @note the following parameters are required by the class
-     * |        Parameter Name       |       Type       |                                       Description                                              | Mandatory |
-     * |:---------------------------:|:----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
-     * |       `onnx_model_path`     |      `string`    |          Path to the `onnx` model that will be loaded to perform inference                     |    Yes    |
-     * |     `number_of_joints`      |       `int`      |               Number of robot joints considered in the model                                   |    Yes    |
-     * | `projected_base_datapoints` |       `int`      |    Number of samples of the base horizon considered in the model (it must be an even number)   |    Yes    |
+     * |        Parameter Name       |       Type       |                                       Description                                               | Mandatory |
+     * |:---------------------------:|:----------------:|:-----------------------------------------------------------------------------------------------:|:---------:|
+     * |       `onnx_model_path`     |      `string`    |          Path to the `onnx` model that will be loaded to perform inference                      |    Yes    |
+     * |     `number_of_joints`      |       `int`      |               Number of robot joints considered in the model                                    |    Yes    |
+     * | `projected_base_datapoints` |       `int`      |    Number of samples of the base horizon considered in the model (it must be an even number)    |    Yes    |
+     * |     `number_of_threads`     |       `int`      | Number of threads used to perform the inference. Default value is the number of available cores |    No     |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;

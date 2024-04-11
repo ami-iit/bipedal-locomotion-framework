@@ -16,6 +16,7 @@ All notable changes to this project are documented in this file.
 - Add support for testing if a portion of code allocates memory via `MemoryAllocationMonitor`` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/768)
 - Implement `Math::ZeroOrderSpline` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/834)
 - Add the possibility to get only position or position/velocity from the spline (https://github.com/ami-iit/bipedal-locomotion-framework/pull/834)
+- Add the possibility to set the number of threads used by onnxruntime in `MANN` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/836)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
