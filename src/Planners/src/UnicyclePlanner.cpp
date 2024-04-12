@@ -479,8 +479,12 @@ bool Planners::UnicyclePlanner::advance()
 
             contact.index = contactFrameIndex;
             contact.name = contactName;
-            contact.pose.translation().head(2) = iDynTree::toEigen(step.position);
-            contact.pose.rotation() = iDynTree::toEigen(iDynTree::Rotation::RotZ(step.angle));
+
+            Eigen::Vector3d translation = Eigen::Vector3d::Zero();
+            translation.head(2) = iDynTree::toEigen(step.position);
+            manif::SO3d rotation{0, 0, step.angle};
+            contact.pose = manif::SE3d(translation, rotation);
+
             contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
                 step.impactTime * std::chrono::seconds(1));
             contact.deactivationTime = std::chrono::nanoseconds::max();
