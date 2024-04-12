@@ -16,7 +16,7 @@
 #include <Eigen/Dense>
 
 #include <Eigen/src/Core/Matrix.h>
-#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/VectorDynSize.h>
 
 #include <memory>
 

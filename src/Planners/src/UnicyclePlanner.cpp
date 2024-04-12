@@ -5,19 +5,16 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include "BipedalLocomotion/Contacts/ContactList.h"
+#include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <Eigen/src/Core/Ref.h>
 #include <cmath>
 #include <iDynTree/Position.h>
 #include <yarp/os/RFModule.h>
 
-#include <Eigen/src/Core/Matrix.h>
-#include <Eigen/src/Core/util/Constants.h>
 #include <FootPrint.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
@@ -26,12 +23,10 @@
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/MatrixFixSize.h>
 #include <iDynTree/Model.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/ModelLoader.h>
 #include <iDynTree/Rotation.h>
 #include <iDynTree/VectorFixSize.h>
-#include <manif/SE3.h>
 
-#include <manif/impl/se3/SE3.h>
 #include <string>
 #include <vector>
 
