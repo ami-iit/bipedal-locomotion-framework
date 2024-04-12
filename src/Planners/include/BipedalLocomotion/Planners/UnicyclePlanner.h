@@ -16,6 +16,7 @@
 #include <Eigen/Dense>
 
 #include <Eigen/src/Core/Matrix.h>
+#include <cstddef>
 #include <iDynTree/VectorDynSize.h>
 
 #include <memory>
@@ -27,7 +28,6 @@
 
 namespace BipedalLocomotion::Planners
 {
-struct UnicycleKnot;
 class UnicyclePlanner;
 struct UnicyclePlannerInput;
 struct UnicyclePlannerOutput;
@@ -75,6 +75,8 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
 
     Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
+
+    std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerParameters

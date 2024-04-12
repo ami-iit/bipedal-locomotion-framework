@@ -598,6 +598,11 @@ bool Planners::UnicyclePlanner::advance()
     comHeightGenerator->getCoMHeightAccelerationProfile(
         m_pImpl->output.comHeightTrajectory.comHeightAcceleration);
 
+    // get the merge points
+    std::vector<size_t> mergePoints;
+    m_pImpl->generator->getMergePoints(mergePoints);
+    m_pImpl->output.mergePoints = mergePoints;
+
     m_pImpl->state = Impl::FSM::Running;
 
     return true;
