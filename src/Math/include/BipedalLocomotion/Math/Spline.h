@@ -240,6 +240,7 @@ protected:
     virtual void updatePolynomialCoefficients(Polynomial& polynomial) = 0;
 
 private:
+    T m_dummy; /**< Dummy variable used to avoid the creation of a temporary variable. */
     TrajectoryPoint<T> m_currentTrajectoryPoint; /**< Current trajectory. */
     bool m_isOutputValid{false}; /**< True if the output is valid. */
 
@@ -377,6 +378,9 @@ bool Spline<T>::setKnots(const std::vector<T>& knots,
 
     // The knots changed. The coefficients are outdated.
     m_areCoefficientsComputed = false;
+
+    // resize the dummy variable
+    m_dummy.resize(sizeOfVectors);
 
     return true;
 }
@@ -570,6 +574,20 @@ template <typename T> bool Spline<T>::computeCoefficients()
     m_areCoefficientsComputed = true;
 
     return true;
+}
+
+template <typename T>
+bool Spline<T>::evaluatePoint(const std::chrono::nanoseconds& t, Eigen::Ref<T> position)
+{
+    return this->evaluatePoint(t, position, m_dummy, m_dummy);
+}
+
+template <typename T>
+bool Spline<T>::evaluatePoint(const std::chrono::nanoseconds& t,
+                              Eigen::Ref<T> position,
+                              Eigen::Ref<T> velocity)
+{
+    return this->evaluatePoint(t, position, velocity, m_dummy);
 }
 
 template <typename T>
