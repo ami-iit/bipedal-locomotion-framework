@@ -31,6 +31,7 @@ struct UnicycleKnot;
 class UnicyclePlanner;
 struct UnicyclePlannerInput;
 struct UnicyclePlannerOutput;
+struct UnicyclePlannerParameters;
 } // namespace BipedalLocomotion::Planners
 
 struct BipedalLocomotion::Planners::UnicyclePlannerInput
@@ -39,15 +40,17 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
     if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
     if UnicycleController::DIRECT, the plannerInput is a vector of size 3 (i.e., [xdot, ydot, wz])
     */
-    Eigen::VectorXd plannerInput; // The input to the unicycle planner .
+    Eigen::VectorXd plannerInput; // The input to the unicycle planner.
 
     DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
 
-    bool correctLeft; // Whether to correct the left foot pose.
+    bool isLeftLastSwinging; // True if the last foot that was swinging is the left one. False
+                             // otherwise.
 
     double initTime; // The initial time of the trajectory.
 
-    iDynTree::Transform measuredTransform; // The measured transform of the foot.
+    iDynTree::Transform measuredTransform; // The measured transform of the last foot that touched
+                                           // the floor.
 
     static UnicyclePlannerInput generateDummyUnicyclePlannerInput();
 };
@@ -72,6 +75,25 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
 
     Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
+};
+
+struct BipedalLocomotion::Planners::UnicyclePlannerParameters
+{
+    double dt; // The sampling time of the planner.
+
+    double plannerHorizon; // The time horizon of the planner.
+
+    double leftYawDeltaInRad; // Left foot cartesian offset in the yaw.
+
+    double rightYawDeltaInRad; // Right foot cartesian offset in the yaw.
+
+    Eigen::Vector2d referencePointDistance; // The reference position of the unicycle controller
+
+    double nominalWidth; // The nominal feet distance.
+
+    int leftContactFrameIndex; // The index of the left foot contact frame.
+
+    int rightContactFrameIndex; // The index of the right foot contact frame.
 };
 
 class BipedalLocomotion::Planners::UnicyclePlanner final
@@ -116,8 +138,10 @@ public:
      * @param handler Pointer to the parameter handler.
      * @return True in case of success, false otherwise.
      */
-    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+
     // clang-format on
+
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     const UnicyclePlannerOutput& getOutput() const override;
 
@@ -125,6 +149,9 @@ public:
 
     bool setInput(const UnicyclePlannerInput& input) override;
 
+    /*
+    The advance method should be called only in DoubleSupport phase.
+    */
     bool advance() override;
 
 private:
@@ -134,16 +161,7 @@ private:
     UnicycleController
     getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
 
-    bool generateFirstTrajectory(const Eigen::Ref<Eigen::Vector3d>& initialBasePosition);
-
-    double m_dt;
-    double m_plannerHorizon;
-    double m_leftYawDeltaInRad;
-    double m_rightYawDeltaInRad;
-    double m_nominalWidth;
-    int m_leftContactFrameIndex;
-    int m_rightContactFrameIndex;
-    Eigen::Vector2d m_referencePointDistance;
+    bool generateFirstTrajectory();
 };
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H

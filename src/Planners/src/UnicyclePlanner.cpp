@@ -54,6 +54,8 @@ public:
 
     UnicyclePlannerInput input;
 
+    UnicyclePlannerParameters parameters;
+
     std::unique_ptr<::UnicycleGenerator> generator;
 };
 
@@ -63,10 +65,19 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
     UnicyclePlannerInput input;
 
     input.plannerInput = Eigen::VectorXd::Zero(3);
-    input.dcmInitialState = DCMInitialState();
-    input.correctLeft = true;
+
+    iDynTree::Vector2 dcmInitialPosition, dcmInitialVelocity;
+    dcmInitialPosition.zero();
+    dcmInitialVelocity.zero();
+    input.dcmInitialState.initialPosition = dcmInitialPosition;
+    input.dcmInitialState.initialVelocity = dcmInitialVelocity;
+
+    input.isLeftLastSwinging = false; // isLeftLastSwingingFoot (from previous planner run)
+
     input.initTime = 0.0;
+
     input.measuredTransform = iDynTree::Transform::Identity();
+    input.measuredTransform.setPosition(iDynTree::Position(0.0, -0.085, 0.0));
 
     return input;
 }
@@ -179,20 +190,20 @@ bool Planners::UnicyclePlanner::initialize(
     // parse initialization parameters
     bool ok = true;
 
-    ok = ok && loadParam("referencePosition", m_referencePointDistance);
+    ok = ok && loadParam("referencePosition", m_pImpl->parameters.referencePointDistance);
     ok = ok && loadParam("controlType", unicycleControllerAsString);
     ok = ok && loadParam("unicycleGain", unicycleGain);
     ok = ok && loadParam("slowWhenTurningGain", slowWhenTurningGain);
     ok = ok && loadParam("slowWhenBackwardFactor", slowWhenBackwardFactor);
     ok = ok && loadParam("slowWhenSidewaysFactor", slowWhenSidewaysFactor);
-    ok = ok && loadParam("dt", m_dt);
-    ok = ok && loadParam("plannerHorizon", m_plannerHorizon);
+    ok = ok && loadParam("dt", m_pImpl->parameters.dt);
+    ok = ok && loadParam("plannerHorizon", m_pImpl->parameters.plannerHorizon);
     ok = ok && loadParam("positionWeight", positionWeight);
     ok = ok && loadParam("timeWeight", timeWeight);
     ok = ok && loadParam("maxStepLength", maxStepLength);
     ok = ok && loadParam("minStepLength", minStepLength);
     ok = ok && loadParam("maxLengthBackwardFactor", maxLengthBackwardFactor);
-    ok = ok && loadParam("nominalWidth", m_nominalWidth);
+    ok = ok && loadParam("nominalWidth", m_pImpl->parameters.nominalWidth);
     ok = ok && loadParam("minWidth", minWidth);
     ok = ok && loadParam("minStepDuration", minStepDuration);
     ok = ok && loadParam("maxStepDuration", maxStepDuration);
@@ -200,8 +211,8 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("maxAngleVariation", maxAngleVariation);
     ok = ok && loadParam("minAngleVariation", minAngleVariation);
     ok = ok && loadParam("saturationFactors", saturationFactors);
-    ok = ok && loadParam("leftYawDeltaInDeg", m_leftYawDeltaInRad);
-    ok = ok && loadParam("rightYawDeltaInDeg", m_rightYawDeltaInRad);
+    ok = ok && loadParam("leftYawDeltaInDeg", m_pImpl->parameters.leftYawDeltaInRad);
+    ok = ok && loadParam("rightYawDeltaInDeg", m_pImpl->parameters.rightYawDeltaInRad);
     ok = ok && loadParam("swingLeft", startWithLeft);
     ok = ok && loadParam("startAlwaysSameFoot", startWithSameFoot);
     ok = ok && loadParam("mergePointRatios", mergePointRatios);
@@ -221,26 +232,26 @@ bool Planners::UnicyclePlanner::initialize(
     auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
 
     ok = ok
-         && unicyclePlanner->setDesiredPersonDistance(m_referencePointDistance[0],
-                                                      m_referencePointDistance[1]);
+         && unicyclePlanner->setDesiredPersonDistance(m_pImpl->parameters.referencePointDistance[0],
+                                                      m_pImpl->parameters.referencePointDistance[1]);
     ok = ok && unicyclePlanner->setPersonFollowingControllerGain(unicycleGain);
     ok = ok && unicyclePlanner->setSlowWhenTurnGain(slowWhenTurningGain);
     ok = ok && unicyclePlanner->setSlowWhenBackwardFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setSlowWhenSidewaysFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setMaxStepLength(maxStepLength, maxLengthBackwardFactor);
-    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(m_dt);
-    ok = ok && unicyclePlanner->setWidthSetting(minWidth, m_nominalWidth);
+    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(m_pImpl->parameters.dt);
+    ok = ok && unicyclePlanner->setWidthSetting(minWidth, m_pImpl->parameters.nominalWidth);
     ok = ok && unicyclePlanner->setMaxAngleVariation(maxAngleVariation);
     ok = ok && unicyclePlanner->setMinimumAngleForNewSteps(minAngleVariation);
     ok = ok && unicyclePlanner->setCostWeights(positionWeight, timeWeight);
     ok = ok && unicyclePlanner->setStepTimings(minStepDuration, maxStepDuration, nominalDuration);
-    ok = ok && unicyclePlanner->setPlannerPeriod(m_dt);
+    ok = ok && unicyclePlanner->setPlannerPeriod(m_pImpl->parameters.dt);
     ok = ok && unicyclePlanner->setMinimumStepLength(minStepLength);
     ok = ok
          && unicyclePlanner->setSaturationsConservativeFactors(saturationFactors(0),
                                                                saturationFactors(1));
-    unicyclePlanner->setLeftFootYawOffsetInRadians(m_leftYawDeltaInRad);
-    unicyclePlanner->setRightFootYawOffsetInRadians(m_rightYawDeltaInRad);
+    unicyclePlanner->setLeftFootYawOffsetInRadians(m_pImpl->parameters.leftYawDeltaInRad);
+    unicyclePlanner->setRightFootYawOffsetInRadians(m_pImpl->parameters.rightYawDeltaInRad);
     unicyclePlanner->addTerminalStep(true);
     unicyclePlanner->startWithLeft(startWithLeft);
     unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
@@ -269,15 +280,17 @@ bool Planners::UnicyclePlanner::initialize(
     auto tmpKinDyn = std::make_shared<iDynTree::KinDynComputations>();
     tmpKinDyn->loadRobotModel(ml.model());
 
-    auto m_leftContactFrameIndex = tmpKinDyn->model().getFrameIndex(leftContactFrameName);
-    if (m_leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    m_pImpl->parameters.leftContactFrameIndex
+        = tmpKinDyn->model().getFrameIndex(leftContactFrameName);
+    if (m_pImpl->parameters.leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
         return false;
     }
 
-    auto m_rightContactFrameIndex = tmpKinDyn->model().getFrameIndex(rightContactFrameName);
-    if (m_rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    m_pImpl->parameters.rightContactFrameIndex
+        = tmpKinDyn->model().getFrameIndex(rightContactFrameName);
+    if (m_pImpl->parameters.rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Unable to find the frame named {}.", logPrefix, rightContactFrameName);
         return false;
@@ -296,8 +309,44 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
 
     // genereateFirstTrajectory();
-    Eigen::Vector3d initialBasePosition = Eigen::Vector3d::Zero();
-    ok = ok && generateFirstTrajectory(initialBasePosition);
+    ok = ok && generateFirstTrajectory();
+
+    auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
+
+    for (const auto& step : leftSteps)
+    {
+        BipedalLocomotion::log()->debug("Left step at initialization: position: {}, angle: {}, "
+                                        "impact time: {}",
+                                        step.position.toString(),
+                                        step.angle,
+                                        step.impactTime);
+    }
+
+    auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
+
+    for (const auto& step : rightSteps)
+    {
+        BipedalLocomotion::log()->debug("Right step at initialization: position: {}, angle: {}, "
+                                        "impact time: {}",
+                                        step.position.toString(),
+                                        step.angle,
+                                        step.impactTime);
+    }
+
+    std::vector<StepPhase> leftPhases, rightPhases;
+    m_pImpl->generator->getStepPhases(leftPhases, rightPhases);
+
+    for (size_t i = 0; i < leftPhases.size(); i++)
+    {
+        BipedalLocomotion::log()->debug("Left phase at initialization: {}",
+                                        static_cast<int>(leftPhases.at(i)));
+    }
+
+    for (size_t i = 0; i < rightPhases.size(); i++)
+    {
+        BipedalLocomotion::log()->debug("Right phase at initialization: {}",
+                                        static_cast<int>(rightPhases.at(i)));
+    }
 
     if (ok)
     {
@@ -344,12 +393,12 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    bool correctLeft{m_pImpl->input.correctLeft};
+    bool isLeftLastSwinging{m_pImpl->input.isLeftLastSwinging};
 
     // set timings
-    double dt{m_dt};
+    double dt{m_pImpl->parameters.dt};
     double initTime{m_pImpl->input.initTime};
-    double endTime = initTime + m_plannerHorizon;
+    double endTime = initTime + m_pImpl->parameters.plannerHorizon;
 
     // set desired point
     Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
@@ -363,7 +412,7 @@ bool Planners::UnicyclePlanner::advance()
     measuredPositionLeft(0) = m_pImpl->input.measuredTransform.getPosition()(0);
     measuredPositionLeft(1) = m_pImpl->input.measuredTransform.getPosition()(1);
     measuredAngleLeft = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
-    leftYawDeltaInRad = m_leftYawDeltaInRad;
+    leftYawDeltaInRad = m_pImpl->parameters.leftYawDeltaInRad;
 
     // right foot
     Eigen::Vector2d measuredPositionRight;
@@ -372,12 +421,13 @@ bool Planners::UnicyclePlanner::advance()
     measuredPositionRight(0) = m_pImpl->input.measuredTransform.getPosition()(0);
     measuredPositionRight(1) = m_pImpl->input.measuredTransform.getPosition()(1);
     measuredAngleRight = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
-    rightYawDeltaInRad = m_rightYawDeltaInRad;
+    rightYawDeltaInRad = m_pImpl->parameters.rightYawDeltaInRad;
 
     // get unicycle pose
     double measuredAngle;
-    measuredAngle = correctLeft ? measuredAngleLeft : measuredAngleRight;
-    Eigen::Vector2d measuredPosition = correctLeft ? measuredPositionLeft : measuredPositionRight;
+    measuredAngle = isLeftLastSwinging ? measuredAngleLeft : measuredAngleRight;
+    Eigen::Vector2d measuredPosition = isLeftLastSwinging ? measuredPositionLeft
+                                                          : measuredPositionRight;
 
     Eigen::Vector2d unicyclePositionFromStanceFoot, footPosition, unicyclePosition;
     unicyclePositionFromStanceFoot(0) = 0.0;
@@ -385,14 +435,14 @@ bool Planners::UnicyclePlanner::advance()
     Eigen::Matrix2d unicycleRotation;
     double unicycleAngle;
 
-    if (correctLeft)
+    if (isLeftLastSwinging)
     {
-        unicyclePositionFromStanceFoot(1) = -m_nominalWidth / 2;
+        unicyclePositionFromStanceFoot(1) = -m_pImpl->parameters.nominalWidth / 2;
         unicycleAngle = measuredAngleLeft - leftYawDeltaInRad;
         footPosition = measuredPositionLeft;
     } else
     {
-        unicyclePositionFromStanceFoot(1) = m_nominalWidth / 2;
+        unicyclePositionFromStanceFoot(1) = m_pImpl->parameters.nominalWidth / 2;
         unicycleAngle = measuredAngleRight - rightYawDeltaInRad;
         footPosition = measuredPositionRight;
     }
@@ -409,7 +459,8 @@ bool Planners::UnicyclePlanner::advance()
 
     // apply the homogeneous transformation w_H_{unicycle}
     desiredPointInAbsoluteFrame
-        = unicycleRotation * (m_referencePointDistance + desiredPointInRelativeFrame)
+        = unicycleRotation
+              * (m_pImpl->parameters.referencePointDistance + desiredPointInRelativeFrame)
           + unicyclePosition;
 
     // clear the old trajectory
@@ -443,7 +494,7 @@ bool Planners::UnicyclePlanner::advance()
     if (!(m_pImpl->generator->reGenerate(initTime,
                                          dt,
                                          endTime,
-                                         correctLeft,
+                                         isLeftLastSwinging,
                                          iDynTree::Vector2(measuredPosition),
                                          measuredAngle)))
     {
@@ -513,14 +564,14 @@ bool Planners::UnicyclePlanner::advance()
                                           dt,
                                           leftStepPhases,
                                           leftSteps,
-                                          m_leftContactFrameIndex,
+                                          m_pImpl->parameters.leftContactFrameIndex,
                                           "left_foot");
 
     auto rightContactList = getContactList(initTime,
                                            dt,
                                            rightStepPhases,
                                            rightSteps,
-                                           m_rightContactFrameIndex,
+                                           m_pImpl->parameters.rightContactFrameIndex,
                                            "right_foot");
 
     ContactListMap["left_foot"] = leftContactList;
@@ -557,8 +608,7 @@ bool Planners::UnicyclePlanner::advance()
     return true;
 }
 
-bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory(
-    const Eigen::Ref<Eigen::Vector3d>& initialBasePosition)
+bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
 {
 
     constexpr auto logPrefix = "[UnicyclePlanner::generateFirstTrajectory]";
@@ -574,12 +624,12 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory(
 
     // set initial and final times
     double initTime = 0;
-    double endTime = initTime + m_plannerHorizon;
+    double endTime = initTime + m_pImpl->parameters.plannerHorizon;
 
     // at the beginning iCub has to stop
     Eigen::Vector2d m_personFollowingDesiredPoint;
-    m_personFollowingDesiredPoint(0) = m_referencePointDistance(0) + initialBasePosition(0);
-    m_personFollowingDesiredPoint(1) = m_referencePointDistance(1) + initialBasePosition(1);
+    m_personFollowingDesiredPoint(0) = m_pImpl->parameters.referencePointDistance(0);
+    m_personFollowingDesiredPoint(1) = m_pImpl->parameters.referencePointDistance(1);
 
     // add the initial point
     if (!unicyclePlanner
@@ -602,7 +652,7 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory(
     }
 
     // generate the first trajectories
-    if (!m_pImpl->generator->generate(initTime, m_dt, endTime))
+    if (!m_pImpl->generator->generate(initTime, m_pImpl->parameters.dt, endTime))
     {
 
         log()->error("{} Error while computing the first trajectories.", logPrefix);
