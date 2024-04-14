@@ -19,6 +19,7 @@
 ':hammer: component: SimplifiedModelControllers': src/SimplifiedModelControllers/**/*
 ':hammer: component: System': src/System/**/*
 ':hammer: component: TSID': src/TSID/**/*
+':hammer: component: TestUtils': src/TestUtils/**/*
 ':hammer: component: TextLogging': src/TextLogging/**/*
 ':hammer: component: YarpUtilities': src/YarpUtilities/**/*
 ':school: Examples': examples/**/*
