@@ -8,6 +8,7 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
 
+#include "BipedalLocomotion/TextLogging/Logger.h"
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
@@ -44,10 +45,12 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
 
     DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
 
-    double initTime; // The initial time of the trajectory.
+    double time; // The current time.
 
     iDynTree::Transform measuredTransform; // The measured transform of the last foot that touched
                                            // the floor.
+
+    bool isLeftLastSwinging; // True if the left foot is the last swinging foot. False otherwise.
 
     static UnicycleTrajectoryGeneratorInput generateDummyUnicycleTrajectoryGeneratorInput();
 };
@@ -60,6 +63,8 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
 {
     double dt; // The sampling time of the planner.
+    size_t plannerAdvanceTimeSteps; // The number of time steps that the planner should be called in
+                                    // advance.
 };
 
 class BipedalLocomotion::Planners::UnicycleTrajectoryGenerator final
@@ -92,5 +97,33 @@ private:
 
     bool generateFirstTrajectory();
 };
+
+namespace Utilities
+{
+template <typename T>
+bool appendVectorToDeque(const std::vector<T>& input,
+                         std::deque<T>& output,
+                         const size_t& initPoint)
+{
+    if (initPoint > output.size())
+    {
+        BipedalLocomotion::log()->error("[StdUtilities::appendVectorToDeque] The init point has to "
+                                        "be less or equal to the size of the output deque.");
+        return false;
+    }
+
+    // resize the deque
+    output.resize(input.size() + initPoint);
+
+    // Advances the iterator it by initPoint positions
+    typename std::deque<T>::iterator it = output.begin();
+    std::advance(it, initPoint);
+
+    // copy the vector into the deque from the initPoint position
+    std::copy(input.begin(), input.end(), it);
+
+    return true;
+}
+}; // namespace Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
