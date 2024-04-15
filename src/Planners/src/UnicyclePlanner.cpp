@@ -388,7 +388,7 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    bool isLeftLastSwinging{m_pImpl->input.isLeftLastSwinging};
+    bool correctLeft{m_pImpl->input.isLeftLastSwinging};
 
     // set timings
     double dt{m_pImpl->parameters.dt};
@@ -420,17 +420,15 @@ bool Planners::UnicyclePlanner::advance()
 
     // get unicycle pose
     double measuredAngle;
-    measuredAngle = isLeftLastSwinging ? measuredAngleLeft : measuredAngleRight;
-    Eigen::Vector2d measuredPosition = isLeftLastSwinging ? measuredPositionLeft
-                                                          : measuredPositionRight;
-
+    measuredAngle = correctLeft ? measuredAngleLeft : measuredAngleRight;
+    Eigen::Vector2d measuredPosition = correctLeft ? measuredPositionLeft : measuredPositionRight;
     Eigen::Vector2d unicyclePositionFromStanceFoot, footPosition, unicyclePosition;
     unicyclePositionFromStanceFoot(0) = 0.0;
 
     Eigen::Matrix2d unicycleRotation;
     double unicycleAngle;
 
-    if (isLeftLastSwinging)
+    if (correctLeft)
     {
         unicyclePositionFromStanceFoot(1) = -m_pImpl->parameters.nominalWidth / 2;
         unicycleAngle = measuredAngleLeft - leftYawDeltaInRad;
@@ -489,13 +487,23 @@ bool Planners::UnicyclePlanner::advance()
     if (!(m_pImpl->generator->reGenerate(initTime,
                                          dt,
                                          endTime,
-                                         isLeftLastSwinging,
+                                         correctLeft,
                                          iDynTree::Vector2(measuredPosition),
                                          measuredAngle)))
     {
         log()->error("{} Failed in computing new trajectory.", logPrefix);
         return false;
     }
+
+    // get the feet contact status
+    std::vector<bool> leftFootInContact, rightFootInContact;
+    m_pImpl->generator->getFeetStandingPeriods(leftFootInContact, rightFootInContact);
+    m_pImpl->output.contactStatus.leftFootInContact = leftFootInContact;
+    m_pImpl->output.contactStatus.rightFootInContact = rightFootInContact;
+
+    std::vector<bool> UsedLeftAsFixed;
+    m_pImpl->generator->getWhenUseLeftAsFixed(UsedLeftAsFixed);
+    m_pImpl->output.contactStatus.UsedLeftAsFixed = UsedLeftAsFixed;
 
     // get the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap ContactListMap;

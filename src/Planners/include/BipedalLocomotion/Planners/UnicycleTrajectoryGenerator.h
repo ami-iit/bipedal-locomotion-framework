@@ -45,10 +45,9 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
 
     DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
 
-    double time; // The current time.
+    iDynTree::Transform w_H_leftFoot; // The left foot pose in the world frame.
 
-    iDynTree::Transform measuredTransform; // The measured transform of the last foot that touched
-                                           // the floor.
+    iDynTree::Transform w_H_rightFoot; // The right foot pose in the world frame.
 
     bool isLeftLastSwinging; // True if the left foot is the last swinging foot. False otherwise.
 

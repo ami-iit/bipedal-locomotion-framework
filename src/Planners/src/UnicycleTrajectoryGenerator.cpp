@@ -24,7 +24,6 @@
 #include <FootPrint.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
-#include <chrono>
 #include <iDynTree/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/MatrixFixSize.h>
@@ -73,10 +72,8 @@ public:
         std::deque<double> comHeightPosition;
         std::deque<double> comHeightVelocity;
         std::deque<double> comHeightAcceleration;
-        std::deque<iDynTree::Transform> leftFootPose;
-        std::deque<iDynTree::Transform> leftFootinContact;
-        std::deque<iDynTree::Transform> rightFootPose;
-        std::deque<iDynTree::Transform> rightFootinContact;
+        std::deque<bool> leftFootinContact;
+        std::deque<bool> rightFootinContact;
         std::deque<bool> isLeftFootLastSwinging;
         std::deque<size_t> mergePoints; // The merge points of the trajectory.
     };
@@ -91,29 +88,6 @@ public:
 
     bool advanceTrajectory();
 };
-
-// BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput BipedalLocomotion::Planners::
-//     UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput()
-// {
-//     UnicycleTrajectoryGeneratorInput input;
-
-//     input.plannerInput = Eigen::VectorXd::Zero(3);
-
-//     iDynTree::Vector2 dcmInitialPosition, dcmInitialVelocity;
-//     dcmInitialPosition.zero();
-//     dcmInitialVelocity.zero();
-//     input.dcmInitialState.initialPosition = dcmInitialPosition;
-//     input.dcmInitialState.initialVelocity = dcmInitialVelocity;
-
-//     input.isLeftLastSwinging = false; // isLeftLastSwingingFoot (from previous planner run)
-
-//     input.initTime = 0.0;
-
-//     input.measuredTransform = iDynTree::Transform::Identity();
-//     input.measuredTransform.setPosition(iDynTree::Position(0.0, -0.085, 0.0));
-
-//     return input;
-// }
 
 Planners::UnicycleTrajectoryGenerator::UnicycleTrajectoryGenerator()
 {
@@ -296,10 +270,21 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
             initTimeTrajectory
                 = m_pImpl->time + m_pImpl->newTrajectoryMergeCounter * m_pImpl->parameters.dt;
 
+            // check that both feet are in contact
+            if (!(m_pImpl->referenceSignals.leftFootinContact.front())
+                || (m_pImpl->referenceSignals.rightFootinContact.front()))
+            {
+                log()->error(" {} Unable to evaluate the new trajectory. "
+                             "Both feet need to be in contact before and while computing a new "
+                             "trajectory. Consider reducing planner_advance_time_in_s.",
+                             logPrefix);
+                return false;
+            }
+
             iDynTree::Transform measuredTransform
                 = m_pImpl->referenceSignals.isLeftFootLastSwinging.front()
-                      ? m_pImpl->referenceSignals.rightFootPose[m_pImpl->newTrajectoryMergeCounter]
-                      : m_pImpl->referenceSignals.leftFootPose[m_pImpl->newTrajectoryMergeCounter];
+                      ? m_pImpl->input.w_H_rightFoot
+                      : m_pImpl->input.w_H_leftFoot;
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
 
@@ -388,34 +373,23 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
         }
     } else
     {
-        log()->error("{} The trajectory is not valid at time {}.", logPrefix, time);
+        log()->error("{} The trajectory is not valid at time {} [s].", logPrefix, time);
         return false;
     }
 
-    std::vector<iDynTree::Transform> leftTrajectory;
-    std::vector<iDynTree::Transform> rightTrajectory;
-    std::vector<iDynTree::Twist> leftTwistTrajectory;
-    std::vector<iDynTree::Twist> rightTwistTrajectory;
     std::vector<Eigen::Vector2d> dcmPositionReference;
     std::vector<Eigen::Vector2d> dcmVelocityReference;
-    std::vector<bool> rightInContact;
-    std::vector<bool> leftInContact;
     std::vector<double> comHeightPositionReference;
     std::vector<double> comHeightVelocityReference;
     std::vector<double> comHeightAccelerationReference;
+    std::vector<bool> rightInContact;
+    std::vector<bool> leftInContact;
+    std::vector<bool> isLastSwingingFoot;
     std::vector<size_t> mergePoints;
-    std::vector<bool> isLeftFixedFrame;
-    std::vector<bool> isStancePhase;
 
     // get dcm position and velocity
     dcmPositionReference = unicyclePlanner->getOutput().dcmTrajectory.dcmPosition;
     dcmVelocityReference = unicyclePlanner->getOutput().dcmTrajectory.dcmVelocity;
-
-    // get feet trajectories
-    m_trajectoryGenerator->getFeetTrajectories(leftTrajectory, rightTrajectory);
-    m_trajectoryGenerator->getFeetTwist(leftTwistTrajectory, rightTwistTrajectory);
-    m_trajectoryGenerator->getFeetStandingPeriods(leftInContact, rightInContact);
-    m_trajectoryGenerator->getWhenUseLeftAsFixed(isLeftFixedFrame);
 
     // get com height trajectory
     comHeightPositionReference = unicyclePlanner->getOutput().comHeightTrajectory.comHeightPosition;
@@ -423,24 +397,25 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     comHeightAccelerationReference
         = unicyclePlanner->getOutput().comHeightTrajectory.comHeightAcceleration;
 
+    // get feet contact status
+    leftInContact = unicyclePlanner->getOutput().contactStatus.leftFootInContact;
+    rightInContact = unicyclePlanner->getOutput().contactStatus.rightFootInContact;
+    isLastSwingingFoot = unicyclePlanner->getOutput().contactStatus.UsedLeftAsFixed;
+
     // get merge points
     mergePoints = unicyclePlanner->getOutput().mergePoints;
 
-    // get stance phase flags
-    m_trajectoryGenerator->getIsStancePhase(isStancePhase);
-
     // append vectors to deques
-    Utilities::appendVectorToDeque(leftTrajectory, m_leftTrajectory, mergePoint);
-    Utilities::appendVectorToDeque(rightTrajectory, m_rightTrajectory, mergePoint);
-    Utilities::appendVectorToDeque(leftTwistTrajectory, m_leftTwistTrajectory, mergePoint);
-    Utilities::appendVectorToDeque(rightTwistTrajectory, m_rightTwistTrajectory, mergePoint);
-    Utilities::appendVectorToDeque(isLeftFixedFrame, m_isLeftFixedFrame, mergePoint);
+
+    Utilities::appendVectorToDeque(isLastSwingingFoot,
+                                   referenceSignals.isLeftFootLastSwinging,
+                                   mergePoint);
 
     Utilities::appendVectorToDeque(dcmPositionReference, referenceSignals.dcmPosition, mergePoint);
     Utilities::appendVectorToDeque(dcmVelocityReference, referenceSignals.dcmVelocity, mergePoint);
 
-    Utilities::appendVectorToDeque(leftInContact, m_leftInContact, mergePoint);
-    Utilities::appendVectorToDeque(rightInContact, m_rightInContact, mergePoint);
+    Utilities::appendVectorToDeque(leftInContact, referenceSignals.leftFootinContact, mergePoint);
+    Utilities::appendVectorToDeque(rightInContact, referenceSignals.rightFootinContact, mergePoint);
 
     Utilities::appendVectorToDeque(comHeightPositionReference,
                                    referenceSignals.comHeightPosition,
@@ -452,8 +427,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
                                    referenceSignals.comHeightAcceleration,
                                    mergePoint);
 
-    Utilities::appendVectorToDeque(isStancePhase, m_isStancePhase, mergePoint);
-
     referenceSignals.mergePoints.assign(mergePoints.begin(), mergePoints.end());
 
     // the first merge point is always equal to 0
@@ -464,51 +437,45 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
 bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTrajectory()
 {
+
+    constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::advanceTrajectory]";
+
     // check if vector is not initialized
-    if (m_leftTrajectory.empty() || m_rightTrajectory.empty() || m_leftInContact.empty()
-        || m_rightInContact.empty() || m_DCMPositionDesired.empty() || m_DCMVelocityDesired.empty()
-        || m_comHeightTrajectory.empty())
+    if (referenceSignals.leftFootinContact.empty() || referenceSignals.rightFootinContact.empty()
+        || referenceSignals.isLeftFootLastSwinging.empty() || referenceSignals.dcmPosition.empty()
+        || referenceSignals.dcmVelocity.empty() || referenceSignals.comHeightPosition.empty()
+        || referenceSignals.comHeightVelocity.empty()
+        || referenceSignals.comHeightAcceleration.empty())
+
     {
-        yError() << "[WalkingModule::advanceReferenceSignals] Cannot advance empty reference "
-                    "signals.";
+        log()->error(" {} Cannot advance empty reference signals.", logPrefix);
         return false;
     }
 
-    m_rightTrajectory.pop_front();
-    m_rightTrajectory.push_back(m_rightTrajectory.back());
+    referenceSignals.rightFootinContact.pop_front();
+    referenceSignals.rightFootinContact.push_back(referenceSignals.rightFootinContact.back());
 
-    m_leftTrajectory.pop_front();
-    m_leftTrajectory.push_back(m_leftTrajectory.back());
+    referenceSignals.leftFootinContact.pop_front();
+    referenceSignals.leftFootinContact.push_back(referenceSignals.leftFootinContact.back());
 
-    m_rightTwistTrajectory.pop_front();
-    m_rightTwistTrajectory.push_back(m_rightTwistTrajectory.back());
+    referenceSignals.isLeftFootLastSwinging.pop_front();
+    referenceSignals.isLeftFootLastSwinging.push_back(
+        referenceSignals.isLeftFootLastSwinging.back());
 
-    m_leftTwistTrajectory.pop_front();
-    m_leftTwistTrajectory.push_back(m_leftTwistTrajectory.back());
+    referenceSignals.dcmPosition.pop_front();
+    referenceSignals.dcmPosition.push_back(referenceSignals.dcmPosition.back());
 
-    m_rightInContact.pop_front();
-    m_rightInContact.push_back(m_rightInContact.back());
+    referenceSignals.dcmVelocity.pop_front();
+    referenceSignals.dcmVelocity.push_back(referenceSignals.dcmVelocity.back());
 
-    m_leftInContact.pop_front();
-    m_leftInContact.push_back(m_leftInContact.back());
+    referenceSignals.comHeightPosition.pop_front();
+    referenceSignals.comHeightPosition.push_back(referenceSignals.comHeightPosition.back());
 
-    m_isLeftFixedFrame.pop_front();
-    m_isLeftFixedFrame.push_back(m_isLeftFixedFrame.back());
+    referenceSignals.comHeightVelocity.pop_front();
+    referenceSignals.comHeightVelocity.push_back(referenceSignals.comHeightVelocity.back());
 
-    m_DCMPositionDesired.pop_front();
-    m_DCMPositionDesired.push_back(m_DCMPositionDesired.back());
-
-    m_DCMVelocityDesired.pop_front();
-    m_DCMVelocityDesired.push_back(m_DCMVelocityDesired.back());
-
-    m_comHeightTrajectory.pop_front();
-    m_comHeightTrajectory.push_back(m_comHeightTrajectory.back());
-
-    m_comHeightVelocity.pop_front();
-    m_comHeightVelocity.push_back(m_comHeightVelocity.back());
-
-    m_isStancePhase.pop_front();
-    m_isStancePhase.push_back(m_isStancePhase.back());
+    referenceSignals.comHeightAcceleration.pop_front();
+    referenceSignals.comHeightAcceleration.push_back(referenceSignals.comHeightAcceleration.back());
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.

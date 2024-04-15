@@ -25,6 +25,7 @@
 #include <UnicyclePlanner.h>
 
 #include <CoMHeightTrajectoryGenerator.h>
+#include <vector>
 
 namespace BipedalLocomotion::Planners
 {
@@ -70,9 +71,20 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
         std::vector<Eigen::Vector2d> dcmVelocity;
     };
 
+    struct ContactStatus
+    {
+        std::vector<bool> leftFootInContact; // True if the left foot is in contact. False
+                                             // otherwise.
+        std::vector<bool> rightFootInContact; // True if the right foot is in contact. False
+                                              // otherwise.
+        std::vector<bool> UsedLeftAsFixed; // True if the left foot is the last that got in contact.
+    };
+
     COMHeightTrajectory comHeightTrajectory; // The CoM height trajectory;
 
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
+
+    ContactStatus contactStatus; // The contact status of the feet;
 
     Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
 
