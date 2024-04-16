@@ -43,13 +43,9 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
     */
     Eigen::VectorXd plannerInput; // The input to the unicycle planner.
 
-    DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
-
     iDynTree::Transform w_H_leftFoot; // The left foot pose in the world frame.
 
     iDynTree::Transform w_H_rightFoot; // The right foot pose in the world frame.
-
-    bool isLeftLastSwinging; // True if the left foot is the last swinging foot. False otherwise.
 
     static UnicycleTrajectoryGeneratorInput generateDummyUnicycleTrajectoryGeneratorInput();
 };

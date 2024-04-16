@@ -20,6 +20,7 @@
 #include <iDynTree/MatrixDynSize.h>
 #include <iDynTree/Position.h>
 #include <iDynTree/Transform.h>
+#include <memory>
 #include <yarp/os/RFModule.h>
 
 #include <FootPrint.h>
@@ -85,7 +86,7 @@ public:
 
     ReferenceSignals referenceSignals;
 
-    std::unique_ptr<BipedalLocomotion::Planners::UnicyclePlanner> unicyclePlanner;
+    BipedalLocomotion::Planners::UnicyclePlanner unicyclePlanner;
 
     bool askNewTrajectory(const double& initTime, const iDynTree::Transform& measuredTransform);
 
@@ -167,7 +168,7 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     m_pImpl->newTrajectoryRequired = false;
 
     // Initialize the blf unicycle planner
-    ok = ok && m_pImpl->unicyclePlanner->initialize(handler);
+    ok = ok && m_pImpl->unicyclePlanner.initialize(ptr);
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
@@ -434,7 +435,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
         // advance the planner
-        return this->unicyclePlanner->advance();
+        return this->unicyclePlanner.advance();
     };
 
     // create the input for the unicycle planner
@@ -447,7 +448,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     unicyclePlannerInput.dcmInitialState.initialVelocity = referenceSignals.dcmVelocity[mergePoint];
 
     // set the input
-    this->unicyclePlanner->setInput(unicyclePlannerInput);
+    this->unicyclePlanner.setInput(unicyclePlannerInput);
 
     // create a new asynchronous thread to compute the new trajectory
     unicyclePlannerOutputFuture = std::async(std::launch::async, computeNewTrajectory);
@@ -483,30 +484,30 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     std::deque<Step> leftSteps, rightSteps;
 
     // get dcm position and velocity
-    dcmPositionReference = unicyclePlanner->getOutput().dcmTrajectory.dcmPosition;
-    dcmVelocityReference = unicyclePlanner->getOutput().dcmTrajectory.dcmVelocity;
+    dcmPositionReference = unicyclePlanner.getOutput().dcmTrajectory.dcmPosition;
+    dcmVelocityReference = unicyclePlanner.getOutput().dcmTrajectory.dcmVelocity;
 
     // get com height trajectory
-    comHeightPositionReference = unicyclePlanner->getOutput().comHeightTrajectory.comHeightPosition;
-    comHeightVelocityReference = unicyclePlanner->getOutput().comHeightTrajectory.comHeightVelocity;
+    comHeightPositionReference = unicyclePlanner.getOutput().comHeightTrajectory.comHeightPosition;
+    comHeightVelocityReference = unicyclePlanner.getOutput().comHeightTrajectory.comHeightVelocity;
     comHeightAccelerationReference
-        = unicyclePlanner->getOutput().comHeightTrajectory.comHeightAcceleration;
+        = unicyclePlanner.getOutput().comHeightTrajectory.comHeightAcceleration;
 
     // get feet contact status
-    leftInContact = unicyclePlanner->getOutput().contactStatus.leftFootInContact;
-    rightInContact = unicyclePlanner->getOutput().contactStatus.rightFootInContact;
-    isLastSwingingFoot = unicyclePlanner->getOutput().contactStatus.UsedLeftAsFixed;
+    leftInContact = unicyclePlanner.getOutput().contactStatus.leftFootInContact;
+    rightInContact = unicyclePlanner.getOutput().contactStatus.rightFootInContact;
+    isLastSwingingFoot = unicyclePlanner.getOutput().contactStatus.UsedLeftAsFixed;
 
     // get merge points
-    mergePoints = unicyclePlanner->getOutput().mergePoints;
+    mergePoints = unicyclePlanner.getOutput().mergePoints;
 
     // get steps
-    leftSteps = unicyclePlanner->getOutput().steps.leftSteps;
-    rightSteps = unicyclePlanner->getOutput().steps.rightSteps;
+    leftSteps = unicyclePlanner.getOutput().steps.leftSteps;
+    rightSteps = unicyclePlanner.getOutput().steps.rightSteps;
 
     // get step phases
-    leftStepPhases = unicyclePlanner->getOutput().steps.leftStepPhases;
-    rightStepPhases = unicyclePlanner->getOutput().steps.rightStepPhases;
+    leftStepPhases = unicyclePlanner.getOutput().steps.leftStepPhases;
+    rightStepPhases = unicyclePlanner.getOutput().steps.rightStepPhases;
 
     // append vectors to deques
 
