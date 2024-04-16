@@ -77,19 +77,22 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
     return input;
 }
 
-UnicycleController Planners::UnicyclePlanner::getUnicycleControllerFromString(
-    const std::string& unicycleControllerAsString)
+bool Planners::UnicyclePlanner::setUnicycleControllerFromString(
+    const std::string& unicycleControllerAsString, UnicycleController& unicycleController)
 {
     if (unicycleControllerAsString == "personFollowing")
     {
-        return UnicycleController::PERSON_FOLLOWING;
+        unicycleController = UnicycleController::PERSON_FOLLOWING;
     } else if (unicycleControllerAsString == "direct")
     {
-        return UnicycleController::DIRECT;
+        unicycleController = UnicycleController::DIRECT;
     } else
     {
-        return UnicycleController::DIRECT;
+        log()->error("[UnicyclePlanner::setUnicycleControllerFromString] Invalid controller type.");
+        return false;
     }
+
+    return true;
 }
 
 Planners::UnicyclePlanner::UnicyclePlanner()
@@ -122,30 +125,28 @@ bool Planners::UnicyclePlanner::initialize(
         return true;
     };
 
-    // TO DO: write a variant of the lambda function with fallback option
-    // clang-format off
-    // template<typename T>
-    // auto loadParam = [ptr, logPrefix](const std::string& paramName, T& param, const T& fallback) -> bool {
-    //     if (!ptr->getParameter(paramName, param))
-    //     { 
-    //         log()->warn("{} Unable to find the parameter named '{}'. The default one with value [{}] will be used.", logPrefix, paramName, fallback);
-    //         param = fallback;
-    //     }
-    //     return true;
-    // };
-    // clang-format on
+    // lambda function to parse parameters with fallback option
+    auto loadParamWithFallback =
+        [ptr, logPrefix](const std::string& paramName, auto& param, const auto& fallback) -> bool {
+        if (!ptr->getParameter(paramName, param))
+        {
+            log()->info("{} Unable to find the parameter named '{}'. The default one with value "
+                        "[{}] will be used.",
+                        logPrefix,
+                        paramName,
+                        fallback);
+            param = fallback;
+        }
+        return true;
+    };
 
-    // initialization parameters
-    // Eigen::Vector2d referencePointDistance;
-    std::string unicycleControllerAsString{"direct"};
+    // initialize parameters
+    std::string unicycleControllerAsString;
 
     double unicycleGain;
     double slowWhenTurningGain;
     double slowWhenBackwardFactor;
     double slowWhenSidewaysFactor;
-
-    // double dt;
-    // double plannerHorizon;
 
     double positionWeight;
     double timeWeight;
@@ -156,7 +157,6 @@ bool Planners::UnicyclePlanner::initialize(
     double maxStepLength;
     double minStepLength;
     double maxLengthBackwardFactor;
-    // double nominalWidth;
     double minWidth;
     double minStepDuration;
     double maxStepDuration;
@@ -165,11 +165,10 @@ bool Planners::UnicyclePlanner::initialize(
     double minAngleVariation;
 
     Eigen::Vector2d saturationFactors;
-    // double leftYawDeltaInRad;
-    // double rightYawDeltaInRad;
 
     bool startWithLeft{true};
     bool startWithSameFoot{true};
+    bool terminalStep{true};
 
     Eigen::Vector2d mergePointRatios;
     double switchOverSwingRatio;
@@ -186,39 +185,48 @@ bool Planners::UnicyclePlanner::initialize(
     bool ok = true;
 
     ok = ok && loadParam("referencePosition", m_pImpl->parameters.referencePointDistance);
-    ok = ok && loadParam("controlType", unicycleControllerAsString);
-    ok = ok && loadParam("unicycleGain", unicycleGain);
-    ok = ok && loadParam("slowWhenTurningGain", slowWhenTurningGain);
-    ok = ok && loadParam("slowWhenBackwardFactor", slowWhenBackwardFactor);
-    ok = ok && loadParam("slowWhenSidewaysFactor", slowWhenSidewaysFactor);
-    ok = ok && loadParam("dt", m_pImpl->parameters.dt);
-    ok = ok && loadParam("plannerHorizon", m_pImpl->parameters.plannerHorizon);
-    ok = ok && loadParam("positionWeight", positionWeight);
-    ok = ok && loadParam("timeWeight", timeWeight);
-    ok = ok && loadParam("maxStepLength", maxStepLength);
-    ok = ok && loadParam("minStepLength", minStepLength);
-    ok = ok && loadParam("maxLengthBackwardFactor", maxLengthBackwardFactor);
-    ok = ok && loadParam("nominalWidth", m_pImpl->parameters.nominalWidth);
-    ok = ok && loadParam("minWidth", minWidth);
-    ok = ok && loadParam("minStepDuration", minStepDuration);
-    ok = ok && loadParam("maxStepDuration", maxStepDuration);
-    ok = ok && loadParam("nominalDuration", nominalDuration);
-    ok = ok && loadParam("maxAngleVariation", maxAngleVariation);
-    ok = ok && loadParam("minAngleVariation", minAngleVariation);
+    ok = ok && loadParamWithFallback("controlType", unicycleControllerAsString, "direct");
+    ok = ok && loadParamWithFallback("unicycleGain", unicycleGain, 10.0);
+    ok = ok && loadParamWithFallback("slowWhenTurningGain", slowWhenTurningGain, 2.0);
+    ok = ok && loadParamWithFallback("slowWhenBackwardFactor", slowWhenBackwardFactor, 0.4);
+    ok = ok && loadParamWithFallback("slowWhenSidewaysFactor", slowWhenSidewaysFactor, 0.2);
+    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, 0.002);
+    ok = ok && loadParamWithFallback("plannerHorizon", m_pImpl->parameters.plannerHorizon, 20.0);
+    ok = ok && loadParamWithFallback("positionWeight", positionWeight, 1.0);
+    ok = ok && loadParamWithFallback("timeWeight", timeWeight, 2.5);
+    ok = ok && loadParamWithFallback("maxStepLength", maxStepLength, 0.32);
+    ok = ok && loadParamWithFallback("minStepLength", minStepLength, 0.01);
+    ok = ok && loadParamWithFallback("maxLengthBackwardFactor", maxLengthBackwardFactor, 0.8);
+    ok = ok && loadParamWithFallback("nominalWidth", m_pImpl->parameters.nominalWidth, 0.20);
+    ok = ok && loadParamWithFallback("minWidth", minWidth, 0.14);
+    ok = ok && loadParamWithFallback("minStepDuration", minStepDuration, 0.65);
+    ok = ok && loadParamWithFallback("maxStepDuration", maxStepDuration, 1.5);
+    ok = ok && loadParamWithFallback("nominalDuration", nominalDuration, 0.8);
+    ok = ok && loadParamWithFallback("maxAngleVariation", maxAngleVariation, 18.0);
+    ok = ok && loadParamWithFallback("minAngleVariation", minAngleVariation, 5.0);
     ok = ok && loadParam("saturationFactors", saturationFactors);
-    ok = ok && loadParam("leftYawDeltaInDeg", m_pImpl->parameters.leftYawDeltaInRad);
-    ok = ok && loadParam("rightYawDeltaInDeg", m_pImpl->parameters.rightYawDeltaInRad);
-    ok = ok && loadParam("swingLeft", startWithLeft);
-    ok = ok && loadParam("startAlwaysSameFoot", startWithSameFoot);
+    ok = ok
+         && loadParamWithFallback("leftYawDeltaInDeg", m_pImpl->parameters.leftYawDeltaInRad, 0.0);
+    ok = ok
+         && loadParamWithFallback("rightYawDeltaInDeg",
+                                  m_pImpl->parameters.rightYawDeltaInRad,
+                                  0.0);
+    m_pImpl->parameters.leftYawDeltaInRad
+        = iDynTree::deg2rad(m_pImpl->parameters.leftYawDeltaInRad);
+    m_pImpl->parameters.rightYawDeltaInRad
+        = iDynTree::deg2rad(m_pImpl->parameters.rightYawDeltaInRad);
+    ok = ok && loadParamWithFallback("swingLeft", startWithLeft, false);
+    ok = ok && loadParamWithFallback("startAlwaysSameFoot", startWithSameFoot, true);
+    ok = ok && loadParamWithFallback("terminalStep", terminalStep, true);
     ok = ok && loadParam("mergePointRatios", mergePointRatios);
-    ok = ok && loadParam("switchOverSwingRatio", switchOverSwingRatio);
-    ok = ok && loadParam("lastStepSwitchTime", lastStepSwitchTime);
-    ok = ok && loadParam("isPauseActive", isPauseActive);
-    ok = ok && loadParam("comHeight", comHeight);
-    ok = ok && loadParam("comHeightDelta", comHeightDelta);
+    ok = ok && loadParamWithFallback("switchOverSwingRatio", switchOverSwingRatio, 0.2);
+    ok = ok && loadParamWithFallback("lastStepSwitchTime", lastStepSwitchTime, 0.3);
+    ok = ok && loadParamWithFallback("isPauseActive", isPauseActive, true);
+    ok = ok && loadParamWithFallback("comHeight", comHeight, 0.70);
+    ok = ok && loadParamWithFallback("comHeightDelta", comHeightDelta, 0.01);
     ok = ok && loadParam("leftZMPDelta", leftZMPDelta);
     ok = ok && loadParam("rightZMPDelta", rightZMPDelta);
-    ok = ok && loadParam("lastStepDCMOffset", lastStepDCMOffset);
+    ok = ok && loadParamWithFallback("lastStepDCMOffset", lastStepDCMOffset, 0.5);
     ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
     ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
 
@@ -247,11 +255,12 @@ bool Planners::UnicyclePlanner::initialize(
                                                                saturationFactors(1));
     unicyclePlanner->setLeftFootYawOffsetInRadians(m_pImpl->parameters.leftYawDeltaInRad);
     unicyclePlanner->setRightFootYawOffsetInRadians(m_pImpl->parameters.rightYawDeltaInRad);
-    unicyclePlanner->addTerminalStep(true);
+    unicyclePlanner->addTerminalStep(terminalStep);
     unicyclePlanner->startWithLeft(startWithLeft);
     unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
 
-    auto unicycleController = getUnicycleControllerFromString(unicycleControllerAsString);
+    UnicycleController unicycleController;
+    ok = ok && setUnicycleControllerFromString(unicycleControllerAsString, unicycleController);
     ok = ok && unicyclePlanner->setUnicycleController(unicycleController);
 
     ok = ok && m_pImpl->generator->setSwitchOverSwingRatio(switchOverSwingRatio);

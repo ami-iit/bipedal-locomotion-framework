@@ -95,7 +95,7 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
 
     Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
 
-    Steps steps; // The list of steps;
+    Steps steps; // The list of steps and their phases;
 
     std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
 };
@@ -134,36 +134,51 @@ public:
      *
      * @note The following parameters are required by the class:
      *
-     * |          Name          |      Type      |      Default      | Mandatory |                    Description                     |
-     * | :--------------------: | :------------: | :---------------: | :-------: | :------------------------------------------------: |
-     * |    `sampling_time`     |     double     |         -         |    Yes    |          The sampling time of the planner          |
-     * |     `unicycleGain`     |     double     |       10.0        |    No     |      The main gain of the unicycle controller      |
-     * | `slowWhenTurningGain`  |     double     |        0.0        |    No     |     The turnin gain of the unicycle controller     |
-     * |  `referencePosition`   | list of double |   (0.10, 0.00)    |    No     | The reference position of the unicycle controller  |
-     * |      `timeWeight`      |     double     |        1.0        |    No     |         The time weight of the OC problem          |
-     * |    `positionWeight`    |     double     |        1.0        |    No     |       The position weight of the OC problem        |
-     * |   `minStepDuration`    |     double     |         -         |    Yes    |           The minimum duration of a step           |
-     * |   `maxStepDuration`    |     double     |         -         |    Yes    |           The maximum duration of a step           |
-     * |   `nominalDuration`    |     double     |         -         |    Yes    |           The nominal duration of a step           |
-     * |    `minStepLength`     |     double     |         -         |    Yes    |            The minimum length of a step            |
-     * |    `maxStepLength`     |     double     |         -         |    Yes    |            The maximum length of a step            |
-     * |       `minWidth`       |     double     |         -         |    Yes    |             The minimum feet distance              |
-     * |     `nominalWidth`     |     double     |         -         |    Yes    |             The nominal feet distance              |
-     * |  `minAngleVariation`   |     double     |         -         |    Yes    |           The minimum unicycle rotation            |
-     * |  `maxAngleVariation`   |     double     |         -         |    Yes    |           The maximum unicycle rotation            |
-     * | `switchOverSwingRatio` |     double     |         -         |    Yes    | The ratio between single and double support phases |
-     * |      `swingLeft`       |      bool      |       false       |    No     |     Perform the first step with the left foot      |
-     * |     `terminalStep`     |      bool      |       true        |    No     |   Add a terminal step at the end of the horizon    |
-     * | `startAlwaysSameFoot`  |      bool      |       false       |    No     |       Restart with the default foot if still       |
-     * |    `left_foot_name`    |     string     |       left        |    No     |               Name of the left foot                |
-     * |   `right_foot_name`    |     string     |       right       |    No     |               Name of the right foot               |
+     * |           Name            |      Type         |      Default      |     Example     |                       Description                               |
+     * | :-----------------------: | :---------------: | :---------------: | :-------------: | :-------------------------------------------------------------: |
+     * |  `referencePosition`      | list of 2 doubles |         -         |   (0.1 0.0)     | The reference position of the unicycle controller               |
+     * |     `controlType`         |     string        |     "direct"      |       -         | The control mode used by the unicycle controller                |
+     * |     `unicycleGain`        |     double        |       10.0        |       -         |      The main gain of the unicycle controller                   |
+     * | `slowWhenTurningGain`     |     double        |        2.0        |       -         |     The turning gain of the unicycle controller                 |
+     * | `slowWhenBackwardFactor`  |     double        |        0.4        |       -         |     The backward gain of the unicycle controller                |
+     * | `slowWhenSidewaysFactor`  |     double        |        0.2        |       -         |     The sideways gain of the unicycle controller                |
+     * |           `dt`            |     double        |      0.002        |       -         |          The sampling time of the planner                       |
+     * |   `plannerHorizon`        |     double        |       20.0        |       -         |          The planner time horizon                               |
+     * |    `positionWeight`       |     double        |        1.0        |       -         |       The position weight of the OC problem                     |
+     * |      `timeWeight`         |     double        |        2.5        |       -         |         The time weight of the OC problem                       |
+     * |    `maxStepLength`        |     double        |       0.32        |       -         |            The maximum length of a step                         |
+     * |    `minStepLength`        |     double        |       0.01        |       -         |            The minimum length of a step                         |    
+     * |`maxLengthBackwardFactor`  |     double        |        0.8        |       -         |   The factor of maximum backward walk                           |
+     * |     `nominalWidth`        |     double        |       0.20        |       -         |             The nominal feet distance                           |
+     * |       `minWidth`          |     double        |       0.14        |       -         |             The minimum feet distance                           |
+     * |   `minStepDuration`       |     double        |       0.65        |       -         |           The minimum duration of a step                        |
+     * |   `maxStepDuration`       |     double        |        1.5        |       -         |           The maximum duration of a step                        |
+     * |   `nominalDuration`       |     double        |        0.8        |       -         |           The nominal duration of a step                        |
+     * |  `maxAngleVariation`      |     double        |       18.0        |       -         |           The maximum unicycle rotation                         |
+     * |  `minAngleVariation`      |     double        |        5.0        |       -         |           The minimum unicycle rotation                         |
+     * | `saturationFactors`       | list of 2 doubles |        -          |   (0.7 0.7)     |  Linear and Angular velocity conservative factors               | 
+     * | `leftYawDeltaInDeg`       |     double        |        0.0        |       -         | Offset for the left foot rotation around the z axis             |
+     * | `rightYawDeltaInDeg`      |     double        |        0.0        |       -         | Offset for the right foot rotation around the z axis            |
+     * |      `swingLeft`          |      bool         |       false       |       -         |     Perform the first step with the left foot                   |
+     * | `startAlwaysSameFoot`     |      bool         |       false       |       -         |       Restart with the default foot if still                    |
+     * |     `terminalStep`        |      bool         |       true        |       -         |   Add a terminal step at the end of the horizon                 |
+     * |     `mergePointRatios`    | list of 2 doubles |         -         |   (0.4 0.4)     | The ratios of the DS phase in which it is present a merge point | 
+     * | `switchOverSwingRatio`    |     double        |        0.2        |       -         | The ratio between single and double support phases              |
+     * | `lastStepSwitchTime`      |     double        |        0.3        |       -         |       Time duration of double support phase in final step       |
+     * | `isPauseActive`           |      bool         |       true        |       -         |    If true, the planner can pause, instead of make tiny steps.  |
+     * | `comHeight`               |     double        |        0.70       |       -         |    CoM height in double support phase                           |
+     * | `comHeightDelta`          |     double        |        0.01       |       -         |    Delta to add to CoM heinght in Single support phases         |
+     * | `leftZMPDelta`            | list of 2 doubles |         -         |   (0.0  0.0)    | Local ZMP reference: delta wrt center frame of the foot         |
+     * | `rightZMPDelta`           | list of 2 doubles |         -         |   (0.0  0.0)    | Local ZMP reference: delta wrt center frame of the foot         |
+     * | `lastStepDCMOffset`       |     double        |        0.5        |       -         | Last Step DCM Offset. If 0, DCM coincides with stance foot ZMP  |
+     * | `leftContactFrameName`    |     string        |         -         |    "l_sole"     |       Name of the left foot contact frame                       |
+     * | `rightContactFrameName`   |     string        |         -         |    "r_sole"     |       Name of the right foot contact frame                      |
      *
+    // clang-format on
+
      * @param handler Pointer to the parameter handler.
      * @return True in case of success, false otherwise.
      */
-
-    // clang-format on
-
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     const UnicyclePlannerOutput& getOutput() const override;
@@ -172,17 +187,14 @@ public:
 
     bool setInput(const UnicyclePlannerInput& input) override;
 
-    /*
-    The advance method should be called only in DoubleSupport phase.
-    */
     bool advance() override;
 
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
 
-    UnicycleController
-    getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
+    bool setUnicycleControllerFromString(
+    const std::string& unicycleControllerAsString, UnicycleController& unicycleController);
 
     bool generateFirstTrajectory();
 };
