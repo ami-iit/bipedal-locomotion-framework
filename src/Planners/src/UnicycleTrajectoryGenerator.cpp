@@ -126,10 +126,25 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
         return true;
     };
 
-    ok = ok && loadParam("dt", m_pImpl->parameters.dt);
+    // lambda function to parse parameters with fallback option
+    auto loadParamWithFallback =
+        [ptr, logPrefix](const std::string& paramName, auto& param, const auto& fallback) -> bool {
+        if (!ptr->getParameter(paramName, param))
+        {
+            log()->info("{} Unable to find the parameter named '{}'. The default one with value "
+                        "[{}] will be used.",
+                        logPrefix,
+                        paramName,
+                        fallback);
+            param = fallback;
+        }
+        return true;
+    };
+
+    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, 0.002);
 
     double plannerAdvanceTimeInS;
-    ok = ok && loadParam("planner_advance_time_in_s", plannerAdvanceTimeInS);
+    ok = ok && loadParamWithFallback("planner_advance_time_in_s", plannerAdvanceTimeInS, 0.08);
     m_pImpl->parameters.plannerAdvanceTimeSteps
         = std::round(plannerAdvanceTimeInS / m_pImpl->parameters.dt) + 2; // The additional 2
                                                                           // steps are because
@@ -156,6 +171,8 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
+    ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
+    ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
 
     std::string modelPath
         = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName("model.urdf");
@@ -176,6 +193,14 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     if (m_pImpl->parameters.leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
+        return false;
+    }
+
+    m_pImpl->parameters.rightContactFrameIndex
+        = tmpKinDyn->model().getFrameIndex(rightContactFrameName);
+    if (m_pImpl->parameters.rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Unable to find the frame named {}.", logPrefix, rightContactFrameName);
         return false;
     }
 

@@ -76,6 +76,24 @@ public:
 
     virtual ~UnicycleTrajectoryGenerator();
 
+    // clang-format off
+    /**
+     * Initialize the planner.
+     *
+     * @note The following parameters are required by the class:
+     * |           Name              |      Type      |      Default      |     Example     |                     Description                           |
+     * | :-------------------------: | :------------: | :---------------: | :-------------: | :-------------------------------------------------------: |
+     * | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called    |
+     * |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator         |
+     * | `leftContactFrameName`      |     string     |         -         |    "l_sole"     |     Name of the left foot contact frame                   |
+     * | `rightContactFrameName`     |     string     |         -         |    "r_sole"     |     Name of the right foot contact frame                  |
+     * 
+     * Implicitely, the class needs also all the parameters required by the Bipedalocotion::Planner::UnicyclePlanner class.
+    // clang-format on
+
+     * @param handler Pointer to the parameter handler.
+     * @return True in case of success, false otherwise.
+     */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     const UnicycleTrajectoryGeneratorOutput& getOutput() const override;
