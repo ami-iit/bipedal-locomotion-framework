@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <StepPhase.h>
 #include <cmath>
 #include <cstddef>
 #include <deque>
@@ -75,7 +76,11 @@ public:
         std::deque<bool> leftFootinContact;
         std::deque<bool> rightFootinContact;
         std::deque<bool> isLeftFootLastSwinging;
-        std::deque<size_t> mergePoints; // The merge points of the trajectory.
+        std::deque<size_t> mergePoints;
+        std::deque<StepPhase> leftStepPhases;
+        std::deque<StepPhase> rightStepPhases;
+        std::deque<Step> leftSteps;
+        std::deque<Step> rightSteps;
     };
 
     ReferenceSignals referenceSignals;
@@ -149,6 +154,31 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     // Initialize the blf unicycle planner
     ok = ok && m_pImpl->unicyclePlanner->initialize(handler);
 
+    // Initialize contact frames
+    std::string leftContactFrameName, rightContactFrameName;
+
+    std::string modelPath
+        = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName("model.urdf");
+    BipedalLocomotion::log()->info("{} Model path: {}", logPrefix, modelPath);
+
+    iDynTree::ModelLoader ml;
+    if (!ml.loadModelFromFile(modelPath))
+    {
+        log()->error("{} Unable to load the model.urdf from {}", logPrefix, modelPath);
+        return false;
+    }
+
+    auto tmpKinDyn = std::make_shared<iDynTree::KinDynComputations>();
+    tmpKinDyn->loadRobotModel(ml.model());
+
+    m_pImpl->parameters.leftContactFrameIndex
+        = tmpKinDyn->model().getFrameIndex(leftContactFrameName);
+    if (m_pImpl->parameters.leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
+    {
+        log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
+        return false;
+    }
+
     if (ok)
     {
         m_pImpl->state = Impl::FSM::Initialized;
@@ -160,7 +190,53 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
 const Planners::UnicycleTrajectoryGeneratorOutput&
 Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
-    constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
+                                                 m_pImpl->output.dcmTrajectory.dcmPosition);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmVelocity,
+                                                 m_pImpl->output.dcmTrajectory.dcmVelocity);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightPosition,
+                                                 m_pImpl->output.comHeightTrajectory
+                                                     .comHeightPosition);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightVelocity,
+                                                 m_pImpl->output.comHeightTrajectory
+                                                     .comHeightVelocity);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightAcceleration,
+                                                 m_pImpl->output.comHeightTrajectory
+                                                     .comHeightAcceleration);
+
+    // get the contact phase list
+    BipedalLocomotion::Contacts::ContactListMap ContactListMap;
+
+    std::vector<StepPhase> leftStepPhases;
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftStepPhases,
+                                                 leftStepPhases);
+    auto leftContactList
+        = Planners::Utilities::getContactList(m_pImpl->time,
+                                              m_pImpl->parameters.dt,
+                                              leftStepPhases,
+                                              m_pImpl->referenceSignals.leftSteps,
+                                              m_pImpl->parameters.leftContactFrameIndex,
+                                              "left_foot");
+
+    std::vector<StepPhase> rightStepPhases;
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightStepPhases,
+                                                 rightStepPhases);
+    auto rightContactList
+        = Planners::Utilities::getContactList(m_pImpl->time,
+                                              m_pImpl->parameters.dt,
+                                              rightStepPhases,
+                                              m_pImpl->referenceSignals.rightSteps,
+                                              m_pImpl->parameters.rightContactFrameIndex,
+                                              "right_foot");
+
+    ContactListMap["left_foot"] = leftContactList;
+    ContactListMap["right_foot"] = rightContactList;
+    m_pImpl->output.ContactPhaseList.setLists(ContactListMap);
 
     return m_pImpl->output;
 }
@@ -377,15 +453,13 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
         return false;
     }
 
-    std::vector<Eigen::Vector2d> dcmPositionReference;
-    std::vector<Eigen::Vector2d> dcmVelocityReference;
-    std::vector<double> comHeightPositionReference;
-    std::vector<double> comHeightVelocityReference;
-    std::vector<double> comHeightAccelerationReference;
-    std::vector<bool> rightInContact;
-    std::vector<bool> leftInContact;
-    std::vector<bool> isLastSwingingFoot;
+    std::vector<Eigen::Vector2d> dcmPositionReference, dcmVelocityReference;
+    std::vector<double> comHeightPositionReference, comHeightVelocityReference,
+        comHeightAccelerationReference;
+    std::vector<bool> rightInContact, leftInContact, isLastSwingingFoot;
     std::vector<size_t> mergePoints;
+    std::vector<StepPhase> leftStepPhases, rightStepPhases;
+    std::deque<Step> leftSteps, rightSteps;
 
     // get dcm position and velocity
     dcmPositionReference = unicyclePlanner->getOutput().dcmTrajectory.dcmPosition;
@@ -405,27 +479,52 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     // get merge points
     mergePoints = unicyclePlanner->getOutput().mergePoints;
 
+    // get steps
+    leftSteps = unicyclePlanner->getOutput().steps.leftSteps;
+    rightSteps = unicyclePlanner->getOutput().steps.rightSteps;
+
+    // get step phases
+    leftStepPhases = unicyclePlanner->getOutput().steps.leftStepPhases;
+    rightStepPhases = unicyclePlanner->getOutput().steps.rightStepPhases;
+
     // append vectors to deques
 
-    Utilities::appendVectorToDeque(isLastSwingingFoot,
-                                   referenceSignals.isLeftFootLastSwinging,
-                                   mergePoint);
+    Planners::Utilities::appendVectorToDeque(isLastSwingingFoot,
+                                             referenceSignals.isLeftFootLastSwinging,
+                                             mergePoint);
 
-    Utilities::appendVectorToDeque(dcmPositionReference, referenceSignals.dcmPosition, mergePoint);
-    Utilities::appendVectorToDeque(dcmVelocityReference, referenceSignals.dcmVelocity, mergePoint);
+    Planners::Utilities::appendVectorToDeque(dcmPositionReference,
+                                             referenceSignals.dcmPosition,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(dcmVelocityReference,
+                                             referenceSignals.dcmVelocity,
+                                             mergePoint);
 
-    Utilities::appendVectorToDeque(leftInContact, referenceSignals.leftFootinContact, mergePoint);
-    Utilities::appendVectorToDeque(rightInContact, referenceSignals.rightFootinContact, mergePoint);
+    Planners::Utilities::appendVectorToDeque(leftInContact,
+                                             referenceSignals.leftFootinContact,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(rightInContact,
+                                             referenceSignals.rightFootinContact,
+                                             mergePoint);
 
-    Utilities::appendVectorToDeque(comHeightPositionReference,
-                                   referenceSignals.comHeightPosition,
-                                   mergePoint);
-    Utilities::appendVectorToDeque(comHeightVelocityReference,
-                                   referenceSignals.comHeightVelocity,
-                                   mergePoint);
-    Utilities::appendVectorToDeque(comHeightAccelerationReference,
-                                   referenceSignals.comHeightAcceleration,
-                                   mergePoint);
+    Planners::Utilities::appendVectorToDeque(comHeightPositionReference,
+                                             referenceSignals.comHeightPosition,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(comHeightVelocityReference,
+                                             referenceSignals.comHeightVelocity,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(comHeightAccelerationReference,
+                                             referenceSignals.comHeightAcceleration,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(leftStepPhases,
+                                             referenceSignals.leftStepPhases,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(rightStepPhases,
+                                             referenceSignals.rightStepPhases,
+                                             mergePoint);
+
+    referenceSignals.leftSteps.assign(leftSteps.begin(), leftSteps.end());
+    referenceSignals.rightSteps.assign(rightSteps.begin(), rightSteps.end());
 
     referenceSignals.mergePoints.assign(mergePoints.begin(), mergePoints.end());
 
@@ -445,7 +544,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         || referenceSignals.isLeftFootLastSwinging.empty() || referenceSignals.dcmPosition.empty()
         || referenceSignals.dcmVelocity.empty() || referenceSignals.comHeightPosition.empty()
         || referenceSignals.comHeightVelocity.empty()
-        || referenceSignals.comHeightAcceleration.empty())
+        || referenceSignals.comHeightAcceleration.empty() || referenceSignals.leftStepPhases.empty()
+        || referenceSignals.rightStepPhases.empty())
 
     {
         log()->error(" {} Cannot advance empty reference signals.", logPrefix);
@@ -476,6 +576,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
 
     referenceSignals.comHeightAcceleration.pop_front();
     referenceSignals.comHeightAcceleration.push_back(referenceSignals.comHeightAcceleration.back());
+
+    referenceSignals.leftStepPhases.pop_front();
+    referenceSignals.leftStepPhases.push_back(referenceSignals.leftStepPhases.back());
+
+    referenceSignals.rightStepPhases.pop_front();
+    referenceSignals.rightStepPhases.push_back(referenceSignals.rightStepPhases.back());
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.

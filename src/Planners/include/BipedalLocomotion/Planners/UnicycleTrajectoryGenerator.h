@@ -64,6 +64,8 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
     double dt; // The sampling time of the planner.
     size_t plannerAdvanceTimeSteps; // The number of time steps that the planner should be called in
                                     // advance.
+    int leftContactFrameIndex; // The index of the left contact frame.
+    int rightContactFrameIndex; // The index of the right contact frame.
 };
 
 class BipedalLocomotion::Planners::UnicycleTrajectoryGenerator final
@@ -97,7 +99,7 @@ private:
     bool generateFirstTrajectory();
 };
 
-namespace Utilities
+namespace BipedalLocomotion::Planners::Utilities
 {
 template <typename T>
 bool appendVectorToDeque(const std::vector<T>& input,
@@ -106,7 +108,7 @@ bool appendVectorToDeque(const std::vector<T>& input,
 {
     if (initPoint > output.size())
     {
-        BipedalLocomotion::log()->error("[StdUtilities::appendVectorToDeque] The init point has to "
+        BipedalLocomotion::log()->error("[Utilities::appendVectorToDeque] The init point has to "
                                         "be less or equal to the size of the output deque.");
         return false;
     }
@@ -123,6 +125,16 @@ bool appendVectorToDeque(const std::vector<T>& input,
 
     return true;
 }
-}; // namespace Utilities
+
+template <typename T>
+void populateVectorFromDeque(const std::deque<T>& deque, std::vector<T>& vector)
+{
+
+    vector.clear();
+
+    vector.insert(vector.end(), deque.begin(), deque.end());
+}
+
+}; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
