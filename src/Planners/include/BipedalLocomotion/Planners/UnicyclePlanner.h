@@ -17,6 +17,7 @@
 
 #include <Eigen/src/Core/Matrix.h>
 #include <cstddef>
+#include <deque>
 #include <iDynTree/VectorDynSize.h>
 
 #include <memory>
@@ -80,6 +81,12 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
         std::vector<bool> UsedLeftAsFixed; // True if the left foot is the last that got in contact.
     };
 
+    struct Steps
+    {
+        std::deque<Step> leftSteps, rightSteps;
+        std::vector<StepPhase> leftStepPhases, rightStepPhases;
+    };
+
     COMHeightTrajectory comHeightTrajectory; // The CoM height trajectory;
 
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
@@ -87,6 +94,8 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     ContactStatus contactStatus; // The contact status of the feet;
 
     Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
+
+    Steps steps; // The list of steps;
 
     std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
 };
@@ -177,5 +186,15 @@ private:
 
     bool generateFirstTrajectory();
 };
+
+namespace BipedalLocomotion::Planners::Utilities
+{
+BipedalLocomotion::Contacts::ContactList getContactList(const double initTime,
+                                                        const double dt,
+                                                        const std::vector<StepPhase>& stepPhases,
+                                                        const std::deque<Step>& steps,
+                                                        const int contactFrameIndex,
+                                                        const std::string& contactName);
+}; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H

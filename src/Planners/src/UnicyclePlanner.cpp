@@ -67,7 +67,7 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
     input.dcmInitialState.initialPosition = dcmInitialPosition;
     input.dcmInitialState.initialVelocity = dcmInitialVelocity;
 
-    input.isLeftLastSwinging = false; // isLeftLastSwingingFoot (from previous planner run)
+    input.isLeftLastSwinging = false;
 
     input.initTime = 0.0;
 
@@ -513,73 +513,29 @@ bool Planners::UnicyclePlanner::advance()
     auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
     auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
 
-    auto getContactList
-        = [](const double initTime,
-             const double dt,
-             const std::vector<StepPhase>& stepPhases,
-             const std::deque<Step>& steps,
-             const int contactFrameIndex,
-             const std::string& contactName) -> BipedalLocomotion::Contacts::ContactList {
-        BipedalLocomotion::Contacts::ContactList contactList;
+    auto leftContactList
+        = Planners::Utilities::getContactList(initTime,
+                                              dt,
+                                              leftStepPhases,
+                                              leftSteps,
+                                              m_pImpl->parameters.leftContactFrameIndex,
+                                              "left_foot");
 
-        size_t timeIndex{1};
-        auto stepIterator = steps.begin();
-
-        while (stepIterator != steps.end())
-        {
-            auto step = *stepIterator;
-
-            BipedalLocomotion::Contacts::PlannedContact contact{};
-
-            contact.index = contactFrameIndex;
-            contact.name = contactName;
-
-            Eigen::Vector3d translation = Eigen::Vector3d::Zero();
-            translation.head(2) = iDynTree::toEigen(step.position);
-            manif::SO3d rotation{0, 0, step.angle};
-            contact.pose = manif::SE3d(translation, rotation);
-
-            contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                step.impactTime * std::chrono::seconds(1));
-            contact.deactivationTime = std::chrono::nanoseconds::max();
-
-            for (auto t = timeIndex; t < stepPhases.size(); t++)
-            {
-                if ((stepPhases.at(t) == StepPhase::Swing)
-                    && (stepPhases.at(t - 1) == StepPhase::SwitchOut))
-                {
-                    contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                        (initTime + dt * (t - 1)) * std::chrono::seconds(1));
-
-                    timeIndex += (t + 1);
-                    break;
-                }
-            }
-
-            contactList.addContact(contact);
-            stepIterator++;
-        };
-
-        return contactList;
-    };
-
-    auto leftContactList = getContactList(initTime,
-                                          dt,
-                                          leftStepPhases,
-                                          leftSteps,
-                                          m_pImpl->parameters.leftContactFrameIndex,
-                                          "left_foot");
-
-    auto rightContactList = getContactList(initTime,
-                                           dt,
-                                           rightStepPhases,
-                                           rightSteps,
-                                           m_pImpl->parameters.rightContactFrameIndex,
-                                           "right_foot");
+    auto rightContactList
+        = Planners::Utilities::getContactList(initTime,
+                                              dt,
+                                              rightStepPhases,
+                                              rightSteps,
+                                              m_pImpl->parameters.rightContactFrameIndex,
+                                              "right_foot");
 
     ContactListMap["left_foot"] = leftContactList;
     ContactListMap["right_foot"] = rightContactList;
     m_pImpl->output.ContactPhaseList.setLists(ContactListMap);
+    m_pImpl->output.steps.leftSteps = leftSteps;
+    m_pImpl->output.steps.rightSteps = rightSteps;
+    m_pImpl->output.steps.leftStepPhases = leftStepPhases;
+    m_pImpl->output.steps.rightStepPhases = rightStepPhases;
 
     // get the DCM trajectory
     auto convertToEigen
@@ -670,3 +626,54 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
 
     return true;
 }
+
+BipedalLocomotion::Contacts::ContactList
+BipedalLocomotion::Planners::Utilities::getContactList(const double initTime,
+                                                       const double dt,
+                                                       const std::vector<StepPhase>& stepPhases,
+                                                       const std::deque<Step>& steps,
+                                                       const int contactFrameIndex,
+                                                       const std::string& contactName)
+{
+    BipedalLocomotion::Contacts::ContactList contactList;
+
+    size_t timeIndex{1};
+    auto stepIterator = steps.begin();
+
+    while (stepIterator != steps.end())
+    {
+        auto step = *stepIterator;
+
+        BipedalLocomotion::Contacts::PlannedContact contact{};
+
+        contact.index = contactFrameIndex;
+        contact.name = contactName;
+
+        Eigen::Vector3d translation = Eigen::Vector3d::Zero();
+        translation.head(2) = iDynTree::toEigen(step.position);
+        manif::SO3d rotation{0, 0, step.angle};
+        contact.pose = manif::SE3d(translation, rotation);
+
+        contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            step.impactTime * std::chrono::seconds(1));
+        contact.deactivationTime = std::chrono::nanoseconds::max();
+
+        for (auto t = timeIndex; t < stepPhases.size(); t++)
+        {
+            if ((stepPhases.at(t) == StepPhase::Swing)
+                && (stepPhases.at(t - 1) == StepPhase::SwitchOut))
+            {
+                contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    (initTime + dt * (t - 1)) * std::chrono::seconds(1));
+
+                timeIndex += (t + 1);
+                break;
+            }
+        }
+
+        contactList.addContact(contact);
+        stepIterator++;
+    };
+
+    return contactList;
+};
