@@ -275,11 +275,6 @@ bool Planners::UnicycleTrajectoryGenerator::setInput(const UnicycleTrajectoryGen
 
 {
 
-    // TO BE REMOVED, JUST FOR COMPILATION ========================================
-    std::vector<bool> m_leftInContact;
-    std::vector<bool> m_rightInContact;
-    // ==============================================================================
-
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::setInput]";
 
     if (m_pImpl->state == Impl::FSM::NotInitialized)
@@ -300,7 +295,8 @@ bool Planners::UnicycleTrajectoryGenerator::setInput(const UnicycleTrajectoryGen
     // the trajectory was already finished the new trajectory will be attached as soon as possible
     if (m_pImpl->referenceSignals.mergePoints.empty())
     {
-        if (!(m_leftInContact.front() && m_rightInContact.front()))
+        if (!(m_pImpl->referenceSignals.leftFootinContact.front()
+              && m_pImpl->referenceSignals.rightFootinContact.front()))
         {
             log()->error("{} The trajectory has already finished but the system is not in double "
                          "support.",
