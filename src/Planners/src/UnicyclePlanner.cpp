@@ -51,7 +51,7 @@ public:
 
     UnicyclePlannerParameters parameters;
 
-    std::unique_ptr<::UnicycleGenerator> generator;
+    UnicycleGenerator generator;
 };
 
 BipedalLocomotion::Planners::UnicyclePlannerInput
@@ -231,8 +231,8 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
 
     // try to configure the planner
-    m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
-    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
+    // m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
+    auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
 
     ok = ok
          && unicyclePlanner->setDesiredPersonDistance(m_pImpl->parameters.referencePointDistance[0],
@@ -263,12 +263,12 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && setUnicycleControllerFromString(unicycleControllerAsString, unicycleController);
     ok = ok && unicyclePlanner->setUnicycleController(unicycleController);
 
-    ok = ok && m_pImpl->generator->setSwitchOverSwingRatio(switchOverSwingRatio);
-    ok = ok && m_pImpl->generator->setTerminalHalfSwitchTime(lastStepSwitchTime);
-    ok = ok && m_pImpl->generator->setPauseConditions(maxStepDuration, nominalDuration);
-    ok = ok && m_pImpl->generator->setMergePointRatio(mergePointRatios[0], mergePointRatios[1]);
+    ok = ok && m_pImpl->generator.setSwitchOverSwingRatio(switchOverSwingRatio);
+    ok = ok && m_pImpl->generator.setTerminalHalfSwitchTime(lastStepSwitchTime);
+    ok = ok && m_pImpl->generator.setPauseConditions(maxStepDuration, nominalDuration);
+    ok = ok && m_pImpl->generator.setMergePointRatio(mergePointRatios[0], mergePointRatios[1]);
 
-    m_pImpl->generator->setPauseActive(isPauseActive);
+    m_pImpl->generator.setPauseActive(isPauseActive);
 
     std::string modelPath
         = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName("model.urdf");
@@ -300,10 +300,10 @@ bool Planners::UnicyclePlanner::initialize(
         return false;
     }
 
-    auto comHeightGenerator = m_pImpl->generator->addCoMHeightTrajectoryGenerator();
+    auto comHeightGenerator = m_pImpl->generator.addCoMHeightTrajectoryGenerator();
     ok = ok && comHeightGenerator->setCoMHeightSettings(comHeight, comHeightDelta);
 
-    auto dcmGenerator = m_pImpl->generator->addDCMTrajectoryGenerator();
+    auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
     iDynTree::Vector2 leftZMPDeltaVec{leftZMPDelta};
     iDynTree::Vector2 rightZMPDeltaVec{rightZMPDelta};
     dcmGenerator->setFootOriginOffset(leftZMPDeltaVec, rightZMPDeltaVec);
@@ -312,45 +312,45 @@ bool Planners::UnicyclePlanner::initialize(
     dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
 
-    // genereateFirstTrajectory();
+    // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
 
-    auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
+    // auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
 
-    for (const auto& step : leftSteps)
-    {
-        BipedalLocomotion::log()->debug("Left step at initialization: position: {}, angle: {}, "
-                                        "impact time: {}",
-                                        step.position.toString(),
-                                        step.angle,
-                                        step.impactTime);
-    }
+    // for (const auto& step : leftSteps)
+    // {
+    //     BipedalLocomotion::log()->debug("Left step at initialization: position: {}, angle: {}, "
+    //                                     "impact time: {}",
+    //                                     step.position.toString(),
+    //                                     step.angle,
+    //                                     step.impactTime);
+    // }
 
-    auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
+    // auto rightSteps = m_pImpl->generator.getRightFootPrint()->getSteps();
 
-    for (const auto& step : rightSteps)
-    {
-        BipedalLocomotion::log()->debug("Right step at initialization: position: {}, angle: {}, "
-                                        "impact time: {}",
-                                        step.position.toString(),
-                                        step.angle,
-                                        step.impactTime);
-    }
+    // for (const auto& step : rightSteps)
+    // {
+    //     BipedalLocomotion::log()->debug("Right step at initialization: position: {}, angle: {}, "
+    //                                     "impact time: {}",
+    //                                     step.position.toString(),
+    //                                     step.angle,
+    //                                     step.impactTime);
+    // }
 
-    std::vector<StepPhase> leftPhases, rightPhases;
-    m_pImpl->generator->getStepPhases(leftPhases, rightPhases);
+    // std::vector<StepPhase> leftPhases, rightPhases;
+    // m_pImpl->generator.getStepPhases(leftPhases, rightPhases);
 
-    for (size_t i = 0; i < leftPhases.size(); i++)
-    {
-        BipedalLocomotion::log()->debug("Left phase at initialization: {}",
-                                        static_cast<int>(leftPhases.at(i)));
-    }
+    // for (size_t i = 0; i < leftPhases.size(); i++)
+    // {
+    //     BipedalLocomotion::log()->debug("Left phase at initialization: {}",
+    //                                     static_cast<int>(leftPhases.at(i)));
+    // }
 
-    for (size_t i = 0; i < rightPhases.size(); i++)
-    {
-        BipedalLocomotion::log()->debug("Right phase at initialization: {}",
-                                        static_cast<int>(rightPhases.at(i)));
-    }
+    // for (size_t i = 0; i < rightPhases.size(); i++)
+    // {
+    //     BipedalLocomotion::log()->debug("Right phase at initialization: {}",
+    //                                     static_cast<int>(rightPhases.at(i)));
+    // }
 
     if (ok)
     {
@@ -397,130 +397,162 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    bool correctLeft{m_pImpl->input.isLeftLastSwinging};
+    log()->info("{} Advancing the planner.", logPrefix);
 
-    // set timings
-    double dt{m_pImpl->parameters.dt};
+    log()->info("{} m_pImpl pointer: {}",
+                logPrefix,
+                std::to_string(reinterpret_cast<std::uintptr_t>(m_pImpl.get())));
+    std::cout << "m_pImpl pointer: " << m_pImpl.get() << std::endl;
+
+    auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
+
+    log()->info("{} dcmGenerator pointer: {}",
+                logPrefix,
+                std::to_string(reinterpret_cast<std::uintptr_t>(dcmGenerator.get())));
+    std::cout << "dcmGenerator pointer: " << dcmGenerator.get() << std::endl;
+
+    log()->info("{} m_pImpl->input.initTime {}", logPrefix, m_pImpl->input.initTime);
+    log()->info("{} m_pImpl->parameters.dt {}", logPrefix, m_pImpl->parameters.dt);
+
+    log()->info("{} m_pImpl->state {}", logPrefix, static_cast<int>(m_pImpl->state));
+
+    auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
+
+    log()->info("{} unicyclePlanner pointer: {}",
+                logPrefix,
+                std::to_string(reinterpret_cast<std::uintptr_t>(unicyclePlanner.get())));
+    std::cout << "unicyclePlanner: " << unicyclePlanner.get() << std::endl;
+
+    // auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
     double initTime{m_pImpl->input.initTime};
-    double endTime = initTime + m_pImpl->parameters.plannerHorizon;
+    double dt{m_pImpl->parameters.dt};
 
-    // set desired point
-    Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
-    desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(0);
-    desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(1);
-
-    // left foot
-    Eigen::Vector2d measuredPositionLeft;
-    double measuredAngleLeft;
-    double leftYawDeltaInRad;
-    measuredPositionLeft(0) = m_pImpl->input.measuredTransform.getPosition()(0);
-    measuredPositionLeft(1) = m_pImpl->input.measuredTransform.getPosition()(1);
-    measuredAngleLeft = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
-    leftYawDeltaInRad = m_pImpl->parameters.leftYawDeltaInRad;
-
-    // right foot
-    Eigen::Vector2d measuredPositionRight;
-    double measuredAngleRight;
-    double rightYawDeltaInRad;
-    measuredPositionRight(0) = m_pImpl->input.measuredTransform.getPosition()(0);
-    measuredPositionRight(1) = m_pImpl->input.measuredTransform.getPosition()(1);
-    measuredAngleRight = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
-    rightYawDeltaInRad = m_pImpl->parameters.rightYawDeltaInRad;
-
-    // get unicycle pose
-    double measuredAngle;
-    measuredAngle = correctLeft ? measuredAngleLeft : measuredAngleRight;
-    Eigen::Vector2d measuredPosition = correctLeft ? measuredPositionLeft : measuredPositionRight;
-    Eigen::Vector2d unicyclePositionFromStanceFoot, footPosition, unicyclePosition;
-    unicyclePositionFromStanceFoot(0) = 0.0;
-
-    Eigen::Matrix2d unicycleRotation;
-    double unicycleAngle;
-
-    if (correctLeft)
+    // check if it is not the first run
+    if (m_pImpl->state == Impl::FSM::Running)
     {
-        unicyclePositionFromStanceFoot(1) = -m_pImpl->parameters.nominalWidth / 2;
-        unicycleAngle = measuredAngleLeft - leftYawDeltaInRad;
-        footPosition = measuredPositionLeft;
-    } else
-    {
-        unicyclePositionFromStanceFoot(1) = m_pImpl->parameters.nominalWidth / 2;
-        unicycleAngle = measuredAngleRight - rightYawDeltaInRad;
-        footPosition = measuredPositionRight;
-    }
+        bool correctLeft{m_pImpl->input.isLeftLastSwinging};
 
-    double s_theta = std::sin(unicycleAngle);
-    double c_theta = std::cos(unicycleAngle);
+        // compute end time of trajectory
+        double endTime = initTime + m_pImpl->parameters.plannerHorizon;
 
-    unicycleRotation(0, 0) = c_theta;
-    unicycleRotation(0, 1) = -s_theta;
-    unicycleRotation(1, 0) = s_theta;
-    unicycleRotation(1, 1) = c_theta;
+        // set desired point
+        Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
+        desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(0);
+        desiredPointInRelativeFrame(0) = m_pImpl->input.plannerInput(1);
 
-    unicyclePosition = unicycleRotation * unicyclePositionFromStanceFoot + footPosition;
+        // left foot
+        Eigen::Vector2d measuredPositionLeft;
+        double measuredAngleLeft;
+        double leftYawDeltaInRad;
+        measuredPositionLeft(0) = m_pImpl->input.measuredTransform.getPosition()(0);
+        measuredPositionLeft(1) = m_pImpl->input.measuredTransform.getPosition()(1);
+        measuredAngleLeft = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
+        leftYawDeltaInRad = m_pImpl->parameters.leftYawDeltaInRad;
 
-    // apply the homogeneous transformation w_H_{unicycle}
-    desiredPointInAbsoluteFrame
-        = unicycleRotation
-              * (m_pImpl->parameters.referencePointDistance + desiredPointInRelativeFrame)
-          + unicyclePosition;
+        // right foot
+        Eigen::Vector2d measuredPositionRight;
+        double measuredAngleRight;
+        double rightYawDeltaInRad;
+        measuredPositionRight(0) = m_pImpl->input.measuredTransform.getPosition()(0);
+        measuredPositionRight(1) = m_pImpl->input.measuredTransform.getPosition()(1);
+        measuredAngleRight = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
+        rightYawDeltaInRad = m_pImpl->parameters.rightYawDeltaInRad;
 
-    // clear the old trajectory
-    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
-    unicyclePlanner->clearPersonFollowingDesiredTrajectory();
+        // get unicycle pose
+        double measuredAngle;
+        measuredAngle = correctLeft ? measuredAngleLeft : measuredAngleRight;
+        Eigen::Vector2d measuredPosition = correctLeft ? measuredPositionLeft
+                                                       : measuredPositionRight;
+        Eigen::Vector2d unicyclePositionFromStanceFoot, footPosition, unicyclePosition;
+        unicyclePositionFromStanceFoot(0) = 0.0;
 
-    // add new point
-    if (!unicyclePlanner->addPersonFollowingDesiredTrajectoryPoint(endTime,
-                                                                   iDynTree::Vector2(
-                                                                       desiredPointInAbsoluteFrame)))
-    {
-        log()->error("{} Error while setting the new reference.", logPrefix);
-        return false;
-    }
+        Eigen::Matrix2d unicycleRotation;
+        double unicycleAngle;
 
-    // set the desired direct control
-    unicyclePlanner->setDesiredDirectControl(m_pImpl->input.plannerInput(0),
-                                             m_pImpl->input.plannerInput(1),
-                                             m_pImpl->input.plannerInput(2));
+        if (correctLeft)
+        {
+            unicyclePositionFromStanceFoot(1) = -m_pImpl->parameters.nominalWidth / 2;
+            unicycleAngle = measuredAngleLeft - leftYawDeltaInRad;
+            footPosition = measuredPositionLeft;
+        } else
+        {
+            unicyclePositionFromStanceFoot(1) = m_pImpl->parameters.nominalWidth / 2;
+            unicycleAngle = measuredAngleRight - rightYawDeltaInRad;
+            footPosition = measuredPositionRight;
+        }
 
-    // set the initial state of the DCM trajectory generator
-    auto dcmGenerator = m_pImpl->generator->addDCMTrajectoryGenerator();
+        double s_theta = std::sin(unicycleAngle);
+        double c_theta = std::cos(unicycleAngle);
 
-    if (!dcmGenerator->setDCMInitialState(m_pImpl->input.dcmInitialState))
-    {
-        log()->error("{} Failed to set the initial state.", logPrefix);
-        return false;
-    }
+        unicycleRotation(0, 0) = c_theta;
+        unicycleRotation(0, 1) = -s_theta;
+        unicycleRotation(1, 0) = s_theta;
+        unicycleRotation(1, 1) = c_theta;
 
-    // generate the new trajectory
-    if (!(m_pImpl->generator->reGenerate(initTime,
-                                         dt,
-                                         endTime,
-                                         correctLeft,
-                                         iDynTree::Vector2(measuredPosition),
-                                         measuredAngle)))
-    {
-        log()->error("{} Failed in computing new trajectory.", logPrefix);
-        return false;
+        unicyclePosition = unicycleRotation * unicyclePositionFromStanceFoot + footPosition;
+
+        // apply the homogeneous transformation w_H_{unicycle}
+        desiredPointInAbsoluteFrame
+            = unicycleRotation
+                  * (m_pImpl->parameters.referencePointDistance + desiredPointInRelativeFrame)
+              + unicyclePosition;
+
+        // clear the old trajectory
+        unicyclePlanner->clearPersonFollowingDesiredTrajectory();
+
+        // add new point
+        if (!unicyclePlanner
+                 ->addPersonFollowingDesiredTrajectoryPoint(endTime,
+                                                            iDynTree::Vector2(
+                                                                desiredPointInAbsoluteFrame)))
+        {
+            log()->error("{} Error while setting the new reference.", logPrefix);
+            return false;
+        }
+
+        // set the desired direct control
+        unicyclePlanner->setDesiredDirectControl(m_pImpl->input.plannerInput(0),
+                                                 m_pImpl->input.plannerInput(1),
+                                                 m_pImpl->input.plannerInput(2));
+
+        // set the initial state of the DCM trajectory generator
+
+        if (!dcmGenerator->setDCMInitialState(m_pImpl->input.dcmInitialState))
+        {
+            log()->error("{} Failed to set the initial state.", logPrefix);
+            return false;
+        }
+
+        // generate the new trajectory
+        if (!(m_pImpl->generator.reGenerate(initTime,
+                                            dt,
+                                            endTime,
+                                            correctLeft,
+                                            iDynTree::Vector2(measuredPosition),
+                                            measuredAngle)))
+        {
+            log()->error("{} Failed in computing new trajectory.", logPrefix);
+            return false;
+        }
     }
 
     // get the feet contact status
     std::vector<bool> leftFootInContact, rightFootInContact;
-    m_pImpl->generator->getFeetStandingPeriods(leftFootInContact, rightFootInContact);
+    m_pImpl->generator.getFeetStandingPeriods(leftFootInContact, rightFootInContact);
     m_pImpl->output.contactStatus.leftFootInContact = leftFootInContact;
     m_pImpl->output.contactStatus.rightFootInContact = rightFootInContact;
 
     std::vector<bool> UsedLeftAsFixed;
-    m_pImpl->generator->getWhenUseLeftAsFixed(UsedLeftAsFixed);
+    m_pImpl->generator.getWhenUseLeftAsFixed(UsedLeftAsFixed);
     m_pImpl->output.contactStatus.UsedLeftAsFixed = UsedLeftAsFixed;
 
     // get the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap ContactListMap;
     std::vector<StepPhase> leftStepPhases, rightStepPhases;
-    m_pImpl->generator->getStepPhases(leftStepPhases, rightStepPhases);
+    m_pImpl->generator.getStepPhases(leftStepPhases, rightStepPhases);
 
-    auto leftSteps = m_pImpl->generator->getLeftFootPrint()->getSteps();
-    auto rightSteps = m_pImpl->generator->getRightFootPrint()->getSteps();
+    auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
+    auto rightSteps = m_pImpl->generator.getRightFootPrint()->getSteps();
 
     auto leftContactList
         = Planners::Utilities::getContactList(initTime,
@@ -564,7 +596,7 @@ bool Planners::UnicyclePlanner::advance()
     m_pImpl->output.dcmTrajectory.dcmVelocity = convertToEigen(dcmGenerator->getDCMVelocity());
 
     // get the CoM height trajectory
-    auto comHeightGenerator = m_pImpl->generator->addCoMHeightTrajectoryGenerator();
+    auto comHeightGenerator = m_pImpl->generator.addCoMHeightTrajectoryGenerator();
     comHeightGenerator->getCoMHeightTrajectory(
         m_pImpl->output.comHeightTrajectory.comHeightPosition);
     comHeightGenerator->getCoMHeightVelocity(m_pImpl->output.comHeightTrajectory.comHeightVelocity);
@@ -573,7 +605,7 @@ bool Planners::UnicyclePlanner::advance()
 
     // get the merge points
     std::vector<size_t> mergePoints;
-    m_pImpl->generator->getMergePoints(mergePoints);
+    m_pImpl->generator.getMergePoints(mergePoints);
     m_pImpl->output.mergePoints = mergePoints;
 
     m_pImpl->state = Impl::FSM::Running;
@@ -587,19 +619,19 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
     constexpr auto logPrefix = "[UnicyclePlanner::generateFirstTrajectory]";
 
     // clear the all trajectory
-    auto unicyclePlanner = m_pImpl->generator->unicyclePlanner();
+    auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
     unicyclePlanner->clearPersonFollowingDesiredTrajectory();
     unicyclePlanner->setDesiredDirectControl(0.0, 0.0, 0.0);
 
     // clear left and right footsteps
-    m_pImpl->generator->getLeftFootPrint()->clearSteps();
-    m_pImpl->generator->getRightFootPrint()->clearSteps();
+    m_pImpl->generator.getLeftFootPrint()->clearSteps();
+    m_pImpl->generator.getRightFootPrint()->clearSteps();
 
     // set initial and final times
     double initTime = 0;
     double endTime = initTime + m_pImpl->parameters.plannerHorizon;
 
-    // at the beginning iCub has to stop
+    // at the beginning ergoCub has to stop
     Eigen::Vector2d m_personFollowingDesiredPoint;
     m_personFollowingDesiredPoint(0) = m_pImpl->parameters.referencePointDistance(0);
     m_personFollowingDesiredPoint(1) = m_pImpl->parameters.referencePointDistance(1);
@@ -625,7 +657,7 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
     }
 
     // generate the first trajectories
-    if (!m_pImpl->generator->generate(initTime, m_pImpl->parameters.dt, endTime))
+    if (!m_pImpl->generator.generate(initTime, m_pImpl->parameters.dt, endTime))
     {
 
         log()->error("{} Error while computing the first trajectories.", logPrefix);

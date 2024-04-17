@@ -205,6 +205,10 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
         return false;
     }
 
+    // Initialize first trajectory
+    ok = ok && generateFirstTrajectory();
+    ok = ok && m_pImpl->mergeTrajectories(0);
+
     if (ok)
     {
         m_pImpl->state = Impl::FSM::Initialized;
@@ -370,7 +374,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
 
             // check that both feet are in contact
             if (!(m_pImpl->referenceSignals.leftFootinContact.front())
-                || (m_pImpl->referenceSignals.rightFootinContact.front()))
+                || !(m_pImpl->referenceSignals.rightFootinContact.front()))
             {
                 log()->error(" {} Unable to evaluate the new trajectory. "
                              "Both feet need to be in contact before and while computing a new "
@@ -435,7 +439,14 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
         // advance the planner
-        return this->unicyclePlanner.advance();
+
+        log()->info("[Async::thread] starting");
+
+        bool ok = this->unicyclePlanner.advance();
+
+        log()->info("[Async::thread] finished");
+
+        return ok;
     };
 
     // create the input for the unicycle planner
@@ -462,19 +473,25 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::mergeTrajectories]";
 
-    if (unicyclePlannerOutputFuture.valid())
+    // if unicycle trajectory generator has been initialized, check if the unicycle planner has
+    // finished the computation
+    if (!(state == Impl::FSM::NotInitialized))
     {
-        if (!unicyclePlannerOutputFuture.get())
+        if (unicyclePlannerOutputFuture.valid())
         {
-            log()->error("{} Unable to advance the unicycle planner.", logPrefix);
+            if (!unicyclePlannerOutputFuture.get())
+            {
+                log()->error("{} Unable to advance the unicycle planner.", logPrefix);
+                return false;
+            }
+        } else
+        {
+            log()->error("{} The trajectory is not valid at time {} [s].", logPrefix, time);
             return false;
         }
-    } else
-    {
-        log()->error("{} The trajectory is not valid at time {} [s].", logPrefix, time);
-        return false;
     }
 
+    // get the output of the unicycle planner
     std::vector<Eigen::Vector2d> dcmPositionReference, dcmVelocityReference;
     std::vector<double> comHeightPositionReference, comHeightVelocityReference,
         comHeightAccelerationReference;
@@ -617,5 +634,28 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         if (referenceSignals.mergePoints[0] == 0)
             referenceSignals.mergePoints.pop_front();
     }
+    return true;
+}
+
+bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTrajectory()
+{
+
+    constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::generateFirstTrajectory]";
+
+    UnicyclePlannerInput unicyclePlannerInput;
+    unicyclePlannerInput.initTime = m_pImpl->time;
+
+    if (!m_pImpl->unicyclePlanner.setInput(unicyclePlannerInput))
+    {
+        log()->error("{} Unable to set the input for the unicycle planner.", logPrefix);
+        return false;
+    }
+
+    if (!m_pImpl->unicyclePlanner.advance())
+    {
+        log()->error("{} Unable to advance the unicycle planner.", logPrefix);
+        return false;
+    }
+
     return true;
 }
