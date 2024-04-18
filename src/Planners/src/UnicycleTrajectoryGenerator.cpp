@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <StepPhase.h>
+#include <chrono>
 #include <cmath>
 #include <cstddef>
 #include <deque>
@@ -503,7 +504,18 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     this->unicyclePlanner.setInput(unicyclePlannerInput);
 
     // create a new asynchronous thread to compute the new trajectory
+
+    // monitor the async thread spawning time
+    std::chrono::steady_clock::time_point tic = std::chrono::steady_clock::now();
+
     unicyclePlannerOutputFuture = std::async(std::launch::async, computeNewTrajectory);
+
+    auto toc = std::chrono::steady_clock::now();
+
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(toc - tic).count();
+    log()->info("{} The unicycle planner has been called. Elapsed time: {} [microseconds].",
+                logPrefix,
+                elapsed_time);
 
     return true;
 }
