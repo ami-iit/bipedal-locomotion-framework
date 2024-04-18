@@ -8,6 +8,7 @@
     <includes refid="traits_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</includes>
     <includes refid="NamedTuple_8h" local="no">BipedalLocomotion/GenericContainer/NamedTuple.h</includes>
     <includes local="no">Eigen/Dense</includes>
+    <includedby refid="ButterworthLowPassFilter_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h</includedby>
     <includedby refid="FirstOrderSmoother_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</includedby>
     <incdepgraph>
       <node id="8">
@@ -102,12 +103,16 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
-        <link refid="FirstOrderSmoother_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h</label>
+        <link refid="ButterworthLowPassFilter_8h"/>
       </node>
       <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -115,6 +120,8 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

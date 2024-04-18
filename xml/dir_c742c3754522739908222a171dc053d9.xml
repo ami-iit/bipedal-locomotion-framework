@@ -3,6 +3,7 @@
   <compounddef id="dir_c742c3754522739908222a171dc053d9" kind="dir">
     <compoundname>BipedalLocomotion/ContinuousDynamicalSystem</compoundname>
     <innerdir refid="dir_d32d817a4db95a21286fb6e6fac94d14">BipedalLocomotion/ContinuousDynamicalSystem/impl</innerdir>
+    <innerfile refid="ButterworthLowPassFilter_8h">ButterworthLowPassFilter.h</innerfile>
     <innerfile refid="CentroidalDynamics_8h">CentroidalDynamics.h</innerfile>
     <innerfile refid="CompliantContactWrench_8h">CompliantContactWrench.h</innerfile>
     <innerfile refid="DynamicalSystem_8h">DynamicalSystem.h</innerfile>

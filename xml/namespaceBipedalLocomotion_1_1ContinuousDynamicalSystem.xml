@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::ContinuousDynamicalSystem</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ButterworthLowPassFilter</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::CompliantContactWrench</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem</innerclass>
@@ -27,7 +28,7 @@
 <para>SO3Dynamics describes the dynamics of a SO(3). </para>
         </briefdescription>
         <detaileddescription>
-<para>In details, given an element of SO(3) <formula id="138">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="139">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="140">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="141">$\dot{R} \in T_R SO(3)$</formula> with <formula id="142">$T_R SO(3)$</formula> is the Tangent space of <formula id="36">$SO(3)$</formula> at <formula id="143">$R$</formula>.</para>
+<para>In details, given an element of SO(3) <formula id="220">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="221">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="222">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="223">$\dot{R} \in T_R SO(3)$</formula> with <formula id="224">$T_R SO(3)$</formula> is the Tangent space of <formula id="104">$SO(3)$</formula> at <formula id="225">$R$</formula>.</para>
 <para>The SO3Dynamics inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where the State is described by a <ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref> <table rows="2" cols="3"><row>
 <entry thead="yes" align='center'><para>Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
@@ -92,6 +93,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h" line="24" column="1"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h" line="21" column="1"/>
   </compounddef>
 </doxygen>

@@ -133,14 +133,18 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
+      <node id="6">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/RK4.h</label>
         <link refid="RK4_8h"/>
       </node>
       <node id="3">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h</label>
+        <link refid="ButterworthLowPassFilter_8h"/>
+      </node>
+      <node id="4">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
         <link refid="FirstOrderSmoother_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -148,10 +152,10 @@
         <link refid="FixedStepIntegrator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -159,6 +163,8 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

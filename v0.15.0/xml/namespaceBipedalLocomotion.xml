@@ -59,6 +59,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="17" column="1"/>
+    <location file="BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h" line="22" column="1"/>
   </compounddef>
 </doxygen>
