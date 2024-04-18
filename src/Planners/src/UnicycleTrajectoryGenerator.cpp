@@ -13,7 +13,6 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <StepPhase.h>
-#include <chrono>
 #include <cmath>
 #include <cstddef>
 #include <deque>
@@ -123,6 +122,22 @@ Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator()
     {
         m_pImpl->unicyclePlannerOutputFuture.wait();
     }
+}
+
+Planners::UnicycleTrajectoryGeneratorInput
+Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput()
+{
+    UnicycleTrajectoryGeneratorInput input;
+
+    input.plannerInput = Eigen::VectorXd::Zero(3);
+
+    input.w_H_leftFoot = iDynTree::Transform::Identity();
+    input.w_H_leftFoot.setPosition({0.0, 0.1, 0.0});
+
+    input.w_H_rightFoot = iDynTree::Transform::Identity();
+    input.w_H_rightFoot.setPosition({0.0, -0.1, 0.0});
+
+    return input;
 }
 
 bool Planners::UnicycleTrajectoryGenerator::initialize(
