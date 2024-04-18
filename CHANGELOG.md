@@ -26,8 +26,9 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
-- InstallBasicPackageFiles: Fix bug of OVERRIDE_MODULE_PATH that corrupt CMAKE_MODULE_PATH values set by blf transitive dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/827)
+- InstallBasicPackageFiles: Fix bug of OVERRIDE_MODULE_PATH that corrupt `CMAKE_MODULE_PATH` values set by blf transitive dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/827)
 - InstallBasicPackageFiles: Fix compatibility with CMake 3.29.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/835)
+- Fix `YARPRobotLoggerDevice` excessively long time horizon for signals logged with `YARP_CLOCK` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/839)
 
 ### Removed
 
