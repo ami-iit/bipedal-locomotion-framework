@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <iDynTree/Position.h>
+#include <mutex>
 #include <yarp/os/RFModule.h>
 
 #include <FootPrint.h>
@@ -52,6 +53,8 @@ public:
     UnicyclePlannerParameters parameters;
 
     UnicycleGenerator generator;
+
+    std::mutex mutex;
 };
 
 BipedalLocomotion::Planners::UnicyclePlannerInput
@@ -364,6 +367,8 @@ const Planners::UnicyclePlannerOutput& Planners::UnicyclePlanner::getOutput() co
 {
     constexpr auto logPrefix = "[UnicyclePlanner::getOutput]";
 
+    std::lock_guard<std::mutex> lock(m_pImpl->mutex);
+
     return m_pImpl->output;
 }
 
@@ -535,6 +540,9 @@ bool Planners::UnicyclePlanner::advance()
             return false;
         }
     }
+
+    // get the output
+    std::lock_guard<std::mutex> lock(m_pImpl->mutex);
 
     // get the feet contact status
     std::vector<bool> leftFootInContact, rightFootInContact;

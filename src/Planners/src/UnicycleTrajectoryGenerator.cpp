@@ -21,6 +21,7 @@
 #include <iDynTree/Position.h>
 #include <iDynTree/Transform.h>
 #include <memory>
+#include <mutex>
 #include <yarp/os/RFModule.h>
 
 #include <FootPrint.h>
@@ -65,6 +66,17 @@ public:
 
     double time; // The current time.
 
+    std::mutex mutex;
+
+    enum class uniCyclePlannerState
+    {
+        Called,
+        Returned,
+        Running,
+    };
+
+    uniCyclePlannerState unicyclePlannerState{uniCyclePlannerState::Returned};
+
     std::future<bool> unicyclePlannerOutputFuture;
 
     struct ReferenceSignals
@@ -100,7 +112,23 @@ Planners::UnicycleTrajectoryGenerator::UnicycleTrajectoryGenerator()
     m_pImpl = std::make_unique<UnicycleTrajectoryGenerator::Impl>();
 }
 
-Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator() = default;
+Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator()
+{
+    m_pImpl->mutex.lock();
+    auto unicyclePlannerState = m_pImpl->unicyclePlannerState;
+    m_pImpl->mutex.unlock();
+
+    while (unicyclePlannerState != Impl::uniCyclePlannerState::Returned)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        log()->info("[UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator] Waiting for the "
+                    "unicycle planner to return.");
+        // m_pImpl->unicyclePlannerOutputFuture.get());
+        m_pImpl->mutex.lock();
+        unicyclePlannerState = m_pImpl->unicyclePlannerState;
+        m_pImpl->mutex.unlock();
+    }
+}
 
 bool Planners::UnicycleTrajectoryGenerator::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
@@ -389,6 +417,14 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                       : m_pImpl->input.w_H_leftFoot;
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
+            m_pImpl->mutex.lock();
+            if (m_pImpl->unicyclePlannerState == Impl::uniCyclePlannerState::Running)
+            {
+                log()->error("{} The unicycle planner is still running.", logPrefix);
+                return false;
+            }
+            m_pImpl->unicyclePlannerState = Impl::uniCyclePlannerState::Called;
+            m_pImpl->mutex.unlock();
 
             if (!m_pImpl->askNewTrajectory(initTimeTrajectory, measuredTransform))
             {
@@ -439,12 +475,17 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
         // advance the planner
-
+        mutex.lock();
+        unicyclePlannerState = uniCyclePlannerState::Running;
+        mutex.unlock();
         log()->info("[Async::thread] starting");
 
         bool ok = this->unicyclePlanner.advance();
 
         log()->info("[Async::thread] finished");
+        mutex.lock();
+        unicyclePlannerState = uniCyclePlannerState::Returned;
+        mutex.unlock();
 
         return ok;
     };
