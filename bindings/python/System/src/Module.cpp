@@ -26,9 +26,7 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "System module";
 
-    CreateSharedInputPort(module);
-    CreateSharedOutputPort(module);
-    CreateSharedSource(module);
+    CreateCommonDataStructure(module);
 
     CreateVariablesHandler(module);
     CreateLinearTask(module);
