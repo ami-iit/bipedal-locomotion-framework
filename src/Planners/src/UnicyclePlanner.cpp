@@ -402,33 +402,9 @@ bool Planners::UnicyclePlanner::advance()
         return false;
     }
 
-    log()->info("{} Advancing the planner.", logPrefix);
-
-    log()->info("{} m_pImpl pointer: {}",
-                logPrefix,
-                std::to_string(reinterpret_cast<std::uintptr_t>(m_pImpl.get())));
-    std::cout << "m_pImpl pointer: " << m_pImpl.get() << std::endl;
-
+    auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
     auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
 
-    log()->info("{} dcmGenerator pointer: {}",
-                logPrefix,
-                std::to_string(reinterpret_cast<std::uintptr_t>(dcmGenerator.get())));
-    std::cout << "dcmGenerator pointer: " << dcmGenerator.get() << std::endl;
-
-    log()->info("{} m_pImpl->input.initTime {}", logPrefix, m_pImpl->input.initTime);
-    log()->info("{} m_pImpl->parameters.dt {}", logPrefix, m_pImpl->parameters.dt);
-
-    log()->info("{} m_pImpl->state {}", logPrefix, static_cast<int>(m_pImpl->state));
-
-    auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
-
-    log()->info("{} unicyclePlanner pointer: {}",
-                logPrefix,
-                std::to_string(reinterpret_cast<std::uintptr_t>(unicyclePlanner.get())));
-    std::cout << "unicyclePlanner: " << unicyclePlanner.get() << std::endl;
-
-    // auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
     double initTime{m_pImpl->input.initTime};
     double dt{m_pImpl->parameters.dt};
 

@@ -119,15 +119,9 @@ Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator()
     auto unicyclePlannerState = m_pImpl->unicyclePlannerState;
     m_pImpl->mutex.unlock();
 
-    while (unicyclePlannerState != Impl::uniCyclePlannerState::Returned)
+    if (m_pImpl->unicyclePlannerState != Impl::uniCyclePlannerState::Returned)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        log()->info("[UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator] Waiting for the "
-                    "unicycle planner to return.");
-        // m_pImpl->unicyclePlannerOutputFuture.get());
-        m_pImpl->mutex.lock();
-        unicyclePlannerState = m_pImpl->unicyclePlannerState;
-        m_pImpl->mutex.unlock();
+        m_pImpl->unicyclePlannerOutputFuture.wait();
     }
 }
 
@@ -475,15 +469,13 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
 
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
-        // advance the planner
         mutex.lock();
         unicyclePlannerState = uniCyclePlannerState::Running;
         mutex.unlock();
-        log()->info("[Async::thread] starting");
 
+        // advance the planner
         bool ok = this->unicyclePlanner.advance();
 
-        log()->info("[Async::thread] finished");
         mutex.lock();
         unicyclePlannerState = uniCyclePlannerState::Returned;
         mutex.unlock();
@@ -504,18 +496,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     this->unicyclePlanner.setInput(unicyclePlannerInput);
 
     // create a new asynchronous thread to compute the new trajectory
-
-    // monitor the async thread spawning time
-    std::chrono::steady_clock::time_point tic = std::chrono::steady_clock::now();
-
     unicyclePlannerOutputFuture = std::async(std::launch::async, computeNewTrajectory);
-
-    auto toc = std::chrono::steady_clock::now();
-
-    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(toc - tic).count();
-    log()->info("{} The unicycle planner has been called. Elapsed time: {} [microseconds].",
-                logPrefix,
-                elapsed_time);
 
     return true;
 }
@@ -530,6 +511,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     // finished the computation
     if (!(state == Impl::FSM::NotInitialized))
     {
+        if (unicyclePlannerState != uniCyclePlannerState::Returned)
+        {
+            log()->error("{} The unicycle planner is still running.", logPrefix);
+            return false;
+        }
+
         if (unicyclePlannerOutputFuture.valid())
         {
             if (!unicyclePlannerOutputFuture.get())
