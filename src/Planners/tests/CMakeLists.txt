@@ -27,7 +27,7 @@ if (FRAMEWORK_COMPILE_Unicycle)
   add_bipedal_test(
     NAME UnicyclePlanner
     SOURCES UnicyclePlannerTest.cpp
-    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle
+    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle BipedalLocomotion::ParametersHandlerYarpImplementation
     )
 
 endif()

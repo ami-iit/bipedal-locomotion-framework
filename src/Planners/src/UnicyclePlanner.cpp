@@ -75,7 +75,7 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
     input.initTime = 0.0;
 
     input.measuredTransform = iDynTree::Transform::Identity();
-    input.measuredTransform.setPosition(iDynTree::Position(0.0, -0.085, 0.0));
+    input.measuredTransform.setPosition(iDynTree::Position(0.0, -0.01, 0.0));
 
     return input;
 }
@@ -318,42 +318,43 @@ bool Planners::UnicyclePlanner::initialize(
     // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
 
-    // auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
+    // debug information
+    auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
 
-    // for (const auto& step : leftSteps)
-    // {
-    //     BipedalLocomotion::log()->debug("Left step at initialization: position: {}, angle: {}, "
-    //                                     "impact time: {}",
-    //                                     step.position.toString(),
-    //                                     step.angle,
-    //                                     step.impactTime);
-    // }
+    for (const auto& step : leftSteps)
+    {
+        BipedalLocomotion::log()->debug("Left step at initialization: position: {}, angle: {}, "
+                                        "impact time: {}",
+                                        step.position.toString(),
+                                        step.angle,
+                                        step.impactTime);
+    }
 
-    // auto rightSteps = m_pImpl->generator.getRightFootPrint()->getSteps();
+    auto rightSteps = m_pImpl->generator.getRightFootPrint()->getSteps();
 
-    // for (const auto& step : rightSteps)
-    // {
-    //     BipedalLocomotion::log()->debug("Right step at initialization: position: {}, angle: {}, "
-    //                                     "impact time: {}",
-    //                                     step.position.toString(),
-    //                                     step.angle,
-    //                                     step.impactTime);
-    // }
+    for (const auto& step : rightSteps)
+    {
+        BipedalLocomotion::log()->debug("Right step at initialization: position: {}, angle: {}, "
+                                        "impact time: {}",
+                                        step.position.toString(),
+                                        step.angle,
+                                        step.impactTime);
+    }
 
-    // std::vector<StepPhase> leftPhases, rightPhases;
-    // m_pImpl->generator.getStepPhases(leftPhases, rightPhases);
+    std::vector<StepPhase> leftPhases, rightPhases;
+    m_pImpl->generator.getStepPhases(leftPhases, rightPhases);
 
-    // for (size_t i = 0; i < leftPhases.size(); i++)
-    // {
-    //     BipedalLocomotion::log()->debug("Left phase at initialization: {}",
-    //                                     static_cast<int>(leftPhases.at(i)));
-    // }
+    for (size_t i = 0; i < leftPhases.size(); i++)
+    {
+        BipedalLocomotion::log()->debug("Left phase at initialization: {}",
+                                        static_cast<int>(leftPhases.at(i)));
+    }
 
-    // for (size_t i = 0; i < rightPhases.size(); i++)
-    // {
-    //     BipedalLocomotion::log()->debug("Right phase at initialization: {}",
-    //                                     static_cast<int>(rightPhases.at(i)));
-    // }
+    for (size_t i = 0; i < rightPhases.size(); i++)
+    {
+        BipedalLocomotion::log()->debug("Right phase at initialization: {}",
+                                        static_cast<int>(rightPhases.at(i)));
+    }
 
     if (ok)
     {
