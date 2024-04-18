@@ -412,7 +412,7 @@ bool Planners::UnicyclePlanner::advance()
     // check if it is not the first run
     if (m_pImpl->state == Impl::FSM::Running)
     {
-        bool correctLeft{m_pImpl->input.isLeftLastSwinging};
+        bool correctLeft{!m_pImpl->input.isLeftLastSwinging};
 
         // compute end time of trajectory
         double endTime = initTime + m_pImpl->parameters.plannerHorizon;
