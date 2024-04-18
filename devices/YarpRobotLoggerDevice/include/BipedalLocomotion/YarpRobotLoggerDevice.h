@@ -53,6 +53,10 @@ public:
     virtual void run() final;
 
 private:
+    std::chrono::nanoseconds m_previousTimestamp;
+    std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
+    bool m_firstRun{true};
+
     using ft_t = Eigen::Matrix<double, 6, 1>;
     using gyro_t = Eigen::Matrix<double, 3, 1>;
     using accelerometer_t = Eigen::Matrix<double, 3, 1>;
