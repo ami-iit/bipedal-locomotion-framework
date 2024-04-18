@@ -26,3 +26,9 @@ add_bipedal_test(
   SOURCES MultiStateWeightProvider.cpp
   LINKS BipedalLocomotion::ContinuousDynamicalSystem
         BipedalLocomotion::TestUtils Eigen3::Eigen)
+
+add_bipedal_test(
+  NAME ButterworthLowPassFilterTest
+  SOURCES ButterworthLowPassFilter.cpp
+  LINKS BipedalLocomotion::ContinuousDynamicalSystem
+        Eigen3::Eigen)
