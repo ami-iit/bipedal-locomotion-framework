@@ -17,10 +17,12 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
                            ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h ${H_PREFIX}/RK4.h
                            ${H_PREFIX}/CompliantContactWrench.h
                            ${H_PREFIX}/MultiStateWeightProvider.h
+                           ${H_PREFIX}/ButterworthLowPassFilter.h
     PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
     SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemKinematics.cpp src/CompliantContactWrench.cpp
                            src/FloatingBaseDynamicsWithCompliantContacts.cpp src/FixedBaseDynamics.cpp src/CentroidalDynamics.cpp
                            src/FirstOrderSmoother.cpp src/MultiStateWeightProvider.cpp
+                           src/ButterworthLowPassFilter.cpp
     PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::ContactModels BipedalLocomotion::System
                            iDynTree::idyntree-high-level iDynTree::idyntree-model
                            Eigen3::Eigen BipedalLocomotion::TextLogging BipedalLocomotion::Math BipedalLocomotion::Contacts
