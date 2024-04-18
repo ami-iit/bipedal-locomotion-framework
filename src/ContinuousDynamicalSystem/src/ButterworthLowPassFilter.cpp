@@ -146,10 +146,10 @@ bool ButterworthLowPassFilter::initialize(
 
     // compute the poles and the gain of the continuous system
     m_pimpl->computePole();
-    
+
     // apply the bilinear transformation
     m_pimpl->bilinearTransformation();
-    
+
     // compute the coefficients of the discrete system
     m_pimpl->numerator = m_pimpl->computeVietaFormula(m_pimpl->discreteZeros);
     for (auto& element : m_pimpl->numerator)

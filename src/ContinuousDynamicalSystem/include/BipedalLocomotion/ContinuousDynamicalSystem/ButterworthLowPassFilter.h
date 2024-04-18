@@ -23,7 +23,7 @@ namespace ContinuousDynamicalSystem
 
 /**
  * ButterworthLowPass implements a low pass filter of order N.
- * 
+ *
  * The system is described by the following transfer function
  * \f[
  * H(s) = \frac{1}{\sqrt{1 + \left(\frac{s}{\omega_c}\right)^{2N}}}
@@ -79,7 +79,7 @@ namespace ContinuousDynamicalSystem
  * H(z) = \frac{a_n + a_{n-1} z^{-1} + \ldots + a_1 z^{-n+1} + a_0 z^{-n}}{1 + b_{n-1} z^{-1} + \ldots + b_1 z^{-n+1} + b_0 z^{-n}}
  * \f]
  * Once the numerator and the denominator are computed we can easily antitransform the transfer function
- * to obtain the coefficients of the filter as 
+ * to obtain the coefficients of the filter as
  * \[
  * y[k] = \frac{1}{b_0} \left( a_0 x[k] + a_1 x[k-1] + \ldots + a_n x[k-n] - b_1 y[k-1] - \ldots - b_n y[k-n] \right)
  * \]
