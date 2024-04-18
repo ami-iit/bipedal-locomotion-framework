@@ -26,14 +26,10 @@ namespace ContinuousDynamicalSystem
  * 
  * The system is described by the following transfer function
  * \f[
- * H(s) = \frac{1}{1 + \left(\frac{s}{\omega_c}\right)^{2N}}
+ * H(s) = \frac{1}{\sqrt{1 + \left(\frac{s}{\omega_c}\right)^{2N}}}
  * \f]
  * where \f$\omega_c\f$ is the cutoff frequency and \f$N\f$ is the order of the filter and \f$s\f$
- * is the Laplace variable. To implement the filter we use the bilinear transformation of the form
- * \f[
- * z = \frac{1 + s \delta t/2}{1 - s \delta t/2}
- * \f]
- * where \f$\delta t\f$ is the sampling time.
+ * is the Laplace variable.
  *
  * To compute the coefficient of the filter we split the problem in three steps:
  *  -# Compute the transfer function of the continuous system.
@@ -80,7 +76,7 @@ namespace ContinuousDynamicalSystem
  * filter by applying the [Vieta's formulas](https://en.wikipedia.org/wiki/Vieta%27s_formulas).
  * The transfer function of the discrete system is given by
  * \f[
- * H(z) = \frac{a_n + a_{n-1} z^{-1} + \ldots + a_1 z^{-n+1} + a_0 z^{-n}}{1 + b_{n-1} z^{-1} + \ldots + b_1 z^{-n+1} + b_0 z^{-n
+ * H(z) = \frac{a_n + a_{n-1} z^{-1} + \ldots + a_1 z^{-n+1} + a_0 z^{-n}}{1 + b_{n-1} z^{-1} + \ldots + b_1 z^{-n+1} + b_0 z^{-n}}
  * \f]
  * Once the numerator and the denominator are computed we can easily antitransform the transfer function
  * to obtain the coefficients of the filter as 
