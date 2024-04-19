@@ -717,6 +717,19 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         if (referenceSignals.mergePoints[0] == 0)
             referenceSignals.mergePoints.pop_front();
     }
+
+    // if the left foot is not in contact anymore the step is dropped
+    if (!referenceSignals.leftFootinContact.front())
+    {
+        referenceSignals.leftSteps.pop_front();
+    }
+
+    // if the right foot is not in contact anymore the step is dropped
+    if (!referenceSignals.rightFootinContact.front())
+    {
+        referenceSignals.rightSteps.pop_front();
+    }
+
     return true;
 }
 
