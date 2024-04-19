@@ -6,9 +6,9 @@
  */
 
 #include <pybind11/cast.h>
+#include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/eigen.h>
 
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
 
@@ -36,20 +36,19 @@ namespace bindings
 namespace System
 {
 
-
-void CreateSharedSource(pybind11::module& module)
-{
-    CreateSource<Eigen::VectorXd>(module, "VectorXd");
-}
-
-void CreateSharedInputPort(pybind11::module& module)
+void CreateCommonDataStructure(pybind11::module& module)
 {
     CreateInputPort<::BipedalLocomotion::System::EmptySignal>(module, "Empty");
-}
-
-void CreateSharedOutputPort(pybind11::module& module)
-{
+    CreateInputPort<::Eigen::VectorXd>(module, "VectorXd");
     CreateOutputPort<::BipedalLocomotion::System::EmptySignal>(module, "Empty");
+    CreateOutputPort<::Eigen::VectorXd>(module, "VectorXd");
+
+    CreateAdvanceableImpl<::BipedalLocomotion::System::EmptySignal, ::Eigen::VectorXd>(module, "EmptyVectorXd");
+    CreateAdvanceableImpl<::Eigen::VectorXd, ::BipedalLocomotion::System::EmptySignal>(module, "VectorXdEmpty");
+    CreateSourceImpl<::Eigen::VectorXd>(module, "VectorXd");
+    CreateSinkImpl<::Eigen::VectorXd>(module, "VectorXd");
+
+    CreateAdvanceableImpl<::Eigen::VectorXd, ::Eigen::VectorXd>(module, "VectorXd");
 }
 
 } // namespace System
