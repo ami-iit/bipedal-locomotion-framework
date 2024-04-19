@@ -258,6 +258,7 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
 const Planners::UnicycleTrajectoryGeneratorOutput&
 Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
+    constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
                                                  m_pImpl->output.dcmTrajectory.dcmPosition);
@@ -276,31 +277,50 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightAcceleration,
                                                  m_pImpl->output.comHeightTrajectory
                                                      .comHeightAcceleration);
-
     // get the contact phase list
     BipedalLocomotion::Contacts::ContactListMap ContactListMap;
+    BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
     std::vector<StepPhase> leftStepPhases;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftStepPhases,
                                                  leftStepPhases);
-    auto leftContactList
-        = Planners::Utilities::getContactList(m_pImpl->time,
-                                              m_pImpl->parameters.dt,
-                                              leftStepPhases,
-                                              m_pImpl->referenceSignals.leftSteps,
-                                              m_pImpl->parameters.leftContactFrameIndex,
-                                              "left_foot");
+
+    std::vector<bool> leftFootInContact;
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
+                                                 leftFootInContact);
+
+    if (!Planners::Utilities::getContactList(m_pImpl->time,
+                                             m_pImpl->parameters.dt,
+                                             leftFootInContact,
+                                             m_pImpl->referenceSignals.leftSteps,
+                                             m_pImpl->parameters.leftContactFrameIndex,
+                                             "left_foot",
+                                             leftContactList))
+    {
+
+        log()->error("{} Unable to get the contact list for the left foot.", logPrefix);
+        m_pImpl->output.isValid = false;
+    };
 
     std::vector<StepPhase> rightStepPhases;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightStepPhases,
                                                  rightStepPhases);
-    auto rightContactList
-        = Planners::Utilities::getContactList(m_pImpl->time,
-                                              m_pImpl->parameters.dt,
-                                              rightStepPhases,
-                                              m_pImpl->referenceSignals.rightSteps,
-                                              m_pImpl->parameters.rightContactFrameIndex,
-                                              "right_foot");
+
+    std::vector<bool> rightFootInContact;
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightFootinContact,
+                                                 rightFootInContact);
+
+    if (!Planners::Utilities::getContactList(m_pImpl->time,
+                                             m_pImpl->parameters.dt,
+                                             rightFootInContact,
+                                             m_pImpl->referenceSignals.rightSteps,
+                                             m_pImpl->parameters.rightContactFrameIndex,
+                                             "right_foot",
+                                             rightContactList))
+    {
+        log()->error("{} Unable to get the contact list for the right foot.", logPrefix);
+        m_pImpl->output.isValid = false;
+    };
 
     ContactListMap["left_foot"] = leftContactList;
     ContactListMap["right_foot"] = rightContactList;
@@ -311,7 +331,7 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
 bool Planners::UnicycleTrajectoryGenerator::isOutputValid() const
 {
-    return m_pImpl->state == Impl::FSM::Running;
+    return (m_pImpl->state == Impl::FSM::Running) && (m_pImpl->output.isValid);
 }
 
 bool Planners::UnicycleTrajectoryGenerator::setInput(const UnicycleTrajectoryGeneratorInput& input)
@@ -474,6 +494,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::askForNewTrajectory]";
 
+    log()->info("{} Asking for a new trajectory.", logPrefix);
+
+    log()->info("{} isLeftLasSwinging. {}",
+                logPrefix,
+                referenceSignals.isLeftFootLastSwinging.front());
+
     auto mergePoint = newTrajectoryMergeCounter;
 
     if (mergePoint >= referenceSignals.dcmPosition.size())
@@ -521,6 +547,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 {
 
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::mergeTrajectories]";
+
+    log()->info("{} Merging trajectories at mergepoint {}", logPrefix, mergePoint);
 
     // if unicycle trajectory generator has been initialized, check if the unicycle planner has
     // finished the computation
@@ -699,6 +727,10 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
     UnicyclePlannerInput unicyclePlannerInput;
     unicyclePlannerInput.initTime = m_pImpl->time;
+
+    log()->info("{} Generating the first trajectory. isLeftLastSwinging = {}",
+                logPrefix,
+                unicyclePlannerInput.isLeftLastSwinging);
 
     if (!m_pImpl->unicyclePlanner.setInput(unicyclePlannerInput))
     {

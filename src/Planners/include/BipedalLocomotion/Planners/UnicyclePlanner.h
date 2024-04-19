@@ -201,12 +201,14 @@ private:
 
 namespace BipedalLocomotion::Planners::Utilities
 {
-BipedalLocomotion::Contacts::ContactList getContactList(const double initTime,
-                                                        const double dt,
-                                                        const std::vector<StepPhase>& stepPhases,
-                                                        const std::deque<Step>& steps,
-                                                        const int contactFrameIndex,
-                                                        const std::string& contactName);
+bool getContactList(
+    const double initTime,
+    const double dt,
+    const std::vector<bool>& inContact,
+    const std::deque<Step>& steps,
+    const int contactFrameIndex,
+    const std::string& contactName,
+    BipedalLocomotion::Contacts::ContactList& contactList);
 }; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H

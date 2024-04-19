@@ -12,6 +12,7 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <cmath>
+#include <cstddef>
 #include <iDynTree/Position.h>
 #include <mutex>
 #include <yarp/os/RFModule.h>
@@ -539,21 +540,31 @@ bool Planners::UnicyclePlanner::advance()
     auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
     auto rightSteps = m_pImpl->generator.getRightFootPrint()->getSteps();
 
-    auto leftContactList
-        = Planners::Utilities::getContactList(initTime,
-                                              dt,
-                                              leftStepPhases,
-                                              leftSteps,
-                                              m_pImpl->parameters.leftContactFrameIndex,
-                                              "left_foot");
+    BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
-    auto rightContactList
-        = Planners::Utilities::getContactList(initTime,
-                                              dt,
-                                              rightStepPhases,
-                                              rightSteps,
-                                              m_pImpl->parameters.rightContactFrameIndex,
-                                              "right_foot");
+    if (!Planners::Utilities::getContactList(initTime,
+                                             dt,
+                                             leftFootInContact,
+                                             leftSteps,
+                                             m_pImpl->parameters.leftContactFrameIndex,
+                                             "left_foot",
+                                             leftContactList))
+    {
+        log()->error("{} Error while getting the left contact list.", logPrefix);
+        return false;
+    };
+
+    if (!Planners::Utilities::getContactList(initTime,
+                                             dt,
+                                             rightFootInContact,
+                                             rightSteps,
+                                             m_pImpl->parameters.rightContactFrameIndex,
+                                             "right_foot",
+                                             rightContactList))
+    {
+        log()->error("{} Error while getting the right contact list.", logPrefix);
+        return false;
+    };
 
     ContactListMap["left_foot"] = leftContactList;
     ContactListMap["right_foot"] = rightContactList;
@@ -653,18 +664,21 @@ bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
     return true;
 }
 
-BipedalLocomotion::Contacts::ContactList
-BipedalLocomotion::Planners::Utilities::getContactList(const double initTime,
-                                                       const double dt,
-                                                       const std::vector<StepPhase>& stepPhases,
-                                                       const std::deque<Step>& steps,
-                                                       const int contactFrameIndex,
-                                                       const std::string& contactName)
+bool BipedalLocomotion::Planners::Utilities::getContactList(
+    const double initTime,
+    const double dt,
+    const std::vector<bool>& inContact,
+    const std::deque<Step>& steps,
+    const int contactFrameIndex,
+    const std::string& contactName,
+    BipedalLocomotion::Contacts::ContactList& contactList)
 {
-    BipedalLocomotion::Contacts::ContactList contactList;
+    constexpr auto logPrefix = "[UnicyclePlanner::Utilities::getContactList]";
 
-    size_t timeIndex{1};
+    size_t impactTimeIndex{0};
     auto stepIterator = steps.begin();
+
+    log()->info("{} steps.size = {}", logPrefix, steps.size());
 
     while (stepIterator != steps.end())
     {
@@ -684,22 +698,44 @@ BipedalLocomotion::Planners::Utilities::getContactList(const double initTime,
             step.impactTime * std::chrono::seconds(1));
         contact.deactivationTime = std::chrono::nanoseconds::max();
 
-        for (auto t = timeIndex; t < stepPhases.size(); t++)
-        {
-            if ((stepPhases.at(t) == StepPhase::Swing)
-                && (stepPhases.at(t - 1) == StepPhase::SwitchOut))
-            {
-                contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    (initTime + dt * (t - 1)) * std::chrono::seconds(1));
+        impactTimeIndex = static_cast<int>(step.impactTime / dt);
 
-                timeIndex += (t + 1);
+        log()->info("{} step.impactTime = {}", logPrefix, step.impactTime);
+
+        for (auto i = impactTimeIndex; i < inContact.size(); i++)
+        {
+            if (i > 0 && !inContact.at(i) && inContact.at(i - 1))
+            {
+                log()->info("{} time_index = {}, inContact now = {}, inContact before = {}",
+                            logPrefix,
+                            impactTimeIndex,
+                            inContact.at(i),
+                            inContact.at(i - 1));
+                contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    (initTime + dt * i) * std::chrono::seconds(1));
+
                 break;
             }
         }
 
-        contactList.addContact(contact);
+        log()->info("{} Contact: name = {}, index = {}, position = {}, activationTime = {}, "
+                    "deactivationTime = {}",
+                    logPrefix,
+                    contact.name,
+                    contact.index,
+                    contact.pose.translation().transpose(),
+                    contact.activationTime.count(),
+                    contact.deactivationTime.count());
+
+        if (!contactList.addContact(contact))
+        {
+            BipedalLocomotion::log()->error("{} Error while adding contact to the contact list.",
+                                            logPrefix);
+
+            return false;
+        }
         stepIterator++;
     };
 
-    return contactList;
+    return true;
 };
