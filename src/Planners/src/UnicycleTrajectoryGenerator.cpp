@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <StepPhase.h>
+#include <chrono>
 #include <cmath>
 #include <cstddef>
 #include <deque>
@@ -105,6 +106,17 @@ public:
     bool mergeTrajectories(const size_t& mergePoint);
 
     bool advanceTrajectory();
+
+    /*
+     * @brief It resets <currentContactList> to an empty contact list. Then, if it exists, the
+     * current active contact found in <previousContactList> is added to <currentContactList>.
+     * @param time The current time.
+     * @param previousContactList The previous contact list, computed at last iteration.
+     * @param currentContactList The current contact list, being generated.
+     */
+    static void resetContactList(const double& time,
+                                 const Contacts::ContactList& previousContactList,
+                                 Contacts::ContactList& currentContactList);
 };
 
 Planners::UnicycleTrajectoryGenerator::UnicycleTrajectoryGenerator()
@@ -277,10 +289,22 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightAcceleration,
                                                  m_pImpl->output.comHeightTrajectory
                                                      .comHeightAcceleration);
-    // get the contact phase list
-    BipedalLocomotion::Contacts::ContactListMap ContactListMap;
+    // instatiate variables for the contact phase lists
+    BipedalLocomotion::Contacts::ContactListMap contactListMap;
     BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
+    // reset the contact lists
+    if (!m_pImpl->output.ContactPhaseList.lists().empty())
+    {
+        m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
+                                  m_pImpl->output.ContactPhaseList.lists().at("left_foot"),
+                                  leftContactList);
+        m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
+                                  m_pImpl->output.ContactPhaseList.lists().at("right_foot"),
+                                  rightContactList);
+    }
+
+    // get the lift contact phase list
     std::vector<StepPhase> leftStepPhases;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftStepPhases,
                                                  leftStepPhases);
@@ -302,6 +326,9 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
         m_pImpl->output.isValid = false;
     };
 
+    contactListMap["left_foot"] = leftContactList;
+
+    // get the right contact phase list
     std::vector<StepPhase> rightStepPhases;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightStepPhases,
                                                  rightStepPhases);
@@ -322,9 +349,9 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
         m_pImpl->output.isValid = false;
     };
 
-    ContactListMap["left_foot"] = leftContactList;
-    ContactListMap["right_foot"] = rightContactList;
-    m_pImpl->output.ContactPhaseList.setLists(ContactListMap);
+    contactListMap["right_foot"] = rightContactList;
+
+    m_pImpl->output.ContactPhaseList.setLists(contactListMap);
 
     return m_pImpl->output;
 }
@@ -758,4 +785,26 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
     }
 
     return true;
+}
+
+void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
+    const double& time,
+    const Contacts::ContactList& previousContactList,
+    Contacts::ContactList& currentContactList)
+{
+    currentContactList.clear();
+
+    if (previousContactList.size() == 0)
+    {
+        return;
+    }
+
+    auto presentContact = previousContactList.getPresentContact(
+        std::chrono::milliseconds(static_cast<int>(time * 1000)));
+
+    // Is contact present at the current time?
+    if (!(presentContact == previousContactList.end()))
+    {
+        currentContactList.addContact(*presentContact);
+    }
 }

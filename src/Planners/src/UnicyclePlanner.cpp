@@ -13,6 +13,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <elf.h>
 #include <iDynTree/Position.h>
 #include <mutex>
 #include <yarp/os/RFModule.h>
@@ -675,10 +676,14 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
 {
     constexpr auto logPrefix = "[UnicyclePlanner::Utilities::getContactList]";
 
+    if (contactList.size() > 1)
+    {
+        BipedalLocomotion::log()->error("{} The contact list has size greater than 1.", logPrefix);
+        return false;
+    }
+
     size_t impactTimeIndex{0};
     auto stepIterator = steps.begin();
-
-    log()->info("{} steps.size = {}", logPrefix, steps.size());
 
     while (stepIterator != steps.end())
     {
@@ -698,7 +703,9 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
             step.impactTime * std::chrono::seconds(1));
         contact.deactivationTime = std::chrono::nanoseconds::max();
 
-        impactTimeIndex = static_cast<int>(step.impactTime / dt);
+        impactTimeIndex = (step.impactTime - initTime <= 0)
+                              ? 0
+                              : static_cast<int>((step.impactTime - initTime) / dt);
 
         log()->info("{} step.impactTime = {}", logPrefix, step.impactTime);
 
@@ -727,13 +734,33 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
                     contact.activationTime.count(),
                     contact.deactivationTime.count());
 
-        if (!contactList.addContact(contact))
+        if ((stepIterator == steps.begin()) && (contactList.size() == 1) && (impactTimeIndex == 0))
         {
-            BipedalLocomotion::log()->error("{} Error while adding contact to the contact list.",
-                                            logPrefix);
+            // skip the first step if the contact list is not empty
+            // since the first contact, being the current active one,
+            // is already in the contact list
+            log()->info("{} Editing the first step.", logPrefix);
 
-            return false;
+            if (!contactList.editContact(contactList.begin(), contact))
+            {
+                BipedalLocomotion::log()->error("{} Error while editing the first contact of the "
+                                                "contact list.",
+                                                logPrefix);
+
+                return false;
+            }
+        } else
+        {
+            if (!contactList.addContact(contact))
+            {
+                BipedalLocomotion::log()->error("{} Error while adding contact to the contact "
+                                                "list.",
+                                                logPrefix);
+
+                return false;
+            }
         }
+
         stepIterator++;
     };
 
