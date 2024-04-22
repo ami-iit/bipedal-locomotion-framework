@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
     auto timeStart = BipedalLocomotion::clock().now();
 
     // final time of the simulation
-    auto timeEnd = timeStart + std::chrono::seconds(2);
+    auto timeEnd = timeStart + std::chrono::seconds(20);
 
     while (BipedalLocomotion::clock().now() < timeEnd)
     {
