@@ -678,7 +678,9 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
 
     if (contactList.size() > 1)
     {
-        BipedalLocomotion::log()->error("{} The contact list has size greater than 1.", logPrefix);
+        BipedalLocomotion::log()->error("{} The contact list has size greater than 1. Size should "
+                                        "be 0 or 1.",
+                                        logPrefix);
         return false;
     }
 
@@ -707,17 +709,10 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
                               ? 0
                               : static_cast<int>((step.impactTime - initTime) / dt);
 
-        log()->info("{} step.impactTime = {}", logPrefix, step.impactTime);
-
         for (auto i = impactTimeIndex; i < inContact.size(); i++)
         {
             if (i > 0 && !inContact.at(i) && inContact.at(i - 1))
             {
-                log()->info("{} time_index = {}, inContact now = {}, inContact before = {}",
-                            logPrefix,
-                            impactTimeIndex,
-                            inContact.at(i),
-                            inContact.at(i - 1));
                 contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
                     (initTime + dt * i) * std::chrono::seconds(1));
 
@@ -725,21 +720,11 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
             }
         }
 
-        log()->info("{} Contact: name = {}, index = {}, position = {}, activationTime = {}, "
-                    "deactivationTime = {}",
-                    logPrefix,
-                    contact.name,
-                    contact.index,
-                    contact.pose.translation().transpose(),
-                    contact.activationTime.count(),
-                    contact.deactivationTime.count());
-
         if ((stepIterator == steps.begin()) && (contactList.size() == 1) && (impactTimeIndex == 0))
         {
-            // skip the first step if the contact list is not empty
+            // editing the first step if the contact list is not empty
             // since the first contact, being the current active one,
             // is already in the contact list
-            log()->info("{} Editing the first step.", logPrefix);
 
             if (!contactList.editContact(contactList.begin(), contact))
             {

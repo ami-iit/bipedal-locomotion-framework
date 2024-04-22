@@ -521,11 +521,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::askForNewTrajectory]";
 
-    log()->info("{} Asking for a new trajectory.", logPrefix);
-
-    log()->info("{} isLeftLasSwinging. {}",
-                logPrefix,
-                referenceSignals.isLeftFootLastSwinging.front());
+    log()->debug("{} Asking for a new trajectory.", logPrefix);
 
     auto mergePoint = newTrajectoryMergeCounter;
 
@@ -575,7 +571,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::mergeTrajectories]";
 
-    log()->info("{} Merging trajectories at mergepoint {}", logPrefix, mergePoint);
+    log()->debug("{} Merging trajectories at mergepoint {}", logPrefix, mergePoint);
 
     // if unicycle trajectory generator has been initialized, check if the unicycle planner has
     // finished the computation
@@ -770,9 +766,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
     UnicyclePlannerInput unicyclePlannerInput;
     unicyclePlannerInput.initTime = m_pImpl->time;
 
-    log()->info("{} Generating the first trajectory. isLeftLastSwinging = {}",
-                logPrefix,
-                unicyclePlannerInput.isLeftLastSwinging);
+    log()->debug("{} Generating the first trajectory.", logPrefix);
 
     if (!m_pImpl->unicyclePlanner.setInput(unicyclePlannerInput))
     {
