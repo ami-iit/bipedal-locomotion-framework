@@ -701,9 +701,11 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         return false;
     }
 
+    bool rightWasInContact = referenceSignals.rightFootinContact.front();
     referenceSignals.rightFootinContact.pop_front();
     referenceSignals.rightFootinContact.push_back(referenceSignals.rightFootinContact.back());
 
+    bool leftWasInContact = referenceSignals.leftFootinContact.front();
     referenceSignals.leftFootinContact.pop_front();
     referenceSignals.leftFootinContact.push_back(referenceSignals.leftFootinContact.back());
 
@@ -745,14 +747,14 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
             referenceSignals.mergePoints.pop_front();
     }
 
-    // if the left foot is not in contact anymore the step is dropped
-    if (!referenceSignals.leftFootinContact.front())
+    // if the left foot is leaving the contact, the step is dropped
+    if (leftWasInContact && !referenceSignals.leftFootinContact.front())
     {
         referenceSignals.leftSteps.pop_front();
     }
 
-    // if the right foot is not in contact anymore the step is dropped
-    if (!referenceSignals.rightFootinContact.front())
+    // if the right foot is leaving the contact, the step is dropped
+    if (rightWasInContact && !referenceSignals.rightFootinContact.front())
     {
         referenceSignals.rightSteps.pop_front();
     }
