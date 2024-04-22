@@ -1,0 +1,12 @@
+include_directories(include)
+
+add_executable(unicycleTrajectoryGeneratorExample UnicycleTrajectoryGenerator/main.cpp)
+
+target_link_libraries(unicycleTrajectoryGeneratorExample 
+BipedalLocomotion::Unicycle 
+BipedalLocomotion::SystemYarpImplementation 
+BipedalLocomotion::ParametersHandlerYarpImplementation 
+BipedalLocomotion::Planners
+${YARP_LIBRARIES}
+)
+
