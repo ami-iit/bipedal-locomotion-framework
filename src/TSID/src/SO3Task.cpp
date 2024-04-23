@@ -182,9 +182,9 @@ bool SO3Task::update()
 
     m_SO3Controller.computeControlLaw();
 
-
+    m_controllerOutput = m_SO3Controller.getControl().coeffs();
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).tail<3>();
-    m_b += m_SO3Controller.getControl().coeffs();
+    m_b += m_controllerOutput;
 
     if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
     {
@@ -223,4 +223,9 @@ SO3Task::Type SO3Task::type() const
 bool SO3Task::isValid() const
 {
     return m_isValid;
+}
+
+Eigen::Ref<const Eigen::Vector3d> SO3Task::getControllerOutput() const
+{
+    return m_controllerOutput;
 }

@@ -49,8 +49,10 @@ class SO3Task : public TSIDLinearTask
 
     iDynTree::FrameIndex m_frameIndex; /**< Frame controlled by the task */
 
-    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector. */
-    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
+    static constexpr std::size_t m_angularVelocitySize{3}; /**< Size of the angular velocity vector.
+                                                            */
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector.
+                                                            */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -59,8 +61,10 @@ class SO3Task : public TSIDLinearTask
                                                                object */
 
     Eigen::MatrixXd m_jacobian; /**< Jacobian of the frame expressed in mixed representation */
+    Eigen::Vector3d m_controllerOutput; /**< Output of the controller */
 
 public:
+    // clang-format off
     /**
      * Initialize the SO3Task.
      * @param paramHandler pointer to the parameters handler.
@@ -74,6 +78,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the kinDynComputations object.
@@ -131,6 +136,13 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Get the controller output.
+     * @note the value of the controller output is changed by the update method.
+     * @return a const reference to the controller output.
+     */
+    Eigen::Ref<const Eigen::Vector3d> getControllerOutput() const;
 };
 
 BLF_REGISTER_TSID_TASK(SO3Task);

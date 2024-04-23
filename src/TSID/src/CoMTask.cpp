@@ -130,7 +130,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     std::string maskDescription = "";
     auto boolToString = [](bool b) { return b ? " true" : " false"; };
-    for(const auto flag : m_mask)
+    for (const auto flag : m_mask)
     {
         maskDescription += boolToString(flag);
     }
@@ -142,8 +142,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                     errorPrefix,
                     m_description,
                     maskDescription);
-    }
-    else
+    } else
     {
         // convert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
@@ -152,7 +151,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
         // Update the mask description
         maskDescription.clear();
-        for(const auto flag : m_mask)
+        for (const auto flag : m_mask)
         {
             maskDescription += boolToString(flag);
         }
@@ -178,9 +177,10 @@ bool CoMTask::update()
 
     // update the controller
     m_R3Controller.computeControlLaw();
+    m_controllerOutput = m_R3Controller.getControl().coeffs();
 
-    Eigen::Vector3d bFullDof = m_R3Controller.getControl().coeffs()
-        - iDynTree::toEigen(m_kinDyn->getCenterOfMassBiasAcc());
+    Eigen::Vector3d bFullDof = m_controllerOutput //
+                               - iDynTree::toEigen(m_kinDyn->getCenterOfMassBiasAcc());
 
     // if we want to control all 3 DoF we avoid to lose performances
     if (m_DoFs == m_linearVelocitySize)
@@ -242,4 +242,9 @@ CoMTask::Type CoMTask::type() const
 bool CoMTask::isValid() const
 {
     return m_isValid;
+}
+
+Eigen::Ref<const Eigen::Vector3d> CoMTask::getControllerOutput() const
+{
+    return m_controllerOutput;
 }

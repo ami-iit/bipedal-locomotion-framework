@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TSID/VariableRegularizationTask.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/TSID/VariableRegularizationTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/EigenHelpers.h>
@@ -165,8 +165,7 @@ bool VariableRegularizationTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> s
 std::size_t VariableRegularizationTask::size() const
 {
     constexpr auto errorMessage = "[VariableRegularizationTask::size] Please call initialize "
-                                  "method before. "
-                                  "A size equal to zero will be returned.";
+                                  "method before. A size equal to zero will be returned.";
 
     if (!m_isInitialized)
     {

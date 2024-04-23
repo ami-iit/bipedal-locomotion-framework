@@ -44,6 +44,8 @@ struct QPTSID::Impl
     std::size_t numberOfConstraints;
 
     bool isVerbose{false};
+    double sparseViewEpsilon{Eigen::NumTraits<double>::dummy_precision()};
+    double sparseViewReference{0};
 
     bool isFirstIteration{true};
     bool isValid{false};
@@ -68,9 +70,11 @@ struct QPTSID::Impl
     bool initializeSolver()
     {
         constexpr auto logPrefix = "[QPTSID::Impl::initializeSolver]";
-
         // Hessian matrix
-        Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
+        Eigen::SparseMatrix<double> hessianSparse
+            = this->hessian.sparseView(this->sparseViewReference, //
+                                       this->sparseViewEpsilon);
+
         if (!this->solver.data()->setHessianMatrix(hessianSparse))
         {
             log()->error("{} Unable to set the hessian matrix.", logPrefix);
@@ -78,7 +82,7 @@ struct QPTSID::Impl
         }
 
         // gradient
-        if (!this->solver.data()->setGradient(gradient))
+        if (!this->solver.data()->setGradient(this->gradient))
         {
             log()->error("{} Unable to set the gradient vector.", logPrefix);
             return false;
@@ -88,7 +92,8 @@ struct QPTSID::Impl
         if (this->numberOfConstraints > 0)
         {
             Eigen::SparseMatrix<double> constraintsMatrixSparse
-                = this->constraintMatrix.sparseView();
+                = this->constraintMatrix.sparseView(this->sparseViewReference, //
+                                                    this->sparseViewEpsilon);
             if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
             {
                 log()->error("{} Unable to set the constraint matrix.", logPrefix);
@@ -115,7 +120,10 @@ struct QPTSID::Impl
     {
         constexpr auto logPrefix = "[QPTSID::Impl::updateSolver]";
         // Hessian matrix
-        Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
+        Eigen::SparseMatrix<double> hessianSparse
+            = this->hessian.sparseView(this->sparseViewReference, //
+                                       this->sparseViewEpsilon);
+
         if (!this->solver.updateHessianMatrix(hessianSparse))
         {
             log()->error("{} Unable to set the hessian matrix.", logPrefix);
@@ -137,7 +145,10 @@ struct QPTSID::Impl
 
         // In this case the number of constraints is not equal to zero. We need to update the
         // constraint matrix and the bounds.
-        Eigen::SparseMatrix<double> constraintsMatrixSparse = this->constraintMatrix.sparseView();
+        Eigen::SparseMatrix<double> constraintsMatrixSparse
+            = this->constraintMatrix.sparseView(this->sparseViewReference, //
+                                                this->sparseViewEpsilon);
+
         if (!this->solver.updateLinearConstraintsMatrix(constraintsMatrixSparse))
         {
             log()->error("{} Unable to set the constraint matrix.", logPrefix);
@@ -371,6 +382,19 @@ bool QPTSID::initialize(std::weak_ptr<const ParametersHandler::IParametersHandle
         log()->info("{} 'verbosity' not found. The following parameter will be used '{}'.",
                     logPrefix,
                     m_pimpl->isVerbose);
+    }
+
+    if (!ptr->getParameter("sparse_epsilon", m_pimpl->sparseViewEpsilon))
+    {
+        log()->info("{} 'sparse_epsilon' not found. The following parameter will be used '{}'.",
+                    logPrefix,
+                    m_pimpl->sparseViewEpsilon);
+    }
+    if (!ptr->getParameter("sparse_reference", m_pimpl->sparseViewReference))
+    {
+        log()->info("{} 'sparse_reference' not found. The following parameter will be used '{}'.",
+                    logPrefix,
+                    m_pimpl->sparseViewReference);
     }
 
     if (!ptr->getParameter("robot_acceleration_variable_name",
@@ -673,7 +697,8 @@ std::string QPTSID::toString() const
         oss << "\t - " << name << ": " << task.task->getDescription()
             << " Priority: " << task.priority << "." << std::endl;
     }
-    oss << "Note: The lower is the integer associated to the priority, the higher is the priority."
+    oss << "Note: The lower is the integer associated to the priority, the higher is the "
+           "priority."
         << std::endl
         << "==========================" << std::endl;
 
@@ -709,8 +734,8 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
 
     if (!solver->initialize(ptr->getGroup("TSID")))
     {
-        log()->error("{} Unable to initialize the TSID solver. Looking for a parameter group named "
-                     "TSID.",
+        log()->error("{} Unable to initialize the TSID solver. Looking for a parameter group "
+                     "named TSID.",
                      logPrefix);
         return TaskSpaceInverseDynamicsProblem();
     }
@@ -767,8 +792,8 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
 
         if (!taskInstance->setKinDyn(kinDyn))
         {
-            log()->error("{} Unable to set the kinDynComputations object for the task in the group "
-                         "'{}'.",
+            log()->error("{} Unable to set the kinDynComputations object for the task in the "
+                         "group '{}'.",
                          logPrefix,
                          taskGroupName);
             return TaskSpaceInverseDynamicsProblem();
@@ -776,7 +801,7 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
 
         if (!taskInstance->initialize(taskGroup))
         {
-            log()->error("{} Unable to task named '{}'.", logPrefix, taskGroupName);
+            log()->error("{} Unable to initialize task named '{}'.", logPrefix, taskGroupName);
             return TaskSpaceInverseDynamicsProblem();
         }
 
@@ -792,8 +817,8 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
 
         if (priority != 0 && priority != 1)
         {
-            log()->error("{} Invalid priority provided for the task named '{}'. For the time being "
-                         "we support only priority equal to 0 or 1.",
+            log()->error("{} Invalid priority provided for the task named '{}'. For the time "
+                         "being we support only priority equal to 0 or 1.",
                          logPrefix,
                          taskGroupName);
             return TaskSpaceInverseDynamicsProblem();
@@ -804,9 +829,8 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
             std::string weightProviderType = "ConstantWeightProvider";
             if (!taskGroup->getParameter("weight_provider_type", weightProviderType))
             {
-                log()->warn("{} Unable to get the parameter 'weight_provider_type' for the task "
-                            "in the group "
-                            "'{}'. The default one will be used. Default: '{}'.",
+                log()->warn("{} Unable to get the parameter 'weight_provider_type' for the "
+                            "task in the group '{}'. The default one will be used. Default: '{}'.",
                             logPrefix,
                             taskGroupName,
                             weightProviderType);
@@ -826,8 +850,7 @@ QPTSID::build(std::weak_ptr<const ParametersHandler::IParametersHandler> handler
             if (!weightProvider->initialize(taskGroup))
             {
                 log()->error("{} Unable to initialize the weight provider for the task in the "
-                             "group "
-                             "'{}'.",
+                             "group '{}'.",
                              logPrefix,
                              taskGroupName);
                 return TaskSpaceInverseDynamicsProblem();

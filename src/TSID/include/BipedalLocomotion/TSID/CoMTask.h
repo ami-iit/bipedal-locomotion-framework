@@ -48,8 +48,10 @@ class CoMTask : public TSIDLinearTask
                                                                                   robot acceleration
                                                                                   (base + joint) */
 
-    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
-    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector.*/
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector.
+                                                           */
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity
+                                                              vector.*/
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -61,8 +63,10 @@ class CoMTask : public TSIDLinearTask
     std::array<bool, m_linearVelocitySize> m_mask{true, true, true};
     std::size_t m_DoFs{m_linearVelocitySize}; /**< DoFs associated to the task */
     Eigen::MatrixXd m_jacobian; /**< CoM Jacobian matrix in MIXED representation */
-public:
+    Eigen::Vector3d m_controllerOutput; /**< Controller output */
 
+public:
+    // clang-format off
     /**
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
@@ -79,6 +83,7 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the kinDynComputations object.
@@ -134,6 +139,13 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Get the controller output.
+     * @note the value of the controller output is changed by the update method.
+     * @return a const reference to the controller output.
+     */
+    Eigen::Ref<const Eigen::Vector3d> getControllerOutput() const;
 };
 
 BLF_REGISTER_TSID_TASK(CoMTask);
