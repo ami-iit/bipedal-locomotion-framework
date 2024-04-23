@@ -290,6 +290,18 @@ struct CentroidalMPC::Impl
 
     std::unordered_map<std::string, ContactBoundingBox> contactBoundingBoxes;
 
+    struct CoMLimits
+    {
+        int cbfHorizon{0};
+        double cbfGain{0.0};
+        double cbfMultiplier{0.0};
+        double zMin{0.0};
+        double zMax{0.0};
+        bool enableZLimit{false};
+    };
+
+    CoMLimits comLimits;
+
     bool loadContactCorners(std::shared_ptr<const ParametersHandler::IParametersHandler> ptr,
                             DiscreteGeometryContact& contact)
     {
@@ -425,10 +437,68 @@ struct CentroidalMPC::Impl
         // initialize the friction cone
         ok = ok && frictionCone.initialize(ptr);
         ok = ok && getParameter(ptr, "solver_name", this->optiSettings.solverName);
+        ok = ok && getParameter(ptr, "enable_z_limit", this->comLimits.enableZLimit);
+
         if (!ok)
         {
             return false;
         }
+
+        if (this->comLimits.enableZLimit)
+        {
+            if (!getParameter(ptr, "com_z_min", this->comLimits.zMin))
+            {
+                return false;
+            }
+            if (!getParameter(ptr, "com_z_max", this->comLimits.zMax))
+            {
+                return false;
+            }
+
+            if (this->comLimits.zMin > this->comLimits.zMax)
+            {
+                log()->error("{} The minimum value of the CoM z limit is greater than the maximum "
+                             "value. The minimum value is {} and the maximum value is {}.",
+                             logPrefix,
+                             this->comLimits.zMin,
+                             this->comLimits.zMax);
+                return false;
+            }
+
+            if (!getParameter(ptr, "cbf_horizon", this->comLimits.cbfHorizon))
+            {
+                return false;
+            }
+
+            if (!getParameter(ptr, "cbf_gain", this->comLimits.cbfGain))
+            {
+                return false;
+            }
+
+            if (!getParameter(ptr, "cbf_multiplier", this->comLimits.cbfMultiplier))
+            {
+                return false;
+            }
+
+            // cbf gain and multiplier must be positive and lower than 1
+            if (this->comLimits.cbfGain < 0 || this->comLimits.cbfGain > 1)
+            {
+                log()->error("{} The gain of the CoM z limit is negative or greater than 1. The gain "
+                             "is {}.",
+                             logPrefix,
+                             this->comLimits.cbfGain);
+                return false;
+            }
+
+            if (this->comLimits.cbfHorizon < 0)
+            {
+                log()->error("{} The horizon of the CoM z limit is negative. The horizon is {}.",
+                             logPrefix,
+                             this->comLimits.cbfHorizon);
+                return false;
+            }
+        }
+
         if (this->optiSettings.solverName != "ipopt" && this->optiSettings.solverName != "sqp")
         {
             log()->error("{} The solver name '{}' is not supported. The supported solvers are "
@@ -907,20 +977,17 @@ struct CentroidalMPC::Impl
         this->opti.subject_to(extractFutureValuesFromState(dcom) == fullTrajectory[1]);
         this->opti.subject_to(extractFutureValuesFromState(angularMomentum) == fullTrajectory[2]);
 
-        // double z_min = 0.68;
-        // double z_max = 0.705;
-
-        // // we define the following controller barrier function for the first
-        // // auto b_x_1 = -2 / ((com(2, 1) - z_min) * (-z_max + com(2, 1)));
-        // // auto b_x_0 = -2 / ((com(2, 0) - z_min) * (-z_max + com(2, 0)));
-
-        // double gamma = 0.6;
-
-        // auto h = -0.5 * (com(2, Sl()) - z_min) * (-z_max + com(2, Sl()));
-        // for (int i = 0; i < 1; i++)
-        // {
-        //     this->opti.subject_to(h(i + 1) + (gamma - 1) * h(i) >= 0);
-        // }
+        if (this->comLimits.enableZLimit)
+        {
+            auto h = -this->comLimits.cbfMultiplier * (com(2, Sl()) - this->comLimits.zMin)
+                     * (com(2, Sl()) - this->comLimits.zMax);
+            for (int i = 0;
+                 i < std::min(this->comLimits.cbfHorizon, this->optiSettings.horizon);
+                 i++)
+            {
+                this->opti.subject_to(h(i + 1) + (this->comLimits.cbfGain - 1) * h(i) >= 0);
+            }
+        }
 
         // footstep dynamics
         std::size_t contactIndex = 0;
