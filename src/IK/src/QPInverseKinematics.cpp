@@ -109,13 +109,13 @@ struct QPInverseKinematics::Impl
     {
         constexpr auto logPrefix = "[QPInversekinematics::Impl::initializeSolver]";
         // Hessian matrix
-
         if (this->automaticScaling)
         {
             this->scaleQP();
         }
 
-        Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
+        Eigen::SparseMatrix<double> hessianSparse
+            = this->hessian.sparseView(this->sparseViewReference, this->sparseViewEpsilon);
         if (!this->solver.data()->setHessianMatrix(hessianSparse))
         {
             log()->error("{} Unable to set the hessian matrix.", logPrefix);
@@ -133,7 +133,8 @@ struct QPInverseKinematics::Impl
         if (this->numberOfConstraints > 0)
         {
             Eigen::SparseMatrix<double> constraintsMatrixSparse
-                = this->constraintMatrix.sparseView();
+                = this->constraintMatrix.sparseView(this->sparseViewReference,
+                                                    this->sparseViewEpsilon);
             if (!this->solver.data()->setLinearConstraintsMatrix(constraintsMatrixSparse))
             {
                 log()->error("{} Unable to set the constraint matrix.", logPrefix);
@@ -166,7 +167,8 @@ struct QPInverseKinematics::Impl
         }
 
         // Hessian matrix
-        Eigen::SparseMatrix<double> hessianSparse = this->hessian.sparseView();
+        Eigen::SparseMatrix<double> hessianSparse
+            = this->hessian.sparseView(this->sparseViewReference, this->sparseViewEpsilon);
         if (!this->solver.updateHessianMatrix(hessianSparse))
         {
             log()->error("{} Unable to set the hessian matrix.", logPrefix);
