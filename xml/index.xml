@@ -274,7 +274,9 @@
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a2fce2bf43ea7b309cd3a31a20bfaf8ce" kind="function"><name>setContactPhaseList</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1af2b0c915edf393922a59032671900760" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1ae934d8090b0fd0e758c1e99039384569" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1aeba2952b2dafdac5834dcf12a36cd3f1" kind="function"><name>setState</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7d5769df43fe3e67f66a6609b8a1dac6" kind="function"><name>setReferenceTrajectory</name></member>
+    <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1aeb8c9d3aef283b0b1cc9a06b1600b5aa" kind="function"><name>setGravity</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a7462bc4a06678c8029ccd692cb48eea9" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a053ae0d2488c8c09826f12b15afad527" kind="function"><name>isOutputValid</name></member>
     <member refid="classBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPC_1a769ca3af8290ee3a847226534013153b" kind="function"><name>advance</name></member>

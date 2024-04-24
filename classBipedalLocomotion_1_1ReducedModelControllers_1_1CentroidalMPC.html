@@ -129,10 +129,22 @@ Locomotion with Step Adjustment,&quot; 2022 International Conference on Robotics
             </dt>
             <dd>Set the state of the centroidal dynamics.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aeba2952b2dafdac5834dcf12a36cd3f1" class="m-doc">setState</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; com,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; dcom,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; angularMomentum,
+              const <a href="Wrench_8h.html#a45559f66740448bbc8253a9816dbef05" class="m-doc">Math::<wbr />Wrenchd</a>&amp; externalWrench,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; gravity) -&gt; bool</span>
+            </dt>
+            <dd>Set the state of the centroidal dynamics.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a7d5769df43fe3e67f66a6609b8a1dac6" class="m-doc">setReferenceTrajectory</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::Vector3d&gt;&amp; com,
               const std::vector&lt;Eigen::Vector3d&gt;&amp; angularMomentum) -&gt; bool</span>
             </dt>
             <dd>Set the reference trajectories for the CoM and the centroidal angular momentum.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aeb8c9d3aef283b0b1cc9a06b1600b5aa" class="m-doc">setGravity</a>(</span><span class="m-doc-wrap">const Eigen::Ref&lt;Eigen::Vector3d&gt;&amp; gravity) -&gt; bool</span>
+            </dt>
+            <dd>Set the gravity vector used in the centroidal dynamics.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a7462bc4a06678c8029ccd692cb48eea9" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1ReducedModelControllers_1_1CentroidalMPCOutput.html" class="m-doc">CentroidalMPCOutput</a>&amp; <span class="m-label m-flat m-warning">final</span></span>
             </dt>
@@ -311,6 +323,50 @@ $ 0 \le i \le $
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>This function needs to be called before advance.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="aeba2952b2dafdac5834dcf12a36cd3f1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ReducedModelControllers::<wbr />CentroidalMPC::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aeba2952b2dafdac5834dcf12a36cd3f1" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::Vector3d&gt; com,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; dcom,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; angularMomentum,
+              const <a href="Wrench_8h.html#a45559f66740448bbc8253a9816dbef05" class="m-doc">Math::<wbr />Wrenchd</a>&amp; externalWrench,
+              Eigen::Ref&lt;const Eigen::Vector3d&gt; gravity)</span></span>
+            </h3>
+            <p>Set the state of the centroidal dynamics.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">com</td>
+                  <td>position of the CoM expressed in the inertial frame.</td>
+                </tr>
+                <tr>
+                  <td>dcom</td>
+                  <td>velocity of the CoM expressed in a frame centered in the CoM and oriented as the inertial frame.</td>
+                </tr>
+                <tr>
+                  <td>angularMomentum</td>
+                  <td>centroidal angular momentum.</td>
+                </tr>
+                <tr>
+                  <td>externalWrench</td>
+                  <td>optional parameter used to represent an external wrench applied to the robot CoM.</td>
+                </tr>
+                <tr>
+                  <td>gravity</td>
+                  <td>gravity vector.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-info"><h4>Note</h4><p>This function needs to be called before advance.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a7d5769df43fe3e67f66a6609b8a1dac6"><div>
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ReducedModelControllers::<wbr />CentroidalMPC::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7d5769df43fe3e67f66a6609b8a1dac6" class="m-doc-self">setReferenceTrajectory</a>(</span><span class="m-doc-wrap">const std::vector&lt;Eigen::Vector3d&gt;&amp; com,
@@ -339,6 +395,29 @@ $ 0 \le i \le $
               </tfoot>
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>In case the warmstart has been enabled in the initialization, then the CoM and the angular momentum will be used to warmstart the problem.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>The CoM and the angular momentum trajectory is assumed to be sampled at the controller sampling period</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aeb8c9d3aef283b0b1cc9a06b1600b5aa"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ReducedModelControllers::<wbr />CentroidalMPC::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aeb8c9d3aef283b0b1cc9a06b1600b5aa" class="m-doc-self">setGravity</a>(</span><span class="m-doc-wrap">const Eigen::Ref&lt;Eigen::Vector3d&gt;&amp; gravity)</span></span>
+            </h3>
+            <p>Set the gravity vector used in the centroidal dynamics.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">gravity</td>
+                  <td>gravity vector.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a7462bc4a06678c8029ccd692cb48eea9"><div>
             <h3>
