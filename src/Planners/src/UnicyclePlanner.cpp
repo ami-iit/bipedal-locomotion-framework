@@ -7,6 +7,8 @@
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -29,6 +31,9 @@
 #include <iDynTree/ModelLoader.h>
 #include <iDynTree/Rotation.h>
 #include <iDynTree/VectorFixSize.h>
+
+#include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/RK4.h>
 
 #include <string>
 #include <vector>
@@ -57,6 +62,36 @@ public:
     UnicycleGenerator generator;
 
     std::mutex mutex;
+
+    /*
+    The CoM model is the Linear Inverted Pendulum Model, described by the equations:
+
+           | xd  |   | -w  0  0  0  |   | x  |   | +w  0  0  0  |    | Xdcm  |
+           | yd  | = |  0 -w  0  0  | * | y  | + |  0 +w  0  0  |  * | Ydcm  |
+           | xdd |   |  0  0 -w  0  |   | xd |   |  0  0 +w  0  |    | Xdcmd |
+           | ydd |   |  0  0  0 -w  |   | yd |   |  0  0  0 +w  |    | Xdcmd |
+
+    where:
+           {x,y} is the CoM planar position
+
+           dcm is the Divergent Component of Motion
+
+           w is the angular frequency of the Linear Inverted Pendulum, computed as sqrt(g/z), with z
+           being the CoM constant height
+    */
+    struct COMSystem
+    {
+        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>
+            dynamics;
+        // std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::RK4<
+        //     BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>
+        //     integrator;
+        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler<
+            BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>
+            integrator;
+    };
+
+    COMSystem comSystem;
 };
 
 BipedalLocomotion::Planners::UnicyclePlannerInput
@@ -236,7 +271,6 @@ bool Planners::UnicyclePlanner::initialize(
     ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
 
     // try to configure the planner
-    // m_pImpl->generator = std::make_unique<::UnicycleGenerator>();
     auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
 
     ok = ok
@@ -312,10 +346,30 @@ bool Planners::UnicyclePlanner::initialize(
     iDynTree::Vector2 leftZMPDeltaVec{leftZMPDelta};
     iDynTree::Vector2 rightZMPDeltaVec{rightZMPDelta};
     dcmGenerator->setFootOriginOffset(leftZMPDeltaVec, rightZMPDeltaVec);
-    dcmGenerator->setOmega(
-        sqrt(BipedalLocomotion::Math::StandardAccelerationOfGravitation / comHeight));
+    double omega = sqrt(BipedalLocomotion::Math::StandardAccelerationOfGravitation / comHeight);
+    dcmGenerator->setOmega(omega);
     dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
+
+    // initialize the COM system
+    m_pImpl->comSystem.dynamics
+        = std::make_shared<BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>();
+    m_pImpl->comSystem.integrator
+        = std::make_shared<BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler<
+            BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>();
+
+    // Set dynamical system matrices
+    ok = ok && loadParamWithFallback("comHeight", comHeight, 0.70);
+    Eigen::Matrix4d A = -omega * Eigen::Matrix4d::Identity();
+    Eigen::Matrix4d B = -A;
+    ok = ok && m_pImpl->comSystem.dynamics->setSystemMatrices(A, B);
+    // Set the initial state
+    ok = ok && m_pImpl->comSystem.dynamics->setState({Eigen::Vector4d::Zero()});
+    // Set the dynamical system to the integrator
+    ok = ok && m_pImpl->comSystem.integrator->setDynamicalSystem(m_pImpl->comSystem.dynamics);
+    ok = ok
+         && m_pImpl->comSystem.integrator->setIntegrationStep(
+             std::chrono::nanoseconds(static_cast<int>(m_pImpl->parameters.dt * 1e9)));
 
     // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
@@ -589,8 +643,44 @@ bool Planners::UnicyclePlanner::advance()
         return outputVect;
     };
 
-    m_pImpl->output.dcmTrajectory.dcmPosition = convertToEigen(dcmGenerator->getDCMPosition());
-    m_pImpl->output.dcmTrajectory.dcmVelocity = convertToEigen(dcmGenerator->getDCMVelocity());
+    std::vector<Eigen::Vector2d> dcmPosition, dcmVelocity;
+    dcmPosition = convertToEigen(dcmGenerator->getDCMPosition());
+    dcmVelocity = convertToEigen(dcmGenerator->getDCMVelocity());
+    m_pImpl->output.dcmTrajectory.dcmPosition = dcmPosition;
+    m_pImpl->output.dcmTrajectory.dcmVelocity = dcmVelocity;
+
+    // get the CoM planar trajectory
+    auto time = std::chrono::nanoseconds(static_cast<int>(initTime * 1e9));
+    Eigen::Vector4d state;
+    state.head(4) = std::get<0>(m_pImpl->comSystem.dynamics->getState());
+    using namespace BipedalLocomotion::GenericContainer::literals;
+    auto stateDerivative = BipedalLocomotion::GenericContainer::make_named_tuple(
+        BipedalLocomotion::GenericContainer::named_param<"dx"_h, Eigen::VectorXd>());
+    Eigen::Vector4d controlInput;
+    std::vector<Eigen::Vector2d> comPlanarPosition, comPlanarVelocity, comPlanarAcceleration;
+
+    for (size_t i = 0; i < dcmPosition.size(); i++)
+    {
+        comPlanarPosition.push_back(state.head<2>());
+        comPlanarVelocity.push_back(state.tail<2>());
+
+        controlInput << dcmPosition.at(i), dcmVelocity.at(i);
+        m_pImpl->comSystem.dynamics->setControlInput({controlInput});
+
+        m_pImpl->comSystem.dynamics->dynamics(time, stateDerivative);
+        comPlanarAcceleration.push_back(stateDerivative.get_from_hash<"dx"_h>().tail<2>());
+
+        m_pImpl->comSystem.integrator->oneStepIntegration(time,
+                                                          std::chrono::nanoseconds(
+                                                              static_cast<int>(dt * 1e9)));
+        state.head(4) = std::get<0>(m_pImpl->comSystem.integrator->getSolution());
+        m_pImpl->comSystem.dynamics->setState({state});
+
+        time += std::chrono::nanoseconds(static_cast<int>(dt * 1e9));
+    }
+    m_pImpl->output.comPlanarTrajectory.comPlanarPosition = comPlanarPosition;
+    m_pImpl->output.comPlanarTrajectory.comPlanarVelocity = comPlanarVelocity;
+    m_pImpl->output.comPlanarTrajectory.comPlanarAcceleration = comPlanarAcceleration;
 
     // get the CoM height trajectory
     auto comHeightGenerator = m_pImpl->generator.addCoMHeightTrajectoryGenerator();

@@ -87,6 +87,9 @@ public:
         std::deque<double> comHeightPosition;
         std::deque<double> comHeightVelocity;
         std::deque<double> comHeightAcceleration;
+        std::deque<Eigen::Vector2d> comPlanarPosition;
+        std::deque<Eigen::Vector2d> comPlanarVelocity;
+        std::deque<Eigen::Vector2d> comPlanarAcceleration;
         std::deque<bool> leftFootinContact;
         std::deque<bool> rightFootinContact;
         std::deque<bool> isLeftFootLastSwinging;
@@ -281,6 +284,18 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightPosition,
                                                  m_pImpl->output.comHeightTrajectory
                                                      .comHeightPosition);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPlanarPosition,
+                                                 m_pImpl->output.comPlanarTrajectory
+                                                     .comPlanarPosition);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPlanarVelocity,
+                                                 m_pImpl->output.comPlanarTrajectory
+                                                     .comPlanarVelocity);
+
+    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPlanarAcceleration,
+                                                 m_pImpl->output.comPlanarTrajectory
+                                                     .comPlanarAcceleration);
 
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comHeightVelocity,
                                                  m_pImpl->output.comHeightTrajectory
@@ -598,7 +613,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     }
 
     // get the output of the unicycle planner
-    std::vector<Eigen::Vector2d> dcmPositionReference, dcmVelocityReference;
+    std::vector<Eigen::Vector2d> dcmPositionReference, dcmVelocityReference,
+        comPlanarPositionReference, comPlanarVelocityReference, comPlanarAccelerationReference;
     std::vector<double> comHeightPositionReference, comHeightVelocityReference,
         comHeightAccelerationReference;
     std::vector<bool> rightInContact, leftInContact, isLastSwingingFoot;
@@ -615,6 +631,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     comHeightVelocityReference = unicyclePlanner.getOutput().comHeightTrajectory.comHeightVelocity;
     comHeightAccelerationReference
         = unicyclePlanner.getOutput().comHeightTrajectory.comHeightAcceleration;
+
+    // get com planar trajectory
+    comPlanarPositionReference = unicyclePlanner.getOutput().comPlanarTrajectory.comPlanarPosition;
+    comPlanarVelocityReference = unicyclePlanner.getOutput().comPlanarTrajectory.comPlanarVelocity;
+    comPlanarAccelerationReference
+        = unicyclePlanner.getOutput().comPlanarTrajectory.comPlanarAcceleration;
 
     // get feet contact status
     leftInContact = unicyclePlanner.getOutput().contactStatus.leftFootInContact;
@@ -661,6 +683,16 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     Planners::Utilities::appendVectorToDeque(comHeightAccelerationReference,
                                              referenceSignals.comHeightAcceleration,
                                              mergePoint);
+    Planners::Utilities::appendVectorToDeque(comPlanarPositionReference,
+                                             referenceSignals.comPlanarPosition,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(comPlanarVelocityReference,
+                                             referenceSignals.comPlanarVelocity,
+                                             mergePoint);
+    Planners::Utilities::appendVectorToDeque(comPlanarAccelerationReference,
+                                             referenceSignals.comPlanarAcceleration,
+                                             mergePoint);
+
     Planners::Utilities::appendVectorToDeque(leftStepPhases,
                                              referenceSignals.leftStepPhases,
                                              mergePoint);
@@ -690,7 +722,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         || referenceSignals.dcmVelocity.empty() || referenceSignals.comHeightPosition.empty()
         || referenceSignals.comHeightVelocity.empty()
         || referenceSignals.comHeightAcceleration.empty() || referenceSignals.leftStepPhases.empty()
-        || referenceSignals.rightStepPhases.empty())
+        || referenceSignals.rightStepPhases.empty() || referenceSignals.comPlanarPosition.empty())
 
     {
         log()->error(" {} Cannot advance empty reference signals.", logPrefix);
@@ -720,6 +752,15 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
 
     referenceSignals.comHeightVelocity.pop_front();
     referenceSignals.comHeightVelocity.push_back(referenceSignals.comHeightVelocity.back());
+
+    referenceSignals.comPlanarPosition.pop_front();
+    referenceSignals.comPlanarPosition.push_back(referenceSignals.comPlanarPosition.back());
+
+    referenceSignals.comPlanarVelocity.pop_front();
+    referenceSignals.comPlanarVelocity.push_back(referenceSignals.comPlanarVelocity.back());
+
+    referenceSignals.comPlanarAcceleration.pop_front();
+    referenceSignals.comPlanarAcceleration.push_back(referenceSignals.comPlanarAcceleration.back());
 
     referenceSignals.comHeightAcceleration.pop_front();
     referenceSignals.comHeightAcceleration.push_back(referenceSignals.comHeightAcceleration.back());
