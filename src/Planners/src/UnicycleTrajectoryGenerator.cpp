@@ -570,6 +570,10 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     unicyclePlannerInput.measuredTransform = measuredTransform;
     unicyclePlannerInput.dcmInitialState.initialPosition = referenceSignals.dcmPosition[mergePoint];
     unicyclePlannerInput.dcmInitialState.initialVelocity = referenceSignals.dcmVelocity[mergePoint];
+    unicyclePlannerInput.comInitialState.initialPlanarPosition
+        = referenceSignals.comPlanarPosition[mergePoint];
+    unicyclePlannerInput.comInitialState.initialPlanarVelocity
+        = referenceSignals.comPlanarVelocity[mergePoint];
 
     // set the input
     this->unicyclePlanner.setInput(unicyclePlannerInput);
@@ -806,6 +810,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
     UnicyclePlannerInput unicyclePlannerInput;
     unicyclePlannerInput.initTime = m_pImpl->time;
+    unicyclePlannerInput.comInitialState.initialPlanarPosition = Eigen::Vector2d::Zero();
+    unicyclePlannerInput.comInitialState.initialPlanarVelocity = Eigen::Vector2d::Zero();
 
     log()->debug("{} Generating the first trajectory.", logPrefix);
 

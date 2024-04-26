@@ -46,6 +46,14 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
 
     DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
 
+    struct COMInitialState
+    {
+        Eigen::Vector2d initialPlanarPosition; // The initial planar position of the CoM.
+        Eigen::Vector2d initialPlanarVelocity; // The initial planar velocity of the CoM.
+    };
+
+    COMInitialState comInitialState; // The initial state of the CoM.
+
     bool isLeftLastSwinging; // True if the last foot that was swinging is the left one. False
                              // otherwise.
 

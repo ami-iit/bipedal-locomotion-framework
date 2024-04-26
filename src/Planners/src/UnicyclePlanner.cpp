@@ -83,10 +83,7 @@ public:
     {
         std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>
             dynamics;
-        // std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::RK4<
-        //     BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>
-        //     integrator;
-        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler<
+        std::shared_ptr<BipedalLocomotion::ContinuousDynamicalSystem::RK4<
             BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>
             integrator;
     };
@@ -355,11 +352,10 @@ bool Planners::UnicyclePlanner::initialize(
     m_pImpl->comSystem.dynamics
         = std::make_shared<BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>();
     m_pImpl->comSystem.integrator
-        = std::make_shared<BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler<
+        = std::make_shared<BipedalLocomotion::ContinuousDynamicalSystem::RK4<
             BipedalLocomotion::ContinuousDynamicalSystem::LinearTimeInvariantSystem>>();
 
     // Set dynamical system matrices
-    ok = ok && loadParamWithFallback("comHeight", comHeight, 0.70);
     Eigen::Matrix4d A = -omega * Eigen::Matrix4d::Identity();
     Eigen::Matrix4d B = -A;
     ok = ok && m_pImpl->comSystem.dynamics->setSystemMatrices(A, B);
@@ -652,7 +648,9 @@ bool Planners::UnicyclePlanner::advance()
     // get the CoM planar trajectory
     auto time = std::chrono::nanoseconds(static_cast<int>(initTime * 1e9));
     Eigen::Vector4d state;
-    state.head(4) = std::get<0>(m_pImpl->comSystem.dynamics->getState());
+    state.head(2) = m_pImpl->input.comInitialState.initialPlanarPosition;
+    state.tail(2) = m_pImpl->input.comInitialState.initialPlanarVelocity;
+    m_pImpl->comSystem.dynamics->setState({state.head(4)});
     using namespace BipedalLocomotion::GenericContainer::literals;
     auto stateDerivative = BipedalLocomotion::GenericContainer::make_named_tuple(
         BipedalLocomotion::GenericContainer::named_param<"dx"_h, Eigen::VectorXd>());
@@ -661,23 +659,31 @@ bool Planners::UnicyclePlanner::advance()
 
     for (size_t i = 0; i < dcmPosition.size(); i++)
     {
+        // populate CoM planar position
         comPlanarPosition.push_back(state.head<2>());
-        comPlanarVelocity.push_back(state.tail<2>());
 
+        // set the control input, u
         controlInput << dcmPosition.at(i), dcmVelocity.at(i);
         m_pImpl->comSystem.dynamics->setControlInput({controlInput});
 
+        // compute the state derivative xdot = Ax + Bu
         m_pImpl->comSystem.dynamics->dynamics(time, stateDerivative);
-        comPlanarAcceleration.push_back(stateDerivative.get_from_hash<"dx"_h>().tail<2>());
 
+        // populate CoM planar velocity and acceleration
+        comPlanarAcceleration.push_back(stateDerivative.get_from_hash<"dx"_h>().tail<2>());
+        comPlanarVelocity.push_back(stateDerivative.get_from_hash<"dx"_h>().head<2>());
+
+        // advance the integrator for one step
         m_pImpl->comSystem.integrator->oneStepIntegration(time,
                                                           std::chrono::nanoseconds(
                                                               static_cast<int>(dt * 1e9)));
         state.head(4) = std::get<0>(m_pImpl->comSystem.integrator->getSolution());
-        m_pImpl->comSystem.dynamics->setState({state});
 
+        // update the system state
+        m_pImpl->comSystem.dynamics->setState({state});
         time += std::chrono::nanoseconds(static_cast<int>(dt * 1e9));
     }
+
     m_pImpl->output.comPlanarTrajectory.comPlanarPosition = comPlanarPosition;
     m_pImpl->output.comPlanarTrajectory.comPlanarVelocity = comPlanarVelocity;
     m_pImpl->output.comPlanarTrajectory.comPlanarAcceleration = comPlanarAcceleration;
