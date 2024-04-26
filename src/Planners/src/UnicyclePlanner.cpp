@@ -622,8 +622,6 @@ bool Planners::UnicyclePlanner::advance()
     m_pImpl->output.ContactPhaseList.setLists(ContactListMap);
     m_pImpl->output.steps.leftSteps = leftSteps;
     m_pImpl->output.steps.rightSteps = rightSteps;
-    m_pImpl->output.steps.leftStepPhases = leftStepPhases;
-    m_pImpl->output.steps.rightStepPhases = rightStepPhases;
 
     // get the DCM trajectory
     auto convertToEigen

@@ -92,7 +92,6 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     struct Steps
     {
         std::deque<Step> leftSteps, rightSteps;
-        std::vector<StepPhase> leftStepPhases, rightStepPhases;
     };
 
     COMTrajectory comTrajectory; // The CoM trajectory;

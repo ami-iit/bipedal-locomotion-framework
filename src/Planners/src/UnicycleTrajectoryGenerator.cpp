@@ -91,8 +91,6 @@ public:
         std::deque<bool> rightFootinContact;
         std::deque<bool> isLeftFootLastSwinging;
         std::deque<size_t> mergePoints;
-        std::deque<StepPhase> leftStepPhases;
-        std::deque<StepPhase> rightStepPhases;
         std::deque<Step> leftSteps;
         std::deque<Step> rightSteps;
     };
@@ -302,11 +300,7 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
                                   rightContactList);
     }
 
-    // get the lift contact phase list
-    std::vector<StepPhase> leftStepPhases;
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftStepPhases,
-                                                 leftStepPhases);
-
+    // get the left contact phase list
     std::vector<bool> leftFootInContact;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
                                                  leftFootInContact);
@@ -327,10 +321,6 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     contactListMap["left_foot"] = leftContactList;
 
     // get the right contact phase list
-    std::vector<StepPhase> rightStepPhases;
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightStepPhases,
-                                                 rightStepPhases);
-
     std::vector<bool> rightFootInContact;
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightFootinContact,
                                                  rightFootInContact);
@@ -604,7 +594,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     std::vector<Eigen::Vector3d> comPositionRefence, comVelocityReference, comAccelerationReference;
     std::vector<bool> rightInContact, leftInContact, isLastSwingingFoot;
     std::vector<size_t> mergePoints;
-    std::vector<StepPhase> leftStepPhases, rightStepPhases;
     std::deque<Step> leftSteps, rightSteps;
 
     // get dcm position and velocity
@@ -627,10 +616,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     // get steps
     leftSteps = unicyclePlanner.getOutput().steps.leftSteps;
     rightSteps = unicyclePlanner.getOutput().steps.rightSteps;
-
-    // get step phases
-    leftStepPhases = unicyclePlanner.getOutput().steps.leftStepPhases;
-    rightStepPhases = unicyclePlanner.getOutput().steps.rightStepPhases;
 
     // append vectors to deques
 
@@ -662,13 +647,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
                                              referenceSignals.comAcceleration,
                                              mergePoint);
 
-    Planners::Utilities::appendVectorToDeque(leftStepPhases,
-                                             referenceSignals.leftStepPhases,
-                                             mergePoint);
-    Planners::Utilities::appendVectorToDeque(rightStepPhases,
-                                             referenceSignals.rightStepPhases,
-                                             mergePoint);
-
     referenceSignals.leftSteps.assign(leftSteps.begin(), leftSteps.end());
     referenceSignals.rightSteps.assign(rightSteps.begin(), rightSteps.end());
 
@@ -689,8 +667,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
     if (referenceSignals.leftFootinContact.empty() || referenceSignals.rightFootinContact.empty()
         || referenceSignals.isLeftFootLastSwinging.empty() || referenceSignals.dcmPosition.empty()
         || referenceSignals.dcmVelocity.empty() || referenceSignals.comPosition.empty()
-        || referenceSignals.comVelocity.empty() || referenceSignals.comAcceleration.empty()
-        || referenceSignals.leftStepPhases.empty() || referenceSignals.rightStepPhases.empty())
+        || referenceSignals.comVelocity.empty() || referenceSignals.comAcceleration.empty())
 
     {
         log()->error(" {} Cannot advance empty reference signals.", logPrefix);
@@ -723,12 +700,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
 
     referenceSignals.comAcceleration.pop_front();
     referenceSignals.comAcceleration.push_back(referenceSignals.comAcceleration.back());
-
-    referenceSignals.leftStepPhases.pop_front();
-    referenceSignals.leftStepPhases.push_back(referenceSignals.leftStepPhases.back());
-
-    referenceSignals.rightStepPhases.pop_front();
-    referenceSignals.rightStepPhases.push_back(referenceSignals.rightStepPhases.back());
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.
