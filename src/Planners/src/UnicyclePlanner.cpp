@@ -684,17 +684,28 @@ bool Planners::UnicyclePlanner::advance()
         time += std::chrono::nanoseconds(static_cast<int>(dt * 1e9));
     }
 
-    m_pImpl->output.comPlanarTrajectory.comPlanarPosition = comPlanarPosition;
-    m_pImpl->output.comPlanarTrajectory.comPlanarVelocity = comPlanarVelocity;
-    m_pImpl->output.comPlanarTrajectory.comPlanarAcceleration = comPlanarAcceleration;
-
     // get the CoM height trajectory
+    std::vector<double> comHeightPosition, comHeightVelocity, comHeightAcceleration;
     auto comHeightGenerator = m_pImpl->generator.addCoMHeightTrajectoryGenerator();
-    comHeightGenerator->getCoMHeightTrajectory(
-        m_pImpl->output.comHeightTrajectory.comHeightPosition);
-    comHeightGenerator->getCoMHeightVelocity(m_pImpl->output.comHeightTrajectory.comHeightVelocity);
-    comHeightGenerator->getCoMHeightAccelerationProfile(
-        m_pImpl->output.comHeightTrajectory.comHeightAcceleration);
+    comHeightGenerator->getCoMHeightTrajectory(comHeightPosition);
+    comHeightGenerator->getCoMHeightVelocity(comHeightVelocity);
+    comHeightGenerator->getCoMHeightAccelerationProfile(comHeightAcceleration);
+
+    // stack the CoM planar and the height trajectory
+    std::vector<Eigen::Vector3d> comPosition, comVelocity, comAcceleration;
+    for (size_t i = 0; i < comPlanarPosition.size(); i++)
+    {
+        comPosition.push_back(
+            {comPlanarPosition.at(i)(0), comPlanarPosition.at(i)(1), comHeightPosition.at(i)});
+        comVelocity.push_back(
+            {comPlanarVelocity.at(i)(0), comPlanarVelocity.at(i)(1), comHeightVelocity.at(i)});
+        comAcceleration.push_back({comPlanarAcceleration.at(i)(0),
+                                   comPlanarAcceleration.at(i)(1),
+                                   comHeightAcceleration.at(i)});
+    }
+    m_pImpl->output.comTrajectory.position = comPosition;
+    m_pImpl->output.comTrajectory.velocity = comVelocity;
+    m_pImpl->output.comTrajectory.acceleration = comAcceleration;
 
     // get the merge points
     std::vector<size_t> mergePoints;

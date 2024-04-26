@@ -67,18 +67,11 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
 
 struct BipedalLocomotion::Planners::UnicyclePlannerOutput
 {
-    struct COMHeightTrajectory
+    struct COMTrajectory
     {
-        std::vector<double> comHeightPosition;
-        std::vector<double> comHeightVelocity;
-        std::vector<double> comHeightAcceleration;
-    };
-
-    struct COMPlanarTrajectory
-    {
-        std::vector<Eigen::Vector2d> comPlanarPosition;
-        std::vector<Eigen::Vector2d> comPlanarVelocity;
-        std::vector<Eigen::Vector2d> comPlanarAcceleration;
+        std::vector<Eigen::Vector3d> position;
+        std::vector<Eigen::Vector3d> velocity;
+        std::vector<Eigen::Vector3d> acceleration;
     };
 
     struct DCMTrajectory
@@ -102,9 +95,7 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
         std::vector<StepPhase> leftStepPhases, rightStepPhases;
     };
 
-    COMHeightTrajectory comHeightTrajectory; // The CoM height trajectory;
-
-    COMPlanarTrajectory comPlanarTrajectory; // The CoM height trajectory;
+    COMTrajectory comTrajectory; // The CoM trajectory;
 
     DCMTrajectory dcmTrajectory; // The DCM trajectory;
 
