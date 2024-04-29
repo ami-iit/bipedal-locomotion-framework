@@ -31,12 +31,9 @@ namespace ContinuousDynamicalSystem
  * where \f$\omega_c\f$ is the cutoff frequency and \f$N\f$ is the order of the filter and \f$s\f$
  * is the Laplace variable.
  *
- * To compute the coefficient of the filter we split the problem in three steps:
- *  -# Compute the transfer function of the continuous system.
- *  -# Compute the transfer function of the discrete system.
- *  -# Compute the coefficients of the discrete system.
+ * What follows is a brief description of the filter and how it is implemented.
  *
- * @section Compute the transfer function of the continuous system
+ * @section ButterworthLowPassFilter_continuous Compute the transfer function of the continuous system
  * What follows is taken from from Passive and Active Network Analysis and Synthesis, Aram Budak,
  * Houghton Mifflin, 1974 and from
  * https://dsp.stackexchange.com/questions/79498/butterworth-filter-poles
@@ -51,7 +48,7 @@ namespace ContinuousDynamicalSystem
  * \f[
  * K = \prod_{k=0}^{N-1} s_k = \omega_c^N
  * \f]
- * @section Compute the transfer function of the discrete system
+ * @section ButterworthLowPassFilter_discrete Compute the transfer function of the discrete system
  * As mentioned before, the transfer function of the discrete system is obtained by the bilinear
  * transform
  * \f[
@@ -71,7 +68,20 @@ namespace ContinuousDynamicalSystem
  * \f[
  * K^d = \text{real}  \frac{K}{ \prod (\frac{2}{\delta T} - p_k) }
  * \f]
- * @section Compute the coefficients of the discrete system
+ * @subsection ButterworthLowPassFilter_prewrapping Pre-wrapping
+ * The ButterworthLowPass supports the pre-wrapping of the filter. The pre-wrapping is a technique
+ * used to mitigate the distortion that can occur during the bilinear transformation. It
+ * consists in shifting the poles of the continuous system in the s-plane.
+ * To easily implement the pre-wrapping, we slightly modify the bilinear transformation as
+ * \f[
+ * s = \frac{\omega_c}{\tan\left(\frac{\omega_c \delta t}{2}\right)} \frac{1 - z^{-1}}{1 + z^{-1}}
+ * \f]
+ * where \f$\omega_c\f$ is the cutoff frequency and \f$\delta t\f$ is the sampling time.
+ * In the class the pre-wrapping is enabled by default and can be disabled by setting the parameter
+ * `enable_prewrapping` to false.
+ * The interested reader can find more information about the pre-wrapping at
+ * [this link](https://en.wikipedia.org/wiki/Bilinear_transform#Frequency_warping).
+ * @section ButterworthLowPassFilter_coefficients Compute the coefficients of the discrete system
  * Once we have the poles and the gain of the discrete system we can compute the coefficients of the
  * filter by applying the [Vieta's formulas](https://en.wikipedia.org/wiki/Vieta%27s_formulas).
  * The transfer function of the discrete system is given by
@@ -80,9 +90,9 @@ namespace ContinuousDynamicalSystem
  * \f]
  * Once the numerator and the denominator are computed we can easily antitransform the transfer function
  * to obtain the coefficients of the filter as
- * \[
+ * \f[
  * y[k] = \frac{1}{b_0} \left( a_0 x[k] + a_1 x[k-1] + \ldots + a_n x[k-n] - b_1 y[k-1] - \ldots - b_n y[k-n] \right)
- * \]
+ * \f]
  * where \f$x[k]\f$ is the input of the filter and \f$y[k]\f$ is the output of the filter.
  */
 class ButterworthLowPassFilter
@@ -104,11 +114,12 @@ public:
      * Initialize the Dynamical system.
      * @param handler pointer to the parameter handler.
      * @note the following parameters are required
-     * |   Parameter Name   |   Type   |                   Description                    | Mandatory |
-     * |:------------------:|:--------:|:------------------------------------------------:|:---------:|
-     * |  `sampling_time`   | `double` | Sampling time used to discrete the linear system |    Yes    |
-     * |  `cutoff_frequency`| `double` | Cutoff frequency of the low pass filter.         |    Yes    |
-     * |      `order`       |  `int`   |      Order of the low pass filter.               |    Yes    |
+     * |   Parameter Name   |   Type   |                        Description                           | Mandatory |
+     * |:------------------:|:--------:|:------------------------------------------------------------:|:---------:|
+     * |  `sampling_time`   | `double` |        Sampling time used to discrete the linear system      |    Yes    |
+     * |  `cutoff_frequency`| `double` |          Cutoff frequency of the low pass filter.            |    Yes    |
+     * |      `order`       |  `int`   |               Order of the low pass filter.                  |    Yes    |
+     * |`enable_prewrapping`|  `bool`  | Enable the pre-wrapping of the filter. (Default value True). |    No     |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
@@ -140,13 +151,6 @@ public:
      * @return True in case of success and false otherwise
      */
     bool setInput(const Eigen::VectorXd& input) override;
-
-    /**
-     *  Set the input of the filter
-     * @param input the vector representing the input of the filter
-     * @return True in case of success and false otherwise
-     */
-    bool setInput(Eigen::Ref<const Eigen::VectorXd> input);
 
     /**
      * Determines the validity of the object retrieved with getOutput()
