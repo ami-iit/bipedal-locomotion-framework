@@ -72,9 +72,9 @@ namespace ContinuousDynamicalSystem
  * The ButterworthLowPass supports the pre-wrapping of the filter. The pre-wrapping is a technique
  * used to mitigate the distortion that can occur during the bilinear transformation. It
  * consists in shifting the poles of the continuous system in the s-plane.
- * To easily implement the pre-wrapping we slightly modify the bilinear transformation as
+ * To easily implement the pre-wrapping, we slightly modify the bilinear transformation as
  * \f[
- * s = \frac{\omega_c}{\tan\left(\frac{\omega_c \delta t}{2}\right)} \frac{1 - z^{-1}}{1 + z^{-1}
+ * s = \frac{\omega_c}{\tan\left(\frac{\omega_c \delta t}{2}\right)} \frac{1 - z^{-1}}{1 + z^{-1}}
  * \f]
  * where \f$\omega_c\f$ is the cutoff frequency and \f$\delta t\f$ is the sampling time.
  * In the class the pre-wrapping is enabled by default and can be disabled by setting the parameter
