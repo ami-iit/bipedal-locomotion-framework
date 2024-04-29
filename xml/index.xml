@@ -225,7 +225,6 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter_1a2df7f4208b7181644e8d54d1cb7e7ac6" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter_1a768c0d978625281c7c71a9c15fd6cc5f" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter_1a4860e9984e2d70d564cd71c9a242d937" kind="function"><name>setInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter_1adddbda7b4f269f61eeafd24654d50301" kind="function"><name>setInput</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ButterworthLowPassFilter_1a57517a93a22d0d1c13460dd0a0a96402" kind="function"><name>isOutputValid</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1CameraBridgeMetaData" kind="struct"><name>BipedalLocomotion::RobotInterface::CameraBridgeMetaData</name>
