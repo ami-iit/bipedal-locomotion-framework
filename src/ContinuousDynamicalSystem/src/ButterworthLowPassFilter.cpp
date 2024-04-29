@@ -35,6 +35,7 @@ struct ButterworthLowPassFilter::Impl
     std::deque<Eigen::VectorXd> outputBuffer;
 
     Eigen::VectorXd output;
+    double bilinearTransformationFactor{0.0};
 
     bool isOutputValid{false};
 
@@ -62,7 +63,7 @@ struct ButterworthLowPassFilter::Impl
 
     void bilinearTransformation()
     {
-        const double k = 2 * this->frequency;
+        const double k = bilinearTransformationFactor;
         // bilinear transformation
         for (const auto& pole : this->continuousPoles)
         {
@@ -106,7 +107,7 @@ struct ButterworthLowPassFilter::Impl
 
 ButterworthLowPassFilter::ButterworthLowPassFilter()
 {
-    this->m_pimpl = std::make_unique<Impl>();
+    m_pimpl = std::make_unique<Impl>();
 }
 
 ButterworthLowPassFilter::~ButterworthLowPassFilter() = default;
@@ -128,7 +129,8 @@ bool ButterworthLowPassFilter::initialize(
         log()->error("{} Unable to get the parameter named 'sampling_time'.", logPrefix);
         return false;
     }
-    m_pimpl->frequency = 1.0 / std::chrono::duration<double>(samplingTime).count();
+    const double dt = std::chrono::duration<double>(samplingTime).count();
+    m_pimpl->frequency = 1.0 / dt;
 
     double cutOffFrequency;
     if (!ptr->getParameter("cutoff_frequency", cutOffFrequency))
@@ -138,11 +140,26 @@ bool ButterworthLowPassFilter::initialize(
     }
     m_pimpl->cutOffPulsation = 2 * M_PI * cutOffFrequency;
 
-    if (!ptr->getParameter("order", m_pimpl->order))
+    if (!ptr->getParameter("order", m_pimpl->order) || m_pimpl->order < 1)
     {
-        log()->error("{} Unable to get the parameter named 'order'.", logPrefix);
+        log()->error("{} Unable to get the parameter named 'order'. The order must be greater than "
+                     "or equal to 1.",
+                     logPrefix);
         return false;
     }
+
+    bool enablePrewrapping{true};
+    if (!ptr->getParameter("enable_prewrapping", enablePrewrapping))
+    {
+        log()->info("{} Unable to get the parameter named 'enable_prewrapping'. Using the default "
+                    "value {}.",
+                    logPrefix,
+                    enablePrewrapping);
+    }
+
+    m_pimpl->bilinearTransformationFactor
+        = enablePrewrapping ? m_pimpl->cutOffPulsation / tan((m_pimpl->cutOffPulsation * dt / 2.0))
+                            : 2.0 * m_pimpl->frequency;
 
     // compute the poles and the gain of the continuous system
     m_pimpl->computePole();
@@ -181,7 +198,7 @@ bool ButterworthLowPassFilter::reset(Eigen::Ref<const Eigen::VectorXd> initialSt
     return true;
 }
 
-bool ButterworthLowPassFilter::setInput(Eigen::Ref<const Eigen::VectorXd> input)
+bool ButterworthLowPassFilter::setInput(const Eigen::VectorXd& input)
 {
     constexpr auto logPrefix = "[ButterworthLowPassFilter::setInput]";
     if (m_pimpl->inputBuffer.empty() || m_pimpl->outputBuffer.empty())
@@ -201,11 +218,6 @@ bool ButterworthLowPassFilter::setInput(Eigen::Ref<const Eigen::VectorXd> input)
 
     m_pimpl->isOutputValid = false;
     return true;
-}
-
-bool ButterworthLowPassFilter::setInput(const Eigen::VectorXd& input)
-{
-    return this->setInput(Eigen::Ref<const Eigen::VectorXd>(input));
 }
 
 bool ButterworthLowPassFilter::advance()

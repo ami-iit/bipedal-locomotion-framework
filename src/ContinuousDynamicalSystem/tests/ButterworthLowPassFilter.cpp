@@ -29,21 +29,41 @@ TEST_CASE("ButterworthLowPass filter")
     paramHandler->setParameter("cutoff_frequency", cutOffFrequency);
     paramHandler->setParameter("sampling_time", dT);
 
-    ButterworthLowPassFilter butterworthLowPass;
-    REQUIRE(butterworthLowPass.initialize(paramHandler));
-
     Eigen::VectorXd input = Eigen::VectorXd::Zero(2);
-
-    REQUIRE(butterworthLowPass.reset(input));
-
     input << 1.0, 1.0;
 
+    constexpr double tolerance = 1e-3;
     constexpr std::chrono::nanoseconds simulationTime = 2s;
-    for (std::chrono::nanoseconds t = 0ns; t < simulationTime; t += dT)
-    {
-        REQUIRE(butterworthLowPass.setInput(input));
-        REQUIRE(butterworthLowPass.advance());
 
-        std::cout << butterworthLowPass.getOutput().transpose() << std::endl;
+    SECTION("Prewrapping disabled")
+    {
+        ButterworthLowPassFilter butterworthLowPass;
+        paramHandler->setParameter("enable_prewrapping", false);
+        REQUIRE(butterworthLowPass.initialize(paramHandler));
+        REQUIRE(butterworthLowPass.reset(Eigen::Vector2d::Zero()));
+
+        for (std::chrono::nanoseconds t = 0ns; t < simulationTime; t += dT)
+        {
+            REQUIRE(butterworthLowPass.setInput(input));
+            REQUIRE(butterworthLowPass.advance());
+        }
+
+        REQUIRE(butterworthLowPass.getOutput().isApprox(input, tolerance));
+    }
+
+    SECTION("Prewrapping enabled")
+    {
+        ButterworthLowPassFilter butterworthLowPass;
+        paramHandler->setParameter("enable_prewrapping", true);
+        REQUIRE(butterworthLowPass.initialize(paramHandler));
+        REQUIRE(butterworthLowPass.reset(Eigen::Vector2d::Zero()));
+
+        for (std::chrono::nanoseconds t = 0ns; t < simulationTime; t += dT)
+        {
+            REQUIRE(butterworthLowPass.setInput(input));
+            REQUIRE(butterworthLowPass.advance());
+        }
+
+        REQUIRE(butterworthLowPass.getOutput().isApprox(input, tolerance));
     }
 }
