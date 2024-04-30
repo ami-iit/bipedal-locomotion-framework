@@ -123,6 +123,17 @@ inline iDynTree::Transform toiDynTreePose(const manif::SE3d& se3)
     return iDynTree::Transform(iDynTree::make_matrix_view(se3.transform()));
 }
 
+/**
+ * @brief Convert a manif SO3 object into and iDynTree::Rotation
+ *
+ * @param so3 a manif SO3 object
+ * @return rotation as iDynTree::Rotation
+ */
+inline iDynTree::Rotation toiDynTreeRot(const manif::SO3d& so3)
+{
+    return iDynTree::Rotation(iDynTree::make_matrix_view(so3.rotation()));
+}
+
 } // namespace Conversions
 } // namespace BipedalLocomotion
 
