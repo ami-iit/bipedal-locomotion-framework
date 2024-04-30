@@ -392,6 +392,36 @@
         </inbodydescription>
         <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="121" column="28" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="121" bodyend="124"/>
       </memberdef>
+      <memberdef kind="function" id="ManifConversions_8h_1ab56b7d9a9206d1b719c4e9d5821d8d57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>iDynTree::Rotation</type>
+        <definition>iDynTree::Rotation BipedalLocomotion::Conversions::toiDynTreeRot</definition>
+        <argsstring>(const manif::SO3d &amp;so3)</argsstring>
+        <name>toiDynTreeRot</name>
+        <param>
+          <type>const manif::SO3d &amp;</type>
+          <declname>so3</declname>
+        </param>
+        <briefdescription>
+<para>Convert a manif SO3 object into and iDynTree::Rotation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>so3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a manif SO3 object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>rotation as iDynTree::Rotation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Conversions/ManifConversions.h" line="132" column="27" bodyfile="BipedalLocomotion/Conversions/ManifConversions.h" bodystart="132" bodyend="135"/>
+      </memberdef>
       <memberdef kind="function" id="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>

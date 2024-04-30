@@ -125,6 +125,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a0514450edfa28e5496b74ab194b67e2f" class="m-doc">toiDynTreePose</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; se3) -&gt; iDynTree::Transform</span>
             </dt>
             <dd>Convert a manif SE3 object into and iDynTree::Transform.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#ab56b7d9a9206d1b719c4e9d5821d8d57" class="m-doc">toiDynTreeRot</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; so3) -&gt; iDynTree::Rotation</span>
+            </dt>
+            <dd>Convert a manif SO3 object into and iDynTree::Rotation.</dd>
           </dl>
         </section>
         <section>
@@ -325,6 +329,29 @@
                 <tr>
                   <th>Returns</th>
                   <td>pose as iDynTree::Transform</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="ab56b7d9a9206d1b719c4e9d5821d8d57"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">iDynTree::Rotation </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab56b7d9a9206d1b719c4e9d5821d8d57" class="m-doc-self">toiDynTreeRot</a>(</span><span class="m-doc-wrap">const manif::SO3d&amp; so3)</span></span>
+            </h3>
+            <p>Convert a manif SO3 object into and iDynTree::Rotation.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">so3</td>
+                  <td>a manif SO3 object</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>rotation as iDynTree::Rotation</td>
                 </tr>
               </tfoot>
             </table>

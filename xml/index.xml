@@ -3208,6 +3208,7 @@
     <member refid="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1a2ee026f68afc3402f6b722614d595136" kind="function"><name>toManifTwist</name></member>
     <member refid="ManifConversions_8h_1a0514450edfa28e5496b74ab194b67e2f" kind="function"><name>toiDynTreePose</name></member>
+    <member refid="ManifConversions_8h_1ab56b7d9a9206d1b719c4e9d5821d8d57" kind="function"><name>toiDynTreeRot</name></member>
     <member refid="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" kind="function"><name>toEigen</name></member>
     <member refid="matioCppConversions_8h_1a3f906ee29461e114c48e47503c43e965" kind="function"><name>toEigen</name></member>
     <member refid="matioCppConversions_8h_1acfc3f7c49d05947006f079d92f9b8839" kind="function"><name>toEigen</name></member>
@@ -3471,6 +3472,7 @@
     <member refid="ManifConversions_8h_1aa3cbc74d297378895e4686cd4f8f3b3f" kind="function"><name>toManifRot</name></member>
     <member refid="ManifConversions_8h_1a2ee026f68afc3402f6b722614d595136" kind="function"><name>toManifTwist</name></member>
     <member refid="ManifConversions_8h_1a0514450edfa28e5496b74ab194b67e2f" kind="function"><name>toiDynTreePose</name></member>
+    <member refid="ManifConversions_8h_1ab56b7d9a9206d1b719c4e9d5821d8d57" kind="function"><name>toiDynTreeRot</name></member>
   </compound>
   <compound refid="matioCppConversions_8h" kind="file"><name>matioCppConversions.h</name>
     <member refid="matioCppConversions_8h_1a02e0b795745b9a9a6553bc9bcdcd8da9" kind="function"><name>toEigen</name></member>
