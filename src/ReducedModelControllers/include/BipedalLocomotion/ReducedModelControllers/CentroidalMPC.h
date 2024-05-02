@@ -131,6 +131,21 @@ public:
      * @param dcom velocity of the CoM expressed in a frame centered in the CoM and oriented as the
      * inertial frame.
      * @param angularMomentum centroidal angular momentum.
+     * @return True in case of success, false otherwise.
+     * @note This function needs to be called before advance.
+     * @note The external wrench is assumed to be zero.
+     */
+    bool setState(Eigen::Ref<const Eigen::Vector3d> com,
+                  Eigen::Ref<const Eigen::Vector3d> dcom,
+                  Eigen::Ref<const Eigen::Vector3d> angularMomentum,
+                  const std::unordered_map<std::string, std::vector<bool>>& cornerStatus);
+
+    /**
+     * Set the state of the centroidal dynamics.
+     * @param com position of the CoM expressed in the inertial frame.
+     * @param dcom velocity of the CoM expressed in a frame centered in the CoM and oriented as the
+     * inertial frame.
+     * @param angularMomentum centroidal angular momentum.
      * @param externalWrench optional parameter used to represent an external wrench applied to the
      * robot CoM.
      * @return True in case of success, false otherwise.
@@ -139,7 +154,8 @@ public:
     bool setState(Eigen::Ref<const Eigen::Vector3d> com,
                   Eigen::Ref<const Eigen::Vector3d> dcom,
                   Eigen::Ref<const Eigen::Vector3d> angularMomentum,
-                  const Math::Wrenchd& externalWrench);
+                  const Math::Wrenchd& externalWrench,
+                  const std::unordered_map<std::string, std::vector<bool>>& cornerStatus = {});
 
     /**
      * Set the reference trajectories for the CoM and the centroidal angular momentum.

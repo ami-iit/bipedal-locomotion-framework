@@ -1631,7 +1631,18 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
 bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
                              Eigen::Ref<const Eigen::Vector3d> dcom,
                              Eigen::Ref<const Eigen::Vector3d> angularMomentum,
-                             const Math::Wrenchd& externalWrench)
+                             const std::unordered_map<std::string, std::vector<bool>>& cornerStatus)
+{
+    const Math::Wrenchd dummy = Math::Wrenchd::Zero();
+    return this->setState(com, dcom, angularMomentum, dummy, cornerStatus);
+}
+
+bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
+                             Eigen::Ref<const Eigen::Vector3d> dcom,
+                             Eigen::Ref<const Eigen::Vector3d> angularMomentum,
+                             const Math::Wrenchd& externalWrench,
+                             const std::unordered_map<std::string, std::vector<bool>>& cornerStatus
+                             /** = {}*/)
 {
     constexpr auto errorPrefix = "[CentroidalMPC::setState]";
     assert(m_pimpl);
@@ -1655,6 +1666,52 @@ bool CentroidalMPC::setState(Eigen::Ref<const Eigen::Vector3d> com,
 
     toEigen(*inputs.externalForce).leftCols<1>() = externalWrench.force();
     toEigen(*inputs.externalTorque).leftCols<1>() = externalWrench.torque();
+
+    for (const auto& [key, status] : cornerStatus)
+    {
+        auto contact = inputs.contacts.find(key);
+        if (contact == inputs.contacts.end())
+        {
+            std::string contactNames;
+            for (const auto& [key, _] : inputs.contacts)
+            {
+                contactNames += "'" + key + "' ";
+            }
+
+            log()->error("{} Unable to find the contact named {}. The contact saved in the "
+                         "controller are: {}",
+                         errorPrefix,
+                         key,
+                         contactNames);
+            return false;
+        }
+
+        using namespace BipedalLocomotion::Conversions;
+        auto contactIsEnabledVector(toEigen(*(contact->second.isEnabled)));
+
+        // is disabled
+        if (contactIsEnabledVector(0, 0) < 0.5)
+        {
+            continue;
+        }
+        for (std::size_t i = 0; i < status.size(); i++)
+        {
+            auto cornerIsEnabledVector(toEigen(*(contact->second.isCornerEnabled[i])));
+
+            // find the index of the first element where the contact not active (lower than 0.5)
+            int index = cornerIsEnabledVector.size();
+            for (int j = 1; j < cornerIsEnabledVector.size(); j++)
+            {
+                if (cornerIsEnabledVector(0, j) < 0.5)
+                {
+                    index = j;
+                    break;
+                }
+            }
+
+            cornerIsEnabledVector.middleCols(0, index - 1).setConstant(status[i] ? 1.0 : 0.0);      
+        }
+    }
 
     return true;
 }
