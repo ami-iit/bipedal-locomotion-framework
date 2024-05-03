@@ -7,6 +7,7 @@
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
@@ -99,7 +100,7 @@ public:
 
     BipedalLocomotion::Planners::UnicyclePlanner unicyclePlanner;
 
-    bool askNewTrajectory(const double& initTime, const iDynTree::Transform& measuredTransform);
+    bool askNewTrajectory(const double& initTime, const manif::SE3d& measuredTransform);
 
     bool mergeTrajectories(const size_t& mergePoint);
 
@@ -141,11 +142,11 @@ Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGener
 
     input.plannerInput = Eigen::VectorXd::Zero(3);
 
-    input.w_H_leftFoot = iDynTree::Transform::Identity();
-    input.w_H_leftFoot.setPosition({0.0, 0.1, 0.0});
+    input.w_H_leftFoot = manif::SE3d::Identity();
+    input.w_H_leftFoot.translation(Eigen::Vector3d(0.0, 0.1, 0.0));
 
-    input.w_H_rightFoot = iDynTree::Transform::Identity();
-    input.w_H_rightFoot.setPosition({0.0, -0.1, 0.0});
+    input.w_H_rightFoot = manif::SE3d::Identity();
+    input.w_H_rightFoot.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
 
     return input;
 }
@@ -456,10 +457,9 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                 return false;
             }
 
-            iDynTree::Transform measuredTransform
-                = m_pImpl->referenceSignals.isLeftFootLastSwinging.front()
-                      ? m_pImpl->input.w_H_rightFoot
-                      : m_pImpl->input.w_H_leftFoot;
+            manif::SE3d measuredTransform = m_pImpl->referenceSignals.isLeftFootLastSwinging.front()
+                                                ? m_pImpl->input.w_H_rightFoot
+                                                : m_pImpl->input.w_H_leftFoot;
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
             m_pImpl->mutex.lock();
@@ -505,7 +505,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
 }
 
 bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTrajectory(
-    const double& initTime, const iDynTree::Transform& measuredTransform)
+    const double& initTime, const manif::SE3d& measuredTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::askForNewTrajectory]";
 

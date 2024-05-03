@@ -9,6 +9,7 @@
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -108,8 +109,8 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
 
     input.initTime = 0.0;
 
-    input.measuredTransform = iDynTree::Transform::Identity();
-    input.measuredTransform.setPosition(iDynTree::Position(0.0, -0.01, 0.0));
+    input.measuredTransform = manif::SE3d::Identity();
+    input.measuredTransform.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
 
     return input;
 }
@@ -478,18 +479,20 @@ bool Planners::UnicyclePlanner::advance()
         Eigen::Vector2d measuredPositionLeft;
         double measuredAngleLeft;
         double leftYawDeltaInRad;
-        measuredPositionLeft(0) = m_pImpl->input.measuredTransform.getPosition()(0);
-        measuredPositionLeft(1) = m_pImpl->input.measuredTransform.getPosition()(1);
-        measuredAngleLeft = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
+        measuredPositionLeft(0) = m_pImpl->input.measuredTransform.x();
+        measuredPositionLeft(1) = m_pImpl->input.measuredTransform.y();
+        measuredAngleLeft
+            = Conversions::toiDynTreeRot(m_pImpl->input.measuredTransform.asSO3()).asRPY()(2);
         leftYawDeltaInRad = m_pImpl->parameters.leftYawDeltaInRad;
 
         // right foot
         Eigen::Vector2d measuredPositionRight;
         double measuredAngleRight;
         double rightYawDeltaInRad;
-        measuredPositionRight(0) = m_pImpl->input.measuredTransform.getPosition()(0);
-        measuredPositionRight(1) = m_pImpl->input.measuredTransform.getPosition()(1);
-        measuredAngleRight = m_pImpl->input.measuredTransform.getRotation().asRPY()(2);
+        measuredPositionRight(0) = m_pImpl->input.measuredTransform.x();
+        measuredPositionRight(1) = m_pImpl->input.measuredTransform.y();
+        measuredAngleRight
+            = Conversions::toiDynTreeRot(m_pImpl->input.measuredTransform.asSO3()).asRPY()(2);
         rightYawDeltaInRad = m_pImpl->parameters.rightYawDeltaInRad;
 
         // get unicycle pose

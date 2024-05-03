@@ -59,8 +59,8 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
 
     double initTime; // The initial time of the trajectory.
 
-    iDynTree::Transform measuredTransform; // The measured transform of the last foot that touched
-                                           // the floor.
+    manif::SE3d measuredTransform; // The measured transform of the last foot that touched
+                                   // the floor.
 
     static UnicyclePlannerInput generateDummyUnicyclePlannerInput();
 };

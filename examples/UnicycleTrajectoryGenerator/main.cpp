@@ -79,11 +79,12 @@ int main(int argc, char* argv[])
     Planners::UnicycleTrajectoryGeneratorInput input
         = Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput();
 
-    input.w_H_leftFoot = iDynTree::Transform::Identity();
-    input.w_H_leftFoot.setPosition({0.0, 0.1, 0.0});
+    input.w_H_leftFoot = manif::SE3d::Identity();
+    input.w_H_leftFoot.translation(Eigen::Vector3d(0.0, 0.1, 0.0));
+    log()->error("[main] Left foot position: {}", input.w_H_leftFoot.translation().transpose());
 
-    input.w_H_rightFoot = iDynTree::Transform::Identity();
-    input.w_H_rightFoot.setPosition({0.0, -0.1, 0.0});
+    input.w_H_rightFoot = manif::SE3d::Identity();
+    input.w_H_rightFoot.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
 
     // initialize the output of the unicycle trajectory generator
     Planners::UnicycleTrajectoryGeneratorOutput output;
@@ -119,14 +120,14 @@ int main(int argc, char* argv[])
             input.plannerInput[0] = 0.1;
 
             // update the feet pose
-            input.w_H_leftFoot.setPosition(iDynTree::Position(w_H_left.translation()));
-            input.w_H_rightFoot.setPosition(iDynTree::Position(w_H_right.translation()));
+            input.w_H_leftFoot.translation(w_H_left.translation());
+            input.w_H_rightFoot.translation(w_H_right.translation());
 
             log()->info("[main] Left foot position: {}", w_H_left.translation().transpose());
             log()->info("[main] Right foot position: {}", w_H_right.translation().transpose());
 
-            input.w_H_leftFoot.setRotation(iDynTree::Rotation(w_H_left.rotation()));
-            input.w_H_rightFoot.setRotation(iDynTree::Rotation(w_H_right.rotation()));
+            input.w_H_leftFoot.quat(w_H_left.quat());
+            input.w_H_rightFoot.quat(w_H_right.quat());
         }
 
         unicycleTrajectoryGenerator.setInput(input);

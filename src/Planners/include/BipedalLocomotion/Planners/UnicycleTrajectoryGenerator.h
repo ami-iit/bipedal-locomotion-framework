@@ -43,9 +43,9 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
     */
     Eigen::VectorXd plannerInput; // The input to the unicycle planner.
 
-    iDynTree::Transform w_H_leftFoot; // The left foot pose in the world frame.
+    manif::SE3d w_H_leftFoot; // The left foot pose in the world frame.
 
-    iDynTree::Transform w_H_rightFoot; // The right foot pose in the world frame.
+    manif::SE3d w_H_rightFoot; // The right foot pose in the world frame.
 
     static UnicycleTrajectoryGeneratorInput generateDummyUnicycleTrajectoryGeneratorInput();
 };
