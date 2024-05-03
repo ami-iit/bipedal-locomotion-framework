@@ -138,3 +138,5 @@ endif()
 add_subdirectory(bindings)
 
 add_subdirectory(utilities)
+
+add_subdirectory(examples)
