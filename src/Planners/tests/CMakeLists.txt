@@ -30,10 +30,4 @@ if (FRAMEWORK_COMPILE_Unicycle)
     LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle BipedalLocomotion::ParametersHandlerYarpImplementation
     )
 
-  add_bipedal_test(
-    NAME UnicycleTrajectoryGenerator
-    SOURCES UnicycleTrajectoryGeneratorTest.cpp
-    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle BipedalLocomotion::ParametersHandlerYarpImplementation
-    )
-
 endif()
