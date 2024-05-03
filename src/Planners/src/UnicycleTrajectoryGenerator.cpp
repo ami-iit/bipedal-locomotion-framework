@@ -13,29 +13,16 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <StepPhase.h>
 #include <chrono>
-#include <cmath>
-#include <cstddef>
 #include <deque>
 #include <future>
-#include <iDynTree/MatrixDynSize.h>
-#include <iDynTree/Position.h>
-#include <iDynTree/Transform.h>
 #include <memory>
 #include <mutex>
 #include <yarp/os/RFModule.h>
 
-#include <FootPrint.h>
-#include <UnicycleGenerator.h>
-#include <UnicyclePlanner.h>
-#include <iDynTree/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/MatrixFixSize.h>
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
-#include <iDynTree/Rotation.h>
-#include <iDynTree/VectorFixSize.h>
 
 #include <string>
 #include <vector>

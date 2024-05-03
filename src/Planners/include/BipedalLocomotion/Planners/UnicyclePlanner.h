@@ -12,11 +12,6 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
-#include <Eigen/Core>
-#include <Eigen/Dense>
-
-#include <Eigen/src/Core/Matrix.h>
-#include <cstddef>
 #include <deque>
 #include <iDynTree/VectorDynSize.h>
 

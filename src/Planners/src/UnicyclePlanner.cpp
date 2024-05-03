@@ -8,33 +8,20 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h>
-#include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/RK4.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <cmath>
-#include <cstddef>
-#include <elf.h>
-#include <iDynTree/Position.h>
 #include <mutex>
 #include <yarp/os/RFModule.h>
 
-#include <FootPrint.h>
-#include <UnicycleGenerator.h>
-#include <UnicyclePlanner.h>
 #include <chrono>
-#include <iDynTree/EigenHelpers.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/MatrixFixSize.h>
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
-#include <iDynTree/Rotation.h>
-#include <iDynTree/VectorFixSize.h>
-
-#include <BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h>
-#include <BipedalLocomotion/ContinuousDynamicalSystem/RK4.h>
 
 #include <string>
 #include <vector>

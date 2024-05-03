@@ -8,16 +8,12 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
 
-#include "BipedalLocomotion/TextLogging/Logger.h"
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/System/Advanceable.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <Eigen/Core>
-#include <Eigen/Dense>
-
-#include <Eigen/src/Core/Matrix.h>
 #include <iDynTree/VectorDynSize.h>
 
 #include <memory>
