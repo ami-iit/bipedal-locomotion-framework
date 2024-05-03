@@ -1,6 +1,6 @@
 /**
  * @file UnicyclePlanner.h
- * @authors Diego Ferigo, Stefano Dafarra
+ * @authors Lorenzo Moretti, Diego Ferigo, Giulio Romualdi, Stefano Dafarra
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
