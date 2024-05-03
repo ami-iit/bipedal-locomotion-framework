@@ -7,6 +7,7 @@ BipedalLocomotion::Unicycle
 BipedalLocomotion::SystemYarpImplementation 
 BipedalLocomotion::ParametersHandlerYarpImplementation 
 BipedalLocomotion::Planners
+BipedalLocomotion::ContinuousDynamicalSystem
 ${YARP_LIBRARIES}
 )
 
