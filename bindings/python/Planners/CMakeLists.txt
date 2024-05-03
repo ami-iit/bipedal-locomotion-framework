@@ -30,17 +30,3 @@ if(TARGET BipedalLocomotion::Planners)
     )
 
 endif()
-
-if(TARGET BipedalLocomotion::Unicycle)
-
-  set(H_PREFIX include/BipedalLocomotion/bindings/Planners)
-
-  add_bipedal_locomotion_python_module(
-    NAME UnicycleBindings
-    SOURCES src/UnicyclePlanner.cpp src/UnicycleModule.cpp
-    HEADERS  ${H_PREFIX}/UnicyclePlanner.h ${H_PREFIX}/UnicycleModule.h
-    LINK_LIBRARIES BipedalLocomotion::Unicycle
-    TESTS tests/test_unicycle_planner.py
-    )
-
-endif()
