@@ -1,5 +1,5 @@
 /**
- * @file UnicyclePlannerTest.cpp
+ * @file UnicycleTrajectoryGeneratorTest.cpp
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -9,14 +9,14 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 
 #include <manif/manif.h>
 
-void saveData(const UnicyclePlannerOutput& output, const std::string& filename)
+void saveData(const UnicycleTrajectoryGeneratorOutput& output, const std::string& filename)
 {
     std::ofstream file(filename);
     if (!file.is_open())
@@ -46,30 +46,31 @@ std::shared_ptr<IParametersHandler> params()
     return handler;
 }
 
-TEST_CASE("UnicyclePlannerTest")
+TEST_CASE("UnicycleTrajectoryGeneratorTest")
 {
     const auto handler = params();
 
     bool saveDataTofile = false;
 
-    BipedalLocomotion::Planners::UnicyclePlanner planner;
+    BipedalLocomotion::Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
 
-    REQUIRE(planner.initialize(handler));
+    REQUIRE(unicycleTrajectoryGenerator.initialize(handler));
 
-    UnicyclePlannerInput input = UnicyclePlannerInput::generateDummyUnicyclePlannerInput();
+    UnicycleTrajectoryGeneratorInput input
+        = UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput();
 
-    UnicyclePlannerOutput output;
+    UnicycleTrajectoryGeneratorOutput output;
 
-    REQUIRE(planner.setInput(input));
-    REQUIRE(planner.advance());
-    REQUIRE(planner.isOutputValid());
+    REQUIRE(unicycleTrajectoryGenerator.setInput(input));
+    REQUIRE(unicycleTrajectoryGenerator.advance());
+    REQUIRE(unicycleTrajectoryGenerator.isOutputValid());
 
-    output = planner.getOutput();
+    output = unicycleTrajectoryGenerator.getOutput();
 
     REQUIRE(output.ContactPhaseList.size() == 1);
 
     if (saveDataTofile)
     {
-        saveData(output, "UnicyclePlannerTestOutput.txt");
+        saveData(output, "UnicycleTrajectoryGeneratorTestOutput.txt");
     }
 }

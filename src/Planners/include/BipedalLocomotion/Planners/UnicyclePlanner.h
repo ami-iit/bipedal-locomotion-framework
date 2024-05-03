@@ -1,6 +1,6 @@
 /**
  * @file UnicyclePlanner.h
- * @authors Diego Ferigo, Stefano Dafarra
+ * @authors Lorenzo Moretti, Diego Ferigo, Giulio Romualdi, Stefano Dafarra
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -8,100 +8,117 @@
 #ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
 #define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
 
-#include "BipedalLocomotion/Contacts/ContactList.h"
-#include "BipedalLocomotion/ParametersHandler/IParametersHandler.h"
-#include "BipedalLocomotion/System/Advanceable.h"
+#include <BipedalLocomotion/Contacts/ContactPhaseList.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/System/Advanceable.h>
 
-#include <Eigen/Core>
-#include <Eigen/Dense>
+#include <deque>
+#include <iDynTree/VectorDynSize.h>
 
 #include <memory>
-#include <optional>
+
+#include <UnicycleGenerator.h>
+#include <UnicyclePlanner.h>
+
+#include <CoMHeightTrajectoryGenerator.h>
+#include <vector>
 
 namespace BipedalLocomotion::Planners
 {
-struct UnicycleKnot;
 class UnicyclePlanner;
 struct UnicyclePlannerInput;
 struct UnicyclePlannerOutput;
+struct UnicyclePlannerParameters;
 } // namespace BipedalLocomotion::Planners
-
-struct BipedalLocomotion::Planners::UnicycleKnot
-{
-    UnicycleKnot(const double _x = 0.0,
-                 const double _y = 0.0,
-                 const double _dx = 0.0,
-                 const double _dy = 0.0,
-                 const double _t = 0.0)
-        : x(_x)
-        , y(_y)
-        , dx(_dx)
-        , dy(_dy)
-        , time(_t)
-    {
-    }
-
-    UnicycleKnot(const Eigen::Vector2d& _position = {0, 0},
-                 const Eigen::Vector2d& _velocity = {0, 0},
-                 const double _time = 0.0)
-        : x(_position[0])
-        , y(_position[1])
-        , dx(_velocity[0])
-        , dy(_velocity[1])
-        , time(_time)
-    {
-    }
-
-    bool operator==(const UnicycleKnot& rhs)
-    {
-        return this->x == rhs.x && this->y == rhs.y && this->dx == rhs.dx && this->dy == rhs.dy
-               && this->time == rhs.time;
-    }
-
-    double x; ///< The knot x coordinates.
-    double y; ///< The knot y coordinates.
-
-    double dx = 0.0; ///< The knot x velocity.
-    double dy = 0.0; ///< The knot y velocity.
-
-    double time = 0.0; ///< The knot activation time.
-};
 
 struct BipedalLocomotion::Planners::UnicyclePlannerInput
 {
-    UnicyclePlannerInput(const std::vector<UnicycleKnot>& _knots,
-                         const double _tf = 0.0,
-                         const std::optional<Contacts::PlannedContact>& _initialLeftContact = {},
-                         const std::optional<Contacts::PlannedContact>& _initialRightContact = {},
-                         const double _t0 = 0.0)
-        : t0(_t0)
-        , tf(_tf)
-        , initialLeftContact(_initialLeftContact)
-        , initialRightContact(_initialRightContact)
-        , knots(_knots)
+    /*
+    if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
+    if UnicycleController::DIRECT, the plannerInput is a vector of size 3 (i.e., [xdot, ydot, wz])
+    */
+    Eigen::VectorXd plannerInput; // The input to the unicycle planner.
+
+    DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
+
+    struct COMInitialState
     {
-    }
+        Eigen::Vector2d initialPlanarPosition; // The initial planar position of the CoM.
+        Eigen::Vector2d initialPlanarVelocity; // The initial planar velocity of the CoM.
+    };
 
-    double t0; ///< The beginning of the planner horizon.
-    double tf; ///< The end of the planner horizon.
+    COMInitialState comInitialState; // The initial state of the CoM.
 
-    std::optional<Contacts::PlannedContact> initialLeftContact; ///< Left contact initialization
-    std::optional<Contacts::PlannedContact> initialRightContact; ///< Right contact initialization
+    bool isLeftLastSwinging; // True if the last foot that was swinging is the left one. False
+                             // otherwise.
 
-    std::vector<UnicycleKnot> knots; ///< A list of knots.
+    double initTime; // The initial time of the trajectory.
+
+    manif::SE3d measuredTransform; // The measured transform of the last foot that touched
+                                   // the floor.
+
+    static UnicyclePlannerInput generateDummyUnicyclePlannerInput();
 };
 
 struct BipedalLocomotion::Planners::UnicyclePlannerOutput
 {
-    UnicyclePlannerOutput(const Contacts::ContactList& _left = {},
-                          const Contacts::ContactList& _right = {})
-        : left(_left)
-        , right(_right)
+    struct COMTrajectory
     {
-    }
+        std::vector<Eigen::Vector3d> position;
+        std::vector<Eigen::Vector3d> velocity;
+        std::vector<Eigen::Vector3d> acceleration;
+    };
 
-    Contacts::ContactList left; ///< The list of left foot contacts;
-    Contacts::ContactList right; ///< The list of right foot contacts;
+    struct DCMTrajectory
+    {
+        std::vector<Eigen::Vector2d> dcmPosition;
+        std::vector<Eigen::Vector2d> dcmVelocity;
+    };
+
+    struct ContactStatus
+    {
+        std::vector<bool> leftFootInContact; // True if the left foot is in contact. False
+                                             // otherwise.
+        std::vector<bool> rightFootInContact; // True if the right foot is in contact. False
+                                              // otherwise.
+        std::vector<bool> UsedLeftAsFixed; // True if the left foot is the last that got in contact.
+    };
+
+    struct Steps
+    {
+        std::deque<Step> leftSteps, rightSteps;
+    };
+
+    COMTrajectory comTrajectory; // The CoM trajectory;
+
+    DCMTrajectory dcmTrajectory; // The DCM trajectory;
+
+    ContactStatus contactStatus; // The contact status of the feet;
+
+    Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
+
+    Steps steps; // The list of steps and their phases;
+
+    std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
+};
+
+struct BipedalLocomotion::Planners::UnicyclePlannerParameters
+{
+    double dt; // The sampling time of the planner.
+
+    double plannerHorizon; // The time horizon of the planner.
+
+    double leftYawDeltaInRad; // Left foot cartesian offset in the yaw.
+
+    double rightYawDeltaInRad; // Right foot cartesian offset in the yaw.
+
+    Eigen::Vector2d referencePointDistance; // The reference position of the unicycle controller
+
+    double nominalWidth; // The nominal feet distance.
+
+    int leftContactFrameIndex; // The index of the left foot contact frame.
+
+    int rightContactFrameIndex; // The index of the right foot contact frame.
 };
 
 class BipedalLocomotion::Planners::UnicyclePlanner final
@@ -119,35 +136,52 @@ public:
      *
      * @note The following parameters are required by the class:
      *
-     * |          Name          |      Type      |      Default      | Mandatory |                    Description                     |
-     * | :--------------------: | :------------: | :---------------: | :-------: | :------------------------------------------------: |
-     * |    `sampling_time`     |     double     |         -         |    Yes    |          The sampling time of the planner          |
-     * |     `unicycleGain`     |     double     |       10.0        |    No     |      The main gain of the unicycle controller      |
-     * | `slowWhenTurningGain`  |     double     |        0.0        |    No     |     The turnin gain of the unicycle controller     |
-     * |  `referencePosition`   | list of double |   (0.10, 0.00)    |    No     | The reference position of the unicycle controller  |
-     * |      `timeWeight`      |     double     |        1.0        |    No     |         The time weight of the OC problem          |
-     * |    `positionWeight`    |     double     |        1.0        |    No     |       The position weight of the OC problem        |
-     * |   `minStepDuration`    |     double     |         -         |    Yes    |           The minimum duration of a step           |
-     * |   `maxStepDuration`    |     double     |         -         |    Yes    |           The maximum duration of a step           |
-     * |   `nominalDuration`    |     double     |         -         |    Yes    |           The nominal duration of a step           |
-     * |    `minStepLength`     |     double     |         -         |    Yes    |            The minimum length of a step            |
-     * |    `maxStepLength`     |     double     |         -         |    Yes    |            The maximum length of a step            |
-     * |       `minWidth`       |     double     |         -         |    Yes    |             The minimum feet distance              |
-     * |     `nominalWidth`     |     double     |         -         |    Yes    |             The nominal feet distance              |
-     * |  `minAngleVariation`   |     double     |         -         |    Yes    |           The minimum unicycle rotation            |
-     * |  `maxAngleVariation`   |     double     |         -         |    Yes    |           The maximum unicycle rotation            |
-     * | `switchOverSwingRatio` |     double     |         -         |    Yes    | The ratio between single and double support phases |
-     * |      `swingLeft`       |      bool      |       false       |    No     |     Perform the first step with the left foot      |
-     * |     `terminalStep`     |      bool      |       true        |    No     |   Add a terminal step at the end of the horizon    |
-     * | `startAlwaysSameFoot`  |      bool      |       false       |    No     |       Restart with the default foot if still       |
-     * |    `left_foot_name`    |     string     |       left        |    No     |               Name of the left foot                |
-     * |   `right_foot_name`    |     string     |       right       |    No     |               Name of the right foot               |
+     * |           Name            |      Type         |      Default      |     Example     |                       Description                               |
+     * | :-----------------------: | :---------------: | :---------------: | :-------------: | :-------------------------------------------------------------: |
+     * |  `referencePosition`      | list of 2 doubles |         -         |   (0.1 0.0)     | The reference position of the unicycle controller               |
+     * |     `controlType`         |     string        |     "direct"      |       -         | The control mode used by the unicycle controller                |
+     * |     `unicycleGain`        |     double        |       10.0        |       -         |      The main gain of the unicycle controller                   |
+     * | `slowWhenTurningGain`     |     double        |        2.0        |       -         |     The turning gain of the unicycle controller                 |
+     * | `slowWhenBackwardFactor`  |     double        |        0.4        |       -         |     The backward gain of the unicycle controller                |
+     * | `slowWhenSidewaysFactor`  |     double        |        0.2        |       -         |     The sideways gain of the unicycle controller                |
+     * |           `dt`            |     double        |      0.002        |       -         |          The sampling time of the planner                       |
+     * |   `plannerHorizon`        |     double        |       20.0        |       -         |          The planner time horizon                               |
+     * |    `positionWeight`       |     double        |        1.0        |       -         |       The position weight of the OC problem                     |
+     * |      `timeWeight`         |     double        |        2.5        |       -         |         The time weight of the OC problem                       |
+     * |    `maxStepLength`        |     double        |       0.32        |       -         |            The maximum length of a step                         |
+     * |    `minStepLength`        |     double        |       0.01        |       -         |            The minimum length of a step                         |    
+     * |`maxLengthBackwardFactor`  |     double        |        0.8        |       -         |   The factor of maximum backward walk                           |
+     * |     `nominalWidth`        |     double        |       0.20        |       -         |             The nominal feet distance                           |
+     * |       `minWidth`          |     double        |       0.14        |       -         |             The minimum feet distance                           |
+     * |   `minStepDuration`       |     double        |       0.65        |       -         |           The minimum duration of a step                        |
+     * |   `maxStepDuration`       |     double        |        1.5        |       -         |           The maximum duration of a step                        |
+     * |   `nominalDuration`       |     double        |        0.8        |       -         |           The nominal duration of a step                        |
+     * |  `maxAngleVariation`      |     double        |       18.0        |       -         |           The maximum unicycle rotation                         |
+     * |  `minAngleVariation`      |     double        |        5.0        |       -         |           The minimum unicycle rotation                         |
+     * | `saturationFactors`       | list of 2 doubles |        -          |   (0.7 0.7)     |  Linear and Angular velocity conservative factors               | 
+     * | `leftYawDeltaInDeg`       |     double        |        0.0        |       -         | Offset for the left foot rotation around the z axis             |
+     * | `rightYawDeltaInDeg`      |     double        |        0.0        |       -         | Offset for the right foot rotation around the z axis            |
+     * |      `swingLeft`          |      bool         |       false       |       -         |     Perform the first step with the left foot                   |
+     * | `startAlwaysSameFoot`     |      bool         |       false       |       -         |       Restart with the default foot if still                    |
+     * |     `terminalStep`        |      bool         |       true        |       -         |   Add a terminal step at the end of the horizon                 |
+     * |     `mergePointRatios`    | list of 2 doubles |         -         |   (0.4 0.4)     | The ratios of the DS phase in which it is present a merge point | 
+     * | `switchOverSwingRatio`    |     double        |        0.2        |       -         | The ratio between single and double support phases              |
+     * | `lastStepSwitchTime`      |     double        |        0.3        |       -         |       Time duration of double support phase in final step       |
+     * | `isPauseActive`           |      bool         |       true        |       -         |    If true, the planner can pause, instead of make tiny steps.  |
+     * | `comHeight`               |     double        |        0.70       |       -         |    CoM height in double support phase                           |
+     * | `comHeightDelta`          |     double        |        0.01       |       -         |    Delta to add to CoM heinght in Single support phases         |
+     * | `leftZMPDelta`            | list of 2 doubles |         -         |   (0.0  0.0)    | Local ZMP reference: delta wrt center frame of the foot         |
+     * | `rightZMPDelta`           | list of 2 doubles |         -         |   (0.0  0.0)    | Local ZMP reference: delta wrt center frame of the foot         |
+     * | `lastStepDCMOffset`       |     double        |        0.5        |       -         | Last Step DCM Offset. If 0, DCM coincides with stance foot ZMP  |
+     * | `leftContactFrameName`    |     string        |         -         |    "l_sole"     |       Name of the left foot contact frame                       |
+     * | `rightContactFrameName`   |     string        |         -         |    "r_sole"     |       Name of the right foot contact frame                      |
      *
+    // clang-format on
+
      * @param handler Pointer to the parameter handler.
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
-    // clang-format on
 
     const UnicyclePlannerOutput& getOutput() const override;
 
@@ -160,6 +194,23 @@ public:
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
+
+    bool setUnicycleControllerFromString(
+    const std::string& unicycleControllerAsString, UnicycleController& unicycleController);
+
+    bool generateFirstTrajectory();
 };
+
+namespace BipedalLocomotion::Planners::Utilities
+{
+bool getContactList(
+    const double initTime,
+    const double dt,
+    const std::vector<bool>& inContact,
+    const std::deque<Step>& steps,
+    const int contactFrameIndex,
+    const std::string& contactName,
+    BipedalLocomotion::Contacts::ContactList& contactList);
+}; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
