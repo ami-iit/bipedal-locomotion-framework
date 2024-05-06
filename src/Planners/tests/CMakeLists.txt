@@ -52,7 +52,7 @@ add_bipedal_test(
   add_bipedal_test(
     NAME UnicycleTrajectoryGenerator
     SOURCES UnicycleTrajectoryGeneratorTest.cpp
-    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle BipedalLocomotion::ParametersHandlerYarpImplementation
+    LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::ContinuousDynamicalSystem
     )
 
 endif()
