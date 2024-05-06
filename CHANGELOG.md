@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file.
 - Require `iDynTree v10.0.0` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/832)
 - Refactor `YarpRobotControl::setReferences` function to include optional current joint values and avoid to switch control mode in `YarpRobotControl::setReferences` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/833)
 - Set the gravity vector as an input argument of the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/823)
+- Refactor the `Planners::UnicyclePlanner` to mimic the functionalitites of the planner deployed in [walking-controllers](https://github.com/robotology/walking-controllers) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/844)
 
 ### Fixed
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
