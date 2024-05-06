@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <chrono>
@@ -57,14 +57,14 @@ public:
 
     std::mutex mutex;
 
-    enum class uniCyclePlannerState
+    enum class unicycleTrajectoryPlannerState
     {
         Called,
         Returned,
         Running,
     };
 
-    uniCyclePlannerState unicyclePlannerState{uniCyclePlannerState::Returned};
+    unicycleTrajectoryPlannerState unicyclePlannerState{unicycleTrajectoryPlannerState::Returned};
 
     std::future<bool> unicyclePlannerOutputFuture;
 
@@ -85,7 +85,7 @@ public:
 
     ReferenceSignals referenceSignals;
 
-    BipedalLocomotion::Planners::UnicyclePlanner unicyclePlanner;
+    BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
 
     bool askNewTrajectory(const double& initTime, const manif::SE3d& measuredTransform);
 
@@ -116,7 +116,7 @@ Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator()
     auto unicyclePlannerState = m_pImpl->unicyclePlannerState;
     m_pImpl->mutex.unlock();
 
-    if (m_pImpl->unicyclePlannerState != Impl::uniCyclePlannerState::Returned)
+    if (m_pImpl->unicyclePlannerState != Impl::unicycleTrajectoryPlannerState::Returned)
     {
         m_pImpl->unicyclePlannerOutputFuture.wait();
     }
@@ -204,7 +204,7 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     m_pImpl->newTrajectoryRequired = false;
 
     // Initialize the blf unicycle planner
-    ok = ok && m_pImpl->unicyclePlanner.initialize(ptr);
+    ok = ok && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr);
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
@@ -450,12 +450,12 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
             m_pImpl->mutex.lock();
-            if (m_pImpl->unicyclePlannerState == Impl::uniCyclePlannerState::Running)
+            if (m_pImpl->unicyclePlannerState == Impl::unicycleTrajectoryPlannerState::Running)
             {
                 log()->error("{} The unicycle planner is still running.", logPrefix);
                 return false;
             }
-            m_pImpl->unicyclePlannerState = Impl::uniCyclePlannerState::Called;
+            m_pImpl->unicyclePlannerState = Impl::unicycleTrajectoryPlannerState::Called;
             m_pImpl->mutex.unlock();
 
             if (!m_pImpl->askNewTrajectory(initTimeTrajectory, measuredTransform))
@@ -509,34 +509,37 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
         mutex.lock();
-        unicyclePlannerState = uniCyclePlannerState::Running;
+        unicyclePlannerState = unicycleTrajectoryPlannerState::Running;
         mutex.unlock();
 
         // advance the planner
-        bool ok = this->unicyclePlanner.advance();
+        bool ok = this->unicycleTrajectoryPlanner.advance();
 
         mutex.lock();
-        unicyclePlannerState = uniCyclePlannerState::Returned;
+        unicyclePlannerState = unicycleTrajectoryPlannerState::Returned;
         mutex.unlock();
 
         return ok;
     };
 
     // create the input for the unicycle planner
-    UnicyclePlannerInput unicyclePlannerInput;
-    unicyclePlannerInput.plannerInput = input.plannerInput;
-    unicyclePlannerInput.initTime = initTime;
-    unicyclePlannerInput.isLeftLastSwinging = referenceSignals.isLeftFootLastSwinging.front();
-    unicyclePlannerInput.measuredTransform = measuredTransform;
-    unicyclePlannerInput.dcmInitialState.initialPosition = referenceSignals.dcmPosition[mergePoint];
-    unicyclePlannerInput.dcmInitialState.initialVelocity = referenceSignals.dcmVelocity[mergePoint];
-    unicyclePlannerInput.comInitialState.initialPlanarPosition
+    UnicycleTrajectoryPlannerInput unicycleTrajectoryPlannerInput;
+    unicycleTrajectoryPlannerInput.plannerInput = input.plannerInput;
+    unicycleTrajectoryPlannerInput.initTime = initTime;
+    unicycleTrajectoryPlannerInput.isLeftLastSwinging
+        = referenceSignals.isLeftFootLastSwinging.front();
+    unicycleTrajectoryPlannerInput.measuredTransform = measuredTransform;
+    unicycleTrajectoryPlannerInput.dcmInitialState.initialPosition
+        = referenceSignals.dcmPosition[mergePoint];
+    unicycleTrajectoryPlannerInput.dcmInitialState.initialVelocity
+        = referenceSignals.dcmVelocity[mergePoint];
+    unicycleTrajectoryPlannerInput.comInitialState.initialPlanarPosition
         = referenceSignals.comPosition[mergePoint].head(2);
-    unicyclePlannerInput.comInitialState.initialPlanarVelocity
+    unicycleTrajectoryPlannerInput.comInitialState.initialPlanarVelocity
         = referenceSignals.comVelocity[mergePoint].head(2);
 
     // set the input
-    this->unicyclePlanner.setInput(unicyclePlannerInput);
+    this->unicycleTrajectoryPlanner.setInput(unicycleTrajectoryPlannerInput);
 
     // create a new asynchronous thread to compute the new trajectory
     unicyclePlannerOutputFuture = std::async(std::launch::async, computeNewTrajectory);
@@ -556,7 +559,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     // finished the computation
     if (!(state == Impl::FSM::NotInitialized))
     {
-        if (unicyclePlannerState != uniCyclePlannerState::Returned)
+        if (unicyclePlannerState != unicycleTrajectoryPlannerState::Returned)
         {
             log()->error("{} The unicycle planner is still running.", logPrefix);
             return false;
@@ -584,25 +587,25 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     std::deque<Step> leftSteps, rightSteps;
 
     // get dcm position and velocity
-    dcmPositionReference = unicyclePlanner.getOutput().dcmTrajectory.dcmPosition;
-    dcmVelocityReference = unicyclePlanner.getOutput().dcmTrajectory.dcmVelocity;
+    dcmPositionReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.dcmPosition;
+    dcmVelocityReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.dcmVelocity;
 
     // get com trajectory
-    comPositionRefence = unicyclePlanner.getOutput().comTrajectory.position;
-    comVelocityReference = unicyclePlanner.getOutput().comTrajectory.velocity;
-    comAccelerationReference = unicyclePlanner.getOutput().comTrajectory.acceleration;
+    comPositionRefence = unicycleTrajectoryPlanner.getOutput().comTrajectory.position;
+    comVelocityReference = unicycleTrajectoryPlanner.getOutput().comTrajectory.velocity;
+    comAccelerationReference = unicycleTrajectoryPlanner.getOutput().comTrajectory.acceleration;
 
     // get feet contact status
-    leftInContact = unicyclePlanner.getOutput().contactStatus.leftFootInContact;
-    rightInContact = unicyclePlanner.getOutput().contactStatus.rightFootInContact;
-    isLastSwingingFoot = unicyclePlanner.getOutput().contactStatus.UsedLeftAsFixed;
+    leftInContact = unicycleTrajectoryPlanner.getOutput().contactStatus.leftFootInContact;
+    rightInContact = unicycleTrajectoryPlanner.getOutput().contactStatus.rightFootInContact;
+    isLastSwingingFoot = unicycleTrajectoryPlanner.getOutput().contactStatus.UsedLeftAsFixed;
 
     // get merge points
-    mergePoints = unicyclePlanner.getOutput().mergePoints;
+    mergePoints = unicycleTrajectoryPlanner.getOutput().mergePoints;
 
     // get steps
-    leftSteps = unicyclePlanner.getOutput().steps.leftSteps;
-    rightSteps = unicyclePlanner.getOutput().steps.rightSteps;
+    leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
+    rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
 
     // append vectors to deques
 
@@ -721,20 +724,20 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::generateFirstTrajectory]";
 
-    UnicyclePlannerInput unicyclePlannerInput;
-    unicyclePlannerInput.initTime = m_pImpl->time;
-    unicyclePlannerInput.comInitialState.initialPlanarPosition = Eigen::Vector2d::Zero();
-    unicyclePlannerInput.comInitialState.initialPlanarVelocity = Eigen::Vector2d::Zero();
+    UnicycleTrajectoryPlannerInput unicycleTrajectoryPlannerInput;
+    unicycleTrajectoryPlannerInput.initTime = m_pImpl->time;
+    unicycleTrajectoryPlannerInput.comInitialState.initialPlanarPosition = Eigen::Vector2d::Zero();
+    unicycleTrajectoryPlannerInput.comInitialState.initialPlanarVelocity = Eigen::Vector2d::Zero();
 
     log()->debug("{} Generating the first trajectory.", logPrefix);
 
-    if (!m_pImpl->unicyclePlanner.setInput(unicyclePlannerInput))
+    if (!m_pImpl->unicycleTrajectoryPlanner.setInput(unicycleTrajectoryPlannerInput))
     {
         log()->error("{} Unable to set the input for the unicycle planner.", logPrefix);
         return false;
     }
 
-    if (!m_pImpl->unicyclePlanner.advance())
+    if (!m_pImpl->unicycleTrajectoryPlanner.advance())
     {
         log()->error("{} Unable to advance the unicycle planner.", logPrefix);
         return false;

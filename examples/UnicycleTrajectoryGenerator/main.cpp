@@ -1,8 +1,8 @@
 #include "BipedalLocomotion/Contacts/ContactPhaseList.h"
 #include "BipedalLocomotion/System/StdClock.h"
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>

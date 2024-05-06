@@ -10,7 +10,7 @@
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -47,7 +47,7 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
 };
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput
-    : public BipedalLocomotion::Planners::UnicyclePlannerOutput
+    : public BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 {
     bool isValid = true; // True if the output is valid, false otherwise.
 };
