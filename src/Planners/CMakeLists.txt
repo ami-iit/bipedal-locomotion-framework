@@ -29,7 +29,7 @@ if (FRAMEWORK_COMPILE_Unicycle)
     PUBLIC_HEADERS ${H_PREFIX}/UnicycleTrajectoryPlanner.h
     SOURCES src/UnicycleTrajectoryPlanner.cpp
     PUBLIC_LINK_LIBRARIES BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts Eigen3::Eigen
-    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging iDynTree::idyntree-core UnicyclePlanner BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::ManifConversions
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging iDynTree::idyntree-core UnicyclePlanner BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::ManifConversions YARP::YARP_os
     INSTALLATION_FOLDER Planners)
 
 endif()
