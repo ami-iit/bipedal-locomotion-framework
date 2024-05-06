@@ -18,8 +18,11 @@
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
+#include <vector>
 #include <yarp/os/Network.h>
 #include <yarp/os/RFModule.h>
+
+#include <matioCpp/matioCpp.h>
 
 using namespace BipedalLocomotion;
 
@@ -62,6 +65,32 @@ getSwingFootPlannerParametersHandler(double dt)
 int main(int argc, char* argv[])
 {
     constexpr auto errorPrefix = "[main]";
+
+    bool saveResults = false;
+    if (argc > 1)
+    {
+        if (std::string(argv[1]) == "--save")
+        {
+            // results are saved in a mat file located in the directory
+            // where the executable is run
+            saveResults = true;
+        }
+    }
+
+    // matio file
+    matioCpp::File resultFile;
+    if (saveResults)
+    {
+        resultFile = matioCpp::File::Create("UnicycleTrajectoryGeneratorResults.mat");
+    }
+    std::vector<Eigen::Vector3d> positionLeftFoot;
+    std::vector<Eigen::Vector3d> positionRightFoot;
+    std::vector<Eigen::Vector3d> positionCOM;
+    std::vector<Eigen::Vector3d> velocityCOM;
+    std::vector<Eigen::Vector2d> DCMposition;
+    std::vector<Eigen::Vector2d> DCMvelocity;
+    std::vector<double> time;
+    size_t i = 0;
 
     // set the Bipedal Locomotion clock factory
     BipedalLocomotion::System::ClockBuilder::setFactory(
@@ -174,6 +203,20 @@ int main(int argc, char* argv[])
         w_H_left = leftFootPlanner.getOutput().transform;
         w_H_right = rightFootPlanner.getOutput().transform;
 
+        if (saveResults)
+        {
+            positionLeftFoot.push_back(w_H_left.translation());
+            positionRightFoot.push_back(w_H_right.translation());
+            positionCOM.push_back(output.comTrajectory.position.front());
+            velocityCOM.push_back(output.comTrajectory.velocity.front());
+            DCMposition.push_back(output.dcmTrajectory.dcmPosition.front());
+            DCMvelocity.push_back(output.dcmTrajectory.dcmVelocity.front());
+
+            i++;
+            time.push_back(
+                std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - timeStart)
+                    .count());
+        }
         // get the DCM trajectory from the unicycle trajectory generator
         auto dcmPosition = output.dcmTrajectory.dcmPosition;
         auto dcmVelocity = output.dcmTrajectory.dcmVelocity;
@@ -200,6 +243,61 @@ int main(int argc, char* argv[])
         BipedalLocomotion::clock().sleepUntil(currentTime + dtChrono);
 
         isFirstIteration = false;
+    }
+
+    // save the results to a mat file
+    if (saveResults)
+    {
+        auto toMatioTimeVector = matioCpp::make_variable("time", time);
+        resultFile.write(toMatioTimeVector);
+
+        Eigen::Matrix3Xd footPositionMatrix(3, positionLeftFoot.size());
+        for (size_t i = 0; i < positionLeftFoot.size(); i++)
+        {
+            footPositionMatrix.col(i) = positionLeftFoot[i];
+        }
+        auto toMatioEigenVec = matioCpp::make_variable("LeftFootPosition", footPositionMatrix);
+        resultFile.write(toMatioEigenVec);
+
+        for (size_t i = 0; i < positionRightFoot.size(); i++)
+        {
+            footPositionMatrix.col(i) = positionRightFoot[i];
+        }
+        toMatioEigenVec = matioCpp::make_variable("RightFootPosition", footPositionMatrix);
+        resultFile.write(toMatioEigenVec);
+
+        Eigen::Matrix3Xd comPositionMatrix(3, positionCOM.size());
+        for (size_t i = 0; i < positionCOM.size(); i++)
+        {
+            comPositionMatrix.col(i) = positionCOM[i];
+        }
+
+        toMatioEigenVec = matioCpp::make_variable("COMPosition", comPositionMatrix);
+        resultFile.write(toMatioEigenVec);
+
+        Eigen::Matrix3Xd comVelocityMatrix(3, velocityCOM.size());
+        for (size_t i = 0; i < velocityCOM.size(); i++)
+        {
+            comVelocityMatrix.col(i) = velocityCOM[i];
+        }
+        toMatioEigenVec = matioCpp::make_variable("COMVelocity", comVelocityMatrix);
+        resultFile.write(toMatioEigenVec);
+
+        Eigen::Matrix2Xd dcmPositionMatrix(2, DCMposition.size());
+        for (size_t i = 0; i < DCMposition.size(); i++)
+        {
+            dcmPositionMatrix.col(i) = DCMposition[i];
+        }
+        toMatioEigenVec = matioCpp::make_variable("DCMPosition", dcmPositionMatrix);
+        resultFile.write(toMatioEigenVec);
+
+        Eigen::Matrix2Xd dcmVelocityMatrix(2, DCMvelocity.size());
+        for (size_t i = 0; i < DCMvelocity.size(); i++)
+        {
+            dcmVelocityMatrix.col(i) = DCMvelocity[i];
+        }
+        toMatioEigenVec = matioCpp::make_variable("DCMVelocity", dcmVelocityMatrix);
+        resultFile.write(toMatioEigenVec);
     }
 
     return EXIT_SUCCESS;
