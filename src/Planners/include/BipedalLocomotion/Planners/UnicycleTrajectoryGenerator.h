@@ -80,7 +80,7 @@ public:
      * |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator         |
      * | `leftContactFrameName`      |     string     |         -         |    "l_sole"     |     Name of the left foot contact frame                   |
      * | `rightContactFrameName`     |     string     |         -         |    "r_sole"     |     Name of the right foot contact frame                  |
-     * 
+     *
      * Implicitely, the class needs also all the parameters required by the Bipedalocotion::Planner::UnicyclePlanner class.
     // clang-format on
 
