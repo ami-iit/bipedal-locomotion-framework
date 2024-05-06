@@ -9,14 +9,14 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 
 #include <manif/manif.h>
 
-void saveData(const UnicyclePlannerOutput& output, const std::string& filename)
+void saveData(const UnicycleTrajectoryPlannerOutput& output, const std::string& filename)
 {
     std::ofstream file(filename);
     if (!file.is_open())
@@ -52,13 +52,14 @@ TEST_CASE("UnicyclePlannerTest")
 
     bool saveDataTofile = false;
 
-    BipedalLocomotion::Planners::UnicyclePlanner planner;
+    BipedalLocomotion::Planners::UnicycleTrajectoryPlanner planner;
 
     REQUIRE(planner.initialize(handler));
 
-    UnicyclePlannerInput input = UnicyclePlannerInput::generateDummyUnicyclePlannerInput();
+    UnicycleTrajectoryPlannerInput input
+        = UnicycleTrajectoryPlannerInput::generateDummyUnicycleTrajectoryPlannerInput();
 
-    UnicyclePlannerOutput output;
+    UnicycleTrajectoryPlannerOutput output;
 
     REQUIRE(planner.setInput(input));
     REQUIRE(planner.advance());
@@ -70,6 +71,6 @@ TEST_CASE("UnicyclePlannerTest")
 
     if (saveDataTofile)
     {
-        saveData(output, "UnicyclePlannerTestOutput.txt");
+        saveData(output, "UnicycleTrajectoryPlannerTestOutput.txt");
     }
 }

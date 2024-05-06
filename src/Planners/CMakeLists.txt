@@ -26,8 +26,8 @@ if (FRAMEWORK_COMPILE_Unicycle)
 
   add_bipedal_locomotion_library(
     NAME Unicycle
-    PUBLIC_HEADERS ${H_PREFIX}/UnicyclePlanner.h
-    SOURCES src/UnicyclePlanner.cpp
+    PUBLIC_HEADERS ${H_PREFIX}/UnicycleTrajectoryPlanner.h
+    SOURCES src/UnicycleTrajectoryPlanner.cpp
     PUBLIC_LINK_LIBRARIES BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts Eigen3::Eigen
     PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging iDynTree::idyntree-core UnicyclePlanner BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::ManifConversions
     INSTALLATION_FOLDER Planners)

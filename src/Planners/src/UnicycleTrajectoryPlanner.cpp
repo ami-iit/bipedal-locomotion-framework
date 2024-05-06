@@ -1,5 +1,5 @@
 /**
- * @file UnicyclePlanner.h
+ * @file UnicycleTrajectoryPlanner.cpp
  * @authors Lorenzo Moretti, Diego Ferigo, Giulio Romualdi, Stefano Dafarra
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -12,7 +12,7 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/RK4.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
-#include <BipedalLocomotion/Planners/UnicyclePlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <mutex>
@@ -28,7 +28,7 @@
 
 using namespace BipedalLocomotion;
 
-class Planners::UnicyclePlanner::Impl
+class Planners::UnicycleTrajectoryPlanner::Impl
 {
 
 public:
@@ -41,11 +41,11 @@ public:
 
     FSM state{FSM::NotInitialized};
 
-    UnicyclePlannerOutput output;
+    UnicycleTrajectoryPlannerOutput output;
 
-    UnicyclePlannerInput input;
+    UnicycleTrajectoryPlannerInput input;
 
-    UnicyclePlannerParameters parameters;
+    UnicycleTrajectoryPlannerParameters parameters;
 
     UnicycleGenerator generator;
 
@@ -79,10 +79,10 @@ public:
     COMSystem comSystem;
 };
 
-BipedalLocomotion::Planners::UnicyclePlannerInput
-BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerInput()
+BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput BipedalLocomotion::Planners::
+    UnicycleTrajectoryPlannerInput::generateDummyUnicycleTrajectoryPlannerInput()
 {
-    UnicyclePlannerInput input;
+    UnicycleTrajectoryPlannerInput input;
 
     input.plannerInput = Eigen::VectorXd::Zero(3);
 
@@ -102,7 +102,7 @@ BipedalLocomotion::Planners::UnicyclePlannerInput::generateDummyUnicyclePlannerI
     return input;
 }
 
-bool Planners::UnicyclePlanner::setUnicycleControllerFromString(
+bool Planners::UnicycleTrajectoryPlanner::setUnicycleControllerFromString(
     const std::string& unicycleControllerAsString, UnicycleController& unicycleController)
 {
     if (unicycleControllerAsString == "personFollowing")
@@ -113,24 +113,25 @@ bool Planners::UnicyclePlanner::setUnicycleControllerFromString(
         unicycleController = UnicycleController::DIRECT;
     } else
     {
-        log()->error("[UnicyclePlanner::setUnicycleControllerFromString] Invalid controller type.");
+        log()->error("[UnicycleTrajectoryPlanner::setUnicycleControllerFromString] Invalid "
+                     "controller type.");
         return false;
     }
 
     return true;
 }
 
-Planners::UnicyclePlanner::UnicyclePlanner()
+Planners::UnicycleTrajectoryPlanner::UnicycleTrajectoryPlanner()
 {
-    m_pImpl = std::make_unique<UnicyclePlanner::Impl>();
+    m_pImpl = std::make_unique<UnicycleTrajectoryPlanner::Impl>();
 }
 
-Planners::UnicyclePlanner::~UnicyclePlanner() = default;
+Planners::UnicycleTrajectoryPlanner::~UnicycleTrajectoryPlanner() = default;
 
-bool Planners::UnicyclePlanner::initialize(
+bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::initialize]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::initialize]";
 
     auto ptr = handler.lock();
 
@@ -404,23 +405,24 @@ bool Planners::UnicyclePlanner::initialize(
     return ok;
 }
 
-const Planners::UnicyclePlannerOutput& Planners::UnicyclePlanner::getOutput() const
+const Planners::UnicycleTrajectoryPlannerOutput&
+Planners::UnicycleTrajectoryPlanner::getOutput() const
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::getOutput]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::getOutput]";
 
     std::lock_guard<std::mutex> lock(m_pImpl->mutex);
 
     return m_pImpl->output;
 }
 
-bool Planners::UnicyclePlanner::isOutputValid() const
+bool Planners::UnicycleTrajectoryPlanner::isOutputValid() const
 {
     return m_pImpl->state == Impl::FSM::Running;
 }
 
-bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
+bool Planners::UnicycleTrajectoryPlanner::setInput(const UnicycleTrajectoryPlannerInput& input)
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::setInput]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::setInput]";
 
     if (m_pImpl->state == Impl::FSM::NotInitialized)
     {
@@ -433,9 +435,9 @@ bool Planners::UnicyclePlanner::setInput(const UnicyclePlannerInput& input)
     return true;
 }
 
-bool Planners::UnicyclePlanner::advance()
+bool Planners::UnicycleTrajectoryPlanner::advance()
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::advance]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::advance]";
 
     if (m_pImpl->state == Impl::FSM::NotInitialized)
     {
@@ -705,10 +707,10 @@ bool Planners::UnicyclePlanner::advance()
     return true;
 }
 
-bool BipedalLocomotion::Planners::UnicyclePlanner::generateFirstTrajectory()
+bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajectory()
 {
 
-    constexpr auto logPrefix = "[UnicyclePlanner::generateFirstTrajectory]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::generateFirstTrajectory]";
 
     // clear the all trajectory
     auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
@@ -769,7 +771,7 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
     const std::string& contactName,
     BipedalLocomotion::Contacts::ContactList& contactList)
 {
-    constexpr auto logPrefix = "[UnicyclePlanner::Utilities::getContactList]";
+    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::Utilities::getContactList]";
 
     if (contactList.size() > 1)
     {

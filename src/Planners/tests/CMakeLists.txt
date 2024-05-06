@@ -25,8 +25,8 @@ add_bipedal_test(
 if (FRAMEWORK_COMPILE_Unicycle)
 
   add_bipedal_test(
-    NAME UnicyclePlanner
-    SOURCES UnicyclePlannerTest.cpp
+    NAME UnicycleTrajectoryPlanner
+    SOURCES UnicycleTrajectoryPlannerTest.cpp
     LINKS BipedalLocomotion::Planners BipedalLocomotion::Unicycle
     )
 

@@ -1,5 +1,5 @@
 /**
- * @file UnicyclePlanner.h
+ * @file UnicycleTrajectoryPlanner.h
  * @authors Lorenzo Moretti, Diego Ferigo, Giulio Romualdi, Stefano Dafarra
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -25,13 +25,13 @@
 
 namespace BipedalLocomotion::Planners
 {
-class UnicyclePlanner;
-struct UnicyclePlannerInput;
-struct UnicyclePlannerOutput;
-struct UnicyclePlannerParameters;
+class UnicycleTrajectoryPlanner;
+struct UnicycleTrajectoryPlannerInput;
+struct UnicycleTrajectoryPlannerOutput;
+struct UnicycleTrajectoryPlannerParameters;
 } // namespace BipedalLocomotion::Planners
 
-struct BipedalLocomotion::Planners::UnicyclePlannerInput
+struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput
 {
     /*
     if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
@@ -57,10 +57,10 @@ struct BipedalLocomotion::Planners::UnicyclePlannerInput
     manif::SE3d measuredTransform; // The measured transform of the last foot that touched
                                    // the floor.
 
-    static UnicyclePlannerInput generateDummyUnicyclePlannerInput();
+    static UnicycleTrajectoryPlannerInput generateDummyUnicycleTrajectoryPlannerInput();
 };
 
-struct BipedalLocomotion::Planners::UnicyclePlannerOutput
+struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 {
     struct COMTrajectory
     {
@@ -102,7 +102,7 @@ struct BipedalLocomotion::Planners::UnicyclePlannerOutput
     std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
 };
 
-struct BipedalLocomotion::Planners::UnicyclePlannerParameters
+struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
 {
     double dt; // The sampling time of the planner.
 
@@ -121,13 +121,13 @@ struct BipedalLocomotion::Planners::UnicyclePlannerParameters
     int rightContactFrameIndex; // The index of the right foot contact frame.
 };
 
-class BipedalLocomotion::Planners::UnicyclePlanner final
-    : public System::Advanceable<UnicyclePlannerInput, UnicyclePlannerOutput>
+class BipedalLocomotion::Planners::UnicycleTrajectoryPlanner final
+    : public System::Advanceable<UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput>
 {
 public:
-    UnicyclePlanner();
+    UnicycleTrajectoryPlanner();
 
-    virtual ~UnicyclePlanner();
+    virtual ~UnicycleTrajectoryPlanner();
 
     // clang-format off
 
@@ -183,11 +183,11 @@ public:
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
-    const UnicyclePlannerOutput& getOutput() const override;
+    const UnicycleTrajectoryPlannerOutput& getOutput() const override;
 
     bool isOutputValid() const override;
 
-    bool setInput(const UnicyclePlannerInput& input) override;
+    bool setInput(const UnicycleTrajectoryPlannerInput& input) override;
 
     bool advance() override;
 
