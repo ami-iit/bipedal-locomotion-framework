@@ -11,7 +11,7 @@ if (FRAMEWORK_COMPILE_Unicycle)
     else()
       set(ERGOCUB_MODEL_UPDATED FALSE)
     endif()
-  
+
     if(NOT ${ERGOCUB_MODEL_UPDATED})
       message(STATUS "Fetching ergoCubSN000 model from icub-tech-iit/ergocub-software...")
       file(DOWNLOAD https://raw.githubusercontent.com/icub-tech-iit/ergocub-software/f28733afcbbfcc99cbac13be530a6a072f832746/urdf/ergoCub/robots/ergoCubSN000/model.urdf
