@@ -1,28 +1,22 @@
-#include "BipedalLocomotion/Contacts/ContactPhaseList.h"
-#include "BipedalLocomotion/System/StdClock.h"
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 
 #include <BipedalLocomotion/System/Clock.h>
-#include <BipedalLocomotion/System/YarpClock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <Eigen/src/Core/Matrix.h>
 #include <chrono>
-#include <iDynTree/Position.h>
-#include <iDynTree/Transform.h>
-#include <manif/impl/se3/SE3.h>
-#include <memory>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 
 #include <vector>
-#include <yarp/os/Network.h>
-#include <yarp/os/RFModule.h>
 
 #include <matioCpp/matioCpp.h>
+
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelLoader.h>
+
+#include <FolderPath.h>
 
 using namespace BipedalLocomotion;
 
@@ -96,12 +90,27 @@ int main(int argc, char* argv[])
     BipedalLocomotion::System::ClockBuilder::setFactory(
         std::make_shared<BipedalLocomotion::System::StdClockFactory>());
 
+    // load robot model
+    auto jointsList
+        = std::vector<std::string>{"l_hip_pitch",      "l_hip_roll",       "l_hip_yaw",
+                                   "l_knee",           "l_ankle_pitch",    "l_ankle_roll",
+                                   "r_hip_pitch",      "r_hip_roll",       "r_hip_yaw",
+                                   "r_knee",           "r_ankle_pitch",    "r_ankle_roll",
+                                   "torso_pitch",      "torso_roll",       "torso_yaw",
+                                   "neck_pitch",       "neck_roll",        "neck_yaw",
+                                   "l_shoulder_pitch", "l_shoulder_roll",  "l_shoulder_yaw",
+                                   "l_elbow",          "r_shoulder_pitch", "r_shoulder_roll",
+                                   "r_shoulder_yaw",   "r_elbow"};
+    iDynTree::ModelLoader ml;
+    ml.loadReducedModelFromFile(getRobotModelPath(), jointsList);
+
     // sample time [s] of the unicycle trajectory generator
     auto dt = 0.002;
     std::chrono::milliseconds dtChrono = std::chrono::milliseconds(static_cast<int>(dt * 1000));
 
     // initialize the unicyle trajectory generator
     Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
+    unicycleTrajectoryGenerator.setRobotModel(ml.model());
     unicycleTrajectoryGenerator.initialize(getUnicycleParametersHandler(dt));
 
     // initialize the input of the unicycle trajectory generator
