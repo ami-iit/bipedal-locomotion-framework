@@ -69,6 +69,12 @@ public:
 
     virtual ~UnicycleTrajectoryGenerator();
 
+    /**
+     * Set the robot model.
+     * @param model model of the robot considered.
+     */
+    bool setRobotModel(const iDynTree::Model& model);
+
     // clang-format off
     /**
      * Initialize the planner.
