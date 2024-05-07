@@ -122,6 +122,17 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
     int rightContactFrameIndex; // The index of the right foot contact frame.
 };
 
+/**
+ * UnicycleTrajectoryPlanner is a class that uses UnicycleGenerator of
+ * https://github.com/robotology/unicycle-footstep-planner) to generate reference trajectories for
+ * humanoid robots. Every time the advance() function is called, the planner generates a new
+ * trajectory, which spans the time horizon configured by the user.
+ * The getOutput() member function returns the generated trajectory, which includes the CoM, DCM,
+ * and footstep ones. The planner requires the user to set the robot model using the setRobotModel()
+ * member function, before invoking the initialize() member function, which configures the planner.
+ * As input, which is set using the setInput() member function, the planner requires an instance of
+ * the UnicycleTrajectoryPlannerInput struct.
+ */
 class BipedalLocomotion::Planners::UnicycleTrajectoryPlanner final
     : public System::Advanceable<UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput>
 {
