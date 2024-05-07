@@ -16,12 +16,10 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <mutex>
-#include <yarp/os/RFModule.h>
 
 #include <chrono>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
-#include <iDynTree/ModelLoader.h>
 
 #include <string>
 #include <vector>
@@ -77,6 +75,8 @@ public:
     };
 
     COMSystem comSystem;
+
+    iDynTree::KinDynComputations kinDyn;
 };
 
 BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput BipedalLocomotion::Planners::
@@ -127,6 +127,11 @@ Planners::UnicycleTrajectoryPlanner::UnicycleTrajectoryPlanner()
 }
 
 Planners::UnicycleTrajectoryPlanner::~UnicycleTrajectoryPlanner() = default;
+
+bool Planners::UnicycleTrajectoryPlanner::setRobotModel(const iDynTree::Model& model)
+{
+    return m_pImpl->kinDyn.loadRobotModel(model);
+}
 
 bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
@@ -295,22 +300,8 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
 
     m_pImpl->generator.setPauseActive(isPauseActive);
 
-    std::string modelPath
-        = yarp::os::ResourceFinder::getResourceFinderSingleton().findFileByName("model.urdf");
-    BipedalLocomotion::log()->info("{} Model path: {}", logPrefix, modelPath);
-
-    iDynTree::ModelLoader ml;
-    if (!ml.loadModelFromFile(modelPath))
-    {
-        log()->error("{} Unable to load the model.urdf from {}", logPrefix, modelPath);
-        return false;
-    }
-
-    auto tmpKinDyn = std::make_shared<iDynTree::KinDynComputations>();
-    tmpKinDyn->loadRobotModel(ml.model());
-
     m_pImpl->parameters.leftContactFrameIndex
-        = tmpKinDyn->model().getFrameIndex(leftContactFrameName);
+        = m_pImpl->kinDyn.model().getFrameIndex(leftContactFrameName);
     if (m_pImpl->parameters.leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
@@ -318,7 +309,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     }
 
     m_pImpl->parameters.rightContactFrameIndex
-        = tmpKinDyn->model().getFrameIndex(rightContactFrameName);
+        = m_pImpl->kinDyn.model().getFrameIndex(rightContactFrameName);
     if (m_pImpl->parameters.rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
     {
         log()->error("{} Unable to find the frame named {}.", logPrefix, rightContactFrameName);

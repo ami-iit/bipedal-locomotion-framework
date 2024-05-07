@@ -5,16 +5,22 @@
  */
 #include <fstream>
 
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelLoader.h>
+
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
+#include <iostream>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 
 #include <manif/manif.h>
+
+#include <FolderPath.h>
 
 void saveData(const UnicycleTrajectoryPlannerOutput& output, const std::string& filename)
 {
@@ -48,11 +54,28 @@ std::shared_ptr<IParametersHandler> params()
 
 TEST_CASE("UnicyclePlannerTest")
 {
+
+    auto jointsList
+        = std::vector<std::string>{"l_hip_pitch",      "l_hip_roll",       "l_hip_yaw",
+                                   "l_knee",           "l_ankle_pitch",    "l_ankle_roll",
+                                   "r_hip_pitch",      "r_hip_roll",       "r_hip_yaw",
+                                   "r_knee",           "r_ankle_pitch",    "r_ankle_roll",
+                                   "torso_pitch",      "torso_roll",       "torso_yaw",
+                                   "neck_pitch",       "neck_roll",        "neck_yaw",
+                                   "l_shoulder_pitch", "l_shoulder_roll",  "l_shoulder_yaw",
+                                   "l_elbow",          "r_shoulder_pitch", "r_shoulder_roll",
+                                   "r_shoulder_yaw",   "r_elbow"};
+
+    iDynTree::ModelLoader ml;
+    REQUIRE(ml.loadReducedModelFromFile(getRobotModelPath(), jointsList));
+
     const auto handler = params();
 
     bool saveDataTofile = false;
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner planner;
+
+    REQUIRE(planner.setRobotModel(ml.model()));
 
     REQUIRE(planner.initialize(handler));
 

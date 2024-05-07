@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/System/Advanceable.h>
 
 #include <deque>
+#include <iDynTree/Model.h>
 #include <iDynTree/VectorDynSize.h>
 
 #include <memory>
@@ -128,6 +129,12 @@ public:
     UnicycleTrajectoryPlanner();
 
     virtual ~UnicycleTrajectoryPlanner();
+
+    /**
+     * Set the robot model.
+     * @param model model of the robot considered.
+     */
+    bool setRobotModel(const iDynTree::Model& model);
 
     // clang-format off
 
