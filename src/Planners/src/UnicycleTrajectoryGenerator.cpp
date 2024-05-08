@@ -48,12 +48,14 @@ public:
 
     UnicycleTrajectoryGeneratorParameters parameters;
 
-    bool newTrajectoryRequired; // True if a new trajectory is required. False otherwise.
+    bool newTrajectoryRequired; /**< True if a new trajectory is required. False otherwise. */
 
-    size_t newTrajectoryMergeCounter; // The new trajectory will be merged after
-    // (m_newTrajectoryMergeCounter - 2) cycles.
+    size_t newTrajectoryMergeCounter; /**< It is a counter that informs when the new
+                                           trajectory will be merged.
+                                           The new trajectory gets merged at the
+                                           (newTrajectoryMergeCounter - 2) cycle. */
 
-    std::chrono::nanoseconds time; // The current time.
+    std::chrono::nanoseconds time; /**< Current time */
 
     std::mutex mutex;
 
@@ -532,9 +534,9 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     unicycleTrajectoryPlannerInput.dcmInitialState.initialVelocity
         = referenceSignals.dcmVelocity[mergePoint];
     unicycleTrajectoryPlannerInput.comInitialState.initialPlanarPosition
-        = referenceSignals.comPosition[mergePoint].head(2);
+        = referenceSignals.comPosition[mergePoint].head<2>();
     unicycleTrajectoryPlannerInput.comInitialState.initialPlanarVelocity
-        = referenceSignals.comVelocity[mergePoint].head(2);
+        = referenceSignals.comVelocity[mergePoint].head<2>();
 
     // set the input
     this->unicycleTrajectoryPlanner.setInput(unicycleTrajectoryPlannerInput);

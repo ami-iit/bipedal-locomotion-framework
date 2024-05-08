@@ -14,16 +14,14 @@
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <chrono>
 #include <iDynTree/VectorDynSize.h>
 
-#include <memory>
-
+#include <CoMHeightTrajectoryGenerator.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
 
-#include <CoMHeightTrajectoryGenerator.h>
-
+#include <chrono>
+#include <memory>
 namespace BipedalLocomotion::Planners
 {
 class UnicycleTrajectoryGenerator;
@@ -34,15 +32,19 @@ struct UnicycleTrajectoryGeneratorParameters;
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
 {
-    /*
-    if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
-    if UnicycleController::DIRECT, the plannerInput is a vector of size 3 (i.e., [xdot, ydot, wz])
-    */
-    Eigen::VectorXd plannerInput; // The input to the unicycle planner.
+    /**
+     * UnicycleTrajectoryPlannerInput implements the input to the planner. Depending on the type of
+     * unicycle controller used the plannerInput is a 2d-vector or a 3d-vector. For instance, if
+     * unicycle controller is set to UnicycleController::PERSON_FOLLOWING, the plannerInput is a
+     * vector of size 2 that represents a reference position (i.e., [x, y]). Instead, if it is set
+     * to UnicycleController::DIRECT, the plannerInput is a vector of size 3 that representes a
+     * velocity command (i.e., [xdot, ydot, wz]).
+     */
+    Eigen::VectorXd plannerInput; /**< Input to the unicycle planner */
 
-    manif::SE3d w_H_leftFoot; // The left foot pose in the world frame.
+    manif::SE3d w_H_leftFoot; /**< Left foot pose in the world frame */
 
-    manif::SE3d w_H_rightFoot; // The right foot pose in the world frame.
+    manif::SE3d w_H_rightFoot; /**< Right foot pose in the world frame */
 
     static UnicycleTrajectoryGeneratorInput generateDummyUnicycleTrajectoryGeneratorInput();
 };
@@ -50,16 +52,16 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput
     : public BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 {
-    bool isValid = true; // True if the output is valid, false otherwise.
+    bool isValid = true; /**< True if the output is valid, false otherwise. */
 };
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
 {
-    std::chrono::nanoseconds dt; // The sampling time of the planner.
-    size_t plannerAdvanceTimeSteps; // The number of time steps that the planner should be called in
-                                    // advance.
-    int leftContactFrameIndex; // The index of the left contact frame.
-    int rightContactFrameIndex; // The index of the right contact frame.
+    std::chrono::nanoseconds dt; /**< Sampling time of the planner */
+    size_t plannerAdvanceTimeSteps; /**< Number of time steps that the planner should be called in
+                                         advance */
+    int leftContactFrameIndex; /**< Index of the left contact frame */
+    int rightContactFrameIndex; /**< Index of the right contact frame */
 };
 
 class BipedalLocomotion::Planners::UnicycleTrajectoryGenerator final
@@ -102,9 +104,6 @@ public:
 
     bool setInput(const UnicycleTrajectoryGeneratorInput& input) override;
 
-    /*
-    The advance method should be called only in DoubleSupport phase.
-    */
     bool advance() override;
 
 private:
