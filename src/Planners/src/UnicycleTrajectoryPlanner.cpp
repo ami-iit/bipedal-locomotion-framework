@@ -93,7 +93,7 @@ BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput BipedalLocomotion::P
 
     input.isLeftLastSwinging = false;
 
-    input.initTime = 0.0;
+    input.initTime = std::chrono::nanoseconds::zero();
 
     input.measuredTransform = manif::SE3d::Identity();
     input.measuredTransform.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
@@ -220,8 +220,12 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && loadParamWithFallback("slowWhenTurningGain", slowWhenTurningGain, 2.0);
     ok = ok && loadParamWithFallback("slowWhenBackwardFactor", slowWhenBackwardFactor, 0.4);
     ok = ok && loadParamWithFallback("slowWhenSidewaysFactor", slowWhenSidewaysFactor, 0.2);
-    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, 0.002);
-    ok = ok && loadParamWithFallback("plannerHorizon", m_pImpl->parameters.plannerHorizon, 20.0);
+    using namespace std::chrono_literals;
+    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, std::chrono::nanoseconds(2ms));
+    ok = ok
+         && loadParamWithFallback("plannerHorizon",
+                                  m_pImpl->parameters.plannerHorizon,
+                                  std::chrono::nanoseconds(20s));
     ok = ok && loadParamWithFallback("positionWeight", positionWeight, 1.0);
     ok = ok && loadParamWithFallback("timeWeight", timeWeight, 2.5);
     ok = ok && loadParamWithFallback("maxStepLength", maxStepLength, 0.32);
@@ -271,13 +275,13 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && unicyclePlanner->setSlowWhenBackwardFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setSlowWhenSidewaysFactor(slowWhenBackwardFactor);
     ok = ok && unicyclePlanner->setMaxStepLength(maxStepLength, maxLengthBackwardFactor);
-    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(m_pImpl->parameters.dt);
+    ok = ok && unicyclePlanner->setMaximumIntegratorStepSize(m_pImpl->parameters.dt.count() * 1e-9);
     ok = ok && unicyclePlanner->setWidthSetting(minWidth, m_pImpl->parameters.nominalWidth);
     ok = ok && unicyclePlanner->setMaxAngleVariation(maxAngleVariation);
     ok = ok && unicyclePlanner->setMinimumAngleForNewSteps(minAngleVariation);
     ok = ok && unicyclePlanner->setCostWeights(positionWeight, timeWeight);
     ok = ok && unicyclePlanner->setStepTimings(minStepDuration, maxStepDuration, nominalDuration);
-    ok = ok && unicyclePlanner->setPlannerPeriod(m_pImpl->parameters.dt);
+    ok = ok && unicyclePlanner->setPlannerPeriod(m_pImpl->parameters.dt.count() * 1e-9);
     ok = ok && unicyclePlanner->setMinimumStepLength(minStepLength);
     ok = ok
          && unicyclePlanner->setSaturationsConservativeFactors(saturationFactors(0),
@@ -342,9 +346,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && m_pImpl->comSystem.dynamics->setState({Eigen::Vector4d::Zero()});
     // Set the dynamical system to the integrator
     ok = ok && m_pImpl->comSystem.integrator->setDynamicalSystem(m_pImpl->comSystem.dynamics);
-    ok = ok
-         && m_pImpl->comSystem.integrator->setIntegrationStep(
-             std::chrono::nanoseconds(static_cast<int>(m_pImpl->parameters.dt * 1e9)));
+    ok = ok && m_pImpl->comSystem.integrator->setIntegrationStep(m_pImpl->parameters.dt);
 
     // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
@@ -438,8 +440,8 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
     auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
 
-    double initTime{m_pImpl->input.initTime};
-    double dt{m_pImpl->parameters.dt};
+    double initTime{m_pImpl->input.initTime.count() * 1e-9};
+    double dt{m_pImpl->parameters.dt.count() * 1e-9};
 
     // check if it is not the first run
     if (m_pImpl->state == Impl::FSM::Running)
@@ -447,7 +449,7 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         bool correctLeft{!m_pImpl->input.isLeftLastSwinging};
 
         // compute end time of trajectory
-        double endTime = initTime + m_pImpl->parameters.plannerHorizon;
+        double endTime = initTime + m_pImpl->parameters.plannerHorizon.count() * 1e-9;
 
         // set desired point
         Eigen::Vector2d desiredPointInRelativeFrame, desiredPointInAbsoluteFrame;
@@ -575,8 +577,8 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
 
     BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
-    if (!Planners::Utilities::getContactList(initTime,
-                                             dt,
+    if (!Planners::Utilities::getContactList(m_pImpl->input.initTime,
+                                             m_pImpl->parameters.dt,
                                              leftFootInContact,
                                              leftSteps,
                                              m_pImpl->parameters.leftContactFrameIndex,
@@ -587,8 +589,8 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         return false;
     };
 
-    if (!Planners::Utilities::getContactList(initTime,
-                                             dt,
+    if (!Planners::Utilities::getContactList(m_pImpl->input.initTime,
+                                             m_pImpl->parameters.dt,
                                              rightFootInContact,
                                              rightSteps,
                                              m_pImpl->parameters.rightContactFrameIndex,
@@ -626,7 +628,7 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     m_pImpl->output.dcmTrajectory.velocity = dcmVelocity;
 
     // get the CoM planar trajectory
-    auto time = std::chrono::nanoseconds(static_cast<int>(initTime * 1e9));
+    std::chrono::nanoseconds time = m_pImpl->input.initTime;
     Eigen::Vector4d state;
     state.head<2>() = m_pImpl->input.comInitialState.initialPlanarPosition;
     state.tail<2>() = m_pImpl->input.comInitialState.initialPlanarVelocity;
@@ -654,14 +656,12 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         comPlanarVelocity.push_back(stateDerivative.get_from_hash<"dx"_h>().head<2>());
 
         // advance the integrator for one step
-        m_pImpl->comSystem.integrator->oneStepIntegration(time,
-                                                          std::chrono::nanoseconds(
-                                                              static_cast<int>(dt * 1e9)));
+        m_pImpl->comSystem.integrator->oneStepIntegration(time, m_pImpl->parameters.dt);
         state.head<4>() = std::get<0>(m_pImpl->comSystem.integrator->getSolution());
 
         // update the system state
         m_pImpl->comSystem.dynamics->setState({state});
-        time += std::chrono::nanoseconds(static_cast<int>(dt * 1e9));
+        time += m_pImpl->parameters.dt;
     }
 
     // get the CoM height trajectory
@@ -713,7 +713,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
 
     // set initial and final times
     double initTime = 0;
-    double endTime = initTime + m_pImpl->parameters.plannerHorizon;
+    double endTime = initTime + m_pImpl->parameters.plannerHorizon.count() * 1e-9;
+    double dt = m_pImpl->parameters.dt.count() * 1e-9;
 
     // at the beginning ergoCub has to stop
     Eigen::Vector2d m_personFollowingDesiredPoint;
@@ -741,7 +742,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
     }
 
     // generate the first trajectories
-    if (!m_pImpl->generator.generate(initTime, m_pImpl->parameters.dt, endTime))
+    if (!m_pImpl->generator.generate(initTime, dt, endTime))
     {
 
         log()->error("{} Error while computing the first trajectories.", logPrefix);
@@ -753,11 +754,11 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
 }
 
 bool BipedalLocomotion::Planners::Utilities::getContactList(
-    const double initTime,
-    const double dt,
+    const std::chrono::nanoseconds& initTime,
+    const std::chrono::nanoseconds& dt,
     const std::vector<bool>& inContact,
     const std::deque<Step>& steps,
-    const int contactFrameIndex,
+    const int& contactFrameIndex,
     const std::string& contactName,
     BipedalLocomotion::Contacts::ContactList& contactList)
 {
@@ -788,21 +789,19 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
         manif::SO3d rotation{0, 0, step.angle};
         contact.pose = manif::SE3d(translation, rotation);
 
-        contact.activationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            step.impactTime * std::chrono::seconds(1));
+        std::chrono::nanoseconds impactTime{static_cast<int64_t>(step.impactTime * 1e9)};
+
+        contact.activationTime = impactTime;
         contact.deactivationTime = std::chrono::nanoseconds::max();
 
-        impactTimeIndex = (step.impactTime - initTime <= 0)
-                              ? 0
-                              : static_cast<int>((step.impactTime - initTime) / dt);
+        impactTimeIndex = (impactTime <= initTime) ? 0
+                                                   : static_cast<int>((impactTime - initTime) / dt);
 
         for (auto i = impactTimeIndex; i < inContact.size(); i++)
         {
             if (i > 0 && !inContact.at(i) && inContact.at(i - 1))
             {
-                contact.deactivationTime = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    (initTime + dt * i) * std::chrono::seconds(1));
-
+                contact.deactivationTime = initTime + dt * i;
                 break;
             }
         }

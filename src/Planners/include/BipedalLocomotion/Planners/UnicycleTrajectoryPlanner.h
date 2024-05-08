@@ -19,6 +19,7 @@
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
 
+#include <chrono>
 #include <deque>
 #include <memory>
 #include <vector>
@@ -40,25 +41,25 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput
      * to UnicycleController::DIRECT, the plannerInput is a vector of size 3 that representes a
      * velocity command (i.e., [xdot, ydot, wz]).
      */
-    Eigen::VectorXd plannerInput; /**< Input to the unicycle planner. */
+    Eigen::VectorXd plannerInput; /**< Input to the unicycle planner */
 
-    DCMInitialState dcmInitialState; /**< Initial state of the DCM trajectory generator. */
+    DCMInitialState dcmInitialState; /**< Initial state of the DCM trajectory generator */
 
     struct COMInitialState
     {
-        Eigen::Vector2d initialPlanarPosition; /**< Initial planar position of the CoM. */
-        Eigen::Vector2d initialPlanarVelocity; /**< Initial planar velocity of the CoM. */
+        Eigen::Vector2d initialPlanarPosition; /**< Initial planar position of the CoM */
+        Eigen::Vector2d initialPlanarVelocity; /**< Initial planar velocity of the CoM */
     };
 
-    COMInitialState comInitialState; /**< Initial state of the CoM. */
+    COMInitialState comInitialState; /**< Initial state of the CoM */
 
     bool isLeftLastSwinging; /**< True if the last foot that was swinging is the left one. False
                                   otherwise. */
 
-    double initTime; /**< Initial time of the trajectory. */
+    std::chrono::nanoseconds initTime; /**< Initial time of the trajectory */
 
     manif::SE3d measuredTransform; /**< Measured transform of the last foot that touched
-                                        the floor. */
+                                        the floor */
 
     static UnicycleTrajectoryPlannerInput generateDummyUnicycleTrajectoryPlannerInput();
 };
@@ -93,37 +94,37 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
         std::deque<Step> leftSteps, rightSteps;
     };
 
-    COMTrajectory comTrajectory; /**< CoM trajectory; */
+    COMTrajectory comTrajectory; /**< CoM trajectory */
 
-    DCMTrajectory dcmTrajectory; /**< DCM trajectory; */
+    DCMTrajectory dcmTrajectory; /**< DCM trajectory */
 
-    ContactStatus contactStatus; /**< Contact status of the feet; */
+    ContactStatus contactStatus; /**< Contact status of the feet */
 
-    Contacts::ContactPhaseList ContactPhaseList; /**< List of foot contact phases; */
+    Contacts::ContactPhaseList ContactPhaseList; /**< List of foot contact phases */
 
-    Steps steps; /**< List of steps and their phases; */
+    Steps steps; /**< List of steps and their phases */
 
-    std::vector<size_t> mergePoints; /**< Indexes of the merge points of the trajectory; */
+    std::vector<size_t> mergePoints; /**< Indexes of the merge points of the trajectory */
 };
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
 {
-    double dt; /**< Sampling time of the planner. */
+    std::chrono::nanoseconds dt; /**< Sampling time of the planner */
 
-    double plannerHorizon; /**< Time horizon of the planner. */
+    std::chrono::nanoseconds plannerHorizon; /**< Time horizon of the planner */
 
-    double leftYawDeltaInRad; /**< Left foot cartesian offset in the yaw. */
+    double leftYawDeltaInRad; /**< Left foot cartesian offset in the yaw */
 
-    double rightYawDeltaInRad; /**< Right foot cartesian offset in the yaw. */
+    double rightYawDeltaInRad; /**< Right foot cartesian offset in the yaw */
 
     Eigen::Vector2d referencePointDistance; /**< Reference position of the unicycle
                                                  controller */
 
-    double nominalWidth; /**< Nominal feet distance. */
+    double nominalWidth; /**< Nominal feet distance */
 
-    int leftContactFrameIndex; /**< Index of the left foot contact frame. */
+    int leftContactFrameIndex; /**< Index of the left foot contact frame */
 
-    int rightContactFrameIndex; /**< Index of the right foot contact frame. */
+    int rightContactFrameIndex; /**< Index of the right foot contact frame */
 };
 
 /**
@@ -215,22 +216,21 @@ private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
 
-    bool setUnicycleControllerFromString(
-    const std::string& unicycleControllerAsString, UnicycleController& unicycleController);
+    bool setUnicycleControllerFromString(const std::string& unicycleControllerAsString,
+                                         UnicycleController& unicycleController);
 
     bool generateFirstTrajectory();
 };
 
 namespace BipedalLocomotion::Planners::Utilities
 {
-bool getContactList(
-    const double initTime,
-    const double dt,
-    const std::vector<bool>& inContact,
-    const std::deque<Step>& steps,
-    const int contactFrameIndex,
-    const std::string& contactName,
-    BipedalLocomotion::Contacts::ContactList& contactList);
+bool getContactList(const std::chrono::nanoseconds& initTime,
+                    const std::chrono::nanoseconds& dt,
+                    const std::vector<bool>& inContact,
+                    const std::deque<Step>& steps,
+                    const int& contactFrameIndex,
+                    const std::string& contactName,
+                    BipedalLocomotion::Contacts::ContactList& contactList);
 }; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
