@@ -1,20 +1,16 @@
+#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Planners/SwingFootPlanner.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
-
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <chrono>
-
-#include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-
-#include <vector>
-
-#include <matioCpp/matioCpp.h>
-
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
+
+#include <chrono>
+#include <matioCpp/matioCpp.h>
+#include <vector>
 
 #include <FolderPath.h>
 
@@ -218,8 +214,8 @@ int main(int argc, char* argv[])
             positionRightFoot.push_back(w_H_right.translation());
             positionCOM.push_back(output.comTrajectory.position.front());
             velocityCOM.push_back(output.comTrajectory.velocity.front());
-            DCMposition.push_back(output.dcmTrajectory.dcmPosition.front());
-            DCMvelocity.push_back(output.dcmTrajectory.dcmVelocity.front());
+            DCMposition.push_back(output.dcmTrajectory.position.front());
+            DCMvelocity.push_back(output.dcmTrajectory.velocity.front());
 
             i++;
             time.push_back(
@@ -227,8 +223,8 @@ int main(int argc, char* argv[])
                     .count());
         }
         // get the DCM trajectory from the unicycle trajectory generator
-        auto dcmPosition = output.dcmTrajectory.dcmPosition;
-        auto dcmVelocity = output.dcmTrajectory.dcmVelocity;
+        auto dcmPosition = output.dcmTrajectory.position;
+        auto dcmVelocity = output.dcmTrajectory.velocity;
 
         Eigen::VectorXd Xdcm;
         Xdcm.resize(dcmPosition.size());
