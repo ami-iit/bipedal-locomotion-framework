@@ -64,6 +64,23 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
     int rightContactFrameIndex; /**< Index of the right contact frame */
 };
 
+/**
+ * UnicycleTrajectoryGenerator is a class that generates reference trajectories for
+ * humanoid robots.
+ * Every time that the advance() member function is called, the Generator:
+ *   1. First checks if it is time to generate a new trajectory. In this case, it deploys the
+        BipedalLocomotion::Planners::UnicycleTrajectoryPlanner to plan this new trajectory.
+ *   2. Then, it checks if it is time to merge the current trajectory with the last one
+        computed by the UnicycleTrajectoryPlanner. In this case, it merges the two trajectories,
+        which become the current one.
+ *   3. Finally, it unrolls the current trajectory (i.e., it advances it over time).
+ * The getOutput() member function returns the current trajectory, which includes the CoM, DCM,
+ * and footstep ones.
+ * The Generator requires the user to set the robot model using the setRobotModel() member function,
+ * before invoking the initialize() member function, which configures the Generator.
+ * As input, which is set by the setInput() member function, the Generator requires an instance of
+ * the UnicycleTrajectoryGeneratorInput struct.
+ */
 class BipedalLocomotion::Planners::UnicycleTrajectoryGenerator final
     : public System::Advanceable<UnicycleTrajectoryGeneratorInput, UnicycleTrajectoryGeneratorOutput>
 {
