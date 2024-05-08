@@ -5,25 +5,23 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
-#define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
+#ifndef BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_PLANNER_H
+#define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_PLANNER_H
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
-#include <deque>
 #include <iDynTree/Model.h>
 #include <iDynTree/VectorDynSize.h>
 
-#include <memory>
-
+#include <CoMHeightTrajectoryGenerator.h>
 #include <UnicycleGenerator.h>
 #include <UnicyclePlanner.h>
 
-#include <CoMHeightTrajectoryGenerator.h>
+#include <deque>
+#include <memory>
 #include <vector>
-
 namespace BipedalLocomotion::Planners
 {
 class UnicycleTrajectoryPlanner;
@@ -34,29 +32,33 @@ struct UnicycleTrajectoryPlannerParameters;
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput
 {
-    /*
-    if UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 (i.e., [x, y])
-    if UnicycleController::DIRECT, the plannerInput is a vector of size 3 (i.e., [xdot, ydot, wz])
-    */
-    Eigen::VectorXd plannerInput; // The input to the unicycle planner.
+    /**
+     * UnicycleTrajectoryPlannerInput implements the input to the planner. Depending on the type of
+     * unicycle controller used the plannerInput is a 2d-vector or a 3d-vector. For instance, if
+     * unicycle controller is set to UnicycleController::PERSON_FOLLOWING, the plannerInput is a
+     * vector of size 2 that represents a reference position (i.e., [x, y]). Instead, if it is set
+     * to UnicycleController::DIRECT, the plannerInput is a vector of size 3 that representes a
+     * velocity command (i.e., [xdot, ydot, wz]).
+     */
+    Eigen::VectorXd plannerInput; /**< Input to the unicycle planner. */
 
-    DCMInitialState dcmInitialState; // The initial state of the DCM trajectory generator.
+    DCMInitialState dcmInitialState; /**< Initial state of the DCM trajectory generator. */
 
     struct COMInitialState
     {
-        Eigen::Vector2d initialPlanarPosition; // The initial planar position of the CoM.
-        Eigen::Vector2d initialPlanarVelocity; // The initial planar velocity of the CoM.
+        Eigen::Vector2d initialPlanarPosition; /**< Initial planar position of the CoM. */
+        Eigen::Vector2d initialPlanarVelocity; /**< Initial planar velocity of the CoM. */
     };
 
-    COMInitialState comInitialState; // The initial state of the CoM.
+    COMInitialState comInitialState; /**< Initial state of the CoM. */
 
-    bool isLeftLastSwinging; // True if the last foot that was swinging is the left one. False
-                             // otherwise.
+    bool isLeftLastSwinging; /**< True if the last foot that was swinging is the left one. False
+                                  otherwise. */
 
-    double initTime; // The initial time of the trajectory.
+    double initTime; /**< Initial time of the trajectory. */
 
-    manif::SE3d measuredTransform; // The measured transform of the last foot that touched
-                                   // the floor.
+    manif::SE3d measuredTransform; /**< Measured transform of the last foot that touched
+                                        the floor. */
 
     static UnicycleTrajectoryPlannerInput generateDummyUnicycleTrajectoryPlannerInput();
 };
@@ -72,17 +74,18 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 
     struct DCMTrajectory
     {
-        std::vector<Eigen::Vector2d> dcmPosition;
-        std::vector<Eigen::Vector2d> dcmVelocity;
+        std::vector<Eigen::Vector2d> position;
+        std::vector<Eigen::Vector2d> velocity;
     };
 
     struct ContactStatus
     {
-        std::vector<bool> leftFootInContact; // True if the left foot is in contact. False
-                                             // otherwise.
-        std::vector<bool> rightFootInContact; // True if the right foot is in contact. False
-                                              // otherwise.
-        std::vector<bool> UsedLeftAsFixed; // True if the left foot is the last that got in contact.
+        std::vector<bool> leftFootInContact; /**< True if the left foot is in contact. False
+                                                  otherwise. */
+        std::vector<bool> rightFootInContact; /**< True if the right foot is in contact. False
+                                                   otherwise. */
+        std::vector<bool> UsedLeftAsFixed; /**< True if the left foot is the last that got in
+                                                contact. */
     };
 
     struct Steps
@@ -90,36 +93,37 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
         std::deque<Step> leftSteps, rightSteps;
     };
 
-    COMTrajectory comTrajectory; // The CoM trajectory;
+    COMTrajectory comTrajectory; /**< CoM trajectory; */
 
-    DCMTrajectory dcmTrajectory; // The DCM trajectory;
+    DCMTrajectory dcmTrajectory; /**< DCM trajectory; */
 
-    ContactStatus contactStatus; // The contact status of the feet;
+    ContactStatus contactStatus; /**< Contact status of the feet; */
 
-    Contacts::ContactPhaseList ContactPhaseList; // The list of foot contact phases;
+    Contacts::ContactPhaseList ContactPhaseList; /**< List of foot contact phases; */
 
-    Steps steps; // The list of steps and their phases;
+    Steps steps; /**< List of steps and their phases; */
 
-    std::vector<size_t> mergePoints; // Indexes of the merge points of the trajectory;
+    std::vector<size_t> mergePoints; /**< Indexes of the merge points of the trajectory; */
 };
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
 {
-    double dt; // The sampling time of the planner.
+    double dt; /**< Sampling time of the planner. */
 
-    double plannerHorizon; // The time horizon of the planner.
+    double plannerHorizon; /**< Time horizon of the planner. */
 
-    double leftYawDeltaInRad; // Left foot cartesian offset in the yaw.
+    double leftYawDeltaInRad; /**< Left foot cartesian offset in the yaw. */
 
-    double rightYawDeltaInRad; // Right foot cartesian offset in the yaw.
+    double rightYawDeltaInRad; /**< Right foot cartesian offset in the yaw. */
 
-    Eigen::Vector2d referencePointDistance; // The reference position of the unicycle controller
+    Eigen::Vector2d referencePointDistance; /**< Reference position of the unicycle
+                                                 controller */
 
-    double nominalWidth; // The nominal feet distance.
+    double nominalWidth; /**< Nominal feet distance. */
 
-    int leftContactFrameIndex; // The index of the left foot contact frame.
+    int leftContactFrameIndex; /**< Index of the left foot contact frame. */
 
-    int rightContactFrameIndex; // The index of the right foot contact frame.
+    int rightContactFrameIndex; /**< Index of the right foot contact frame. */
 };
 
 /**

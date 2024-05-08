@@ -3,24 +3,22 @@
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
-#include <fstream>
+#include <catch2/catch_test_macros.hpp>
+
+#include <manif/manif.h>
 
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
 
-// Catch2
-#include <catch2/catch_test_macros.hpp>
-
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
-#include <iostream>
+
+#include <fstream>
+
+#include <FolderPath.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
-
-#include <manif/manif.h>
-
-#include <FolderPath.h>
 
 void saveData(const UnicycleTrajectoryPlannerOutput& output, const std::string& filename)
 {

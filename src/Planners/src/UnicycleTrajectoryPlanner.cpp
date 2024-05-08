@@ -15,12 +15,11 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <mutex>
-
-#include <chrono>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
 
+#include <chrono>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -623,15 +622,15 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     std::vector<Eigen::Vector2d> dcmPosition, dcmVelocity;
     dcmPosition = convertToEigen(dcmGenerator->getDCMPosition());
     dcmVelocity = convertToEigen(dcmGenerator->getDCMVelocity());
-    m_pImpl->output.dcmTrajectory.dcmPosition = dcmPosition;
-    m_pImpl->output.dcmTrajectory.dcmVelocity = dcmVelocity;
+    m_pImpl->output.dcmTrajectory.position = dcmPosition;
+    m_pImpl->output.dcmTrajectory.velocity = dcmVelocity;
 
     // get the CoM planar trajectory
     auto time = std::chrono::nanoseconds(static_cast<int>(initTime * 1e9));
     Eigen::Vector4d state;
-    state.head(2) = m_pImpl->input.comInitialState.initialPlanarPosition;
-    state.tail(2) = m_pImpl->input.comInitialState.initialPlanarVelocity;
-    m_pImpl->comSystem.dynamics->setState({state.head(4)});
+    state.head<2>() = m_pImpl->input.comInitialState.initialPlanarPosition;
+    state.tail<2>() = m_pImpl->input.comInitialState.initialPlanarVelocity;
+    m_pImpl->comSystem.dynamics->setState({state.head<4>()});
     using namespace BipedalLocomotion::GenericContainer::literals;
     auto stateDerivative = BipedalLocomotion::GenericContainer::make_named_tuple(
         BipedalLocomotion::GenericContainer::named_param<"dx"_h, Eigen::VectorXd>());
@@ -658,7 +657,7 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         m_pImpl->comSystem.integrator->oneStepIntegration(time,
                                                           std::chrono::nanoseconds(
                                                               static_cast<int>(dt * 1e9)));
-        state.head(4) = std::get<0>(m_pImpl->comSystem.integrator->getSolution());
+        state.head<4>() = std::get<0>(m_pImpl->comSystem.integrator->getSolution());
 
         // update the system state
         m_pImpl->comSystem.dynamics->setState({state});
@@ -785,7 +784,7 @@ bool BipedalLocomotion::Planners::Utilities::getContactList(
         contact.name = contactName;
 
         Eigen::Vector3d translation = Eigen::Vector3d::Zero();
-        translation.head(2) = iDynTree::toEigen(step.position);
+        translation.head<2>() = iDynTree::toEigen(step.position);
         manif::SO3d rotation{0, 0, step.angle};
         contact.pose = manif::SE3d(translation, rotation);
 
