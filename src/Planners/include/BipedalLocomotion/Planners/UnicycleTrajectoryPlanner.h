@@ -152,7 +152,6 @@ public:
     bool setRobotModel(const iDynTree::Model& model);
 
     // clang-format off
-
     /**
      * Initialize the planner.
      *
@@ -198,12 +197,11 @@ public:
      * | `leftContactFrameName`    |     string        |         -         |    "l_sole"     |       Name of the left foot contact frame                       |
      * | `rightContactFrameName`   |     string        |         -         |    "r_sole"     |       Name of the right foot contact frame                      |
      *
-    // clang-format on
-
      * @param handler Pointer to the parameter handler.
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
+    // clang-format on
 
     const UnicycleTrajectoryPlannerOutput& getOutput() const override;
 
