@@ -53,7 +53,7 @@ public:
     size_t newTrajectoryMergeCounter; // The new trajectory will be merged after
     // (m_newTrajectoryMergeCounter - 2) cycles.
 
-    double time; // The current time.
+    std::chrono::nanoseconds time; // The current time.
 
     std::mutex mutex;
 
@@ -89,7 +89,8 @@ public:
 
     iDynTree::KinDynComputations kinDyn;
 
-    bool askNewTrajectory(const double& initTime, const manif::SE3d& measuredTransform);
+    bool askNewTrajectory(const std::chrono::nanoseconds& initTime,
+                          const manif::SE3d& measuredTransform);
 
     bool mergeTrajectories(const size_t& mergePoint);
 
@@ -102,7 +103,7 @@ public:
      * @param previousContactList The previous contact list, computed at last iteration.
      * @param currentContactList The current contact list, being generated.
      */
-    static void resetContactList(const double& time,
+    static void resetContactList(const std::chrono::nanoseconds& time,
                                  const Contacts::ContactList& previousContactList,
                                  Contacts::ContactList& currentContactList);
 };
@@ -186,10 +187,14 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
         return true;
     };
 
-    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, 0.002);
+    using namespace std::chrono_literals;
+    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, std::chrono::nanoseconds(2ms));
 
-    double plannerAdvanceTimeInS;
-    ok = ok && loadParamWithFallback("planner_advance_time_in_s", plannerAdvanceTimeInS, 0.08);
+    std::chrono::nanoseconds plannerAdvanceTimeInS;
+    ok = ok
+         && loadParamWithFallback("planner_advance_time_in_s",
+                                  plannerAdvanceTimeInS,
+                                  std::chrono::nanoseconds(80ms));
     m_pImpl->parameters.plannerAdvanceTimeSteps
         = std::round(plannerAdvanceTimeInS / m_pImpl->parameters.dt) + 2; // The additional 2
                                                                           // steps are because
@@ -200,7 +205,7 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
                                                                           // merge point
 
     // Initialize the time
-    m_pImpl->time = 0.0;
+    m_pImpl->time = std::chrono::nanoseconds::zero();
 
     // Initialize the merge points
     m_pImpl->referenceSignals.mergePoints.insert(m_pImpl->referenceSignals.mergePoints.begin(), 0);
@@ -253,10 +258,10 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
-                                                 m_pImpl->output.dcmTrajectory.dcmPosition);
+                                                 m_pImpl->output.dcmTrajectory.position);
 
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmVelocity,
-                                                 m_pImpl->output.dcmTrajectory.dcmVelocity);
+                                                 m_pImpl->output.dcmTrajectory.velocity);
 
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPosition,
                                                  m_pImpl->output.comTrajectory.position);
@@ -423,8 +428,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
         if (m_pImpl->newTrajectoryMergeCounter == m_pImpl->parameters.plannerAdvanceTimeSteps)
         {
 
-            double initTimeTrajectory;
-            initTimeTrajectory
+            std::chrono::nanoseconds initTimeTrajectory
                 = m_pImpl->time + m_pImpl->newTrajectoryMergeCounter * m_pImpl->parameters.dt;
 
             // check that both feet are in contact
@@ -486,7 +490,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
 }
 
 bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTrajectory(
-    const double& initTime, const manif::SE3d& measuredTransform)
+    const std::chrono::nanoseconds& initTime, const manif::SE3d& measuredTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::askForNewTrajectory]";
 
@@ -581,8 +585,8 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     std::deque<Step> leftSteps, rightSteps;
 
     // get dcm position and velocity
-    dcmPositionReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.dcmPosition;
-    dcmVelocityReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.dcmVelocity;
+    dcmPositionReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.position;
+    dcmVelocityReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.velocity;
 
     // get com trajectory
     comPositionRefence = unicycleTrajectoryPlanner.getOutput().comTrajectory.position;
@@ -741,7 +745,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 }
 
 void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
-    const double& time,
+    const std::chrono::nanoseconds& time,
     const Contacts::ContactList& previousContactList,
     Contacts::ContactList& currentContactList)
 {
@@ -752,8 +756,7 @@ void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
         return;
     }
 
-    auto presentContact = previousContactList.getPresentContact(
-        std::chrono::milliseconds(static_cast<int>(time * 1000)));
+    auto presentContact = previousContactList.getPresentContact(time);
 
     // Is contact present at the current time?
     if (!(presentContact == previousContactList.end()))

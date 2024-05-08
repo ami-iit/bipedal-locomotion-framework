@@ -14,6 +14,7 @@
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <chrono>
 #include <iDynTree/VectorDynSize.h>
 
 #include <memory>
@@ -54,7 +55,7 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
 {
-    double dt; // The sampling time of the planner.
+    std::chrono::nanoseconds dt; // The sampling time of the planner.
     size_t plannerAdvanceTimeSteps; // The number of time steps that the planner should be called in
                                     // advance.
     int leftContactFrameIndex; // The index of the left contact frame.
