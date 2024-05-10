@@ -654,6 +654,8 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
 
+    log()->info("--------------------------->>>> attaching");
+
     bool ok = true;
     // open the TextLogging port
     ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
@@ -875,82 +877,83 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    std::string signalFullName = "";
-    std::string rtSignalFullName = "";
+    // std::string signalFullName = "";
+    // std::string rtSignalFullName = "";
 
-    for (auto& [name, signal] : m_vectorsCollectionSignals)
-    {
-        std::lock_guard<std::mutex> lock(signal.mutex);
-        BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
-            = signal.client.readData(false);
-        if (externalSignalCollection != nullptr)
-        {
-            if (!signal.dataArrived)
-            {
-                for (const auto& [key, vector] : externalSignalCollection->vectors)
-                {
-                    signalFullName = signal.signalName + treeDelim + key;
-                    const auto& metadata = signal.metadata.vectors.find(key);
-                    if (metadata == signal.metadata.vectors.cend())
-                    {
-                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
-                                    "default one will be used.",
-                                    logPrefix,
-                                    signalFullName);
+    // for (auto& [name, signal] : m_vectorsCollectionSignals)
+    // {
+    //     std::lock_guard<std::mutex> lock(signal.mutex);
+    //     BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+    //         = signal.client.readData(false);
+    //     if (externalSignalCollection != nullptr)
+    //     {
+    //         if (!signal.dataArrived)
+    //         {
+    //             for (const auto& [key, vector] : externalSignalCollection->vectors)
+    //             {
+    //                 signalFullName = signal.signalName + treeDelim + key;
+    //                 const auto& metadata = signal.metadata.vectors.find(key);
+    //                 if (metadata == signal.metadata.vectors.cend())
+    //                 {
+    //                     log()->warn("{} Unable to find the metadata for the signal named {}. The "
+    //                                 "default one will be used.",
+    //                                 logPrefix,
+    //                                 signalFullName);
 
-                        if (!initMetadata(signalFullName, {}))
-                        {
-                            log()->error("{} Failed to initialize the metadata for the vector "
-                                         "collection signal named {}.",
-                                         logPrefix,
-                                         signalFullName);
-                            return false;
-                        }
-                    } else
-                    {
-                        if (!initMetadata(signalFullName, {metadata->second}))
-                        {
-                            log()->error("{} Failed to initialize the metadata for the vector "
-                                         "collection signal named {}.",
-                                         logPrefix,
-                                         signalFullName);
-                            return false;
-                        }
-                    }
-                }
-                signal.dataArrived = true;
-            }
-        }
-    }
+    //                     if (!initMetadata(signalFullName, {}))
+    //                     {
+    //                         log()->error("{} Failed to initialize the metadata for the vector "
+    //                                      "collection signal named {}.",
+    //                                      logPrefix,
+    //                                      signalFullName);
+    //                         return false;
+    //                     }
+    //                 } else
+    //                 {
+    //                     if (!initMetadata(signalFullName, {metadata->second}))
+    //                     {
+    //                         log()->error("{} Failed to initialize the metadata for the vector "
+    //                                      "collection signal named {}.",
+    //                                      logPrefix,
+    //                                      signalFullName);
+    //                         return false;
+    //                     }
+    //                 }
+    //             }
+    //             signal.dataArrived = true;
+    //         }
+    //     }
+    // }
 
-    for (auto& [name, signal] : m_vectorSignals)
-    {
-        std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::Vector* collection = signal.port.read(false);
-        if (collection != nullptr)
-        {
-            if (!signal.dataArrived)
-            {
-                if (!initMetadata(signalFullName, {}))
-                {
-                    log()->error("{} Failed to initialize the metadata for the signal "
-                                 "named {}.",
-                                 logPrefix,
-                                 signalFullName);
-                    return false;
-                }
+    // for (auto& [name, signal] : m_vectorSignals)
+    // {
+    //     std::lock_guard<std::mutex> lock(signal.mutex);
+    //     yarp::sig::Vector* collection = signal.port.read(false);
+    //     signalFullName = signal.signalName;
+    //     if (collection != nullptr)
+    //     {
+    //         if (!signal.dataArrived)
+    //         {
+    //             if (!initMetadata(signalFullName, {}))
+    //             {
+    //                 log()->error("{} Failed to initialize the metadata for the signal "
+    //                              "named {}.",
+    //                              logPrefix,
+    //                              signalFullName);
+    //                 return false;
+    //             }
 
-                signal.dataArrived = true;
-            }
-        }
-    }
+    //             signal.dataArrived = true;
+    //         }
+    //     }
+    // }
 
-    if (m_sendDataRT)
-    {
-        m_vectorCollectionRTDataServer.finalizeMetadata();
-    }
+    // if (m_sendDataRT)
+    // {
+    //     m_vectorCollectionRTDataServer.finalizeMetadata();
+    // }
 
-    // resize the temporary vectors
+    // // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
 
     // The user can avoid to record the camera
@@ -1443,9 +1446,9 @@ void YarpRobotLoggerDevice::run()
 {
     auto logData = [this](const std::string& name, const auto& data, const double time) {
         m_bufferManager.push_back(data, time, name);
-        std::string rtName = robotRtRootName + treeDelim + name;
         if (m_sendDataRT)
         {
+            std::string rtName = robotRtRootName + treeDelim + name;
             m_vectorCollectionRTDataServer.populateData(rtName, data);
         }
     };
@@ -1675,7 +1678,6 @@ void YarpRobotLoggerDevice::run()
                                          "named {}.",
                                          logPrefix,
                                          signalFullName);
-                            return false;
                         }
                     } else
                     {
@@ -1685,7 +1687,6 @@ void YarpRobotLoggerDevice::run()
                                          "named {}.",
                                          logPrefix,
                                          signalFullName);
-                            return false;
                         }
                     }
                 }
@@ -1705,20 +1706,28 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
+        signalFullName = signal.signalName;
         if (vector != nullptr)
         {
             if (!signal.dataArrived)
             {
-                if (!initMetadata(signalFullName, {}))
+                std::vector<std::string> elementsName;
+                for (int i = 0; i < vector->size(); i++)
+                {
+                    elementsName.push_back("element_" + std::to_string(i));
+                }
+                if (!initMetadata(signalFullName, elementsName))
                 {
                     log()->error("{} Failed to initialize the metadata for the vector signal "
                                  "named {}.",
                                  logPrefix,
                                  signalFullName);
-                    return false;
                 }
                 signal.dataArrived = true;
             }
+
+            logData(signalFullName, *vector, time);
+
         }
     }
 
