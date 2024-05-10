@@ -104,7 +104,6 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
     // the logging message are streamed using yarp
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
-
     m_sendDataRT = false;
 }
 
@@ -126,7 +125,6 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
-
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
     auto rtParameters = params->getGroup("REAL_TIME_STREAMING").lock();
@@ -639,6 +637,11 @@ bool YarpRobotLoggerDevice::initMetadata(const std::string& nameKey,
                                          const std::vector<std::string>& metadataNames)
 {
     bool ok = m_bufferManager.addChannel({nameKey, {metadataNames.size(), 1}, metadataNames});
+    if (!ok)
+    {
+        log()->error("Failed to add channel: {}", nameKey);
+    }
+
     std::string rtNameKey = robotRtRootName + treeDelim + nameKey;
     if (m_sendDataRT)
     {
@@ -710,6 +713,12 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         ok = ok && initMetadata(jointStateVelocitiesName, joints);
         ok = ok && initMetadata(jointStateAccelerationsName, joints);
         ok = ok && initMetadata(jointStateTorquesName, joints);
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the joint states.", logPrefix);
+            return false;
+        }
     }
     if (m_streamMotorStates)
     {
@@ -717,16 +726,34 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         ok = ok && initMetadata(motorStateVelocitiesName, joints);
         ok = ok && initMetadata(motorStateAccelerationsName, joints);
         ok = ok && initMetadata(motorStateCurrentsName, joints);
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the motor states.", logPrefix);
+            return false;
+        }
     }
 
     if (m_streamMotorPWM)
     {
         ok = ok && initMetadata(motorStatePwmName, joints);
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the motor PWM.", logPrefix);
+            return false;
+        }
     }
 
     if (m_streamPIDs)
     {
         ok = ok && initMetadata(motorStatePidsName, joints);
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the motor PIDs.", logPrefix);
+            return false;
+        }
     }
 
     if (m_streamFTSensors)
@@ -735,6 +762,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         {
             std::string fullFTSensorName = ftsName + treeDelim + sensorName;
             ok = ok && initMetadata(fullFTSensorName, ftElementNames);
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the force torque sensors.",
+                         logPrefix);
+            return false;
         }
     }
 
@@ -746,10 +780,22 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok && initMetadata(fullGyroSensorName, gyroElementNames);
         }
 
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the gyroscopes.", logPrefix);
+            return false;
+        }
+
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
             std::string fullAccelerometerSensorName = accelerometersName + treeDelim + sensorName;
             ok = ok && initMetadata(fullAccelerometerSensorName, AccelerometerElementNames);
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the accelerometers.", logPrefix);
+            return false;
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
@@ -758,10 +804,23 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok && initMetadata(fullOrientationsSensorName, orientationElementNames);
         }
 
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the orientation sensors.",
+                         logPrefix);
+            return false;
+        }
+
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
             std::string fullMagnetometersSensorName = magnetometersName + treeDelim + sensorName;
             ok = ok && initMetadata(fullMagnetometersSensorName, magnetometerElementNames);
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the magnetometers.", logPrefix);
+            return false;
         }
 
         // an IMU contains a gyro accelerometer and an orientation sensor
@@ -774,6 +833,12 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             ok = ok && initMetadata(fullGyroSensorName, gyroElementNames);
             ok = ok && initMetadata(fullOrientationsSensorName, orientationElementNames);
         }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the IMUs.", logPrefix);
+            return false;
+        }
     }
 
     if (m_streamCartesianWrenches)
@@ -784,6 +849,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                 = cartesianWrenchesName + treeDelim + cartesianWrenchName;
             ok = ok && initMetadata(fullCartesianWrenchName, cartesianWrenchNames);
         }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the cartesian wrenches.",
+                         logPrefix);
+            return false;
+        }
     }
 
     if (m_streamTemperatureSensors)
@@ -792,6 +864,14 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         {
             std::string fullTemperatureSensorName = temperatureName + treeDelim + sensorName;
             ok = ok && initMetadata(fullTemperatureSensorName, temperatureNames);
+        }
+
+        if (!ok)
+        {
+            log()->error("{} Failed to initialize the metadata for the temperature sensors in the "
+                         "FTs.",
+                         logPrefix);
+            return false;
         }
     }
 
@@ -817,10 +897,25 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
                                     "default one will be used.",
                                     logPrefix,
                                     signalFullName);
-                        initMetadata(signalFullName, {});
+
+                        if (!initMetadata(signalFullName, {}))
+                        {
+                            log()->error("{} Failed to initialize the metadata for the vector "
+                                         "collection signal named {}.",
+                                         logPrefix,
+                                         signalFullName);
+                            return false;
+                        }
                     } else
                     {
-                        initMetadata(signalFullName, {metadata->second});
+                        if (!initMetadata(signalFullName, {metadata->second}))
+                        {
+                            log()->error("{} Failed to initialize the metadata for the vector "
+                                         "collection signal named {}.",
+                                         logPrefix,
+                                         signalFullName);
+                            return false;
+                        }
                     }
                 }
                 signal.dataArrived = true;
@@ -836,7 +931,15 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         {
             if (!signal.dataArrived)
             {
-                initMetadata(signalFullName, {});
+                if (!initMetadata(signalFullName, {}))
+                {
+                    log()->error("{} Failed to initialize the metadata for the signal "
+                                 "named {}.",
+                                 logPrefix,
+                                 signalFullName);
+                    return false;
+                }
+
                 signal.dataArrived = true;
             }
         }
@@ -1355,11 +1458,12 @@ void YarpRobotLoggerDevice::run()
         if (t - m_previousTimestamp > m_acceptableStep)
         {
             log()->warn("{} The time step is too big. The previous timestamp is {} and the current "
-                        "timestamp is {}. The time step is {}.",
+                        "timestamp is {}. The time step is {}. The acceptable time step is {}.",
                         logPrefix,
                         std::chrono::duration<double>(m_previousTimestamp),
                         std::chrono::duration<double>(t),
-                        std::chrono::duration<double>(t - m_previousTimestamp));
+                        std::chrono::duration<double>(t - m_previousTimestamp),
+                        std::chrono::duration<double>(m_acceptableStep));
             return;
         }
     }
@@ -1565,10 +1669,24 @@ void YarpRobotLoggerDevice::run()
                                     "default one will be used.",
                                     logPrefix,
                                     signalFullName);
-                        initMetadata(signalFullName, {});
+                        if (!initMetadata(signalFullName, {}))
+                        {
+                            log()->error("{} Failed to initialize the metadata for the signal "
+                                         "named {}.",
+                                         logPrefix,
+                                         signalFullName);
+                            return false;
+                        }
                     } else
                     {
-                        initMetadata(signalFullName, {metadata->second});
+                        if (!initMetadata(signalFullName, {metadata->second}))
+                        {
+                            log()->error("{} Failed to initialize the metadata for the signal "
+                                         "named {}.",
+                                         logPrefix,
+                                         signalFullName);
+                            return false;
+                        }
                     }
                 }
                 signal.dataArrived = true;
@@ -1591,7 +1709,14 @@ void YarpRobotLoggerDevice::run()
         {
             if (!signal.dataArrived)
             {
-                initMetadata(signalFullName, {});
+                if (!initMetadata(signalFullName, {}))
+                {
+                    log()->error("{} Failed to initialize the metadata for the vector signal "
+                                 "named {}.",
+                                 logPrefix,
+                                 signalFullName);
+                    return false;
+                }
                 signal.dataArrived = true;
             }
         }
