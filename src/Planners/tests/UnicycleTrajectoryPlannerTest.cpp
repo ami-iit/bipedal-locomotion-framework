@@ -39,6 +39,7 @@ std::shared_ptr<IParametersHandler> params()
     // Set the non-default parameters of the planner
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
 
+    handler->setParameter("plannerHorizon", 20.0);
     handler->setParameter("referencePosition", Eigen::Vector2d(0.1, 0.0));
     handler->setParameter("saturationFactors", Eigen::Vector2d(0.7, 0.7));
     handler->setParameter("leftZMPDelta", Eigen::Vector2d(0.0, 0.0));

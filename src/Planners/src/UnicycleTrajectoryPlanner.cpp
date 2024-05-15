@@ -220,12 +220,12 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && loadParamWithFallback("slowWhenTurningGain", slowWhenTurningGain, 2.0);
     ok = ok && loadParamWithFallback("slowWhenBackwardFactor", slowWhenBackwardFactor, 0.4);
     ok = ok && loadParamWithFallback("slowWhenSidewaysFactor", slowWhenSidewaysFactor, 0.2);
-    using namespace std::chrono_literals;
-    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, std::chrono::nanoseconds(2ms));
-    ok = ok
-         && loadParamWithFallback("plannerHorizon",
-                                  m_pImpl->parameters.plannerHorizon,
-                                  std::chrono::nanoseconds(20s));
+    double dt, plannerHorizon;
+    ok = ok && loadParamWithFallback("dt", dt, 0.002);
+    m_pImpl->parameters.dt = std::chrono::nanoseconds(static_cast<int64_t>(dt * 1e9));
+    ok = ok && loadParamWithFallback("plannerHorizon", plannerHorizon, 20.0);
+    m_pImpl->parameters.plannerHorizon
+        = std::chrono::nanoseconds(static_cast<int64_t>(plannerHorizon * 1e9));
     ok = ok && loadParamWithFallback("positionWeight", positionWeight, 1.0);
     ok = ok && loadParamWithFallback("timeWeight", timeWeight, 2.5);
     ok = ok && loadParamWithFallback("maxStepLength", maxStepLength, 0.32);
