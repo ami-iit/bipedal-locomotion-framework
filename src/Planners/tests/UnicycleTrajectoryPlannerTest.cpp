@@ -20,7 +20,8 @@
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
 
-void saveData(const UnicycleTrajectoryPlannerOutput& output, const std::string& filename)
+void saveData(const BipedalLocomotion::Contacts::ContactPhaseList& contactPhaseList,
+              const std::string& filename)
 {
     std::ofstream file(filename);
     if (!file.is_open())
@@ -29,7 +30,7 @@ void saveData(const UnicycleTrajectoryPlannerOutput& output, const std::string& 
         return;
     }
 
-    file << output.ContactPhaseList.toString() << std::endl;
+    file << contactPhaseList.toString() << std::endl;
 
     file.close();
 }
@@ -89,10 +90,12 @@ TEST_CASE("UnicyclePlannerTest")
 
     output = planner.getOutput();
 
-    REQUIRE(output.ContactPhaseList.size() == 1);
+    auto contactPhaseList = planner.getContactPhaseList();
+
+    REQUIRE(contactPhaseList.size() == 1);
 
     if (saveDataTofile)
     {
-        saveData(output, "UnicycleTrajectoryPlannerTestOutput.txt");
+        saveData(contactPhaseList, "UnicycleTrajectoryPlannerTestOutput.txt");
     }
 }
