@@ -29,6 +29,8 @@ velMANNInput velMANNInput::generateDummyVelMANNInput(Eigen::Ref<const Eigen::Vec
     input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     input.baseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, projectedBaseHorizon);
     input.baseAngularVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, projectedBaseHorizon);
+    input.basePosition = Eigen::Vector3d(0.0, 0.0, 0.7748); //TODO should these have correct ht?
+    input.baseAngle = Eigen::Vector3d::Zero();
 
     return input;
 }
@@ -41,6 +43,8 @@ velMANNOutput velMANNOutput::generateDummyVelMANNOutput(Eigen::Ref<const Eigen::
     output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     output.futureBaseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, futureProjectedBaseHorizon);
     output.futureBaseAngularVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, futureProjectedBaseHorizon);
+    output.basePosition = Eigen::Vector3d(0.0, 0.0, 0.7748); //TODO should these have correct ht?
+    output.baseAngle = Eigen::Vector3d::Zero();
 
     return output;
 }
@@ -140,6 +144,8 @@ bool velMANN::Impl::populateInput(const velMANNInput& input)
     ok = ok && populateVectorData("joint_positions", input.jointPositions);
     ok = ok && populateProjectedData("base_linear_velocities", input.baseLinearVelocityTrajectory);
     ok = ok && populateProjectedData("base_angular_velocities", input.baseAngularVelocityTrajectory);
+    ok = ok && populateProjectedData("base_position", input.basePosition);
+    ok = ok && populateProjectedData("base_angle", input.baseAngle);
 
     return ok;
 }
@@ -213,7 +219,8 @@ bool velMANN::initialize(
                                   + 3 * projectedBaseDatapoints // angular velocity of the base in xyz
                                                               // coordinates in the horizon
                                   + numberOfJoints // joint positions
-                                  + numberOfJoints; // joint velocities
+                                  + numberOfJoints // joint velocities
+                                  + 6; //base position and euler angles
 
     // resize the input
     m_pimpl->structuredInput.rawData.resize(inputSize);
@@ -234,6 +241,8 @@ bool velMANN::initialize(
     m_pimpl->structuredInput.handler.addVariable("base_angular_velocities", 3 * projectedBaseDatapoints);
     m_pimpl->structuredInput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredInput.handler.addVariable("joint_velocities", numberOfJoints);
+    m_pimpl->structuredInput.handler.addVariable("base_position", 3);
+    m_pimpl->structuredInput.handler.addVariable("base_angle", 3);
 
     // populate the output
     const std::size_t outputSize = 3 * (1 + projectedBaseDatapoints / 2) // linear velocity of the base in xyz
@@ -241,7 +250,8 @@ bool velMANN::initialize(
                                    + 3 * (1 + projectedBaseDatapoints / 2) // linear velocity of the base in xyz
                                                               // coordinates in the future horizon incl. current
                                    + numberOfJoints // joint positions
-                                   + numberOfJoints; // joint velocities
+                                   + numberOfJoints // joint velocities
+                                   + 6; //base position and euler angles
 
     // resize the output
     m_pimpl->structuredOutput.rawData.resize(outputSize);
@@ -263,12 +273,16 @@ bool velMANN::initialize(
                                                   3 * (1 + projectedBaseDatapoints / 2));
     m_pimpl->structuredOutput.handler.addVariable("joint_positions", numberOfJoints);
     m_pimpl->structuredOutput.handler.addVariable("joint_velocities", numberOfJoints);
+    m_pimpl->structuredOutput.handler.addVariable("base_position", 3);
+    m_pimpl->structuredOutput.handler.addVariable("base_angle", 3);
 
     // resize the output
     m_pimpl->output.futureBaseLinearVelocityTrajectory.resize(3, (1 + projectedBaseDatapoints / 2));
     m_pimpl->output.futureBaseAngularVelocityTrajectory.resize(3, (1 + projectedBaseDatapoints / 2));
     m_pimpl->output.jointPositions.resize(numberOfJoints);
     m_pimpl->output.jointVelocities.resize(numberOfJoints);
+    m_pimpl->output.basePosition.resize(3);
+    m_pimpl->output.baseAngle.resize(3);
 
     m_pimpl->state = Impl::FSM::Initialized;
 
@@ -321,6 +335,8 @@ bool velMANN::advance()
     unpackMatrix("future_base_angular_velocities", m_pimpl->output.futureBaseAngularVelocityTrajectory);
     unpackMatrix("joint_positions", m_pimpl->output.jointPositions);
     unpackMatrix("joint_velocities", m_pimpl->output.jointVelocities);
+    unpackMatrix("base_position", m_pimpl->output.basePosition);
+    unpackMatrix("base_angle", m_pimpl->output.baseAngle);
 
     m_pimpl->state = Impl::FSM::Running;
 

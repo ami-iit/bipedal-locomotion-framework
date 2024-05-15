@@ -41,6 +41,8 @@ struct velMANNInput
     Eigen::VectorXd jointPositions; /**< Vector containing the actual joint position in radians. */
     Eigen::VectorXd jointVelocities; /**< Vector containing the actual joint velocity in radians per
                                         seconds. */
+    Eigen::Vector3d basePosition; /**< Vector containing the actual base position in m */
+    Eigen::Vector3d baseAngle; /**< Vector containing the actual base euler angles in radians */
 
     /**
      * Generate a dummy MANNInput from a given joint configuration
@@ -76,6 +78,9 @@ struct velMANNOutput
     Eigen::VectorXd jointPositions; /**< Vector containing the next joint position in radians */
     Eigen::VectorXd jointVelocities; /**< Vector containing the next joint velocity in radians per
                                         seconds */
+
+    Eigen::Vector3d basePosition; /**< Vector containing the next base position in m */
+    Eigen::Vector3d baseAngle; /**< Vector containing the next base euler angles in radians */
 
     /**
      * Generate a dummy MANNOutput from a given joint configuration
