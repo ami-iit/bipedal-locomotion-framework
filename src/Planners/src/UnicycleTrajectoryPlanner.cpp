@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -743,13 +744,13 @@ BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getContactPhaseList()
 
     BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
-    if (!Planners::Utilities::getContactList(m_pImpl->initTime,
-                                             m_pImpl->parameters.dt,
-                                             m_pImpl->output.contactStatus.leftFootInContact,
-                                             m_pImpl->output.steps.leftSteps,
-                                             m_pImpl->parameters.leftContactFrameIndex,
-                                             "left_foot",
-                                             leftContactList))
+    if (!Planners::UnicycleUtilities::getContactList(m_pImpl->initTime,
+                                                     m_pImpl->parameters.dt,
+                                                     m_pImpl->output.contactStatus.leftFootInContact,
+                                                     m_pImpl->output.steps.leftSteps,
+                                                     m_pImpl->parameters.leftContactFrameIndex,
+                                                     "left_foot",
+                                                     leftContactList))
     {
         log()->error("{} Error while getting the left contact list. Returning an empty Contact "
                      "Phase List.",
@@ -757,13 +758,14 @@ BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getContactPhaseList()
         return contactPhaseList;
     };
 
-    if (!Planners::Utilities::getContactList(m_pImpl->initTime,
-                                             m_pImpl->parameters.dt,
-                                             m_pImpl->output.contactStatus.rightFootInContact,
-                                             m_pImpl->output.steps.rightSteps,
-                                             m_pImpl->parameters.rightContactFrameIndex,
-                                             "right_foot",
-                                             rightContactList))
+    if (!Planners::UnicycleUtilities::getContactList(m_pImpl->initTime,
+                                                     m_pImpl->parameters.dt,
+                                                     m_pImpl->output.contactStatus
+                                                         .rightFootInContact,
+                                                     m_pImpl->output.steps.rightSteps,
+                                                     m_pImpl->parameters.rightContactFrameIndex,
+                                                     "right_foot",
+                                                     rightContactList))
     {
         log()->error("{} Error while getting the right contact list. Returning an empty Contact "
                      "Phase List.",
@@ -776,89 +778,4 @@ BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getContactPhaseList()
     contactPhaseList.setLists(ContactListMap);
 
     return contactPhaseList;
-};
-
-bool BipedalLocomotion::Planners::Utilities::getContactList(
-    const std::chrono::nanoseconds& initTime,
-    const std::chrono::nanoseconds& dt,
-    const std::vector<bool>& inContact,
-    const std::deque<Step>& steps,
-    const int& contactFrameIndex,
-    const std::string& contactName,
-    BipedalLocomotion::Contacts::ContactList& contactList)
-{
-    constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::Utilities::getContactList]";
-
-    if (contactList.size() > 1)
-    {
-        BipedalLocomotion::log()->error("{} The contact list has size greater than 1. Size should "
-                                        "be 0 or 1.",
-                                        logPrefix);
-        return false;
-    }
-
-    size_t impactTimeIndex{0};
-    auto stepIterator = steps.begin();
-
-    while (stepIterator != steps.end())
-    {
-        auto step = *stepIterator;
-
-        BipedalLocomotion::Contacts::PlannedContact contact{};
-
-        contact.index = contactFrameIndex;
-        contact.name = contactName;
-
-        Eigen::Vector3d translation = Eigen::Vector3d::Zero();
-        translation.head<2>() = iDynTree::toEigen(step.position);
-        manif::SO3d rotation{0, 0, step.angle};
-        contact.pose = manif::SE3d(translation, rotation);
-
-        std::chrono::nanoseconds impactTime{static_cast<int64_t>(step.impactTime * 1e9)};
-
-        contact.activationTime = impactTime;
-        contact.deactivationTime = std::chrono::nanoseconds::max();
-
-        impactTimeIndex = (impactTime <= initTime) ? 0
-                                                   : static_cast<int>((impactTime - initTime) / dt);
-
-        for (auto i = impactTimeIndex; i < inContact.size(); i++)
-        {
-            if (i > 0 && !inContact.at(i) && inContact.at(i - 1))
-            {
-                contact.deactivationTime = initTime + dt * i;
-                break;
-            }
-        }
-
-        if ((stepIterator == steps.begin()) && (contactList.size() == 1) && (impactTimeIndex == 0))
-        {
-            // editing the first step if the contact list is not empty
-            // since the first contact, being the current active one,
-            // is already in the contact list
-
-            if (!contactList.editContact(contactList.begin(), contact))
-            {
-                BipedalLocomotion::log()->error("{} Error while editing the first contact of the "
-                                                "contact list.",
-                                                logPrefix);
-
-                return false;
-            }
-        } else
-        {
-            if (!contactList.addContact(contact))
-            {
-                BipedalLocomotion::log()->error("{} Error while adding contact to the contact "
-                                                "list.",
-                                                logPrefix);
-
-                return false;
-            }
-        }
-
-        stepIterator++;
-    };
-
-    return true;
 };

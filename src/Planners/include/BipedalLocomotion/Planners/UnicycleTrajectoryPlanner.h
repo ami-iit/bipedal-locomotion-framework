@@ -253,16 +253,4 @@ private:
     bool generateFirstTrajectory();
 };
 
-namespace BipedalLocomotion::Planners::Utilities
-{
-// add comment and move to another file
-bool getContactList(const std::chrono::nanoseconds& initTime,
-                    const std::chrono::nanoseconds& dt,
-                    const std::vector<bool>& inContact,
-                    const std::deque<Step>& steps,
-                    const int& contactFrameIndex,
-                    const std::string& contactName,
-                    BipedalLocomotion::Contacts::ContactList& contactList);
-}; // namespace BipedalLocomotion::Planners::Utilities
-
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_PLANNER_H
