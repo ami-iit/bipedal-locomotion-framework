@@ -29,7 +29,7 @@ void saveData(const UnicycleTrajectoryGeneratorOutput& output, const std::string
         return;
     }
 
-    file << output.ContactPhaseList.toString() << std::endl;
+    file << output.contactPhaseList.toString() << std::endl;
 
     file.close();
 }
@@ -88,7 +88,7 @@ TEST_CASE("UnicycleTrajectoryGeneratorTest")
 
     output = unicycleTrajectoryGenerator.getOutput();
 
-    REQUIRE(output.ContactPhaseList.size() == 1);
+    REQUIRE(output.contactPhaseList.size() == 1);
 
     if (saveDataTofile)
     {

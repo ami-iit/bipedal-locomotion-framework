@@ -53,6 +53,7 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput
     : public BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 {
     bool isValid = true; /**< True if the output is valid, false otherwise. */
+    BipedalLocomotion::Contacts::ContactPhaseList contactPhaseList; /**< Contact phase list */
 };
 
 struct BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters
