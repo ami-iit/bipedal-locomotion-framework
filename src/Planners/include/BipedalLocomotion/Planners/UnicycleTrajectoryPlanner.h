@@ -22,6 +22,7 @@
 #include <chrono>
 #include <deque>
 #include <memory>
+#include <string>
 #include <vector>
 namespace BipedalLocomotion::Planners
 {
@@ -122,7 +123,11 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
 
     int leftContactFrameIndex; /**< Index of the left foot contact frame */
 
+    std::string leftContactFrameName; /**< Name of the left foot contact frame */
+
     int rightContactFrameIndex; /**< Index of the right foot contact frame */
+
+    std::string rightContactFrameName; /**< Name of the right foot contact frame */
 };
 
 /**
@@ -145,10 +150,14 @@ public:
     virtual ~UnicycleTrajectoryPlanner();
 
     /**
-     * Set the robot model.
-     * @param model model of the robot considered.
+     * Set the robot contact frames.
+     * It should be called after the initialize() function.
+     * It checks if the contact frames names parsed by the initialize() function exist.
+     * If yes, it sets the related contact frames indexes and returns true.
+     * Otherwise, it sets the Impl::FSM::State back to NotInitialized and returns false.
+     * @param model iDynTree::Model of the robot considered.
      */
-    bool setRobotModel(const iDynTree::Model& model);
+    bool setRobotContactFrames(const iDynTree::Model& model);
 
     // clang-format off
     /**

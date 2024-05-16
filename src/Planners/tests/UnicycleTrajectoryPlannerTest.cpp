@@ -7,6 +7,8 @@
 
 #include <manif/manif.h>
 
+#include <ResolveRoboticsURICpp.h>
+
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
 
@@ -14,8 +16,7 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 
 #include <fstream>
-
-#include <FolderPath.h>
+#include <optional>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
@@ -67,7 +68,14 @@ TEST_CASE("UnicyclePlannerTest")
                                    "r_shoulder_yaw",   "r_elbow"};
 
     iDynTree::ModelLoader ml;
-    REQUIRE(ml.loadReducedModelFromFile(getRobotModelPath(), jointsList));
+
+    std::optional<std::string> robotModelAbsolutPath
+        = ResolveRoboticsURICpp::resolveRoboticsURI("package://ergoCub/robots/ergoCubSN000/"
+                                                    "model.urdf");
+
+    REQUIRE(robotModelAbsolutPath.has_value());
+
+    REQUIRE(ml.loadReducedModelFromFile(robotModelAbsolutPath.value(), jointsList));
 
     const auto handler = params();
 
@@ -75,9 +83,9 @@ TEST_CASE("UnicyclePlannerTest")
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner planner;
 
-    REQUIRE(planner.setRobotModel(ml.model()));
-
     REQUIRE(planner.initialize(handler));
+
+    REQUIRE(planner.setRobotContactFrames(ml.model()));
 
     UnicycleTrajectoryPlannerInput input
         = UnicycleTrajectoryPlannerInput::generateDummyUnicycleTrajectoryPlannerInput();
