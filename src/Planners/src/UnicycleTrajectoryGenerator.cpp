@@ -11,6 +11,7 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <chrono>
@@ -279,13 +280,13 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
 
     // reset the contact lists
-    if (!m_pImpl->output.ContactPhaseList.lists().empty())
+    if (!m_pImpl->output.contactPhaseList.lists().empty())
     {
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->output.ContactPhaseList.lists().at("left_foot"),
+                                  m_pImpl->output.contactPhaseList.lists().at("left_foot"),
                                   leftContactList);
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->output.ContactPhaseList.lists().at("right_foot"),
+                                  m_pImpl->output.contactPhaseList.lists().at("right_foot"),
                                   rightContactList);
     }
 
@@ -294,13 +295,13 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
                                                  leftFootInContact);
 
-    if (!Planners::Utilities::getContactList(m_pImpl->time,
-                                             m_pImpl->parameters.dt,
-                                             leftFootInContact,
-                                             m_pImpl->referenceSignals.leftSteps,
-                                             m_pImpl->parameters.leftContactFrameIndex,
-                                             "left_foot",
-                                             leftContactList))
+    if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
+                                                     m_pImpl->parameters.dt,
+                                                     leftFootInContact,
+                                                     m_pImpl->referenceSignals.leftSteps,
+                                                     m_pImpl->parameters.leftContactFrameIndex,
+                                                     "left_foot",
+                                                     leftContactList))
     {
 
         log()->error("{} Unable to get the contact list for the left foot.", logPrefix);
@@ -314,13 +315,13 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightFootinContact,
                                                  rightFootInContact);
 
-    if (!Planners::Utilities::getContactList(m_pImpl->time,
-                                             m_pImpl->parameters.dt,
-                                             rightFootInContact,
-                                             m_pImpl->referenceSignals.rightSteps,
-                                             m_pImpl->parameters.rightContactFrameIndex,
-                                             "right_foot",
-                                             rightContactList))
+    if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
+                                                     m_pImpl->parameters.dt,
+                                                     rightFootInContact,
+                                                     m_pImpl->referenceSignals.rightSteps,
+                                                     m_pImpl->parameters.rightContactFrameIndex,
+                                                     "right_foot",
+                                                     rightContactList))
     {
         log()->error("{} Unable to get the contact list for the right foot.", logPrefix);
         m_pImpl->output.isValid = false;
@@ -328,7 +329,7 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     contactListMap["right_foot"] = rightContactList;
 
-    m_pImpl->output.ContactPhaseList.setLists(contactListMap);
+    m_pImpl->output.contactPhaseList.setLists(contactListMap);
 
     return m_pImpl->output;
 }

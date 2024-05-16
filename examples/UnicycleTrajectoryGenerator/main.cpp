@@ -181,12 +181,12 @@ int main(int argc, char* argv[])
         }
 
         // set the contact list of the swing foot planners
-        if (!leftFootPlanner.setContactList(output.ContactPhaseList.lists().at("left_foot")))
+        if (!leftFootPlanner.setContactList(output.contactPhaseList.lists().at("left_foot")))
         {
             log()->error("[main] Unable to set the contact list of the left foot planner.");
             return EXIT_FAILURE;
         }
-        if (!rightFootPlanner.setContactList(output.ContactPhaseList.lists().at("right_foot")))
+        if (!rightFootPlanner.setContactList(output.contactPhaseList.lists().at("right_foot")))
         {
             log()->error("[main] Unable to set the contact list of the right foot planner.");
             return EXIT_FAILURE;
