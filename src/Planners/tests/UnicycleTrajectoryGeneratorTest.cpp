@@ -73,9 +73,9 @@ TEST_CASE("UnicycleTrajectoryGeneratorTest")
 
     BipedalLocomotion::Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
 
-    REQUIRE(unicycleTrajectoryGenerator.setRobotModel(ml.model()));
-
     REQUIRE(unicycleTrajectoryGenerator.initialize(handler));
+
+    REQUIRE(unicycleTrajectoryGenerator.setRobotContactFrames(ml.model()));
 
     UnicycleTrajectoryGeneratorInput input
         = UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput();
