@@ -106,8 +106,8 @@ int main(int argc, char* argv[])
 
     // initialize the unicyle trajectory generator
     Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
-    unicycleTrajectoryGenerator.setRobotModel(ml.model());
     unicycleTrajectoryGenerator.initialize(getUnicycleParametersHandler(dt));
+    unicycleTrajectoryGenerator.setRobotContactFrames(ml.model());
 
     // initialize the input of the unicycle trajectory generator
     Planners::UnicycleTrajectoryGeneratorInput input

@@ -159,6 +159,18 @@ public:
      */
     bool setRobotContactFrames(const iDynTree::Model& model);
 
+    /**
+     * Get the index of the right foot contact frame.
+     * @return The index of the right foot contact frame.
+     */
+    int getRightContactFrameIndex() const;
+
+    /**
+     * Get the index of the left foot contact frame.
+     * @return The index of the left foot contact frame.
+     */
+    int getLeftContactFrameIndex() const;
+
     // clang-format off
     /**
      * Initialize the planner.

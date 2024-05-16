@@ -182,6 +182,16 @@ bool Planners::UnicycleTrajectoryPlanner::setRobotContactFrames(const iDynTree::
     return true;
 }
 
+int Planners::UnicycleTrajectoryPlanner::getLeftContactFrameIndex() const
+{
+    return m_pImpl->parameters.leftContactFrameIndex;
+}
+
+int Planners::UnicycleTrajectoryPlanner::getRightContactFrameIndex() const
+{
+    return m_pImpl->parameters.rightContactFrameIndex;
+}
+
 bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
 {

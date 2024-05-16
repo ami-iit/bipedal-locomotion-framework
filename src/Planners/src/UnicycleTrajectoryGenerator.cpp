@@ -21,7 +21,6 @@
 #include <mutex>
 #include <yarp/os/RFModule.h>
 
-#include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
 #include <iDynTree/ModelLoader.h>
 
@@ -90,8 +89,6 @@ public:
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
 
-    iDynTree::KinDynComputations kinDyn;
-
     bool askNewTrajectory(const std::chrono::nanoseconds& initTime,
                           const manif::SE3d& measuredTransform);
 
@@ -144,10 +141,32 @@ Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGener
     return input;
 }
 
-bool Planners::UnicycleTrajectoryGenerator::setRobotModel(const iDynTree::Model& model)
+bool Planners::UnicycleTrajectoryGenerator::setRobotContactFrames(const iDynTree::Model& model)
 {
-    return m_pImpl->kinDyn.loadRobotModel(model)
-           && m_pImpl->unicycleTrajectoryPlanner.setRobotModel(model);
+
+    const auto logPrefix = "[UnicycleTrajectoryGenerator::setRobotContactFrames]";
+
+    if (m_pImpl->state == Impl::FSM::NotInitialized)
+    {
+        log()->error("{} The Unicycle planner has not been initialized. Initialize it first.",
+                     logPrefix);
+        return false;
+    }
+
+    if (!m_pImpl->unicycleTrajectoryPlanner.setRobotContactFrames(model))
+    {
+        log()->error("{} Unable to set the robot contact frames.", logPrefix);
+        m_pImpl->state = Impl::FSM::NotInitialized;
+        return false;
+    }
+
+    m_pImpl->parameters.leftContactFrameIndex
+        = m_pImpl->unicycleTrajectoryPlanner.getLeftContactFrameIndex();
+
+    m_pImpl->parameters.rightContactFrameIndex
+        = m_pImpl->unicycleTrajectoryPlanner.getRightContactFrameIndex();
+
+    return true;
 }
 
 bool Planners::UnicycleTrajectoryGenerator::initialize(
@@ -226,22 +245,6 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     std::string leftContactFrameName, rightContactFrameName;
     ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
     ok = ok && loadParam("rightContactFrameName", rightContactFrameName);
-
-    m_pImpl->parameters.leftContactFrameIndex
-        = m_pImpl->kinDyn.model().getFrameIndex(leftContactFrameName);
-    if (m_pImpl->parameters.leftContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("{} Unable to find the frame named {}.", logPrefix, leftContactFrameName);
-        return false;
-    }
-
-    m_pImpl->parameters.rightContactFrameIndex
-        = m_pImpl->kinDyn.model().getFrameIndex(rightContactFrameName);
-    if (m_pImpl->parameters.rightContactFrameIndex == iDynTree::FRAME_INVALID_INDEX)
-    {
-        log()->error("{} Unable to find the frame named {}.", logPrefix, rightContactFrameName);
-        return false;
-    }
 
     // Initialize first trajectory
     ok = ok && generateFirstTrajectory();
