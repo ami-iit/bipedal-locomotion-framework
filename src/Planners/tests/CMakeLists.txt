@@ -24,13 +24,14 @@ add_bipedal_test(
 
 if (FRAMEWORK_COMPILE_Unicycle)
 
+  set(RESOLVE_ROBOTICS_URI_CPP_BUILD_TESTS OFF)
   include(FetchContent)
   FetchContent_Declare(
     ResolveRoboticsURICpp
     GIT_REPOSITORY https://github.com/ami-iit/resolve-robotics-uri-cpp
-    GIT_TAG        v0.0.1 
+    GIT_TAG        v0.0.1
   )
-  FetchContent_MakeAvailable(ResolveRoboticsURICpp)  
+  FetchContent_MakeAvailable(ResolveRoboticsURICpp)
 
   add_bipedal_test(
     NAME UnicycleTrajectoryPlanner
