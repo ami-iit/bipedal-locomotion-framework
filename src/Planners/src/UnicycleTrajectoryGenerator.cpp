@@ -259,20 +259,20 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
-                                                 m_pImpl->output.dcmTrajectory.position);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
+                                                         m_pImpl->output.dcmTrajectory.position);
 
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmVelocity,
-                                                 m_pImpl->output.dcmTrajectory.velocity);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmVelocity,
+                                                         m_pImpl->output.dcmTrajectory.velocity);
 
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPosition,
-                                                 m_pImpl->output.comTrajectory.position);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPosition,
+                                                         m_pImpl->output.comTrajectory.position);
 
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comVelocity,
-                                                 m_pImpl->output.comTrajectory.velocity);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comVelocity,
+                                                         m_pImpl->output.comTrajectory.velocity);
 
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.comAcceleration,
-                                                 m_pImpl->output.comTrajectory.acceleration);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comAcceleration,
+                                                         m_pImpl->output.comTrajectory.acceleration);
 
     // instatiate variables for the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
@@ -291,8 +291,8 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     // get the left contact phase list
     std::vector<bool> leftFootInContact;
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
-                                                 leftFootInContact);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
+                                                         leftFootInContact);
 
     if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
                                                      m_pImpl->parameters.dt,
@@ -311,8 +311,9 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     // get the right contact phase list
     std::vector<bool> rightFootInContact;
-    Planners::Utilities::populateVectorFromDeque(m_pImpl->referenceSignals.rightFootinContact,
-                                                 rightFootInContact);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals
+                                                             .rightFootinContact,
+                                                         rightFootInContact);
 
     if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
                                                      m_pImpl->parameters.dt,
@@ -609,33 +610,33 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     // append vectors to deques
 
-    Planners::Utilities::appendVectorToDeque(isLastSwingingFoot,
-                                             referenceSignals.isLeftFootLastSwinging,
-                                             mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(isLastSwingingFoot,
+                                                     referenceSignals.isLeftFootLastSwinging,
+                                                     mergePoint);
 
-    Planners::Utilities::appendVectorToDeque(dcmPositionReference,
-                                             referenceSignals.dcmPosition,
-                                             mergePoint);
-    Planners::Utilities::appendVectorToDeque(dcmVelocityReference,
-                                             referenceSignals.dcmVelocity,
-                                             mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(dcmPositionReference,
+                                                     referenceSignals.dcmPosition,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(dcmVelocityReference,
+                                                     referenceSignals.dcmVelocity,
+                                                     mergePoint);
 
-    Planners::Utilities::appendVectorToDeque(leftInContact,
-                                             referenceSignals.leftFootinContact,
-                                             mergePoint);
-    Planners::Utilities::appendVectorToDeque(rightInContact,
-                                             referenceSignals.rightFootinContact,
-                                             mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(leftInContact,
+                                                     referenceSignals.leftFootinContact,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(rightInContact,
+                                                     referenceSignals.rightFootinContact,
+                                                     mergePoint);
 
-    Planners::Utilities::appendVectorToDeque(comPositionRefence,
-                                             referenceSignals.comPosition,
-                                             mergePoint);
-    Planners::Utilities::appendVectorToDeque(comVelocityReference,
-                                             referenceSignals.comVelocity,
-                                             mergePoint);
-    Planners::Utilities::appendVectorToDeque(comAccelerationReference,
-                                             referenceSignals.comAcceleration,
-                                             mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(comPositionRefence,
+                                                     referenceSignals.comPosition,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(comVelocityReference,
+                                                     referenceSignals.comVelocity,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(comAccelerationReference,
+                                                     referenceSignals.comAcceleration,
+                                                     mergePoint);
 
     referenceSignals.leftSteps.assign(leftSteps.begin(), leftSteps.end());
     referenceSignals.rightSteps.assign(rightSteps.begin(), rightSteps.end());
