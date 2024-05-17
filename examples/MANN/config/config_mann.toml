@@ -31,8 +31,8 @@ scaling_factor = 0.5
 mocap_frame_rate = 50 # Hz
 past_projected_base_horizon = 1.0
 threshold_radius = 0.3
-linear_pid_gain = 0.4
-rotational_pid_gain = 0.4
+linear_pid_gain = 0.5
+rotational_pid_gain = 10.0
 
 [LEFT_FOOT]
 number_of_corners = 4
@@ -59,4 +59,4 @@ switch_off_after = 0.04
 
 [MANN]
 projected_base_datapoints = 12
-onnx_model_path = "./config/training_subsampled_mirrored_D2_10x_pi_loss_26j_shoulder_leg_limits_20240217-100439.onnx"
+onnx_model_path = "./config/training_subsampled_mirrored_D2_10x_pi_loss_new_retarg_base_pose_features_20240514-173315_130e.onnx"
