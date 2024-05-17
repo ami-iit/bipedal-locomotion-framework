@@ -19,10 +19,8 @@
 #include <future>
 #include <memory>
 #include <mutex>
-#include <yarp/os/RFModule.h>
 
 #include <iDynTree/Model.h>
-#include <iDynTree/ModelLoader.h>
 
 #include <string>
 #include <vector>
