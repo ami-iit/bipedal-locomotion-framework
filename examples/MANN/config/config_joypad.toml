@@ -1,9 +1,9 @@
 base_vel_norm = 0.4
 # For vel-based MANN
 base_ang_vel_norm = 0.4
-ellipsoid_forward_axis = 1.0
-ellipsoid_side_axis = 0.9
-ellipsoid_backward_axis = 0.6
+ellipsoid_forward_axis = 3.0
+ellipsoid_side_axis = 2.0
+ellipsoid_backward_axis = 3.0
 ellipsoid_scaling_factor = 0.4
 # For original MANN
 max_facing_direction_angle_forward = 0.20

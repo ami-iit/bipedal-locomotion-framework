@@ -24,10 +24,9 @@ class Barrier
 {
 public:
     /**
-     * Constructor.
-     * @param counter initial value of the expected counter
+     * Calls the constructor. It creates a new Barrier with the given counter.
      */
-    explicit Barrier(const std::size_t counter);
+    static std::shared_ptr<Barrier> create(const std::size_t counter);
 
     /**
      * Blocks this thread at the phase synchronization point until its phase completion step is run
@@ -40,6 +39,12 @@ private:
     std::size_t m_initialCount;
     std::size_t m_count;
     std::size_t m_generation;
+
+    /**
+     * Constructor.
+     * @param counter initial value of the expected counter
+     */
+    explicit Barrier(const std::size_t counter);
 };
 } // namespace System
 } // namespace BipedalLocomotion

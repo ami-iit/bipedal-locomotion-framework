@@ -10,6 +10,7 @@ BSD-3-Clause license. -->
         <!-- interface -->
         <xi:include href="blf-yarp-robot-logger-interfaces/all_joints_mc.xml" />
         <xi:include href="blf-yarp-robot-logger-interfaces/ft_clients.xml" />
+        <xi:include href="blf-yarp-robot-logger-interfaces/imu_clients.xml" />
         <xi:include href="blf-yarp-robot-logger-interfaces/mas-remapper.xml" />
         <xi:include href="./yarp-robot-logger.xml" />
     </devices>

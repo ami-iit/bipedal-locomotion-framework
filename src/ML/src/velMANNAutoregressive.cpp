@@ -98,6 +98,7 @@ struct velMANNAutoregressive::Impl
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
     std::chrono::nanoseconds dT;
     std::chrono::nanoseconds pastProjectedBaseHorizon;
+    std::chrono::nanoseconds stopTime{std::chrono::nanoseconds::zero()};
     int mocapFrameRate;
 
     std::shared_ptr<ContinuousDynamicalSystem::SO3Dynamics> baseOrientationDynamics;
@@ -107,6 +108,10 @@ struct velMANNAutoregressive::Impl
 
     AutoregressiveState state;
     Eigen::MatrixXd supportFootJacobian;
+
+    // For setting joint positions to initial
+    Eigen::VectorXd initial_joint_positions;
+    Eigen::VectorXd initialStoppingJointPositions;
 
     // For linear PID
     double radius;
@@ -472,6 +477,9 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
 {
     constexpr auto logPrefix = "[velMANNAutoregressive::populateInitialAutoregressiveState]";
 
+    m_pimpl->initial_joint_positions = jointPositions;
+    m_pimpl->initialStoppingJointPositions = jointPositions;
+
     // set the base velocity to zero since we do not need to evaluate any quantity related to it
     Eigen::Matrix<double, 6, 1> baseVelocity;
     baseVelocity.setZero();
@@ -583,7 +591,26 @@ bool velMANNAutoregressive::setInput(const Input& input)
     const velMANNOutput& previousVelMannOutput = m_pimpl->state.previousVelMannOutput;
 
     // the joint positions and velocities are considered as new input
-    m_pimpl->velMannInput.jointPositions = previousVelMannOutput.jointPositions;
+    // if within the radius of the desired position, set input joint positions to a standing configuration
+    std::chrono::nanoseconds threshold = std::chrono::seconds(1);
+    double time_change;
+    if (m_pimpl->lambda_0 == 0.0)
+    {
+        if ((m_pimpl->currentTime - m_pimpl->stopTime) <= threshold)
+        {
+            time_change = static_cast<double>((m_pimpl->currentTime - m_pimpl->stopTime).count()) / 1e9;
+            m_pimpl->velMannInput.jointPositions = m_pimpl->initialStoppingJointPositions + \
+                (m_pimpl->initial_joint_positions - m_pimpl->initialStoppingJointPositions) * time_change;
+        }
+        else
+        {
+            m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
+        }
+    }
+    else
+    {
+        m_pimpl->velMannInput.jointPositions = previousVelMannOutput.jointPositions;
+    }
     m_pimpl->velMannInput.jointVelocities = previousVelMannOutput.jointVelocities;
 
     // we set the base velocity to zero since we do not need to evaluate any quantity related to it
@@ -665,7 +692,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
         manif::SO2d I_yaw_rotation_B(I_yaw_B);
 
         //rotate des x b into world frame (still 2d), then add 3rd dim later, which will be 0
-        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des);
+        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des) + m_pimpl->state.I_H_B.translation().topRows(2);
     }
 
     //create the error term, where z error is 0 because it's not controlled
@@ -678,14 +705,17 @@ bool velMANNAutoregressive::setInput(const Input& input)
     // Check if there is no user input or if the robot reached the desired position
     if (input.desiredFutureBaseTrajectory.rightCols(1) == (Eigen::Vector2d::Zero()) || I_positionError.norm() <= m_pimpl->radius)
     {
+        if (m_pimpl->lambda_0 == 1.0)
+        {
+            m_pimpl->stopTime = m_pimpl->currentTime;
+            m_pimpl->initialStoppingJointPositions = previousVelMannOutput.jointPositions;
+        }
         m_pimpl->lambda_0 = 0.0;
     }
     else
     {
-        // This means there is no new input and robot should stop
         m_pimpl->lambda_0 = 1.0;
     }
-
     // Apply linear PID
     Eigen::Matrix3Xd xDot(3, input.desiredFutureBaseTrajectory.cols());
     for (int i = 0; i < input.desiredFutureBaseTrajectory.cols(); i++)
@@ -825,16 +855,16 @@ bool velMANNAutoregressive::advance()
                       m_pimpl->integrator.getSolution().get_from_hash<"LieGroup"_h>());
 
     manif::SE3d::Tangent baseVelocity = manif::SE3d::Tangent::Zero();
-    if (!m_pimpl->kinDyn.setRobotState(I_H_base.transform(),
-                                       velMannOutput.jointPositions,
-                                       baseVelocity.coeffs(),
-                                       velMannOutput.jointVelocities,
-                                       m_pimpl->gravity))
-    {
-        log()->error("{} Unable to set the robot state in the kindyncomputations object.",
-                     logPrefix);
-        return false;
-    }
+    // if (!m_pimpl->kinDyn.setRobotState(I_H_base.transform(),
+    //                                    velMannOutput.jointPositions,
+    //                                    baseVelocity.coeffs(),
+    //                                    velMannOutput.jointVelocities,
+    //                                    m_pimpl->gravity))
+    // {
+    //     log()->error("{} Unable to set the robot state in the kindyncomputations object.",
+    //                  logPrefix);
+    //     return false;
+    // }
 
     // The following function evaluate the position of the corners of a foot in the inertial frame
     auto evaluateFootCornersPosition
@@ -987,12 +1017,20 @@ bool velMANNAutoregressive::advance()
 
     // populate the output
     m_pimpl->output.jointsPosition = m_pimpl->state.previousVelMannOutput.jointPositions;
+    m_pimpl->output.jointsVelocity = m_pimpl->state.previousVelMannOutput.jointVelocities;
     m_pimpl->output.basePose = m_pimpl->state.I_H_B;
     m_pimpl->output.baseVelocity = baseVelocity;
     m_pimpl->output.currentTime = m_pimpl->state.time;
     m_pimpl->output.comPosition = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassPosition());
+    m_pimpl->output.comVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getCenterOfMassVelocity());
     m_pimpl->output.angularMomentum
         = iDynTree::toEigen(m_pimpl->kinDyn.getCentroidalTotalMomentum().getAngularVec3());
+    m_pimpl->kinDyn.setFrameVelocityRepresentation(iDynTree::INERTIAL_FIXED_REPRESENTATION);
+    m_pimpl->output.leftFootPose = BipedalLocomotion::Conversions::toManifPose(m_pimpl->kinDyn.getWorldTransform(m_pimpl->state.leftFootState.contact.index));
+    m_pimpl->output.rightFootPose = BipedalLocomotion::Conversions::toManifPose(m_pimpl->kinDyn.getWorldTransform(m_pimpl->state.rightFootState.contact.index));
+    m_pimpl->output.leftFootVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getFrameVel(m_pimpl->state.leftFootState.contact.index));
+    m_pimpl->output.rightFootVelocity = iDynTree::toEigen(m_pimpl->kinDyn.getFrameVel(m_pimpl->state.rightFootState.contact.index));
+    m_pimpl->kinDyn.setFrameVelocityRepresentation(iDynTree::MIXED_REPRESENTATION);
     m_pimpl->output.leftFoot = m_pimpl->state.leftFootState.contact;
     m_pimpl->output.rightFoot = m_pimpl->state.rightFootState.contact;
 
