@@ -207,22 +207,20 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
         return true;
     };
 
-    using namespace std::chrono_literals;
-    ok = ok && loadParamWithFallback("dt", m_pImpl->parameters.dt, std::chrono::nanoseconds(2ms));
+    double dt, plannerAdvanceTimeInS;
+    ok = ok && loadParamWithFallback("dt", dt, 0.002);
+    m_pImpl->parameters.dt = std::chrono::nanoseconds(static_cast<int64_t>(dt * 1e9));
 
-    std::chrono::nanoseconds plannerAdvanceTimeInS;
-    ok = ok
-         && loadParamWithFallback("planner_advance_time_in_s",
-                                  plannerAdvanceTimeInS,
-                                  std::chrono::nanoseconds(80ms));
+    ok = ok && loadParamWithFallback("planner_advance_time_in_s", plannerAdvanceTimeInS, 0.08);
+
     m_pImpl->parameters.plannerAdvanceTimeSteps
-        = std::round(plannerAdvanceTimeInS / m_pImpl->parameters.dt) + 2; // The additional 2
-                                                                          // steps are because
-                                                                          // the trajectory from
-                                                                          // the planner is
-                                                                          // requested two steps
-                                                                          // in advance wrt the
-                                                                          // merge point
+        = std::round(plannerAdvanceTimeInS / dt) + 2; // The additional 2
+                                                      // steps are because
+                                                      // the trajectory from
+                                                      // the planner is
+                                                      // requested two steps
+                                                      // in advance wrt the
+                                                      // merge point
 
     // Initialize the time
     m_pImpl->time = std::chrono::nanoseconds::zero();
