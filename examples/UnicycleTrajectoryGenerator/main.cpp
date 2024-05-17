@@ -115,7 +115,6 @@ int main(int argc, char* argv[])
 
     input.w_H_leftFoot = manif::SE3d::Identity();
     input.w_H_leftFoot.translation(Eigen::Vector3d(0.0, 0.1, 0.0));
-    log()->error("[main] Left foot position: {}", input.w_H_leftFoot.translation().transpose());
 
     input.w_H_rightFoot = manif::SE3d::Identity();
     input.w_H_rightFoot.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
