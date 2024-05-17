@@ -9,6 +9,7 @@
 #define BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_UTILITIES_H
 
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <UnicyclePlanner.h>
 
 namespace BipedalLocomotion::Planners::UnicycleUtilities
@@ -31,6 +32,52 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
                     const int& contactFrameIndex,
                     const std::string& contactName,
                     BipedalLocomotion::Contacts::ContactList& contactList);
+
+/**
+ * It appends a vector to a deque.
+ * @param input the input vector.
+ * @param output the output deque.
+ * @param initPoint the initial point where the vector has to be appended.
+ * @return true if the operation is successful, false otherwise.
+ */
+template <typename T>
+bool appendVectorToDeque(const std::vector<T>& input,
+                         std::deque<T>& output,
+                         const size_t& initPoint)
+{
+    if (initPoint > output.size())
+    {
+        BipedalLocomotion::log()->error("[Utilities::appendVectorToDeque] The init point has to "
+                                        "be less or equal to the size of the output deque.");
+        return false;
+    }
+
+    // resize the deque
+    output.resize(input.size() + initPoint);
+
+    // Advances the iterator it by initPoint positions
+    typename std::deque<T>::iterator it = output.begin();
+    std::advance(it, initPoint);
+
+    // copy the vector into the deque from the initPoint position
+    std::copy(input.begin(), input.end(), it);
+
+    return true;
+}
+
+/**
+ * It populates a vector from a deque.
+ * @param deque the input deque.
+ * @param vector the output vector.
+ */
+template <typename T>
+void populateVectorFromDeque(const std::deque<T>& deque, std::vector<T>& vector)
+{
+
+    vector.clear();
+
+    vector.insert(vector.end(), deque.begin(), deque.end());
+}
 
 } // namespace BipedalLocomotion::Planners::UnicycleUtilities
 

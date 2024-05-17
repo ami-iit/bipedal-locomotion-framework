@@ -120,60 +120,40 @@ public:
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
+    /**
+     * @brief Get the output of the planner.
+     * @return Output of the planner.
+     */
     const UnicycleTrajectoryGeneratorOutput& getOutput() const override;
 
+    /**
+     * @brief Check if the output is valid.
+     * @return True if the output is valid, false otherwise.
+     */
     bool isOutputValid() const override;
 
+    /**
+     * @brief Set the input of the planner.
+     * @param input Input of the planner.
+     * @return True in case of success, false otherwise.
+     */
     bool setInput(const UnicycleTrajectoryGeneratorInput& input) override;
 
+    /**
+     * @brief Advance the planner.
+     * @return True in case of success, false otherwise.
+     */
     bool advance() override;
 
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
 
-    UnicycleController
-    getUnicycleControllerFromString(const std::string& unicycleControllerAsString);
-
+    /**
+     * @brief Generate the first trajectory at initialization phase.
+     * @return True in case of success, false otherwise.
+     */
     bool generateFirstTrajectory();
 };
-
-namespace BipedalLocomotion::Planners::Utilities
-{
-template <typename T>
-bool appendVectorToDeque(const std::vector<T>& input,
-                         std::deque<T>& output,
-                         const size_t& initPoint)
-{
-    if (initPoint > output.size())
-    {
-        BipedalLocomotion::log()->error("[Utilities::appendVectorToDeque] The init point has to "
-                                        "be less or equal to the size of the output deque.");
-        return false;
-    }
-
-    // resize the deque
-    output.resize(input.size() + initPoint);
-
-    // Advances the iterator it by initPoint positions
-    typename std::deque<T>::iterator it = output.begin();
-    std::advance(it, initPoint);
-
-    // copy the vector into the deque from the initPoint position
-    std::copy(input.begin(), input.end(), it);
-
-    return true;
-}
-
-template <typename T>
-void populateVectorFromDeque(const std::deque<T>& deque, std::vector<T>& vector)
-{
-
-    vector.clear();
-
-    vector.insert(vector.end(), deque.begin(), deque.end());
-}
-
-}; // namespace BipedalLocomotion::Planners::Utilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
