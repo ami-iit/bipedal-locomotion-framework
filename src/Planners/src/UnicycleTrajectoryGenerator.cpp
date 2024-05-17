@@ -580,67 +580,51 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
         }
     }
 
-    // get the output of the unicycle planner
-    std::vector<Eigen::Vector2d> dcmPositionReference, dcmVelocityReference;
-    std::vector<Eigen::Vector3d> comPositionRefence, comVelocityReference, comAccelerationReference;
-    std::vector<bool> rightInContact, leftInContact, isLastSwingingFoot;
-    std::vector<size_t> mergePoints;
-    std::deque<Step> leftSteps, rightSteps;
+    // get the output of the unicycle planner and append it to deques
 
-    // get dcm position and velocity
-    dcmPositionReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.position;
-    dcmVelocityReference = unicycleTrajectoryPlanner.getOutput().dcmTrajectory.velocity;
-
-    // get com trajectory
-    comPositionRefence = unicycleTrajectoryPlanner.getOutput().comTrajectory.position;
-    comVelocityReference = unicycleTrajectoryPlanner.getOutput().comTrajectory.velocity;
-    comAccelerationReference = unicycleTrajectoryPlanner.getOutput().comTrajectory.acceleration;
-
-    // get feet contact status
-    leftInContact = unicycleTrajectoryPlanner.getOutput().contactStatus.leftFootInContact;
-    rightInContact = unicycleTrajectoryPlanner.getOutput().contactStatus.rightFootInContact;
-    isLastSwingingFoot = unicycleTrajectoryPlanner.getOutput().contactStatus.UsedLeftAsFixed;
-
-    // get merge points
-    mergePoints = unicycleTrajectoryPlanner.getOutput().mergePoints;
-
-    // get steps
-    leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
-    rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
-
-    // append vectors to deques
-
-    Planners::UnicycleUtilities::appendVectorToDeque(isLastSwingingFoot,
-                                                     referenceSignals.isLeftFootLastSwinging,
-                                                     mergePoint);
-
-    Planners::UnicycleUtilities::appendVectorToDeque(dcmPositionReference,
+    // get dcm position
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .dcmTrajectory.position,
                                                      referenceSignals.dcmPosition,
                                                      mergePoint);
-    Planners::UnicycleUtilities::appendVectorToDeque(dcmVelocityReference,
+    // get dcm velocity
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .dcmTrajectory.velocity,
                                                      referenceSignals.dcmVelocity,
                                                      mergePoint);
-
-    Planners::UnicycleUtilities::appendVectorToDeque(leftInContact,
+    // get feet contact status
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .contactStatus.UsedLeftAsFixed,
+                                                     referenceSignals.isLeftFootLastSwinging,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .contactStatus.leftFootInContact,
                                                      referenceSignals.leftFootinContact,
                                                      mergePoint);
-    Planners::UnicycleUtilities::appendVectorToDeque(rightInContact,
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .contactStatus.rightFootInContact,
                                                      referenceSignals.rightFootinContact,
                                                      mergePoint);
-
-    Planners::UnicycleUtilities::appendVectorToDeque(comPositionRefence,
+    // get com trajectory
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .comTrajectory.position,
                                                      referenceSignals.comPosition,
                                                      mergePoint);
-    Planners::UnicycleUtilities::appendVectorToDeque(comVelocityReference,
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .comTrajectory.velocity,
                                                      referenceSignals.comVelocity,
                                                      mergePoint);
-    Planners::UnicycleUtilities::appendVectorToDeque(comAccelerationReference,
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .comTrajectory.acceleration,
                                                      referenceSignals.comAcceleration,
                                                      mergePoint);
+    // get steps
+    referenceSignals.leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
+    referenceSignals.rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
 
-    referenceSignals.leftSteps.assign(leftSteps.begin(), leftSteps.end());
-    referenceSignals.rightSteps.assign(rightSteps.begin(), rightSteps.end());
-
+    // get merge points
+    std::vector<size_t> mergePoints;
+    mergePoints = unicycleTrajectoryPlanner.getOutput().mergePoints;
     referenceSignals.mergePoints.assign(mergePoints.begin(), mergePoints.end());
 
     // the first merge point is always equal to 0
