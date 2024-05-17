@@ -68,7 +68,7 @@ public:
 
     std::future<bool> unicyclePlannerOutputFuture;
 
-    struct ReferenceSignals
+    struct Trajectory
     {
         std::deque<Eigen::Vector2d> dcmPosition;
         std::deque<Eigen::Vector2d> dcmVelocity;
@@ -83,15 +83,24 @@ public:
         std::deque<Step> rightSteps;
     };
 
-    ReferenceSignals referenceSignals;
+    Trajectory trajectory;
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
 
+    /**
+     * ask for a new trajectory to the unicycle trajectory planner
+     */
     bool askNewTrajectory(const std::chrono::nanoseconds& initTime,
                           const manif::SE3d& measuredTransform);
 
+    /**
+     * merge the current trajectory with the new one computed by the unicycle trajectory planner
+     */
     bool mergeTrajectories(const size_t& mergePoint);
 
+    /**
+     * advance the current trajectory
+     */
     bool advanceTrajectory();
 
     /*
@@ -226,7 +235,7 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     m_pImpl->time = std::chrono::nanoseconds::zero();
 
     // Initialize the merge points
-    m_pImpl->referenceSignals.mergePoints.insert(m_pImpl->referenceSignals.mergePoints.begin(), 0);
+    m_pImpl->trajectory.mergePoints.insert(m_pImpl->trajectory.mergePoints.begin(), 0);
 
     // Initialize the new trajectory merge counter
     m_pImpl->newTrajectoryMergeCounter = -1;
@@ -259,19 +268,19 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmPosition,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
                                                          m_pImpl->output.dcmTrajectory.position);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.dcmVelocity,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
                                                          m_pImpl->output.dcmTrajectory.velocity);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comPosition,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comPosition,
                                                          m_pImpl->output.comTrajectory.position);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comVelocity,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comVelocity,
                                                          m_pImpl->output.comTrajectory.velocity);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.comAcceleration,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comAcceleration,
                                                          m_pImpl->output.comTrajectory.acceleration);
 
     // instatiate variables for the contact phase lists
@@ -291,13 +300,13 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     // get the left contact phase list
     std::vector<bool> leftFootInContact;
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals.leftFootinContact,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootinContact,
                                                          leftFootInContact);
 
     if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
                                                      m_pImpl->parameters.dt,
                                                      leftFootInContact,
-                                                     m_pImpl->referenceSignals.leftSteps,
+                                                     m_pImpl->trajectory.leftSteps,
                                                      m_pImpl->parameters.leftContactFrameIndex,
                                                      "left_foot",
                                                      leftContactList))
@@ -311,14 +320,13 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     // get the right contact phase list
     std::vector<bool> rightFootInContact;
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->referenceSignals
-                                                             .rightFootinContact,
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.rightFootinContact,
                                                          rightFootInContact);
 
     if (!Planners::UnicycleUtilities::getContactList(m_pImpl->time,
                                                      m_pImpl->parameters.dt,
                                                      rightFootInContact,
-                                                     m_pImpl->referenceSignals.rightSteps,
+                                                     m_pImpl->trajectory.rightSteps,
                                                      m_pImpl->parameters.rightContactFrameIndex,
                                                      "right_foot",
                                                      rightContactList))
@@ -361,10 +369,10 @@ bool Planners::UnicycleTrajectoryGenerator::setInput(const UnicycleTrajectoryGen
     m_pImpl->input = input;
 
     // the trajectory was already finished the new trajectory will be attached as soon as possible
-    if (m_pImpl->referenceSignals.mergePoints.empty())
+    if (m_pImpl->trajectory.mergePoints.empty())
     {
-        if (!(m_pImpl->referenceSignals.leftFootinContact.front()
-              && m_pImpl->referenceSignals.rightFootinContact.front()))
+        if (!(m_pImpl->trajectory.leftFootinContact.front()
+              && m_pImpl->trajectory.rightFootinContact.front()))
         {
             log()->error("{} The trajectory has already finished but the system is not in double "
                          "support.",
@@ -385,13 +393,13 @@ bool Planners::UnicycleTrajectoryGenerator::setInput(const UnicycleTrajectoryGen
     {
         // Searches for the first merge point that is at least m_plannerAdvanceTimeSteps steps away
         auto firstMergePointAvailable
-            = std::find_if(m_pImpl->referenceSignals.mergePoints.begin(),
-                           m_pImpl->referenceSignals.mergePoints.end(),
+            = std::find_if(m_pImpl->trajectory.mergePoints.begin(),
+                           m_pImpl->trajectory.mergePoints.end(),
                            [this](size_t input) {
                                return input >= this->m_pImpl->parameters.plannerAdvanceTimeSteps;
                            });
 
-        if (firstMergePointAvailable != m_pImpl->referenceSignals.mergePoints.end())
+        if (firstMergePointAvailable != m_pImpl->trajectory.mergePoints.end())
         {
             if (m_pImpl->newTrajectoryRequired)
                 return true;
@@ -421,7 +429,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
         return false;
     }
 
-    bool isLeftFootLastSwinging{m_pImpl->referenceSignals.isLeftFootLastSwinging.front()};
+    bool isLeftFootLastSwinging{m_pImpl->trajectory.isLeftFootLastSwinging.front()};
 
     // if a new trajectory is required check if its the time to evaluate the new trajectory or
     // the time to attach new one
@@ -435,8 +443,8 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                 = m_pImpl->time + m_pImpl->newTrajectoryMergeCounter * m_pImpl->parameters.dt;
 
             // check that both feet are in contact
-            if (!(m_pImpl->referenceSignals.leftFootinContact.front())
-                || !(m_pImpl->referenceSignals.rightFootinContact.front()))
+            if (!(m_pImpl->trajectory.leftFootinContact.front())
+                || !(m_pImpl->trajectory.rightFootinContact.front()))
             {
                 log()->error(" {} Unable to evaluate the new trajectory. "
                              "Both feet need to be in contact before and while computing a new "
@@ -445,7 +453,7 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                 return false;
             }
 
-            manif::SE3d measuredTransform = m_pImpl->referenceSignals.isLeftFootLastSwinging.front()
+            manif::SE3d measuredTransform = m_pImpl->trajectory.isLeftFootLastSwinging.front()
                                                 ? m_pImpl->input.w_H_rightFoot
                                                 : m_pImpl->input.w_H_leftFoot;
 
@@ -501,7 +509,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
 
     auto mergePoint = newTrajectoryMergeCounter;
 
-    if (mergePoint >= referenceSignals.dcmPosition.size())
+    if (mergePoint >= trajectory.dcmPosition.size())
     {
         log()->error("{} The mergePoint has to be lower than the trajectory size.", logPrefix);
         return false;
@@ -527,17 +535,16 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
     UnicycleTrajectoryPlannerInput unicycleTrajectoryPlannerInput;
     unicycleTrajectoryPlannerInput.plannerInput = input.plannerInput;
     unicycleTrajectoryPlannerInput.initTime = initTime;
-    unicycleTrajectoryPlannerInput.isLeftLastSwinging
-        = referenceSignals.isLeftFootLastSwinging.front();
+    unicycleTrajectoryPlannerInput.isLeftLastSwinging = trajectory.isLeftFootLastSwinging.front();
     unicycleTrajectoryPlannerInput.measuredTransform = measuredTransform;
     unicycleTrajectoryPlannerInput.dcmInitialState.initialPosition
-        = referenceSignals.dcmPosition[mergePoint];
+        = trajectory.dcmPosition[mergePoint];
     unicycleTrajectoryPlannerInput.dcmInitialState.initialVelocity
-        = referenceSignals.dcmVelocity[mergePoint];
+        = trajectory.dcmVelocity[mergePoint];
     unicycleTrajectoryPlannerInput.comInitialState.initialPlanarPosition
-        = referenceSignals.comPosition[mergePoint].head<2>();
+        = trajectory.comPosition[mergePoint].head<2>();
     unicycleTrajectoryPlannerInput.comInitialState.initialPlanarVelocity
-        = referenceSignals.comVelocity[mergePoint].head<2>();
+        = trajectory.comVelocity[mergePoint].head<2>();
 
     // set the input
     this->unicycleTrajectoryPlanner.setInput(unicycleTrajectoryPlannerInput);
@@ -585,50 +592,50 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     // get dcm position
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .dcmTrajectory.position,
-                                                     referenceSignals.dcmPosition,
+                                                     trajectory.dcmPosition,
                                                      mergePoint);
     // get dcm velocity
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .dcmTrajectory.velocity,
-                                                     referenceSignals.dcmVelocity,
+                                                     trajectory.dcmVelocity,
                                                      mergePoint);
     // get feet contact status
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .contactStatus.UsedLeftAsFixed,
-                                                     referenceSignals.isLeftFootLastSwinging,
+                                                     trajectory.isLeftFootLastSwinging,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .contactStatus.leftFootInContact,
-                                                     referenceSignals.leftFootinContact,
+                                                     trajectory.leftFootinContact,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .contactStatus.rightFootInContact,
-                                                     referenceSignals.rightFootinContact,
+                                                     trajectory.rightFootinContact,
                                                      mergePoint);
     // get com trajectory
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .comTrajectory.position,
-                                                     referenceSignals.comPosition,
+                                                     trajectory.comPosition,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .comTrajectory.velocity,
-                                                     referenceSignals.comVelocity,
+                                                     trajectory.comVelocity,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
                                                          .comTrajectory.acceleration,
-                                                     referenceSignals.comAcceleration,
+                                                     trajectory.comAcceleration,
                                                      mergePoint);
     // get steps
-    referenceSignals.leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
-    referenceSignals.rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
+    trajectory.leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
+    trajectory.rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
 
     // get merge points
     std::vector<size_t> mergePoints;
     mergePoints = unicycleTrajectoryPlanner.getOutput().mergePoints;
-    referenceSignals.mergePoints.assign(mergePoints.begin(), mergePoints.end());
+    trajectory.mergePoints.assign(mergePoints.begin(), mergePoints.end());
 
     // the first merge point is always equal to 0
-    referenceSignals.mergePoints.pop_front();
+    trajectory.mergePoints.pop_front();
 
     return true;
 }
@@ -639,66 +646,65 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::Impl::advanceTrajectory]";
 
     // check if vector is not initialized
-    if (referenceSignals.leftFootinContact.empty() || referenceSignals.rightFootinContact.empty()
-        || referenceSignals.isLeftFootLastSwinging.empty() || referenceSignals.dcmPosition.empty()
-        || referenceSignals.dcmVelocity.empty() || referenceSignals.comPosition.empty()
-        || referenceSignals.comVelocity.empty() || referenceSignals.comAcceleration.empty())
+    if (trajectory.leftFootinContact.empty() || trajectory.rightFootinContact.empty()
+        || trajectory.isLeftFootLastSwinging.empty() || trajectory.dcmPosition.empty()
+        || trajectory.dcmVelocity.empty() || trajectory.comPosition.empty()
+        || trajectory.comVelocity.empty() || trajectory.comAcceleration.empty())
 
     {
-        log()->error(" {} Cannot advance empty reference signals.", logPrefix);
+        log()->error(" {} Cannot advance empty trajectory signals.", logPrefix);
         return false;
     }
 
-    bool rightWasInContact = referenceSignals.rightFootinContact.front();
-    referenceSignals.rightFootinContact.pop_front();
-    referenceSignals.rightFootinContact.push_back(referenceSignals.rightFootinContact.back());
+    bool rightWasInContact = trajectory.rightFootinContact.front();
+    trajectory.rightFootinContact.pop_front();
+    trajectory.rightFootinContact.push_back(trajectory.rightFootinContact.back());
 
-    bool leftWasInContact = referenceSignals.leftFootinContact.front();
-    referenceSignals.leftFootinContact.pop_front();
-    referenceSignals.leftFootinContact.push_back(referenceSignals.leftFootinContact.back());
+    bool leftWasInContact = trajectory.leftFootinContact.front();
+    trajectory.leftFootinContact.pop_front();
+    trajectory.leftFootinContact.push_back(trajectory.leftFootinContact.back());
 
-    referenceSignals.isLeftFootLastSwinging.pop_front();
-    referenceSignals.isLeftFootLastSwinging.push_back(
-        referenceSignals.isLeftFootLastSwinging.back());
+    trajectory.isLeftFootLastSwinging.pop_front();
+    trajectory.isLeftFootLastSwinging.push_back(trajectory.isLeftFootLastSwinging.back());
 
-    referenceSignals.dcmPosition.pop_front();
-    referenceSignals.dcmPosition.push_back(referenceSignals.dcmPosition.back());
+    trajectory.dcmPosition.pop_front();
+    trajectory.dcmPosition.push_back(trajectory.dcmPosition.back());
 
-    referenceSignals.dcmVelocity.pop_front();
-    referenceSignals.dcmVelocity.push_back(referenceSignals.dcmVelocity.back());
+    trajectory.dcmVelocity.pop_front();
+    trajectory.dcmVelocity.push_back(trajectory.dcmVelocity.back());
 
-    referenceSignals.comPosition.pop_front();
-    referenceSignals.comPosition.push_back(referenceSignals.comPosition.back());
+    trajectory.comPosition.pop_front();
+    trajectory.comPosition.push_back(trajectory.comPosition.back());
 
-    referenceSignals.comVelocity.pop_front();
-    referenceSignals.comVelocity.push_back(referenceSignals.comVelocity.back());
+    trajectory.comVelocity.pop_front();
+    trajectory.comVelocity.push_back(trajectory.comVelocity.back());
 
-    referenceSignals.comAcceleration.pop_front();
-    referenceSignals.comAcceleration.push_back(referenceSignals.comAcceleration.back());
+    trajectory.comAcceleration.pop_front();
+    trajectory.comAcceleration.push_back(trajectory.comAcceleration.back());
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.
     // A new trajectory will be merged at the first merge point or if the deque is empty
     // as soon as possible.
-    if (!referenceSignals.mergePoints.empty())
+    if (!trajectory.mergePoints.empty())
     {
-        for (auto& mergePoint : referenceSignals.mergePoints)
+        for (auto& mergePoint : trajectory.mergePoints)
             mergePoint--;
 
-        if (referenceSignals.mergePoints[0] == 0)
-            referenceSignals.mergePoints.pop_front();
+        if (trajectory.mergePoints[0] == 0)
+            trajectory.mergePoints.pop_front();
     }
 
     // if the left foot is leaving the contact, the step is dropped
-    if (leftWasInContact && !referenceSignals.leftFootinContact.front())
+    if (leftWasInContact && !trajectory.leftFootinContact.front())
     {
-        referenceSignals.leftSteps.pop_front();
+        trajectory.leftSteps.pop_front();
     }
 
     // if the right foot is leaving the contact, the step is dropped
-    if (rightWasInContact && !referenceSignals.rightFootinContact.front())
+    if (rightWasInContact && !trajectory.rightFootinContact.front())
     {
-        referenceSignals.rightSteps.pop_front();
+        trajectory.rightSteps.pop_front();
     }
 
     return true;
