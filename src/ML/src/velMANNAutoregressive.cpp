@@ -598,16 +598,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     double time_change;
     if (m_pimpl->lambda_0 == 0.0)
     {
-        if ((m_pimpl->currentTime - m_pimpl->stopTime) <= threshold)
-        {
-            time_change = static_cast<double>((m_pimpl->currentTime - m_pimpl->stopTime).count()) / 1e9;
-            m_pimpl->velMannInput.jointPositions = m_pimpl->initialStoppingJointPositions + \
-                (m_pimpl->initial_joint_positions - m_pimpl->initialStoppingJointPositions) * time_change;
-        }
-        else
-        {
-            m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
-        }
+        m_pimpl->velMannInput.jointPositions = m_pimpl->initial_joint_positions;
     }
     else
     {
