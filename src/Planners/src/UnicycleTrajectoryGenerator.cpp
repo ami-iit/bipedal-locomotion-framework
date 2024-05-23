@@ -81,11 +81,19 @@ public:
         std::deque<size_t> mergePoints;
         std::deque<Step> leftSteps;
         std::deque<Step> rightSteps;
+        std::deque<manif::SE3d> leftFootTransform;
+        std::deque<manif::SE3d> rightFootTransform;
+        std::deque<manif::SE3d::Tangent> leftFootMixedVelocity;
+        std::deque<manif::SE3d::Tangent> rightFootMixedVelocity;
+        std::deque<manif::SE3d::Tangent> leftFootMixedAcceleration;
+        std::deque<manif::SE3d::Tangent> rightFootMixedAcceleration;
     };
 
     Trajectory trajectory;
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
+
+    bool enableFeetCubicSplineGenerator{false};
 
     /**
      * ask for a new trajectory to the unicycle trajectory planner
@@ -246,6 +254,12 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     // Initialize the blf unicycle planner
     ok = ok && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr);
 
+    // Check if the feet cubic spline generator is enabled
+    ok = ok
+         && loadParamWithFallback("enableFeetCubicSplineGenerator",
+                                  m_pImpl->enableFeetCubicSplineGenerator,
+                                  false);
+
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
     ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
@@ -282,6 +296,37 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comAcceleration,
                                                          m_pImpl->output.comTrajectory.acceleration);
+
+    if (m_pImpl->enableFeetCubicSplineGenerator)
+    {
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootTransform,
+                                                             m_pImpl->output.leftFootTrajectory
+                                                                 .transform);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.rightFootTransform,
+                                                             m_pImpl->output.rightFootTrajectory
+                                                                 .transform);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .leftFootMixedVelocity,
+                                                             m_pImpl->output.leftFootTrajectory
+                                                                 .mixedVelocity);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .rightFootMixedVelocity,
+                                                             m_pImpl->output.rightFootTrajectory
+                                                                 .mixedVelocity);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .leftFootMixedAcceleration,
+                                                             m_pImpl->output.leftFootTrajectory
+                                                                 .mixedAcceleration);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .rightFootMixedAcceleration,
+                                                             m_pImpl->output.rightFootTrajectory
+                                                                 .mixedAcceleration);
+    }
 
     // instatiate variables for the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
@@ -625,6 +670,38 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
                                                          .comTrajectory.acceleration,
                                                      trajectory.comAcceleration,
                                                      mergePoint);
+    // get feet cubic spline trajectory
+    if (enableFeetCubicSplineGenerator)
+    {
+        // get left foot cubic spline
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .leftFootTrajectory.transform,
+                                                         trajectory.leftFootTransform,
+                                                         mergePoint);
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .leftFootTrajectory.mixedVelocity,
+                                                         trajectory.leftFootMixedVelocity,
+                                                         mergePoint);
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .leftFootTrajectory.mixedAcceleration,
+                                                         trajectory.leftFootMixedAcceleration,
+                                                         mergePoint);
+
+        // get right foot cubic spline
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .rightFootTrajectory.transform,
+                                                         trajectory.rightFootTransform,
+                                                         mergePoint);
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .rightFootTrajectory.mixedVelocity,
+                                                         trajectory.rightFootMixedVelocity,
+                                                         mergePoint);
+        Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                             .rightFootTrajectory.mixedAcceleration,
+                                                         trajectory.rightFootMixedAcceleration,
+                                                         mergePoint);
+    }
+
     // get steps
     trajectory.leftSteps = unicycleTrajectoryPlanner.getOutput().steps.leftSteps;
     trajectory.rightSteps = unicycleTrajectoryPlanner.getOutput().steps.rightSteps;
@@ -681,6 +758,28 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
 
     trajectory.comAcceleration.pop_front();
     trajectory.comAcceleration.push_back(trajectory.comAcceleration.back());
+
+    if (enableFeetCubicSplineGenerator)
+    {
+        trajectory.leftFootTransform.pop_front();
+        trajectory.leftFootTransform.push_back(trajectory.leftFootTransform.back());
+
+        trajectory.leftFootMixedVelocity.pop_front();
+        trajectory.leftFootMixedVelocity.push_back(trajectory.leftFootMixedVelocity.back());
+
+        trajectory.leftFootMixedAcceleration.pop_front();
+        trajectory.leftFootMixedAcceleration.push_back(trajectory.leftFootMixedAcceleration.back());
+
+        trajectory.rightFootTransform.pop_front();
+        trajectory.rightFootTransform.push_back(trajectory.rightFootTransform.back());
+
+        trajectory.rightFootMixedVelocity.pop_front();
+        trajectory.rightFootMixedVelocity.push_back(trajectory.rightFootMixedVelocity.back());
+
+        trajectory.rightFootMixedAcceleration.pop_front();
+        trajectory.rightFootMixedAcceleration.push_back(
+            trajectory.rightFootMixedAcceleration.back());
+    }
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.
