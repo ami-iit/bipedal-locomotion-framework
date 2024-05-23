@@ -26,7 +26,7 @@ BSD-3-Clause license. -->
   <!-- </device> -->
 
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="realsense" type="RGBDSensorClient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="realsense" type="RGBDSensorClient">
     <param name="localImagePort">/yarp_robot_logger/depthCamera/rgbImage:i</param>
     <param name="localDepthPort">/yarp_robot_logger/depthCamera/depthImage:i</param>
     <param name="localRpcPort">/yarp_robot_logger/depthCamera/rpc:o</param>
@@ -35,7 +35,7 @@ BSD-3-Clause license. -->
     <param name="remoteRpcPort">/depthCamera/rpc:i</param>
     <param name="ImageCarrier">mjpeg</param>
     <param name="DepthCarrier">tcp+send.portmonitor+file.depthimage_compression_zlib+recv.portmonitor+file.depthimage_compression_zlib+type.dll</param>
-  </device>
+  </device> -->
 
 
 </devices>
