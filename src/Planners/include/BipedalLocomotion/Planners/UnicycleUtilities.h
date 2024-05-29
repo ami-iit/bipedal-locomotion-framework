@@ -1,5 +1,5 @@
 /**
- * @file UnicycleTrajectoryPlanner.h
+ * @file UnicycleUtilities.h
  * @authors Lorenzo Moretti,Giulio Romualdi, Stefano Dafarra
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -34,4 +34,4 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
 
 } // namespace BipedalLocomotion::Planners::UnicycleUtilities
 
-#endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_PLANNER_H
+#endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_UTILITIES_H

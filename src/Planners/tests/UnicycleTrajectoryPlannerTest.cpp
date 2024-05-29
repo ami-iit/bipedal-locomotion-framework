@@ -12,6 +12,7 @@
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <fstream>
 
@@ -26,7 +27,7 @@ void saveData(const BipedalLocomotion::Contacts::ContactPhaseList& contactPhaseL
     std::ofstream file(filename);
     if (!file.is_open())
     {
-        std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
+        BipedalLocomotion::log()->error("[saveData] Unable to open file {} for writing.", filename);
         return;
     }
 
