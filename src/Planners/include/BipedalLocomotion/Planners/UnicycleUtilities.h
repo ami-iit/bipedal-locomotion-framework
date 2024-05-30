@@ -11,6 +11,13 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <UnicyclePlanner.h>
+#include <cstddef>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
+#include <iterator>
+#include <manif/impl/eigen.h>
+#include <manif/impl/se3/SE3.h>
 
 namespace BipedalLocomotion::Planners::UnicycleUtilities
 {
@@ -79,6 +86,34 @@ void populateVectorFromDeque(const std::deque<T>& deque, std::vector<T>& vector)
     vector.insert(vector.end(), deque.begin(), deque.end());
 }
 
+namespace Conversions
+{
+
+void convertToBLF(const iDynTree::Transform& input, manif::SE3d& output);
+
+void convertToBLF(const iDynTree::Twist& input, manif::SE3d::Tangent& output);
+
+void convertToBLF(const iDynTree::Twist& input, manif::SE3d::Tangent& output);
+
+void convertToBLF(const iDynTree::VectorDynSize& input, Eigen::VectorXd& output);
+
+void convertToBLF(const iDynTree::Vector2& input, Eigen::Vector2d& output);
+
+void convertToBLF(const iDynTree::Vector3& input, Eigen::Vector3d& output);
+
+template <typename From, typename To>
+void convertVector(const std::vector<From>& inputVect, std::vector<To>& outputVect)
+{
+
+    outputVect.resize(inputVect.size());
+
+    for (size_t i = 0; i < inputVect.size(); ++i)
+    {
+        convertToBLF(inputVect[i], outputVect[i]);
+    }
+}
+
+} // namespace Conversions
 } // namespace BipedalLocomotion::Planners::UnicycleUtilities
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_UTILITIES_H

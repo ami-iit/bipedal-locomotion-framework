@@ -16,6 +16,7 @@
 #include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <FeetCubicSplineGenerator.h>
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
 
@@ -85,6 +86,21 @@ public:
     };
 
     COMHeightTrajectory comHeightTrajectory;
+
+    bool enableFeetCubicSplineGenerator{false};
+
+    struct FootTrajectory
+    {
+
+        std::vector<iDynTree::Transform> transform; /**< Foot transform */
+        std::vector<iDynTree::Twist> mixedVelocity; /**< Spatial velocity in mixed
+                                                           representation */
+        std::vector<iDynTree::SpatialAcc> mixedAcceleration; /**< Spatial acceleration in mixed
+                                                       representation */
+    };
+
+    FootTrajectory rightFootTrajectory;
+    FootTrajectory leftFootTrajectory;
 };
 
 BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput BipedalLocomotion::Planners::
@@ -392,6 +408,32 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && m_pImpl->comSystem.integrator->setDynamicalSystem(m_pImpl->comSystem.dynamics);
     ok = ok && m_pImpl->comSystem.integrator->setIntegrationStep(m_pImpl->parameters.dt);
 
+    // initialize the feet cubic spline generator
+    ok = ok
+         && loadParamWithFallback("enableFeetCubicSplineGenerator",
+                                  m_pImpl->enableFeetCubicSplineGenerator,
+                                  false);
+
+    if (m_pImpl->enableFeetCubicSplineGenerator)
+    {
+
+        auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
+
+        double stepHeight;
+        double stepLandingVelocity;
+        double footApexTime;
+        double pitchDelta;
+        ok = ok && loadParamWithFallback("stepHeight", stepHeight, 0.05);
+        ok = ok && loadParamWithFallback("stepLandingVelocity", stepLandingVelocity, -0.1);
+        ok = ok && loadParamWithFallback("footApexTime", footApexTime, 0.5);
+        ok = ok && loadParamWithFallback("pitchDelta", pitchDelta, 0.0);
+
+        feetCubicSplineGenerator->setFootApexTime(footApexTime);
+        feetCubicSplineGenerator->setFootLandingVelocity(stepLandingVelocity);
+        feetCubicSplineGenerator->setPitchDelta(pitchDelta);
+        feetCubicSplineGenerator->setStepHeight(stepHeight);
+    }
+
     // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
 
@@ -626,8 +668,10 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         return outputVect;
     };
 
-    m_pImpl->output.dcmTrajectory.position = convertToEigen(dcmGenerator->getDCMPosition());
-    m_pImpl->output.dcmTrajectory.velocity = convertToEigen(dcmGenerator->getDCMVelocity());
+    Planners::UnicycleUtilities::Conversions::convertVector(dcmGenerator->getDCMPosition(),
+                                                            m_pImpl->output.dcmTrajectory.position);
+    Planners::UnicycleUtilities::Conversions::convertVector(dcmGenerator->getDCMVelocity(),
+                                                            m_pImpl->output.dcmTrajectory.velocity);
 
     // get the CoM planar trajectory
     std::chrono::nanoseconds time = m_pImpl->input.initTime;
@@ -686,6 +730,48 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         m_pImpl->output.comTrajectory.velocity[i].z() = m_pImpl->comHeightTrajectory.velocity[i];
         m_pImpl->output.comTrajectory.acceleration[i].z()
             = m_pImpl->comHeightTrajectory.acceleration[i];
+    }
+
+    // get the feet trajectories
+    if (m_pImpl->enableFeetCubicSplineGenerator)
+    {
+        auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
+
+        feetCubicSplineGenerator->getFeetTrajectories(m_pImpl->leftFootTrajectory.transform,
+                                                      m_pImpl->rightFootTrajectory.transform);
+        feetCubicSplineGenerator
+            ->getFeetTwistsInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedVelocity,
+                                                 m_pImpl->rightFootTrajectory.mixedVelocity);
+        feetCubicSplineGenerator
+            ->getFeetAccelerationInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedAcceleration,
+                                                       m_pImpl->rightFootTrajectory
+                                                           .mixedAcceleration);
+
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
+                                                                    .transform,
+                                                                m_pImpl->output.leftFootTrajectory
+                                                                    .transform);
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
+                                                                    .transform,
+                                                                m_pImpl->output.rightFootTrajectory
+                                                                    .transform);
+
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
+                                                                    .mixedVelocity,
+                                                                m_pImpl->output.leftFootTrajectory
+                                                                    .mixedVelocity);
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
+                                                                    .mixedVelocity,
+                                                                m_pImpl->output.rightFootTrajectory
+                                                                    .mixedVelocity);
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
+                                                                    .mixedAcceleration,
+                                                                m_pImpl->output.leftFootTrajectory
+                                                                    .mixedAcceleration);
+        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
+                                                                    .mixedAcceleration,
+                                                                m_pImpl->output.rightFootTrajectory
+                                                                    .mixedAcceleration);
     }
 
     // get the merge points
