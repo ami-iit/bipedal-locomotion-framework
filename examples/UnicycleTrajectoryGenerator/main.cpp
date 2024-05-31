@@ -114,12 +114,6 @@ int main(int argc, char* argv[])
     Planners::UnicycleTrajectoryGeneratorInput input
         = Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput();
 
-    input.w_H_leftFoot = manif::SE3d::Identity();
-    input.w_H_leftFoot.translation(Eigen::Vector3d(0.0, 0.1, 0.0));
-
-    input.w_H_rightFoot = manif::SE3d::Identity();
-    input.w_H_rightFoot.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
-
     // initialize the output of the unicycle trajectory generator
     Planners::UnicycleTrajectoryGeneratorOutput output;
 
@@ -162,15 +156,9 @@ int main(int argc, char* argv[])
 
         if (!isFirstIteration)
         {
-            // update the feet pose
-            input.w_H_leftFoot.translation(w_H_left.translation());
-            input.w_H_rightFoot.translation(w_H_right.translation());
-
+            // print the feet pose
             log()->info("[main] Left foot position: {}", w_H_left.translation().transpose());
             log()->info("[main] Right foot position: {}", w_H_right.translation().transpose());
-
-            input.w_H_leftFoot.quat(w_H_left.quat());
-            input.w_H_rightFoot.quat(w_H_right.quat());
         }
 
         unicycleTrajectoryGenerator.setInput(input);

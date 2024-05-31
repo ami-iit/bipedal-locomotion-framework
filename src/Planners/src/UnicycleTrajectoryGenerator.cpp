@@ -145,12 +145,6 @@ Planners::UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGener
 
     input.plannerInput = Eigen::VectorXd::Zero(3);
 
-    input.w_H_leftFoot = manif::SE3d::Identity();
-    input.w_H_leftFoot.translation(Eigen::Vector3d(0.0, 0.1, 0.0));
-
-    input.w_H_rightFoot = manif::SE3d::Identity();
-    input.w_H_rightFoot.translation(Eigen::Vector3d(0.0, -0.1, 0.0));
-
     return input;
 }
 
