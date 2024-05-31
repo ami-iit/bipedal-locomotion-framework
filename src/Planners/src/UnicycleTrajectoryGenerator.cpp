@@ -837,3 +837,9 @@ void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
         currentContactList.addContact(*activeContact);
     }
 }
+
+std::chrono::nanoseconds
+BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::getSamplingTime() const
+{
+    return m_pImpl->parameters.dt;
+};

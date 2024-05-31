@@ -141,6 +141,12 @@ public:
      */
     bool advance() override;
 
+    /**
+     * @brief Get the sampling time of the planner.
+     * @return Sampling time of the planner.
+     */
+    std::chrono::nanoseconds getSamplingTime() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
