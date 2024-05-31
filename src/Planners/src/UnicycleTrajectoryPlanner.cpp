@@ -87,8 +87,6 @@ public:
 
     COMHeightTrajectory comHeightTrajectory;
 
-    bool enableFeetCubicSplineGenerator{false};
-
     struct FootTrajectory
     {
 
@@ -409,30 +407,21 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && m_pImpl->comSystem.integrator->setIntegrationStep(m_pImpl->parameters.dt);
 
     // initialize the feet cubic spline generator
-    ok = ok
-         && loadParamWithFallback("enableFeetCubicSplineGenerator",
-                                  m_pImpl->enableFeetCubicSplineGenerator,
-                                  false);
+    auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
 
-    if (m_pImpl->enableFeetCubicSplineGenerator)
-    {
+    double stepHeight;
+    double stepLandingVelocity;
+    double footApexTime;
+    double pitchDelta;
+    ok = ok && loadParamWithFallback("stepHeight", stepHeight, 0.05);
+    ok = ok && loadParamWithFallback("stepLandingVelocity", stepLandingVelocity, -0.1);
+    ok = ok && loadParamWithFallback("footApexTime", footApexTime, 0.5);
+    ok = ok && loadParamWithFallback("pitchDelta", pitchDelta, 0.0);
 
-        auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
-
-        double stepHeight;
-        double stepLandingVelocity;
-        double footApexTime;
-        double pitchDelta;
-        ok = ok && loadParamWithFallback("stepHeight", stepHeight, 0.05);
-        ok = ok && loadParamWithFallback("stepLandingVelocity", stepLandingVelocity, -0.1);
-        ok = ok && loadParamWithFallback("footApexTime", footApexTime, 0.5);
-        ok = ok && loadParamWithFallback("pitchDelta", pitchDelta, 0.0);
-
-        feetCubicSplineGenerator->setFootApexTime(footApexTime);
-        feetCubicSplineGenerator->setFootLandingVelocity(stepLandingVelocity);
-        feetCubicSplineGenerator->setPitchDelta(pitchDelta);
-        feetCubicSplineGenerator->setStepHeight(stepHeight);
-    }
+    feetCubicSplineGenerator->setFootApexTime(footApexTime);
+    feetCubicSplineGenerator->setFootLandingVelocity(stepLandingVelocity);
+    feetCubicSplineGenerator->setPitchDelta(pitchDelta);
+    feetCubicSplineGenerator->setStepHeight(stepHeight);
 
     // generateFirstTrajectory;
     ok = ok && generateFirstTrajectory();
@@ -733,46 +722,40 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     }
 
     // get the feet trajectories
-    if (m_pImpl->enableFeetCubicSplineGenerator)
-    {
-        auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
+    auto feetCubicSplineGenerator = m_pImpl->generator.addFeetCubicSplineGenerator();
 
-        feetCubicSplineGenerator->getFeetTrajectories(m_pImpl->leftFootTrajectory.transform,
-                                                      m_pImpl->rightFootTrajectory.transform);
-        feetCubicSplineGenerator
-            ->getFeetTwistsInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedVelocity,
-                                                 m_pImpl->rightFootTrajectory.mixedVelocity);
-        feetCubicSplineGenerator
-            ->getFeetAccelerationInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedAcceleration,
-                                                       m_pImpl->rightFootTrajectory
-                                                           .mixedAcceleration);
+    feetCubicSplineGenerator->getFeetTrajectories(m_pImpl->leftFootTrajectory.transform,
+                                                  m_pImpl->rightFootTrajectory.transform);
+    feetCubicSplineGenerator
+        ->getFeetTwistsInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedVelocity,
+                                             m_pImpl->rightFootTrajectory.mixedVelocity);
+    feetCubicSplineGenerator
+        ->getFeetAccelerationInMixedRepresentation(m_pImpl->leftFootTrajectory.mixedAcceleration,
+                                                   m_pImpl->rightFootTrajectory.mixedAcceleration);
 
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
-                                                                    .transform,
-                                                                m_pImpl->output.leftFootTrajectory
-                                                                    .transform);
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
-                                                                    .transform,
-                                                                m_pImpl->output.rightFootTrajectory
-                                                                    .transform);
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory.transform,
+                                                            m_pImpl->output.leftFootTrajectory
+                                                                .transform);
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory.transform,
+                                                            m_pImpl->output.rightFootTrajectory
+                                                                .transform);
 
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
-                                                                    .mixedVelocity,
-                                                                m_pImpl->output.leftFootTrajectory
-                                                                    .mixedVelocity);
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
-                                                                    .mixedVelocity,
-                                                                m_pImpl->output.rightFootTrajectory
-                                                                    .mixedVelocity);
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
-                                                                    .mixedAcceleration,
-                                                                m_pImpl->output.leftFootTrajectory
-                                                                    .mixedAcceleration);
-        Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
-                                                                    .mixedAcceleration,
-                                                                m_pImpl->output.rightFootTrajectory
-                                                                    .mixedAcceleration);
-    }
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
+                                                                .mixedVelocity,
+                                                            m_pImpl->output.leftFootTrajectory
+                                                                .mixedVelocity);
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
+                                                                .mixedVelocity,
+                                                            m_pImpl->output.rightFootTrajectory
+                                                                .mixedVelocity);
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->leftFootTrajectory
+                                                                .mixedAcceleration,
+                                                            m_pImpl->output.leftFootTrajectory
+                                                                .mixedAcceleration);
+    Planners::UnicycleUtilities::Conversions::convertVector(m_pImpl->rightFootTrajectory
+                                                                .mixedAcceleration,
+                                                            m_pImpl->output.rightFootTrajectory
+                                                                .mixedAcceleration);
 
     // get the merge points
     m_pImpl->generator.getMergePoints(m_pImpl->output.mergePoints);

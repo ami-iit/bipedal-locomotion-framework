@@ -39,6 +39,16 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
                     const int& contactFrameIndex,
                     const std::string& contactName,
                     BipedalLocomotion::Contacts::ContactList& contactList);
+/**
+ * Merge two steps sequences, and stores the merged output in the second one.
+ * The new steps which has an impact time lower than the current time are discarded.
+ * @param newSteps the new list of steps.
+ * @param currentSteps the cuurent list of steps.
+ * @param currentTime the current time.
+ */
+void mergeSteps(const std::deque<Step>& newSteps,
+                std::deque<Step>& currentSteps,
+                const std::chrono::nanoseconds& currentTime);
 
 /**
  * It appends a vector to a deque.

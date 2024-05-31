@@ -104,6 +104,44 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
     return true;
 };
 
+void mergeSteps(const std::deque<Step>& newSteps,
+                std::deque<Step>& currentSteps,
+                const std::chrono::nanoseconds& currentTime)
+{
+    // lambda function to check if a step (impact time) is later than the current time
+    auto isLater = [currentTime](const Step& step) -> bool {
+        return step.impactTime >= static_cast<int>(currentTime.count() * 1e-9);
+    };
+
+    // find the first new step with impact time greater than the current time
+    auto itNew = std::find_if(newSteps.begin(), newSteps.end(), isLater);
+
+    // find the first current step with impact time greater than the current time.
+    // from this point on, the current steps are discarded, and the new steps are added.
+    auto itCurrent = std::find_if(currentSteps.begin(), currentSteps.end(), isLater);
+    Step firstDeletedStep;
+    if (itCurrent != currentSteps.end())
+    {
+        firstDeletedStep = *itCurrent;
+    }
+
+    // erase all current steps which are after the current time
+    currentSteps.erase(itCurrent, currentSteps.end());
+
+    // if the are new valid steps, append them to the current steps
+    if (itNew != newSteps.end())
+    {
+        // append new steps to the current steps
+        currentSteps.insert(currentSteps.end(), itNew, newSteps.end());
+    }
+
+    // Check if merged steps are empty. In this case use firstDeletedStep.
+    if (currentSteps.empty())
+    {
+        currentSteps.push_back(firstDeletedStep);
+    }
+}
+
 namespace Conversions
 {
 void convertToBLF(const iDynTree::Transform& input, manif::SE3d& output)

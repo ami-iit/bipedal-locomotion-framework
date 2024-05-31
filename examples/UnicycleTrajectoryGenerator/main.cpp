@@ -23,6 +23,7 @@ std::shared_ptr<ParametersHandler::IParametersHandler> getUnicycleParametersHand
         = std::make_shared<ParametersHandler::StdImplementation>();
 
     handler->setParameter("dt", dt);
+    handler->setParameter("planner_advance_time_in_s", 0.18);
     handler->setParameter("referencePosition", Eigen::Vector2d(0.1, 0.0));
     handler->setParameter("saturationFactors", Eigen::Vector2d(0.7, 0.7));
     handler->setParameter("leftZMPDelta", Eigen::Vector2d(0.0, 0.0));
@@ -147,11 +148,20 @@ int main(int argc, char* argv[])
         log()->info("[main] Current time: {}",
                     std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - timeStart));
 
+        // set linear velocity in x-direction
+        if ((currentTime - timeStart) < (timeEnd - timeStart) / 6)
+        {
+            input.plannerInput[0] = 0.0;
+        } else if ((currentTime - timeStart) > 4 * (timeEnd - timeStart) / 6)
+        {
+            input.plannerInput[0] = 0.0;
+        } else
+        {
+            input.plannerInput[0] = 0.1;
+        }
+
         if (!isFirstIteration)
         {
-            // set linear vlocity in x-direction
-            input.plannerInput[0] = 0.1;
-
             // update the feet pose
             input.w_H_leftFoot.translation(w_H_left.translation());
             input.w_H_rightFoot.translation(w_H_right.translation());
