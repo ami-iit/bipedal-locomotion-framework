@@ -6,9 +6,9 @@ BSD-3-Clause license. -->
 <devices>
 
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="jabra" type="opencv_grabber">
-      <param name="camera">4</param>
-      <param name="width">1280</param>
-      <param name="height">720</param>
+      <param name="camera">0</param>
+      <param name="width">1920</param>
+      <param name="height">1080</param>
   </device>
 
   <!-- Enable the following block if you want to collect retrieve the cameras of the robot -->
@@ -37,4 +37,6 @@ BSD-3-Clause license. -->
     <param name="DepthCarrier">tcp+send.portmonitor+file.depthimage_compression_zlib+recv.portmonitor+file.depthimage_compression_zlib+type.dll</param>
   </device> -->
 
+
 </devices>
+

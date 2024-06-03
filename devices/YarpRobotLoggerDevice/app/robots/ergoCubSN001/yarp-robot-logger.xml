@@ -102,10 +102,10 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="InertialSensors">
-      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)</param>
-      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)</param>
-      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)</param>
-      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)</param>
+      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
     </group>
 
   </group>
@@ -130,3 +130,4 @@ BSD-3-Clause license. -->
   <!-- FINISH ATTACH-->
 
 </device>
+
