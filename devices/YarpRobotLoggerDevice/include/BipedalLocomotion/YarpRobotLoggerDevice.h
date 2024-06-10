@@ -180,7 +180,7 @@ private:
     void lookForNewLogs();
     void lookForExogenousSignals();
 
-    bool initMetadata(const std::string& nameKey, const std::vector<std::string>& metadata);
+    bool addChannel(const std::string& nameKey, std::size_t vectorSize, const std::vector<std::string>& metadata = {});
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
@@ -228,7 +228,7 @@ private:
     const std::vector<std::string> gyroElementNames = {"omega_x", "omega_y", "omega_z"};
 
     const std::string accelerometersName = "accelerometers";
-    const std::vector<std::string> AccelerometerElementNames = {"a_x", "a_y", "a_z"};
+    const std::vector<std::string> accelerometerElementNames = {"a_x", "a_y", "a_z"};
 
     const std::string orientationsName = "orientations";
     const std::vector<std::string> orientationElementNames = {"r", "p", "y"};
