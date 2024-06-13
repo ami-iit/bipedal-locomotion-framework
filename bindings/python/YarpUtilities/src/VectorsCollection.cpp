@@ -5,7 +5,6 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <optional>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
