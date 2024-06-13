@@ -476,8 +476,28 @@ struct YarpRobotControl::Impl
             || !this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PositionDirect]
                     .empty())
         {
+
+            if (jointValues.size() != this->actuatedDOFs)
+            {
+                log()->error("{} The size of the joint values is different from the number of "
+                             "actuated DoFs. Expected size: {}. Received size: {}.",
+                             errorPrefix,
+                             this->actuatedDOFs,
+                             jointValues.size());
+                return false;
+            }
+
             if (currentJointValues.has_value())
             {
+                if (currentJointValues->size() != this->actuatedDOFs)
+                {
+                    log()->error("{} The size of the current joint values is different from the "
+                                 "number of actuated DoFs. Expected size: {}. Received size: {}.",
+                                 errorPrefix,
+                                 this->actuatedDOFs,
+                                 currentJointValues->size());
+                    return false;
+                }
                 this->positionFeedback = currentJointValues.value();
             } else
             {
