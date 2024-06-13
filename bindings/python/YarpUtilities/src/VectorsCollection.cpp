@@ -77,15 +77,10 @@ void CreateVectorsCollectionClient(pybind11::module& module)
              })
         .def("read_data",
              [](VectorsCollectionClient& impl,
-                bool shouldWait) -> std::optional<std::map<std::string, std::vector<double>>> {
+                bool shouldWait) -> BipedalLocomotion::YarpUtilities::VectorsCollection* {
                  BipedalLocomotion::YarpUtilities::VectorsCollection* collection
                      = impl.readData(shouldWait);
-                 if (collection == nullptr)
-                 {
-                     // Return an empty optional if the collection is not available
-                     return std::nullopt;
-                 }
-                 return collection->vectors;
+                 return collection;
              });
 }
 
