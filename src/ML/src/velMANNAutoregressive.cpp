@@ -729,6 +729,17 @@ bool velMANNAutoregressive::setInput(const Input& input)
     if ((m_pimpl->previousDesiredAngVel - input.desiredFutureBaseAngVelocities).norm() >= newInputThresh)
     {
         m_pimpl->state.I_H_ref = m_pimpl->state.I_H_B;
+
+        // Update the new desired goal position to be in front of the new base direction
+        //update desired base position in base frame
+        Eigen::Vector2d B_x_des = des_B_scaling * input.desiredFutureBaseTrajectory.rightCols(1);
+
+        //get z rotation in 2d
+        const double I_yaw_B = iDynTree::Rotation(m_pimpl->state.I_H_B.quat().toRotationMatrix()).asRPY()(2);
+        manif::SO2d I_yaw_rotation_B(I_yaw_B);
+
+        //rotate des x b into world frame (still 2d), then add 3rd dim later, which will be 0
+        m_pimpl->state.I_x_des = I_yaw_rotation_B.act(B_x_des) + m_pimpl->state.I_H_B.translation().topRows(2);
     }
 
     const double refYaw = (iDynTree::Rotation(m_pimpl->state.I_H_ref.quat().toRotationMatrix()).asRPY())(2);
