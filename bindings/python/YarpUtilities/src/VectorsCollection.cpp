@@ -69,7 +69,10 @@ void CreateVectorsCollectionClient(pybind11::module& module)
              [](VectorsCollectionClient& impl)
                  -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata {
                  BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
-                 impl.getMetadata(metadata);
+                 if (impl.getMetadata(metadata) == false)
+                 {
+                     throw ::pybind11::value_error("Impossible to retrieve the metadata.");
+                 }
                  return metadata;
              })
         .def("read_data",
