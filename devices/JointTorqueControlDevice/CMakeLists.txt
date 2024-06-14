@@ -3,7 +3,6 @@
 # BSD-3-Clause license.
 
 if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
-  # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
 
   add_bipedal_yarp_device(
       NAME JointTorqueControlDevice
