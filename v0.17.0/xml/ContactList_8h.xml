@@ -9,11 +9,11 @@
     <includes local="no">set</includes>
     <includes local="no">string</includes>
     <includes local="no">unordered_map</includes>
-    <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
-    <includedby refid="UnicyclePlanner_8h" local="yes">BipedalLocomotion/Planners/UnicyclePlanner.h</includedby>
     <includedby refid="ContactListJsonParser_8h" local="no">BipedalLocomotion/Contacts/ContactListJsonParser.h</includedby>
     <includedby refid="ContactPhase_8h" local="no">BipedalLocomotion/Contacts/ContactPhase.h</includedby>
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
+    <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
+    <includedby refid="UnicyclePlanner_8h" local="yes">BipedalLocomotion/Planners/UnicyclePlanner.h</includedby>
     <incdepgraph>
       <node id="13">
         <label>functional</label>
@@ -101,11 +101,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
+      <node id="3">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
       </node>
-      <node id="4">
+      <node id="2">
         <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
         <link refid="ContactListJsonParser_8h"/>
       </node>
@@ -121,11 +121,11 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="4">
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="3">
+      <node id="5">
         <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
         <link refid="UnicyclePlanner_8h"/>
       </node>

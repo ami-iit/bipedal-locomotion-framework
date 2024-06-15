@@ -3163,8 +3163,8 @@
   <compound refid="namespaceBipedalLocomotion_1_1ML" kind="namespace"><name>BipedalLocomotion::ML</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
-    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
     <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Perception" kind="namespace"><name>BipedalLocomotion::Perception</name>
   </compound>
@@ -3216,8 +3216,8 @@
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
-    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
   </compound>
