@@ -72,6 +72,7 @@ protected:
     yarp::dev::IAmplifierControl* proxyIAmplifierControl;
     yarp::dev::IControlCalibration* proxyIControlCalibration;
     yarp::dev::IControlLimits* proxyIControlLimits;
+    yarp::dev::IMotor* proxyIMotor;
     void proxyIMotorEncoder(const double* vals);
     void resetPointers();
 
@@ -87,6 +88,9 @@ public:
     // IMULTIPLEWRAPPER
     virtual bool attachAll(const yarp::dev::PolyDriverList& p);
     virtual bool detachAll();
+
+    // GEARBOX RATIO
+    virtual bool getGearboxRatio(int m, double* val);
 
     // ENCODERS
     virtual bool getAxes(int* ax);

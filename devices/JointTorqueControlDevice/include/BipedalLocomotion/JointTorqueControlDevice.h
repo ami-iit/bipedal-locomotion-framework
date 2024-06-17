@@ -9,14 +9,26 @@
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_JOINT_TORQUE_CONTROL_DEVICE_H
 
 #include <BipedalLocomotion/PassThroughControlBoard.h>
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
+#include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/PINNFrictionEstimator.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <iostream>
+#include <memory>
+#include <mutex>
+#include <thread>
 
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/os/Property.h>
 #include <yarp/sig/Vector.h>
 
 #include <Eigen/Core>
+
+#include <JointTorqueControlCommands.h>
+
 
 namespace BipedalLocomotion
 {
@@ -47,32 +59,123 @@ struct CouplingMatrices
 struct MotorTorqueCurrentParameters
 {
     double kt; ///< motor torque to current gain
-    double kc; ///< coulomb friction parameter
-    double kv; ///< viscous friction parameter
     double kfc; ///< friction compensation weight parameter
-    double max_curr;
+    double kp; ///< proportional gain
+    double maxCurr; ///< maximum current
+    std::string frictionModel; ///< friction model
 
     void reset()
     {
-        kt = kc = kv = kfc = max_curr = 0.0;
+        kt = kfc = kp = maxCurr = 0.0;
+        frictionModel = "";
+    }
+};
+
+/**
+ * Parameters for friction model defined as PINN
+ *
+ */
+struct PINNParameters
+{
+    std::string modelPath; ///< PINN model path
+    int threadNumber; ///< number of threads
+    int historyLength; ///< history length
+    int inputNumber; ///< number of inputs
+
+    void reset()
+    {
+        modelPath = "";
+        threadNumber = 0;
+        historyLength = 0;
+        inputNumber = 0;
+    }
+};
+
+/**
+ * Parameters for friction model defined as coulomb + viscous
+ *
+ */
+struct CoulombViscousParameters
+{
+    double kc; ///< coulomb friction
+    double kv; ///< viscous friction
+    double ka; ///< viscous friction
+
+    void reset()
+    {
+        kc = kv = ka = 0.0;
+    }
+};
+
+/**
+ * Parameters for friction model defined as coulomb + viscous
+ *
+ */
+struct CoulombViscousStribeckParameters
+{
+    double kc; ///< coulomb friction
+    double kv; ///< viscous friction
+    double vs; ///< stiction velocity
+    double ka; ///< tanh gain
+    double ks; ///< stribeck friction
+    double alpha; // power factor
+
+    void reset()
+    {
+        kc = kv = ka = vs = ks = alpha = 0.0;
     }
 };
 
 class BipedalLocomotion::JointTorqueControlDevice
     : public BipedalLocomotion::PassThroughControlBoard,
-      public yarp::os::PeriodicThread
+      public yarp::os::PeriodicThread,
+      public JointTorqueControlCommands
 {
 private:
     yarp::os::Property PropertyConfigOptions;
     int axes;
     std::vector<MotorTorqueCurrentParameters> motorTorqueCurrentParameters;
+    std::vector<PINNParameters> pinnParameters;
+    std::vector<CoulombViscousParameters> coulombViscousParameters;
+    std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
+    std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
+    std::mutex mutexTorqueControlParam_; // The mutex for protecting the parameters
+    
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;
     yarp::sig::Vector measuredJointVelocities;
     yarp::sig::Vector measuredMotorVelocities;
     yarp::sig::Vector measuredJointTorques;
+    yarp::sig::Vector measuredJointPositions;
+    yarp::sig::Vector measuredMotorPositions;
+    yarp::sig::Vector estimatedFrictionTorques;
+    std::string m_portPrefix{"/hijackingTrqCrl"}; /**< Default port prefix. */
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
+    std::vector<int> m_gearRatios;
+    std::vector<double> m_initialDeltaMotorJointRadians;
+    std::vector<double> m_motorPositionError;
+    std::vector<double> m_motorPositionCorrected;
+    std::vector<double> m_motorPositionsRadians;
+    std::vector<std::string> m_axisNames;
+
+    yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
+
+    double m_tempJointPosRad = 0.0;
+    double m_tempJointPosMotorSideRad = 0.0;
+    double m_jointVelRadSec = 0.0;
 
     CouplingMatrices couplingMatrices;
+
+    bool m_torqueControlIsRunning{false}; /**< True if the estimator is running. */
+
+    std::thread m_publishEstimationThread; /**< Thread to publish the estimation. */
+    struct Status
+    {
+        std::mutex mutex;
+        std::vector<double> m_torqueLogging;
+        std::vector<double> m_frictionLogging;
+        std::vector<double> m_currentLogging;
+    } m_status;
 
     bool openCalledCorrectly{false};
 
@@ -87,10 +190,18 @@ private:
     void startHijackingTorqueControlIfNecessary(int j);
     void stopHijackingTorqueControlIfNecessary(int j);
     bool isHijackingTorqueControl(int j);
+    double computeFrictionTorque(int joint);
 
     void computeDesiredCurrents();
     void readStatus();
-    bool loadGains(yarp::os::Searchable& config);
+    // bool loadGains(yarp::os::Searchable& config);
+    bool loadFrictionParams(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Published the status.
+     * This is a separate thread.
+     */
+    void publishStatus();
 
     /**
      * Load the coupling matrices from the group whose name
@@ -107,6 +218,7 @@ private:
     // Method that actually executes one control loop
     double timeOfLastControlLoop{-1.0};
     void controlLoop();
+
 
 public:
     // CONSTRUCTOR/DESTRUCTOR
@@ -142,6 +254,13 @@ public:
     virtual bool threadInit();
     virtual void run();
     virtual void threadRelease();
+
+    virtual bool setKpJtcvc(const std::string& jointName, const double kp);
+    virtual double getKpJtcvc(const std::string& jointName) override;
+    virtual bool setKfcJtcvc(const std::string& jointName, const double kfc) override;
+    virtual double getKfcJtcvc(const std::string& jointName) override;
+    virtual bool setFrictionModel(const std::string& jointName, const std::string& model) override;
+    virtual std::string getFrictionModel(const std::string& jointName) override;
 };
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_JOINT_TORQUE_CONTROL_DEVICE_H

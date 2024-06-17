@@ -29,12 +29,30 @@ BSD-3-Clause license. -->
     <!-- Controlboard hijacked by JointTorqueControlDevice -->
     <!---->
     <device name="hijacked_controlboard" type="JointTorqueControlDevice">
-        <group name="TORQUE_CURRENT_GAINS">
+        <group name="TORQUE_CURRENT_PARAMS">
             <param name="kt">(   0.142674       -0.158045       0.132443       )</param>
-            <param name="kv">(   0.000457       0.000458       0.000980   )</param>
-            <param name="kc">(   0.0            0.0            0.0 )</param>
             <param name="kfc">(   0.5            0.5            0.5  )</param>
             <param name="max_curr">(   2.0            2.0            2.0 )</param>
+            <param name="friction_model"> ("FRICTION_PINN", "FRICTION_COULOMB_VISCOUS". "FRICTION_COULOMB_VISCOUS") </param>
+        </group>
+
+        <group name="FRICTION_PINN">
+            <param name="model"> ("model.onnx", "model.onnx", "model.onnx") </param>
+            <param name="history_size"> (25, 25, 25) </param>
+            <param name="thread_number"> 2 </param>
+        </group>
+
+        <group name="FRICTION_COULOMB_VISCOUS">
+            <param name="kv">(   0.000457       0.000458       0.000980   )</param>
+            <param name="kc">(   0.0            0.0            0.0 )</param>
+        </group>
+
+        <group name="FRICTION_COULOMB_VISCOUS_STRIBECK">
+            <param name="kv">(   0.000457       0.000458       0.000980   )</param>
+            <param name="kc">(   0.0            0.0            0.0 )</param>
+            <param name="ks">(   0.000457       0.000458       0.000980   )</param>
+            <param name="ka">(   0.0            0.0            0.0 )</param>
+            <param name="vs">(   0.000457       0.000458       0.000980   )</param>
         </group>
 
         <!-- Warning, still in milliseconds -->

@@ -29,6 +29,7 @@ PassThroughControlBoard::PassThroughControlBoard()
     , proxyIAmplifierControl(0)
     , proxyIControlCalibration(0)
     , proxyIControlLimits(0)
+    , proxyIMotor(0)
 {
 }
 
@@ -54,6 +55,7 @@ void PassThroughControlBoard::resetPointers()
     proxyIAmplifierControl = nullptr;
     proxyIControlCalibration = nullptr;
     proxyIControlLimits = nullptr;
+    proxyIMotor = nullptr;
 }
 
 // DEVICE DRIVER
@@ -108,6 +110,7 @@ bool PassThroughControlBoard::attachAll(const PolyDriverList& p)
     proxyDevice->view(proxyIAmplifierControl);
     proxyDevice->view(proxyIControlCalibration);
     proxyDevice->view(proxyIControlLimits);
+    proxyDevice->view(proxyIMotor);
 
     return true;
 }
@@ -965,6 +968,15 @@ bool PassThroughControlBoard::getCurrentRanges(double* min, double* max)
         return false;
     }
     return proxyICurrentControl->getCurrentRanges(min, max);
+}
+
+bool PassThroughControlBoard::getGearboxRatio(int m, double *val)
+{
+    if (!proxyIMotor)
+    {
+        return false;
+    }
+    return proxyIMotor->getGearboxRatio(m, val);
 }
 
 bool PassThroughControlBoard::getRefCurrents(double* currs)

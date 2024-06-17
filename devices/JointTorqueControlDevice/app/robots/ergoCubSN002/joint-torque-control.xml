@@ -1,0 +1,57 @@
+<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+This software may be modified and distributed under the terms of the
+BSD-3-Clause license. -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<device name="hijacked_controlboard" type="JointTorqueControlDevice">
+  <param name="sampling_period_in_s">0.001</param>
+
+  <group name="TORQUE_CURRENT_PARAMS">
+      <param name="kt">(   0.111,  0.047,  0.047,  0.111,  0.111,  0.025   )</param>
+      <param name="kfc">(  1.0, 1.0, 1.0, 1.0, 1.0, 1.0  )</param>
+      <param name="max_curr">(   2.0, 2.0, 2.0, 2.0, 2.0, 2.0 )</param>
+      <param name="friction_model"> ("FRICTION_COULOMB_VISCOUS", "FRICTION_COULOMB_VISCOUS". "FRICTION_COULOMB_VISCOUS", "FRICTION_COULOMB_VISCOUS", "FRICTION_COULOMB_VISCOUS", "FRICTION_COULOMB_VISCOUS") </param>
+  </group>
+
+  <group name="FRICTION_PINN">
+      <param name="model"> ("", "", "", "", "", "model.onnx") </param>
+      <param name="history_size"> (0, 0, 0, 0, 0, 25) </param>
+      <param name="thread_number"> 2 </param>
+  </group>
+
+  <group name="FRICTION_COULOMB_VISCOUS">
+      <param name="kv">(   0.000457,   0.000458,   0.000980,  0.000457,   0.000458,   0.000980   )</param>
+      <param name="kc">(   0.0,  0.0,   0.0,  0.0,  0.0,   0.0 )</param>
+  </group>
+
+  <group name="FRICTION_COULOMB_VISCOUS_STRIBECK">
+      <param name="kv">(   0.000457       0.000458       0.000980  0.000457       0.000458       0.000980   )</param>
+      <param name="kc">(   0.0            0.0            0.0  0.0            0.0            0.0   )</param>
+      <param name="ks">(   0.000457       0.000458       0.000980   0.000457       0.000458       0.000980   )</param>
+      <param name="ka">(   0.0            0.0            0.0   0.0            0.0            0.0 )</param>
+      <param name="vs">(   0.000457       0.000458       0.000980   0.000457       0.000458       0.000980   )</param>
+  </group>
+
+  <!-- Warning, still in milliseconds -->
+  <param name="period"> 1 </param>
+
+  <!-- ATTACH -->
+  <action phase="startup" level="15" type="attach">
+    <paramlist name="networks">
+      <elem name="all_joints">all_joints_mc</elem>
+    </paramlist>
+  </action>
+
+  <action phase="shutdown" level="2" type="detach" />
+  <!-- FINISH ATTACH-->
+
+</device>
+
+<device xmlns:xi="http://www.w3.org/2001/XInclude" name="hijacked_nws_yarp" type="controlBoard_nws_yarp">
+    <param name="period"> 0.002  </param>
+    <param name="name"> /ergocub/hijacked </param>
+    <action phase="startup" level="10" type="attach">
+        <param name="device"> hijacked_controlboard </param>
+    </action>
+    <action phase="shutdown" level="15" type="detach" />
+</device>
