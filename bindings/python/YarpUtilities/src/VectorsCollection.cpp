@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <optional>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -75,10 +76,15 @@ void CreateVectorsCollectionClient(pybind11::module& module)
                  return metadata;
              })
         .def("read_data",
-             [](VectorsCollectionClient& impl,
-                bool shouldWait) -> BipedalLocomotion::YarpUtilities::VectorsCollection* {
-                 BipedalLocomotion::YarpUtilities::VectorsCollection* collection
-                     = impl.readData(shouldWait);
+             [](VectorsCollectionClient& impl, bool shouldWait)
+                 -> std::optional<BipedalLocomotion::YarpUtilities::VectorsCollection> {
+                 VectorsCollection* collectionPtr = impl.readData(shouldWait);
+                 if (collectionPtr == nullptr)
+                 {
+                     // Return an empty optional if the collection is not available
+                     return std::nullopt;
+                 }
+                 VectorsCollection collection = *collectionPtr;
                  return collection;
              });
 }
@@ -95,6 +101,20 @@ void CreateVectorsCollectionMetadata(pybind11::module& module)
         .def("to_string", &VectorsCollectionMetadata::toString)
         .def_readwrite("vectors", &VectorsCollectionMetadata::vectors);
 }
+
+void CreateVectorsCollection(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollection>(module, "VectorsCollection")
+        .def(py::init())
+        .def(py::init<const std::map<std::string, std::vector<double>>&>())
+        .def("to_string", &VectorsCollection::toString)
+        .def_readwrite("vectors", &VectorsCollection::vectors);
+}
+
 } // namespace YarpUtilities
 } // namespace bindings
 } // namespace BipedalLocomotion
