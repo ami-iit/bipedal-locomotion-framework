@@ -5,12 +5,12 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/eigen.h>
 
-#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <BipedalLocomotion/bindings/YarpUtilities/BufferedPort.h>
 #include <BipedalLocomotion/bindings/YarpUtilities/VectorsCollection.h>
@@ -65,17 +65,21 @@ void CreateVectorsCollectionClient(pybind11::module& module)
         .def("connect", &VectorsCollectionClient::connect)
         .def("disconnect", &VectorsCollectionClient::disconnect)
         .def("get_metadata",
-        [](VectorsCollectionClient& impl) -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata
-        {
-            BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
-            impl.getMetadata(metadata);
-            return metadata;
-        })
+             [](VectorsCollectionClient& impl)
+                 -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata {
+                 BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+                 if (impl.getMetadata(metadata) == false)
+                 {
+                     throw ::pybind11::value_error("Impossible to retrieve the metadata.");
+                 }
+                 return metadata;
+             })
         .def("read_data",
-             [](VectorsCollectionClient& impl, bool shouldWait) -> std::map<std::string, std::vector<double>>
-             {
-                BipedalLocomotion::YarpUtilities::VectorsCollection* collection = impl.readData(shouldWait);
-                return collection->vectors;
+             [](VectorsCollectionClient& impl,
+                bool shouldWait) -> BipedalLocomotion::YarpUtilities::VectorsCollection* {
+                 BipedalLocomotion::YarpUtilities::VectorsCollection* collection
+                     = impl.readData(shouldWait);
+                 return collection;
              });
 }
 
