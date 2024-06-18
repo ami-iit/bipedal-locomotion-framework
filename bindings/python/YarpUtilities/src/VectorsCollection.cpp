@@ -5,7 +5,6 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <optional>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -76,13 +75,14 @@ void CreateVectorsCollectionClient(pybind11::module& module)
                  return metadata;
              })
         .def("read_data",
-             [](VectorsCollectionClient& impl, bool shouldWait)
-                 -> std::optional<BipedalLocomotion::YarpUtilities::VectorsCollection> {
+             [](VectorsCollectionClient& impl,
+                bool shouldWait) -> BipedalLocomotion::YarpUtilities::VectorsCollection {
                  VectorsCollection* collectionPtr = impl.readData(shouldWait);
                  if (collectionPtr == nullptr)
                  {
-                     // Return an empty optional if the collection is not available
-                     return std::nullopt;
+                     // Return an empty collection
+                     VectorsCollection collection;
+                     return collection;
                  }
                  VectorsCollection collection = *collectionPtr;
                  return collection;
