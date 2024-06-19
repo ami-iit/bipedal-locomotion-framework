@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: tarides/changelog-check-action@v2
         with:
-          changelog: CHANGELOG.md.md
+          changelog: CHANGELOG.md
