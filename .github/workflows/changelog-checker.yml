@@ -1,20 +1,15 @@
-name: Changelog Checker
-
+name: Check Changelog
 on:
   pull_request:
     types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
     branches:
-      - master
+      - main
 jobs:
-  build:
-    name: Check Actions
-    runs-on: ubuntu-latest
+  Check-Changelog:
+    name: Check Changelog Action
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v1
-      - name: Changelog check
-        uses: Zomzog/changelog-checker@1.2.0
+      - uses: tarides/changelog-check-action@v2
         with:
-          fileName: CHANGELOG.md
+          changelog: CHANGES.md
           noChangelogLabel: "[disable changelog ci]"
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
