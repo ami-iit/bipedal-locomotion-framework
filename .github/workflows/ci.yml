@@ -23,7 +23,7 @@ env:
   OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v3.0.1
   icub_models_TAG: v2.4.0
-  UnicyclePlanner_TAG: d3f6c80afe21a9958da769c8dd8a2bbfee5ea922
+  UnicyclePlanner_TAG: v0.7.0
   telemetry_TAG: v1.2.0
   bayes_filters_TAG: 53124b1d85fc00c8cd44d572a1e482d7e58c0f50
 
