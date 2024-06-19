@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Changelog check
-        uses: Zomzog/changelog-checker@14fa5f86a23c48fddade9c0e0331b90844a8ea20
+        uses: Zomzog/changelog-checker@1.3.0
         with:
           fileName: CHANGELOG.md
-          noChangelogLabel: '[disable changelog ci]'
+          noChangelogLabel: "[disable changelog ci]"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
