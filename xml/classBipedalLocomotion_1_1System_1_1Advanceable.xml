@@ -166,7 +166,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics_1a6e3605df43a7cb6f01807e9cffec0b6c">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Math_1_1SchmittTrigger_1acb2f276e248cadb9d2d51c24ff57dcc9">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner_1a0eb48afbadf1bf3c8d48cec0e8b006ca">initialize</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed">initialize</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aef151639c1e5fea815c8972f565c972e">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1ab1a46178a467229bd0dff042c206eaa9">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1System_1_1ConstantWeightProvider_1aaba05ecaf62d01329c1154ee7b11325f">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPFixedBaseTSID_1afd8a4a3f3823189efaee3def7fdfd86f">initialize</reimplementedby>
@@ -226,7 +226,7 @@
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive_1a7b41a89972cc97991a81b6fb45d06b6f">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNAutoregressiveInputBuilder_1a4c0a40978d56575e71f042159d6265e3">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator_1a4ae5b3df87a949fafb05aa3cf85ea7b8">advance</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0">advance</reimplementedby>
+        <reimplementedby refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a632c6bc9269d5d2d028dff1e131439e4">advance</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1TSID_1_1QPTSID_1abc2defe1e3f95380a2788ffaec767ba1">advance</reimplementedby>
         <briefdescription>
 <para>Advance the internal state. </para>
@@ -343,6 +343,12 @@
         <childnode refid="25" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="72">
+        <label>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner"/>
+        <childnode refid="71" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="54">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother"/>
@@ -353,13 +359,6 @@
         <label>BipedalLocomotion::TSID::QPTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
         <childnode refid="37" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="71">
-        <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="1" relation="template-instance">
-          <edgelabel>&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
       <node id="45">
@@ -514,12 +513,6 @@
         </childnode>
         <childnode refid="51" relation="template-instance">
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
-        </childnode>
-      </node>
-      <node id="72">
-        <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
-        <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="71" relation="public-inheritance">
         </childnode>
       </node>
       <node id="47">
@@ -758,6 +751,13 @@
         </childnode>
         <childnode refid="51" relation="template-instance">
           <edgelabel>&lt; SO3PlannerState &gt;</edgelabel>
+        </childnode>
+      </node>
+      <node id="71">
+        <label>BipedalLocomotion::System::Advanceable&lt; UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
       <node id="51">

@@ -13,7 +13,7 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNTrajectoryGeneratorInput, MANNTrajectoryGeneratorOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; std::vector&lt; Contacts::ContactWrench &gt;, Eigen::Vector3d &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; BaseEstimatorFromFootIMUInput, BaseEstimatorFromFootIMUState &gt;</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNDirectionalInput, MANNAutoregressiveInput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; MANNAutoregressiveInput, MANNAutoregressiveOutput &gt;</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1System_1_1Advanceable" prot="public" virt="non-virtual">BipedalLocomotion::System::Advanceable&lt; _Input, _Output &gt;</derivedcompoundref>
@@ -253,6 +253,12 @@
         <childnode refid="35" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="70">
+        <label>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</label>
+        <link refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner"/>
+        <childnode refid="69" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="52">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FirstOrderSmoother</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FirstOrderSmoother"/>
@@ -263,15 +269,6 @@
         <label>BipedalLocomotion::TSID::QPTSID</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1QPTSID"/>
         <childnode refid="7" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="69">
-        <label>BipedalLocomotion::System::Advanceable&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</label>
-        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-        <childnode refid="75" relation="template-instance">
-          <edgelabel>&lt; UnicyclePlannerInput, UnicyclePlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
       <node id="47">
@@ -434,12 +431,6 @@
           <edgelabel>&lt; EstimatedContactList &gt;</edgelabel>
         </childnode>
         <childnode refid="75" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="70">
-        <label>BipedalLocomotion::Planners::UnicyclePlanner</label>
-        <link refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner"/>
-        <childnode refid="69" relation="public-inheritance">
         </childnode>
       </node>
       <node id="49">
@@ -686,6 +677,15 @@
           <edgelabel>&lt; SO3PlannerState &gt;</edgelabel>
         </childnode>
         <childnode refid="75" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>BipedalLocomotion::System::Advanceable&lt; UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput &gt;</label>
+        <link refid="classBipedalLocomotion_1_1System_1_1Advanceable"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="75" relation="template-instance">
+          <edgelabel>&lt; UnicycleTrajectoryPlannerInput, UnicycleTrajectoryPlannerOutput &gt;</edgelabel>
         </childnode>
       </node>
       <node id="5">

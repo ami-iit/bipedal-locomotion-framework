@@ -13,7 +13,7 @@
     <includedby refid="ContactPhase_8h" local="no">BipedalLocomotion/Contacts/ContactPhase.h</includedby>
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
     <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
-    <includedby refid="UnicyclePlanner_8h" local="yes">BipedalLocomotion/Planners/UnicyclePlanner.h</includedby>
+    <includedby refid="UnicycleUtilities_8h" local="no">BipedalLocomotion/Planners/UnicycleUtilities.h</includedby>
     <incdepgraph>
       <node id="13">
         <label>functional</label>
@@ -113,6 +113,10 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>BipedalLocomotion/Planners/UnicycleUtilities.h</label>
+        <link refid="UnicycleUtilities_8h"/>
+      </node>
       <node id="3">
         <label>BipedalLocomotion/Contacts/ContactPhase.h</label>
         <link refid="ContactPhase_8h"/>
@@ -124,10 +128,6 @@
       <node id="2">
         <label>BipedalLocomotion/Contacts/ContactListJsonParser.h</label>
         <link refid="ContactListJsonParser_8h"/>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
-        <link refid="UnicyclePlanner_8h"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1Contacts_1_1ContactList" prot="public">BipedalLocomotion::Contacts::ContactList</innerclass>

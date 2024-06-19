@@ -807,6 +807,10 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="55">
+        <label>BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h</label>
+        <link refid="UnicycleTrajectoryPlanner_8h"/>
+      </node>
       <node id="41">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
@@ -864,10 +868,6 @@
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
-      </node>
-      <node id="55">
-        <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
-        <link refid="UnicyclePlanner_8h"/>
       </node>
       <node id="44">
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>

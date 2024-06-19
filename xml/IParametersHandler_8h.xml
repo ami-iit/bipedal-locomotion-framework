@@ -49,7 +49,7 @@
     <includedby refid="StdImplementation_8h" local="no">BipedalLocomotion/ParametersHandler/StdImplementation.h</includedby>
     <includedby refid="DCMPlanner_8h" local="no">BipedalLocomotion/Planners/DCMPlanner.h</includedby>
     <includedby refid="SwingFootPlanner_8h" local="no">BipedalLocomotion/Planners/SwingFootPlanner.h</includedby>
-    <includedby refid="UnicyclePlanner_8h" local="yes">BipedalLocomotion/Planners/UnicyclePlanner.h</includedby>
+    <includedby refid="UnicycleTrajectoryPlanner_8h" local="no">BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h</includedby>
     <includedby refid="MANN_8h" local="no">BipedalLocomotion/ML/MANN.h</includedby>
     <includedby refid="MANNAutoregressive_8h" local="no">BipedalLocomotion/ML/MANNAutoregressive.h</includedby>
     <includedby refid="MANNAutoregressiveInputBuilder_8h" local="no">BipedalLocomotion/ML/MANNAutoregressiveInputBuilder.h</includedby>
@@ -830,6 +830,10 @@
         <childnode refid="39" relation="include">
         </childnode>
       </node>
+      <node id="52">
+        <label>BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h</label>
+        <link refid="UnicycleTrajectoryPlanner_8h"/>
+      </node>
       <node id="37">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
@@ -887,10 +891,6 @@
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-      </node>
-      <node id="52">
-        <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
-        <link refid="UnicyclePlanner_8h"/>
       </node>
       <node id="41">
         <label>BipedalLocomotion/Planners/DCMPlanner.h</label>

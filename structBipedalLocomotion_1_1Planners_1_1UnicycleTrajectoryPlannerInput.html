@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::Planners::UnicycleKnot struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,8 +62,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicycleKnot <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicyclePlanner_8h.html">&lt;BipedalLocomotion/Planners/UnicyclePlanner.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicycleTrajectoryPlannerInput <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicycleTrajectoryPlanner_8h.html">&lt;BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <nav class="m-block m-default">
@@ -72,37 +72,27 @@
             <li>
               Reference
               <ul>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="a5f2127c0da7dd9be6335b06e7c9aa52e">
-              <span class="m-doc-wrap-bumper"><a href="#a5f2127c0da7dd9be6335b06e7c9aa52e" class="m-doc-self">UnicycleKnot</a>(</span><span class="m-doc-wrap">const double _x = 0.0,
-              const double _y = 0.0,
-              const double _dx = 0.0,
-              const double _dy = 0.0,
-              const double _t = 0.0)</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aae7ad740e7ed503ad8a22cb8702c474a">
-              <span class="m-doc-wrap-bumper"><a href="#aae7ad740e7ed503ad8a22cb8702c474a" class="m-doc-self">UnicycleKnot</a>(</span><span class="m-doc-wrap">const Eigen::Vector2d&amp; _position = {0, 0},
-              const Eigen::Vector2d&amp; _velocity = {0, 0},
-              const double _time = 0.0)</span>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState.html" class="m-doc">COMInitialState</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt id="aae606a38c060a968ede0af46cb23f7f9">
-              <span class="m-doc-wrap-bumper">auto <a href="#aae606a38c060a968ede0af46cb23f7f9" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot.html" class="m-doc">UnicycleKnot</a>&amp; rhs) -&gt; bool</span>
+            <dt id="aea6954fe3071831a4d9364bdf661c949">
+              <span class="m-doc-wrap-bumper">static auto <a href="#aea6954fe3071831a4d9364bdf661c949" class="m-doc-self">generateDummyUnicycleTrajectoryPlannerInput</a>(</span><span class="m-doc-wrap">) -&gt; <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput.html" class="m-doc">UnicycleTrajectoryPlannerInput</a></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -110,27 +100,48 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a275b85ab5e2576f922b4656b1041aafa">
-              double <a href="#a275b85ab5e2576f922b4656b1041aafa" class="m-doc-self">x</a>
+            <dt>
+              Eigen::VectorXd <a href="#ac3dc4b76c6bb9e5cf9b8cf5e72751f73" class="m-doc">plannerInput</a>
             </dt>
-            <dd>The knot x coordinates.</dd>
-            <dt id="a388af8a26e65a3fec300cbc6dfdd2fc4">
-              double <a href="#a388af8a26e65a3fec300cbc6dfdd2fc4" class="m-doc-self">y</a>
+            <dd><a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput.html" class="m-doc">UnicycleTrajectoryPlannerInput</a> implements the input to the planner.</dd>
+            <dt id="a07b069886b358a9f0a35e1f8d5671276">
+              DCMInitialState <a href="#a07b069886b358a9f0a35e1f8d5671276" class="m-doc-self">dcmInitialState</a>
             </dt>
-            <dd>The knot y coordinates.</dd>
-            <dt id="a1d0e78332b19a454b418c55ac3a7166b">
-              double <a href="#a1d0e78332b19a454b418c55ac3a7166b" class="m-doc-self">dx</a>
+            <dd>Initial state of the DCM trajectory generator.</dd>
+            <dt id="aab1afe2c2d1e58221a070e47c084c67b">
+              <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState.html" class="m-doc">COMInitialState</a> <a href="#aab1afe2c2d1e58221a070e47c084c67b" class="m-doc-self">comInitialState</a>
             </dt>
-            <dd>The knot x velocity.</dd>
-            <dt id="ac961f7f19babdf6cc1ca6a5ccb6bf46c">
-              double <a href="#ac961f7f19babdf6cc1ca6a5ccb6bf46c" class="m-doc-self">dy</a>
+            <dd>Initial state of the CoM.</dd>
+            <dt>
+              bool <a href="#a69b32074cf6df1e5ad45112e9fb4a3ad" class="m-doc">isLeftLastSwinging</a>
             </dt>
-            <dd>The knot y velocity.</dd>
-            <dt id="a058b47a1a72e2b4976e4b57a030cc816">
-              double <a href="#a058b47a1a72e2b4976e4b57a030cc816" class="m-doc-self">time</a>
+            <dd>True if the last foot that was swinging is the left one.</dd>
+            <dt id="a7c3e89f279fbd083c64c13901e51c400">
+              std::chrono::nanoseconds <a href="#a7c3e89f279fbd083c64c13901e51c400" class="m-doc-self">initTime</a>
             </dt>
-            <dd>The knot activation time.</dd>
+            <dd>Initial time of the trajectory.</dd>
+            <dt id="ab94d7e7b56aed851da5478c21b8421bb">
+              manif::SE3d <a href="#ab94d7e7b56aed851da5478c21b8421bb" class="m-doc-self">measuredTransform</a>
+            </dt>
+            <dd>Measured transform of the last foot that touched the floor.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="ac3dc4b76c6bb9e5cf9b8cf5e72751f73"><div>
+            <h3>
+              Eigen::VectorXd BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryPlannerInput::<wbr /><a href="#ac3dc4b76c6bb9e5cf9b8cf5e72751f73" class="m-doc-self">plannerInput</a>
+            </h3>
+            <p><a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput.html" class="m-doc">UnicycleTrajectoryPlannerInput</a> implements the input to the planner.</p>
+<p>Depending on the type of unicycle controller used the plannerInput is a 2d-vector or a 3d-vector. For instance, if unicycle controller is set to UnicycleController::PERSON_FOLLOWING, the plannerInput is a vector of size 2 that represents a reference position (i.e., [x, y]). Instead, if it is set to UnicycleController::DIRECT, the plannerInput is a vector of size 3 that representes a velocity command (i.e., [xdot, ydot, wz]). Input to the unicycle planner</p>
+          </div></section>
+          <section class="m-doc-details" id="a69b32074cf6df1e5ad45112e9fb4a3ad"><div>
+            <h3>
+              bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryPlannerInput::<wbr /><a href="#a69b32074cf6df1e5ad45112e9fb4a3ad" class="m-doc-self">isLeftLastSwinging</a>
+            </h3>
+            <p>True if the last foot that was swinging is the left one.</p>
+<p>False otherwise.</p>
+          </div></section>
         </section>
       </div>
     </div>

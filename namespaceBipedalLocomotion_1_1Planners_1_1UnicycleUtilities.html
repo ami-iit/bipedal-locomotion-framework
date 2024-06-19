@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::Planners::UnicyclePlannerOutput struct | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::Planners::UnicycleUtilities namespace | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -62,8 +62,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicyclePlannerOutput <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicyclePlanner_8h.html">&lt;BipedalLocomotion/Planners/UnicyclePlanner.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicycleUtilities <span class="m-thin">namespace</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicycleUtilities_8h.html">&lt;BipedalLocomotion/Planners/UnicycleUtilities.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <nav class="m-block m-default">
@@ -72,33 +72,24 @@
             <li>
               Reference
               <ul>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt id="a53d6fe7056b832d8f5b73a2ecf9fc2f9">
-              <span class="m-doc-wrap-bumper"><a href="#a53d6fe7056b832d8f5b73a2ecf9fc2f9" class="m-doc-self">UnicyclePlannerOutput</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; _left = {},
-              const <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a>&amp; _right = {})</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="UnicycleUtilities_8h.html#afef9c4730943e70538ef7f2d4d3ad760" class="m-doc">getContactList</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; initTime,
+              const std::chrono::nanoseconds&amp; dt,
+              const std::vector&lt;bool&gt;&amp; inContact,
+              const std::deque&lt;Step&gt;&amp; steps,
+              const int&amp; contactFrameIndex,
+              const std::string&amp; contactName,
+              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">BipedalLocomotion::<wbr />Contacts::<wbr />ContactList</a>&amp; contactList) -&gt; bool</span>
             </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a191cd4f5c7022996f9893d0935e20a27">
-              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a> <a href="#a191cd4f5c7022996f9893d0935e20a27" class="m-doc-self">left</a>
-            </dt>
-            <dd>The list of left foot contacts;.</dd>
-            <dt id="aedf88ce4115faea15dd8cdff4fde689d">
-              <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">Contacts::<wbr />ContactList</a> <a href="#aedf88ce4115faea15dd8cdff4fde689d" class="m-doc-self">right</a>
-            </dt>
-            <dd>The list of right foot contacts;.</dd>
+            <dd>It populates the contact list.</dd>
           </dl>
         </section>
       </div>

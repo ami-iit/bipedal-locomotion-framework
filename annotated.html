@@ -390,6 +390,7 @@
               <li class="m-doc-collapsible collapsed">
                 <a href="#" onclick="return toggle(this)">namespace</a> <a href="namespaceBipedalLocomotion_1_1Planners.html" class="m-doc">Planners</a> <span class="m-doc"><span></span></span>
                 <ul class="m-doc">
+                  <li>namespace <a href="namespaceBipedalLocomotion_1_1Planners_1_1UnicycleUtilities.html" class="m-doc">UnicycleUtilities</a> <span class="m-doc"><span></span></span></li>
                   <li>class <a href="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper.html" class="m-doc">ConvexHullHelper</a> <span class="m-doc"><a href="classBipedalLocomotion_1_1Planners_1_1ConvexHullHelper.html" class="m-doc">ConvexHullHelper</a> is an helper class that simplifies the building of a convex hull given a set of points that belongs to <svg class="m-math" style="width: 1.435em; height: 0.858em; vertical-align: -0.000em;" viewBox="0 -8.235778 13.772515 8.235778">
         <title>
         $\mathbb{R} ^n$
@@ -416,10 +417,23 @@
                   <li>class <a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html" class="m-doc">SwingFootPlanner</a> <span class="m-doc"><a href="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner.html" class="m-doc">SwingFootPlanner</a> implement a minimum jerk trajectory planner for the swing foot.</span></li>
                   <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState.html" class="m-doc">SwingFootPlannerState</a> <span class="m-doc"><a href="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState.html" class="m-doc">SwingFootPlannerState</a> describes the state of Swing foot planner.</span></li>
                   <li>class <a href="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner.html" class="m-doc">TimeVaryingDCMPlanner</a> <span class="m-doc"><a href="classBipedalLocomotion_1_1Planners_1_1DCMPlanner.html" class="m-doc">DCMPlanner</a> defines a trajectory generator for the variable height Divergent component of motion (DCM).</span></li>
-                  <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot.html" class="m-doc">UnicycleKnot</a> <span class="m-doc"><span></span></span></li>
-                  <li>class <a href="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner.html" class="m-doc">UnicyclePlanner</a> <span class="m-label m-flat m-warning">final</span> <span class="m-doc"><span></span></span></li>
-                  <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput.html" class="m-doc">UnicyclePlannerInput</a> <span class="m-doc"><span></span></span></li>
-                  <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput.html" class="m-doc">UnicyclePlannerOutput</a> <span class="m-doc"><span></span></span></li>
+                  <li>class <a href="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner.html" class="m-doc">UnicycleTrajectoryPlanner</a> <span class="m-label m-flat m-warning">final</span> <span class="m-doc"><a href="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner.html" class="m-doc">UnicycleTrajectoryPlanner</a> is a class that uses UnicycleGenerator of <a href="https://github.com/robotology/unicycle-footstep-planner">https:/<wbr />/<wbr />github.com/<wbr />robotology/<wbr />unicycle-footstep-planner</a>) to generate reference trajectories for humanoid robots.</span></li>
+                  <li class="m-doc-collapsible collapsed">
+                    <a href="#" onclick="return toggle(this)">struct</a> <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput.html" class="m-doc">UnicycleTrajectoryPlannerInput</a> <span class="m-doc"><span></span></span>
+                    <ul class="m-doc">
+                      <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState.html" class="m-doc">COMInitialState</a> <span class="m-doc"><span></span></span></li>
+                    </ul>
+                  </li>
+                  <li class="m-doc-collapsible collapsed">
+                    <a href="#" onclick="return toggle(this)">struct</a> <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput.html" class="m-doc">UnicycleTrajectoryPlannerOutput</a> <span class="m-doc"><span></span></span>
+                    <ul class="m-doc">
+                      <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory.html" class="m-doc">COMTrajectory</a> <span class="m-doc"><span></span></span></li>
+                      <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus.html" class="m-doc">ContactStatus</a> <span class="m-doc"><span></span></span></li>
+                      <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory.html" class="m-doc">DCMTrajectory</a> <span class="m-doc"><span></span></span></li>
+                      <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps.html" class="m-doc">Steps</a> <span class="m-doc"><span></span></span></li>
+                    </ul>
+                  </li>
+                  <li>struct <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters.html" class="m-doc">UnicycleTrajectoryPlannerParameters</a> <span class="m-doc"><span></span></span></li>
                 </ul>
               </li>
               <li class="m-doc-collapsible collapsed">

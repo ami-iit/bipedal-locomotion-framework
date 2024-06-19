@@ -94,6 +94,10 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
+      <node id="9">
+        <label>BipedalLocomotion/Planners/UnicycleUtilities.h</label>
+        <link refid="UnicycleUtilities_8h"/>
+      </node>
       <node id="19">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
         <link refid="FloatingBaseEstimatorIO_8h"/>
@@ -207,10 +211,6 @@
       <node id="3">
         <label>BipedalLocomotion/ContactDetectors/FixedFootDetector.h</label>
         <link refid="FixedFootDetector_8h"/>
-      </node>
-      <node id="9">
-        <label>BipedalLocomotion/Planners/UnicyclePlanner.h</label>
-        <link refid="UnicyclePlanner_8h"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1Contacts_1_1ContactBase" prot="public">BipedalLocomotion::Contacts::ContactBase</innerclass>

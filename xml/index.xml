@@ -297,6 +297,10 @@
     <member refid="classBipedalLocomotion_1_1System_1_1ClockFactory_1a2cda40326f053a485bfe4aca0e1dfd70" kind="function"><name>~ClockFactory</name></member>
     <member refid="classBipedalLocomotion_1_1System_1_1ClockFactory_1ab79c5dcd950de2600b5e344260f46bd2" kind="function"><name>createClock</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput::COMInitialState</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState_1a46ef2925a036a2026777bd397695adc6" kind="variable"><name>initialPlanarPosition</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState_1a5ceb436a3e2f45238fb8182eee383baa" kind="variable"><name>initialPlanarVelocity</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::CompliantContactWrench</name>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench_1aa77c1053be3a82f34c8a99cac4496b62" kind="variable"><name>m_frame</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CompliantContactWrench_1aa7280695357ea2b365b4d0bd28891342" kind="variable"><name>m_contactModel</name></member>
@@ -346,6 +350,11 @@
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a903008ca278ca76560e8e33d92793766" kind="function"><name>size</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd58f75e69dedcec3085b8ad1a320183" kind="function"><name>type</name></member>
     <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa54d65b28cbfc9624c4a98cf7e3a2a30" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::COMTrajectory</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a08b0e08010645239bb4cee9f2f715e05" kind="variable"><name>position</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a8dad557c1d890417445ca559e6558376" kind="variable"><name>velocity</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a79b1faf2644d7d7386112e145509d211" kind="variable"><name>acceleration</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController" kind="class"><name>BipedalLocomotion::SimplifiedModelControllers::CoMZMPController</name>
     <member refid="classBipedalLocomotion_1_1SimplifiedModelControllers_1_1CoMZMPController_1a05dd45afc539a786c0a149731bd95c54" kind="variable"><name>m_I_R_B</name></member>
@@ -526,6 +535,11 @@
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a952bcc3c6df82382ebba7285ef10de32" kind="function"><name>toString</name></member>
     <member refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList_1a6526bb764abbb066c46f2dfe7e9cb28d" kind="function"><name>forceSampleTime</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::ContactStatus</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus_1a71da17f22d171d07786c956f0d5ec585" kind="variable"><name>leftFootInContact</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus_1ae5f403b168246315f73306a44fe7ca9e" kind="variable"><name>rightFootInContact</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus_1a195e9cd45ba89d27e0d101c34c8be787" kind="variable"><name>UsedLeftAsFixed</name></member>
+  </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench" kind="struct"><name>BipedalLocomotion::Contacts::ContactWrench</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1ContactWrench_1aaf6c4dda35af85171a3a757c4dc7117e" kind="variable"><name>wrench</name></member>
   </compound>
@@ -654,6 +668,10 @@
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1a6acad03dd6836d5ac0b9f62abb15ae66" kind="variable"><name>vrpPosition</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1ab4aea942aca0c513e611adb4d73b6f00" kind="variable"><name>omega</name></member>
     <member refid="structBipedalLocomotion_1_1Planners_1_1DCMPlannerState_1ae5e574675177054804adc189c3dfc8aa" kind="variable"><name>omegaDot</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::DCMTrajectory</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory_1af320c15b88e84d66928f940932e9d3e5" kind="variable"><name>position</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory_1a270ca5bb7be3aa56a32f22272e9cafa4" kind="variable"><name>velocity</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" kind="class"><name>BipedalLocomotion::TextLogging::DefaultLoggerFactory</name>
     <member refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory_1a9d6a08a8f8f2b40e874d223ef9ae7067" kind="variable"><name>m_name</name></member>
@@ -2501,6 +2519,10 @@
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1a37fa6ff92195856b511126c08a326760" kind="function"><name>clone</name></member>
     <member refid="classBipedalLocomotion_1_1ParametersHandler_1_1StdImplementation_1ab6e5d0501d5bf2a92ceb2ed46e7ab03b" kind="function"><name>~StdImplementation</name></member>
   </compound>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::Steps</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps_1a8789b27a07e29c6b65c2eeffe6b88b9d" kind="variable"><name>leftSteps</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps_1a8557878de59ce0f8def986fb72b827f5" kind="variable"><name>rightSteps</name></member>
+  </compound>
   <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</name>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1ad77beb1b5c9bd0cbb8215e099ce993a5" kind="variable"><name>m_model</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel_1acf3049575bfe0fe01fabc39dfb723c27" kind="variable"><name>m_jointListMapping</name></member>
@@ -2836,38 +2858,47 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1a7c79bcd69b5724370564b2fd0205ebd8" kind="function"><name>getStateSize</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfState_1afe13301fd258e6ab636ac9e4a7b0ab62" kind="function"><name>getInitialStateCovarianceMatrix</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot" kind="struct"><name>BipedalLocomotion::Planners::UnicycleKnot</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a275b85ab5e2576f922b4656b1041aafa" kind="variable"><name>x</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a388af8a26e65a3fec300cbc6dfdd2fc4" kind="variable"><name>y</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a1d0e78332b19a454b418c55ac3a7166b" kind="variable"><name>dx</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1ac961f7f19babdf6cc1ca6a5ccb6bf46c" kind="variable"><name>dy</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a058b47a1a72e2b4976e4b57a030cc816" kind="variable"><name>time</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1a5f2127c0da7dd9be6335b06e7c9aa52e" kind="function"><name>UnicycleKnot</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae7ad740e7ed503ad8a22cb8702c474a" kind="function"><name>UnicycleKnot</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleKnot_1aae606a38c060a968ede0af46cb23f7f9" kind="function"><name>operator==</name></member>
+  <compound refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner" kind="class"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</name>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1abd4d3abde99be48cc735c45030a939c3" kind="variable"><name>m_pImpl</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ae746d9dd623b6a3a7f281fd4bc13e126" kind="function"><name>UnicycleTrajectoryPlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ab8ce56b881f7bb79be0512aae09b8d52" kind="function"><name>~UnicycleTrajectoryPlanner</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a75d0aa997ff3314e4cd143bab7a66683" kind="function"><name>setRobotContactFrames</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aef151639c1e5fea815c8972f565c972e" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a91d2c7e5b034956159662a0ed7c8f0fd" kind="function"><name>getOutput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a2a496f83fd70975470a65603c83321d8" kind="function"><name>isOutputValid</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aada2e13ef23293cfa638d25e2962d7ee" kind="function"><name>setInput</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a632c6bc9269d5d2d028dff1e131439e4" kind="function"><name>advance</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1abc1c3510b82812a86ffdb9c82fad0e0e" kind="function"><name>getContactPhaseList</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aadf821cb8d4690023fb0dc85f1da4f50" kind="function"><name>setUnicycleControllerFromString</name></member>
+    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ac61ba52272cdca5a0bc3be91167f0129" kind="function"><name>generateFirstTrajectory</name></member>
   </compound>
-  <compound refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner" kind="class"><name>BipedalLocomotion::Planners::UnicyclePlanner</name>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a2c3b23ca0652a619ec21a2f5e9b96cb6" kind="variable"><name>m_pImpl</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ac706d460e5f941553ce81dcce3710c3f" kind="function"><name>UnicyclePlanner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1aa90a125b2219a7848a633d837e8ba230" kind="function"><name>~UnicyclePlanner</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a3f20d7efd3ca091711a9811e12bb8aed" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ae052b356eb6471e8ef93385285b017e4" kind="function"><name>getOutput</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1ab9fb291db0662a9d7760171fdcdcf44d" kind="function"><name>isOutputValid</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a51e36afda11214c32d11ffe3b11705f7" kind="function"><name>setInput</name></member>
-    <member refid="classBipedalLocomotion_1_1Planners_1_1UnicyclePlanner_1a5c048c41c659d89f133aaa159971b1f0" kind="function"><name>advance</name></member>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1ac3dc4b76c6bb9e5cf9b8cf5e72751f73" kind="variable"><name>plannerInput</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a07b069886b358a9f0a35e1f8d5671276" kind="variable"><name>dcmInitialState</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1aab1afe2c2d1e58221a070e47c084c67b" kind="variable"><name>comInitialState</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a69b32074cf6df1e5ad45112e9fb4a3ad" kind="variable"><name>isLeftLastSwinging</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a7c3e89f279fbd083c64c13901e51c400" kind="variable"><name>initTime</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1ab94d7e7b56aed851da5478c21b8421bb" kind="variable"><name>measuredTransform</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1aea6954fe3071831a4d9364bdf661c949" kind="function"><name>generateDummyUnicycleTrajectoryPlannerInput</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerInput</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ac102e3005b29fe9be5db56f9fcf05ec4" kind="variable"><name>t0</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a99312056248188fb21ebfbd0f76d9dc4" kind="variable"><name>tf</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1ab8c5a61e1c78fead71010c62b7924e0d" kind="variable"><name>initialLeftContact</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1a57f640f74b13c6bda4126839174294ea" kind="variable"><name>initialRightContact</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1afc24d357f9138b19fa71ddb533071445" kind="variable"><name>knots</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerInput_1aa1486d28efdff3a3da058bf507e400a6" kind="function"><name>UnicyclePlannerInput</name></member>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a901d396503dbb6e545a25305c458795e" kind="variable"><name>comTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a2e5953377f2a945a1f3a1d9936dc1ab0" kind="variable"><name>dcmTrajectory</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1af711612503531366db5ff3eb8abc6e50" kind="variable"><name>contactStatus</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a81757c47e7aea32b49be98640f2874f7" kind="variable"><name>steps</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a0e131fe319b5b2663ace97fa6f7898da" kind="variable"><name>mergePoints</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput" kind="struct"><name>BipedalLocomotion::Planners::UnicyclePlannerOutput</name>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a191cd4f5c7022996f9893d0935e20a27" kind="variable"><name>left</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1aedf88ce4115faea15dd8cdff4fde689d" kind="variable"><name>right</name></member>
-    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicyclePlannerOutput_1a53d6fe7056b832d8f5b73a2ecf9fc2f9" kind="function"><name>UnicyclePlannerOutput</name></member>
+  <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</name>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a5c61f43d90a8e676094c7478522993dd" kind="variable"><name>dt</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a205b5dbe442f4b6a152504bc1d81ce32" kind="variable"><name>plannerHorizon</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1ae71b97a5efcc2501b9a55e72d1b4d78e" kind="variable"><name>leftYawDeltaInRad</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1ac48eb84c5e1ef1c181abcc1f167698c7" kind="variable"><name>rightYawDeltaInRad</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a906bd0da1b2394b43e600be3f7518893" kind="variable"><name>referencePointDistance</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a5e88feb93d5919325c96c870f07f83e8" kind="variable"><name>nominalWidth</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a96705c037e61ab22ee31556777ed9438" kind="variable"><name>leftContactFrameIndex</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a1ddcfc98026672269cb37a48e8a90b9d" kind="variable"><name>leftContactFrameName</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a99278b3f7eca938d8c6ac00efded1686" kind="variable"><name>rightContactFrameIndex</name></member>
+    <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a9f47fe27179f1a5774c791de91dac467" kind="variable"><name>rightContactFrameName</name></member>
   </compound>
   <compound refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription" kind="class"><name>BipedalLocomotion::System::VariablesHandler::VariableDescription</name>
     <member refid="classBipedalLocomotion_1_1System_1_1VariablesHandler_1_1VariableDescription_1ac7555f0113d453a1b42ced876f0b4ab6" kind="variable"><name>InvalidIndex</name></member>
@@ -3295,6 +3326,9 @@
     <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a1774a14eb0a70955db321cd14b526687" kind="typedef"><name>SplineState</name></member>
     <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a6062d1bba100bc5e427d23ce99673e54" kind="typedef"><name>Spline</name></member>
   </compound>
+  <compound refid="namespaceBipedalLocomotion_1_1Planners_1_1UnicycleUtilities" kind="namespace"><name>BipedalLocomotion::Planners::UnicycleUtilities</name>
+    <member refid="UnicycleUtilities_8h_1afef9c4730943e70538ef7f2d4d3ad760" kind="function"><name>getContactList</name></member>
+  </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ReducedModelControllers" kind="namespace"><name>BipedalLocomotion::ReducedModelControllers</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1RobotInterface" kind="namespace"><name>BipedalLocomotion::RobotInterface</name>
@@ -3659,7 +3693,10 @@
   </compound>
   <compound refid="TimeVaryingDCMPlanner_8h" kind="file"><name>TimeVaryingDCMPlanner.h</name>
   </compound>
-  <compound refid="UnicyclePlanner_8h" kind="file"><name>UnicyclePlanner.h</name>
+  <compound refid="UnicycleTrajectoryPlanner_8h" kind="file"><name>UnicycleTrajectoryPlanner.h</name>
+  </compound>
+  <compound refid="UnicycleUtilities_8h" kind="file"><name>UnicycleUtilities.h</name>
+    <member refid="UnicycleUtilities_8h_1afef9c4730943e70538ef7f2d4d3ad760" kind="function"><name>getContactList</name></member>
   </compound>
   <compound refid="CentroidalMPC_8h" kind="file"><name>CentroidalMPC.h</name>
   </compound>
