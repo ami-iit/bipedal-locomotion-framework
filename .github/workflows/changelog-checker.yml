@@ -12,4 +12,3 @@ jobs:
       - uses: tarides/changelog-check-action@v2
         with:
           changelog: CHANGES.md
-          noChangelogLabel: "[disable changelog ci]"
