@@ -9,12 +9,11 @@
 #include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <Eigen/src/Core/Map.h>
-#include <Eigen/src/Core/Matrix.h>
 #include <iDynTree/EigenHelpers.h>
 #include <iDynTree/SpatialAcc.h>
 #include <iDynTree/VectorDynSize.h>
 #include <iDynTree/VectorFixSize.h>
+
 
 namespace BipedalLocomotion::Planners::UnicycleUtilities
 {

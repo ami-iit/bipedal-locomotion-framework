@@ -635,16 +635,58 @@ bool YarpRobotLoggerDevice::setupRobotCameraBridge(
     return true;
 }
 
-bool YarpRobotLoggerDevice::initMetadata(const std::string& nameKey,
-                                         const std::vector<std::string>& metadataNames)
+bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
+                                       std::size_t vectorSize,
+                                       const std::vector<std::string>& metadataNames)
 {
-    bool ok = m_bufferManager.addChannel({nameKey, {metadataNames.size(), 1}, metadataNames});
-    std::string rtNameKey = robotRtRootName + treeDelim + nameKey;
+    if (metadataNames.empty() || vectorSize != metadataNames.size())
+    {
+        log()->warn("The metadata names are empty or the size of the metadata names is different "
+                    "from the vector size. The default metadata will be used.");
+        if (!m_bufferManager.addChannel({nameKey, {vectorSize, 1}}))
+        {
+            log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
+            return false;
+        }
+    } else
+    {
+        if (!m_bufferManager.addChannel({nameKey, {metadataNames.size(), 1}, metadataNames}))
+        {
+            log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
+            return false;
+        }
+    }
     if (m_sendDataRT)
     {
-        ok = ok && m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames);
+        std::string rtNameKey = robotRtRootName + treeDelim + nameKey;
+
+        // if the metadata names are empty then the default metadata will be used
+        if (!metadataNames.empty())
+        {
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames))
+            {
+                log()->error("[Realtime logging] Failed to populate the metadata for the signal {}",
+                             rtNameKey);
+                return false;
+            }
+
+        } else
+        {
+            std::vector<std::string> defaultMetadata;
+            for (std::size_t i = 0; i < vectorSize; i++)
+            {
+                defaultMetadata.push_back("element_" + std::to_string(i));
+            }
+
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, defaultMetadata))
+            {
+                log()->error("[Realtime logging] Failed to populate the metadata for the signal {}",
+                             rtNameKey);
+                return false;
+            }
+        }
     }
-    return ok;
+    return true;
 }
 
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
@@ -706,27 +748,27 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && initMetadata(jointStatePositionsName, joints);
-        ok = ok && initMetadata(jointStateVelocitiesName, joints);
-        ok = ok && initMetadata(jointStateAccelerationsName, joints);
-        ok = ok && initMetadata(jointStateTorquesName, joints);
+        ok = ok && addChannel(jointStatePositionsName, joints.size(), joints);
+        ok = ok && addChannel(jointStateVelocitiesName, joints.size(), joints);
+        ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+        ok = ok && addChannel(jointStateTorquesName, joints.size(), joints);
     }
     if (m_streamMotorStates)
     {
-        ok = ok && initMetadata(motorStatePositionsName, joints);
-        ok = ok && initMetadata(motorStateVelocitiesName, joints);
-        ok = ok && initMetadata(motorStateAccelerationsName, joints);
-        ok = ok && initMetadata(motorStateCurrentsName, joints);
+        ok = ok && addChannel(motorStatePositionsName, joints.size(), joints);
+        ok = ok && addChannel(motorStateVelocitiesName, joints.size(), joints);
+        ok = ok && addChannel(motorStateAccelerationsName, joints.size(), joints);
+        ok = ok && addChannel(motorStateCurrentsName, joints.size(), joints);
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && initMetadata(motorStatePwmName, joints);
+        ok = ok && addChannel(motorStatePwmName, joints.size(), joints);
     }
 
     if (m_streamPIDs)
     {
-        ok = ok && initMetadata(motorStatePidsName, joints);
+        ok = ok && addChannel(motorStatePidsName, joints.size(), joints);
     }
 
     if (m_streamFTSensors)
@@ -734,7 +776,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
         {
             std::string fullFTSensorName = ftsName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullFTSensorName, ftElementNames);
+            ok = ok && addChannel(fullFTSensorName, ftElementNames.size(), ftElementNames);
         }
     }
 
@@ -743,25 +785,34 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
         {
             std::string fullGyroSensorName = gyrosName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullGyroSensorName, gyroElementNames);
+            ok = ok && addChannel(fullGyroSensorName, gyroElementNames.size(), gyroElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
             std::string fullAccelerometerSensorName = accelerometersName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullAccelerometerSensorName, AccelerometerElementNames);
+            ok = ok
+                 && addChannel(fullAccelerometerSensorName,
+                               accelerometerElementNames.size(), //
+                               accelerometerElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
             std::string fullOrientationsSensorName = orientationsName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullOrientationsSensorName, orientationElementNames);
+            ok = ok
+                 && addChannel(fullOrientationsSensorName,
+                               orientationElementNames.size(), //
+                               orientationElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
             std::string fullMagnetometersSensorName = magnetometersName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullMagnetometersSensorName, magnetometerElementNames);
+            ok = ok
+                 && addChannel(fullMagnetometersSensorName,
+                               magnetometerElementNames.size(), //
+                               magnetometerElementNames);
         }
 
         // an IMU contains a gyro accelerometer and an orientation sensor
@@ -770,9 +821,15 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             std::string fullAccelerometerSensorName = accelerometersName + treeDelim + sensorName;
             std::string fullGyroSensorName = gyrosName + treeDelim + sensorName;
             std::string fullOrientationsSensorName = orientationsName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullAccelerometerSensorName, AccelerometerElementNames);
-            ok = ok && initMetadata(fullGyroSensorName, gyroElementNames);
-            ok = ok && initMetadata(fullOrientationsSensorName, orientationElementNames);
+            ok = ok
+                 && addChannel(fullAccelerometerSensorName,
+                               accelerometerElementNames.size(), //
+                               accelerometerElementNames);
+            ok = ok && addChannel(fullGyroSensorName, gyroElementNames.size(), gyroElementNames);
+            ok = ok
+                 && addChannel(fullOrientationsSensorName,
+                               orientationElementNames.size(), //
+                               orientationElementNames);
         }
     }
 
@@ -782,7 +839,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         {
             std::string fullCartesianWrenchName
                 = cartesianWrenchesName + treeDelim + cartesianWrenchName;
-            ok = ok && initMetadata(fullCartesianWrenchName, cartesianWrenchNames);
+            ok = ok
+                 && addChannel(fullCartesianWrenchName,
+                               cartesianWrenchNames.size(), //
+                               cartesianWrenchNames);
         }
     }
 
@@ -791,59 +851,66 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
             std::string fullTemperatureSensorName = temperatureName + treeDelim + sensorName;
-            ok = ok && initMetadata(fullTemperatureSensorName, temperatureNames);
+            ok = ok
+                 && addChannel(fullTemperatureSensorName,
+                               temperatureNames.size(), //
+                               temperatureNames);
         }
     }
 
-    std::string signalFullName = "";
-    std::string rtSignalFullName = "";
-
-    for (auto& [name, signal] : m_vectorsCollectionSignals)
-    {
-        std::lock_guard<std::mutex> lock(signal.mutex);
-        BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
-            = signal.client.readData(false);
-        if (externalSignalCollection != nullptr)
-        {
-            if (!signal.dataArrived)
-            {
-                for (const auto& [key, vector] : externalSignalCollection->vectors)
-                {
-                    signalFullName = signal.signalName + treeDelim + key;
-                    const auto& metadata = signal.metadata.vectors.find(key);
-                    if (metadata == signal.metadata.vectors.cend())
-                    {
-                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
-                                    "default one will be used.",
-                                    logPrefix,
-                                    signalFullName);
-                        initMetadata(signalFullName, {});
-                    } else
-                    {
-                        initMetadata(signalFullName, {metadata->second});
-                    }
-                }
-                signal.dataArrived = true;
-            }
-        }
-    }
-
-    for (auto& [name, signal] : m_vectorSignals)
-    {
-        std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::Vector* collection = signal.port.read(false);
-        if (collection != nullptr)
-        {
-            if (!signal.dataArrived)
-            {
-                initMetadata(signalFullName, {});
-                signal.dataArrived = true;
-            }
-        }
-    }
-
+    // this is required only if the realtime is enabled
     if (m_sendDataRT)
     {
+        std::string signalFullName = "";
+
+        for (auto& [name, signal] : m_vectorsCollectionSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+                = signal.client.readData(false);
+            if (externalSignalCollection != nullptr)
+            {
+                if (!signal.dataArrived)
+                {
+                    bool channelAdded = false;
+                    for (const auto& [key, vector] : externalSignalCollection->vectors)
+                    {
+                        signalFullName = signal.signalName + treeDelim + key;
+                        const auto& metadata = signal.metadata.vectors.find(key);
+                        if (metadata == signal.metadata.vectors.cend())
+                        {
+                            log()->warn("{} Unable to find the metadata for the signal named {}. "
+                                        "The "
+                                        "default one will be used.",
+                                        logPrefix,
+                                        signalFullName);
+                            channelAdded = addChannel(signalFullName, vector.size());
+
+                        } else
+                        {
+                            channelAdded = addChannel(signalFullName, //
+                                                      vector.size(),
+                                                      {metadata->second});
+                        }
+                    }
+                    signal.dataArrived = channelAdded;
+                }
+            }
+        }
+
+        for (auto& [name, signal] : m_vectorSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            yarp::sig::Vector* vector = signal.port.read(false);
+            if (vector != nullptr)
+            {
+                if (!signal.dataArrived)
+                {
+                    signal.dataArrived = addChannel(signalFullName, vector->size());
+                }
+            }
+        }
+
         m_vectorCollectionRTDataServer.finalizeMetadata();
     }
 
@@ -1555,6 +1622,7 @@ void YarpRobotLoggerDevice::run()
         {
             if (!signal.dataArrived)
             {
+                bool channelAdded = false;
                 for (const auto& [key, vector] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
@@ -1565,13 +1633,16 @@ void YarpRobotLoggerDevice::run()
                                     "default one will be used.",
                                     logPrefix,
                                     signalFullName);
-                        initMetadata(signalFullName, {});
+                        channelAdded = addChannel(signalFullName, vector.size());
+
                     } else
                     {
-                        initMetadata(signalFullName, {metadata->second});
+                        channelAdded = addChannel(signalFullName, //
+                                                  vector.size(),
+                                                  {metadata->second});
                     }
                 }
-                signal.dataArrived = true;
+                signal.dataArrived = channelAdded;
             } else
             {
                 for (const auto& [key, vector] : collection->vectors)
@@ -1591,8 +1662,7 @@ void YarpRobotLoggerDevice::run()
         {
             if (!signal.dataArrived)
             {
-                initMetadata(signalFullName, {});
-                signal.dataArrived = true;
+                signal.dataArrived = addChannel(signalFullName, vector->size());
             }
         }
     }

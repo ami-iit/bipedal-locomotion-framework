@@ -52,6 +52,7 @@ add_bipedal_test(
   add_bipedal_test(
     NAME UnicycleTrajectoryGenerator
     SOURCES UnicycleTrajectoryGeneratorTest.cpp
+
     LINKS BipedalLocomotion::Unicycle
     )
 

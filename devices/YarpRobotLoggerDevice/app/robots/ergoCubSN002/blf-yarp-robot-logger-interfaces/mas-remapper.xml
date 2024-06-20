@@ -30,7 +30,7 @@
       <elem name="right_arm_ft_client">right_arm_ft_client</elem>
       <elem name="left_leg_ft_client">left_leg_ft_client</elem>
       <elem name="right_leg_ft_client">right_leg_ft_client</elem>
-      <!--elem name="head_imu_acc">head_imu_acc</elem-->
+      <!--elem name="head_imu_imu">head_imu_imu</elem-->
       <elem name="waist_imu_client">waist_imu_client</elem>
       <!--elem name="left_arm_imu_client">left_arm_imu_client</elem>
       <elem name="right_arm_imu_client">right_arm_imu_client</elem-->

@@ -11,13 +11,9 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <UnicyclePlanner.h>
-#include <cstddef>
 #include <iDynTree/EigenHelpers.h>
 #include <iDynTree/VectorDynSize.h>
 #include <iDynTree/VectorFixSize.h>
-#include <iterator>
-#include <manif/impl/eigen.h>
-#include <manif/impl/se3/SE3.h>
 
 namespace BipedalLocomotion::Planners::UnicycleUtilities
 {
@@ -39,6 +35,7 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
                     const int& contactFrameIndex,
                     const std::string& contactName,
                     BipedalLocomotion::Contacts::ContactList& contactList);
+
 /**
  * Merge two steps sequences, and stores the merged output in the second one.
  * The new steps which has an impact time lower than the current time are discarded.
