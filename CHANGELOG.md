@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 - Implement `ButterworthLowPassFilter` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/838)
 - Implement `Conversions::toiDynTreeRot` function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/842)
 - Implement `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/853)
+- Create python bindings of `VectorsCollection` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/854)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
@@ -27,12 +28,15 @@ All notable changes to this project are documented in this file.
 - Require `iDynTree v10.0.0` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/832)
 - Refactor `YarpRobotControl::setReferences` function to include optional current joint values and avoid to switch control mode in `YarpRobotControl::setReferences` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/833)
 - Set the gravity vector as an input argument of the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/823)
+- Refactor the `Planners::UnicyclePlanner` to mimic the functionalitites of the planner deployed in [walking-controllers](https://github.com/robotology/walking-controllers) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/844)
 
 ### Fixed
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
 - InstallBasicPackageFiles: Fix bug of OVERRIDE_MODULE_PATH that corrupt `CMAKE_MODULE_PATH` values set by blf transitive dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/827)
 - InstallBasicPackageFiles: Fix compatibility with CMake 3.29.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/835)
 - Fix `YARPRobotLoggerDevice` excessively long time horizon for signals logged with `YARP_CLOCK` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/839)
+- Fix crash in `robot_control.set_references()` if the passed vector is not the correct size (https://github.com/ami-iit/bipedal-locomotion-framework/pull/852)
+- Fix `VectorsCollectionClient.read_data(False)` to provide `collection` as output and avoid segmentation fault (https://github.com/ami-iit/bipedal-locomotion-framework/pull/850)
 
 ### Removed
 

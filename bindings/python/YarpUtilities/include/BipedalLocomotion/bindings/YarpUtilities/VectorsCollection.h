@@ -20,6 +20,7 @@ namespace YarpUtilities
 void CreateVectorsCollectionServer(pybind11::module& module);
 void CreateVectorsCollectionClient(pybind11::module& module);
 void CreateVectorsCollectionMetadata(pybind11::module& module);
+void CreateVectorsCollection(pybind11::module& module);
 
 } // namespace YarpUtilities
 } // namespace bindings
