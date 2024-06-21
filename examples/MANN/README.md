@@ -13,9 +13,9 @@ If you installed `bipedal-locomotion-framework` with the [`robotology-superbuild
 
 In case you do want to run this tutorial without compiling `bipedal-locomotion-framework` we suggest installing the dependencies with `conda` as follows
 ```console
-mamba create -n blf-mann-tutorial
-mamba activate blf-mann-tutorial
-mamba install -c conda-forge -c robotology bipedal-locomotion-framework meshcat-python notebook resolve_robotics_uri_py ergocub-software
+conda create -n blf-mann-tutorial
+conda activate blf-mann-tutorial
+conda install -c conda-forge -c robotology bipedal-locomotion-framework meshcat-python notebook resolve_robotics_uri_py ergocub-software
 ```
 
 Then you can run the notebooks by typing the following command in a terminal:

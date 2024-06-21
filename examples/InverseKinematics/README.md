@@ -16,9 +16,9 @@ pip install robot_descriptions
 
 In case you do want to run this tutorial without compiling `bipedal-locomotion-framework` we suggest installing the dependencies with `conda` as follows
 ```console
-mamba create -n blf-ik-tutorial
-mamba activate blf-ik-tutorial
-mamba install -c conda-forge bipedal-locomotion-framework meshcat-python notebook robot_descriptions
+conda create -n blf-ik-tutorial
+conda activate blf-ik-tutorial
+conda install -c conda-forge bipedal-locomotion-framework meshcat-python notebook robot_descriptions
 ```
 
 Then you can run the notebook by typing the following command in a terminal
