@@ -14,14 +14,13 @@
 #include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
+#include <iDynTree/Model.h>
+
 #include <chrono>
 #include <deque>
 #include <future>
 #include <memory>
 #include <mutex>
-
-#include <iDynTree/Model.h>
-
 #include <string>
 #include <vector>
 
