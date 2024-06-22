@@ -19,6 +19,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to set the number of threads used by onnxruntime in `MANN` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/836)
 - Implement `ButterworthLowPassFilter` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/838)
 - Implement `Conversions::toiDynTreeRot` function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/842)
+- Implement `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/853)
 - Create python bindings of `VectorsCollection` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/854)
 - Added a simple motor control example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/855)
 
