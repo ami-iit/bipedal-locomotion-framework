@@ -91,7 +91,7 @@ void CreateLeggedOdometry(pybind11::module& module)
              py::arg("frame_index"))
         .def("change_fixed_frame",
              py::overload_cast<const std::ptrdiff_t&,
-                               const Eigen::Quaterniond&,
+                               const Eigen::Vector4d&,
                                const Eigen::Vector3d&>(&LeggedOdometry::changeFixedFrame),
              py::arg("frame_index"),
              py::arg("frame_orientation_in_world"),

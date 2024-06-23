@@ -93,7 +93,7 @@ public:
      * @note ensure to pass unit quaternion
      */
     bool changeFixedFrame(const std::ptrdiff_t& frameIndex,
-                          const Eigen::Quaterniond& frameOrientationInWorld,
+                          const Eigen::Vector4d& frameOrientationInWorld,
                           const Eigen::Vector3d& framePositionInWorld);
 
     /**
