@@ -247,6 +247,8 @@ struct CentroidalMPC::Impl
         casadi::DM* isNotMovable;
         casadi::DM* amountOfNormalForceRespectToRobotWeight;
         std::vector<casadi::DM*> isCornerEnabled;
+        double previousAmountOfNormalForceRespectToRobotWeight{0.5};
+        int lastTrajectoryNumberOfIndexForSmoothing{5};
     };
     struct ControllerInputs
     {
@@ -1893,10 +1895,6 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
                 int numberOfSamplesFromWhichTheContactCannotBeModified
                     = index - indexFromWhichTheContactCannotBeModified;
 
-                log()->warn("Modify the lists. Number of samples: {} index: {}, Name: {}",
-                            numberOfSamples,
-                            index,
-                            key);
                 toEigen(*(inputContact->second.isNotMovable))
                     .middleCols(indexFromWhichTheContactCannotBeModified,
                                 numberOfSamplesFromWhichTheContactCannotBeModified)
@@ -1931,6 +1929,171 @@ bool CentroidalMPC::setContactPhaseList(const Contacts::ContactPhaseList& contac
         }
 
         index += numberOfSamples;
+    }
+
+    // smooth the nominal amount of normal force respect to the robot weight
+    // TD(GR) this is a temporary solution and it is valid only for bipedal robots. A more general
+    // solution should be implemented
+    for (auto& [key, contact] : inputs.contacts)
+    {
+        using namespace BipedalLocomotion::Conversions;
+
+        auto amountOfNormalForceRespectToRobotWeight
+            = toEigen(*contact.amountOfNormalForceRespectToRobotWeight);
+
+        // the trajectory is composed by the following values:
+        // - 0 if the contact is not active
+        // - 1 if is the only contact active
+        // - 1 / numberOfActiveContacts if there are more than one contact active
+        // First of all I need to find the index of all the trajectories where there are more than
+        // one contact active
+        std::vector<int> indexes;
+        for (int i = 0; i < amountOfNormalForceRespectToRobotWeight.cols(); i++)
+        {
+            if (amountOfNormalForceRespectToRobotWeight(0, i) > 0.1
+                && amountOfNormalForceRespectToRobotWeight(0, i) < 0.9)
+            {
+                indexes.push_back(i);
+            }
+        }
+
+        // now I need to split the indexes in groups of consecutive indexes
+        std::vector<std::vector<int>> groups;
+        if (indexes.size() > 0)
+        {
+            groups.push_back({indexes[0]});
+            for (int i = 1; i < indexes.size(); i++)
+            {
+                if (indexes[i] == indexes[i - 1] + 1)
+                {
+                    groups.back().push_back(indexes[i]);
+                } else
+                {
+                    groups.push_back({indexes[i]});
+                }
+            }
+        }
+
+        for (const auto& group : groups)
+        {
+
+            // print the group
+            // std::string elements = "";
+            // std::string groupValues = "";
+            // for (const auto& i : group)
+            // {
+            //     elements += std::to_string(i) + " ";
+            //     groupValues += std::to_string(amountOfNormalForceRespectToRobotWeight(0, i)) + " ";
+            // }
+            // log()->info("Contact {} - Group: {}", key, elements);
+            // log()->info("Contact {} - Group Values: {}", key, groupValues);
+
+            // there are several cases:
+            // - the first element of the group is the first element of the trajectory but not the
+            // last
+            // - the last element of the group is the last element of the trajectory but not the
+            // first
+            // - the first element of the group is the first element of the trajectory and the last
+            // is the last element of the trajectory
+            // - the group is in the middle of the trajectory
+
+            // the first element of the group is the first element of the trajectory but not the
+            // last
+            if (group.front() == 0
+                && group.back() != amountOfNormalForceRespectToRobotWeight.cols() - 1)
+            {
+                const double endValue
+                    = amountOfNormalForceRespectToRobotWeight(0, group.back() + 1);
+                const double initialValue = contact.previousAmountOfNormalForceRespectToRobotWeight;
+                int numberOfSamples = group.size() + 2; // we get the first and the last element
+
+                for (int i = 0; i < group.size(); i++)
+                {
+                    amountOfNormalForceRespectToRobotWeight(0, group[i])
+                        = endValue * ((i + 1) / double(numberOfSamples))
+                          + initialValue * (1 - (i + 1) / double(numberOfSamples));
+                }
+            }
+
+            // the last element of the group is the last element of the trajectory but not the first
+            if (group.front() != 0
+                && group.back() == amountOfNormalForceRespectToRobotWeight.cols() - 1)
+            {
+                const double initialValue
+                    = amountOfNormalForceRespectToRobotWeight(0, group.front() - 1);
+
+                // we smooth the first 5 samples
+                int amountOfSamplesToSmooth = (group.size() < 6 ? group.size() - 1 : 5) + group.front();
+                const double endValue = amountOfNormalForceRespectToRobotWeight(0, amountOfSamplesToSmooth);
+                int numberOfSamples = group.size() + 2; // we get the first and the last element
+
+                for (int i = 0; i < group.size(); i++)
+                {
+                    amountOfNormalForceRespectToRobotWeight(0, group[i])
+                        = endValue * ((i + 1) / double(numberOfSamples))
+                          + initialValue * (1 - (i + 1) / double(numberOfSamples));
+                }
+            }
+
+            // the first element of the group is the first element of the trajectory and the last is
+            // the last element of the trajectory
+            if (group.front() == 0
+                && group.back() == amountOfNormalForceRespectToRobotWeight.cols() - 1)
+            {
+                const double initialValue = contact.previousAmountOfNormalForceRespectToRobotWeight;
+                const double endValue = amountOfNormalForceRespectToRobotWeight(
+                    0, contact.lastTrajectoryNumberOfIndexForSmoothing);
+                int numberOfSamples = group.size() + 2; // we get the first and the last element
+
+                for (int i = 0; i < group.size(); i++)
+                {
+                    amountOfNormalForceRespectToRobotWeight(0, group[i])
+                        = endValue * ((i + 1) / double(numberOfSamples))
+                          + initialValue * (1 - (i + 1) / double(numberOfSamples));
+                }
+
+                contact.lastTrajectoryNumberOfIndexForSmoothing--;
+                if (contact.lastTrajectoryNumberOfIndexForSmoothing == 0)
+                {
+                    contact.lastTrajectoryNumberOfIndexForSmoothing = 5;
+                }
+            }
+
+            // the group is in the middle of the trajectory
+            if (group.front() != 0
+                && group.back() != amountOfNormalForceRespectToRobotWeight.cols() - 1)
+            {
+                const double initialValue
+                    = amountOfNormalForceRespectToRobotWeight(0, group.front() - 1);
+                const double endValue
+                    = amountOfNormalForceRespectToRobotWeight(0, group.back() + 1);
+                int numberOfSamples = group.size() + 2; // we get the first and the last element
+
+                for (int i = 0; i < group.size(); i++)
+                {
+                    amountOfNormalForceRespectToRobotWeight(0, group[i])
+                        = endValue * ((i + 1) / double(numberOfSamples))
+                          + initialValue * (1 - (i + 1) / double(numberOfSamples));
+                }
+            }
+        }
+
+        // update the previous value
+        contact.previousAmountOfNormalForceRespectToRobotWeight
+            = amountOfNormalForceRespectToRobotWeight(0, 0);
+    }
+
+    // print the isEnable vector
+    for (const auto& [key, contact] : inputs.contacts)
+    {
+        using namespace BipedalLocomotion::Conversions;
+
+        log()->info("Contact: {}", key);
+        log()->info("E: {}", toEigen(*contact.isEnabled));
+        log()->info("M: {}", toEigen(*contact.isNotMovable));
+        log()->info("N: {}", toEigen(*contact.amountOfNormalForceRespectToRobotWeight));
+        // log()->info("P {}", toEigen(*contact.nominalPosition));
+        // log()->info("O {}", toEigen(*contact.orientation));
     }
 
     assert(index == m_pimpl->optiSettings.horizon);
