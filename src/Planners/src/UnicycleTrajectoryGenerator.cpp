@@ -110,12 +110,15 @@ public:
 
     /*
      * @brief It resets <currentContactList> to an empty contact list. Then, if it exists, the
-     * current active contact found in <previousContactList> is added to <currentContactList>.
+     * current active or the last active contact found in <previousContactList> is added to
+     * <currentContactList>.
      * @param time The current time.
+     * @param minStepDuration The minimum time duration of a step.
      * @param previousContactList The previous contact list, computed at last iteration.
      * @param currentContactList The current contact list, being generated.
      */
     static void resetContactList(const std::chrono::nanoseconds& time,
+                                 const std::chrono::nanoseconds& minStepDuration,
                                  const Contacts::ContactList& previousContactList,
                                  Contacts::ContactList& currentContactList);
 };
@@ -316,9 +319,11 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     if (!m_pImpl->output.contactPhaseList.lists().empty())
     {
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
+                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("left_foot"),
                                   leftContactList);
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
+                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("right_foot"),
                                   rightContactList);
     }
@@ -815,6 +820,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
 void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
     const std::chrono::nanoseconds& time,
+    const std::chrono::nanoseconds& minStepDuration,
     const Contacts::ContactList& previousContactList,
     Contacts::ContactList& currentContactList)
 {
@@ -827,12 +833,16 @@ void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
 
     auto activeContact = previousContactList.getActiveContact(time);
 
-    // log()->debug("presentContact {}", presentContact->toString());
-
     // Is contact present at the current time?
+    // If not, try to get the last active
+    if (activeContact == previousContactList.end())
+    {
+        activeContact = previousContactList.getActiveContact(time - minStepDuration / 2);
+    }
+
+    // if any active contact found, add it to the current contact list
     if (!(activeContact == previousContactList.end()))
     {
-
         currentContactList.addContact(*activeContact);
     }
 }

@@ -125,6 +125,8 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
 
     std::chrono::nanoseconds plannerHorizon; /**< Time horizon of the planner */
 
+    std::chrono::nanoseconds minStepDuration; /**< Time minimum time duration of a step */
+
     double leftYawDeltaInRad; /**< Left foot cartesian offset in the yaw */
 
     double rightYawDeltaInRad; /**< Right foot cartesian offset in the yaw */
@@ -267,6 +269,12 @@ public:
      * @return The contact phase list.
      */
     Contacts::ContactPhaseList getContactPhaseList();
+
+    /**
+     * Get the minimum time duration of a step.
+     * @return minimum time duration of a step.
+     */
+    std::chrono::nanoseconds getMinStepDuration() const;
 
 private:
     class Impl;

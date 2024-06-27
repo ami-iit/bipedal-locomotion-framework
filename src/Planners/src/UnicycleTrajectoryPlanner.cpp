@@ -308,6 +308,8 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && loadParamWithFallback("nominalWidth", m_pImpl->parameters.nominalWidth, 0.20);
     ok = ok && loadParamWithFallback("minWidth", minWidth, 0.14);
     ok = ok && loadParamWithFallback("minStepDuration", minStepDuration, 0.65);
+    m_pImpl->parameters.minStepDuration
+        = std::chrono::nanoseconds(static_cast<int64_t>(minStepDuration * 1e9));
     ok = ok && loadParamWithFallback("maxStepDuration", maxStepDuration, 1.5);
     ok = ok && loadParamWithFallback("nominalDuration", nominalDuration, 0.8);
     ok = ok && loadParamWithFallback("maxAngleVariation", maxAngleVariation, 18.0);
@@ -877,3 +879,9 @@ BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getContactPhaseList()
 
     return contactPhaseList;
 };
+
+std::chrono::nanoseconds
+BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getMinStepDuration() const
+{
+    return m_pImpl->parameters.minStepDuration;
+}
