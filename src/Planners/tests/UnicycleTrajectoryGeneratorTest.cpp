@@ -14,26 +14,10 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <fstream>
-
 #include <FolderPath.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
-
-void saveData(const UnicycleTrajectoryGeneratorOutput& output, const std::string& filename)
-{
-    std::ofstream file(filename);
-    if (!file.is_open())
-    {
-        BipedalLocomotion::log()->error("[saveData] Unable to open file {} for writing.", filename);
-        return;
-    }
-
-    file << output.contactPhaseList.toString() << std::endl;
-
-    file.close();
-}
 
 std::shared_ptr<IParametersHandler> params()
 {
@@ -70,8 +54,6 @@ TEST_CASE("UnicycleTrajectoryGeneratorTest")
 
     const auto handler = params();
 
-    bool saveDataTofile = false;
-
     BipedalLocomotion::Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
 
     REQUIRE(unicycleTrajectoryGenerator.initialize(handler));
@@ -90,9 +72,4 @@ TEST_CASE("UnicycleTrajectoryGeneratorTest")
     output = unicycleTrajectoryGenerator.getOutput();
 
     REQUIRE(output.contactPhaseList.size() == 1);
-
-    if (saveDataTofile)
-    {
-        saveData(output, "UnicycleTrajectoryGeneratorTestOutput.txt");
-    }
 }

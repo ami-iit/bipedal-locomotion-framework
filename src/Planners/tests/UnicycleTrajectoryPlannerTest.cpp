@@ -14,27 +14,10 @@
 #include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <fstream>
-
 #include <FolderPath.h>
 
 using namespace BipedalLocomotion::Planners;
 using namespace BipedalLocomotion::ParametersHandler;
-
-void saveData(const BipedalLocomotion::Contacts::ContactPhaseList& contactPhaseList,
-              const std::string& filename)
-{
-    std::ofstream file(filename);
-    if (!file.is_open())
-    {
-        BipedalLocomotion::log()->error("[saveData] Unable to open file {} for writing.", filename);
-        return;
-    }
-
-    file << contactPhaseList.toString() << std::endl;
-
-    file.close();
-}
 
 std::shared_ptr<IParametersHandler> params()
 {
@@ -72,8 +55,6 @@ TEST_CASE("UnicyclePlannerTest")
 
     const auto handler = params();
 
-    bool saveDataTofile = false;
-
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner planner;
 
     REQUIRE(planner.initialize(handler));
@@ -83,20 +64,8 @@ TEST_CASE("UnicyclePlannerTest")
     UnicycleTrajectoryPlannerInput input
         = UnicycleTrajectoryPlannerInput::generateDummyUnicycleTrajectoryPlannerInput();
 
-    UnicycleTrajectoryPlannerOutput output;
-
     REQUIRE(planner.setInput(input));
     REQUIRE(planner.advance());
     REQUIRE(planner.isOutputValid());
-
-    output = planner.getOutput();
-
-    auto contactPhaseList = planner.getContactPhaseList();
-
-    REQUIRE(contactPhaseList.size() == 1);
-
-    if (saveDataTofile)
-    {
-        saveData(contactPhaseList, "UnicycleTrajectoryPlannerTestOutput.txt");
-    }
+    REQUIRE(planner.getContactPhaseList().size() == 1);
 }
