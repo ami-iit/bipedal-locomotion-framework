@@ -6,6 +6,7 @@
  */
 
 #include <cmath>
+#include <future>
 #include <thread>
 #include <unordered_map>
 
@@ -706,6 +707,19 @@ bool YarpRobotControl::setControlMode(const IRobotControl::ControlMode& mode)
     // create a vector containing the same control mode for all the joints
     const std::vector<IRobotControl::ControlMode> controlModes(m_pimpl->actuatedDOFs, mode);
     return this->setControlMode(controlModes);
+}
+
+std::future<bool> YarpRobotControl::setControlModeAsync(const IRobotControl::ControlMode& mode)
+{
+
+    // lambda function to set the control mode
+    auto setControlMode = [this, mode]() -> bool {
+        // create a vector containing the same control mode for all the joints
+        const std::vector<IRobotControl::ControlMode> controlModes(m_pimpl->actuatedDOFs, mode);
+        return this->setControlMode(controlModes);
+    };
+
+    return std::async(std::launch::async, setControlMode);
 }
 
 bool YarpRobotControl::setReferences(
