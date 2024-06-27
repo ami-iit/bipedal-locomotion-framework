@@ -719,49 +719,29 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
         return false;
     }
 
+    // lambda function to advance the trajectory by 1 step
+    auto trajectoryStepLambda = [](auto& inputDeque) {
+        inputDeque.pop_front();
+        inputDeque.push_back(inputDeque.back());
+    };
+
+    // advance trajectories
     bool rightWasInContact = trajectory.rightFootinContact.front();
-    trajectory.rightFootinContact.pop_front();
-    trajectory.rightFootinContact.push_back(trajectory.rightFootinContact.back());
-
+    trajectoryStepLambda(trajectory.rightFootinContact);
     bool leftWasInContact = trajectory.leftFootinContact.front();
-    trajectory.leftFootinContact.pop_front();
-    trajectory.leftFootinContact.push_back(trajectory.leftFootinContact.back());
-
-    trajectory.isLeftFootLastSwinging.pop_front();
-    trajectory.isLeftFootLastSwinging.push_back(trajectory.isLeftFootLastSwinging.back());
-
-    trajectory.dcmPosition.pop_front();
-    trajectory.dcmPosition.push_back(trajectory.dcmPosition.back());
-
-    trajectory.dcmVelocity.pop_front();
-    trajectory.dcmVelocity.push_back(trajectory.dcmVelocity.back());
-
-    trajectory.comPosition.pop_front();
-    trajectory.comPosition.push_back(trajectory.comPosition.back());
-
-    trajectory.comVelocity.pop_front();
-    trajectory.comVelocity.push_back(trajectory.comVelocity.back());
-
-    trajectory.comAcceleration.pop_front();
-    trajectory.comAcceleration.push_back(trajectory.comAcceleration.back());
-
-    trajectory.leftFootTransform.pop_front();
-    trajectory.leftFootTransform.push_back(trajectory.leftFootTransform.back());
-
-    trajectory.leftFootMixedVelocity.pop_front();
-    trajectory.leftFootMixedVelocity.push_back(trajectory.leftFootMixedVelocity.back());
-
-    trajectory.leftFootMixedAcceleration.pop_front();
-    trajectory.leftFootMixedAcceleration.push_back(trajectory.leftFootMixedAcceleration.back());
-
-    trajectory.rightFootTransform.pop_front();
-    trajectory.rightFootTransform.push_back(trajectory.rightFootTransform.back());
-
-    trajectory.rightFootMixedVelocity.pop_front();
-    trajectory.rightFootMixedVelocity.push_back(trajectory.rightFootMixedVelocity.back());
-
-    trajectory.rightFootMixedAcceleration.pop_front();
-    trajectory.rightFootMixedAcceleration.push_back(trajectory.rightFootMixedAcceleration.back());
+    trajectoryStepLambda(trajectory.leftFootinContact);
+    trajectoryStepLambda(trajectory.isLeftFootLastSwinging);
+    trajectoryStepLambda(trajectory.dcmPosition);
+    trajectoryStepLambda(trajectory.dcmVelocity);
+    trajectoryStepLambda(trajectory.comPosition);
+    trajectoryStepLambda(trajectory.comVelocity);
+    trajectoryStepLambda(trajectory.comAcceleration);
+    trajectoryStepLambda(trajectory.leftFootTransform);
+    trajectoryStepLambda(trajectory.leftFootMixedVelocity);
+    trajectoryStepLambda(trajectory.leftFootMixedAcceleration);
+    trajectoryStepLambda(trajectory.rightFootTransform);
+    trajectoryStepLambda(trajectory.rightFootMixedVelocity);
+    trajectoryStepLambda(trajectory.rightFootMixedAcceleration);
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.
