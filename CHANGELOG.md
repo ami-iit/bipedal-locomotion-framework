@@ -21,6 +21,7 @@ All notable changes to this project are documented in this file.
 - Implement `Conversions::toiDynTreeRot` function (https://github.com/ami-iit/bipedal-locomotion-framework/pull/842)
 - Create python bindings of `VectorsCollection` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/854)
 - Added a simple motor control example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/855)
+- Add `setControlModeAsync` function to set motor control mode in an asynchronous process (https://github.com/ami-iit/bipedal-locomotion-framework/pull/860)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
