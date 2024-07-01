@@ -49,4 +49,11 @@ add_bipedal_test(
     LINKS BipedalLocomotion::Unicycle
     )
 
+  add_bipedal_test(
+    NAME UnicycleTrajectoryGenerator
+    SOURCES UnicycleTrajectoryGeneratorTest.cpp
+
+    LINKS BipedalLocomotion::Unicycle
+    )
+
 endif()
