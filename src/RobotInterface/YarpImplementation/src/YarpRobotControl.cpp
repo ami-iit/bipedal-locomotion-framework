@@ -713,11 +713,7 @@ std::future<bool> YarpRobotControl::setControlModeAsync(const IRobotControl::Con
 {
 
     // lambda function to set the control mode
-    auto setControlMode = [this, mode]() -> bool {
-        // create a vector containing the same control mode for all the joints
-        const std::vector<IRobotControl::ControlMode> controlModes(m_pimpl->actuatedDOFs, mode);
-        return this->setControlMode(controlModes);
-    };
+    auto setControlMode = [this, mode]() -> bool { return this->setControlMode(mode); };
 
     return std::async(std::launch::async, setControlMode);
 }

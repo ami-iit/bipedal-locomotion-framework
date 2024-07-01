@@ -101,6 +101,7 @@ public:
      * @return An std::future object to a boolean True/False in case of success/failure.
      * @warning Call this function if you want to control all the joint with the same control mode.
      * Since this function spawns a new thread, the invoking thread is not blocked.
+     * Warning: the function is not thread safe. Pay attention when calling it in combination with setReferences.
      */
     std::future<bool> setControlModeAsync(const IRobotControl::ControlMode& mode) final;
 
