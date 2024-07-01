@@ -130,11 +130,15 @@ Planners::UnicycleTrajectoryGenerator::UnicycleTrajectoryGenerator()
 
 Planners::UnicycleTrajectoryGenerator::~UnicycleTrajectoryGenerator()
 {
-    m_pImpl->mutex.lock();
-    auto unicyclePlannerState = m_pImpl->unicyclePlannerState;
-    m_pImpl->mutex.unlock();
 
-    if (m_pImpl->unicyclePlannerState != Impl::unicycleTrajectoryPlannerState::Returned)
+    Planners::UnicycleTrajectoryGenerator::Impl::unicycleTrajectoryPlannerState unicyclePlannerState;
+
+    {
+        std::lock_guard<std::mutex> lock(m_pImpl->mutex);
+        unicyclePlannerState = m_pImpl->unicyclePlannerState;
+    } // The mutex is automatically unlocked here
+
+    if (unicyclePlannerState != Impl::unicycleTrajectoryPlannerState::Returned)
     {
         m_pImpl->unicyclePlannerOutputFuture.wait();
     }
@@ -477,14 +481,16 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                                                     m_pImpl->newTrajectoryMergeCounter);
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
-            m_pImpl->mutex.lock();
-            if (m_pImpl->unicyclePlannerState == Impl::unicycleTrajectoryPlannerState::Running)
             {
-                log()->error("{} The unicycle planner is still running.", logPrefix);
-                return false;
-            }
-            m_pImpl->unicyclePlannerState = Impl::unicycleTrajectoryPlannerState::Called;
-            m_pImpl->mutex.unlock();
+                std::lock_guard<std::mutex> lock(m_pImpl->mutex);
+
+                if (m_pImpl->unicyclePlannerState == Impl::unicycleTrajectoryPlannerState::Running)
+                {
+                    log()->error("{} The unicycle planner is still running.", logPrefix);
+                    return false;
+                }
+                m_pImpl->unicyclePlannerState = Impl::unicycleTrajectoryPlannerState::Called;
+            } // The mutex is automatically unlocked here
 
             if (!m_pImpl->askNewTrajectory(initTimeTrajectory, measuredTransform))
             {
@@ -536,16 +542,18 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
 
     // lambda function that computes the new trajectory
     auto computeNewTrajectory = [this]() -> bool {
-        mutex.lock();
-        unicyclePlannerState = unicycleTrajectoryPlannerState::Running;
-        mutex.unlock();
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            unicyclePlannerState = unicycleTrajectoryPlannerState::Running;
+        } // The mutex is automatically unlocked here
 
         // advance the planner
         bool ok = this->unicycleTrajectoryPlanner.advance();
 
-        mutex.lock();
-        unicyclePlannerState = unicycleTrajectoryPlannerState::Returned;
-        mutex.unlock();
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            unicyclePlannerState = unicycleTrajectoryPlannerState::Returned;
+        } // The mutex is automatically unlocked here
 
         return ok;
     };
