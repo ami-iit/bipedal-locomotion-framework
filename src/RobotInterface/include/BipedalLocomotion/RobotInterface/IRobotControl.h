@@ -122,9 +122,19 @@ public:
     virtual bool setControlMode(const IRobotControl::ControlMode& mode) = 0;
 
     /**
+     * Set the control mode in an asynchronous thread.
+     * @param controlModes vector containing the control mode for each joint.
+     * @return An std::future object to a boolean True/False in case of success/failure.
+     * @warning At the current stage only revolute joints are supported.
+     * Since this function spawns a new thread, the invoking thread is not blocked.
+     */
+    virtual std::future<bool>
+    setControlModeAsync(const std::vector<IRobotControl::ControlMode>& controlModes) = 0;
+
+    /**
      * Set the desired control mode in an asynchronous thread.
      * @param controlMode a control mode for all the joints.
-     * @return True/False in case of success/failure.
+     * @return An std::future object to a boolean True/False in case of success/failure.
      * @warning Call this function if you want to control all the joint with the same control mode.
      * Since this function spawns a new thread, the invoking thread is not blocked.
      */

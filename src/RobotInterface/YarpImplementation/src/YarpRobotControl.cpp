@@ -709,9 +709,18 @@ bool YarpRobotControl::setControlMode(const IRobotControl::ControlMode& mode)
     return this->setControlMode(controlModes);
 }
 
+std::future<bool>
+YarpRobotControl::setControlModeAsync(const std::vector<IRobotControl::ControlMode>& controlModes)
+{
+    // lambda function to set the control mode
+    auto setControlMode
+        = [this, controlModes]() -> bool { return this->setControlMode(controlModes); };
+
+    return std::async(std::launch::async, setControlMode);
+}
+
 std::future<bool> YarpRobotControl::setControlModeAsync(const IRobotControl::ControlMode& mode)
 {
-
     // lambda function to set the control mode
     auto setControlMode = [this, mode]() -> bool { return this->setControlMode(mode); };
 

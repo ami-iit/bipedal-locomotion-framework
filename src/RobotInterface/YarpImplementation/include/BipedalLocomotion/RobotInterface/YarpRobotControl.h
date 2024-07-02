@@ -96,12 +96,25 @@ public:
     bool setControlMode(const IRobotControl::ControlMode& mode) final;
 
     /**
+     * Set the control mode in an asynchronous thread.
+     * @param controlModes vector containing the control mode for each joint.
+     * @return An std::future object to a boolean True/False in case of success/failure.
+     * @warning At the current stage only revolute joints are supported.
+     * Since this function spawns a new thread, the invoking thread is not blocked.
+     * Note that this function is not thread safe. You should check the future object status before
+     * calling other functions like setReferences().
+     */
+    std::future<bool>
+    setControlModeAsync(const std::vector<IRobotControl::ControlMode>& controlModes) final;
+
+    /**
      * Set the desired control mode in an asynchronous thread.
      * @param controlMode a control mode for all the joints.
      * @return An std::future object to a boolean True/False in case of success/failure.
      * @warning Call this function if you want to control all the joint with the same control mode.
      * Since this function spawns a new thread, the invoking thread is not blocked.
-     * Warning: the function is not thread safe. Pay attention when calling it in combination with setReferences.
+     * Note that this function is not thread safe. You should check the future object status before
+     * calling other functions like setReferences().
      */
     std::future<bool> setControlModeAsync(const IRobotControl::ControlMode& mode) final;
 
