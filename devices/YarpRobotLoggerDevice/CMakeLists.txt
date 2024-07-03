@@ -59,5 +59,6 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
     PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
+  add_subdirectory(tests)
 endif()
 
