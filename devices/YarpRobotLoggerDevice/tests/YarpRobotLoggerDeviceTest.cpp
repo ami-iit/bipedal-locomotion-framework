@@ -183,7 +183,7 @@ TEST_CASE("Launch simple logger")
             std::string extension = filePath.extension().string();
 
             if (extension == ".mat") {
-                matLogFilename = filePath;
+                matLogFilename = filePath.string();
             }
         }
     }
