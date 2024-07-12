@@ -10,4 +10,5 @@ add_bipedal_test(
 if(TARGET YarpRobotLoggerDeviceUnitTests)
   target_compile_definitions(YarpRobotLoggerDeviceUnitTests PRIVATE CMAKE_CURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
   target_compile_definitions(YarpRobotLoggerDeviceUnitTests PRIVATE CMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
+  target_compile_definitions(YarpRobotLoggerDeviceUnitTests PRIVATE YARP_DATA_INSTALL_DIR_FULL="${YARP_DATA_INSTALL_DIR_FULL}")
 endif()

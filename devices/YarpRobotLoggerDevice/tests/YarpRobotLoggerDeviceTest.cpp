@@ -3,6 +3,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <cstdlib>
 #include <chrono>
 #include <filesystem>
 #include <random>
@@ -34,6 +35,47 @@ void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
         REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
 }
 
+
+// This function populate the YARP_DATA_DIRS environment variable to
+// ensure that YARP devices from YARP (from YARP install prefix) and BLF (from the build directory of BLF)
+// can be correctly found and launched by libYARP_robotinterface
+// Once this is used in multiple tests, we can move it to a common place to share it among tests
+bool blf_setenv(const std::string &_name, const std::string &_value)
+{
+#ifdef _WIN32
+    if (0 != _putenv_s(_name.c_str(), _value.c_str()))
+    {
+        return false;
+    }
+#else
+    if (0 != ::setenv(_name.c_str(), _value.c_str(), true))
+    {
+        return false;
+    }
+#endif
+    return true;
+}
+
+
+bool ensureYARPAndBLFYARPDevicesCanBeFound()
+{
+    // To make sure that YarpRobotLoggerDevice is found from the build directory, we add CMAKE_BINARY_DIR
+    // to YARP_DATA_DIRS
+#ifdef _WIN32
+    std::string envVarListSeparator = ";";
+#else
+    std::string envVarListSeparator = ":";
+#endif
+
+    // Make sure that YARP devices can be found
+    std::string new_yarp_data_dirs_value = YARP_DATA_INSTALL_DIR_FULL;
+
+    // Make sure that BLF devices are available
+    new_yarp_data_dirs_value = new_yarp_data_dirs_value + envVarListSeparator + CMAKE_BINARY_DIR + "/share/yarp";
+
+    return blf_setenv("YARP_DATA_DIRS", new_yarp_data_dirs_value);
+}
+
 TEST_CASE("Launch simple logger")
 {
     // This test launched a dummy logger and verify that it effectively saves some data
@@ -60,18 +102,8 @@ TEST_CASE("Launch simple logger")
     yarp::os::Network network;
     yarp::os::NetworkBase::setLocalMode(true);
 
-    // To make sure that YarpRobotLoggerDevice is found from the build directory, we add CMAKE_BINARY_DIR
-    // to YARP_DATA_DIRS
-    #ifdef _WIN32
-        std::string envVarListSeparator = ";";
-        #define blf_putenv _putenv
-    #else
-        std::string envVarListSeparator = ":";
-        #define blf_putenv putenv
-    #endif
-    std::string original_yarp_data_dirs = getenv("YARP_DATA_DIRS");
-    std::string putenvArg = "YARP_DATA_DIRS=" + original_yarp_data_dirs + envVarListSeparator + CMAKE_BINARY_DIR + "/share/yarp";
-    blf_putenv(const_cast<char*>(putenvArg.c_str()));
+    // We ensure that YARP_DATA_DIRS contains the values necessary to find YARP and BLF devices
+    REQUIRE(ensureYARPAndBLFYARPDevicesCanBeFound());
 
     // We hardcode the yarprobotinterface configuration file is in the source directory and passed via
     // target_compile_definitions
