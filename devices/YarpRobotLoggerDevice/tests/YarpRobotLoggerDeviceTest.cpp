@@ -34,29 +34,6 @@ void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
         REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
 }
 
-std::string toString(const matioCpp::VariableType& type)
-{
-    switch(type)
-    {
-        case matioCpp::VariableType::Element:
-            return "Element";
-        case matioCpp::VariableType::Vector:
-            return "Vector";
-        case matioCpp::VariableType::MultiDimensionalArray:
-            return "MultiDimensionalArray";
-        case matioCpp::VariableType::Struct:
-            return "Struct";
-        case matioCpp::VariableType::CellArray:
-            return "CellArray";
-        case matioCpp::VariableType::StructArray:
-            return "StructArray";
-        case matioCpp::VariableType::Unsupported:
-            return "Unsupported";
-        default:
-            return "Unknown VariableType";
-    }
-}
-
 TEST_CASE("Launch simple logger")
 {
     // This test launched a dummy logger and verify that it effectively saves some data
