@@ -100,10 +100,10 @@
     <innerclass refid="classstd_1_1range__error" prot="public">std::range_error</innerclass>
     <innerclass refid="classstd_1_1overflow__error" prot="public">std::overflow_error</innerclass>
     <innerclass refid="classstd_1_1underflow__error" prot="public">std::underflow_error</innerclass>
-    <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
-    <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1GenericContainer_1_1named__tuple_3_01Params_8_8_8_01_4_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::GenericContainer::named_tuple&lt; Params... &gt; &gt;</innerclass>
+    <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
+    <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::TSID::TaskSpaceInverseDynamics &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__size_3_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" prot="public">std::tuple_size&lt;::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</innerclass>
     <innerclass refid="structstd_1_1tuple__element_3_01Index_00_01_1_1BipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem_01_4" prot="public">std::tuple_element&lt; Index, ::BipedalLocomotion::IK::IntegrationBasedIKProblem &gt;</innerclass>
       <sectiondef kind="func">

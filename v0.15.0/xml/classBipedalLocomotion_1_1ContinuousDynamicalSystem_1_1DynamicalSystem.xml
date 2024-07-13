@@ -209,7 +209,7 @@
 <para>Computes the system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="104">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="54">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -243,7 +243,7 @@
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> defines a continuous time dynamical system, i.e. </para>
     </briefdescription>
     <detaileddescription>
-<para><formula id="105">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <ref refid="traits_8h_1a0163896a87affbf02ec432fba8bb6f09" kindref="member">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()</ref> For instance <programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceBipedalLocomotion" kindref="compound">BipedalLocomotion</ref></highlight></codeline>
+<para><formula id="55">$\dot{x}=f(x, u, t)$</formula>. Please inherit publicly from this class in order to define your custom dynamical system. Just be sure to call after your class definition <ref refid="traits_8h_1a0163896a87affbf02ec432fba8bb6f09" kindref="member">BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE()</ref> For instance <programlisting filename=".cpp"><codeline><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceBipedalLocomotion" kindref="compound">BipedalLocomotion</ref></highlight></codeline>
 <codeline><highlight class="normal">{</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ContinuousDynamicalSystem</highlight></codeline>
 <codeline><highlight class="normal">{</highlight></codeline>

@@ -370,7 +370,7 @@
 <para>The JointVelocityDynamics class is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to use the robot dynamic model to update the joint dynamics. The JointVelocityDynamics represents the following equation in the continuous time: <formula id="205">\[ \ddot{s} = H^{-1} [\tau_{m} - \tau_{F} + (\sum J^T_{FT} f_{FT}) + + (\sum J^T_{ext} f_{ext}) - F^T {}^B \dot v - h ] \]</formula> where \ddot{s} is given as an input to this class. The discretized model becomes: <formula id="206">\[ \dot{s}_{k+1} = \dot{s}_{k} + \Delta T \ddot{s}_{k} \]</formula> </para>
+<para>Please use this element if you want to use the robot dynamic model to update the joint dynamics. The JointVelocityDynamics represents the following equation in the continuous time: <formula id="121">\[ \ddot{s} = H^{-1} [\tau_{m} - \tau_{F} + (\sum J^T_{FT} f_{FT}) + + (\sum J^T_{ext} f_{ext}) - F^T {}^B \dot v - h ] \]</formula> where \ddot{s} is given as an input to this class. The discretized model becomes: <formula id="122">\[ \dot{s}_{k+1} = \dot{s}_{k} + \Delta T \ddot{s}_{k} \]</formula> </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

@@ -334,7 +334,7 @@
 <para>Set the mass matrix regularization term. </para>
         </briefdescription>
         <detaileddescription>
-<para>i.e. <formula id="94">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="95">$M$</formula> is the mass matrix and <formula id="96">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
+<para>i.e. <formula id="76">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="77">$M$</formula> is the mass matrix and <formula id="78">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>matrix</parametername>
 </parameternamelist>
@@ -428,7 +428,7 @@
 <para>JointsDynamicsTask is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to consider the joints dynamics only. The task represents the following equation <formula id="91">\[ M_{s}(q) \dot{\nu} + h_{s}(q,\nu) = \sum J_k^\top f_k + \tau \]</formula> where the suffix <formula id="92">$s$</formula> indicates the last n rows of the vector/matrix. <formula id="83">$J_k$</formula> is the robot jacobian associated to the contact wrench <formula id="84">$d_k$</formula>. <formula id="93">$\tau$</formula> are the joints torque. <simplesect kind="note"><para>Please consider that here the MIXED representation is used to define the 6d-velocity and 6d-forces. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
+<para>Please use this element if you want to consider the joints dynamics only. The task represents the following equation <formula id="162">\[ M_{s}(q) \dot{\nu} + h_{s}(q,\nu) = \sum J_k^\top f_k + \tau \]</formula> where the suffix <formula id="163">$s$</formula> indicates the last n rows of the vector/matrix. <formula id="154">$J_k$</formula> is the robot jacobian associated to the contact wrench <formula id="155">$d_k$</formula>. <formula id="164">$\tau$</formula> are the joints torque. <simplesect kind="note"><para>Please consider that here the MIXED representation is used to define the 6d-velocity and 6d-forces. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
 </simplesect>
 </para>
     </detaileddescription>

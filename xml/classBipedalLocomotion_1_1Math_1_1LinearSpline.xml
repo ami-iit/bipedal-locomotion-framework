@@ -60,10 +60,10 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1Math_1_1LinearSpline" kindref="compound">LinearSpline</ref> implements a 1-st order polynomial spline in <formula id="57">$\mathbb{R}^n$</formula>. </para>
+<para><ref refid="classBipedalLocomotion_1_1Math_1_1LinearSpline" kindref="compound">LinearSpline</ref> implements a 1-st order polynomial spline in <formula id="109">$\mathbb{R}^n$</formula>. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 1 of the form <formula id="61">\[ s_i(t) = a_i + b_i t \]</formula> where <formula id="59">$t \in [0, T_i]$</formula> and <formula id="60">$T_i$</formula> is the duration of the i-th polynomial. </para>
+<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 1 of the form <formula id="138">\[ s_i(t) = a_i + b_i t \]</formula> where <formula id="136">$t \in [0, T_i]$</formula> and <formula id="137">$T_i$</formula> is the duration of the i-th polynomial. </para>
 </simplesect>
 </para>
     </detaileddescription>

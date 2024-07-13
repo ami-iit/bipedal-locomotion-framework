@@ -137,7 +137,7 @@
 <para>SO3Dynamics describes the dynamics of a SO(3). </para>
         </briefdescription>
         <detaileddescription>
-<para>In details, given an element of SO(3) <formula id="149">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="150">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="151">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="152">$\dot{R} \in T_R SO(3)$</formula> with <formula id="153">$T_R SO(3)$</formula> is the Tangent space of <formula id="98">$SO(3)$</formula> at <formula id="154">$R$</formula>.</para>
+<para>In details, given an element of SO(3) <formula id="101">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="102">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="103">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="104">$\dot{R} \in T_R SO(3)$</formula> with <formula id="105">$T_R SO(3)$</formula> is the Tangent space of <formula id="106">$SO(3)$</formula> at <formula id="107">$R$</formula>.</para>
 <para>The SO3Dynamics inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where the State is described by a <ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref> <table rows="2" cols="3"><row>
 <entry thead="yes" align='center'><para>Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>

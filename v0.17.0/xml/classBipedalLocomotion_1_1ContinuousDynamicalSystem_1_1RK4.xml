@@ -364,7 +364,7 @@
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4" kindref="compound">RK4</ref> implements the runge-kutta 4 integration method. </para>
     </briefdescription>
     <detaileddescription>
-<para>It implements the following equation <formula id="147">\[ x_{k+1} = x_k + \frac{1}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right) \]</formula> where <formula id="148">\[ \begin{cases} k_1 = f(x_k, u_k, t_k) \\ k_2 = f(x_k + \frac{dt}{2} k_1, u_k, t_k + \frac{dt}{2}) \\ k_3 = f(x_k + \frac{dt}{2} k_2, u_k, t_k + \frac{dt}{2}) \\ k_4 = f(x_k + dt k_3, u_k, t_k + dt) \end{cases} \]</formula> where <formula id="149">$x_k$</formula> is the state at time <formula id="150">$t_k$</formula>, <formula id="151">$u_k$</formula> is the input at time <formula id="150">$t_k$</formula> and <formula id="152">$dt$</formula> is the sampling time. <parameterlist kind="templateparam"><parameteritem>
+<para>It implements the following equation <formula id="94">\[ x_{k+1} = x_k + \frac{1}{6} \left( k_1 + 2 k_2 + 2 k_3 + k_4 \right) \]</formula> where <formula id="95">\[ \begin{cases} k_1 = f(x_k, u_k, t_k) \\ k_2 = f(x_k + \frac{dt}{2} k_1, u_k, t_k + \frac{dt}{2}) \\ k_3 = f(x_k + \frac{dt}{2} k_2, u_k, t_k + \frac{dt}{2}) \\ k_4 = f(x_k + dt k_3, u_k, t_k + dt) \end{cases} \]</formula> where <formula id="96">$x_k$</formula> is the state at time <formula id="97">$t_k$</formula>, <formula id="98">$u_k$</formula> is the input at time <formula id="97">$t_k$</formula> and <formula id="99">$dt$</formula> is the sampling time. <parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
 <parametername>_DynamicalSystem</parametername>
 </parameternamelist>
@@ -375,7 +375,7 @@
 </parameterlist>
 <simplesect kind="warning"><para>We assume that the operator + is defined for the objects contained in the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1abe9655801c0f0a1391619325e571cd57" kindref="member">DynamicalSystem::State</ref> and <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem_1a664a4e9ae349c0b14f83d98a90e52022" kindref="member">DynamicalSystem::StateDerivative</ref>. </para>
 </simplesect>
-<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4" kindref="compound">RK4</ref> integrator is compatible only with tuple containing vectors belonging to the <formula id="153">$R^n$</formula> space. It is not compatible with Lie groups. If you want to integrate a dynamical system defined on a Lie group please use the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator. </para>
+<simplesect kind="warning"><para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4" kindref="compound">RK4</ref> integrator is compatible only with tuple containing vectors belonging to the <formula id="100">$R^n$</formula> space. It is not compatible with Lie groups. If you want to integrate a dynamical system defined on a Lie group please use the <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" kindref="compound">ForwardEuler</ref> integrator. </para>
 </simplesect>
 </para>
     </detaileddescription>

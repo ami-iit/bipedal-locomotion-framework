@@ -172,7 +172,7 @@
         <name>m_positionTolerance</name>
         <initializer>{1e-6}</initializer>
         <briefdescription>
-<para>Position tolerance in <formula id="122">$m$</formula>. </para>
+<para>Position tolerance in <formula id="65">$m$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -187,7 +187,7 @@
         <name>m_orientationTolerance</name>
         <initializer>{1e-6}</initializer>
         <briefdescription>
-<para>Orientation tolerance in <formula id="239">$rad$</formula>. </para>
+<para>Orientation tolerance in <formula id="184">$rad$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -202,7 +202,7 @@
         <name>m_footLandingVelocity</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Landing velocity in <formula id="240">$m/s$</formula>. </para>
+<para>Landing velocity in <formula id="185">$m/s$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -217,7 +217,7 @@
         <name>m_footLandingAcceleration</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Landing acceleration in <formula id="241">$m/s^2$</formula>. </para>
+<para>Landing acceleration in <formula id="186">$m/s^2$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -232,7 +232,7 @@
         <name>m_footTakeOffVelocity</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Take off velocity in <formula id="240">$m/s$</formula>. </para>
+<para>Take off velocity in <formula id="185">$m/s$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -247,7 +247,7 @@
         <name>m_footTakeOffAcceleration</name>
         <initializer>{0.0}</initializer>
         <briefdescription>
-<para>Take off acceleration in <formula id="241">$m/s^2$</formula>. </para>
+<para>Take off acceleration in <formula id="186">$m/s^2$</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

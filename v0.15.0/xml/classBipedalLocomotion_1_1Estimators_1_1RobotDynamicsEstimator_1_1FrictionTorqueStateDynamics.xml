@@ -492,7 +492,7 @@
 <para>The FrictionTorqueDynamics class is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to use a specific friction torque model dynamics. The FrictionTorqueDynamics represents the following equation in the continuous time: <formula id="201">\[ \dot{\tau_{F}} = \ddot{s} ( k_{2} + k_{0} k_{1} (1 - tanh^{2} (k_{1} \dot{s})) ) \]</formula> since the friction model implemented by this class is defined as: <formula id="202">\[ \tau_{F} = k_{0} tanh(k_{1} \dot{s}) + k_{2} \dot{s} \]</formula> In the discrete time the dynamics is defined as: <formula id="203">\[ \tau_{F,k+1} = \tau_{F,k} + \Delta T \ddot{s} ( k_{2} + k_{0} k_{1} / cosh^{2}(k_{1} \dot{s,k}) ) \]</formula> </para>
+<para>Please use this element if you want to use a specific friction torque model dynamics. The FrictionTorqueDynamics represents the following equation in the continuous time: <formula id="117">\[ \dot{\tau_{F}} = \ddot{s} ( k_{2} + k_{0} k_{1} (1 - tanh^{2} (k_{1} \dot{s})) ) \]</formula> since the friction model implemented by this class is defined as: <formula id="118">\[ \tau_{F} = k_{0} tanh(k_{1} \dot{s}) + k_{2} \dot{s} \]</formula> In the discrete time the dynamics is defined as: <formula id="119">\[ \tau_{F,k+1} = \tau_{F,k} + \Delta T \ddot{s} ( k_{2} + k_{0} k_{1} / cosh^{2}(k_{1} \dot{s,k}) ) \]</formula> </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

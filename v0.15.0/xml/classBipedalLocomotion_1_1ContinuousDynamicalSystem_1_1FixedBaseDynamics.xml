@@ -240,7 +240,7 @@
 <para>Set the mass matrix regularization term. </para>
         </briefdescription>
         <detaileddescription>
-<para>i.e. <formula id="111">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="112">$M$</formula> is the mass matrix and <formula id="113">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
+<para>i.e. <formula id="61">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="62">$M$</formula> is the mass matrix and <formula id="63">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>matrix</parametername>
 </parameternamelist>
@@ -274,7 +274,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="104">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="54">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>

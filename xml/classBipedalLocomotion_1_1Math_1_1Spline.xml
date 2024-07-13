@@ -230,7 +230,7 @@
 <parametername>position</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>position of the knots in <formula id="57">$\mathbb{R}^n$</formula>. </para>
+<para>position of the knots in <formula id="109">$\mathbb{R}^n$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>

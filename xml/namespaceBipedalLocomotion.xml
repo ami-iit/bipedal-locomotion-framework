@@ -24,20 +24,6 @@
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1YarpUtilities">BipedalLocomotion::YarpUtilities</innernamespace>
       <sectiondef kind="func">
-      <memberdef kind="function" id="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classBipedalLocomotion_1_1System_1_1IClock" kindref="compound">System::IClock</ref> &amp;</type>
-        <definition>System::IClock&amp; BipedalLocomotion::clock</definition>
-        <argsstring>()</argsstring>
-        <name>clock</name>
-        <briefdescription>
-<para>Get the clock singleton. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/System/Clock.h" line="23" column="16" declfile="BipedalLocomotion/System/Clock.h" declline="23" declcolumn="16"/>
-      </memberdef>
       <memberdef kind="function" id="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::shared_ptr&lt; TextLogging::Logger &gt; const</type>
         <definition>std::shared_ptr&lt;TextLogging::Logger&gt; const BipedalLocomotion::log</definition>
@@ -52,6 +38,20 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TextLogging/Logger.h" line="57" column="23" declfile="BipedalLocomotion/TextLogging/Logger.h" declline="57" declcolumn="23"/>
       </memberdef>
+      <memberdef kind="function" id="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classBipedalLocomotion_1_1System_1_1IClock" kindref="compound">System::IClock</ref> &amp;</type>
+        <definition>System::IClock&amp; BipedalLocomotion::clock</definition>
+        <argsstring>()</argsstring>
+        <name>clock</name>
+        <briefdescription>
+<para>Get the clock singleton. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/Clock.h" line="23" column="16" declfile="BipedalLocomotion/System/Clock.h" declline="23" declcolumn="16"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -60,6 +60,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/ContactDetectors/ContactDetector.h" line="17" column="1"/>
+    <location file="BipedalLocomotion/ParametersHandler/TomlImplementation.h" line="21" column="1"/>
   </compounddef>
 </doxygen>

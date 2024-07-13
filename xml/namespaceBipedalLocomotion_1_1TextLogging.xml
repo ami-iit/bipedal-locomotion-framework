@@ -3,10 +3,10 @@
   <compounddef id="namespaceBipedalLocomotion_1_1TextLogging" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::TextLogging</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1YarpLoggerFactory" prot="public">BipedalLocomotion::TextLogging::YarpLoggerFactory</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory" prot="public">BipedalLocomotion::TextLogging::RosLoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1DefaultLoggerFactory" prot="public">BipedalLocomotion::TextLogging::DefaultLoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerFactory" prot="public">BipedalLocomotion::TextLogging::LoggerFactory</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1LoggerBuilder" prot="public">BipedalLocomotion::TextLogging::LoggerBuilder</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1TextLogging_1_1RosLoggerFactory" prot="public">BipedalLocomotion::TextLogging::RosLoggerFactory</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks">BipedalLocomotion::TextLogging::sinks</innernamespace>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="Logger_8h_1acfed58204165b9a8456eed896669dc56" prot="public" static="no" strong="yes">

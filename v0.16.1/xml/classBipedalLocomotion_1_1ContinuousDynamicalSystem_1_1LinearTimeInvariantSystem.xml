@@ -241,7 +241,7 @@
 <para>Computes the system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="141">$Ax + Bu$</formula> <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="93">$Ax + Bu$</formula> <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -270,7 +270,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> describes a MIMO linear time invariant system of the form <formula id="139">$\dot{x} = Ax + Bu$</formula> where <emphasis>x</emphasis> is the state and <emphasis>u</emphasis> the control input. </para>
+<para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> describes a MIMO linear time invariant system of the form <formula id="90">$\dot{x} = Ax + Bu$</formula> where <emphasis>x</emphasis> is the state and <emphasis>u</emphasis> the control input. </para>
     </briefdescription>
     <detaileddescription>
 <para>The state, its derivative and the control input are described by vectors The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LinearTimeInvariantSystem" kindref="compound">LinearTimeInvariantSystem</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where the State is described by a <ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref> <table rows="2" cols="3"><row>
@@ -281,7 +281,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>x</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>Eigen::VectorXd</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>A generic vector belonging to <formula id="94">$\mathbb{R}^n$</formula>   </para>
+</entry><entry thead="no" align='center'><para>A generic vector belonging to <formula id="91">$\mathbb{R}^n$</formula>   </para>
 </entry></row>
 </table>
 </para>
@@ -293,7 +293,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>dx</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>Eigen::VectorXd</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>A state vector derivative belonging to <formula id="94">$\mathbb{R}^n$</formula>   </para>
+</entry><entry thead="no" align='center'><para>A state vector derivative belonging to <formula id="91">$\mathbb{R}^n$</formula>   </para>
 </entry></row>
 </table>
 </para>
@@ -305,7 +305,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>u</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>Eigen::VectorXd</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>A control vector belonging to <formula id="140">$\mathbb{R}^m$</formula>   </para>
+</entry><entry thead="no" align='center'><para>A control vector belonging to <formula id="92">$\mathbb{R}^m$</formula>   </para>
 </entry></row>
 </table>
 </para>

@@ -355,7 +355,7 @@
 <para>The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" kindref="compound">ConstantMeasurementModel</ref> class is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you do not know the specific dynamics of a state variable. The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" kindref="compound">ConstantMeasurementModel</ref> represents the following equation in the continuous time: <formula id="199">\[ \dot{x} = 0 \]</formula> In the discrete time the following dynamics assigns the current state to the next state: <formula id="200">\[ x_{k+1} = x_{k} \]</formula> </para>
+<para>Please use this element if you do not know the specific dynamics of a state variable. The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" kindref="compound">ConstantMeasurementModel</ref> represents the following equation in the continuous time: <formula id="115">\[ \dot{x} = 0 \]</formula> In the discrete time the following dynamics assigns the current state to the next state: <formula id="116">\[ x_{k+1} = x_{k} \]</formula> </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

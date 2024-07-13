@@ -3059,8 +3059,8 @@
   <compound refid="namespacebfl" kind="namespace"><name>bfl</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion" kind="namespace"><name>BipedalLocomotion</name>
-    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
     <member refid="namespaceBipedalLocomotion_1a0262a6287c9047d721fc7809c2be667c" kind="function"><name>log</name></member>
+    <member refid="namespaceBipedalLocomotion_1a5927a6bb897f521070adfb6ca866668f" kind="function"><name>clock</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1AutoDiff" kind="namespace"><name>BipedalLocomotion::AutoDiff</name>
   </compound>
@@ -3162,8 +3162,8 @@
   <compound refid="namespaceBipedalLocomotion_1_1ML" kind="namespace"><name>BipedalLocomotion::ML</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ParametersHandler" kind="namespace"><name>BipedalLocomotion::ParametersHandler</name>
-    <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
     <member refid="TomlImplementation_8h_1adcd8e438b3dbb7a90f36a57ec7c7c17a" kind="function"><name>TomlImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
+    <member refid="YarpImplementation_8h_1a1b20d7955f15f477f05aee59ced837b8" kind="function"><name>YarpImplementation::setParameterPrivate&lt; std::vector&lt; bool &gt; &gt;</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1Perception" kind="namespace"><name>BipedalLocomotion::Perception</name>
   </compound>

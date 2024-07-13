@@ -24,7 +24,7 @@
 <para>Initial rotation from the inertial frame to the body frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Namely <formula id="236">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
+<para>Namely <formula id="181">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -231,7 +231,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="237">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="182">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -239,7 +239,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="238">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="183">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -344,7 +344,7 @@
 <parametername>rotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><formula id="236">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
+<para><formula id="181">${}^{\mathcal{I}}R_{\mathcal{B}}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -576,7 +576,7 @@
 <parametername>initialRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>initial rotation <formula id="237">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
+<para>initial rotation <formula id="182">${}^{\mathcal{I}}R_{\mathcal{B}_0}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -584,7 +584,7 @@
 <parametername>finalRotation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>final rotation <formula id="238">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
+<para>final rotation <formula id="183">${}^{\mathcal{I}}R_{\mathcal{B}_T}$</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -613,7 +613,7 @@
 <para><ref refid="classBipedalLocomotion_1_1Planners_1_1SO3Planner" kindref="compound">SO3Planner</ref> implements a minimum jerk trajectory planner for object belonging to SO(3). </para>
     </briefdescription>
     <detaileddescription>
-<para>The planner assumes initial and final angular acceleration and velocity proportional to the error between the initial and final rotation. Where the error formulation depends on the trivialization used. In details, for left trivialized - body frame <formula id="234">\[ \epsilon = \text{log} \left(R_0^\top R_f \right) \]</formula> for right trivialized - inertial frame <formula id="235">\[ \epsilon = \text{log} \left(R_f^\top R_0 \right) \]</formula> <simplesect kind="note"><para>The generated velocity and acceleration are written in the inertial or in body-fixed frame accordingly to the chosen trivialization. </para>
+<para>The planner assumes initial and final angular acceleration and velocity proportional to the error between the initial and final rotation. Where the error formulation depends on the trivialization used. In details, for left trivialized - body frame <formula id="179">\[ \epsilon = \text{log} \left(R_0^\top R_f \right) \]</formula> for right trivialized - inertial frame <formula id="180">\[ \epsilon = \text{log} \left(R_f^\top R_0 \right) \]</formula> <simplesect kind="note"><para>The generated velocity and acceleration are written in the inertial or in body-fixed frame accordingly to the chosen trivialization. </para>
 </simplesect>
 <parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>

@@ -9,9 +9,9 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
     <includedby refid="TSIDLinearTask_8h" local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includedby>
+    <includedby refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includedby>
     <includedby refid="ILinearTaskFactory_8h" local="no">BipedalLocomotion/System/ILinearTaskFactory.h</includedby>
     <includedby refid="ILinearTaskSolver_8h" local="no">BipedalLocomotion/System/ILinearTaskSolver.h</includedby>
-    <includedby refid="IKLinearTask_8h" local="no">BipedalLocomotion/IK/IKLinearTask.h</includedby>
     <incdepgraph>
       <node id="6">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -81,11 +81,11 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="22">
+      <node id="21">
         <label>BipedalLocomotion/IK/JointLimitsTask.h</label>
         <link refid="JointLimitsTask_8h"/>
       </node>
-      <node id="20">
+      <node id="19">
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
@@ -93,17 +93,17 @@
         <label>BipedalLocomotion/TSID/SO3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h"/>
       </node>
-      <node id="17">
+      <node id="16">
         <label>BipedalLocomotion/IK/CoMTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h"/>
       </node>
-      <node id="21">
+      <node id="20">
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="25">
         <label>BipedalLocomotion/IK/SO3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h"/>
       </node>
@@ -129,23 +129,23 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="23">
         <label>BipedalLocomotion/IK/R3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h"/>
       </node>
-      <node id="14">
+      <node id="26">
         <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
         <link refid="ILinearTaskFactory_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="17">
         <label>BipedalLocomotion/IK/DistanceTask.h</label>
         <link refid="DistanceTask_8h"/>
       </node>
-      <node id="25">
+      <node id="24">
         <label>BipedalLocomotion/IK/SE3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h"/>
       </node>
@@ -162,9 +162,9 @@
         <link refid="ILinearTaskSolver_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -178,9 +178,9 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="8">
@@ -197,12 +197,12 @@
         <label>BipedalLocomotion/TSID/CoMTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h"/>
       </node>
-      <node id="19">
+      <node id="18">
         <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
         <link refid="IntegrationBasedIK_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
       <node id="11">
@@ -215,11 +215,11 @@
         <label>BipedalLocomotion/TSID/AngularMomentumTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h"/>
       </node>
-      <node id="23">
+      <node id="22">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h"/>
       </node>
-      <node id="16">
+      <node id="15">
         <label>BipedalLocomotion/IK/AngularMomentumTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h"/>
       </node>
@@ -227,16 +227,18 @@
         <label>BipedalLocomotion/TSID/JointDynamicsTask.h</label>
         <link refid="JointDynamicsTask_8h"/>
       </node>
-      <node id="15">
+      <node id="14">
         <label>BipedalLocomotion/IK/IKLinearTask.h</label>
         <link refid="IKLinearTask_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -245,8 +247,6 @@
         <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="13">

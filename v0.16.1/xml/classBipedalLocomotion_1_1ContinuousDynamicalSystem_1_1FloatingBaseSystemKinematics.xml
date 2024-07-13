@@ -159,7 +159,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="121">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="69">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -204,7 +204,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>R</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>manif::SO3d</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Rotation matrix <formula id="128">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame    </para>
+</entry><entry thead="no" align='center'><para>Rotation matrix <formula id="79">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>s</computeroutput>   </para>

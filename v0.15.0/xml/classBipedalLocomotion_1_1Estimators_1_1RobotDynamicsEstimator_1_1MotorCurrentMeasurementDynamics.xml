@@ -398,7 +398,7 @@
 <para>The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" kindref="compound">MotorCurrentMeasurementDynamics</ref> class is a concrete implementation of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element to define the measurement of the motor current. The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" kindref="compound">MotorCurrentMeasurementDynamics</ref> represents the following equation in the continuous time: <formula id="207">\[ \dot{i_{m}} = \tau_{m} / (k_{\tau} r) \]</formula> </para>
+<para>Please use this element to define the measurement of the motor current. The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" kindref="compound">MotorCurrentMeasurementDynamics</ref> represents the following equation in the continuous time: <formula id="123">\[ \dot{i_{m}} = \tau_{m} / (k_{\tau} r) \]</formula> </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

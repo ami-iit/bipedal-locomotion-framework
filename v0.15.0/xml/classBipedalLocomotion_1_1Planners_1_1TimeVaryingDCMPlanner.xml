@@ -105,7 +105,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="191">$\dot{\omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the <formula id="163">$\dot{\omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -117,7 +117,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>omega_dot_rate_of_change_weight</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>double</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="191">$\dot{\omega}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Weight associated to the rate of change of <formula id="163">$\dot{\omega}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>Yes    </para>
 </entry></row>
 <row>
@@ -229,7 +229,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>The number of columns should be coherent with the contactPhaseList. In details the number of samples <formula id="71">$s$</formula> is equal to <formula id="192">\[ s = \left\lceil {\frac{t_f - t_i}{dT}} \right\rceil \]</formula> where <formula id="193">$dT$</formula> is the sampling time of the planner, <formula id="194">$t_f$</formula> and <formula id="195">$t_i$</formula> are the end time of the last contact and the initial time of the first contact. </para>
+<simplesect kind="note"><para>The number of columns should be coherent with the contactPhaseList. In details the number of samples <formula id="142">$s$</formula> is equal to <formula id="164">\[ s = \left\lceil {\frac{t_f - t_i}{dT}} \right\rceil \]</formula> where <formula id="165">$dT$</formula> is the sampling time of the planner, <formula id="166">$t_f$</formula> and <formula id="167">$t_i$</formula> are the end time of the last contact and the initial time of the first contact. </para>
 </simplesect>
 <simplesect kind="return"><para>true in case of success, false otherwise. </para>
 </simplesect>

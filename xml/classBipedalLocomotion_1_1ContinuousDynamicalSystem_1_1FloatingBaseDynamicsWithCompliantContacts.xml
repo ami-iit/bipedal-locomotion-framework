@@ -306,7 +306,7 @@
 <para>Set the mass matrix regularization term. </para>
         </briefdescription>
         <detaileddescription>
-<para>i.e. <formula id="95">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="96">$M$</formula> is the mass matrix and <formula id="97">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
+<para>i.e. <formula id="94">$\bar{M} = M + M _ {reg}$</formula>. Where <formula id="95">$M$</formula> is the mass matrix and <formula id="96">$M_{reg}$</formula> is the matrix regularization term. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>matrix</parametername>
 </parameternamelist>
@@ -340,7 +340,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="146">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="87">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -454,7 +454,7 @@
 <listitem><para>Eigen::Vector6d: the base velocity expressed in mixed representation;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s];</para>
 </listitem><listitem><para>Eigen::Vector3d: position of the base w.r.t. the inertial frame</para>
-</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="153">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rotation matrix <formula id="97">${} ^ I R _ {b}$</formula>. Matrix that transform a vector whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint positions [in rad].</para>
 </listitem></itemizedlist>
 </para>
@@ -462,7 +462,7 @@
 <listitem><para>Eigen::Vector6d: the base acceleration expressed in mixed representation;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint accelerations [in rad/s^2];</para>
 </listitem><listitem><para>Eigen::Vector3d: base velocity w.r.t. the inertial frame;</para>
-</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="154">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
+</listitem><listitem><para>Eigen::Matrix3d: rate of change of the rotation matrix <formula id="98">${} ^ I \dot{R} _ {b}$</formula>. whose coordinates are expressed in the base frame in the inertial frame;</para>
 </listitem><listitem><para>Eigen::VectorXd: the joint velocities [in rad/s].</para>
 </listitem></itemizedlist>
 </para>

@@ -305,10 +305,10 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>Cubic spline implements a 3-rd order polynomial spline in <formula id="57">$\mathbb{R}^n$</formula>. </para>
+<para>Cubic spline implements a 3-rd order polynomial spline in <formula id="91">$\mathbb{R}^n$</formula>. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 3 of the form <formula id="58">\[ s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3 \]</formula> where <formula id="59">$t \in [0, T_i]$</formula> and <formula id="60">$T_i$</formula> is the duration of the i-th polynomial. </para>
+<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 3 of the form <formula id="117">\[ s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3 \]</formula> where <formula id="118">$t \in [0, T_i]$</formula> and <formula id="119">$T_i$</formula> is the duration of the i-th polynomial. </para>
 </simplesect>
 </para>
     </detaileddescription>

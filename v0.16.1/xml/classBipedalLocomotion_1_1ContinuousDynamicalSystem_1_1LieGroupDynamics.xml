@@ -173,7 +173,7 @@
 <para>Computes the floating based system dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para>It return <formula id="121">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
+<para>It return <formula id="69">$f(x, u, t)$</formula>. <simplesect kind="note"><para>The control input and the state have to be set separately with the methods setControlInput and setState. </para>
 </simplesect>
 <parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -205,7 +205,7 @@
 <para><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kindref="compound">LieGroupDynamics</ref> describes the dynamics of a LieGroup. </para>
     </briefdescription>
     <detaileddescription>
-<para>In details, given an element of a Lie group <formula id="133">$X \in G$</formula> and a vector of its Lie Algebra <formula id="134">$ x \in \mathrm{g}$</formula>, <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kindref="compound">LieGroupDynamics</ref> implements <formula id="135">\[ \dot{X} = x X \]</formula> where <formula id="136">$\dot{X} \in T_X G$</formula> with <formula id="137">$T_X G$</formula> is the Tangent space of <formula id="138">$G$</formula> at <formula id="131">$X$</formula>.</para>
+<para>In details, given an element of a Lie group <formula id="84">$X \in G$</formula> and a vector of its Lie Algebra <formula id="85">$ x \in \mathrm{g}$</formula>, <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kindref="compound">LieGroupDynamics</ref> implements <formula id="86">\[ \dot{X} = x X \]</formula> where <formula id="87">$\dot{X} \in T_X G$</formula> with <formula id="88">$T_X G$</formula> is the Tangent space of <formula id="89">$G$</formula> at <formula id="82">$X$</formula>.</para>
 <para>The <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kindref="compound">LieGroupDynamics</ref> inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where the State is described by a <ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref> <table rows="2" cols="3"><row>
 <entry thead="yes" align='center'><para>Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>
