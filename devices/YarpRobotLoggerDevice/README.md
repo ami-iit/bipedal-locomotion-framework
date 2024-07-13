@@ -106,8 +106,9 @@ class Module:
 The `vectors_collection_server` helps you to handle the data you want to send and to populate the metadata. To use this functionality, call `BipedalLocomotion.yarp_utilities.VectorsCollectionServer.populate_metadata` during the configuration phase. Once you have finished populating the metadata you should call `BipedalLocomotion.yarp_utilities.VectorsCollectionServer.finalize_metadata`
 ```python
 #This code should go into the configuration phase
-logger_option = blf.parameters_handler.YarpImplementation(rf)
-if not self.vectors_collection_server.initialize(logger_option.get_group("LOGGER")):
+logger_option = blf.parameters_handler.StdParametersHandler()
+logger_option.set_parameter_string("remote", "/test/log")
+if not self.vectors_collection_server.initialize(logger_option):
     blf.log().error("[BalancingController::configure] Unable to configure the server.")
     raise RuntimeError("Unable to configure the server.")
 
