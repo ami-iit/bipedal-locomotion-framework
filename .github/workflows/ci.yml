@@ -14,12 +14,12 @@ env:
   vcpkg_robotology_TAG: v0.11.0
   YCM_TAG: v0.15.3
   YARP_TAG: v3.8.0
-  iDynTree_TAG: 42f2874b729348575aeee723c1775c3425735ef9
+  iDynTree_TAG: v12.3.3
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.4.102
-  matioCpp_TAG: v0.2.0
+  matioCpp_TAG: v0.2.5
   LieGroupControllers_TAG: v0.2.0
-  osqp_TAG: v0.6.2
+  osqp_TAG: v0.6.3
   OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v3.0.1
   icub_models_TAG: v2.4.0
@@ -129,7 +129,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/install/deps
-        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}-bayes-filters-${{ env.bayes_filters_TAG }}-build-0
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-vcpkg-robotology-${{ env.vcpkg_robotology_TAG }}-ycm-${{ env.YCM_TAG }}-yarp-${{ env.YARP_TAG }}-iDynTree-${{ env.iDynTree_TAG }}-casADi-${{ env.CasADi_TAG }}-manif-${{ env.manif_TAG }}-matioCpp-${{ env.matioCpp_TAG }}-LieGroupControllers-${{ env.LieGroupControllers_TAG }}-osqp-${{ env.osqp_TAG }}-osqp-eigen-${{ env.OsqpEigen_TAG }}-tomlplusplus-${{ env.tomlplusplus_TAG }}-unicycle-${{ env.UnicyclePlanner_TAG }}-icub-models-${{ env.icub_models_TAG }}-robometry-${{ env.telemetry_TAG }}-bayes-filters-${{ env.bayes_filters_TAG }}
 
 
     - name: Source-based Dependencies [Windows]
