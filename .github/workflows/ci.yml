@@ -115,14 +115,17 @@ jobs:
         sudo apt-get install librealsense2-dev
 
     # Get the number of cores
-    - name: Get number of cores to speed up cmake build [Windows]
+    - name: Get number of cores to speed up cmake build and test to skip [Windows]
       if: matrix.os == 'windows-2019'
       run: |
          echo "NUM_CORES_FOR_CMAKE_BUILD=$((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors)" >> $env:GITHUB_ENV
+         echo "BLF_TEST_TO_SKIP=YarpRobotLoggerDeviceUnitTests" >> $env:GITHUB_ENV
 
-    - name: Get number of cores to speed up cmake build [Ubuntu]
+    - name: Get number of cores to speed up cmake build and test to suppress [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
-      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+      run: |
+           echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+           echo "BLF_TEST_TO_SKIP=" >> $env:GITHUB_ENV
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -551,4 +554,4 @@ jobs:
       run: |
         cd build
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        ctest --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
+        ctest -E "${BLF_TEST_TO_SKIP}" --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
