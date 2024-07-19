@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="248" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="247" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="281" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="280" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="148" column="5"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="163" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ab8ce56b881f7bb79be0512aae09b8d52" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="150" column="13"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="165" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a75d0aa997ff3314e4cd143bab7a66683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -72,7 +72,41 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="160" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="175" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a0f9b07db49980476c46d78cb7e7d4f7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getRightContactFrameIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getRightContactFrameIndex</name>
+        <briefdescription>
+<para>Get the index of the right foot contact frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The index of the right foot contact frame. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="181" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a0fd5260461172bc33ade3d4e4af03c80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getLeftContactFrameIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeftContactFrameIndex</name>
+        <briefdescription>
+<para>Get the index of the left foot contact frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The index of the left foot contact frame. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="187" column="9"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aef151639c1e5fea815c8972f565c972e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -373,7 +407,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="211" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="238" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a91d2c7e5b034956159662a0ed7c8f0fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput" kindref="compound">UnicycleTrajectoryPlannerOutput</ref> &amp;</type>
@@ -391,7 +425,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="218" column="43"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="245" column="43"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a2a496f83fd70975470a65603c83321d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -409,7 +443,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="224" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="251" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aada2e13ef23293cfa638d25e2962d7ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -439,7 +473,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="231" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="258" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a632c6bc9269d5d2d028dff1e131439e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -457,7 +491,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="237" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="264" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1abc1c3510b82812a86ffdb9c82fad0e0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classBipedalLocomotion_1_1Contacts_1_1ContactPhaseList" kindref="compound">Contacts::ContactPhaseList</ref></type>
@@ -474,7 +508,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="244" column="32"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="271" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a590ca5bad072721200c60a2804b66055" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::getMinStepDuration</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinStepDuration</name>
+        <briefdescription>
+<para>Get the minimum time duration of a step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>minimum time duration of a step. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="277" column="30"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -518,7 +569,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="256" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="289" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ac61ba52272cdca5a0bc3be91167f0129" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -532,7 +583,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="262" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="295" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -611,7 +662,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="144" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="146" bodyend="263"/>
+    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="159" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="161" bodyend="296"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a632c6bc9269d5d2d028dff1e131439e4" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>Advanceable</name></member>
@@ -620,7 +671,10 @@
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a618ab786bb43814b3b3012b843fce93b" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>close</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1ac61ba52272cdca5a0bc3be91167f0129" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>generateFirstTrajectory</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1abc1c3510b82812a86ffdb9c82fad0e0e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>getContactPhaseList</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a0fd5260461172bc33ade3d4e4af03c80" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>getLeftContactFrameIndex</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a590ca5bad072721200c60a2804b66055" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>getMinStepDuration</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a91d2c7e5b034956159662a0ed7c8f0fd" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>getOutput</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1a0f9b07db49980476c46d78cb7e7d4f7e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>getRightContactFrameIndex</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner_1aef151639c1e5fea815c8972f565c972e" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a27c614cb30c1e4b78e64791f4919dfa7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</scope><name>InputPort</name></member>

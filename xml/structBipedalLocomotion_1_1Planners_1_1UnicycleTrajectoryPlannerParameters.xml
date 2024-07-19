@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="111" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="111" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="124" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="124" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a205b5dbe442f4b6a152504bc1d81ce32" prot="public" static="no" mutable="no">
         <type>std::chrono::nanoseconds</type>
@@ -29,7 +29,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="113" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="113" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="126" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a1b6eb0f51a2183d096dc8a2205e0e40a" prot="public" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters::minStepDuration</definition>
+        <argsstring></argsstring>
+        <name>minStepDuration</name>
+        <briefdescription>
+<para>Time minimum time duration of a step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="128" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="128" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1ae71b97a5efcc2501b9a55e72d1b4d78e" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -43,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="115" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="115" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="130" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="130" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1ac48eb84c5e1ef1c181abcc1f167698c7" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -57,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="117" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="117" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="132" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a906bd0da1b2394b43e600be3f7518893" prot="public" static="no" mutable="no">
         <type>Eigen::Vector2d</type>
@@ -71,7 +85,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="119" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="119" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="134" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="134" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a5e88feb93d5919325c96c870f07f83e8" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -85,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="122" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="122" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="137" column="12" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="137" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a96705c037e61ab22ee31556777ed9438" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -99,7 +113,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="124" column="9" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="124" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="139" column="9" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a1ddcfc98026672269cb37a48e8a90b9d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -113,7 +127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="126" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="126" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="141" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="141" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a99278b3f7eca938d8c6ac00efded1686" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -127,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="128" column="9" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="128" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="143" column="9" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="143" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a9f47fe27179f1a5774c791de91dac467" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -141,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="130" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="130" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="145" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="145" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -166,12 +180,13 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="109" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="110" bodyend="131"/>
+    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="122" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="123" bodyend="146"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a5c61f43d90a8e676094c7478522993dd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>dt</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a96705c037e61ab22ee31556777ed9438" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>leftContactFrameIndex</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a1ddcfc98026672269cb37a48e8a90b9d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>leftContactFrameName</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1ae71b97a5efcc2501b9a55e72d1b4d78e" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>leftYawDeltaInRad</name></member>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a1b6eb0f51a2183d096dc8a2205e0e40a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>minStepDuration</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a5e88feb93d5919325c96c870f07f83e8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>nominalWidth</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a205b5dbe442f4b6a152504bc1d81ce32" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>plannerHorizon</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters_1a906bd0da1b2394b43e600be3f7518893" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</scope><name>referencePointDistance</name></member>

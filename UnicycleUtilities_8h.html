@@ -86,6 +86,8 @@
             <dd><span></span></dd>
             <dt>namespace <a href="namespaceBipedalLocomotion_1_1Planners_1_1UnicycleUtilities.html" class="m-doc">BipedalLocomotion::Planners::UnicycleUtilities</a></dt>
             <dd><span></span></dd>
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Planners_1_1UnicycleUtilities_1_1Conversions.html" class="m-doc">BipedalLocomotion::Planners::UnicycleUtilities::Conversions</a></dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="func-members">
@@ -101,6 +103,56 @@
               <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">BipedalLocomotion::<wbr />Contacts::<wbr />ContactList</a>&amp; contactList) -&gt; bool</span>
             </dt>
             <dd>It populates the contact list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="#af8f8743fb6551dc3fef9ee769acb79a8" class="m-doc">mergeSteps</a>(</span><span class="m-doc-wrap">const std::deque&lt;Step&gt;&amp; newSteps,
+              std::deque&lt;Step&gt;&amp; currentSteps,
+              const std::chrono::nanoseconds&amp; currentTime)</span>
+            </dt>
+            <dd>Merge two steps sequences, and stores the merged output in the second one.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a4f89c1b6bf65aa00f42552fb639bbbbf" class="m-doc">appendVectorToDeque</a>(</span><span class="m-doc-wrap">const std::vector&lt;T&gt;&amp; input,
+              std::deque&lt;T&gt;&amp; output,
+              const size_t&amp; initPoint) -&gt; bool</span>
+            </dt>
+            <dd>It appends a vector to a deque.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="#aa946614a8cd691fdbaedd08db4f17365" class="m-doc">populateVectorFromDeque</a>(</span><span class="m-doc-wrap">const std::deque&lt;T&gt;&amp; deque,
+              std::vector&lt;T&gt;&amp; vector)</span>
+            </dt>
+            <dd>It populates a vector from a deque.</dd>
+            <dt id="abce66eaad57bcea38ced263f8fd48904">
+              <span class="m-doc-wrap-bumper">void <a href="#abce66eaad57bcea38ced263f8fd48904" class="m-doc-self">convertToBLF</a>(</span><span class="m-doc-wrap">const iDynTree::Transform&amp; input,
+              manif::SE3d&amp; output)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a330babedf2cf8869371e80982b562989">
+              <span class="m-doc-wrap-bumper">void <a href="#a330babedf2cf8869371e80982b562989" class="m-doc-self">convertToBLF</a>(</span><span class="m-doc-wrap">const iDynTree::Twist&amp; input,
+              manif::SE3d::Tangent&amp; output)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5faedeb3a9d3fb22314b988f0717a1b2">
+              <span class="m-doc-wrap-bumper">void <a href="#a5faedeb3a9d3fb22314b988f0717a1b2" class="m-doc-self">convertToBLF</a>(</span><span class="m-doc-wrap">const iDynTree::VectorDynSize&amp; input,
+              Eigen::VectorXd&amp; output)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3f7783ec001be4a9c5d3d13e67218b50">
+              <span class="m-doc-wrap-bumper">void <a href="#a3f7783ec001be4a9c5d3d13e67218b50" class="m-doc-self">convertToBLF</a>(</span><span class="m-doc-wrap">const iDynTree::Vector2&amp; input,
+              Eigen::Vector2d&amp; output)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a830f71d0093ca2755f0eba9c01c818ca">
+              <span class="m-doc-wrap-bumper">void <a href="#a830f71d0093ca2755f0eba9c01c818ca" class="m-doc-self">convertToBLF</a>(</span><span class="m-doc-wrap">const iDynTree::Vector3&amp; input,
+              Eigen::Vector3d&amp; output)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a178149ec3a37d93fd782701cde179f59">
+              <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="#a178149ec3a37d93fd782701cde179f59" class="m-doc-self">convertVector</a>(</span><span class="m-doc-wrap">const std::vector&lt;From&gt;&amp; inputVect,
+              std::vector&lt;To&gt;&amp; outputVect)</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section>
@@ -148,6 +200,95 @@
                 <tr>
                   <td>contactList</td>
                   <td>the contact list to be populated. It should be empty or contain only the first step (i.e., the current one already in contact at time initTime).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="af8f8743fb6551dc3fef9ee769acb79a8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af8f8743fb6551dc3fef9ee769acb79a8" class="m-doc-self">mergeSteps</a>(</span><span class="m-doc-wrap">const std::deque&lt;Step&gt;&amp; newSteps,
+              std::deque&lt;Step&gt;&amp; currentSteps,
+              const std::chrono::nanoseconds&amp; currentTime)</span></span>
+            </h3>
+            <p>Merge two steps sequences, and stores the merged output in the second one.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">newSteps</td>
+                  <td>the new list of steps.</td>
+                </tr>
+                <tr>
+                  <td>currentSteps</td>
+                  <td>the cuurent list of steps.</td>
+                </tr>
+                <tr>
+                  <td>currentTime</td>
+                  <td>the current time.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>The new steps which has an impact time lower than the current time are discarded.</p>
+          </div></section>
+          <section class="m-doc-details" id="a4f89c1b6bf65aa00f42552fb639bbbbf"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a4f89c1b6bf65aa00f42552fb639bbbbf" class="m-doc-self">appendVectorToDeque</a>(</span><span class="m-doc-wrap">const std::vector&lt;T&gt;&amp; input,
+              std::deque&lt;T&gt;&amp; output,
+              const size_t&amp; initPoint)</span></span>
+            </h3>
+            <p>It appends a vector to a deque.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>the input vector.</td>
+                </tr>
+                <tr>
+                  <td>output</td>
+                  <td>the output deque.</td>
+                </tr>
+                <tr>
+                  <td>initPoint</td>
+                  <td>the initial point where the vector has to be appended.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the operation is successful, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aa946614a8cd691fdbaedd08db4f17365"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa946614a8cd691fdbaedd08db4f17365" class="m-doc-self">populateVectorFromDeque</a>(</span><span class="m-doc-wrap">const std::deque&lt;T&gt;&amp; deque,
+              std::vector&lt;T&gt;&amp; vector)</span></span>
+            </h3>
+            <p>It populates a vector from a deque.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">deque</td>
+                  <td>the input deque.</td>
+                </tr>
+                <tr>
+                  <td>vector</td>
+                  <td>the output vector.</td>
                 </tr>
               </tbody>
             </table>

@@ -63,7 +63,6 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1Planners.html">Planners</a>::<wbr/></span>UnicycleUtilities <span class="m-thin">namespace</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="UnicycleUtilities_8h.html">&lt;BipedalLocomotion/Planners/UnicycleUtilities.h&gt;</a></div>
         </h1>
         <p><span></span></p>
         <nav class="m-block m-default">
@@ -72,11 +71,19 @@
             <li>
               Reference
               <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a href="namespaceBipedalLocomotion_1_1Planners_1_1UnicycleUtilities_1_1Conversions.html" class="m-doc">Conversions</a></dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
@@ -90,6 +97,25 @@
               <a href="classBipedalLocomotion_1_1Contacts_1_1ContactList.html" class="m-doc">BipedalLocomotion::<wbr />Contacts::<wbr />ContactList</a>&amp; contactList) -&gt; bool</span>
             </dt>
             <dd>It populates the contact list.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a href="UnicycleUtilities_8h.html#af8f8743fb6551dc3fef9ee769acb79a8" class="m-doc">mergeSteps</a>(</span><span class="m-doc-wrap">const std::deque&lt;Step&gt;&amp; newSteps,
+              std::deque&lt;Step&gt;&amp; currentSteps,
+              const std::chrono::nanoseconds&amp; currentTime)</span>
+            </dt>
+            <dd>Merge two steps sequences, and stores the merged output in the second one.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="UnicycleUtilities_8h.html#a4f89c1b6bf65aa00f42552fb639bbbbf" class="m-doc">appendVectorToDeque</a>(</span><span class="m-doc-wrap">const std::vector&lt;T&gt;&amp; input,
+              std::deque&lt;T&gt;&amp; output,
+              const size_t&amp; initPoint) -&gt; bool</span>
+            </dt>
+            <dd>It appends a vector to a deque.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="UnicycleUtilities_8h.html#aa946614a8cd691fdbaedd08db4f17365" class="m-doc">populateVectorFromDeque</a>(</span><span class="m-doc-wrap">const std::deque&lt;T&gt;&amp; deque,
+              std::vector&lt;T&gt;&amp; vector)</span>
+            </dt>
+            <dd>It populates a vector from a deque.</dd>
           </dl>
         </section>
       </div>

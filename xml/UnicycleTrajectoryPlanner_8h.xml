@@ -15,6 +15,7 @@
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
+    <includedby refid="UnicycleTrajectoryGenerator_8h" local="no">BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</includedby>
     <incdepgraph>
       <node id="11">
         <label>iDynTree/Model.h</label>
@@ -110,6 +111,18 @@
         <label>UnicyclePlanner.h</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</label>
+        <link refid="UnicycleTrajectoryGenerator_8h"/>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h</label>
+        <link refid="UnicycleTrajectoryPlanner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput::COMInitialState</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput</innerclass>
@@ -117,6 +130,7 @@
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::DCMTrajectory</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::ContactStatus</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::Steps</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1FootTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::FootTrajectory</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlanner" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlanner</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>

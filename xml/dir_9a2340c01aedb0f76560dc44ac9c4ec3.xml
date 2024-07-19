@@ -10,6 +10,7 @@
     <innerfile refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h">Spline.h</innerfile>
     <innerfile refid="SwingFootPlanner_8h">SwingFootPlanner.h</innerfile>
     <innerfile refid="TimeVaryingDCMPlanner_8h">TimeVaryingDCMPlanner.h</innerfile>
+    <innerfile refid="UnicycleTrajectoryGenerator_8h">UnicycleTrajectoryGenerator.h</innerfile>
     <innerfile refid="UnicycleTrajectoryPlanner_8h">UnicycleTrajectoryPlanner.h</innerfile>
     <innerfile refid="UnicycleUtilities_8h">UnicycleUtilities.h</innerfile>
     <briefdescription>

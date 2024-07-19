@@ -14,6 +14,8 @@
     <includedby refid="FixedStepIntegrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</includedby>
     <includedby refid="Integrator_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</includedby>
     <includedby refid="Math_2include_2BipedalLocomotion_2Math_2Spline_8h" local="no">BipedalLocomotion/Math/Spline.h</includedby>
+    <includedby refid="UnicycleTrajectoryGenerator_8h" local="no">BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</includedby>
+    <includedby refid="UnicycleUtilities_8h" local="no">BipedalLocomotion/Planners/UnicycleUtilities.h</includedby>
     <includedby refid="YarpSensorBridgeImpl_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</includedby>
     <includedby refid="AdvanceableRunner_8h" local="no">BipedalLocomotion/System/AdvanceableRunner.h</includedby>
     <incdepgraph>
@@ -47,13 +49,17 @@
         <label>BipedalLocomotion/Planners/QuinticSpline.h</label>
         <link refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h"/>
       </node>
-      <node id="22">
+      <node id="24">
         <label>BipedalLocomotion/System/AdvanceableRunner.h</label>
         <link refid="AdvanceableRunner_8h"/>
       </node>
       <node id="18">
         <label>BipedalLocomotion/Math/ZeroOrderSpline.h</label>
         <link refid="ZeroOrderSpline_8h"/>
+      </node>
+      <node id="22">
+        <label>BipedalLocomotion/Planners/UnicycleUtilities.h</label>
+        <link refid="UnicycleUtilities_8h"/>
       </node>
       <node id="14">
         <label>BipedalLocomotion/Math/CubicSpline.h</label>
@@ -77,6 +83,10 @@
         <label>BipedalLocomotion/Math/LinearSpline.h</label>
         <link refid="LinearSpline_8h"/>
       </node>
+      <node id="21">
+        <label>BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</label>
+        <link refid="UnicycleTrajectoryGenerator_8h"/>
+      </node>
       <node id="8">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h</label>
         <link refid="ButterworthLowPassFilter_8h"/>
@@ -87,7 +97,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="23">
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
@@ -139,6 +149,10 @@
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="13">

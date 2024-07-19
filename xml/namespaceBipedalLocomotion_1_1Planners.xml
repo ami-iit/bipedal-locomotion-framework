@@ -10,6 +10,10 @@
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1SwingFootPlannerState" prot="public">BipedalLocomotion::Planners::SwingFootPlannerState</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1SwingFootPlanner" prot="public">BipedalLocomotion::Planners::SwingFootPlanner</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1Planners_1_1TimeVaryingDCMPlanner" prot="public">BipedalLocomotion::Planners::TimeVaryingDCMPlanner</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGeneratorInput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGeneratorOutput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGeneratorParameters" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorParameters</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerParameters" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters</innerclass>
