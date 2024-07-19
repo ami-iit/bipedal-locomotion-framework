@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="IRobotControl_8h" kind="file" language="C++">
     <compoundname>IRobotControl.h</compoundname>
+    <includes local="no">future</includes>
     <includes local="no">memory</includes>
     <includes local="no">optional</includes>
     <includes local="no">vector</includes>
@@ -9,19 +10,19 @@
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
     <includedby refid="YarpRobotControl_8h" local="no">BipedalLocomotion/RobotInterface/YarpRobotControl.h</includedby>
     <incdepgraph>
-      <node id="6">
+      <node id="7">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>string</label>
       </node>
       <node id="1">
@@ -37,20 +38,25 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>Eigen/Dense</label>
       </node>
-      <node id="3">
-        <label>optional</label>
+      <node id="2">
+        <label>future</label>
       </node>
       <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
         <label>vector</label>
       </node>
-      <node id="7">
+      <node id="8">
         <label>chrono</label>
       </node>
-      <node id="2">
+      <node id="3">
         <label>memory</label>
       </node>
     </incdepgraph>

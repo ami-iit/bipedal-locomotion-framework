@@ -160,6 +160,14 @@
             </dt>
             <dd>Set the desired control mode.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1970510914cde2aca6afde023c57692e" class="m-doc">setControlModeAsync</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; std::future&lt;bool&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the control mode in an asynchronous thread.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a1a80321643730fb837ca1373e241dcd8" class="m-doc">setControlModeAsync</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; std::future&lt;bool&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd>Set the desired control mode in an asynchronous thread.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a039679ebcb7f4317aebdc1218410639c" class="m-doc">getJointList</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;std::string&gt; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd>Get the list of the controlled joints.</dd>
@@ -334,6 +342,45 @@
               </tfoot>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a1970510914cde2aca6afde023c57692e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::future&lt;bool&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1970510914cde2aca6afde023c57692e" class="m-doc-self">setControlModeAsync</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the control mode in an asynchronous thread.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">controlModes</td>
+                  <td>vector containing the control mode for each joint.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An std::future object to a boolean True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>At the current stage only revolute joints are supported. Since this function spawns a new thread, the invoking thread is not blocked.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a1a80321643730fb837ca1373e241dcd8"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::future&lt;bool&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />IRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1a80321643730fb837ca1373e241dcd8" class="m-doc-self">setControlModeAsync</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) <span class="m-label m-warning">pure virtual</span></span></span>
+            </h3>
+            <p>Set the desired control mode in an asynchronous thread.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>An std::future object to a boolean True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode. Since this function spawns a new thread, the invoking thread is not blocked.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a039679ebcb7f4317aebdc1218410639c"><div>
             <h3>

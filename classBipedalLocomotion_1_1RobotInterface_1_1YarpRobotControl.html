@@ -108,7 +108,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a85dbd7d4b6312bf184bb03054a0240b5" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
-            <dd>Initialize the Interface.</dd>
+            <dd></dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a37085e21adddb1bc55193d452623fc82" class="m-doc">setDriver</a>(</span><span class="m-doc-wrap">std::shared_ptr&lt;yarp::dev::PolyDriver&gt; robotDevice) -&gt; bool</span>
             </dt>
@@ -127,6 +127,14 @@
               <span class="m-doc-wrap-bumper">auto <a href="#acdbfb92bd7a2a6bc31ba156600a4ffc9" class="m-doc">setControlMode</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; bool <span class="m-label m-flat m-warning">final</span></span>
             </dt>
             <dd>Set the desired control mode.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a227ecb6dd23de07c9513b5f0d6fd3704" class="m-doc">setControlModeAsync</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) -&gt; std::future&lt;bool&gt; <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Set the control mode in an asynchronous thread.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a7f2ccdd46451cf760928e527ac2e34b7" class="m-doc">setControlModeAsync</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) -&gt; std::future&lt;bool&gt; <span class="m-label m-flat m-warning">final</span></span>
+            </dt>
+            <dd>Set the desired control mode in an asynchronous thread.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a6e9c89964582229a11b5944e02ba6017" class="m-doc">setReferences</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; desiredJointValues,
               const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes,
@@ -155,25 +163,18 @@
             <h3>
               <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a85dbd7d4b6312bf184bb03054a0240b5" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;<a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) <span class="m-label m-warning">final</span></span></span>
             </h3>
-            <p>Initialize the Interface.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">handler</td>
-                  <td>pointer to a parameter handler interface</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>True/False in case of success/failure.</td>
-                </tr>
-              </tfoot>
-            </table>
-<aside class="m-note m-info"><h4>Note</h4><p>the following parameters are required by the class</p><table class="m-table"><thead><tr><th>Parameter name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>reading_timeout</code></td><td><code>int</code></td><td>Timeout used while reading from the YARP interfaces in microseconds. (Positive Number)</td><td>No</td></tr><tr><td><code>max_reading_attempts</code></td><td><code>int</code></td><td>Max number of attempts used for reading from the YARP interfaces. (Positive Number)</td><td>No</td></tr><tr><td><code>positioning_duration</code></td><td><code>double</code></td><td>Duration of the trajectory generated when the joint is controlled in position mode [seconds]</td><td>Yes</td></tr><tr><td><code>positioning_tolerance</code></td><td><code>double</code></td><td>Max Admissible error for position control joint [rad]</td><td>Yes</td></tr><tr><td><code>position_direct_max_admissible_error</code></td><td><code>double</code></td><td>Max admissible error for position direct control joint [rad]</td><td>Yes</td></tr></tbody></table></aside>
+<pre>   Initialize the Interface
+   @param handler pointer to a parameter handler interface
+   @note the following parameters are required by the class
+   |             Parameter name             |   Type   |                                          Description                                         | Mandatory |
+   |:--------------------------------------:|:--------:|:--------------------------------------------------------------------------------------------:|:---------:|
+   |            `reading_timeout`           |   `int`  |    Timeout used while reading from the YARP interfaces in microseconds. (Positive Number)    |     No    |
+   |         `max_reading_attempts`         |   `int`  |      Max number of attempts used for reading from the YARP interfaces. (Positive Number)     |     No    |
+   |         `positioning_duration`         | `double` | Duration of the trajectory generated when the joint is controlled in position mode [seconds] |    Yes    |
+   |         `positioning_tolerance`        | `double` |                    Max Admissible error for position control joint [rad]                     |    Yes    |
+   | `position_direct_max_admissible_error` | `double` |                 Max admissible error for position direct control joint [rad]                 |    Yes    |
+   @return True/False in case of success/failure.
+</pre><p>clang-format on</p>
           </div></section>
           <section class="m-doc-details" id="a37085e21adddb1bc55193d452623fc82"><div>
             <h3>
@@ -270,6 +271,45 @@
               </tfoot>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a227ecb6dd23de07c9513b5f0d6fd3704"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::future&lt;bool&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a227ecb6dd23de07c9513b5f0d6fd3704" class="m-doc-self">setControlModeAsync</a>(</span><span class="m-doc-wrap">const std::vector&lt;<a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&gt;&amp; controlModes) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Set the control mode in an asynchronous thread.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">controlModes</td>
+                  <td>vector containing the control mode for each joint.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>An std::future object to a boolean True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>At the current stage only revolute joints are supported. Since this function spawns a new thread, the invoking thread is not blocked. Note that this function is not thread safe. You should check the future object status before calling other functions like <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html#a6e9c89964582229a11b5944e02ba6017" class="m-doc">setReferences()</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a7f2ccdd46451cf760928e527ac2e34b7"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">std::future&lt;bool&gt; BipedalLocomotion::<wbr />RobotInterface::<wbr />YarpRobotControl::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7f2ccdd46451cf760928e527ac2e34b7" class="m-doc-self">setControlModeAsync</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl.html#a4d0ff64a201bf8ed884da1c41e3497bc" class="m-doc">IRobotControl::<wbr />ControlMode</a>&amp; mode) <span class="m-label m-warning">final</span></span></span>
+            </h3>
+            <p>Set the desired control mode in an asynchronous thread.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>An std::future object to a boolean True/False in case of success/failure.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Call this function if you want to control all the joint with the same control mode. Since this function spawns a new thread, the invoking thread is not blocked. Note that this function is not thread safe. You should check the future object status before calling other functions like <a href="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl.html#a6e9c89964582229a11b5944e02ba6017" class="m-doc">setReferences()</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a6e9c89964582229a11b5944e02ba6017"><div>
             <h3>

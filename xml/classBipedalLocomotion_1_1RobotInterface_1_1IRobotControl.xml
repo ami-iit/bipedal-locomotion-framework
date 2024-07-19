@@ -71,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="33" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="34" bodyend="43"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="34" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="35" bodyend="44"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a83a31cc243335220b2c218b8534f6851" prot="public" static="no">
         <type>std::unique_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl" kindref="compound">IRobotControl</ref> &gt;</type>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="45" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="45" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="46" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5f3690c4c924d5e5fbf590a102bd4234" prot="public" static="no">
         <type>std::shared_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl" kindref="compound">IRobotControl</ref> &gt;</type>
@@ -97,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="47" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="48" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a470535808ebda4b9634455c638a1649c" prot="public" static="no">
         <type>std::weak_ptr&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl" kindref="compound">IRobotControl</ref> &gt;</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="49" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="49" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="50" column="5" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="56" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="57" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1d8c631649d6111f17a9ba821f550497" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -200,7 +200,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="67" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="68" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ade3791093f875c8a242c0e84dcc5a40b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -258,7 +258,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="82" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="84" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ad8e86bfcea12e99fa5c077d4f01d7ef1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -316,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="100" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="103" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -349,7 +349,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="111" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="114" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -382,7 +382,73 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="119" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="122" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1970510914cde2aca6afde023c57692e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>virtual std::future&lt;bool&gt; BipedalLocomotion::RobotInterface::IRobotControl::setControlModeAsync</definition>
+        <argsstring>(const std::vector&lt; IRobotControl::ControlMode &gt; &amp;controlModes)=0</argsstring>
+        <name>setControlModeAsync</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a227ecb6dd23de07c9513b5f0d6fd3704">setControlModeAsync</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" kindref="member">IRobotControl::ControlMode</ref> &gt; &amp;</type>
+          <declname>controlModes</declname>
+        </param>
+        <briefdescription>
+<para>Set the control mode in an asynchronous thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>controlModes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector containing the control mode for each joint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An std::future object to a boolean True/False in case of success/failure. </para>
+</simplesect>
+<simplesect kind="warning"><para>At the current stage only revolute joints are supported. Since this function spawns a new thread, the invoking thread is not blocked. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1a80321643730fb837ca1373e241dcd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>virtual std::future&lt;bool&gt; BipedalLocomotion::RobotInterface::IRobotControl::setControlModeAsync</definition>
+        <argsstring>(const IRobotControl::ControlMode &amp;mode)=0</argsstring>
+        <name>setControlModeAsync</name>
+        <reimplementedby refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a7f2ccdd46451cf760928e527ac2e34b7">setControlModeAsync</reimplementedby>
+        <param>
+          <type>const <ref refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" kindref="member">IRobotControl::ControlMode</ref> &amp;</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Set the desired control mode in an asynchronous thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>controlMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a control mode for all the joints. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An std::future object to a boolean True/False in case of success/failure. </para>
+</simplesect>
+<simplesect kind="warning"><para>Call this function if you want to control all the joint with the same control mode. Since this function spawns a new thread, the invoking thread is not blocked. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="141" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a039679ebcb7f4317aebdc1218410639c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -400,7 +466,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="125" column="25"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="147" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1af76dce642b0d3e6a2e54c5a82da8061b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -420,7 +486,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="132" column="18"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="154" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a137aaccf768f40582b2df587e55657eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -434,7 +500,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="137" column="13"/>
+        <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="159" column="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -454,7 +520,7 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl"/>
       </node>
     </inheritancegraph>
-    <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="27" column="1" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="28" bodyend="138"/>
+    <location file="BipedalLocomotion/RobotInterface/IRobotControl.h" line="28" column="1" bodyfile="BipedalLocomotion/RobotInterface/IRobotControl.h" bodystart="29" bodyend="160"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1d8c631649d6111f17a9ba821f550497" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>checkMotionDone</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>ControlMode</name></member>
@@ -463,6 +529,8 @@
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1af76dce642b0d3e6a2e54c5a82da8061b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>isValid</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1510d2b72ba39e075a078b2275c7a988" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlMode</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5ae1dad766c79a234c67b53823bbd77a" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlMode</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1970510914cde2aca6afde023c57692e" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlModeAsync</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1a80321643730fb837ca1373e241dcd8" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setControlModeAsync</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ade3791093f875c8a242c0e84dcc5a40b" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setReferences</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1ad8e86bfcea12e99fa5c077d4f01d7ef1" prot="public" virt="pure-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>setReferences</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a5f3690c4c924d5e5fbf590a102bd4234" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::IRobotControl</scope><name>shared_ptr</name></member>
