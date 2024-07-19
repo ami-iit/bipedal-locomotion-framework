@@ -5,11 +5,15 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 #include <BipedalLocomotion/Contacts/ContactList.h>
+#include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Planners/UnicycleUtilities.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/EigenHelpers.h>
+#include <iDynTree/SpatialAcc.h>
 #include <iDynTree/VectorDynSize.h>
+#include <iDynTree/VectorFixSize.h>
+
 
 namespace BipedalLocomotion::Planners::UnicycleUtilities
 {
@@ -99,4 +103,75 @@ bool getContactList(const std::chrono::nanoseconds& initTime,
     return true;
 };
 
+void mergeSteps(const std::deque<Step>& newSteps,
+                std::deque<Step>& currentSteps,
+                const std::chrono::nanoseconds& currentTime)
+{
+    // lambda function to check if a step (impact time) is later than the current time
+    auto isLater = [currentTime](const Step& step) -> bool {
+        return step.impactTime >= static_cast<int>(currentTime.count() * 1e-9);
+    };
+
+    // find the first new step with impact time greater than the current time
+    auto itNew = std::find_if(newSteps.begin(), newSteps.end(), isLater);
+
+    // find the first current step with impact time greater than the current time.
+    // from this point on, the current steps are discarded, and the new steps are added.
+    auto itCurrent = std::find_if(currentSteps.begin(), currentSteps.end(), isLater);
+    Step firstDeletedStep;
+    if (itCurrent != currentSteps.end())
+    {
+        firstDeletedStep = *itCurrent;
+    }
+
+    // erase all current steps which are after the current time
+    currentSteps.erase(itCurrent, currentSteps.end());
+
+    // if the are new valid steps, append them to the current steps
+    if (itNew != newSteps.end())
+    {
+        // append new steps to the current steps
+        currentSteps.insert(currentSteps.end(), itNew, newSteps.end());
+    }
+
+    // Check if merged steps are empty. In this case use firstDeletedStep.
+    if (currentSteps.empty())
+    {
+        currentSteps.push_back(firstDeletedStep);
+    }
+}
+
+namespace Conversions
+{
+void convertToBLF(const iDynTree::Transform& input, manif::SE3d& output)
+{
+    output.asSO3() = iDynTree::toEigen(input.getRotation().asQuaternion());
+    output.translation(iDynTree::toEigen(input.getPosition()));
+}
+
+void convertToBLF(const iDynTree::Twist& input, manif::SE3d::Tangent& output)
+{
+    output = iDynTree::toEigen(input);
+}
+
+void convertToBLF(const iDynTree::SpatialAcc& input, manif::SE3d::Tangent& output)
+{
+    output = iDynTree::toEigen(input);
+}
+
+void convertToBLF(const iDynTree::VectorDynSize& input, Eigen::VectorXd& output)
+{
+    output = iDynTree::toEigen(input);
+}
+
+void convertToBLF(const iDynTree::Vector2& input, Eigen::Vector2d& output)
+{
+    output = iDynTree::toEigen(input);
+}
+
+void convertToBLF(const iDynTree::Vector3& input, Eigen::Vector3d& output)
+{
+    output = iDynTree::toEigen(input);
+}
+} // namespace Conversions
 } // namespace BipedalLocomotion::Planners::UnicycleUtilities

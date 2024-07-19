@@ -95,6 +95,15 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
         std::deque<Step> leftSteps, rightSteps;
     };
 
+    struct FootTrajectory
+    {
+        std::vector<manif::SE3d> transform; /**< Foot transform */
+        std::vector<manif::SE3d::Tangent> mixedVelocity; /**< Spatial velocity in mixed
+                                                           representation */
+        std::vector<manif::SE3d::Tangent> mixedAcceleration; /**< Spatial acceleration in mixed
+                                                       representation */
+    };
+
     COMTrajectory comTrajectory; /**< CoM trajectory */
 
     DCMTrajectory dcmTrajectory; /**< DCM trajectory */
@@ -102,6 +111,10 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
     ContactStatus contactStatus; /**< Contact status of the feet */
 
     Steps steps; /**< List of steps and their phases */
+
+    FootTrajectory leftFootTrajectory; /**< Left foot trajectory */
+
+    FootTrajectory rightFootTrajectory; /**< Right foot trajectory */
 
     std::vector<size_t> mergePoints; /**< Indexes of the merge points of the trajectory */
 };
@@ -111,6 +124,8 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerParameters
     std::chrono::nanoseconds dt; /**< Sampling time of the planner */
 
     std::chrono::nanoseconds plannerHorizon; /**< Time horizon of the planner */
+
+    std::chrono::nanoseconds minStepDuration; /**< Time minimum time duration of a step */
 
     double leftYawDeltaInRad; /**< Left foot cartesian offset in the yaw */
 
@@ -158,6 +173,18 @@ public:
      * @param model iDynTree::Model of the robot considered.
      */
     bool setRobotContactFrames(const iDynTree::Model& model);
+
+    /**
+     * Get the index of the right foot contact frame.
+     * @return The index of the right foot contact frame.
+     */
+    int getRightContactFrameIndex() const;
+
+    /**
+     * Get the index of the left foot contact frame.
+     * @return The index of the left foot contact frame.
+     */
+    int getLeftContactFrameIndex() const;
 
     // clang-format off
     /**
@@ -242,6 +269,12 @@ public:
      * @return The contact phase list.
      */
     Contacts::ContactPhaseList getContactPhaseList();
+
+    /**
+     * Get the minimum time duration of a step.
+     * @return minimum time duration of a step.
+     */
+    std::chrono::nanoseconds getMinStepDuration() const;
 
 private:
     class Impl;

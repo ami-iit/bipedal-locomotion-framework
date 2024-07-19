@@ -1,5 +1,5 @@
 /**
- * @file UnicyclePlannerTest.cpp
+ * @file UnicycleTrajectoryGeneratorTest.cpp
  * @copyright 2020 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
@@ -11,7 +11,7 @@
 #include <iDynTree/ModelLoader.h>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
-#include <BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h>
+#include <BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <FolderPath.h>
@@ -24,7 +24,6 @@ std::shared_ptr<IParametersHandler> params()
     // Set the non-default parameters of the planner
     std::shared_ptr<IParametersHandler> handler = std::make_shared<StdImplementation>();
 
-    handler->setParameter("plannerHorizon", 20.0);
     handler->setParameter("referencePosition", Eigen::Vector2d(0.1, 0.0));
     handler->setParameter("saturationFactors", Eigen::Vector2d(0.7, 0.7));
     handler->setParameter("leftZMPDelta", Eigen::Vector2d(0.0, 0.0));
@@ -36,7 +35,7 @@ std::shared_ptr<IParametersHandler> params()
     return handler;
 }
 
-TEST_CASE("UnicyclePlannerTest")
+TEST_CASE("UnicycleTrajectoryGeneratorTest")
 {
 
     auto jointsList
@@ -55,17 +54,22 @@ TEST_CASE("UnicyclePlannerTest")
 
     const auto handler = params();
 
-    BipedalLocomotion::Planners::UnicycleTrajectoryPlanner planner;
+    BipedalLocomotion::Planners::UnicycleTrajectoryGenerator unicycleTrajectoryGenerator;
 
-    REQUIRE(planner.initialize(handler));
+    REQUIRE(unicycleTrajectoryGenerator.initialize(handler));
 
-    REQUIRE(planner.setRobotContactFrames(ml.model()));
+    REQUIRE(unicycleTrajectoryGenerator.setRobotContactFrames(ml.model()));
 
-    UnicycleTrajectoryPlannerInput input
-        = UnicycleTrajectoryPlannerInput::generateDummyUnicycleTrajectoryPlannerInput();
+    UnicycleTrajectoryGeneratorInput input
+        = UnicycleTrajectoryGeneratorInput::generateDummyUnicycleTrajectoryGeneratorInput();
 
-    REQUIRE(planner.setInput(input));
-    REQUIRE(planner.advance());
-    REQUIRE(planner.isOutputValid());
-    REQUIRE(planner.getContactPhaseList().size() == 1);
+    UnicycleTrajectoryGeneratorOutput output;
+
+    REQUIRE(unicycleTrajectoryGenerator.setInput(input));
+    REQUIRE(unicycleTrajectoryGenerator.advance());
+    REQUIRE(unicycleTrajectoryGenerator.isOutputValid());
+
+    output = unicycleTrajectoryGenerator.getOutput();
+
+    REQUIRE(output.contactPhaseList.size() == 1);
 }
