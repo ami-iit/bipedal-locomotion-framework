@@ -44,7 +44,7 @@ struct CouplingMatrices
     Eigen::MatrixXd fromJointTorquesToMotorTorques; /**< matrix to convert joint torques to motor torques */
     Eigen::MatrixXd fromMotorTorquesToJointTorques; /**< matrix to convert motor torques to joint torques */
     Eigen::MatrixXd fromJointVelocitiesToMotorVelocities; /**< matrix to convert joint velocities to motor velocities */
-    
+
     /**
      * Reset the coupling matrices to identity
      */
