@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/PassThroughControlBoard.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
-#include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/PINNFrictionEstimator.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>

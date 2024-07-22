@@ -27,6 +27,8 @@
 #include <yarp/dev/IVelocityControl.h>
 #include <yarp/dev/PolyDriver.h>
 
+#include <BipedalLocomotion/TextLogging/Logger.h>
+
 namespace BipedalLocomotion
 {
 class PassThroughControlBoard;

@@ -180,7 +180,7 @@ bool PINNFrictionEstimator::estimate(double inputDeltaPosition,
                             1);
 
     } catch (const Ort::Exception& e) {
-        std::cerr << "Error during the inferece: " << e.what() << std::endl;
+        BipedalLocomotion::log()->error("Error during the inference: {}", e.what());
         return false;
     }
 

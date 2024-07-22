@@ -74,10 +74,11 @@ bool PassThroughControlBoard::attachAll(const PolyDriverList& p)
 {
     if (p.size() != 1)
     {
-        yError("PassThroughControlBoard error: %d devices passed to attachAll, but only 1 is "
-               "supported. If you want to connect several device to a single "
-               "PassThroughControlBoard, please use a controlboardremapper device in the middle.\n",
-               p.size());
+        BipedalLocomotion::log()->error("PassThroughControlBoard error: {} devices passed to "
+                                        "attachAll, but only 1 is supported.If you want to connect "
+                                        "several device to a single PassThroughControlBoard, "
+                                        "please use a controlboardremapper device in the middle.",
+                                        p.size());
         return false;
     }
 
@@ -921,7 +922,6 @@ bool PassThroughControlBoard::getDutyCycles(double* vals)
 // CURRENT CONTROL
 bool PassThroughControlBoard::getCurrent(int m, double* curr)
 {
-    // std::cerr << "Pass Through GetCurrent" << std::endl;
     if (!proxyICurrentControl)
     {
         return false;
@@ -931,7 +931,6 @@ bool PassThroughControlBoard::getCurrent(int m, double* curr)
 
 bool PassThroughControlBoard::getCurrents(double* currs)
 {
-    // std::cerr << "Pass Through GetCurrents" << std::endl;
     if (!proxyICurrentControl)
     {
         return false;
