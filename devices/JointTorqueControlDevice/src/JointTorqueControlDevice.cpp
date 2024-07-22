@@ -1,7 +1,7 @@
 /**
  * @file JointTorqueControlDevice.cpp
  * @authors Ines Sorrentino
- * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -324,16 +324,6 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
 
 void JointTorqueControlDevice::computeDesiredCurrents()
 {
-    // compute timestep
-    double dt;
-    if (timeOfLastControlLoop < 0.0)
-    {
-        dt = this->getPeriod();
-    } else
-    {
-        dt = yarp::os::Time::now() - timeOfLastControlLoop;
-    }
-
     toEigenVector(desiredJointTorques)
         = couplingMatrices.fromJointTorquesToMotorTorques * toEigenVector(desiredJointTorques);
 
@@ -392,9 +382,11 @@ void JointTorqueControlDevice::computeDesiredCurrents()
 
 void JointTorqueControlDevice::readStatus()
 {
+    auto logPrefix = "[JointTorqueControlDevice::readStatus]";
+
     if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
     {
-        std::cerr << "Failed to get Motor encoders speed" << std::endl;
+        log()->error("{} Failed to get Motor encoders speed", logPrefix);
     }
     if (!this->PassThroughControlBoard::getMotorEncoderSpeeds(measuredMotorVelocities.data()))
     {
@@ -402,7 +394,7 @@ void JointTorqueControlDevice::readStatus()
         // velocity if available
         if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
         {
-            std::cerr << "Failed to get Motor encoders speed" << std::endl;
+            log()->error("{} Failed to get Motor encoders speed", logPrefix);
         } else
         {
             toEigenVector(measuredMotorVelocities)
@@ -412,15 +404,15 @@ void JointTorqueControlDevice::readStatus()
     }
     if (!this->PassThroughControlBoard::getTorques(measuredJointTorques.data()))
     {
-        std::cerr << "Failed to get joint torque" << std::endl;
+        log()->error("{} Failed to get joint torque", logPrefix);
     }
     if (!this->PassThroughControlBoard::getEncoders(measuredJointPositions.data()))
     {
-        std::cerr << "Failed to get joint position" << std::endl;
+        log()->error("{} Failed to get joint position", logPrefix);
     }
     if (!this->PassThroughControlBoard::getMotorEncoders(measuredMotorPositions.data()))
     {
-        std::cerr << "Failed to get motor position" << std::endl;
+        log()->error("{} Failed to get motor position", logPrefix);
     }
 }
 
@@ -428,10 +420,12 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
                                                   CouplingMatrices& coupling_matrix,
                                                   std::string group_name)
 {
+    auto logPrefix = "[JointTorqueControlDevice::loadCouplingMatrix]";
+
     if (!config.check(group_name))
     {
         coupling_matrix.reset(this->axes);
-        yWarning("COUPLING MATRIX option not found in configuration file");
+        log()->warn("{} COUPLING MATRIX option not found in configuration file", logPrefix);
         return true;
     } else
     {
@@ -440,14 +434,12 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
 
         if (!checkVectorExistInConfiguration(couplings_bot, "axesNames", this->axes))
         {
-            std::cerr << "JointTorqueControlDevice: error in loading axesNames parameter"
-                      << std::endl;
+            log()->error("{} Error in loading axesNames parameter", logPrefix);
             return false;
         }
         if (!checkVectorExistInConfiguration(couplings_bot, "motorNames", this->axes))
         {
-            std::cerr << "JointTorqueControlDevice: error in loading motorNames parameter"
-                      << std::endl;
+            log()->error("{} Error in loading motorNames parameter", logPrefix);
             return false;
         }
         std::vector<std::string> motorNames(this->axes);
@@ -463,9 +455,10 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
             std::string axis_name = axesNames[axis_id];
             if (!couplings_bot.check(axis_name) || !(couplings_bot.find(axis_name).isList()))
             {
-                std::cerr << "[ERR] " << group_name
-                          << " group found, but no coupling found for joint " << axis_name
-                          << ", exiting" << std::endl;
+                log()->error("{} {} group found, but no coupling found for joint {}, exiting",
+                             logPrefix,
+                             group_name,
+                             axis_name);
                 return false;
             }
 
@@ -478,8 +471,10 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
                     || !(axis_coupling_bot->get(coupled_motor).asList()->get(0).isFloat64())
                     || !(axis_coupling_bot->get(coupled_motor).asList()->get(1).isString()))
                 {
-                    std::cerr << "[ERR] " << group_name << " group found, but coupling for axis "
-                              << axis_name << " is malformed" << std::endl;
+                    log()->error("{} {} group found, but coupling for axis {} is malformed",
+                             logPrefix,
+                             group_name,
+                             axis_name);
                     return false;
                 }
 
@@ -487,8 +482,10 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
                     = axis_coupling_bot->get(coupled_motor).asList()->get(1).asString().c_str();
                 if (!contains(motorNames, motorName))
                 {
-                    std::cerr << "[ERR] " << group_name << "group found, but motor name  "
-                              << motorName << " is not part of the motor list" << std::endl;
+                    log()->error("{} {} group found, but motor name {} is not part of the motor list",
+                             logPrefix,
+                             group_name,
+                             motorName);
                     return false;
                 }
             }
@@ -512,11 +509,8 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
             }
         }
 
-        std::cerr << "loadCouplingMatrix DEBUG: " << std::endl;
-        std::cerr << "loaded kinematic coupling matrix from group " << group_name << std::endl;
-        std::cerr << coupling_matrix.fromJointVelocitiesToMotorVelocities << std::endl;
-        // std::cerr << "loaded torque coupling matrix from group " << group_name << std::endl;
-        // std::cerr << coupling_matrix.fromJointTorquesToMotorTorques << std::endl;
+        log()->error("{} LoadCouplingMatrix DEBUG: loaded kinematic coupling matrix from group {}", logPrefix, group_name);
+        log()->error("{}", coupling_matrix.fromJointVelocitiesToMotorVelocities);
 
         coupling_matrix.fromJointTorquesToMotorTorques
             = coupling_matrix.fromJointVelocitiesToMotorVelocities.transpose();
@@ -1174,10 +1168,10 @@ void JointTorqueControlDevice::threadRelease()
 
 void JointTorqueControlDevice::run()
 {
-    double now = yarp::os::Time::now();
+    std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
 
     std::lock_guard<std::mutex> lock(globalMutex);
-    if (now - timeOfLastControlLoop >= this->getPeriod())
+    if (now.count() - timeOfLastControlLoop.count() >= this->getPeriod())
     {
         this->controlLoop();
     }
@@ -1207,5 +1201,5 @@ void JointTorqueControlDevice::controlLoop()
                          hijackedMotors.data(),
                          desiredMotorCurrentsHijackedMotors.data());
 
-    timeOfLastControlLoop = yarp::os::Time::now();
+    timeOfLastControlLoop = BipedalLocomotion::clock().now();;
 }

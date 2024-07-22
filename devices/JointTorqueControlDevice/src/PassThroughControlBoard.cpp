@@ -1,7 +1,7 @@
 /**
  * @file PassThroughControlBoard.cpp
  * @authors Ines Sorrentino
- * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -61,19 +61,6 @@ void PassThroughControlBoard::resetPointers()
 // DEVICE DRIVER
 bool PassThroughControlBoard::open(yarp::os::Searchable& config)
 {
-    bool legacyOption = false;
-    legacyOption = legacyOption || config.check("proxy_remote");
-    legacyOption = legacyOption || config.check("proxy_local");
-
-    if (legacyOption)
-    {
-        yError("PassThroughControlBoard error: legacy option proxy_remote and proxy_local are not "
-               "supported anymore. Please use the yarprobotinterface to compose devices.\n");
-        return false;
-    }
-
-    // Do nothing, the actual proxies are initialized in the attachAll method,
-    // that is called by usercode or by the yarprobotinterface
     return true;
 }
 

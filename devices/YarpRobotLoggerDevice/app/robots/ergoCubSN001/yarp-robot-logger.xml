@@ -26,34 +26,13 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking", "GridTracking", "cmw", "jtcvc_upper_leg", "jtcvc_lower_leg", "tsid")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking", "GridTracking","cmw")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking"</param>
       <param name="remote">"/walking-coordinator/logger"</param>
       <param name="signal_name">"walking"</param>
-      <param name="carrier">"udp"</param>
-    </group>
-
-    <group name="jtcvc_upper_leg">
-      <param name="local">"/yarp-robot-logger/exogenous_signals/jtcvc/upper_leg"</param>
-      <param name="remote">"/hijackingTrqCrl/upper_leg"</param>
-      <param name="signal_name">"jtcvc_upper_leg"</param>
-      <param name="carrier">"udp"</param>
-    </group>
-
-    <group name="jtcvc_lower_leg">
-      <param name="local">"/yarp-robot-logger/exogenous_signals/jtcvc/lower_leg"</param>
-      <param name="remote">"/hijackingTrqCrl/lower_leg"</param>
-      <param name="signal_name">"jtcvc_lower_leg"</param>
-      <param name="carrier">"udp"</param>
-    </group>
-
-    <group name="tsid">
-      <param name="local">"/yarp-robot-logger/exogenous_signals/tsid"</param>
-      <param name="remote">"/tsid"</param>
-      <param name="signal_name">"tsid"</param>
       <param name="carrier">"udp"</param>
     </group>
 
@@ -87,7 +66,7 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="RobotCameraBridge">
-      <param name="stream_cameras">false</param>
+      <param name="stream_cameras">true</param>
       <group name="Cameras">
         <param name="rgb_cameras_list">("jabra")</param>
         <param name="rgbd_cameras_list">()</param>
@@ -151,3 +130,4 @@ BSD-3-Clause license. -->
   <!-- FINISH ATTACH-->
 
 </device>
+

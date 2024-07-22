@@ -1,7 +1,7 @@
 /**
  * @file JointTorqueControlDevice.h
  * @authors Ines Sorrentino
- * @copyright 2023 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
@@ -41,9 +41,13 @@ class JointTorqueControlDevice;
  */
 struct CouplingMatrices
 {
-    Eigen::MatrixXd fromJointTorquesToMotorTorques;
-    Eigen::MatrixXd fromMotorTorquesToJointTorques;
-    Eigen::MatrixXd fromJointVelocitiesToMotorVelocities;
+    Eigen::MatrixXd fromJointTorquesToMotorTorques; /**< matrix to convert joint torques to motor torques */
+    Eigen::MatrixXd fromMotorTorquesToJointTorques; /**< matrix to convert motor torques to joint torques */
+    Eigen::MatrixXd fromJointVelocitiesToMotorVelocities; /**< matrix to convert joint velocities to motor velocities */
+    
+    /**
+     * Reset the coupling matrices to identity
+     */
     void reset(int NDOF)
     {
         fromJointTorquesToMotorTorques = Eigen::MatrixXd::Identity(NDOF, NDOF);
@@ -58,10 +62,10 @@ struct CouplingMatrices
  */
 struct MotorTorqueCurrentParameters
 {
-    double kt; ///< motor torque to current gain
-    double kfc; ///< friction compensation weight parameter
-    double kp; ///< proportional gain
-    double maxCurr; ///< maximum current
+    double kt; /**< motor torque to current gain */
+    double kfc; /**< friction compensation weight parameter */
+    double kp; /**< proportional gain */
+    double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
 
     void reset()
@@ -77,11 +81,14 @@ struct MotorTorqueCurrentParameters
  */
 struct PINNParameters
 {
-    std::string modelPath; ///< PINN model path
-    int threadNumber; ///< number of threads
-    int historyLength; ///< history length
-    int inputNumber; ///< number of inputs
+    std::string modelPath; /**< PINN model path */
+    int threadNumber; /**< number of threads */
+    int historyLength; /**< history length */
+    int inputNumber; /**< number of inputs */
 
+    /**
+     * Reset the parameters
+     */
     void reset()
     {
         modelPath = "";
@@ -97,9 +104,9 @@ struct PINNParameters
  */
 struct CoulombViscousParameters
 {
-    double kc; ///< coulomb friction
-    double kv; ///< viscous friction
-    double ka; ///< viscous friction
+    double kc; /**< coulomb friction */
+    double kv; /**< viscous friction */
+    double ka; /**< viscous friction */
 
     void reset()
     {
@@ -113,13 +120,16 @@ struct CoulombViscousParameters
  */
 struct CoulombViscousStribeckParameters
 {
-    double kc; ///< coulomb friction
-    double kv; ///< viscous friction
-    double vs; ///< stiction velocity
-    double ka; ///< tanh gain
-    double ks; ///< stribeck friction
-    double alpha; // power factor
+    double kc; /**< coulomb friction */
+    double kv; /**< viscous friction */
+    double vs; /**< stiction velocity */
+    double ka; /**< tanh gain */
+    double ks; /**< stribeck friction */
+    double alpha; /**< power factor */
 
+    /**
+     * Reset the parameters
+     */
     void reset()
     {
         kc = kv = ka = vs = ks = alpha = 0.0;
@@ -139,7 +149,7 @@ private:
     std::vector<CoulombViscousParameters> coulombViscousParameters;
     std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
     std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
-    std::mutex mutexTorqueControlParam_; // The mutex for protecting the parameters
+    std::mutex mutexTorqueControlParam_; /**< The mutex for protecting the parameters of the torque control. */
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;
     yarp::sig::Vector measuredJointVelocities;
@@ -215,7 +225,7 @@ private:
     std::mutex globalMutex; ///< mutex protecting control variables & proxy interface methods
 
     // Method that actually executes one control loop
-    double timeOfLastControlLoop{-1.0};
+    std::chrono::nanoseconds timeOfLastControlLoop{std::chrono::nanoseconds::zero()};
     void controlLoop();
 
 
