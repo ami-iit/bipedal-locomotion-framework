@@ -31,7 +31,6 @@ public:
      * @param[in] modelPath a string representing the path to the ONNX model
 	 * @param[in] intraOpNumThreads a std::size_t representing the number of threads to be used for intra-op parallelism
 	 * @param[in] interOpNumThreads a std::size_t representing the number of threads to be used for inter-op parallelism
-     *
      * @return true if the initialization is successful, false otherwise
      */
     bool initialize(const std::string& modelPath,
@@ -51,7 +50,6 @@ public:
      * @param[in] inputDeltaPosition a double representing difference between the joint position and the motor position motor side (rad)
      * @param[in] inputJointVelocity a double representing the joint velocity (rad/sec)
      * @param[out] output a double representing the joint friction torque
-     * 
      * @return true if the estimation is successful, false otherwise
      */
     bool estimate(double inputDeltaPosition, double inputJointVelocity, double& output);

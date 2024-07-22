@@ -22,7 +22,7 @@
 #include <Eigen/Core>
 #include <Eigen/LU>
 
-# define M_PI   3.14159265358979323846	/* pi */
+#define M_PI 3.14159265358979323846 /* pi */
 
 using namespace std;
 using namespace yarp::os;
@@ -95,7 +95,8 @@ bool JointTorqueControlDevice::setKpJtcvc(const std::string& jointName, const do
 {
     size_t index = 0;
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -119,7 +120,8 @@ double JointTorqueControlDevice::getKpJtcvc(const std::string& jointName)
 
     double kp = -1;
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -139,7 +141,8 @@ bool JointTorqueControlDevice::setKfcJtcvc(const std::string& jointName, const d
 {
     size_t index = 0;
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -160,7 +163,8 @@ double JointTorqueControlDevice::getKfcJtcvc(const std::string& jointName)
 
     double kfc = -1;
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -174,11 +178,13 @@ double JointTorqueControlDevice::getKfcJtcvc(const std::string& jointName)
     return kfc;
 }
 
-bool JointTorqueControlDevice::setFrictionModel(const std::string& jointName, const std::string& model)
+bool JointTorqueControlDevice::setFrictionModel(const std::string& jointName,
+                                                const std::string& model)
 {
     size_t index = 0;
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -204,7 +210,8 @@ std::string JointTorqueControlDevice::getFrictionModel(const std::string& jointN
 
     std::string model = "none";
 
-    do{
+    do
+    {
         if (m_axisNames[index] == jointName)
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
@@ -234,7 +241,9 @@ void JointTorqueControlDevice::startHijackingTorqueControlIfNecessary(int j)
             this->readStatus();
             for (int i = 0; i < axes; i++)
             {
-                m_initialDeltaMotorJointRadians[i] = (measuredMotorPositions[i] - m_gearRatios[i] * measuredJointPositions[i]) * M_PI / 180.0;
+                m_initialDeltaMotorJointRadians[i]
+                    = (measuredMotorPositions[i] - m_gearRatios[i] * measuredJointPositions[i])
+                      * M_PI / 180.0;
             }
         }
 
@@ -265,34 +274,39 @@ bool JointTorqueControlDevice::isHijackingTorqueControl(int j)
 double JointTorqueControlDevice::computeFrictionTorque(int joint)
 {
     double frictionTorque = 0.0;
-    
+
     if (motorTorqueCurrentParameters[joint].frictionModel == "FRICTION_COULOMB_VISCOUS")
     {
         double velocityRadians = measuredJointVelocities[joint] * M_PI / 180.0;
 
-        frictionTorque = coulombViscousParameters[joint].kc * std::tanh(coulombViscousParameters[joint].ka * velocityRadians)
+        frictionTorque = coulombViscousParameters[joint].kc
+                             * std::tanh(coulombViscousParameters[joint].ka * velocityRadians)
                          + coulombViscousParameters[joint].kv * velocityRadians;
-    }
-    else if (motorTorqueCurrentParameters[joint].frictionModel
+    } else if (motorTorqueCurrentParameters[joint].frictionModel
                == "FRICTION_COULOMB_VISCOUS_STRIBECK")
     {
         double velocityRadians = measuredJointVelocities[joint] * M_PI / 180.0;
 
-        double tauCoulomb = coulombViscousStribeckParameters[joint].kc * std::tanh(coulombViscousStribeckParameters[joint].ka * velocityRadians);
+        double tauCoulomb
+            = coulombViscousStribeckParameters[joint].kc
+              * std::tanh(coulombViscousStribeckParameters[joint].ka * velocityRadians);
         double tauViscous = coulombViscousStribeckParameters[joint].kv * velocityRadians;
-        double tauStribeck = (coulombViscousStribeckParameters[joint].ks - coulombViscousStribeckParameters[joint].kc)
-                              * std::exp( - std::pow( std::abs( velocityRadians/coulombViscousStribeckParameters[joint].vs ), 
-                                                      coulombViscousStribeckParameters[joint].alpha ) ) 
-                              * std::tanh(coulombViscousStribeckParameters[joint].ka * velocityRadians);
+        double tauStribeck
+            = (coulombViscousStribeckParameters[joint].ks
+               - coulombViscousStribeckParameters[joint].kc)
+              * std::exp(
+                  -std::pow(std::abs(velocityRadians / coulombViscousStribeckParameters[joint].vs),
+                            coulombViscousStribeckParameters[joint].alpha))
+              * std::tanh(coulombViscousStribeckParameters[joint].ka * velocityRadians);
 
         frictionTorque = tauCoulomb + tauViscous + tauStribeck;
-    } 
-    else if (motorTorqueCurrentParameters[joint].frictionModel == "FRICTION_PINN")
+    } else if (motorTorqueCurrentParameters[joint].frictionModel == "FRICTION_PINN")
     {
         m_tempJointPosRad = measuredJointPositions[joint] * M_PI / 180.0;
         m_tempJointPosMotorSideRad = m_gearRatios[joint] * m_tempJointPosRad;
         m_motorPositionsRadians[joint] = measuredMotorPositions[joint] * M_PI / 180.0;
-        m_motorPositionCorrected[joint] = m_motorPositionsRadians[joint] - m_initialDeltaMotorJointRadians[joint];
+        m_motorPositionCorrected[joint]
+            = m_motorPositionsRadians[joint] - m_initialDeltaMotorJointRadians[joint];
         m_jointVelRadSec = measuredJointVelocities[joint] * M_PI / 180.0;
         m_motorPositionError[joint] = m_tempJointPosMotorSideRad - m_motorPositionCorrected[joint];
 
@@ -533,8 +547,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
     if (frictionGroup == nullptr)
     {
         log()->info("{} Group `FRICTION_COULOMB_VISCOUS` not found in configuration.", logPrefix);
-    }
-    else
+    } else
     {
         Eigen::VectorXd kc;
         if (!frictionGroup->getParameter("kc", kc))
@@ -568,8 +581,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
     {
         log()->info("{} Group `FRICTION_COULOMB_VISCOUS_STRIBECK` not found in configuration.",
                     logPrefix);
-    }
-    else
+    } else
     {
         Eigen::VectorXd kc;
         if (!frictionGroup->getParameter("kc", kc))
@@ -623,8 +635,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
     if (frictionGroup == nullptr)
     {
         log()->info("{} Group `FRICTION_PINN` not found in configuration.", logPrefix);
-    }
-    else
+    } else
     {
         std::vector<std::string> models;
         if (!frictionGroup->getParameter("model", models))
@@ -751,10 +762,10 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     for (int i = 0; i < kt.size(); i++)
     {
-        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN" && motorTorqueCurrentParameters[i].kfc > 0.0)
+        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN"
+            && motorTorqueCurrentParameters[i].kfc > 0.0)
         {
-            frictionEstimators[i]
-                = std::make_unique<PINNFrictionEstimator>();
+            frictionEstimators[i] = std::make_unique<PINNFrictionEstimator>();
 
             if (!frictionEstimators[i]->initialize(pinnParameters[i].modelPath,
                                                    threadNumber,
@@ -815,7 +826,7 @@ void JointTorqueControlDevice::publishStatus()
     const auto publishOutputPeriod = std::chrono::duration<double>(0.01);
 
     m_torqueControlIsRunning = true;
-    
+
     while (m_torqueControlIsRunning)
     {
         m_vectorsCollectionServer.prepareData(); // required to prepare the data to be sent
@@ -834,9 +845,12 @@ void JointTorqueControlDevice::publishStatus()
 
         {
             std::lock_guard<std::mutex> lockOutput(m_status.mutex);
-            m_vectorsCollectionServer.populateData("motor_currents::desired", m_status.m_currentLogging);
-            m_vectorsCollectionServer.populateData("joint_torques::desired", m_status.m_torqueLogging);
-            m_vectorsCollectionServer.populateData("friction_torques::estimated", m_status.m_frictionLogging);
+            m_vectorsCollectionServer.populateData("motor_currents::desired",
+                                                   m_status.m_currentLogging);
+            m_vectorsCollectionServer.populateData("joint_torques::desired",
+                                                   m_status.m_torqueLogging);
+            m_vectorsCollectionServer.populateData("friction_torques::estimated",
+                                                   m_status.m_frictionLogging);
             m_vectorsCollectionServer.sendData();
         }
 
@@ -935,7 +949,7 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
             yError("Failed to get the axis name for axis %d", i);
             ret = false;
         }
-    
+
         m_axisNames[i] = jointName;
     }
 
@@ -945,7 +959,8 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
 bool JointTorqueControlDevice::detachAll()
 {
     m_torqueControlIsRunning = false;
-    if (m_publishEstimationThread.joinable()) {
+    if (m_publishEstimationThread.joinable())
+    {
         m_publishEstimationThread.join();
     }
 

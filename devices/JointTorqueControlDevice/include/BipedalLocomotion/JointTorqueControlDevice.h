@@ -140,7 +140,6 @@ private:
     std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
     std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
     std::mutex mutexTorqueControlParam_; // The mutex for protecting the parameters
-    
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;
     yarp::sig::Vector measuredJointVelocities;

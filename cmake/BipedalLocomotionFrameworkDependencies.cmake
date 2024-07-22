@@ -279,7 +279,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointTorqueControlDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
-  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities" OFF)
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_onnxruntime" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
   "Do you want to generate and compile the VectorsCollectionWrapper?" ON
