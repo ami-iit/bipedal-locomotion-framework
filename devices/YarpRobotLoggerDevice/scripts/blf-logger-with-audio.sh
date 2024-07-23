@@ -18,10 +18,14 @@ do
         shift
         shift
         ;;
-        *)
-        # Unknown option
-        echo "Unknown option: $1"
-        exit 1
+        -h|--help|*)
+        # Display help text
+        echo "Usage: $0 [OPTIONS]"
+        echo "Options:"
+        echo "  -i, --input-port-audio    Specify the input port for the audio device (default: /icub/microphone/audio:o)"
+        echo "  -l, --launch-file         Specify the launch file for the logger device (default: launch-yarp-robot-logger.xml)"
+        echo "  -h, --help                Display this help message"
+        exit 0
         ;;
     esac
 done
