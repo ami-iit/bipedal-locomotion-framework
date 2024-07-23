@@ -6,11 +6,13 @@ do
     key="$1"
 
     case $key in
+        # Parse the input port for the audio device
         -i|--input-port-audio)
         input_port_audio="$2"
         shift
         shift
         ;;
+        # Parse the launch file for the logger device
         -l|--launch-file)
         launch_file="$2"
         shift
