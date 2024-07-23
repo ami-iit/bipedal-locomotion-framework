@@ -1,7 +1,32 @@
 #!/usr/bin/env bash
 
-input_port_audio=${1:-/icub/microphone/audio:o}
-launch_file=${2:-launch-yarp-robot-logger.xml}
+# Parse command line arguments
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        -i|--input-port-audio)
+        input_port_audio="$2"
+        shift
+        shift
+        ;;
+        -l|--launch-file)
+        launch_file="$2"
+        shift
+        shift
+        ;;
+        *)
+        # Unknown option
+        echo "Unknown option: $1"
+        exit 1
+        ;;
+    esac
+done
+
+# Set default values if not provided
+input_port_audio=${input_port_audio:-/icub/microphone/audio:o}
+launch_file=${launch_file:-launch-yarp-robot-logger.xml}
 
 # Function to handle SIGINT signal
 function handle_sigint {
