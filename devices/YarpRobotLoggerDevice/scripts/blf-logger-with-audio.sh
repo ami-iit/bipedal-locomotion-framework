@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-input_port_audio=$1
+input_port_audio=${1:-/icub/microphone/audio:o}
+launch_file=${2:-launch-yarp-robot-logger.xml}
 
 # Function to handle SIGINT signal
 function handle_sigint {
@@ -35,7 +36,7 @@ yarp wait /YarpRobotLogger/audio/audio:i
 yarp connect $input_port_audio /YarpRobotLogger/audio/audio:i fast_tcp
 
 # launch the logger device
-yarprobotinterface --config launch-yarp-robot-logger.xml &
+yarprobotinterface --config $launch_file &
 bg_pid2=$!
 
 # register the signal handlers
