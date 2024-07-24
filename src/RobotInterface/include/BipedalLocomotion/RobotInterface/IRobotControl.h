@@ -147,6 +147,14 @@ public:
     virtual std::vector<std::string> getJointList() const = 0;
 
     /**
+     * Get the actuated joints limits.
+     * @param lowerLimits vector to be filled with the lower limits of the actuated joints.
+     * @param upperLimits vector to be filled with the upper limits of the actuated joints.
+     */
+    virtual void getJointLimits(Eigen::VectorXd& lowerLimits, Eigen::VectorXd& upperLimits) const
+        = 0;
+
+    /**
      * Check if the class is valid.
      * @note If it is valid you can directly control the robot
      * @return True if it is valid, false otherwise.

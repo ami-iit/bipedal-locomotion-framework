@@ -58,6 +58,7 @@ public:
      // clang-format on
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
+    // clang-format on
 
     /**
      * Set the driver required to control the robot.
@@ -157,6 +158,13 @@ public:
      * @return A vector containing the name of the controlled joints.
      */
     std::vector<std::string> getJointList() const final;
+
+    /**
+     * Get the actuated joints limits.
+     * @param lowerLimits vector to be filled with the lower limits of the actuated joints.
+     * @param upperLimits vector to be filled with the upper limits of the actuated joints.
+     */
+    void getJointLimits(Eigen::VectorXd& lowerLimits, Eigen::VectorXd& upperLimits) const final;
 
     /**
      * Check if the class is valid.

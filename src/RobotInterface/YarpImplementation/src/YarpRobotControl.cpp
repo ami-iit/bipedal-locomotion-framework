@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
+#include <yarp/dev/IControlLimits.h>
 #include <yarp/dev/IControlMode.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IEncodersTimed.h>
@@ -56,6 +57,7 @@ struct YarpRobotControl::Impl
     yarp::dev::ICurrentControl* currentInterface{nullptr}; /**< Current control interface. */
     yarp::dev::IControlMode* controlModeInterface{nullptr}; /**< Control mode interface. */
     yarp::dev::IAxisInfo* axisInfoInterface{nullptr}; /**< Axis info interface. */
+    yarp::dev::IControlLimits* controlLimitsInterface{nullptr}; /**< Control limits interface. */
 
     std::size_t actuatedDOFs; /**< Number of the actuated DoFs. */
 
@@ -326,6 +328,12 @@ struct YarpRobotControl::Impl
         if (!robotDevice->view(axisInfoInterface) || axisInfoInterface == nullptr)
         {
             log()->error("{} Cannot load the IAxisInfo interface.", errorPrefix);
+            return false;
+        }
+
+        if (!robotDevice->view(controlLimitsInterface) || controlLimitsInterface == nullptr)
+        {
+            log()->error("{} Cannot load the IControlMode interface.", errorPrefix);
             return false;
         }
 
@@ -819,4 +827,15 @@ std::vector<std::string> YarpRobotControl::getJointList() const
 bool YarpRobotControl::isValid() const
 {
     return m_pimpl->robotDevice != nullptr;
+}
+
+void YarpRobotControl::getJointLimits(Eigen::VectorXd& lowerLimits,
+                                      Eigen::VectorXd& upperLimits) const
+{
+    lowerLimits.resize(m_pimpl->actuatedDOFs);
+    upperLimits.resize(m_pimpl->actuatedDOFs);
+    for (int i = 0; i < m_pimpl->actuatedDOFs; i++)
+    {
+        m_pimpl->controlLimitsInterface->getLimits(i, &lowerLimits[i], &upperLimits[i]);
+    }
 }
