@@ -58,7 +58,6 @@ public:
      // clang-format on
      */
     bool initialize(std::weak_ptr<ParametersHandler::IParametersHandler> handler) final;
-    // clang-format on
 
     /**
      * Set the driver required to control the robot.
