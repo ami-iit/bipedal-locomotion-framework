@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
+#include <yarp/dev/IControlLimits.h>
 #include <yarp/dev/IControlMode.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IEncodersTimed.h>
@@ -56,6 +57,7 @@ struct YarpRobotControl::Impl
     yarp::dev::ICurrentControl* currentInterface{nullptr}; /**< Current control interface. */
     yarp::dev::IControlMode* controlModeInterface{nullptr}; /**< Control mode interface. */
     yarp::dev::IAxisInfo* axisInfoInterface{nullptr}; /**< Axis info interface. */
+    yarp::dev::IControlLimits* controlLimitsInterface{nullptr}; /**< Control limits interface. */
 
     std::size_t actuatedDOFs; /**< Number of the actuated DoFs. */
 
@@ -326,6 +328,12 @@ struct YarpRobotControl::Impl
         if (!robotDevice->view(axisInfoInterface) || axisInfoInterface == nullptr)
         {
             log()->error("{} Cannot load the IAxisInfo interface.", errorPrefix);
+            return false;
+        }
+
+        if (!robotDevice->view(controlLimitsInterface) || controlLimitsInterface == nullptr)
+        {
+            log()->error("{} Cannot load the IControlMode interface.", errorPrefix);
             return false;
         }
 
@@ -819,4 +827,37 @@ std::vector<std::string> YarpRobotControl::getJointList() const
 bool YarpRobotControl::isValid() const
 {
     return m_pimpl->robotDevice != nullptr;
+}
+
+bool YarpRobotControl::getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
+                                      Eigen::Ref<Eigen::VectorXd> upperLimits) const
+{
+
+    constexpr auto errorPrefix = "[YarpRobotControl::getJointLimits]";
+
+    if (lowerLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the first input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     lowerLimits.size());
+        return false;
+    }
+
+    if (upperLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the second input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     upperLimits.size());
+        return false;
+    }
+
+    for (int i = 0; i < m_pimpl->actuatedDOFs; i++)
+    {
+        m_pimpl->controlLimitsInterface->getLimits(i, &lowerLimits[i], &upperLimits[i]);
+    }
+    return true;
 }

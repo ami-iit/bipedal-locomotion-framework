@@ -90,7 +90,14 @@ void CreateYarpRobotControl(pybind11::module& module)
                  &YarpRobotControl::setControlMode),
              py::arg("control_mode"))
         .def("get_joint_list", &YarpRobotControl::getJointList)
-        .def("is_valid", &YarpRobotControl::isValid);
+        .def("is_valid", &YarpRobotControl::isValid)
+        .def("get_joint_limits", [](YarpRobotControl& impl) {
+            Eigen::VectorXd lowerLimits, upperLimits;
+            lowerLimits.resize(impl.getJointList().size());
+            upperLimits.resize(impl.getJointList().size());
+            bool ok = impl.getJointLimits(lowerLimits, upperLimits);
+            return std::make_tuple(ok, lowerLimits, upperLimits);
+        });
 }
 
 } // namespace RobotInterface
