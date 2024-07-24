@@ -150,8 +150,10 @@ public:
      * Get the actuated joints limits.
      * @param lowerLimits vector to be filled with the lower limits of the actuated joints.
      * @param upperLimits vector to be filled with the upper limits of the actuated joints.
+     * @return True/False in case of success/failure.
      */
-    virtual void getJointLimits(Eigen::VectorXd& lowerLimits, Eigen::VectorXd& upperLimits) const
+    virtual bool getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
+                                Eigen::Ref<Eigen::VectorXd> upperLimits) const
         = 0;
 
     /**

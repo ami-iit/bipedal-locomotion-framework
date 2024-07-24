@@ -93,8 +93,10 @@ void CreateYarpRobotControl(pybind11::module& module)
         .def("is_valid", &YarpRobotControl::isValid)
         .def("get_joint_limits", [](YarpRobotControl& impl) {
             Eigen::VectorXd lowerLimits, upperLimits;
-            impl.getJointLimits(lowerLimits, upperLimits);
-            return std::make_tuple(lowerLimits, upperLimits);
+            lowerLimits.resize(impl.getJointList().size());
+            upperLimits.resize(impl.getJointList().size());
+            bool ok = impl.getJointLimits(lowerLimits, upperLimits);
+            return std::make_tuple(ok, lowerLimits, upperLimits);
         });
 }
 

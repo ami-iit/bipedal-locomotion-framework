@@ -829,13 +829,35 @@ bool YarpRobotControl::isValid() const
     return m_pimpl->robotDevice != nullptr;
 }
 
-void YarpRobotControl::getJointLimits(Eigen::VectorXd& lowerLimits,
-                                      Eigen::VectorXd& upperLimits) const
+bool YarpRobotControl::getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
+                                      Eigen::Ref<Eigen::VectorXd> upperLimits) const
 {
-    lowerLimits.resize(m_pimpl->actuatedDOFs);
-    upperLimits.resize(m_pimpl->actuatedDOFs);
+
+    constexpr auto errorPrefix = "[YarpRobotControl::getJointLimits]";
+
+    if (lowerLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the first input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     lowerLimits.size());
+        return false;
+    }
+
+    if (upperLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the second input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     upperLimits.size());
+        return false;
+    }
+
     for (int i = 0; i < m_pimpl->actuatedDOFs; i++)
     {
         m_pimpl->controlLimitsInterface->getLimits(i, &lowerLimits[i], &upperLimits[i]);
     }
+    return true;
 }
