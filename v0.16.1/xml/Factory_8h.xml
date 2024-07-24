@@ -85,11 +85,11 @@
       <node id="26">
         <label>BipedalLocomotion/System/WeightProvider.h</label>
         <link refid="WeightProvider_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -110,7 +110,7 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="29">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
@@ -144,14 +144,14 @@
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>
-      <node id="29">
+      <node id="28">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="28">
+      <node id="27">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="29" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="4">

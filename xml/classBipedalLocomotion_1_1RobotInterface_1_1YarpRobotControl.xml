@@ -405,6 +405,49 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="159" column="17"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a00df947f72b0adced55dc33e090bdcaf" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::RobotInterface::YarpRobotControl::getJointLimits</definition>
+        <argsstring>(Eigen::Ref&lt; Eigen::VectorXd &gt; lowerLimits, Eigen::Ref&lt; Eigen::VectorXd &gt; upperLimits) const final</argsstring>
+        <name>getJointLimits</name>
+        <reimplements refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a1f5f1736e87cbabbd05766c95457386c">getJointLimits</reimplements>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>lowerLimits</declname>
+        </param>
+        <param>
+          <type>Eigen::Ref&lt; Eigen::VectorXd &gt;</type>
+          <declname>upperLimits</declname>
+        </param>
+        <briefdescription>
+<para>Get the actuated joints limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lowerLimits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to be filled with the lower limits of the actuated joints. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upperLimits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to be filled with the upper limits of the actuated joints. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True/False in case of success/failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="167" column="10"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a3aa8d45bff0791af4143ab65f0cbd75c" prot="public" static="no" const="yes" explicit="no" inline="no" final="yes" virt="virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::RobotInterface::YarpRobotControl::isValid</definition>
@@ -423,7 +466,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="166" column="10"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="174" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a2fc36acedb0eb8d541d20a720247f83f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -437,7 +480,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="171" column="5"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="179" column="5"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -472,10 +515,11 @@
         <link refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpRobotControl.h" bodystart="34" bodyend="172"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpRobotControl.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotInterface/YarpRobotControl.h" bodystart="34" bodyend="180"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a69d3aac94055729d5fbff666ae1ceb83" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>checkMotionDone</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1IRobotControl_1a4d0ff64a201bf8ed884da1c41e3497bc" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>ControlMode</name></member>
+      <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a00df947f72b0adced55dc33e090bdcaf" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>getJointLimits</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a4968e571c4433e54b89a7c83fdfeace2" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>getJointList</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a85dbd7d4b6312bf184bb03054a0240b5" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpRobotControl_1a3aa8d45bff0791af4143ab65f0cbd75c" prot="public" virt="virtual"><scope>BipedalLocomotion::RobotInterface::YarpRobotControl</scope><name>isValid</name></member>

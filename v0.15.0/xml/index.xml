@@ -3155,6 +3155,16 @@
   <compound refid="Vector_8h" kind="file"><name>Vector.h</name>
     <member refid="Vector_8h_1a77a22a0b59a90fc9a928cf625631cf98" kind="typedef"><name>Vector_ptr</name></member>
   </compound>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h_1acf6bb56155419a081bfeba070c718f93" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
+  </compound>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h_1a9c21e3a141322c92512a73d9d4abf926" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
+  </compound>
   <compound refid="IKLinearTask_8h" kind="file"><name>IKLinearTask.h</name>
     <member refid="IKLinearTask_8h_1a867144d010859d7a47536fa4ffacc6b3" kind="define"><name>BLF_REGISTER_IK_TASK</name></member>
     <member refid="IKLinearTask_8h_1a8c62c5d64e69c728eecbee447e1e6ae5" kind="typedef"><name>IKLinearTaskFactory</name></member>
@@ -3164,12 +3174,27 @@
   <compound refid="JointLimitsTask_8h" kind="file"><name>JointLimitsTask.h</name>
     <member refid="JointLimitsTask_8h_1ade53115ca185227c77634f864e25cc4e" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h_1afa7d7132d613ba9111df5226c147e409" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
+  </compound>
   <compound refid="QPFixedBaseInverseKinematics_8h" kind="file"><name>QPFixedBaseInverseKinematics.h</name>
   </compound>
   <compound refid="QPInverseKinematics_8h" kind="file"><name>QPInverseKinematics.h</name>
   </compound>
   <compound refid="R3Task_8h" kind="file"><name>R3Task.h</name>
     <member refid="R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h_1a0ff0374b8057bb71f111ff308153c60c" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
+  </compound>
+  <compound refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
+    <member refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
+  </compound>
+  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
   </compound>
   <compound refid="CARE_8h" kind="file"><name>CARE.h</name>
   </compound>
@@ -3341,40 +3366,15 @@
   <compound refid="YarpLogger_8h" kind="file"><name>YarpLogger.h</name>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
   </compound>
-  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
-  </compound>
-  <compound refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h" kind="file"><name>AngularMomentumTask.h</name>
-    <member refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h_1acf6bb56155419a081bfeba070c718f93" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
-  </compound>
   <compound refid="BaseDynamicsTask_8h" kind="file"><name>BaseDynamicsTask.h</name>
-  </compound>
-  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
-  </compound>
-  <compound refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h" kind="file"><name>CoMTask.h</name>
-    <member refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h_1a9c21e3a141322c92512a73d9d4abf926" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="FeasibleContactWrenchTask_8h" kind="file"><name>FeasibleContactWrenchTask.h</name>
   </compound>
   <compound refid="JointDynamicsTask_8h" kind="file"><name>JointDynamicsTask.h</name>
   </compound>
-  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
-  </compound>
-  <compound refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h" kind="file"><name>JointTrackingTask.h</name>
-    <member refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h_1afa7d7132d613ba9111df5226c147e409" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
-  </compound>
   <compound refid="QPFixedBaseTSID_8h" kind="file"><name>QPFixedBaseTSID.h</name>
   </compound>
   <compound refid="QPTSID_8h" kind="file"><name>QPTSID.h</name>
-  </compound>
-  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
-  </compound>
-  <compound refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h" kind="file"><name>SE3Task.h</name>
-    <member refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h_1a0ff0374b8057bb71f111ff308153c60c" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
-  </compound>
-  <compound refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
-  </compound>
-  <compound refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h" kind="file"><name>SO3Task.h</name>
-    <member refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" kind="function"><name>BLF_REGISTER_IK_TASK</name></member>
   </compound>
   <compound refid="TaskSpaceInverseDynamics_8h" kind="file"><name>TaskSpaceInverseDynamics.h</name>
   </compound>
@@ -3405,55 +3405,55 @@
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
-  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f8b8ea7f56d76964f7730cc9a74ce99f" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f023f07df396e0234cd53f917fe52555" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_b371d329f17cc642f5bbaea0f6ce00fe" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_a0475e6e31f89321b1c1caef59c224bb" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_abb056cb99d43c90954d02561cbba6aa" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_2b480c6fc79e0b0cdd168fd50c1d5baf" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_a0475e6e31f89321b1c1caef59c224bb" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_851e45f592bcaa6147ca4dae8a337a6d" kind="dir"><name>BipedalLocomotion</name>
   </compound>
+  <compound refid="dir_0f1f80d6db764bc368423384d1966be2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
   <compound refid="dir_236a1b57464bafc12d3e7f870739eeda" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_6d7a1fbb1996e04a5d9e5687233f00d1" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_efb224d07cf54e25d89d3a49f0413900" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_eaf5314e05d734149789ca52ab6ca8f2" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_733aa887b497ec924a8bb483449788a6" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -3491,11 +3491,11 @@
   </compound>
   <compound refid="dir_ef3b2545113449f8f25e623a543d64e3" kind="dir"><name>/home/runner/work/bipedal-locomotion-framework/bipedal-locomotion-framework/docs/bipedal-locomotion-framework/docs/pages</name>
   </compound>
-  <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
-  </compound>
   <compound refid="dir_5de36add22bf70f2482142ec548a1759" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_9eac9c1f7daa4e273c81c8506a6afe3a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
+  </compound>
+  <compound refid="dir_99be4c3d2da6bd084380a7aad5b94c0a" kind="dir"><name>BipedalLocomotion/ParametersHandler</name>
   </compound>
   <compound refid="dir_224cc52f73d01a88baf301b7a814488c" kind="dir"><name>BipedalLocomotion/Perception</name>
   </compound>
@@ -3505,23 +3505,23 @@
   </compound>
   <compound refid="dir_6a823490c0e56385acb143e0d237a93f" kind="dir"><name>BipedalLocomotion/RobotDynamicsEstimator</name>
   </compound>
-  <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
-  </compound>
   <compound refid="dir_0508a58ae2d23521ceabe770d09ae119" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
+  </compound>
+  <compound refid="dir_c3a15aafaca1b50380f5f9f32b075f72" kind="dir"><name>BipedalLocomotion/RobotInterface</name>
   </compound>
   <compound refid="dir_36e58bdfebd16f43fc703a9958258094" kind="dir"><name>BipedalLocomotion/SimplifiedModelControllers</name>
   </compound>
-  <compound refid="dir_1a41e7752d0b8c023e1d3ecf18af98b7" kind="dir"><name>BipedalLocomotion/System</name>
+  <compound refid="dir_149d75d1ca0d14fb80db86def7c6665a" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
   <compound refid="dir_e35e9bd990223c176fd7894cafbb76ca" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
-  <compound refid="dir_149d75d1ca0d14fb80db86def7c6665a" kind="dir"><name>BipedalLocomotion/System</name>
+  <compound refid="dir_1a41e7752d0b8c023e1d3ecf18af98b7" kind="dir"><name>BipedalLocomotion/System</name>
   </compound>
   <compound refid="dir_08ae5806f2f967acb676f6f7b56a4c93" kind="dir"><name>BipedalLocomotion/TextLogging</name>
   </compound>
-  <compound refid="dir_243c1a0ecbb90c80ab66ea5f2e4da99e" kind="dir"><name>BipedalLocomotion/TextLogging</name>
-  </compound>
   <compound refid="dir_430d51ba36f1bbe4dd609d65a9e246bd" kind="dir"><name>BipedalLocomotion/TextLogging</name>
+  </compound>
+  <compound refid="dir_243c1a0ecbb90c80ab66ea5f2e4da99e" kind="dir"><name>BipedalLocomotion/TextLogging</name>
   </compound>
   <compound refid="dir_14e94b1d2b214f46e7485b8938bfc05d" kind="dir"><name>BipedalLocomotion/TSID</name>
   </compound>
