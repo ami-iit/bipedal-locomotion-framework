@@ -1658,12 +1658,16 @@ void YarpRobotLoggerDevice::run()
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
+
+        signalFullName = signal.signalName;
+
         if (vector != nullptr)
         {
             if (!signal.dataArrived)
             {
                 signal.dataArrived = addChannel(signalFullName, vector->size());
             }
+            logData(signalFullName, *vector, time);
         }
     }
 
