@@ -1521,3 +1521,4 @@ bool PassThroughControlBoard::getVelLimits(int axis, double* min, double* max)
     }
     return proxyIControlLimits->getVelLimits(axis, min, max);
 }
+

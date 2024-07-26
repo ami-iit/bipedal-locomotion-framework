@@ -1203,3 +1203,4 @@ void JointTorqueControlDevice::controlLoop()
 
     timeOfLastControlLoop = BipedalLocomotion::clock().now();;
 }
+

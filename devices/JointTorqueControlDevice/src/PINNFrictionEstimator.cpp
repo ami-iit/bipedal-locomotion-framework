@@ -189,3 +189,4 @@ bool PINNFrictionEstimator::estimate(double inputDeltaPosition,
 
     return true;
 }
+

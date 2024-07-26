@@ -43,3 +43,4 @@ To run the device on a robot make sure to define the configuration files for the
     ```
     YARP_ROBOT_NAME=ergoCubSN001 yarprobotinterface --config launch-joint-torque-control.xml
     ```
+    

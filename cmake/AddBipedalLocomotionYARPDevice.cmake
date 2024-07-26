@@ -73,3 +73,4 @@ function(add_bipedal_yarp_device)
   endif()
 
 endfunction()
+

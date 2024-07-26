@@ -20,3 +20,4 @@ service JointTorqueControlCommands
 
     string getFrictionModel(1:string jointName);
 }
+
