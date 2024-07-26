@@ -41,6 +41,7 @@ All notable changes to this project are documented in this file.
 - Fix `YARPRobotLoggerDevice` excessively long time horizon for signals logged with `YARP_CLOCK` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/839)
 - Fix crash in `robot_control.set_references()` if the passed vector is not the correct size (https://github.com/ami-iit/bipedal-locomotion-framework/pull/852)
 - Fix `VectorsCollectionClient.read_data(False)` to provide `collection` as output and avoid segmentation fault (https://github.com/ami-iit/bipedal-locomotion-framework/pull/850)
+- Fix `YARPRobotLoggerDevice` logging of vectors and text (https://github.com/ami-iit/bipedal-locomotion-framework/pull/869)
 
 ### Removed
 
