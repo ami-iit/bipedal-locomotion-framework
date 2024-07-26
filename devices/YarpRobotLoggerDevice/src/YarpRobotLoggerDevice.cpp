@@ -1260,11 +1260,13 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // make a new scope for lock guarding text logging port
         {
-            std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
             for (const auto& port : yarpPorts)
             {
                 // check if the port has not be already connected if exits, its resposive
                 // it is a text logging port and it should be logged
+                // This operation does not require a lock since it is not touching the port object
+                // as the connection operation is done through yarpserver and not through the port
+                // directly. YARP inside will take care of the connection.
                 if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
                     && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
                     && (m_textLoggingSubnames.empty()
@@ -1690,43 +1692,41 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    // lock guard scope for text logging port
+    int bufferportSize = m_textLoggingPort.getPendingReads();
+    BipedalLocomotion::TextLoggingEntry msg;
+
+    while (bufferportSize > 0)
     {
-        std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
-        int bufferportSize = m_textLoggingPort.getPendingReads();
-        BipedalLocomotion::TextLoggingEntry msg;
-
-        while (bufferportSize > 0)
+        yarp::os::Bottle* b = m_textLoggingPort.read(false);
+        if (b != nullptr)
         {
-            yarp::os::Bottle* b = m_textLoggingPort.read(false);
-            if (b != nullptr)
+            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
+                                                                            std::to_string(time));
+            if (msg.isValid)
             {
-                msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
-                                                                              std::to_string(time));
-                if (msg.isValid)
+                signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
+                                    + "::p" + msg.processPID;
+
+                // matlab does not support the character - as a key of a struct
+                findAndReplaceAll(signalFullName, "-", "_");
+
+                // if it is the first time this signal is seen by the device the channel is
+                // added
+                if (m_textLogsStoredInManager.find(signalFullName)
+                    == m_textLogsStoredInManager.end())
                 {
-                    signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
-                                     + "::p" + msg.processPID;
-
-                    // matlab does not support the character - as a key of a struct
-                    findAndReplaceAll(signalFullName, "-", "_");
-
-                    // if it is the first time this signal is seen by the device the channel is
-                    // added
-                    if (m_textLogsStoredInManager.find(signalFullName)
-                        == m_textLogsStoredInManager.end())
-                    {
-                        m_bufferManager.addChannel({signalFullName, {1, 1}});
-                        m_textLogsStoredInManager.insert(signalFullName);
-                    }
+                    m_bufferManager.addChannel({signalFullName, {1, 1}});
+                    m_textLogsStoredInManager.insert(signalFullName);
                 }
-                bufferportSize = m_textLoggingPort.getPendingReads();
-            } else
-            {
-                break;
+                //Not using logData here because we don't want to stream the data to RT
+                m_bufferManager.push_back(msg, time, signalFullName);
             }
+            bufferportSize = m_textLoggingPort.getPendingReads();
+        } else
+        {
+            break;
         }
-    } // end of lock guard scope for text logging port
+    }
 
     if (m_sendDataRT)
     {
