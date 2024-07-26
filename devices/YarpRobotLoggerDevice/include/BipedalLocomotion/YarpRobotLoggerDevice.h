@@ -79,7 +79,7 @@ private:
         std::string signalName;
         yarp::os::BufferedPort<T> port;
         bool dataArrived{false};
-        bool connected{false};
+        std::atomic<bool> connected{false};
 
         bool connect()
         {
@@ -102,7 +102,7 @@ private:
         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
         std::string signalName;
         bool dataArrived{false};
-        bool connected{false};
+        std::atomic<bool> connected{false};
 
         bool connect();
         void disconnect();

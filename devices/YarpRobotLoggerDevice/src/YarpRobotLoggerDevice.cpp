@@ -1149,38 +1149,47 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     auto connectToExogeneous = [this](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
-            std::lock_guard<std::mutex> lock(signal.mutex);
             if (signal.connected)
             {
                 continue;
             }
 
-            // try to connect to the signal
-            signal.connected = signal.connect();
+            bool connectionDone = false;
 
-            // if the connection is successful, get the metadata
-            // this is required only for the vectors collection signal
-            if constexpr (std::is_same_v<
-                              std::decay_t<decltype(signal)>,
-                              typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
             {
-                if (!signal.connected)
-                {
-                    continue;
-                }
+                std::lock_guard<std::mutex> lock(signal.mutex);
 
-                log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
-                            "metadata for the vectors collection signal named: {}",
-                            name);
+                connectionDone = signal.connect();
 
-                if (!signal.client.getMetadata(signal.metadata))
+                // try to connect to the signal
+
+                // if the connection is successful, get the metadata
+                // this is required only for the vectors collection signal
+                if constexpr (std::is_same_v<
+                                  std::decay_t<decltype(signal)>,
+                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
                 {
-                    log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
-                                "the metadata for the signal named: {}. The exogenous signal will "
-                                "not contain the metadata.",
+                    if (!connectionDone)
+                    {
+                        continue;
+                    }
+
+                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
+                                "metadata for the vectors collection signal named: {}",
                                 name);
+
+                    if (!signal.client.getMetadata(signal.metadata))
+                    {
+                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
+                                    "the metadata for the signal named: {}. The exogenous signal will "
+                                    "not contain the metadata.",
+                                    name);
+                    }
                 }
             }
+
+            signal.connected = connectionDone;
+
         }
     };
 
@@ -1614,6 +1623,11 @@ void YarpRobotLoggerDevice::run()
 
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
             = signal.client.readData(false);
@@ -1656,6 +1670,11 @@ void YarpRobotLoggerDevice::run()
 
     for (auto& [name, signal] : m_vectorSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
 
