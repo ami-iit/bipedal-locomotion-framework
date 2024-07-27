@@ -26,16 +26,6 @@
 // matioCpp
 #include <matioCpp/matioCpp.h>
 
-template <typename T, typename U>
-void checkVectorAreEqual(const T& vector1, const U& vector2, double tol = 0)
-{
-    REQUIRE(vector1.size() == vector2.size());
-
-    for (unsigned int i = 0; i < vector1.size(); i++)
-        REQUIRE(std::abs(vector1[i] - vector2[i]) <= tol);
-}
-
-
 // This function populate the YARP_DATA_DIRS environment variable to
 // ensure that YARP devices from YARP (from YARP install prefix) and BLF (from the build directory of BLF)
 // can be correctly found and launched by libYARP_robotinterface
@@ -109,7 +99,7 @@ TEST_CASE("Launch simple logger")
     // target_compile_definitions
     std::filesystem::path pathToXmlConfigurationFile = std::filesystem::path(CMAKE_CURRENT_SOURCE_DIR) / std::filesystem::path("launch-yarp-robot-logger.xml");
 
-    INFO("Loading yarprobotinterface file from " << pathToXmlConfigurationFile.string());
+    BipedalLocomotion::log()->info("Loading yarprobotinterface file from {}", pathToXmlConfigurationFile.string());
 
     // Boilerplate to add enable_tags or disable_tags as necessary
     yarp::os::Property yarprobotinterfaceConfig;
@@ -139,7 +129,7 @@ TEST_CASE("Launch simple logger")
     // At this point, the system is running and the thread that called the
     // enterPhase methods does not need to do anything else
 
-    INFO("yarprobotinterface successfully loaded and started.");
+    BipedalLocomotion::log()->info("yarprobotinterface successfully loaded and started.");
 
     // Sleep 0.2 second to collect some data
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -177,11 +167,11 @@ TEST_CASE("Launch simple logger")
     accelerometerRead = yarp::eigen::toEigen(accelerometerReadYARP);
 
 
-    INFO("Halting yarprobotinterface.");
+    BipedalLocomotion::log()->info("Halting yarprobotinterface.");
     REQUIRE(yarprobotinterfaceInstance.robot.enterPhase(yarp::robotinterface::ActionPhaseInterrupt1));
     REQUIRE(yarprobotinterfaceInstance.robot.enterPhase(yarp::robotinterface::ActionPhaseShutdown));
 
-    INFO("yarprobotinterface successfully halted.");
+    BipedalLocomotion::log()->info("yarprobotinterface successfully halted.");
 
     // Now that the yarprobotinterface has been halted, let's open our .mat files and check if the log is working
     currentPath = std::filesystem::current_path();
@@ -197,7 +187,7 @@ TEST_CASE("Launch simple logger")
         }
     }
 
-    INFO("Loading saved log from " << matLogFilename);
+    BipedalLocomotion::log()->info("Loading saved log from {}", matLogFilename);
     matioCpp::File savedLog(matLogFilename);
 
     REQUIRE(savedLog.isOpen());
@@ -214,7 +204,7 @@ TEST_CASE("Launch simple logger")
         jointPosLogged(i) = jointPosLoggedData({i,0,0});
     }
 
-    checkVectorAreEqual(jointPosLogged, jointPosRead, 1e-14);
+    REQUIRE(jointPosLogged.isApprox(jointPosRead,  1e-14));
 
     // The values are constant, so we can just check the first one
     matioCpp::MultiDimensionalArray<double> accelerometerLoggedData = robotLoggerDeviceStruct["accelerometers"].asStruct()["sim_imu_sensor"].asStruct()["data"].asMultiDimensionalArray<double>();
@@ -226,8 +216,8 @@ TEST_CASE("Launch simple logger")
         accelerometerLogged(i) = accelerometerLoggedData({i,0,0});
     }
 
+    REQUIRE(accelerometerLogged.isApprox(accelerometerRead,  1e-14));
 
-    checkVectorAreEqual(accelerometerLogged, accelerometerRead, 1e-14);
     // The z component should be near to -9.8
     CHECK(std::abs(accelerometerLogged(2) - (-9.8)) <= 1.0);
 }
