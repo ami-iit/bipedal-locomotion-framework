@@ -9,6 +9,9 @@
 #include <random>
 #include <thread>
 
+// BLF
+#include <BipedalLocomotion/TextLogging/Logger.h>
+
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
