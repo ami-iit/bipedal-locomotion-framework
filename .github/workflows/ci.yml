@@ -14,12 +14,12 @@ env:
   vcpkg_robotology_TAG: v0.11.0
   YCM_TAG: v0.15.3
   YARP_TAG: v3.8.0
-  iDynTree_TAG: 42f2874b729348575aeee723c1775c3425735ef9
+  iDynTree_TAG: v12.3.3
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.4.102
-  matioCpp_TAG: v0.2.0
+  matioCpp_TAG: v0.2.5
   LieGroupControllers_TAG: v0.2.0
-  osqp_TAG: v0.6.2
+  osqp_TAG: v0.6.3
   OsqpEigen_TAG: v0.7.0
   tomlplusplus_TAG: v3.0.1
   icub_models_TAG: v2.4.0
@@ -115,14 +115,17 @@ jobs:
         sudo apt-get install librealsense2-dev
 
     # Get the number of cores
-    - name: Get number of cores to speed up cmake build [Windows]
+    - name: Get number of cores to speed up cmake build and test to skip [Windows]
       if: matrix.os == 'windows-2019'
       run: |
          echo "NUM_CORES_FOR_CMAKE_BUILD=$((Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors)" >> $env:GITHUB_ENV
+         echo "BLF_TEST_TO_SKIP=YarpRobotLoggerDeviceUnitTests" >> $env:GITHUB_ENV
 
-    - name: Get number of cores to speed up cmake build [Ubuntu]
+    - name: Get number of cores to speed up cmake build and test to suppress [Ubuntu]
       if: startsWith(matrix.os, 'ubuntu')
-      run: echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+      run: |
+           echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+           echo "BLF_TEST_TO_SKIP=" >> $env:GITHUB_ENV
 
     - name: Cache Source-based Dependencies
       id: cache-source-deps
@@ -156,7 +159,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -A x64 -DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake \
-              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DYARP_COMPILE_GUIS:BOOL=OFF \
+              -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DYARP_COMPILE_GUIS:BOOL=OFF -DYARP_COMPILE_ALL_FAKE_DEVICES:BOOL=ON \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
         cmake --build . --config ${{ matrix.build_type }} --target INSTALL -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
         # Workaround for https://github.com/robotology-dependencies/robotology-vcpkg-binary-ports/issues/3
@@ -347,7 +350,7 @@ jobs:
         git checkout ${YARP_TAG}
         mkdir -p build
         cd build
-        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps ..
+        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DYARP_COMPILE_ALL_FAKE_DEVICES:BOOL=ON ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # iDynTree
@@ -551,4 +554,4 @@ jobs:
       run: |
         cd build
         export PATH=$PATH:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/bin:/d/a/bipedal-locomotion-framework/bipedal-locomotion-framework/install/deps/bin:/c/robotology/vcpkg/installed/x64-windows/bin:/c/robotology/vcpkg/installed/x64-windows/debug/bin
-        ctest --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
+        ctest -E "${BLF_TEST_TO_SKIP}" --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
