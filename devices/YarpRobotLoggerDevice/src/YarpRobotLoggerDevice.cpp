@@ -906,6 +906,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             {
                 if (!signal.dataArrived)
                 {
+                    signalFullName = signal.signalName;
                     signal.dataArrived = addChannel(signalFullName, vector->size());
                 }
             }
