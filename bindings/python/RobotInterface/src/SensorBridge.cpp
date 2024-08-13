@@ -98,6 +98,8 @@ void CreateYarpSensorBridge(pybind11::module& module)
                 return impl.setDriversList(list);
             },
             py::arg("polydrivers"))
+        .def("disable_joint_encoder_acceleration_reading",
+             &YarpSensorBridge::disableJointEncoderAccelerationReading)
         .def("advance", &YarpSensorBridge::advance)
         .def("is_output_valid", &YarpSensorBridge::isOutputValid)
         .def("get_failed_sensor_reads", &YarpSensorBridge::getFailedSensorReads)
@@ -254,12 +256,13 @@ void CreateYarpSensorBridge(pybind11::module& module)
                 return std::make_tuple(ok, joint, receiveTimeInSeconds);
             },
             py::arg("motor_name"))
-        .def("get_motor_currents", [](YarpSensorBridge& impl) {
-            Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
-            double receiveTimeInSeconds;
-            bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
-            return std::make_tuple(ok, joints, receiveTimeInSeconds);
-        })
+        .def("get_motor_currents",
+             [](YarpSensorBridge& impl) {
+                 Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
+                 double receiveTimeInSeconds;
+                 bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
+                 return std::make_tuple(ok, joints, receiveTimeInSeconds);
+             })
         .def(
             "get_joint_torque",
             [](YarpSensorBridge& impl, const std::string& jointName) {
