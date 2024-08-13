@@ -24,56 +24,89 @@ namespace BipedalLocomotion
 namespace RobotInterface
 {
 
-
 /**
  * YarpSensorBridge Yarp implementation of the ISensorBridge interface
  * Currently available interfaces
  * - Remapped Remote Control Board for joint states
- * - Inertial Measurement Units through generic sensor interface and remapped multiple analog sensor interface
+ * - Inertial Measurement Units through generic sensor interface and remapped multiple analog sensor
+ * interface
  * - Whole Body Dynamics Estimated end effector wrenches through a generic sensor interface
- * - Force Torque Sensors through analog sensor interface and remapped multiple analog sensor interface
+ * - Force Torque Sensors through analog sensor interface and remapped multiple analog sensor
+ * interface
  * - Depth Cameras through RGBD sensor interface
  * - Camera images through OpenCV Grabber interface
  *
- * The YarpSensorBridge expects a list of device drivers through the yarp::dev::PolyDriverList object.
- * Each PolyDriver object in the list is compared with the configured sensor names and the assumptions listed below
- * to infer the sensor types and relevant interfaces in order to to read the relevant data.
+ * The YarpSensorBridge expects a list of device drivers through the yarp::dev::PolyDriverList
+ * object. Each PolyDriver object in the list is compared with the configured sensor names and the
+ * assumptions listed below to infer the sensor types and relevant interfaces in order to to read
+ * the relevant data.
  *
  * MAJOR ASSUMPTIONS
  * - Every sensor unit(device driver) attached to this Bridge is identified by a unique name
- * - A single instance of a remote control board remapper and a multiple analog sensor remapper is expected if the suer wants to use the control board interfaces and multiple analog sensor interfaces
- * - Any generic sensor interface with channel dimensions of 6 is considered to be a cartesian wrench interface
- * - Any generic sensor interface with channel dimensions of 12 is considered as a IMU interface (server inertial)
- * - Any analog sensor interface with channel dimensions of 6 is considered as a force torque sensor interface
- * - The current internal design (read all sensors in a serial fashion) may not be suitable for a heavy measurement set
+ * - A single instance of a remote control board remapper and a multiple analog sensor remapper is
+ * expected if the suer wants to use the control board interfaces and multiple analog sensor
+ * interfaces
+ * - Any generic sensor interface with channel dimensions of 6 is considered to be a cartesian
+ * wrench interface
+ * - Any generic sensor interface with channel dimensions of 12 is considered as a IMU interface
+ * (server inertial)
+ * - Any analog sensor interface with channel dimensions of 6 is considered as a force torque sensor
+ * interface
+ * - The current internal design (read all sensors in a serial fashion) may not be suitable for a
+ * heavy measurement set
  *
  * The parameters for writing the configuration file for this class is given as,
- * |     Group                  |         Parameter               | Type              |                   Description                   |
- * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
- * |                            |check_for_nan                    | boolean           |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
- * |                            |stream_joint_states              | boolean           |Flag to activate the attachment to remapped control boards for joint states reading     |
- * |                            |stream_inertials                 | boolean           |Flag to activate the attachment to IMU sensor devices       |
- * |                            |stream_cartesian_wrenches        | boolean           |Flag to activate the attachment to Cartesian wrench related devices       |
- * |                            |stream_forcetorque_sensors       | boolean           |Flag to activate the attachment to six axis FT sensor devices       |
- * |                            |stream_cameras                   | boolean           |Flag to activate the attachment to Cameras devices       |
- * |                            |stream_pids                      | boolean           |Flag to activate the attachment to remapped control boards for pids reading      |
- * |                            |stream_motor_states              | boolean           |Flag to activate the attachment to remapped control boards for motor states reading      |
- * |                            |stream_motor_PWM                 | boolean           |Flag to activate the attachment to remapped control boards for PWM reading      |
- * |                            |stream_temperatures              | boolean           |Flag to activate the attachment to MAS temperature sensors      |
- * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
- * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
- * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
- * |                            |imu_list                         | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 12      |
- * |                            |gyroscopes_list                  | vector of strings |list of the names of devices opened with ThreeAxisGyroscope interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3  |
- * |                            |accelerometers_list              | vector of strings |list of the names of devices opened with ThreeAxisLinearAccelerometers interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
- * |                            |orientation_sensors_list         | vector of strings |list of the names of devices opened with OrientationSensors interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
- * |                            |magnetometers_list               | vector of strings |list of the names of devices opened with ThreeAxisMagnetometer interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
- * |CartesianWrenches           |                                 |                   |Expects the devices wrapping the cartesian wrenches ports to be opened as "genericSensorClient" device and have a channel dimension of 6                      |
- * |                            |cartesian_wrenches_list          | vector of strings |list of the names of devices opened as genericSensorClient device and having a channel dimension of 6      |
- * |SixAxisForceTorqueSensors   |                                 |                   |Expects the Six axis FT sensors to be opened with SixAxisForceTorqueSensors interface remapped through multiple analog sensors remapper ("multipleanalogsensorsremapper") or to be opened as analog sensor ("analogsensorclient") device having channel dimensions as 6|
- * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors (the difference between a MAS FT and an analog FT is done internally assuming that the names are distinct form each other)|
- * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
- * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
+ * |     Group                  |         Parameter               | Type              | Description
+ * |
+ * |:--------------------------:|:-------------------------------:|:-----------------:|:----------------------------------------------
+ * :| |                            |check_for_nan                    | boolean           |flag to
+ * activate checking for NANs in the incoming measurement buffers, not applicable for images| |
+ * |stream_joint_states              | boolean           |Flag to activate the attachment to
+ * remapped control boards for joint states reading     | | |stream_inertials                 |
+ * boolean           |Flag to activate the attachment to IMU sensor devices       | |
+ * |stream_cartesian_wrenches        | boolean           |Flag to activate the attachment to
+ * Cartesian wrench related devices       | |                            |stream_forcetorque_sensors
+ * | boolean           |Flag to activate the attachment to six axis FT sensor devices       | |
+ * |stream_cameras                   | boolean           |Flag to activate the attachment to Cameras
+ * devices       | |                            |stream_pids                      | boolean |Flag to
+ * activate the attachment to remapped control boards for pids reading      | | |stream_motor_states
+ * | boolean           |Flag to activate the attachment to remapped control boards for motor states
+ * reading      | |                            |stream_motor_PWM                 | boolean |Flag to
+ * activate the attachment to remapped control boards for PWM reading      | | |stream_temperatures
+ * | boolean           |Flag to activate the attachment to MAS temperature sensors      |
+ * |RemoteControlBoardRemapper  |                                 |                   |Expects only
+ * one remapped remotecontrolboard device attached to it, if there multiple remote control boards,
+ * then  use a remapper to create a single remotecontrolboard | | |joints_list | vector of strings
+ * |This parameter is **optional**. The joints list used to open the remote control board remapper.
+ * If the list is not passed, the order of the joint stored in the PolyDriver is used       |
+ * |InertialSensors             |                                 |                   |Expects IMU
+ * to be opened as genericSensorClient devices communicating through the inertial server and other
+ * inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") | |
+ * |imu_list                         | vector of strings |list of the names of devices opened as
+ * genericSensorClient device and having a channel dimension of 12      | | |gyroscopes_list |
+ * vector of strings |list of the names of devices opened with ThreeAxisGyroscope interface remapped
+ * through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3  | |
+ * |accelerometers_list              | vector of strings |list of the names of devices opened with
+ * ThreeAxisLinearAccelerometers interface remapped through the "multipleanalogsensorsremapper"
+ * interfaces and having a channel dimension of 3 | | |orientation_sensors_list         | vector of
+ * strings |list of the names of devices opened with OrientationSensors interface remapped through
+ * the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 | |
+ * |magnetometers_list               | vector of strings |list of the names of devices opened with
+ * ThreeAxisMagnetometer interface remapped through the "multipleanalogsensorsremapper" interfaces
+ * and having a channel dimension of 3 | |CartesianWrenches           | |                   |Expects
+ * the devices wrapping the cartesian wrenches ports to be opened as "genericSensorClient" device
+ * and have a channel dimension of 6                      | | |cartesian_wrenches_list          |
+ * vector of strings |list of the names of devices opened as genericSensorClient device and having a
+ * channel dimension of 6      | |SixAxisForceTorqueSensors   |                                 |
+ * |Expects the Six axis FT sensors to be opened with SixAxisForceTorqueSensors interface remapped
+ * through multiple analog sensors remapper ("multipleanalogsensorsremapper") or to be opened as
+ * analog sensor ("analogsensorclient") device having channel dimensions as 6| |
+ * |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors (the
+ * difference between a MAS FT and an analog FT is done internally assuming that the names are
+ * distinct form each other)| |TemperatureSensors          |                                 |
+ * |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through
+ * multiple analog sensors remapper| |                            |temperature_sensors_list | vector
+ * of strings |list containing the devices opened with TemperatureSensors interface      |
  */
 class YarpSensorBridge : public ISensorBridge,
                          public BipedalLocomotion::System::Source<SensorBridgeMetaData>
@@ -101,6 +134,12 @@ public:
      * @return True/False in case of success/failure.
      */
     bool setDriversList(const yarp::dev::PolyDriverList& deviceDriversList);
+
+    /**
+     * Disable the reading of joint encoder acceleration
+     * @return True/False in case of success/failure.
+     */
+    bool disableJointEncoderAccelerationReading();
 
     /**
      * @brief Advance the internal state. This may change the value retrievable from get().

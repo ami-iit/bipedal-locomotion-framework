@@ -179,6 +179,21 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
     return true;
 }
 
+bool YarpSensorBridge::disableJointEncoderAccelerationReading()
+{
+    constexpr auto logPrefix = "[YarpSensorBridge::disableJointEncoderAccelerationReading]";
+    if (!m_pimpl->checkValid(logPrefix))
+    {
+        log()->error("{} Please initialize and set drivers list before running advance().",
+                     logPrefix);
+        return false;
+    }
+
+    m_pimpl->readJointEncoderAcceleration = false;
+
+    return true;
+}
+
 bool YarpSensorBridge::advance()
 {
     constexpr auto logPrefix = "[YarpSensorBridge::advance]";
@@ -443,6 +458,13 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
                                             OptionalDoubleRef receiveTimeInSeconds)
 {
     constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+
+    if (!m_pimpl->readJointEncoderAcceleration)
+    {
+        log()->error("{} Joint encoder acceleration is not enabled.", logPrefix);
+        return false;
+    }
+
     int idx;
     if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
@@ -466,7 +488,15 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
 bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
                                              OptionalDoubleRef receiveTimeInSeconds)
 {
-    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getJointAccelerations]",
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+
+    if (!m_pimpl->readJointEncoderAcceleration)
+    {
+        log()->error("{} Joint encoder acceleration is not enabled.", logPrefix);
+        return false;
+    }
+
+    if (!m_pimpl->checkControlBoardSensor(logPrefix,
                                           m_pimpl->controlBoardRemapperInterfaces.encoders,
                                           m_pimpl->metaData.bridgeOptions.isJointSensorsEnabled,
                                           m_pimpl->controlBoardRemapperMeasures.jointAccelerations))
