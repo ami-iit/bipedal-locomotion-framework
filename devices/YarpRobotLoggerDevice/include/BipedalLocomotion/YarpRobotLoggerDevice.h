@@ -9,10 +9,10 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
-#include <vector>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio.hpp>
@@ -164,6 +164,7 @@ private:
 
     bool m_streamMotorStates{false};
     bool m_streamJointStates{false};
+    bool m_streamJointAccelerations{true};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
     bool m_streamInertials{false};
@@ -180,7 +181,9 @@ private:
     void lookForNewLogs();
     void lookForExogenousSignals();
 
-    bool addChannel(const std::string& nameKey, std::size_t vectorSize, const std::vector<std::string>& metadata = {});
+    bool addChannel(const std::string& nameKey,
+                    std::size_t vectorSize,
+                    const std::vector<std::string>& metadata = {});
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
@@ -238,11 +241,11 @@ private:
 
     const std::string cartesianWrenchesName = "cartesian_wrenches";
     const std::vector<std::string> cartesianWrenchNames = {ftElementNames[0],
-                                                        ftElementNames[1],
-                                                        ftElementNames[2],
-                                                        ftElementNames[3],
-                                                        ftElementNames[4],
-                                                        ftElementNames[5]};
+                                                           ftElementNames[1],
+                                                           ftElementNames[2],
+                                                           ftElementNames[3],
+                                                           ftElementNames[4],
+                                                           ftElementNames[5]};
 
     const std::string temperatureName = "temperatures";
     const std::vector<std::string> temperatureNames = {"temperature"};
@@ -252,10 +255,8 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
-
 };
 
 } // namespace BipedalLocomotion
-
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_H

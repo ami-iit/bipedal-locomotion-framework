@@ -181,8 +181,8 @@ struct YarpSensorBridge::Impl
                                     required device drivers */
     bool checkForNAN{false}; /**< flag to enable search for NANs in the incoming measurement buffers
                               */
-    bool readJointEncoderAcceleration{true}; /**< flag to enable reading joint accelerations from
-                                                  encoders */
+    bool streamJointAccelerations{true}; /**< flag to enable reading joint accelerations from
+                                            encoders */
 
     using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(
         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
@@ -1502,7 +1502,7 @@ struct YarpSensorBridge::Impl
 
         bool ok{true};
 
-        ok = ok && readAllJointSensors(checkForNan, readJointEncoderAcceleration);
+        ok = ok && readAllJointSensors(checkForNan, streamJointAccelerations);
         ok = ok && readAllMotorSensors(checkForNan);
         ok = ok && readAllPIDs(checkForNan);
         ok = ok && readAllMotorPWMs(checkForNan);
@@ -1521,7 +1521,7 @@ struct YarpSensorBridge::Impl
     /**
      * Read joint sensors measurements
      */
-    bool readAllJointSensors(bool checkForNan = false, bool readJointAcceleration = true)
+    bool readAllJointSensors(bool checkForNan = false, bool streamJointAccelerations = true)
     {
         constexpr auto logPrefix = "[YarpSensorBridge::Impl::readAllJointSensors]";
 
@@ -1536,7 +1536,7 @@ struct YarpSensorBridge::Impl
                  && controlBoardRemapperInterfaces.encoders->getEncoderSpeeds(
                      controlBoardRemapperMeasures.jointVelocitiesUnordered.data());
 
-            if (readJointAcceleration)
+            if (streamJointAccelerations)
             {
                 ok = ok
                      && controlBoardRemapperInterfaces.encoders->getEncoderAccelerations(
@@ -1561,7 +1561,7 @@ struct YarpSensorBridge::Impl
                         return false;
                     }
 
-                    if (readJointAcceleration)
+                    if (streamJointAccelerations)
                     {
                         if (nanExistsInVec(controlBoardRemapperMeasures.jointAccelerationsUnordered,
                                            logPrefix,
@@ -1582,7 +1582,7 @@ struct YarpSensorBridge::Impl
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
                       * controlBoardRemapperMeasures.jointVelocitiesUnordered * M_PI / 180;
 
-                if (readJointAcceleration)
+                if (streamJointAccelerations)
                 {
                     controlBoardRemapperMeasures.jointAccelerations.noalias()
                         = controlBoardRemapperMeasures.remappedJointPermutationMatrix

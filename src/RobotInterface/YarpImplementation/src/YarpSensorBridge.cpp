@@ -38,6 +38,16 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
         return false;
     }
 
+    if (!ptr->getParameter("stream_joint_accelerations", m_pimpl->streamJointAccelerations))
+    {
+        log()->info("{} Unable to get stream_joint_accelerations. Set to true by default",
+                    logPrefix);
+    }
+    if (!m_pimpl->streamJointAccelerations)
+    {
+        log()->info("{} Joint accelerations will not be streamed.", logPrefix);
+    }
+
     bool ret{true};
     ret = m_pimpl->subConfigLoader("stream_joint_states",
                                    "RemoteControlBoardRemapper",
@@ -176,21 +186,6 @@ bool YarpSensorBridge::setDriversList(const yarp::dev::PolyDriverList& deviceDri
         return false;
     }
     m_pimpl->driversAttached = true;
-    return true;
-}
-
-bool YarpSensorBridge::disableJointEncoderAccelerationReading()
-{
-    constexpr auto logPrefix = "[YarpSensorBridge::disableJointEncoderAccelerationReading]";
-    if (!m_pimpl->checkValid(logPrefix))
-    {
-        log()->error("{} Please initialize and set drivers list before running advance().",
-                     logPrefix);
-        return false;
-    }
-
-    m_pimpl->readJointEncoderAcceleration = false;
-
     return true;
 }
 
@@ -459,9 +454,9 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
 {
     constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
 
-    if (!m_pimpl->readJointEncoderAcceleration)
+    if (!m_pimpl->streamJointAccelerations)
     {
-        log()->error("{} Joint encoder acceleration is not enabled.", logPrefix);
+        log()->error("{} Joint acceleration is not streamed.", logPrefix);
         return false;
     }
 
@@ -490,9 +485,9 @@ bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAc
 {
     constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
 
-    if (!m_pimpl->readJointEncoderAcceleration)
+    if (!m_pimpl->streamJointAccelerations)
     {
-        log()->error("{} Joint encoder acceleration is not enabled.", logPrefix);
+        log()->error("{} Joint acceleration is not streamed.", logPrefix);
         return false;
     }
 

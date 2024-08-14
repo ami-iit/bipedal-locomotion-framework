@@ -105,12 +105,6 @@ public:
     bool setDriversList(const yarp::dev::PolyDriverList& deviceDriversList);
 
     /**
-     * Disable the reading of joint encoder acceleration
-     * @return True/False in case of success/failure.
-     */
-    bool disableJointEncoderAccelerationReading();
-
-    /**
      * @brief Advance the internal state. This may change the value retrievable from get().
      * @return True if the advance is successful.
      */
