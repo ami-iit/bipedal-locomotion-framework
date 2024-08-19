@@ -304,8 +304,9 @@
               <span class="m-doc-wrap-bumper">auto <a href="#ab21dc032893cf0ad554211a9c1a5d51d" class="m-doc-self">readControlBoardInterface</a>(</span><span class="m-doc-wrap">bool checkForNan = false) -&gt; bool</span>
             </dt>
             <dd>Read control board remapper interfaces.</dd>
-            <dt id="a559050923864e6c3b958e05c6bbea5f0">
-              <span class="m-doc-wrap-bumper">auto <a href="#a559050923864e6c3b958e05c6bbea5f0" class="m-doc-self">readAllJointSensors</a>(</span><span class="m-doc-wrap">bool checkForNan = false) -&gt; bool</span>
+            <dt id="a9310f53e5851feff3e5e87620ae7df38">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9310f53e5851feff3e5e87620ae7df38" class="m-doc-self">readAllJointSensors</a>(</span><span class="m-doc-wrap">bool checkForNan = false,
+              bool streamJointAccelerations = true) -&gt; bool</span>
             </dt>
             <dd>Read joint sensors measurements.</dd>
             <dt id="ad4b1e5b50d0da2141fe44e93da941e19">
@@ -461,6 +462,10 @@
               bool <a href="#a9792148229e6b49ad4b2d99b94a89f17" class="m-doc-self">checkForNAN</a>
             </dt>
             <dd>flag to enable search for NANs in the incoming measurement buffers</dd>
+            <dt id="ae4d98a963dee32cda86cab29b6564ba7">
+              bool <a href="#ae4d98a963dee32cda86cab29b6564ba7" class="m-doc-self">streamJointAccelerations</a>
+            </dt>
+            <dd>flag to enable reading joint accelerations from encoders</dd>
           </dl>
         </section>
         <section>

@@ -1122,6 +1122,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a0866086ca3ae804487ae3c11d5416d69" kind="variable"><name>bridgeInitialized</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a202ee276fabf30890f4eacdc94e10aa5" kind="variable"><name>driversAttached</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9792148229e6b49ad4b2d99b94a89f17" kind="variable"><name>checkForNAN</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae4d98a963dee32cda86cab29b6564ba7" kind="variable"><name>streamJointAccelerations</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae40e9ebd2e149185271355e5ce76b24b" kind="function"><name>getIndexFromVector</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a266435aaa791e3992a2f0b18535cabbd" kind="function"><name>nanExistsInVec</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af68ef017244a7f0ff4758be6d2f85838" kind="function"><name>subConfigLoader</name></member>
@@ -1154,7 +1155,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1aa8288679bfacdc3eecb66e59a23438e1" kind="function"><name>readMASSensor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a849f6076aaf1ed72a02234cc63f35b4f" kind="function"><name>readAllMASSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ab21dc032893cf0ad554211a9c1a5d51d" kind="function"><name>readControlBoardInterface</name></member>
-    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a559050923864e6c3b958e05c6bbea5f0" kind="function"><name>readAllJointSensors</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9310f53e5851feff3e5e87620ae7df38" kind="function"><name>readAllJointSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad4b1e5b50d0da2141fe44e93da941e19" kind="function"><name>readAllMotorSensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ad72bcad393af9a6a373faecbd37bb548" kind="function"><name>readAllMotorPWMs</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a4409c543182d5bb405ef005c6ceeb7a4" kind="function"><name>readAllPIDs</name></member>
