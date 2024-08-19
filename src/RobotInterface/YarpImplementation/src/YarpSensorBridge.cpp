@@ -38,6 +38,16 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
         return false;
     }
 
+    if (!ptr->getParameter("stream_joint_accelerations", m_pimpl->streamJointAccelerations))
+    {
+        log()->info("{} Unable to get stream_joint_accelerations. Set to true by default",
+                    logPrefix);
+    }
+    if (!m_pimpl->streamJointAccelerations)
+    {
+        log()->info("{} Joint accelerations will not be streamed.", logPrefix);
+    }
+
     bool ret{true};
     ret = m_pimpl->subConfigLoader("stream_joint_states",
                                    "RemoteControlBoardRemapper",
@@ -443,6 +453,13 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
                                             OptionalDoubleRef receiveTimeInSeconds)
 {
     constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+
+    if (!m_pimpl->streamJointAccelerations)
+    {
+        log()->error("{} Joint acceleration is not streamed.", logPrefix);
+        return false;
+    }
+
     int idx;
     if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
     {
@@ -466,7 +483,15 @@ bool YarpSensorBridge::getJointAcceleration(const std::string& jointName,
 bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAccelerations,
                                              OptionalDoubleRef receiveTimeInSeconds)
 {
-    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getJointAccelerations]",
+    constexpr auto logPrefix = "[YarpSensorBridge::getJointAcceleration]";
+
+    if (!m_pimpl->streamJointAccelerations)
+    {
+        log()->error("{} Joint acceleration is not streamed.", logPrefix);
+        return false;
+    }
+
+    if (!m_pimpl->checkControlBoardSensor(logPrefix,
                                           m_pimpl->controlBoardRemapperInterfaces.encoders,
                                           m_pimpl->metaData.bridgeOptions.isJointSensorsEnabled,
                                           m_pimpl->controlBoardRemapperMeasures.jointAccelerations))

@@ -25,6 +25,7 @@ All notable changes to this project are documented in this file.
 - Add `setControlModeAsync` function to set motor control mode in an asynchronous process (https://github.com/ami-iit/bipedal-locomotion-framework/pull/860)
 - Add launch parameter to `blf-logger-with-audio.sh` script to set logger launch file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/867)
 - Add `getJointLimits` function to set get actuated joints position limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/868)
+- Add the possibility to disable streaming of joint encoder acceleration measurements (https://github.com/ami-iit/bipedal-locomotion-framework/pull/876)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
