@@ -25,8 +25,8 @@ All notable changes to this project are documented in this file.
 - Add `setControlModeAsync` function to set motor control mode in an asynchronous process (https://github.com/ami-iit/bipedal-locomotion-framework/pull/860)
 - Add launch parameter to `blf-logger-with-audio.sh` script to set logger launch file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/867)
 - Add `getJointLimits` function to set get actuated joints position limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/868)
-- Implement joint torque control device and friction estimation through PINN (https://github.com/ami-iit/bipedal-locomotion-framework/pull/866)
 - Add the possibility to disable streaming of joint encoder acceleration measurements (https://github.com/ami-iit/bipedal-locomotion-framework/pull/876)
+- Implement joint torque control device and friction estimation through PINN (https://github.com/ami-iit/bipedal-locomotion-framework/pull/866)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
@@ -43,6 +43,7 @@ All notable changes to this project are documented in this file.
 - Fix `YARPRobotLoggerDevice` excessively long time horizon for signals logged with `YARP_CLOCK` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/839)
 - Fix crash in `robot_control.set_references()` if the passed vector is not the correct size (https://github.com/ami-iit/bipedal-locomotion-framework/pull/852)
 - Fix `VectorsCollectionClient.read_data(False)` to provide `collection` as output and avoid segmentation fault (https://github.com/ami-iit/bipedal-locomotion-framework/pull/850)
+- Fix `YARPRobotLoggerDevice` logging of vectors and text (https://github.com/ami-iit/bipedal-locomotion-framework/pull/869)
 
 ### Removed
 
@@ -231,6 +232,7 @@ All notable changes to this project are documented in this file.
 - Fix `QPTSID` documentation (https://github.com/ami-iit/bipedal-locomotion-framework/pull/634)
 - Fix error messages in `QPTSID` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/639)
 - Fix compilation failure when using CMake 3.26.1 and pybind11 2.4.3 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/643)
+- Fixed changelog checker (https://github.com/ami-iit/bipedal-locomotion-framework/pull/856)
 
 ## [0.12.0] - 2023-03-07
 ### Added
