@@ -67,6 +67,9 @@ struct MotorTorqueCurrentParameters
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
 
+    /**
+     * Reset the parameters
+     */
     void reset()
     {
         kt = kfc = kp = maxCurr = 0.0;
@@ -107,6 +110,9 @@ struct CoulombViscousParameters
     double kv; /**< viscous friction */
     double ka; /**< viscous friction */
 
+    /**
+     * Reset the parameters
+     */
     void reset()
     {
         kc = kv = ka = 0.0;
@@ -135,6 +141,11 @@ struct CoulombViscousStribeckParameters
     }
 };
 
+/**
+ * @brief This class implements a device that allows to control the joints of a robot in torque mode.
+ * The device is able to estimate the friction torque acting on the joints and to compensate it.
+ * The friction torque is estimated using a physics informed neural network model or a coulomb + viscous model.
+ */
 class BipedalLocomotion::JointTorqueControlDevice
     : public BipedalLocomotion::PassThroughControlBoard,
       public yarp::os::PeriodicThread,
@@ -230,6 +241,9 @@ private:
 
 public:
     // CONSTRUCTOR/DESTRUCTOR
+    JointTorqueControlDevice(double period,
+                             yarp::os::ShouldUseSystemClock useSystemClock
+                             = yarp::os::ShouldUseSystemClock::No);
     JointTorqueControlDevice();
     ~JointTorqueControlDevice();
 

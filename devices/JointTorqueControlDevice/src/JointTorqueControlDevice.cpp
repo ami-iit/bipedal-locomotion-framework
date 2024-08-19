@@ -7,22 +7,24 @@
 
 #include <BipedalLocomotion/JointTorqueControlDevice.h>
 #include <BipedalLocomotion/System/Clock.h>
+#include <BipedalLocomotion/System/Clock.h>
+#include <BipedalLocomotion/System/YarpClock.h>
 
 #include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <mutex>
+#include <math.h>
 
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Log.h>
 #include <yarp/os/LogStream.h>
 #include <yarp/os/Property.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/eigen/Eigen.h>
 
 #include <Eigen/Core>
 #include <Eigen/LU>
-
-#define M_PI 3.14159265358979323846 /* pi */
 
 using namespace std;
 using namespace yarp::os;
@@ -58,16 +60,6 @@ inline double sign(double x)
     return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
 
-inline Eigen::Map<Eigen::MatrixXd> toEigen(yarp::sig::Vector& vec)
-{
-    return Eigen::Map<Eigen::MatrixXd>(vec.data(), 1, vec.size());
-}
-
-inline Eigen::Map<Eigen::VectorXd> toEigenVector(yarp::sig::Vector& vec)
-{
-    return Eigen::Map<Eigen::VectorXd>(vec.data(), vec.size());
-}
-
 /** Check if the vector, corresponding at the parameter with name=name,
  * exists and has the correct lenght (expected_vec_size). */
 bool checkVectorExistInConfiguration(yarp::os::Bottle& bot,
@@ -81,10 +73,21 @@ bool checkVectorExistInConfiguration(yarp::os::Bottle& bot,
 // JOINT TORQUE CONTROL IMPLEMENTATION
 
 // CONSTRUCTOR/DESTRUCTOR
-JointTorqueControlDevice::JointTorqueControlDevice()
-    : PassThroughControlBoard()
-    , PeriodicThread(10)
+JointTorqueControlDevice::JointTorqueControlDevice(double period,
+                                                   yarp::os::ShouldUseSystemClock useSystemClock)
+    : PassThroughControlBoard(), yarp::os::PeriodicThread(period, useSystemClock)
 {
+    // Use the yarp clock in blf
+    BipedalLocomotion::System::ClockBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
+}
+
+JointTorqueControlDevice::JointTorqueControlDevice()
+    : PassThroughControlBoard(), yarp::os::PeriodicThread(0.01, yarp::os::ShouldUseSystemClock::No)
+{
+    // Use the yarp clock in blf
+    BipedalLocomotion::System::ClockBuilder::setFactory(
+        std::make_shared<BipedalLocomotion::System::YarpClockFactory>());
 }
 
 JointTorqueControlDevice::~JointTorqueControlDevice()
@@ -93,89 +96,96 @@ JointTorqueControlDevice::~JointTorqueControlDevice()
 
 bool JointTorqueControlDevice::setKpJtcvc(const std::string& jointName, const double kp)
 {
-    size_t index = 0;
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
 
-    do
+    if (it != m_axisNames.end())
     {
-        if (m_axisNames[index] == jointName)
+        // Calculate the index of the found element
+        std::size_t index = std::distance(m_axisNames.begin(), it);
+
         {
             std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
             motorTorqueCurrentParameters[index].kp = kp;
 
             log()->info("Request for kp des = {}", kp);
             log()->info("Setting value kp = {}", motorTorqueCurrentParameters[index].kp);
-
-            return true;
         }
 
-        index++;
-    } while (index < m_axisNames.size());
+        return true;
+    }
 
     return false;
 }
 
 double JointTorqueControlDevice::getKpJtcvc(const std::string& jointName)
 {
-    size_t index = 0;
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
 
-    double kp = -1;
-
-    do
+    // If jointName is found
+    if (it != m_axisNames.end())
     {
-        if (m_axisNames[index] == jointName)
-        {
-            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
 
-            log()->info("kp value is {}", motorTorqueCurrentParameters[index].kp);
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
 
-            return motorTorqueCurrentParameters[index].kp;
-        }
+        // Log the kp value
+        log()->info("kp value is {}", motorTorqueCurrentParameters[index].kp);
 
-        index++;
-    } while (index < m_axisNames.size());
+        // Return the kp value
+        return motorTorqueCurrentParameters[index].kp;
+    }
 
-    return kp;
+    // jointName was not found, return default value
+    return -1;
 }
 
 bool JointTorqueControlDevice::setKfcJtcvc(const std::string& jointName, const double kfc)
 {
-    size_t index = 0;
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
 
-    do
+    // If jointName is found
+    if (it != m_axisNames.end())
     {
-        if (m_axisNames[index] == jointName)
-        {
-            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
-            motorTorqueCurrentParameters[index].kfc = kfc;
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
 
-            return true;
-        }
+        // Lock the mutex to safely modify motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
 
-        index++;
-    } while (index < m_axisNames.size());
+        // Update the kfc value
+        motorTorqueCurrentParameters[index].kfc = kfc;
 
+        return true;
+    }
+
+    // jointName was not found
     return false;
 }
 
 double JointTorqueControlDevice::getKfcJtcvc(const std::string& jointName)
 {
-    size_t index = 0;
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
 
-    double kfc = -1;
-
-    do
+    // If jointName is found
+    if (it != m_axisNames.end())
     {
-        if (m_axisNames[index] == jointName)
-        {
-            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
 
-            return motorTorqueCurrentParameters[index].kfc;
-        }
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
 
-        index++;
-    } while (index < m_axisNames.size());
+        // Return the kfc value
+        return motorTorqueCurrentParameters[index].kfc;
+    }
 
-    return kfc;
+    // jointName was not found, return default value
+    return -1;
 }
 
 bool JointTorqueControlDevice::setFrictionModel(const std::string& jointName,
@@ -324,8 +334,8 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
 
 void JointTorqueControlDevice::computeDesiredCurrents()
 {
-    toEigenVector(desiredJointTorques)
-        = couplingMatrices.fromJointTorquesToMotorTorques * toEigenVector(desiredJointTorques);
+    yarp::eigen::toEigen(desiredJointTorques)
+        = couplingMatrices.fromJointTorquesToMotorTorques * yarp::eigen::toEigen(desiredJointTorques);
 
     estimatedFrictionTorques.zero();
 
@@ -376,7 +386,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
     }
     if (isNaNOrInf)
     {
-        yWarning("Inf or NaN found in control output");
+        log()->warn("Inf or NaN found in control output");
     }
 }
 
@@ -397,9 +407,9 @@ void JointTorqueControlDevice::readStatus()
             log()->error("{} Failed to get Motor encoders speed", logPrefix);
         } else
         {
-            toEigenVector(measuredMotorVelocities)
+            yarp::eigen::toEigen(measuredMotorVelocities)
                 = couplingMatrices.fromJointVelocitiesToMotorVelocities
-                  * toEigenVector(measuredJointVelocities);
+                  * yarp::eigen::toEigen(measuredJointVelocities);
         }
     }
     if (!this->PassThroughControlBoard::getTorques(measuredJointTorques.data()))
@@ -1175,9 +1185,6 @@ void JointTorqueControlDevice::run()
     {
         this->controlLoop();
     }
-
-    double now_2 = yarp::os::Time::now();
-    // std::cout << "Elapsed time: " << now_2 - now << std::endl;
 }
 
 void JointTorqueControlDevice::controlLoop()
