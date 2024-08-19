@@ -19,6 +19,7 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
                      include/BipedalLocomotion/PINNFrictionEstimator.h
       PRIVATE_LINK_LIBRARIES
       BipedalLocomotion::YarpUtilities
+      BipedalLocomotion::SystemYarpImplementation
       BipedalLocomotion::RobotInterfaceYarpImplementation
       BipedalLocomotion::ParametersHandlerYarpImplementation
       BipedalLocomotion::VectorsCollection

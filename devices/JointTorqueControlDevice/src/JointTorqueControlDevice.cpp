@@ -7,7 +7,6 @@
 
 #include <BipedalLocomotion/JointTorqueControlDevice.h>
 #include <BipedalLocomotion/System/Clock.h>
-#include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
 
 #include <algorithm>
