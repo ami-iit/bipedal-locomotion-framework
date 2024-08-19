@@ -81,8 +81,7 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
 
     if (m_pimpl->session == nullptr)
     {
-        std::cerr << "Impossible to load the model from the file: " << networkModelPath
-                  << std::endl;
+        log()->error("Unable to load the model from the file: {}", networkModelPath);
         return false;
     }
 
