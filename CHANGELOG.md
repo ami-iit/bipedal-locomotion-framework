@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file.
 - Add launch parameter to `blf-logger-with-audio.sh` script to set logger launch file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/867)
 - Add `getJointLimits` function to set get actuated joints position limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/868)
 - Implement joint torque control device and friction estimation through PINN (https://github.com/ami-iit/bipedal-locomotion-framework/pull/866)
+- Add the possibility to disable streaming of joint encoder acceleration measurements (https://github.com/ami-iit/bipedal-locomotion-framework/pull/876)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)

@@ -16,7 +16,7 @@ env:
   YARP_TAG: v3.8.0
   iDynTree_TAG: 42f2874b729348575aeee723c1775c3425735ef9
   CasADi_TAG: 3.5.5.2
-  manif_TAG: 0.0.4.102
+  manif_TAG: 0.0.5
   matioCpp_TAG: v0.2.0
   LieGroupControllers_TAG: v0.2.0
   osqp_TAG: v0.6.2
@@ -225,7 +225,7 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology-dependencies/manif.git
+        git clone https://github.com/artivis/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
@@ -397,7 +397,7 @@ jobs:
 
         # manif
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/robotology-dependencies/manif.git
+        git clone https://github.com/artivis/manif.git
         cd manif
         git checkout ${manif_TAG}
         mkdir build
