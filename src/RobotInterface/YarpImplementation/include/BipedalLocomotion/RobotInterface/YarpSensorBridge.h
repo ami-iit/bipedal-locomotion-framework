@@ -24,7 +24,7 @@ namespace BipedalLocomotion
 namespace RobotInterface
 {
 
-
+// clang-format off
 /**
  * YarpSensorBridge Yarp implementation of the ISensorBridge interface
  * Currently available interfaces
@@ -75,6 +75,8 @@ namespace RobotInterface
  * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
  * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
  */
+// clang-format on
+
 class YarpSensorBridge : public ISensorBridge,
                          public BipedalLocomotion::System::Source<SensorBridgeMetaData>
 {

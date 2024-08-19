@@ -559,6 +559,17 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
                     logPrefix);
     }
 
+    if (!ptr->getParameter("stream_joint_accelerations", m_streamJointAccelerations))
+    {
+        log()->info("{} The 'stream_joint_accelerations' parameter is not found. Set to true by "
+                    "default",
+                    logPrefix);
+    }
+    if (!m_streamJointAccelerations)
+    {
+        log()->info("{} The joint accelerations is not logged", logPrefix);
+    }
+
     if (!ptr->getParameter("stream_motor_states", m_streamMotorStates))
     {
         log()->info("{} The 'stream_motor_states' parameter is not found. The motor states is not "
@@ -750,7 +761,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     {
         ok = ok && addChannel(jointStatePositionsName, joints.size(), joints);
         ok = ok && addChannel(jointStateVelocitiesName, joints.size(), joints);
-        ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+        if (m_streamJointAccelerations)
+        {
+            ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+        }
         ok = ok && addChannel(jointStateTorquesName, joints.size(), joints);
     }
     if (m_streamMotorStates)
@@ -1462,9 +1476,12 @@ void YarpRobotLoggerDevice::run()
         {
             logData(jointStateVelocitiesName, m_jointSensorBuffer, time);
         }
-        if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+        if (m_streamJointAccelerations)
         {
-            logData(jointStateAccelerationsName, m_jointSensorBuffer, time);
+            if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+            {
+                logData(jointStateAccelerationsName, m_jointSensorBuffer, time);
+            }
         }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
