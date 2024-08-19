@@ -13,7 +13,7 @@
 #include <cstring>
 #include <iostream>
 #include <mutex>
-#include <math.h>
+#include <cmath>
 
 #include <yarp/os/Bottle.h>
 #include <yarp/os/Log.h>

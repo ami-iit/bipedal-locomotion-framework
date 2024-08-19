@@ -8,6 +8,7 @@
 #include <memory>
 #include <deque>
 #include <string>
+#include <cmath>
 
 #include <Eigen/Dense>
 
@@ -81,7 +82,7 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
 
     if (m_pimpl->session == nullptr)
     {
-        log()->error("Unable to load the model from the file: {}", networkModelPath);
+        BipedalLocomotion::log()->error("Unable to load the model from the file: {}", networkModelPath);
         return false;
     }
 
