@@ -55,6 +55,8 @@ public:
 private:
     std::chrono::nanoseconds m_previousTimestamp;
     std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
+    std::chrono::nanoseconds m_resumeTime{std::chrono::nanoseconds(0)};
+    std::chrono::nanoseconds m_awakeningTime{std::chrono::microseconds(500)};
     bool m_firstRun{true};
 
     using ft_t = Eigen::Matrix<double, 6, 1>;

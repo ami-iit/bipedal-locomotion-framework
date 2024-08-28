@@ -5,7 +5,7 @@ BSD-3-Clause license. -->
 <?xml version="1.0" encoding="UTF-8" ?>
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
   <param name="robot">ergocubSim</param>
-  <param name="sampling_period_in_s">0.002</param>
+  <param name="sampling_period_in_s">0.001</param>
   <param name="rgb_cameras_fps">(30)</param>
   <param name="video_codec_code">mp4v</param>
   <param name="port_prefix">/yarp-robot-logger</param>
@@ -38,6 +38,7 @@ BSD-3-Clause license. -->
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>
+    <param name="stream_joint_accelerations">false</param>
     <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">false</param>
     <param name="stream_forcetorque_sensors">true</param>
