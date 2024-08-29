@@ -152,12 +152,23 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         this->setPeriod(devicePeriod);
     }
 
-    if (!params->getParameter("text_logging_subnames", m_textLoggingSubnames))
+    if (!params->getParameter("log_text", m_logText))
     {
-        log()->info("{} Unable to get the 'text_logging_subnames' parameter for the telemetry. All "
-                    "the ports related to the text logging will be considered.",
-                    logPrefix);
+        log()->info("{} Unable to get the 'log_text' parameter for the telemetry. Default value: {}.",
+                    logPrefix,
+                    m_logText);
     }
+
+    if (m_logText)
+    {
+        if (!params->getParameter("text_logging_subnames", m_textLoggingSubnames))
+        {
+            log()->info("{} Unable to get the 'text_logging_subnames' parameter for the telemetry. "
+                        "All the ports related to the text logging will be considered.",
+                        logPrefix);
+        }
+    }
+
 
     if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
     {
@@ -725,10 +736,14 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
 
     bool ok = true;
-    // open the TextLogging port
-    ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
-    // run the thread
-    m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
+
+    if (m_logText)
+    {
+        // open the TextLogging port
+        ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
+        // run the thread
+        m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
+    }
 
     // run the thread for reading the exogenous signals
     m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
@@ -1730,39 +1745,42 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    int bufferportSize = m_textLoggingPort.getPendingReads();
-    BipedalLocomotion::TextLoggingEntry msg;
-
-    while (bufferportSize > 0)
+    if (m_logText)
     {
-        yarp::os::Bottle* b = m_textLoggingPort.read(false);
-        if (b != nullptr)
+        int bufferportSize = m_textLoggingPort.getPendingReads();
+        BipedalLocomotion::TextLoggingEntry msg;
+
+        while (bufferportSize > 0)
         {
-            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
-                                                                            std::to_string(time));
-            if (msg.isValid)
+            yarp::os::Bottle* b = m_textLoggingPort.read(false);
+            if (b != nullptr)
             {
-                signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
-                                    + "::p" + msg.processPID;
-
-                // matlab does not support the character - as a key of a struct
-                findAndReplaceAll(signalFullName, "-", "_");
-
-                // if it is the first time this signal is seen by the device the channel is
-                // added
-                if (m_textLogsStoredInManager.find(signalFullName)
-                    == m_textLogsStoredInManager.end())
+                msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
+                                                                              std::to_string(time));
+                if (msg.isValid)
                 {
-                    m_bufferManager.addChannel({signalFullName, {1, 1}});
-                    m_textLogsStoredInManager.insert(signalFullName);
+                    signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
+                                     + "::p" + msg.processPID;
+
+                    // matlab does not support the character - as a key of a struct
+                    findAndReplaceAll(signalFullName, "-", "_");
+
+                    // if it is the first time this signal is seen by the device the channel is
+                    // added
+                    if (m_textLogsStoredInManager.find(signalFullName)
+                        == m_textLogsStoredInManager.end())
+                    {
+                        m_bufferManager.addChannel({signalFullName, {1, 1}});
+                        m_textLogsStoredInManager.insert(signalFullName);
+                    }
+                    // Not using logData here because we don't want to stream the data to RT
+                    m_bufferManager.push_back(msg, time, signalFullName);
                 }
-                //Not using logData here because we don't want to stream the data to RT
-                m_bufferManager.push_back(msg, time, signalFullName);
+                bufferportSize = m_textLoggingPort.getPendingReads();
+            } else
+            {
+                break;
             }
-            bufferportSize = m_textLoggingPort.getPendingReads();
-        } else
-        {
-            break;
         }
     }
 
