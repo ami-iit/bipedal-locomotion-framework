@@ -672,8 +672,8 @@ bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
 {
     if (metadataNames.empty() || vectorSize != metadataNames.size())
     {
-        log()->warn("The metadata names are empty or the size of the metadata names is different "
-                    "from the vector size. The default metadata will be used.");
+        log()->warn("The metadata names for channel {} are empty or the size of the metadata names "
+                    "is different from the vector size. The default metadata will be used.", nameKey);
         if (!m_bufferManager.addChannel({nameKey, {vectorSize, 1}}))
         {
             log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
