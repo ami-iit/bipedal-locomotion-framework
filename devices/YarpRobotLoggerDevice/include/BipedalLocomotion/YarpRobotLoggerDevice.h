@@ -179,6 +179,8 @@ private:
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
+    bool threadInit() final;
+
     void lookForNewLogs();
     void lookForExogenousSignals();
 

@@ -16,6 +16,11 @@
 #include <string>
 #include <tuple>
 
+#if defined(__linux__)
+#include <pthread.h>
+#include <sched.h>
+#endif
+
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
@@ -123,6 +128,36 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
 }
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
+
+bool YarpRobotLoggerDevice::threadInit()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::threadInit]";
+
+#if defined(__linux__)
+    // Get the native handle
+    pthread_t native_handle = pthread_self();
+
+    // Set thread scheduling parameters
+    sched_param param;
+    param.sched_priority = 80;
+
+    // Set the scheduling policy to SCHED_FIFO and priority
+    int ret = pthread_setschedparam(native_handle, SCHED_FIFO, &param);
+    if (ret != 0)
+    {
+        log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
+        return false;
+    } else
+    {
+        log()->info("{} Scheduling policy set to SCHED_FIFO with priority {}",
+                    logPrefix,
+                    param.sched_priority);
+        return true;
+    }
+#endif
+
+    return true;
+}
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
