@@ -86,6 +86,7 @@ public:
 
     /**
      * Update the content of the element.
+     * For this task the matrices A and b are constant and do not need to be updated.
      * @return True in case of success, false otherwise.
      */
     bool update() override;

@@ -71,8 +71,8 @@ bool JointVelocityLimitsTask::setVariablesHandler(const System::VariablesHandler
     m_A.resize(2 * m_kinDyn->getNrOfDegreesOfFreedom(), variablesHandler.getNumberOfVariables());
     m_A.setZero();
     m_b.resize(2 * m_kinDyn->getNrOfDegreesOfFreedom());
-    m_b.head(m_kinDyn->getNrOfDegreesOfFreedom()).setConstant(OsqpEigen::INFTY);
-    m_b.tail(m_kinDyn->getNrOfDegreesOfFreedom()).setConstant(-OsqpEigen::INFTY);
+    m_b.head(m_kinDyn->getNrOfDegreesOfFreedom()).noalias() = m_upperLimits;
+    m_b.tail(m_kinDyn->getNrOfDegreesOfFreedom()).noalias() = -m_lowerLimits;
 
     // the submatrix associated to the robot velocity
     //      _                _
