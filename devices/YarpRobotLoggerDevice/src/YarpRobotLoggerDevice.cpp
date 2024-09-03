@@ -133,6 +133,12 @@ bool YarpRobotLoggerDevice::threadInit()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::threadInit]";
 
+    if (!m_enableRealTimeScheduling)
+    {
+        return true;
+    }
+
+    // Set the scheduling policy to SCHED_FIFO and priority
 #if defined(__linux__)
     // Get the native handle
     pthread_t native_handle = pthread_self();
@@ -146,6 +152,13 @@ bool YarpRobotLoggerDevice::threadInit()
     if (ret != 0)
     {
         log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
+        if (ret == EPERM)
+        {
+            log()->error("{} The calling thread does not have the appropriate privileges to set "
+                         "the requested scheduling policy and parameters. Try to set CAP_SYS_NICE "
+                         "capability for the application.",
+                         logPrefix);
+        }
         return false;
     } else
     {
@@ -154,8 +167,9 @@ bool YarpRobotLoggerDevice::threadInit()
                     param.sched_priority);
         return true;
     }
+#else
+    log()->warn("{} Real-time scheduling is not supported on this platform.", logPrefix);
 #endif
-
     return true;
 }
 
@@ -660,6 +674,13 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
         log()->info("{} The 'stream_temperatures' parameter is not found. The temperature sensor "
                     "values are not "
                     "logged",
+                    logPrefix);
+    }
+
+    if (!ptr->getParameter("enable_real_time_scheduling", m_enableRealTimeScheduling))
+    {
+        log()->info("{} The 'm_enableRealTimeScheduling' parameter is not found. YarpLoggerDevice "
+                    "will not run as a real-time thread.",
                     logPrefix);
     }
 
