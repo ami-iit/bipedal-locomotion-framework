@@ -195,17 +195,24 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         log()->info("{} Real time logging not activated", logPrefix);
     }
 
+    if (!params->getParameter("enable_real_time_scheduling", m_enableRealTimeScheduling))
+    {
+        log()->info("{} The 'enable_real_time_scheduling' parameter is not found. YarpLoggerDevice "
+                    "will not run as a real-time thread.",
+                    logPrefix);
+    }
+
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
-        devicePeriod = devicePeriod - m_awakeningTime.count() * 1e-9;
+        if (m_enableRealTimeScheduling)
+        {
+            if (devicePeriod >= m_awakeningTime.count() * 1e-9)
+            {
+                devicePeriod = devicePeriod - m_awakeningTime.count() * 1e-9;
+            }
+        }
         this->setPeriod(devicePeriod);
-        // BipedalLocomotion::log()->info("{} The device period is set to {} seconds",
-        //                                logPrefix,
-        //                                devicePeriod);
-        // BipedalLocomotion::log()->info("{} The awakening time is set to {} seconds",
-        //                                logPrefix,
-        //                                m_awakeningTime);
     }
 
     if (!params->getParameter("text_logging_subnames", m_textLoggingSubnames))
@@ -674,13 +681,6 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
         log()->info("{} The 'stream_temperatures' parameter is not found. The temperature sensor "
                     "values are not "
                     "logged",
-                    logPrefix);
-    }
-
-    if (!ptr->getParameter("enable_real_time_scheduling", m_enableRealTimeScheduling))
-    {
-        log()->info("{} The 'm_enableRealTimeScheduling' parameter is not found. YarpLoggerDevice "
-                    "will not run as a real-time thread.",
                     logPrefix);
     }
 
@@ -1494,9 +1494,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 void YarpRobotLoggerDevice::run()
 {
 
-    bool wait{true};
+    bool wait = (m_enableRealTimeScheduling) ? true : false;
     std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
-    // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Awakening at time {}", now);
 
     while (wait)
     {
@@ -1509,12 +1508,10 @@ void YarpRobotLoggerDevice::run()
             if ((m_resumeTime - now) > (m_awakeningTime / 2))
             {
                 // still have time to sleep
-                // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Going to sleep.");
                 BipedalLocomotion::clock().sleepFor(m_awakeningTime / 10);
             } else
             {
                 // just half time missing, busy wait
-                // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Busy waiting.");
             }
         }
         now = BipedalLocomotion::clock().now();
@@ -1842,15 +1839,8 @@ void YarpRobotLoggerDevice::run()
     m_previousTimestamp = t;
     m_firstRun = false;
 
-    // std::chrono::nanoseconds endTime = BipedalLocomotion::clock().now();
-    // std::chrono::nanoseconds elapsedTime = endTime - t;
-
     m_resumeTime = t + std::chrono::nanoseconds(static_cast<int64_t>(this->getPeriod() * 1e9))
                    + m_awakeningTime;
-    // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Starting at time {}", t);
-    // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Elapsed time {}", elapsedTime);
-    // BipedalLocomotion::log()->info("[YarpRobotLoggerDevice::run] Next Resume at time {}",
-    //                                m_resumeTime);
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
