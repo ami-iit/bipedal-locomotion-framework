@@ -12,6 +12,7 @@
     <innerclass refid="structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem" prot="public">BipedalLocomotion::IK::IntegrationBasedIKProblem</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask" prot="public">BipedalLocomotion::IK::JointLimitsTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1JointTrackingTask" prot="public">BipedalLocomotion::IK::JointTrackingTask</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1IK_1_1JointVelocityLimitsTask" prot="public">BipedalLocomotion::IK::JointVelocityLimitsTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1QPFixedBaseInverseKinematics" prot="public">BipedalLocomotion::IK::QPFixedBaseInverseKinematics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1QPInverseKinematics" prot="public">BipedalLocomotion::IK::QPInverseKinematics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1IK_1_1R3Task" prot="public">BipedalLocomotion::IK::R3Task</innerclass>
@@ -128,6 +129,22 @@
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/IK/JointTrackingTask.h" line="129" column="1" declfile="BipedalLocomotion/IK/JointTrackingTask.h" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="JointVelocityLimitsTask_8h_1a6e3296647e88e6193503ab6253fcd445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::IK::BLF_REGISTER_IK_TASK</definition>
+        <argsstring>(JointVelocityLimitsTask)</argsstring>
+        <name>BLF_REGISTER_IK_TASK</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1IK_1_1JointVelocityLimitsTask" kindref="compound">JointVelocityLimitsTask</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/JointVelocityLimitsTask.h" line="113" column="1" declfile="BipedalLocomotion/IK/JointVelocityLimitsTask.h" declline="113" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h_1a2ed38463b5ffa11a3846318b93339ed6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
