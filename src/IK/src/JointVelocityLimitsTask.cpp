@@ -125,7 +125,7 @@ bool JointVelocityLimitsTask::initialize(
     }
 
     // set the description
-    m_description = "Joint limits task";
+    m_description = "Joint velocity limits task";
 
     m_isInitialized = true;
 
