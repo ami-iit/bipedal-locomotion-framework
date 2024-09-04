@@ -27,6 +27,7 @@ All notable changes to this project are documented in this file.
 - Add `getJointLimits` function to set get actuated joints position limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/868)
 - Add the possibility to disable streaming of joint encoder acceleration measurements (https://github.com/ami-iit/bipedal-locomotion-framework/pull/876)
 - Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
+- Add a task in the IK to set the joint velocity limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/879)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
@@ -43,6 +44,7 @@ All notable changes to this project are documented in this file.
 - Fix `YARPRobotLoggerDevice` excessively long time horizon for signals logged with `YARP_CLOCK` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/839)
 - Fix crash in `robot_control.set_references()` if the passed vector is not the correct size (https://github.com/ami-iit/bipedal-locomotion-framework/pull/852)
 - Fix `VectorsCollectionClient.read_data(False)` to provide `collection` as output and avoid segmentation fault (https://github.com/ami-iit/bipedal-locomotion-framework/pull/850)
+- Fix `YARPRobotLoggerDevice` logging of vectors and text (https://github.com/ami-iit/bipedal-locomotion-framework/pull/869)
 
 ### Removed
 

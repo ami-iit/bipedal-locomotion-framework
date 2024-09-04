@@ -920,6 +920,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
             {
                 if (!signal.dataArrived)
                 {
+                    signalFullName = signal.signalName;
                     signal.dataArrived = addChannel(signalFullName, vector->size());
                 }
             }
@@ -1163,38 +1164,47 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     auto connectToExogeneous = [this](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
-            std::lock_guard<std::mutex> lock(signal.mutex);
             if (signal.connected)
             {
                 continue;
             }
 
-            // try to connect to the signal
-            signal.connected = signal.connect();
+            bool connectionDone = false;
 
-            // if the connection is successful, get the metadata
-            // this is required only for the vectors collection signal
-            if constexpr (std::is_same_v<
-                              std::decay_t<decltype(signal)>,
-                              typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
             {
-                if (!signal.connected)
-                {
-                    continue;
-                }
+                std::lock_guard<std::mutex> lock(signal.mutex);
 
-                log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
-                            "metadata for the vectors collection signal named: {}",
-                            name);
+                connectionDone = signal.connect();
 
-                if (!signal.client.getMetadata(signal.metadata))
+                // try to connect to the signal
+
+                // if the connection is successful, get the metadata
+                // this is required only for the vectors collection signal
+                if constexpr (std::is_same_v<
+                                  std::decay_t<decltype(signal)>,
+                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
                 {
-                    log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
-                                "the metadata for the signal named: {}. The exogenous signal will "
-                                "not contain the metadata.",
+                    if (!connectionDone)
+                    {
+                        continue;
+                    }
+
+                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
+                                "metadata for the vectors collection signal named: {}",
                                 name);
+
+                    if (!signal.client.getMetadata(signal.metadata))
+                    {
+                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
+                                    "the metadata for the signal named: {}. The exogenous signal will "
+                                    "not contain the metadata.",
+                                    name);
+                    }
                 }
             }
+
+            signal.connected = connectionDone;
+
         }
     };
 
@@ -1265,11 +1275,13 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // make a new scope for lock guarding text logging port
         {
-            std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
             for (const auto& port : yarpPorts)
             {
                 // check if the port has not be already connected if exits, its resposive
                 // it is a text logging port and it should be logged
+                // This operation does not require a lock since it is not touching the port object
+                // as the connection operation is done through yarpserver and not through the port
+                // directly. YARP inside will take care of the connection.
                 if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
                     && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
                     && (m_textLoggingSubnames.empty()
@@ -1631,6 +1643,11 @@ void YarpRobotLoggerDevice::run()
 
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
             = signal.client.readData(false);
@@ -1673,54 +1690,61 @@ void YarpRobotLoggerDevice::run()
 
     for (auto& [name, signal] : m_vectorSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
+
+        signalFullName = signal.signalName;
+
         if (vector != nullptr)
         {
             if (!signal.dataArrived)
             {
                 signal.dataArrived = addChannel(signalFullName, vector->size());
             }
+            logData(signalFullName, *vector, time);
         }
     }
 
-    // lock guard scope for text logging port
+    int bufferportSize = m_textLoggingPort.getPendingReads();
+    BipedalLocomotion::TextLoggingEntry msg;
+
+    while (bufferportSize > 0)
     {
-        std::lock_guard<std::mutex> lockGuardTextLogging(m_textLoggingPortMutex);
-        int bufferportSize = m_textLoggingPort.getPendingReads();
-        BipedalLocomotion::TextLoggingEntry msg;
-
-        while (bufferportSize > 0)
+        yarp::os::Bottle* b = m_textLoggingPort.read(false);
+        if (b != nullptr)
         {
-            yarp::os::Bottle* b = m_textLoggingPort.read(false);
-            if (b != nullptr)
+            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
+                                                                            std::to_string(time));
+            if (msg.isValid)
             {
-                msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
-                                                                              std::to_string(time));
-                if (msg.isValid)
+                signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
+                                    + "::p" + msg.processPID;
+
+                // matlab does not support the character - as a key of a struct
+                findAndReplaceAll(signalFullName, "-", "_");
+
+                // if it is the first time this signal is seen by the device the channel is
+                // added
+                if (m_textLogsStoredInManager.find(signalFullName)
+                    == m_textLogsStoredInManager.end())
                 {
-                    signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
-                                     + "::p" + msg.processPID;
-
-                    // matlab does not support the character - as a key of a struct
-                    findAndReplaceAll(signalFullName, "-", "_");
-
-                    // if it is the first time this signal is seen by the device the channel is
-                    // added
-                    if (m_textLogsStoredInManager.find(signalFullName)
-                        == m_textLogsStoredInManager.end())
-                    {
-                        m_bufferManager.addChannel({signalFullName, {1, 1}});
-                        m_textLogsStoredInManager.insert(signalFullName);
-                    }
+                    m_bufferManager.addChannel({signalFullName, {1, 1}});
+                    m_textLogsStoredInManager.insert(signalFullName);
                 }
-                bufferportSize = m_textLoggingPort.getPendingReads();
-            } else
-            {
-                break;
+                //Not using logData here because we don't want to stream the data to RT
+                m_bufferManager.push_back(msg, time, signalFullName);
             }
+            bufferportSize = m_textLoggingPort.getPendingReads();
+        } else
+        {
+            break;
         }
-    } // end of lock guard scope for text logging port
+    }
 
     if (m_sendDataRT)
     {

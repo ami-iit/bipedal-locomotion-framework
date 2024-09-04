@@ -260,6 +260,26 @@ def test_gravity_task():
     assert gravity_task.set_feedforward_velocity_in_target_frame(feedforward_velocity=[np.random.uniform(-0.5,0.5) for _ in range(3)])
     assert gravity_task.set_set_point(desired_gravity_direction=[np.random.uniform(-0.5,0.5) for _ in range(3)])
 
+def test_joint_velocity_limits_task():
+
+    # create KinDynComputationsDescriptor
+    joints_list, kindyn = get_kindyn()
+
+    joint_values = [np.random.uniform(-0.5,0.5) for _ in range(kindyn.getNrOfDegreesOfFreedom())]
+    # Set the parameters
+    joint_velocity_limits_param_handler = blf.parameters_handler.StdParametersHandler()
+    joint_velocity_limits_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+    joint_velocity_limits_param_handler.set_parameter_vector_float(name="upper_limits",value=np.array(joint_values) + 0.01)
+    joint_velocity_limits_param_handler.set_parameter_vector_float(name="lower_limits",value=np.array(joint_values) - 0.01)
+
+    # Initialize the task
+    joint_velocity_limits_task = blf.ik.JointVelocityLimitsTask()
+    assert joint_velocity_limits_task.set_kin_dyn(kindyn)
+    assert joint_velocity_limits_task.initialize(param_handler=joint_velocity_limits_param_handler)
+    joint_limits_var_handler = blf.system.VariablesHandler()
+    assert joint_limits_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
+    assert joint_velocity_limits_task.set_variables_handler(variables_handler=joint_limits_var_handler)
+
 def test_integration_based_ik_state():
 
     state = blf.ik.IntegrationBasedIKState()
