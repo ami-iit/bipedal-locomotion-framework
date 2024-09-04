@@ -8,6 +8,7 @@
 #include <BipedalLocomotion/JointTorqueControlDevice.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
+#include <BipedalLocomotion/Math/Constants.h>
 
 #include <algorithm>
 #include <cstring>
@@ -29,6 +30,7 @@ using namespace std;
 using namespace yarp::os;
 using namespace yarp::dev;
 using namespace BipedalLocomotion;
+using namespace BipedalLocomotion::Math;
 
 template <class T> bool contains(std::vector<T>& v, T& x)
 {
