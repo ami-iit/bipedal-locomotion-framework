@@ -52,6 +52,8 @@ function(add_bipedal_yarp_device)
     target_link_libraries(${name} PUBLIC ${public_link_libraries})
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
     target_compile_features(${name} PUBLIC cxx_std_17)
+    target_compile_definitions(${name} PRIVATE -D_USE_MATH_DEFINES)
+
 
     # Specify include directories for both compilation and installation process.
     # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
@@ -73,3 +75,4 @@ function(add_bipedal_yarp_device)
   endif()
 
 endfunction()
+
