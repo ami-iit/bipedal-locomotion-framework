@@ -313,8 +313,33 @@ class Application:
         joint_list = param_handler.get_group(
             "ROBOT_CONTROL"
         ).get_parameter_vector_string("joints_list")
+
+        try:
+            fixed_joints_list = param_handler.get_group(
+                "ROBOT_CONTROL"
+            ).get_parameter_vector_string("fixed_joint_list_names")
+
+            fixed_joints_values = param_handler.get_group(
+                "ROBOT_CONTROL"
+            ).get_parameter_vector_float("fixed_joint_list_values")
+        except:
+            blf.log().warning("No fixed joints are provided.")
+            fixed_joints_list = []
+            fixed_joints_values = []
+
+        # check if the length of the fixed joints is correct
+        if len(fixed_joints_list) != len(fixed_joints_values):
+            raise ValueError(
+                "The length of the fixed joints list and values is different."
+            )
+
+        # create a dictionary with the fixed joints
+        fixed_joints = dict()
+        for joint_name, joint_value in zip(fixed_joints_list, fixed_joints_values):
+            fixed_joints[joint_name] = np.deg2rad(joint_value)
+
         ml = idyn.ModelLoader()
-        ml.loadReducedModelFromFile(robot_model_path, joint_list)
+        ml.loadReducedModelFromFile(robot_model_path, joint_list, fixed_joints)
 
         kindyn = idyn.KinDynComputations()
         kindyn.loadRobotModel(ml.model())
