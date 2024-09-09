@@ -17,8 +17,8 @@ endif()
 ################################################################################
 ########################## Mandatory dependencies ##############################
 
-find_package(iDynTree 10.0.0 REQUIRED)
-dependency_classifier(iDynTree MINIMUM_VERSION 10.0.0 IS_USED TRUE PUBLIC)
+find_package(iDynTree 12.2.1 REQUIRED)
+dependency_classifier(iDynTree MINIMUM_VERSION 12.2.1 IS_USED TRUE PUBLIC)
 
 find_package(Eigen3 3.2.92 REQUIRED)
 dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 IS_USED TRUE PUBLIC)

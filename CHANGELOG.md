@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.19.0] - 2024-09-06
 ### Added
 - Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)
 - Set submodel states from IMUs in RDE and add friction torques as measurement (https://github.com/ami-iit/bipedal-locomotion-framework/pull/793)
@@ -29,6 +29,7 @@ All notable changes to this project are documented in this file.
 - Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
 - Implement joint torque control device and friction estimation through PINN (https://github.com/ami-iit/bipedal-locomotion-framework/pull/866)
 - Add a task in the IK to set the joint velocity limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/879)
+- Add the possibility to set the fixed joint configuration in `balancing-torque-control` app (https://github.com/ami-iit/bipedal-locomotion-framework/pull/880)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
@@ -574,7 +575,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...master
+[0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0
 [0.16.1]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.0...v0.16.1
