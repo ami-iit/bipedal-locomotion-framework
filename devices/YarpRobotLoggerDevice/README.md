@@ -157,3 +157,5 @@ sudo -E <yarprobotinterface_directory>/yarprobotinterface --config launch-yarp-r
 ```
 
 with `<yarprobotinterface_directory>` being the directory containing `yarprobotinterface`, that you can determine with the terminal command `which yarprobotinterface`.
+
+Note that this feature is only available for Linux.
