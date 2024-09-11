@@ -9,7 +9,6 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
-#include <proxsuite/linalg/veg/type_traits/primitives.hpp>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
