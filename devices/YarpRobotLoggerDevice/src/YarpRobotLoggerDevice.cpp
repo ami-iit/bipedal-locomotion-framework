@@ -133,7 +133,8 @@ bool YarpRobotLoggerDevice::threadInit()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::threadInit]";
 
-    if (!m_enableRealTimeScheduling)
+    if (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::None
+        || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp)
     {
         return true;
     }
@@ -155,8 +156,8 @@ bool YarpRobotLoggerDevice::threadInit()
         if (ret == EPERM)
         {
             log()->error("{} The calling thread does not have the appropriate privileges to set "
-                         "the requested scheduling policy and parameters. Try to set CAP_SYS_NICE "
-                         "capability for the application.",
+                         "the requested scheduling policy and parameters. Try to run the "
+                         "YarpLoggerDevice with 'sudo -E'.",
                          logPrefix);
         }
         return false;
@@ -195,21 +196,48 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         log()->info("{} Real time logging not activated", logPrefix);
     }
 
-    if (!params->getParameter("enable_real_time_scheduling", m_enableRealTimeScheduling))
+    std::string realTimeSchedulingStrategy{"none"};
+    if (!params->getParameter("real_time_scheduling_strategy", realTimeSchedulingStrategy))
     {
-        log()->info("{} The 'enable_real_time_scheduling' parameter is not found. YarpLoggerDevice "
-                    "will not run as a real-time thread.",
+        log()->info("{} The 'real_time_scheduling_strategy' parameter is not found. "
+                    "YarpLoggerDevice will run without any real time strategy.",
                     logPrefix);
+    }
+    if (realTimeSchedulingStrategy == "none")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::None;
+    } else if (realTimeSchedulingStrategy == "early_wakeup")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUp;
+    } else if (realTimeSchedulingStrategy == "fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::FIFO;
+    } else if (realTimeSchedulingStrategy == "early_wakeup_and_fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO;
+    } else
+    {
+        log()->error("{} The 'real_time_scheduling_strategy' parameter is not valid. Available "
+                     "options are 'none', 'early_wakeup', 'fifo', 'early_wakeup_and_fifo'.",
+                     logPrefix);
+        return false;
     }
 
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
-        if (m_enableRealTimeScheduling)
+        if (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp
+            || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO)
         {
-            if (devicePeriod >= m_awakeningTime.count() * 1e-9)
+            if (devicePeriod > m_awakeningTime.count() * 1e-9)
             {
                 devicePeriod = devicePeriod - m_awakeningTime.count() * 1e-9;
+            } else
+            {
+                log()->error("{} The sampling period is smaller than the awakening time. Cannot "
+                             "use the busy waiting strategy.",
+                             logPrefix);
+                return false;
             }
         }
         this->setPeriod(devicePeriod);
@@ -1494,7 +1522,10 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 void YarpRobotLoggerDevice::run()
 {
 
-    bool wait = (m_enableRealTimeScheduling) ? true : false;
+    bool wait = (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp
+                 || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO)
+                    ? true
+                    : false;
     std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
 
     while (wait)

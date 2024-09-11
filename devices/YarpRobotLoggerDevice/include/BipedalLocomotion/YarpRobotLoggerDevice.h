@@ -9,6 +9,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <proxsuite/linalg/veg/type_traits/primitives.hpp>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -173,7 +174,15 @@ private:
     bool m_streamCartesianWrenches{false};
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
-    bool m_enableRealTimeScheduling{false};
+
+    enum class RealTimeSchedulingStrategy
+    {
+        None,
+        EarlyWakeUp,
+        FIFO,
+        EarlyWakeUpAndFIFO,
+    };
+    RealTimeSchedulingStrategy m_RealTimeSchedulingStrategy{RealTimeSchedulingStrategy::None};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
