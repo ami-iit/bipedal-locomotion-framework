@@ -150,10 +150,10 @@ If you are experiencing some latency in logged data, you can try to enable diffe
   <param name="real_time_scheduling_strategy">early_wakeup_and_fifo</param>
 ```
 
-The available strategies are `none` (which is the default and means no strategy will be applied), `early_wakeup`, `fifo`, and `early_wakeup_and_fifo`. 
+The available strategies are `none` (which is the default and means no strategy will be applied), `early_wakeup`, `fifo`, and `early_wakeup_and_fifo`.
 The `early_wakeup` strategy makes the YarpLoggerDevice run thread wake up earlier and then busy wait until it is time to resume.
 The `fifo` strategy increases the YarpLoggerDevice run thread priority and changes its scheduling policy to SCHED-FIFO.
-The `early_wakeup_and_fifo` combines the `early_wakeup` and `fifo` strategies. 
+The `early_wakeup_and_fifo` combines the `early_wakeup` and `fifo` strategies.
 
 Note that the `fifo` and `early_wakeup_and_fifo` strategies are only available for Linux. Moreover, you should run the `YarpLoggerDevice` with elevated privileges when deploying them.
 For example:
