@@ -235,7 +235,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
             } else
             {
                 log()->error("{} The sampling period is smaller than the awakening time. Cannot "
-                             "use the busy waiting strategy.",
+                             "use the 'early_wakeup' strategy.",
                              logPrefix);
                 return false;
             }
