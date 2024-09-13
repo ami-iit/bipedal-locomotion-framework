@@ -183,7 +183,29 @@ bool Planners::UnicycleTrajectoryGenerator::setRobotContactFrames(const iDynTree
 }
 
 bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const manif::SE3d& leftToRightTransform)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), leftToRightTransform);
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition)
+{
+    return initialize(handler, initialBasePosition, manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition,
+    const manif::SE3d& leftToRightTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::initialize]";
 
@@ -250,7 +272,10 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     m_pImpl->newTrajectoryRequired = false;
 
     // Initialize the blf unicycle planner
-    ok = ok && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr);
+    ok = ok
+         && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr,
+                                                          initialBasePosition,
+                                                          leftToRightTransform);
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;

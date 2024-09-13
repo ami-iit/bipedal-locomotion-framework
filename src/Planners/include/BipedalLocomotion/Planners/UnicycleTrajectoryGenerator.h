@@ -117,6 +117,32 @@ public:
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;
 
     /**
+     * @brief Initialize the planner.
+     * @param handler Pointer to the parameter handler.
+     * @param initialBasePosition Initial position of the base.
+     * @param leftToRightTransform Transformation Matrix between the left and right foot.
+     */
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler, 
+        const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition, 
+        const manif::SE3d& leftToRightTransform);
+
+    /**
+     * @brief Initialize the planner.
+     * @param handler Pointer to the parameter handler.
+     * @param leftToRightTransform Transformation Matrix between the left and right foot.
+     */
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler, 
+        const manif::SE3d& leftToRightTransform);
+
+    /**
+     * @brief Initialize the planner.
+     * @param handler Pointer to the parameter handler.
+     * @param initialBasePosition Initial position of the base.
+     */
+    bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler, 
+        const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition);
+
+    /**
      * @brief Get the output of the planner.
      * @return Output of the planner.
      */

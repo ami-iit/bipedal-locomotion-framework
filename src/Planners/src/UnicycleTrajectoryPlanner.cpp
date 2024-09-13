@@ -207,7 +207,29 @@ int Planners::UnicycleTrajectoryPlanner::getRightContactFrameIndex() const
 }
 
 bool Planners::UnicycleTrajectoryPlanner::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const manif::SE3d& leftToRightTransform)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), leftToRightTransform);
+}
+
+bool Planners::UnicycleTrajectoryPlanner::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition)
+{
+    return initialize(handler, initialBasePosition, manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryPlanner::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition,
+    const manif::SE3d& leftToRightTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::initialize]";
 
@@ -270,7 +292,6 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
 
     Eigen::Vector2d saturationFactors;
 
-    bool startWithLeft{true};
     bool startWithSameFoot{true};
     bool terminalStep{true};
 
@@ -325,7 +346,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
         = iDynTree::deg2rad(m_pImpl->parameters.leftYawDeltaInRad);
     m_pImpl->parameters.rightYawDeltaInRad
         = iDynTree::deg2rad(m_pImpl->parameters.rightYawDeltaInRad);
-    ok = ok && loadParamWithFallback("swingLeft", startWithLeft, false);
+    ok = ok && loadParamWithFallback("swingLeft", m_pImpl->parameters.swingLeft, false);
     ok = ok && loadParamWithFallback("startAlwaysSameFoot", startWithSameFoot, true);
     ok = ok && loadParamWithFallback("terminalStep", terminalStep, true);
     ok = ok && loadParam("mergePointRatios", mergePointRatios);
@@ -365,7 +386,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     unicyclePlanner->setLeftFootYawOffsetInRadians(m_pImpl->parameters.leftYawDeltaInRad);
     unicyclePlanner->setRightFootYawOffsetInRadians(m_pImpl->parameters.rightYawDeltaInRad);
     unicyclePlanner->addTerminalStep(terminalStep);
-    unicyclePlanner->startWithLeft(startWithLeft);
+    unicyclePlanner->startWithLeft(m_pImpl->parameters.swingLeft);
     unicyclePlanner->resetStartingFootIfStill(startWithSameFoot);
 
     UnicycleController unicycleController;
@@ -426,7 +447,16 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     feetCubicSplineGenerator->setStepHeight(stepHeight);
 
     // generateFirstTrajectory;
-    ok = ok && generateFirstTrajectory();
+    if (leftToRightTransform == manif::SE3d::Identity())
+    {
+        // if the transform is the identity, the nominal width is used as distance between the feet
+        manif::SE3d tmpTransform = manif::SE3d::Identity();
+        tmpTransform.translation(Eigen::Vector3d(0.0, -m_pImpl->parameters.nominalWidth, 0.0));
+        ok = ok && generateFirstTrajectory(initialBasePosition, tmpTransform);
+    } else
+    {
+        ok = ok && generateFirstTrajectory(initialBasePosition, leftToRightTransform);
+    }
 
     // debug information
     auto leftSteps = m_pImpl->generator.getLeftFootPrint()->getSteps();
@@ -767,7 +797,9 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     return true;
 }
 
-bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajectory()
+bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajectory(
+    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition,
+    const manif::SE3d& leftToRightTransform)
 {
 
     constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::generateFirstTrajectory]";
@@ -788,8 +820,10 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
 
     // at the beginning ergoCub has to stop
     Eigen::Vector2d m_personFollowingDesiredPoint;
-    m_personFollowingDesiredPoint(0) = m_pImpl->parameters.referencePointDistance(0);
-    m_personFollowingDesiredPoint(1) = m_pImpl->parameters.referencePointDistance(1);
+    m_personFollowingDesiredPoint(0)
+        = m_pImpl->parameters.referencePointDistance(0) + initialBasePosition(0);
+    m_personFollowingDesiredPoint(1)
+        = m_pImpl->parameters.referencePointDistance(1) + initialBasePosition(1);
 
     // add the initial point
     if (!unicyclePlanner
@@ -811,12 +845,50 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
         return false;
     }
 
+    // add real position of the feet
+    std::shared_ptr<FootPrint> left, right;
+
+    left = m_pImpl->generator.getLeftFootPrint();
+    left->clearSteps();
+    right = m_pImpl->generator.getRightFootPrint();
+    right->clearSteps();
+
+    Eigen::Vector2d leftPosition, rightPosition;
+    double leftAngle, rightAngle;
+
+    // if the standing foot is the right -> the unicycle starts parallel to the right foot
+    if (m_pImpl->parameters.swingLeft)
+    {
+        rightPosition(0) = initialBasePosition(0);
+        rightPosition(1)
+            = initialBasePosition(1) - leftToRightTransform.inverse().translation()(1) / 2;
+        rightAngle = 0;
+        right->addStep(iDynTree::Vector2(rightPosition), rightAngle, 0.0);
+
+        leftPosition(0) = initialBasePosition(0) + leftToRightTransform.inverse().translation()(0);
+        leftPosition(1)
+            = initialBasePosition(1) + leftToRightTransform.inverse().translation()(1) / 2;
+        // z-y'-x" (intrinsic rotations) -> yaw, pitch, roll
+        leftAngle = leftToRightTransform.inverse().rotation().eulerAngles(2, 1, 0)(0);
+        left->addStep(iDynTree::Vector2(leftPosition), leftAngle, 0.0);
+    } else
+    {
+        leftPosition(0) = initialBasePosition(0);
+        leftPosition(1) = initialBasePosition(1) - leftToRightTransform.translation()(1) / 2;
+        leftAngle = 0;
+        left->addStep(iDynTree::Vector2(leftPosition), leftAngle, 0.0);
+
+        rightPosition(0) = initialBasePosition(0) + leftToRightTransform.translation()(0);
+        rightPosition(1) = initialBasePosition(1) + leftToRightTransform.translation()(1) / 2;
+        // z-y'-x" (intrinsic rotations) -> yaw, pitch, roll
+        rightAngle = leftToRightTransform.rotation().eulerAngles(2, 1, 0)(0);
+        right->addStep(iDynTree::Vector2(rightPosition), rightAngle, 0.0);
+    }
+
     // generate the first trajectories
     if (!m_pImpl->generator.generate(initTime, dt, endTime))
     {
-
         log()->error("{} Error while computing the first trajectories.", logPrefix);
-
         return false;
     }
 
