@@ -4,9 +4,9 @@ BSD-3-Clause license. -->
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <devices>
-
+<!-- camera 0 -->
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="jabra" type="opencv_grabber">
-      <param name="camera">0</param>
+      <param name="camera">0</param> 
       <param name="width">1920</param>
       <param name="height">1080</param>
   </device>
