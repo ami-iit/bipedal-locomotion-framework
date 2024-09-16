@@ -17,8 +17,10 @@
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <FeetCubicSplineGenerator.h>
+
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
+#include <iDynTree/Rotation.h>
 
 #include <chrono>
 #include <mutex>
@@ -868,8 +870,9 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
         leftPosition(0) = initialBasePosition(0) + leftToRightTransform.inverse().translation()(0);
         leftPosition(1)
             = initialBasePosition(1) + leftToRightTransform.inverse().translation()(1) / 2;
-        // z-y'-x" (intrinsic rotations) -> yaw, pitch, roll
-        leftAngle = leftToRightTransform.inverse().rotation().eulerAngles(2, 1, 0)(0);
+        iDynTree::Rotation leftToRightRotation
+            = iDynTree::Rotation(leftToRightTransform.rotation());
+        leftAngle = leftToRightRotation.asRPY()(2);
         left->addStep(iDynTree::Vector2(leftPosition), leftAngle, 0.0);
     } else
     {
@@ -880,8 +883,9 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryPlanner::generateFirstTrajec
 
         rightPosition(0) = initialBasePosition(0) + leftToRightTransform.translation()(0);
         rightPosition(1) = initialBasePosition(1) + leftToRightTransform.translation()(1) / 2;
-        // z-y'-x" (intrinsic rotations) -> yaw, pitch, roll
-        rightAngle = leftToRightTransform.rotation().eulerAngles(2, 1, 0)(0);
+        iDynTree::Rotation leftToRightRotation
+            = iDynTree::Rotation(leftToRightTransform.rotation());
+        rightAngle = leftToRightRotation.asRPY()(2);
         right->addStep(iDynTree::Vector2(rightPosition), rightAngle, 0.0);
     }
 
