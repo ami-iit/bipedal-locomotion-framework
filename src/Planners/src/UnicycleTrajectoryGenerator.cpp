@@ -118,7 +118,6 @@ public:
      * @param currentContactList The current contact list, being generated.
      */
     static void resetContactList(const std::chrono::nanoseconds& time,
-                                 const std::chrono::nanoseconds& minStepDuration,
                                  const Contacts::ContactList& previousContactList,
                                  Contacts::ContactList& currentContactList);
 };
@@ -348,11 +347,9 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     if (!m_pImpl->output.contactPhaseList.lists().empty())
     {
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("left_foot"),
                                   leftContactList);
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("right_foot"),
                                   rightContactList);
     }
@@ -833,7 +830,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
 void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
     const std::chrono::nanoseconds& time,
-    const std::chrono::nanoseconds& minStepDuration,
     const Contacts::ContactList& previousContactList,
     Contacts::ContactList& currentContactList)
 {
@@ -850,7 +846,7 @@ void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
     // If not, try to get the last active
     if (activeContact == previousContactList.end())
     {
-        activeContact = previousContactList.getActiveContact(time - minStepDuration / 2);
+        activeContact = previousContactList.getPreviousContact(time);
     }
 
     // if any active contact found, add it to the current contact list
