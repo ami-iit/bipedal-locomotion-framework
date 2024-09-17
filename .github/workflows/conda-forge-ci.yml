@@ -10,6 +10,11 @@ on:
   # Execute a "nightly" build at 2 AM UTC
   - cron:  '0 2 * * *'
 
+# Workaround for https://github.com/conda-forge/mumps-feedstock/issues/125
+# and https://github.com/conda-forge/mumps-feedstock/pull/126#issuecomment-2355357834
+env:
+  OMP_NUM_THREADS: 1
+
 jobs:
   build:
     name: '[${{ matrix.os }}@${{ matrix.build_type }}@conda]'
