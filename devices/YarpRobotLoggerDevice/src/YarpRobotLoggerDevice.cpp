@@ -16,6 +16,11 @@
 #include <string>
 #include <tuple>
 
+#if defined(__linux__)
+#include <pthread.h>
+#include <sched.h>
+#endif
+
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
@@ -124,6 +129,51 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
+bool YarpRobotLoggerDevice::threadInit()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::threadInit]";
+
+    if (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::None
+        || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp)
+    {
+        return true;
+    }
+
+    // Set the scheduling policy to SCHED_FIFO and priority
+#if defined(__linux__)
+    // Get the native handle
+    pthread_t native_handle = pthread_self();
+
+    // Set thread scheduling parameters
+    sched_param param;
+    param.sched_priority = 80;
+
+    // Set the scheduling policy to SCHED_FIFO and priority
+    int ret = pthread_setschedparam(native_handle, SCHED_FIFO, &param);
+    if (ret != 0)
+    {
+        log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
+        if (ret == EPERM)
+        {
+            log()->error("{} The calling thread does not have the appropriate privileges to set "
+                         "the requested scheduling policy and parameters. Try to run the "
+                         "YarpLoggerDevice with 'sudo -E'.",
+                         logPrefix);
+        }
+        return false;
+    } else
+    {
+        log()->info("{} Scheduling policy set to SCHED_FIFO with priority {}",
+                    logPrefix,
+                    param.sched_priority);
+        return true;
+    }
+#else
+    log()->warn("{} Real-time scheduling is not supported on this platform.", logPrefix);
+#endif
+    return true;
+}
+
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
 
@@ -146,9 +196,50 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         log()->info("{} Real time logging not activated", logPrefix);
     }
 
+    std::string realTimeSchedulingStrategy{"none"};
+    if (!params->getParameter("real_time_scheduling_strategy", realTimeSchedulingStrategy))
+    {
+        log()->info("{} The 'real_time_scheduling_strategy' parameter is not found. "
+                    "YarpLoggerDevice will run without any real time strategy.",
+                    logPrefix);
+    }
+    if (realTimeSchedulingStrategy == "none")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::None;
+    } else if (realTimeSchedulingStrategy == "early_wakeup")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUp;
+    } else if (realTimeSchedulingStrategy == "fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::FIFO;
+    } else if (realTimeSchedulingStrategy == "early_wakeup_and_fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO;
+    } else
+    {
+        log()->error("{} The 'real_time_scheduling_strategy' parameter is not valid. Available "
+                     "options are 'none', 'early_wakeup', 'fifo', 'early_wakeup_and_fifo'.",
+                     logPrefix);
+        return false;
+    }
+
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
+        if (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp
+            || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO)
+        {
+            if (devicePeriod > m_awakeningTime.count() * 1e-9)
+            {
+                devicePeriod = devicePeriod - m_awakeningTime.count() * 1e-9;
+            } else
+            {
+                log()->error("{} The sampling period is smaller than the awakening time. Cannot "
+                             "use the 'early_wakeup' strategy.",
+                             logPrefix);
+                return false;
+            }
+        }
         this->setPeriod(devicePeriod);
     }
 
@@ -1189,22 +1280,21 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                         continue;
                     }
 
-                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
-                                "metadata for the vectors collection signal named: {}",
+                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get "
+                                "the metadata for the vectors collection signal named: {}",
                                 name);
 
                     if (!signal.client.getMetadata(signal.metadata))
                     {
-                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
-                                    "the metadata for the signal named: {}. The exogenous signal will "
-                                    "not contain the metadata.",
+                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to "
+                                    "get the metadata for the signal named: {}. The exogenous "
+                                    "signal will not contain the metadata.",
                                     name);
                     }
                 }
             }
 
             signal.connected = connectionDone;
-
         }
     };
 
@@ -1431,6 +1521,30 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
 void YarpRobotLoggerDevice::run()
 {
+
+    bool wait = (m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUp
+                 || m_RealTimeSchedulingStrategy == RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO)
+                    ? true
+                    : false;
+    std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
+
+    while (wait)
+    {
+
+        if (now >= m_resumeTime)
+        {
+            wait = false;
+        } else
+        {
+            if ((m_resumeTime - now) > (m_awakeningTime / 2))
+            {
+                // still have time to sleep
+                BipedalLocomotion::clock().sleepFor(m_awakeningTime / 10);
+            }
+        }
+        now = BipedalLocomotion::clock().now();
+    }
+
     auto logData = [this](const std::string& name, const auto& data, const double time) {
         m_bufferManager.push_back(data, time, name);
         std::string rtName = robotRtRootName + treeDelim + name;
@@ -1718,12 +1832,11 @@ void YarpRobotLoggerDevice::run()
         yarp::os::Bottle* b = m_textLoggingPort.read(false);
         if (b != nullptr)
         {
-            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
-                                                                            std::to_string(time));
+            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b, std::to_string(time));
             if (msg.isValid)
             {
                 signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
-                                    + "::p" + msg.processPID;
+                                 + "::p" + msg.processPID;
 
                 // matlab does not support the character - as a key of a struct
                 findAndReplaceAll(signalFullName, "-", "_");
@@ -1736,7 +1849,7 @@ void YarpRobotLoggerDevice::run()
                     m_bufferManager.addChannel({signalFullName, {1, 1}});
                     m_textLogsStoredInManager.insert(signalFullName);
                 }
-                //Not using logData here because we don't want to stream the data to RT
+                // Not using logData here because we don't want to stream the data to RT
                 m_bufferManager.push_back(msg, time, signalFullName);
             }
             bufferportSize = m_textLoggingPort.getPendingReads();
@@ -1753,6 +1866,9 @@ void YarpRobotLoggerDevice::run()
 
     m_previousTimestamp = t;
     m_firstRun = false;
+
+    m_resumeTime = t + std::chrono::nanoseconds(static_cast<int64_t>(this->getPeriod() * 1e9))
+                   + m_awakeningTime;
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,

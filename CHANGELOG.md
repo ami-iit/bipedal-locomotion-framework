@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+- Add a feature to reduce latency of `YarpLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/883)
+
+### Changed
+### Fixed
+### Removed
+
 ## [0.19.0] - 2024-09-06
 ### Added
 - Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)

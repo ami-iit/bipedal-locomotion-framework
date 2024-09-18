@@ -55,6 +55,8 @@ public:
 private:
     std::chrono::nanoseconds m_previousTimestamp;
     std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
+    std::chrono::nanoseconds m_resumeTime{std::chrono::nanoseconds(0)};
+    std::chrono::nanoseconds m_awakeningTime{std::chrono::microseconds(500)};
     bool m_firstRun{true};
 
     using ft_t = Eigen::Matrix<double, 6, 1>;
@@ -171,11 +173,22 @@ private:
     bool m_streamCartesianWrenches{false};
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
+
+    enum class RealTimeSchedulingStrategy
+    {
+        None,
+        EarlyWakeUp,
+        FIFO,
+        EarlyWakeUpAndFIFO,
+    };
+    RealTimeSchedulingStrategy m_RealTimeSchedulingStrategy{RealTimeSchedulingStrategy::None};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
+
+    bool threadInit() final;
 
     void lookForNewLogs();
     void lookForExogenousSignals();
