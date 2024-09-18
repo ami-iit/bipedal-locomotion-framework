@@ -1540,7 +1540,7 @@ void YarpRobotLoggerDevice::run()
             {
                 // still have time to sleep
                 BipedalLocomotion::clock().sleepFor(m_awakeningTime / 10);
-            } 
+            }
         }
         now = BipedalLocomotion::clock().now();
     }
