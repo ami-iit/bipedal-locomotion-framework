@@ -217,7 +217,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
 
 bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
-    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition)
+    const Eigen::Vector3d& initialBasePosition)
 {
     return initialize(handler, initialBasePosition, manif::SE3d::Identity());
 }
@@ -230,7 +230,7 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
 
 bool Planners::UnicycleTrajectoryPlanner::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
-    const Eigen::Ref<const Eigen::Vector3d>& initialBasePosition,
+    const Eigen::Vector3d& initialBasePosition,
     const manif::SE3d& leftToRightTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryPlanner::initialize]";
