@@ -330,6 +330,10 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
         }
     }
 
+    frictionTorque = saturation(frictionTorque,
+                                motorTorqueCurrentParameters[joint].max_output_friction,
+                                -motorTorqueCurrentParameters[joint].max_output_friction);
+
     return frictionTorque;
 }
 
@@ -340,16 +344,41 @@ void JointTorqueControlDevice::computeDesiredCurrents()
 
     estimatedFrictionTorques.zero();
 
+    std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
     for (int j = 0; j < this->axes; j++)
     {
-        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
-
         if (this->hijackingTorqueControl[j])
         {
             if (motorTorqueCurrentParameters[j].kfc > 0.0)
             {
                 estimatedFrictionTorques[j] = computeFrictionTorque(j);
             }
+        }
+    }
+
+    if (m_lowPassFilterParameters.enabled)
+    {
+        if (!lowPassFilter.setInput(yarp::eigen::toEigen(estimatedFrictionTorques)))
+        {
+            log()->error("Error in setting the input of the low pass filter");
+        }
+
+        if (!lowPassFilter.advance())
+        {
+            log()->error("Error in advancing the low pass filter");
+        }
+
+        for (int idx = 0; idx < estimatedFrictionTorques.size(); idx++)
+        {
+            estimatedFrictionTorques[idx] = lowPassFilter.getOutput()[idx];
+        }
+    }
+
+    for (int j = 0; j < this->axes; j++)
+    {
+        if (this->hijackingTorqueControl[j])
+        {
 
             desiredMotorCurrents[j]
                 = (desiredJointTorques[j]
@@ -645,7 +674,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
             log()->error("{} Parameter `model` not found", logPrefix);
             return false;
         }
-
+        
         int threads;
         if (!frictionGroup->getParameter("thread_number", threads))
         {
@@ -727,6 +756,33 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!torqueGroup->getParameter("bwfilter_cutoff_freq", m_lowPassFilterParameters.cutoffFrequency))
+    {
+        log()->error("{} Parameter `bwfilter_cutoff_freq` not found", logPrefix);
+        return false;
+    }
+
+    if (!torqueGroup->getParameter("bwfilter_order", m_lowPassFilterParameters.order))
+    {
+        log()->error("{} Parameter `bwfilter_order` not found", logPrefix);
+        return false;
+    }
+
+    if (!torqueGroup->getParameter("bwfilter_enabled", m_lowPassFilterParameters.enabled))
+    {
+        log()->error("{} Parameter `bwfilter_enabled` not found", logPrefix);
+        return false;
+    }
+
+    m_lowPassFilterParameters.samplingTime = rate * 0.001;
+
+    std::vector<double> max_output_friction;
+    if (!torqueGroup->getParameter("max_output_friction", max_output_friction))
+    {
+        log()->error("{} Parameter `max_output_friction` not found", logPrefix);
+        return false;
+    }
+
     motorTorqueCurrentParameters.resize(kt.size());
     pinnParameters.resize(kt.size());
     coulombViscousParameters.resize(kt.size());
@@ -739,6 +795,19 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         motorTorqueCurrentParameters[i].kp = kp[i];
         motorTorqueCurrentParameters[i].maxCurr = maxCurr[i];
         motorTorqueCurrentParameters[i].frictionModel = frictionModels[i];
+        motorTorqueCurrentParameters[i].max_output_friction = max_output_friction[i];
+    }
+
+    auto filterParams = std::make_shared<ParametersHandler::YarpImplementation>();
+    filterParams->setParameter("cutoff_frequency", m_lowPassFilterParameters.cutoffFrequency);
+    filterParams->setParameter("order", m_lowPassFilterParameters.order);
+    filterParams->setParameter("sampling_time", m_lowPassFilterParameters.samplingTime);
+    if (m_lowPassFilterParameters.enabled)
+    {
+        lowPassFilter.initialize(filterParams);
+        Eigen::VectorXd initialFrictionTorque(kt.size());
+        initialFrictionTorque.setZero();
+        lowPassFilter.reset(initialFrictionTorque);
     }
 
     if (!this->loadFrictionParams(params))

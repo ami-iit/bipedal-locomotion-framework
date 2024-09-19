@@ -14,6 +14,7 @@
 #include <BipedalLocomotion/PINNFrictionEstimator.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h>
 
 #include <iostream>
 #include <memory>
@@ -66,6 +67,7 @@ struct MotorTorqueCurrentParameters
     double kp; /**< proportional gain */
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
+    double max_output_friction; /**< maximum output of the friction model */
 
     /**
      * Reset the parameters
@@ -73,6 +75,7 @@ struct MotorTorqueCurrentParameters
     void reset()
     {
         kt = kfc = kp = maxCurr = 0.0;
+        max_output_friction = 0.0;
         frictionModel = "";
     }
 };
@@ -137,6 +140,14 @@ struct CoulombViscousStribeckParameters
     }
 };
 
+struct LowPassFilterParameters
+{
+    double cutoffFrequency; /**< cutoff frequency */
+    int order; /**< order of the filter */
+    double samplingTime; /**< sampling time */
+    bool enabled; /**< true if the filter is enabled */
+};
+
 /**
  * @brief This class implements a device that allows to control the joints of a robot in torque mode.
  * The device is able to estimate the friction torque acting on the joints and to compensate it.
@@ -155,6 +166,7 @@ private:
     std::vector<CoulombViscousParameters> coulombViscousParameters;
     std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
     std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
+    BipedalLocomotion::ContinuousDynamicalSystem::ButterworthLowPassFilter lowPassFilter;
     std::mutex mutexTorqueControlParam_; /**< The mutex for protecting the parameters of the torque control. */
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;
@@ -172,6 +184,7 @@ private:
     std::vector<double> m_motorPositionCorrected;
     std::vector<double> m_motorPositionsRadians;
     std::vector<std::string> m_axisNames;
+    LowPassFilterParameters m_lowPassFilterParameters;
 
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
