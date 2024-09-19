@@ -520,9 +520,6 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
             }
         }
 
-        log()->error("{} LoadCouplingMatrix DEBUG: loaded kinematic coupling matrix from group {}", logPrefix, group_name);
-        log()->error("{}", coupling_matrix.fromJointVelocitiesToMotorVelocities);
-
         coupling_matrix.fromJointTorquesToMotorTorques
             = coupling_matrix.fromJointVelocitiesToMotorVelocities.transpose();
         coupling_matrix.fromMotorTorquesToJointTorques
@@ -767,8 +764,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     for (int i = 0; i < kt.size(); i++)
     {
-        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN"
-            && motorTorqueCurrentParameters[i].kfc > 0.0)
+        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN")
         {
             frictionEstimators[i] = std::make_unique<PINNFrictionEstimator>();
 
