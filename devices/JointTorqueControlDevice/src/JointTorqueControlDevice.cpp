@@ -203,8 +203,8 @@ bool JointTorqueControlDevice::setMaxFrictionTorque(const std::string& jointName
         // Lock the mutex to safely modify motorTorqueCurrentParameters
         std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
 
-        // Update the max_output_friction value
-        motorTorqueCurrentParameters[index].max_output_friction = maxFriction;
+        // Update the maxOutputFriction value
+        motorTorqueCurrentParameters[index].maxOutputFriction = maxFriction;
 
         return true;
     }
@@ -227,8 +227,8 @@ double JointTorqueControlDevice::getMaxFrictionTorque(const std::string& jointNa
         // Lock the mutex to safely access motorTorqueCurrentParameters
         std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
 
-        // Return the max_output_friction value
-        return motorTorqueCurrentParameters[index].max_output_friction;
+        // Return the maxOutputFriction value
+        return motorTorqueCurrentParameters[index].maxOutputFriction;
     }
 
     // jointName was not found, return default value
@@ -377,8 +377,8 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
     }
 
     frictionTorque = saturation(frictionTorque,
-                                motorTorqueCurrentParameters[joint].max_output_friction,
-                                -motorTorqueCurrentParameters[joint].max_output_friction);
+                                motorTorqueCurrentParameters[joint].maxOutputFriction,
+                                -motorTorqueCurrentParameters[joint].maxOutputFriction);
 
     return frictionTorque;
 }
@@ -720,7 +720,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
             log()->error("{} Parameter `model` not found", logPrefix);
             return false;
         }
-        
+
         int threads;
         if (!frictionGroup->getParameter("thread_number", threads))
         {
@@ -822,8 +822,8 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     m_lowPassFilterParameters.samplingTime = rate * 0.001;
 
-    std::vector<double> max_output_friction;
-    if (!torqueGroup->getParameter("max_output_friction", max_output_friction))
+    std::vector<double> maxOutputFriction;
+    if (!torqueGroup->getParameter("max_output_friction", maxOutputFriction))
     {
         log()->error("{} Parameter `max_output_friction` not found", logPrefix);
         return false;
@@ -841,7 +841,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         motorTorqueCurrentParameters[i].kp = kp[i];
         motorTorqueCurrentParameters[i].maxCurr = maxCurr[i];
         motorTorqueCurrentParameters[i].frictionModel = frictionModels[i];
-        motorTorqueCurrentParameters[i].max_output_friction = max_output_friction[i];
+        motorTorqueCurrentParameters[i].maxOutputFriction = maxOutputFriction[i];
     }
 
     auto filterParams = std::make_shared<ParametersHandler::YarpImplementation>();

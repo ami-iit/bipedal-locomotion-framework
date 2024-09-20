@@ -67,7 +67,7 @@ struct MotorTorqueCurrentParameters
     double kp; /**< proportional gain */
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
-    double max_output_friction; /**< maximum output of the friction model */
+    double maxOutputFriction; /**< maximum output of the friction model */
 
     /**
      * Reset the parameters
@@ -75,7 +75,7 @@ struct MotorTorqueCurrentParameters
     void reset()
     {
         kt = kfc = kp = maxCurr = 0.0;
-        max_output_friction = 0.0;
+        maxOutputFriction = 0.0;
         frictionModel = "";
     }
 };
