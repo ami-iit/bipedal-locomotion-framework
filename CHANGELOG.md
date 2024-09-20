@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+### Added
+- Add USE_SYSTEM_tiny-process-library CMake option to use tiny-process-library found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
+
 ## [0.19.0] - 2024-09-06
 ### Added
 - Added Vector Collection Server for publishing information for real-time users in the YARPRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/796)
