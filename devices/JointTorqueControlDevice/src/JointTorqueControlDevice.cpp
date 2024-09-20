@@ -189,6 +189,52 @@ double JointTorqueControlDevice::getKfcJtcvc(const std::string& jointName)
     return -1;
 }
 
+bool JointTorqueControlDevice::setMaxFrictionTorque(const std::string& jointName, const double maxFriction)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely modify motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Update the max_output_friction value
+        motorTorqueCurrentParameters[index].max_output_friction = maxFriction;
+
+        return true;
+    }
+
+    // jointName was not found
+    return false;
+}
+
+double JointTorqueControlDevice::getMaxFrictionTorque(const std::string& jointName)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Return the max_output_friction value
+        return motorTorqueCurrentParameters[index].max_output_friction;
+    }
+
+    // jointName was not found, return default value
+    return -1;
+}
+
 bool JointTorqueControlDevice::setFrictionModel(const std::string& jointName,
                                                 const std::string& model)
 {
@@ -396,7 +442,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
             {
                 std::lock_guard<std::mutex> lockOutput(m_status.mutex);
                 m_status.m_frictionLogging[j] = estimatedFrictionTorques[j];
-                m_status.m_torqueLogging[j] = desiredJointTorques[j];
+                m_status.m_motorPositionError[j] = m_motorPositionError[j];
                 m_status.m_currentLogging[j] = desiredMotorCurrents[j];
             }
         }
@@ -862,7 +908,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     }
 
     m_vectorsCollectionServer.populateMetadata("motor_currents::desired", joint_list);
-    m_vectorsCollectionServer.populateMetadata("joint_torques::desired", joint_list);
+    m_vectorsCollectionServer.populateMetadata("position_error::input_network", joint_list);
     m_vectorsCollectionServer.populateMetadata("friction_torques::estimated", joint_list);
     m_vectorsCollectionServer.finalizeMetadata();
 
@@ -904,8 +950,8 @@ void JointTorqueControlDevice::publishStatus()
             std::lock_guard<std::mutex> lockOutput(m_status.mutex);
             m_vectorsCollectionServer.populateData("motor_currents::desired",
                                                    m_status.m_currentLogging);
-            m_vectorsCollectionServer.populateData("joint_torques::desired",
-                                                   m_status.m_torqueLogging);
+            m_vectorsCollectionServer.populateData("position_error::input_network",
+                                                   m_status.m_motorPositionError);
             m_vectorsCollectionServer.populateData("friction_torques::estimated",
                                                    m_status.m_frictionLogging);
             m_vectorsCollectionServer.sendData();
@@ -954,7 +1000,7 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
         m_motorPositionError.resize(axes, 1);
         m_motorPositionCorrected.resize(axes, 1);
         m_motorPositionsRadians.resize(axes, 1);
-        m_status.m_torqueLogging.resize(axes, 1);
+        m_status.m_motorPositionError.resize(axes, 1);
         m_status.m_frictionLogging.resize(axes, 1);
         m_status.m_currentLogging.resize(axes, 1);
     }

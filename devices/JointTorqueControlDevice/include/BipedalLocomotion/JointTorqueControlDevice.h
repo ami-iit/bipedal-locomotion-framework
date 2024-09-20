@@ -200,7 +200,7 @@ private:
     struct Status
     {
         std::mutex mutex;
-        std::vector<double> m_torqueLogging;
+        std::vector<double> m_motorPositionError;
         std::vector<double> m_frictionLogging;
         std::vector<double> m_currentLogging;
     } m_status;
@@ -286,10 +286,12 @@ public:
     virtual void run();
     virtual void threadRelease();
 
-    virtual bool setKpJtcvc(const std::string& jointName, const double kp);
+    virtual bool setKpJtcvc(const std::string& jointName, const double kp) override;
     virtual double getKpJtcvc(const std::string& jointName) override;
     virtual bool setKfcJtcvc(const std::string& jointName, const double kfc) override;
     virtual double getKfcJtcvc(const std::string& jointName) override;
+    virtual bool setMaxFrictionTorque(const std::string& jointName, const double maxFriction) override;
+    virtual double getMaxFrictionTorque(const std::string& jointName) override;
     virtual bool setFrictionModel(const std::string& jointName, const std::string& model) override;
     virtual std::string getFrictionModel(const std::string& jointName) override;
 };
