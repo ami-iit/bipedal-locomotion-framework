@@ -645,18 +645,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
             log()->error("{} Parameter `model` not found", logPrefix);
             return false;
         }
-        Eigen::VectorXi historySize;
-        if (!frictionGroup->getParameter("history_size", historySize))
-        {
-            log()->error("{} Parameter `history_size` not found", logPrefix);
-            return false;
-        }
-        Eigen::VectorXi inputNumber;
-        if (!frictionGroup->getParameter("number_of_inputs", inputNumber))
-        {
-            log()->error("{} Parameter `number_of_inputs` not found", logPrefix);
-            return false;
-        }
+
         int threads;
         if (!frictionGroup->getParameter("thread_number", threads))
         {
@@ -667,8 +656,6 @@ bool JointTorqueControlDevice::loadFrictionParams(
         for (int i = 0; i < models.size(); i++)
         {
             pinnParameters[i].modelPath = models[i];
-            pinnParameters[i].historyLength = historySize[i];
-            pinnParameters[i].inputNumber = inputNumber[i];
             pinnParameters[i].threadNumber = threads;
         }
     }

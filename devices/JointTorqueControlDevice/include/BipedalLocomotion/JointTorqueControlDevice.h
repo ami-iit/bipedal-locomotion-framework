@@ -85,8 +85,6 @@ struct PINNParameters
 {
     std::string modelPath; /**< PINN model path */
     int threadNumber; /**< number of threads */
-    int historyLength; /**< history length */
-    int inputNumber; /**< number of inputs */
 
     /**
      * Reset the parameters
@@ -95,8 +93,6 @@ struct PINNParameters
     {
         modelPath = "";
         threadNumber = 0;
-        historyLength = 0;
-        inputNumber = 0;
     }
 };
 
