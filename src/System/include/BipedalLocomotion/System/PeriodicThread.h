@@ -1,3 +1,13 @@
+/**
+ * @file PeriodicThread.h
+ * @authors Lorenzo Moretti
+ * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
+ * distributed under the terms of the BSD-3-Clause license.
+ */
+
+#ifndef BIPEDAL_LOCOMOTION_SYSTEM_PERIODIC_THREAD_H
+#define BIPEDAL_LOCOMOTION_SYSTEM_PERIODIC_THREAD_H
+
 #include <chrono>
 #include <memory>
 
@@ -19,26 +29,45 @@ public:
                    int priority = 0,
                    int policy = SCHED_OTHER);
 
-    // Virtual destructor
-    virtual ~PeriodicThread() = default;
+    // Destructor
+    ~PeriodicThread();
 
     /**
-     * @brief This method is called at each iteration of the thread
+     * @brief This method is called at each iteration of the thread.
+     * Override this method to implement the thread itself.
+     * @return true if the thread has to continue, false otherwise.
      */
-    virtual void run() = 0;
+    virtual bool run() = 0;
+
     /**
-     * @brief This method is called at the beginning of the thread
+     * @brief This method is called at the beginning of the thread.
+     * @return true if the initialization was successful, false otherwise.
      */
-    virtual void threadInit() = 0;
+    virtual bool threadInit();
+
     /**
-     * @brief This method is called at the end of the thread
+     * @brief Start the thread
+     * @return true if the thread was correctly started, false otherwise.
      */
-    virtual void stop() = 0;
+    bool start();
+
+    /**
+     * @brief Call this method to stop the thread.
+     */
+    void stop();
+
+    /**
+     * @brief Check if the thread is running.
+     * @return true if the thread is running, false otherwise.
+     */
+    bool isRunning();
 
 private:
     // private implementation
     class Impl;
-    std::unique_ptr<Impl> m_impl;
+    Impl* m_impl;
 };
 } // namespace System
 } // namespace BipedalLocomotion
+
+#endif // BIPEDAL_LOCOMOTION_SYSTEM_PERIODIC_THREAD_H
