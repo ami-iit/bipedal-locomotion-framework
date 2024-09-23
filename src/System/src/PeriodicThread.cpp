@@ -1,4 +1,6 @@
+#include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/PeriodicThread.h>
+
 #include <atomic>
 #include <chrono>
 #include <csignal>
@@ -63,7 +65,7 @@ private:
     void step()
     {
         // get the current time
-        auto now = std::chrono::high_resolution_clock::now();
+        auto now = BipedalLocomotion::clock().now();
         // get the next wake up time
         auto nextWakeUpTime = now + m_period;
 
@@ -71,7 +73,7 @@ private:
         m_owner->run();
 
         // check if the deadline is missed
-        if (nextWakeUpTime < std::chrono::high_resolution_clock::now())
+        if (nextWakeUpTime < BipedalLocomotion::clock().now())
         {
             m_deadlineMiss++;
             if (m_maximumNumberOfAcceptedDeadlineMiss > 0)
@@ -86,10 +88,10 @@ private:
         }
 
         // yield the CPU
-        std::this_thread::yield();
+        BipedalLocomotion::clock().yield();
 
         // wait until the next deadline
-        std::this_thread::sleep_until(nextWakeUpTime);
+        BipedalLocomotion::clock().sleepUntil(nextWakeUpTime);
     };
 
     void run()
