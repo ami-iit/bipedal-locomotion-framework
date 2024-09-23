@@ -2,7 +2,6 @@
 #include <BipedalLocomotion/System/PeriodicThread.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <csignal>
@@ -254,12 +253,15 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
                                int maximumNumberOfAcceptedDeadlineMiss,
                                int priority,
                                int policy)
-    : m_impl(new Impl(this, period, maximumNumberOfAcceptedDeadlineMiss, priority, policy)){};
-
-PeriodicThread::~PeriodicThread()
 {
-    delete m_impl;
+    m_impl = std::make_unique<Impl>(this,
+                                    period,
+                                    maximumNumberOfAcceptedDeadlineMiss,
+                                    priority,
+                                    policy);
 };
+
+PeriodicThread::~PeriodicThread(){};
 
 bool PeriodicThread::threadInit()
 {
