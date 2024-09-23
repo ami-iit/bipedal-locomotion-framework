@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 
 ### Fixed
+- Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
 
 ## [0.19.0] - 2024-09-06
 ### Added
@@ -53,7 +54,6 @@ All notable changes to this project are documented in this file.
 - Fix crash in `robot_control.set_references()` if the passed vector is not the correct size (https://github.com/ami-iit/bipedal-locomotion-framework/pull/852)
 - Fix `VectorsCollectionClient.read_data(False)` to provide `collection` as output and avoid segmentation fault (https://github.com/ami-iit/bipedal-locomotion-framework/pull/850)
 - Fix `YARPRobotLoggerDevice` logging of vectors and text (https://github.com/ami-iit/bipedal-locomotion-framework/pull/869)
-- Fix bug in `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
 
 ### Removed
 
