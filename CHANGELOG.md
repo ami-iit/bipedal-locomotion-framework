@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 ### Changed
 
 ### Fixed
+- Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
 
 ## [0.19.0] - 2024-09-06
 ### Added
