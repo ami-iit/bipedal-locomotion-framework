@@ -917,7 +917,7 @@ bool LeggedOdometry::Impl::changeFixedFrame(const iDynTree::FrameIndex& newIdx,
 
 
 bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
-                                      const Eigen::Vector4d& frameOrientationInWorld,
+                                      const Eigen::Quaterniond& frameOrientationInWorld,
                                       const Eigen::Vector3d& framePositionInWorld)
 {
     const std::string_view printPrefix = "[LeggedOdometry::changeFixedFrame] ";
@@ -929,9 +929,7 @@ bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
             return false;
     }
 
-    Eigen::Quaterniond frameOrientationInWorldQ(frameOrientationInWorld);
-
-    m_pimpl->m_world_H_fixedFrame.quat(frameOrientationInWorldQ);
+    m_pimpl->m_world_H_fixedFrame.quat(frameOrientationInWorld);
 
     m_pimpl->m_world_H_fixedFrame.translation(framePositionInWorld);
     m_pimpl->m_currentFixedFrameIdx = newIdx;
