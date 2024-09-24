@@ -1,5 +1,5 @@
 /**
- * @file velMANNTrajectoryGenerator.cpp
+ * @file VelMANNTrajectoryGenerator.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/Contacts/ContactList.h>
 #include <chrono>
 
-#include <BipedalLocomotion/ML/velMANNAutoregressive.h>
-#include <BipedalLocomotion/ML/velMANNTrajectoryGenerator.h>
+#include <BipedalLocomotion/ML/VelMANNAutoregressive.h>
+#include <BipedalLocomotion/ML/VelMANNTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 #include <iDynTree/Model/Model.h>
@@ -21,7 +21,7 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
-struct velMANNTrajectoryGenerator::Impl
+struct VelMANNTrajectoryGenerator::Impl
 {
     template <typename T> struct ScalingState
     {
@@ -29,16 +29,16 @@ struct velMANNTrajectoryGenerator::Impl
         T previousScaled;
     };
 
-    struct velMANNTrajectoryGeneratorState
+    struct VelMANNTrajectoryGeneratorState
     {
-        velMANNAutoregressive::AutoregressiveState velMANNAutoregressiveState;
+        VelMANNAutoregressive::AutoregressiveState VelMANNAutoregressiveState;
         ScalingState<Eigen::Vector3d> com;
         ScalingState<Eigen::Vector3d> basePosition;
     };
 
-    velMANNAutoregressive mannAutoregressive;
-    velMANNAutoregressiveInput mannAutoregressiveInput;
-    std::vector<velMANNTrajectoryGeneratorState> mergePointStates;
+    VelMANNAutoregressive mannAutoregressive;
+    VelMANNAutoregressiveInput mannAutoregressiveInput;
+    std::vector<VelMANNTrajectoryGeneratorState> mergePointStates;
     std::unordered_map<std::string, std::vector<ScalingState<Eigen::Vector3d>>> footState;
 
     std::chrono::nanoseconds dT;
@@ -48,7 +48,7 @@ struct velMANNTrajectoryGenerator::Impl
 
     Contacts::ContactListMap contactListMap;
 
-    velMANNTrajectoryGeneratorOutput output;
+    VelMANNTrajectoryGeneratorOutput output;
     std::chrono::nanoseconds horizon;
 
     iDynTree::KinDynComputations kinDyn;
@@ -73,7 +73,7 @@ struct velMANNTrajectoryGenerator::Impl
     static double extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R);
 };
 
-double velMANNTrajectoryGenerator::Impl::extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R)
+double VelMANNTrajectoryGenerator::Impl::extractYawAngle(const Eigen::Ref<const Eigen::Matrix3d>& R)
 {
     if (R(2, 0) < 1.0)
     {
@@ -91,14 +91,14 @@ double velMANNTrajectoryGenerator::Impl::extractYawAngle(const Eigen::Ref<const 
     return atan2(-R(1, 2), R(1, 1));
 }
 
-bool velMANNTrajectoryGenerator::Impl::resetContactList(
+bool VelMANNTrajectoryGenerator::Impl::resetContactList(
     const std::string& contactName,
     const Contacts::EstimatedContact& estimatedContact,
     const std::chrono::nanoseconds& time)
 {
     auto& contactList = this->contactListMap[contactName];
 
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::Impl::resetContactList]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::Impl::resetContactList]";
 
     // if the contact is not active we store the previous valid contact in the contact list
     if (!estimatedContact.isActive)
@@ -108,14 +108,14 @@ bool velMANNTrajectoryGenerator::Impl::resetContactList(
 
         if (latestActiveContact == contactList.cend())
         {
-            log()->error("[velMANNTrajectoryGenerator::Impl::resetContactList] Unable to find the "
+            log()->error("[VelMANNTrajectoryGenerator::Impl::resetContactList] Unable to find the "
                          "latest active contact for the contact named {}. Time {}.",
                          contactName,
                          std::chrono::duration_cast<std::chrono::milliseconds>(time));
 
             for (const auto& contact : contactList)
             {
-                log()->error("[velMANNTrajectoryGenerator::Impl::resetContactList] Contact {} is "
+                log()->error("[VelMANNTrajectoryGenerator::Impl::resetContactList] Contact {} is "
                              "active between {} and {}.",
                              contact.name,
                              std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -149,12 +149,12 @@ bool velMANNTrajectoryGenerator::Impl::resetContactList(
     return this->contactListMap[contactName].addContact(temp);
 }
 
-bool velMANNTrajectoryGenerator::Impl::updateContactList(
+bool VelMANNTrajectoryGenerator::Impl::updateContactList(
     const std::string& contactName,
     const Contacts::EstimatedContact& estimatedContact,
     const std::chrono::nanoseconds& time)
 {
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::Impl::updateContactList]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::Impl::updateContactList]";
 
     auto contactListIt = this->contactListMap.find(contactName);
     if (contactListIt == this->contactListMap.end())
@@ -214,23 +214,23 @@ bool velMANNTrajectoryGenerator::Impl::updateContactList(
     return true;
 }
 
-velMANNTrajectoryGenerator::velMANNTrajectoryGenerator()
+VelMANNTrajectoryGenerator::VelMANNTrajectoryGenerator()
     : m_pimpl(std::make_unique<Impl>())
 {
 }
 
-velMANNTrajectoryGenerator::~velMANNTrajectoryGenerator() = default;
+VelMANNTrajectoryGenerator::~VelMANNTrajectoryGenerator() = default;
 
-bool velMANNTrajectoryGenerator::setRobotModel(const iDynTree::Model& model)
+bool VelMANNTrajectoryGenerator::setRobotModel(const iDynTree::Model& model)
 {
     return m_pimpl->mannAutoregressive.setRobotModel(model)
            && m_pimpl->kinDyn.loadRobotModel(model);
 }
 
-bool velMANNTrajectoryGenerator::initialize(
+bool VelMANNTrajectoryGenerator::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::initialize]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::initialize]";
 
     auto getParameter
         = [logPrefix](std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
@@ -308,16 +308,16 @@ bool velMANNTrajectoryGenerator::initialize(
     return m_pimpl->mannAutoregressive.initialize(paramHandler);
 }
 
-bool velMANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+bool VelMANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                               const manif::SE3d& basePose)
 {
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::setInitialState]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::setInitialState]";
 
-    Impl::velMANNTrajectoryGeneratorState trajectoryGeneratorState;
+    Impl::VelMANNTrajectoryGeneratorState trajectoryGeneratorState;
     if (!m_pimpl->mannAutoregressive
              .populateInitialAutoregressiveState(jointPositions,
                                                  basePose,
-                                                 trajectoryGeneratorState.velMANNAutoregressiveState))
+                                                 trajectoryGeneratorState.VelMANNAutoregressiveState))
     {
         log()->error("{} Unable to populate the initial autoregressive state.", logPrefix);
         return false;
@@ -352,16 +352,16 @@ bool velMANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorX
     // add the first contact
     Impl::ScalingState<Eigen::Vector3d> leftScalingState;
     leftScalingState.previous
-        = trajectoryGeneratorState.velMANNAutoregressiveState.leftFootState.contact.pose.translation();
+        = trajectoryGeneratorState.VelMANNAutoregressiveState.leftFootState.contact.pose.translation();
     leftScalingState.previousScaled = leftScalingState.previous;
-    m_pimpl->footState[trajectoryGeneratorState.velMANNAutoregressiveState.leftFootState.contact.name]
+    m_pimpl->footState[trajectoryGeneratorState.VelMANNAutoregressiveState.leftFootState.contact.name]
         .push_back(std::move(leftScalingState));
 
     Impl::ScalingState<Eigen::Vector3d> rightScalingState;
     rightScalingState.previous
-        = trajectoryGeneratorState.velMANNAutoregressiveState.rightFootState.contact.pose.translation();
+        = trajectoryGeneratorState.VelMANNAutoregressiveState.rightFootState.contact.pose.translation();
     rightScalingState.previousScaled = rightScalingState.previous;
-    m_pimpl->footState[trajectoryGeneratorState.velMANNAutoregressiveState.rightFootState.contact.name]
+    m_pimpl->footState[trajectoryGeneratorState.VelMANNAutoregressiveState.rightFootState.contact.name]
         .push_back(std::move(rightScalingState));
 
     for (auto& state : m_pimpl->mergePointStates)
@@ -372,9 +372,9 @@ bool velMANNTrajectoryGenerator::setInitialState(Eigen::Ref<const Eigen::VectorX
     return true;
 }
 
-bool velMANNTrajectoryGenerator::setInput(const Input& input)
+bool VelMANNTrajectoryGenerator::setInput(const Input& input)
 {
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::setInput]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::setInput]";
 
     if (input.mergePointIndex >= m_pimpl->mergePointStates.size())
     {
@@ -387,20 +387,20 @@ bool velMANNTrajectoryGenerator::setInput(const Input& input)
     }
 
     m_pimpl->mannAutoregressiveInput = input;
-    const Impl::velMANNTrajectoryGeneratorState& mergePointState
+    const Impl::VelMANNTrajectoryGeneratorState& mergePointState
         = m_pimpl->mergePointStates[input.mergePointIndex];
 
     m_pimpl->mergePointStates[0].com = mergePointState.com;
     m_pimpl->mergePointStates[0].basePosition = mergePointState.basePosition;
 
-    // reset the velMANN
-    if (!m_pimpl->mannAutoregressive.reset(mergePointState.velMANNAutoregressiveState))
+    // reset the VelMANN
+    if (!m_pimpl->mannAutoregressive.reset(mergePointState.VelMANNAutoregressiveState))
     {
-        log()->error("{} Unable to reset velMANN.", logPrefix);
+        log()->error("{} Unable to reset VelMANN.", logPrefix);
         return false;
     }
 
-    const auto& time = mergePointState.velMANNAutoregressiveState.time;
+    const auto& time = mergePointState.VelMANNAutoregressiveState.time;
     for (const auto& [contactName, contactList] : m_pimpl->contactListMap)
     {
         std::size_t contactIndex = 0;
@@ -428,17 +428,17 @@ bool velMANNTrajectoryGenerator::setInput(const Input& input)
 
     // add the first contact if needed
     return m_pimpl->resetContactList("left_foot",
-                                     mergePointState.velMANNAutoregressiveState.leftFootState.contact,
-                                     mergePointState.velMANNAutoregressiveState.time)
+                                     mergePointState.VelMANNAutoregressiveState.leftFootState.contact,
+                                     mergePointState.VelMANNAutoregressiveState.time)
            && m_pimpl
                   ->resetContactList("right_foot",
-                                     mergePointState.velMANNAutoregressiveState.rightFootState.contact,
-                                     mergePointState.velMANNAutoregressiveState.time);
+                                     mergePointState.VelMANNAutoregressiveState.rightFootState.contact,
+                                     mergePointState.VelMANNAutoregressiveState.time);
 }
 
-bool velMANNTrajectoryGenerator::advance()
+bool VelMANNTrajectoryGenerator::advance()
 {
-    constexpr auto logPrefix = "[velMANNTrajectoryGenerator::advance]";
+    constexpr auto logPrefix = "[VelMANNTrajectoryGenerator::advance]";
 
     // invalidate the output
     m_pimpl->isOutputValid = false;
@@ -448,15 +448,15 @@ bool velMANNTrajectoryGenerator::advance()
 
     for (int i = 0; i < m_pimpl->mergePointStates.size(); i++)
     {
-        // we need to get the autoregressive state from the velMANNAutoregressive before setting the
+        // we need to get the autoregressive state from the VelMANNAutoregressive before setting the
         // input and advancing the system. Indeed the autoregressive state at time t is the one
         // that will be used to generate the output at time t
-        m_pimpl->mergePointStates[i].velMANNAutoregressiveState
+        m_pimpl->mergePointStates[i].VelMANNAutoregressiveState
             = m_pimpl->mannAutoregressive.getAutoregressiveState();
 
         if (!m_pimpl->mannAutoregressive.setInput(m_pimpl->mannAutoregressiveInput))
         {
-            log()->error("{} Unable to set the input of velMANN at iteration number {}.",
+            log()->error("{} Unable to set the input of VelMANN at iteration number {}.",
                          logPrefix,
                          i);
             return false;
@@ -464,31 +464,31 @@ bool velMANNTrajectoryGenerator::advance()
 
         if (!m_pimpl->mannAutoregressive.advance())
         {
-            log()->error("{} Unable to perform the iteration number {} of velMANN.", logPrefix, i);
+            log()->error("{} Unable to perform the iteration number {} of VelMANN.", logPrefix, i);
             return false;
         }
 
         if (!m_pimpl->mannAutoregressive.isOutputValid())
         {
-            log()->error("{} The output of velMANN is not valid at iteration number {}.",
+            log()->error("{} The output of VelMANN is not valid at iteration number {}.",
                          logPrefix,
                          i);
             return false;
         }
-        const auto& velMANNOutput = m_pimpl->mannAutoregressive.getOutput();
+        const auto& VelMANNOutput = m_pimpl->mannAutoregressive.getOutput();
 
         // populate the output of the trajectory generator
-        m_pimpl->output.jointPositions[i] = velMANNOutput.jointsPosition;
-        m_pimpl->output.jointVelocities[i] = velMANNOutput.jointsVelocity;
-        m_pimpl->output.angularMomentumTrajectory[i] = velMANNOutput.angularMomentum;
-        m_pimpl->output.basePoses[i] = velMANNOutput.basePose;
-        m_pimpl->output.comTrajectory[i] = velMANNOutput.comPosition;
-        m_pimpl->output.comVelocityTrajectory[i] = velMANNOutput.comVelocity;
-        m_pimpl->output.baseVelocityTrajectory[i] = velMANNOutput.baseVelocity;
-        m_pimpl->output.timestamps[i] = velMANNOutput.currentTime;
+        m_pimpl->output.jointPositions[i] = VelMANNOutput.jointsPosition;
+        m_pimpl->output.jointVelocities[i] = VelMANNOutput.jointsVelocity;
+        m_pimpl->output.angularMomentumTrajectory[i] = VelMANNOutput.angularMomentum;
+        m_pimpl->output.basePoses[i] = VelMANNOutput.basePose;
+        m_pimpl->output.comTrajectory[i] = VelMANNOutput.comPosition;
+        m_pimpl->output.comVelocityTrajectory[i] = VelMANNOutput.comVelocity;
+        m_pimpl->output.baseVelocityTrajectory[i] = VelMANNOutput.baseVelocity;
+        m_pimpl->output.timestamps[i] = VelMANNOutput.currentTime;
 
         // update the contacts lists
-        if (!m_pimpl->updateContactList("left_foot", velMANNOutput.leftFoot, velMANNOutput.currentTime))
+        if (!m_pimpl->updateContactList("left_foot", VelMANNOutput.leftFoot, VelMANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the left_foot at iteration "
                          "number {}.",
@@ -496,7 +496,7 @@ bool velMANNTrajectoryGenerator::advance()
                          i);
             return false;
         }
-        if (!m_pimpl->updateContactList("right_foot", velMANNOutput.rightFoot, velMANNOutput.currentTime))
+        if (!m_pimpl->updateContactList("right_foot", VelMANNOutput.rightFoot, VelMANNOutput.currentTime))
         {
             log()->error("{} Unable to update the contact list for the right_foot at iteration "
                          "number {}.",
@@ -508,9 +508,9 @@ bool velMANNTrajectoryGenerator::advance()
         // the next previous position is the current position
         if (i < m_pimpl->mergePointStates.size() - 1)
         {
-            m_pimpl->mergePointStates[i + 1].com.previous = velMANNOutput.comPosition;
+            m_pimpl->mergePointStates[i + 1].com.previous = VelMANNOutput.comPosition;
             m_pimpl->mergePointStates[i + 1].basePosition.previous
-                = velMANNOutput.basePose.translation();
+                = VelMANNOutput.basePose.translation();
         }
     }
 
@@ -609,12 +609,12 @@ bool velMANNTrajectoryGenerator::advance()
     return true;
 }
 
-bool velMANNTrajectoryGenerator::isOutputValid() const
+bool VelMANNTrajectoryGenerator::isOutputValid() const
 {
     return m_pimpl->isOutputValid;
 }
 
-const velMANNTrajectoryGenerator::Output& velMANNTrajectoryGenerator::getOutput() const
+const VelMANNTrajectoryGenerator::Output& VelMANNTrajectoryGenerator::getOutput() const
 {
     return m_pimpl->output;
 }

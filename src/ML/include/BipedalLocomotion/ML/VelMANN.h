@@ -1,5 +1,5 @@
 /**
- * @file velMANN.h
+ * @file VelMANN.h
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -29,7 +29,7 @@ namespace ML
  * L is defined to have its origin in the current robot base position and
  * orientation.
  */
-struct velMANNInput
+struct VelMANNInput
 {
     /** Matrix containing the base linear velocity trajectory. The rows contain the xyz linear velocity
      * while the columns represent the velocity at each time instant. */
@@ -54,7 +54,7 @@ struct velMANNInput
      * baseLinearVelocityTrajectory, and zero baseAngularVelocityTrajectory.
      * @warning the function assumes that the robot is not moving and facing forward.
      */
-    static velMANNInput generateDummyVelMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+    static VelMANNInput generateDummyVelMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                             std::size_t projectedBaseHorizon);
 };
 
@@ -65,7 +65,7 @@ struct velMANNInput
  * L is defined to have its origin in the current robot base position and
  * orientation.
  */
-struct velMANNOutput
+struct VelMANNOutput
 {
     /** Matrix containing the future base linear velocity trajectory. The rows contain the xyz linear velocity
      * while the columns represent the velocity at each time instant. */
@@ -92,7 +92,7 @@ struct velMANNOutput
      * futureBaseLinearVelocityTrajectory, and zero futureBaseAngularVelocityTrajectory.
      * @warning the function assumes that the robot is not moving and facing forward.
      */
-    static velMANNOutput generateDummyVelMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+    static VelMANNOutput generateDummyVelMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                               std::size_t futureProjectedBaseHorizon);
 };
 
@@ -104,18 +104,18 @@ struct velMANNOutput
  * `onnxruntime` to perform inference and it has been tested with an `onnx` model generated from
  * https://github.com/ami-iit/mann-pytorch
  */
-class velMANN : public BipedalLocomotion::System::Advanceable<velMANNInput, velMANNOutput>
+class VelMANN : public BipedalLocomotion::System::Advanceable<VelMANNInput, VelMANNOutput>
 {
 public:
     /**
      * Constructor
      */
-    velMANN();
+    VelMANN();
 
     /**
      * Destructor. It is required by the pimpl implementation.
      */
-    ~velMANN();
+    ~VelMANN();
 
     // clang-format off
     /**
@@ -137,7 +137,7 @@ public:
      * @param input the struct containing all the inputs of the network.
      * @return true in case of success, false otherwise.
      */
-    bool setInput(const velMANNInput& input) override;
+    bool setInput(const VelMANNInput& input) override;
 
     /**
      * Perform one step of the inference given the input set.
@@ -149,7 +149,7 @@ public:
      * Get the output of the network once advance has been called.
      * @return the output of the network.
      */
-    const velMANNOutput& getOutput() const override;
+    const VelMANNOutput& getOutput() const override;
 
     /**
      * Check if the output of the network is valid.

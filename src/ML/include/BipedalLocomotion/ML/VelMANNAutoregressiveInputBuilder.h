@@ -1,5 +1,5 @@
 /**
- * @file velMANNAutoregressiveInputBuilder.h
+ * @file VelMANNAutoregressiveInputBuilder.h
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -12,7 +12,7 @@
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/ML/velMANNAutoregressive.h>
+#include <BipedalLocomotion/ML/VelMANNAutoregressive.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -22,11 +22,11 @@ namespace ML
 {
 
 /**
- * Structure representing directional input for velMANNAutoregressive.
+ * Structure representing directional input for VelMANNAutoregressive.
  * This structure holds the motion direction and base direction as 2D vectors.
  */
 
-struct velMANNDirectionalInput
+struct VelMANNDirectionalInput
 {
     /**< The direction of motion. */
     Eigen::Vector2d motionDirection;
@@ -36,22 +36,22 @@ struct velMANNDirectionalInput
 };
 
 /**
- * velMANNAutoregressiveInputBuilder generates a velMANNAutoregressiveInput from a pair of directional
+ * VelMANNAutoregressiveInputBuilder generates a VelMANNAutoregressiveInput from a pair of directional
  * inputs.
  */
-class velMANNAutoregressiveInputBuilder
-    : public System::Advanceable<velMANNDirectionalInput, velMANNAutoregressiveInput>
+class VelMANNAutoregressiveInputBuilder
+    : public System::Advanceable<VelMANNDirectionalInput, VelMANNAutoregressiveInput>
 {
 public:
     /**
      * Constructor
      */
-    velMANNAutoregressiveInputBuilder();
+    VelMANNAutoregressiveInputBuilder();
 
     /**
      * Destructor
      */
-    ~velMANNAutoregressiveInputBuilder();
+    ~VelMANNAutoregressiveInputBuilder();
 
     // clang-format off
     /**

@@ -1,5 +1,5 @@
 /**
- * @file velMANNTest.cpp
+ * @file VelMANNTest.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -10,7 +10,7 @@
 // Catch2
 #include <catch2/catch_test_macros.hpp>
 
-#include <BipedalLocomotion/ML/velMANN.h>
+#include <BipedalLocomotion/ML/VelMANN.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 #include <FolderPath.h>
@@ -18,9 +18,9 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion::ParametersHandler;
 
-TEST_CASE("velMANN")
+TEST_CASE("VelMANN")
 {
-    velMANN velMann;
+    VelMANN velMann;
 
     auto handler = std::make_shared<StdImplementation>();
     handler->setParameter("number_of_joints", 26);
@@ -30,7 +30,7 @@ TEST_CASE("velMANN")
     REQUIRE(velMann.initialize(handler));
 
     // set the input. The values are taken from the initialization used in the python implementation (src/trajectory_generation/utils.py)
-    velMANNInput input;
+    VelMANNInput input;
     input.baseLinearVelocityTrajectory.resize(3, 12);
     input.baseAngularVelocityTrajectory.resize(3, 12);
     input.jointPositions.resize(26);

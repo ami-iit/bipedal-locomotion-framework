@@ -1,5 +1,5 @@
 /**
- * @file velMANNAutoregressive.cpp
+ * @file VelMANNAutoregressive.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -12,8 +12,8 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/SO3Dynamics.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <BipedalLocomotion/ML/velMANN.h>
-#include <BipedalLocomotion/ML/velMANNAutoregressive.h>
+#include <BipedalLocomotion/ML/VelMANN.h>
+#include <BipedalLocomotion/ML/VelMANNAutoregressive.h>
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -23,14 +23,14 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
-velMANNFootState velMANNFootState::generateFootState(iDynTree::KinDynComputations& kinDyn,
+VelMANNFootState VelMANNFootState::generateFootState(iDynTree::KinDynComputations& kinDyn,
                                                const std::vector<Eigen::Vector3d>& corners,
                                                const std::string& footName,
                                                int footIndex)
 {
     using namespace BipedalLocomotion::Conversions;
 
-    velMANNFootState dummyState;
+    VelMANNFootState dummyState;
     // the schmitt trigger is initialized to true since we assume that the foot is in contact
     dummyState.schmittTriggerState.state = true;
     dummyState.contact.name = footName;
@@ -47,17 +47,17 @@ velMANNFootState velMANNFootState::generateFootState(iDynTree::KinDynComputation
     return dummyState;
 }
 
-velMANNAutoregressive::AutoregressiveState
-velMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
-    const velMANNInput& input,
-    const velMANNOutput& output,
+VelMANNAutoregressive::AutoregressiveState
+VelMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
+    const VelMANNInput& input,
+    const VelMANNOutput& output,
     const manif::SE3d& I_H_B,
-    const velMANNFootState& leftFootState,
-    const velMANNFootState& rightFootState,
+    const VelMANNFootState& leftFootState,
+    const VelMANNFootState& rightFootState,
     int mocapFrameRate,
     const std::chrono::nanoseconds& pastProjectedBaseHorizon)
 {
-    velMANNAutoregressive::AutoregressiveState autoregressiveState;
+    VelMANNAutoregressive::AutoregressiveState autoregressiveState;
 
     const int horizon
         = std::chrono::duration_cast<std::chrono::seconds>(pastProjectedBaseHorizon).count();
@@ -87,13 +87,13 @@ velMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
     return autoregressiveState;
 }
 
-struct velMANNAutoregressive::Impl
+struct VelMANNAutoregressive::Impl
 {
-    velMANN velMann;
-    velMANNInput velMannInput;
+    VelMANN velMann;
+    VelMANNInput velMannInput;
     int projectedBaseDatapoints;
     iDynTree::KinDynComputations kinDyn;
-    velMANNAutoregressiveOutput output;
+    VelMANNAutoregressiveOutput output;
 
     std::chrono::nanoseconds currentTime{std::chrono::nanoseconds::zero()};
     std::chrono::nanoseconds dT;
@@ -149,11 +149,11 @@ struct velMANNAutoregressive::Impl
                        Contacts::EstimatedContact& contact);
 };
 
-bool velMANNAutoregressive::Impl::updateContact(const double referenceHeight,
+bool VelMANNAutoregressive::Impl::updateContact(const double referenceHeight,
                                              Math::SchmittTrigger& trigger,
                                              Contacts::EstimatedContact& contact)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressive::Impl::updateContact]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::Impl::updateContact]";
     Math::SchmittTriggerInput footSchmittInput;
     footSchmittInput.rawValue = referenceHeight;
     footSchmittInput.time = this->currentTime;
@@ -189,14 +189,14 @@ bool velMANNAutoregressive::Impl::updateContact(const double referenceHeight,
     return true;
 }
 
-velMANNAutoregressive::velMANNAutoregressive()
+VelMANNAutoregressive::VelMANNAutoregressive()
     : m_pimpl(std::make_unique<Impl>())
 {
 }
 
-velMANNAutoregressive::~velMANNAutoregressive() = default;
+VelMANNAutoregressive::~VelMANNAutoregressive() = default;
 
-bool velMANNAutoregressive::setRobotModel(const iDynTree::Model& model)
+bool VelMANNAutoregressive::setRobotModel(const iDynTree::Model& model)
 {
     constexpr std::size_t twistSize = 6;
 
@@ -207,10 +207,10 @@ bool velMANNAutoregressive::setRobotModel(const iDynTree::Model& model)
     return m_pimpl->kinDyn.loadRobotModel(model);
 }
 
-bool velMANNAutoregressive::initialize(
+bool VelMANNAutoregressive::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressive::initialize]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::initialize]";
 
     if (!m_pimpl->kinDyn.isValid())
     {
@@ -430,15 +430,15 @@ bool velMANNAutoregressive::initialize(
     ok = ok && getContactCorners("LEFT_FOOT", m_pimpl->state.leftFootState.corners);
     ok = ok && getContactCorners("RIGHT_FOOT", m_pimpl->state.rightFootState.corners);
 
-    auto velMANNParamHandler = ptr->getGroup("MANN").lock();
-    if (velMANNParamHandler == nullptr)
+    auto VelMANNParamHandler = ptr->getGroup("MANN").lock();
+    if (VelMANNParamHandler == nullptr)
     {
         log()->error("{} Unable to find the group named 'MANN'.", logPrefix);
         return false;
     }
 
     // add the joint size in the handler
-    auto cloneHandler = velMANNParamHandler->clone();
+    auto cloneHandler = VelMANNParamHandler->clone();
     cloneHandler->setParameter("number_of_joints", int(m_pimpl->kinDyn.getNrOfDegreesOfFreedom()));
     ok = ok && m_pimpl->velMann.initialize(cloneHandler);
 
@@ -472,12 +472,12 @@ bool velMANNAutoregressive::initialize(
     return ok;
 }
 
-bool velMANNAutoregressive::populateInitialAutoregressiveState(
+bool VelMANNAutoregressive::populateInitialAutoregressiveState(
     Eigen::Ref<const Eigen::VectorXd> jointPositions,
     const manif::SE3d& basePosition,
-    velMANNAutoregressive::AutoregressiveState& state)
+    VelMANNAutoregressive::AutoregressiveState& state)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressive::populateInitialAutoregressiveState]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::populateInitialAutoregressiveState]";
 
     m_pimpl->initial_joint_positions = jointPositions;
     m_pimpl->initialStoppingJointPositions = jointPositions;
@@ -488,9 +488,9 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
 
     // generate the input of the network we assume that the robot is stopped and the facing
     // direction is the x axis
-    const auto input = velMANNInput::generateDummyVelMANNInput(jointPositions, //
+    const auto input = VelMANNInput::generateDummyVelMANNInput(jointPositions, //
                                                          m_pimpl->projectedBaseDatapoints);
-    const auto output = velMANNOutput::generateDummyVelMANNOutput(jointPositions, //
+    const auto output = VelMANNOutput::generateDummyVelMANNOutput(jointPositions, //
                                                             (m_pimpl->projectedBaseDatapoints / 2) + 1);
 
     if (!m_pimpl->kinDyn.setRobotState(basePosition.transform(),
@@ -504,15 +504,15 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
     }
 
     // we assume that the robot is in double support and the feet are on the ground
-    state = velMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
+    state = VelMANNAutoregressive::AutoregressiveState::generateDummyAutoregressiveState(
         input,
         output,
         basePosition,
-        velMANNFootState::generateFootState(m_pimpl->kinDyn,
+        VelMANNFootState::generateFootState(m_pimpl->kinDyn,
                                          m_pimpl->state.leftFootState.corners,
                                          "left_foot",
                                          m_pimpl->state.leftFootState.contact.index),
-        velMANNFootState::generateFootState(m_pimpl->kinDyn,
+        VelMANNFootState::generateFootState(m_pimpl->kinDyn,
                                          m_pimpl->state.rightFootState.corners,
                                          "right_foot",
                                          m_pimpl->state.rightFootState.contact.index),
@@ -522,27 +522,27 @@ bool velMANNAutoregressive::populateInitialAutoregressiveState(
     return true;
 }
 
-bool velMANNAutoregressive::reset(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+bool VelMANNAutoregressive::reset(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                const manif::SE3d& basePose)
 {
     AutoregressiveState autoregressiveState;
     if (!this->populateInitialAutoregressiveState(jointPositions, basePose, autoregressiveState))
     {
-        log()->error("[velMANNAutoregressive::reset] Unable to populate the initial autoregressive "
+        log()->error("[VelMANNAutoregressive::reset] Unable to populate the initial autoregressive "
                      "state.");
         return false;
     }
     return this->reset(autoregressiveState);
 }
 
-bool velMANNAutoregressive::reset(const AutoregressiveState& state)
+bool VelMANNAutoregressive::reset(const AutoregressiveState& state)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressive::reset]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::reset]";
 
     if (m_pimpl->fsmState != Impl::FSM::Initialized && m_pimpl->fsmState != Impl::FSM::Running
         && m_pimpl->fsmState != Impl::FSM::Reset)
     {
-        log()->error("{} velMANNAutoregressive has not been initialized.", logPrefix);
+        log()->error("{} VelMANNAutoregressive has not been initialized.", logPrefix);
         return false;
     }
 
@@ -578,10 +578,10 @@ bool velMANNAutoregressive::reset(const AutoregressiveState& state)
     return true;
 }
 
-bool velMANNAutoregressive::setInput(const Input& input)
+bool VelMANNAutoregressive::setInput(const Input& input)
 {
     // If the output of the network is valid, then the network has been called at least once
-    constexpr auto logPrefix = "[velMANNAutoregressive::setInput]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::setInput]";
 
     if (m_pimpl->fsmState != Impl::FSM::Reset && !this->isOutputValid())
     {
@@ -590,7 +590,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
     }
 
     // get the output of the network computed at the previous iteration
-    const velMANNOutput& previousVelMannOutput = m_pimpl->state.previousVelMannOutput;
+    const VelMANNOutput& previousVelMannOutput = m_pimpl->state.previousVelMannOutput;
 
     // the joint positions and velocities are considered as new input
     // if within the radius of the desired position, set input joint positions to a standing configuration
@@ -775,7 +775,7 @@ bool velMANNAutoregressive::setInput(const Input& input)
 
     if (!m_pimpl->velMann.setInput(m_pimpl->velMannInput))
     {
-        log()->error("{} Unable to set the input to velMANN network", logPrefix);
+        log()->error("{} Unable to set the input to VelMANN network", logPrefix);
         return false;
     }
 
@@ -807,12 +807,12 @@ bool velMANNAutoregressive::setInput(const Input& input)
     return true;
 }
 
-bool velMANNAutoregressive::advance()
+bool VelMANNAutoregressive::advance()
 {
     using namespace std::chrono_literals;
     using namespace BipedalLocomotion::GenericContainer::literals;
 
-    constexpr auto logPrefix = "[velMANNAutoregressive::advance]";
+    constexpr auto logPrefix = "[VelMANNAutoregressive::advance]";
 
     // invalidate the output
     m_pimpl->isOutputValid = false;
@@ -826,7 +826,7 @@ bool velMANNAutoregressive::advance()
         return false;
     }
 
-    // perform one iteration of velMANN
+    // perform one iteration of VelMANN
     if (!m_pimpl->velMann.advance() || !m_pimpl->velMann.isOutputValid())
     {
         log()->error("{} Unable to compute the output of the network.", logPrefix);
@@ -837,7 +837,7 @@ bool velMANNAutoregressive::advance()
     const auto& velMannOutput = m_pimpl->velMann.getOutput();
 
     // Integrate the base orientation
-    // if the robot is stopped (i.e, if the current velMANN input and the previous one are the same)
+    // if the robot is stopped (i.e, if the current VelMANN input and the previous one are the same)
     // we set the yaw rate equal to zero
     const manif::SO3Tangentd baseAngularVelocity = m_pimpl->isRobotStopped ? Eigen::Vector3d{0, 0, 0} : manif::SO3d(m_pimpl->state.I_H_B.quat()).act(m_pimpl->previousOmegaE);
     if (!m_pimpl->baseOrientationDynamics->setControlInput({baseAngularVelocity}))
@@ -984,7 +984,7 @@ bool velMANNAutoregressive::advance()
         return false;
     }
 
-    // From here we store the output of velMANNAutoregressive
+    // From here we store the output of VelMANNAutoregressive
     const double leftFootHeight
         = m_pimpl->kinDyn.getWorldTransform(m_pimpl->state.leftFootState.contact.index)
               .getPosition()[2];
@@ -1053,23 +1053,23 @@ bool velMANNAutoregressive::advance()
     return true;
 }
 
-bool velMANNAutoregressive::isOutputValid() const
+bool VelMANNAutoregressive::isOutputValid() const
 {
     // the output must be valid and the state machine must be in running phase
     return m_pimpl->isOutputValid && m_pimpl->fsmState == Impl::FSM::Running;
 }
 
-const velMANNAutoregressive::Output& velMANNAutoregressive::getOutput() const
+const VelMANNAutoregressive::Output& VelMANNAutoregressive::getOutput() const
 {
     return m_pimpl->output;
 }
 
-const velMANNInput& velMANNAutoregressive::getVelMANNInput() const
+const VelMANNInput& VelMANNAutoregressive::getVelMANNInput() const
 {
     return m_pimpl->velMannInput;
 }
 
-const velMANNAutoregressive::AutoregressiveState& velMANNAutoregressive::getAutoregressiveState() const
+const VelMANNAutoregressive::AutoregressiveState& VelMANNAutoregressive::getAutoregressiveState() const
 {
     return m_pimpl->state;
 }

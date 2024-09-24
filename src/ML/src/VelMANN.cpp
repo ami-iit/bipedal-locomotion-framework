@@ -1,5 +1,5 @@
 /**
- * @file velMANN.cpp
+ * @file VelMANN.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -13,7 +13,7 @@
 // onnxruntime
 #include <onnxruntime_cxx_api.h>
 
-#include <BipedalLocomotion/ML/velMANN.h>
+#include <BipedalLocomotion/ML/VelMANN.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -21,10 +21,10 @@
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
 
-velMANNInput velMANNInput::generateDummyVelMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+VelMANNInput VelMANNInput::generateDummyVelMANNInput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                             std::size_t projectedBaseHorizon)
 {
-    velMANNInput input;
+    VelMANNInput input;
     input.jointPositions = jointPositions;
     input.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     input.baseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, projectedBaseHorizon);
@@ -35,10 +35,10 @@ velMANNInput velMANNInput::generateDummyVelMANNInput(Eigen::Ref<const Eigen::Vec
     return input;
 }
 
-velMANNOutput velMANNOutput::generateDummyVelMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
+VelMANNOutput VelMANNOutput::generateDummyVelMANNOutput(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                                std::size_t futureProjectedBaseHorizon)
 {
-    velMANNOutput output;
+    VelMANNOutput output;
     output.jointPositions = jointPositions;
     output.jointVelocities = Eigen::VectorXd::Zero(jointPositions.size());
     output.futureBaseLinearVelocityTrajectory = Eigen::Matrix3Xd::Zero(3, futureProjectedBaseHorizon);
@@ -49,7 +49,7 @@ velMANNOutput velMANNOutput::generateDummyVelMANNOutput(Eigen::Ref<const Eigen::
     return output;
 }
 
-struct velMANN::Impl
+struct VelMANN::Impl
 {
     enum class FSM
     {
@@ -70,7 +70,7 @@ struct velMANN::Impl
     DataStructured structuredInput;
     DataStructured structuredOutput;
 
-    velMANNOutput output;
+    VelMANNOutput output;
 
     Ort::MemoryInfo memoryInfo;
 
@@ -78,19 +78,19 @@ struct velMANN::Impl
     std::unique_ptr<Ort::Session> session;
 
     Impl();
-    bool populateInput(const velMANNInput& input);
+    bool populateInput(const VelMANNInput& input);
 
     FSM state{FSM::NotInitialized};
 };
 
-velMANN::Impl::Impl()
+VelMANN::Impl::Impl()
     : memoryInfo(::Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU))
 {
 }
 
-bool velMANN::Impl::populateInput(const velMANNInput& input)
+bool VelMANN::Impl::populateInput(const VelMANNInput& input)
 {
-    constexpr auto logPrefix = "[velMANN::Impl::populateInput]";
+    constexpr auto logPrefix = "[VelMANN::Impl::populateInput]";
 
     auto populateVectorData
         = [&input, this, logPrefix](const std::string& variableName,
@@ -150,17 +150,17 @@ bool velMANN::Impl::populateInput(const velMANNInput& input)
     return ok;
 }
 
-velMANN::velMANN()
+VelMANN::VelMANN()
 {
-    m_pimpl = std::make_unique<velMANN::Impl>();
+    m_pimpl = std::make_unique<VelMANN::Impl>();
 }
 
-velMANN::~velMANN() = default;
+VelMANN::~VelMANN() = default;
 
-bool velMANN::initialize(
+bool VelMANN::initialize(
     std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler> handler)
 {
-    constexpr auto logPrefix = "[velMANN::initialize]";
+    constexpr auto logPrefix = "[VelMANN::initialize]";
     auto ptr = handler.lock();
 
     if (ptr == nullptr)
@@ -289,17 +289,17 @@ bool velMANN::initialize(
     return true;
 }
 
-bool velMANN::setInput(const velMANNInput& input)
+bool VelMANN::setInput(const VelMANNInput& input)
 {
     if (m_pimpl->state != Impl::FSM::Initialized && m_pimpl->state != Impl::FSM::Running)
     {
-        log()->error("[velMANN::setInput] The network is not initialized, please call initialize()");
+        log()->error("[VelMANN::setInput] The network is not initialized, please call initialize()");
         return false;
     }
     return m_pimpl->populateInput(input);
 }
 
-bool velMANN::advance()
+bool VelMANN::advance()
 {
     auto unpackMatrix = [this](const std::string& variableName,
                                Eigen::Ref<Eigen::MatrixXd> matrix) {
@@ -343,12 +343,12 @@ bool velMANN::advance()
     return true;
 }
 
-bool velMANN::isOutputValid() const
+bool VelMANN::isOutputValid() const
 {
     return m_pimpl->state == Impl::FSM::Running;
 }
 
-const velMANNOutput& velMANN::getOutput() const
+const VelMANNOutput& VelMANN::getOutput() const
 {
     return m_pimpl->output;
 }

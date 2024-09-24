@@ -1,5 +1,5 @@
 /**
- * @file velMANNTrajectoryGenerator.h
+ * @file VelMANNTrajectoryGenerator.h
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -13,7 +13,7 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/Contacts/ContactPhaseList.h>
-#include <BipedalLocomotion/ML/velMANNAutoregressive.h>
+#include <BipedalLocomotion/ML/VelMANNAutoregressive.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -25,7 +25,7 @@ namespace ML
 /**
  * Input of the planner.
  */
-struct velMANNTrajectoryGeneratorInput : public velMANNAutoregressiveInput
+struct VelMANNTrajectoryGeneratorInput : public VelMANNAutoregressiveInput
 {
     /** Index to the merge point considered to attach the new trajectory */
     std::size_t mergePointIndex;
@@ -34,7 +34,7 @@ struct velMANNTrajectoryGeneratorInput : public velMANNAutoregressiveInput
 /**
  * Output of the trajectory planner
  */
-struct velMANNTrajectoryGeneratorOutput
+struct VelMANNTrajectoryGeneratorOutput
 {
     /** CoM trajectory expressed in the inertial frame */
     std::vector<Eigen::Vector3d> comTrajectory;
@@ -58,51 +58,51 @@ struct velMANNTrajectoryGeneratorOutput
 };
 
 /**
- * velMANNTrajectoryGenerator is a class that uses velMANNAutoregressive to generate a kinematically
+ * VelMANNTrajectoryGenerator is a class that uses VelMANNAutoregressive to generate a kinematically
  * feasible trajectory for humanoid robots. The planner will generate a trajectory which duration is
  * equal to `slow_down_factor * time_horizon` seconds. This class differs from the MANNTrajectoryGenerator
  * class in that the input and output features of the learned model are velocity-based rather than
  * position-based. The postprocessing, using the 3D velocity output features of the learned model, allows
  * more modularity in the trajectory generation. More details are available in the paper mentioned below.
- * @subsection mann_trajectory_generator velMANN trajectory generator
- * The diagram illustrates the utilization of the velMANNAutoregressive within the
- * velMANNTrajectoryGenerator class.
+ * @subsection mann_trajectory_generator VelMANN trajectory generator
+ * The diagram illustrates the utilization of the VelMANNAutoregressive within the
+ * VelMANNTrajectoryGenerator class.
  * To initialize the generator, the user needs to set the initial
- * state using the velMANNTrajectoryGenerator::setInitialState method. The
- * velMANNTrajectoryGeneratorInput, provided by the user, serves as the input for the
- * velMANNAutoregressiveInput, along with the 'mergePointIndex.' The velMANNAutoregressiveInput is assumed
+ * state using the VelMANNTrajectoryGenerator::setInitialState method. The
+ * VelMANNTrajectoryGeneratorInput, provided by the user, serves as the input for the
+ * VelMANNAutoregressiveInput, along with the 'mergePointIndex.' The VelMANNAutoregressiveInput is assumed
  * to remain constant within the trajectory horizon. The 'mergePointIndex' indicates the index at
- * which the new trajectory will be attached. For example, when the velMANNTrajectoryGenerator
+ * which the new trajectory will be attached. For example, when the VelMANNTrajectoryGenerator
  * generates a trajectory consisting of 'N' points, if the 'mergePointIndex' is set to 3, the first
  * three elements of the new trajectory will be derived from the previously computed trajectory by
- * velMANNTrajectoryGeneratorOutput, utilizing the previous velMANNAutoregressiveInput. Subsequently, all
- * points from 3 to N will be evaluated using the current velMANNAutoregressiveInput. This behavior is
+ * VelMANNTrajectoryGeneratorOutput, utilizing the previous VelMANNAutoregressiveInput. Subsequently, all
+ * points from 3 to N will be evaluated using the current VelMANNAutoregressiveInput. This behavior is
  * facilitated by a mechanism that stores the autoregressive state required for resetting the
- * velMANNAutoregressive at the designated merge point. Every time the velMANNAutoregressive::advance()
- * function is invoked by the velMANNTrajectoryGenerator, the autoregressive state is stored for future
+ * VelMANNAutoregressive at the designated merge point. Every time the VelMANNAutoregressive::advance()
+ * function is invoked by the VelMANNTrajectoryGenerator, the autoregressive state is stored for future
  * reference.
  * @note The implementation of the class follows the work presented in "Trajectory Generation with
  * Physics-Informed Learning and Drift Mitigation", available at
  * https://github.com/ami-iit/paper_delia_2024_ral_physics-informed_trajectory_generation.
  */
-class velMANNTrajectoryGenerator
-    : public System::Advanceable<velMANNTrajectoryGeneratorInput, velMANNTrajectoryGeneratorOutput>
+class VelMANNTrajectoryGenerator
+    : public System::Advanceable<VelMANNTrajectoryGeneratorInput, VelMANNTrajectoryGeneratorOutput>
 {
 public:
     /**
      * Constructor
      */
-    velMANNTrajectoryGenerator();
+    VelMANNTrajectoryGenerator();
 
     /**
      * Destructor
      */
-    ~velMANNTrajectoryGenerator();
+    ~VelMANNTrajectoryGenerator();
 
     /**
      * Set the robot model.
      * @param model model of the robot considered by the network. Please load the very same model
-     * with the same joint serialization used to train the velMANN network.
+     * with the same joint serialization used to train the VelMANN network.
      * @return true in case of success, false otherwise.
      */
     bool setRobotModel(const iDynTree::Model& model);
@@ -128,7 +128,7 @@ public:
      * |:------------------------:|:-----------------:|:----------------------------------------------------------------------------------------------:|:---------:|
      * |    `number_of_corners`   |        `int`      |                          Number of corners associated to the foot                              |    Yes    |
      * |       `corner_<i>`       |  `vector<double>` | Position of the corner expressed in the foot frame. I must be from 0 to number_of_corners - 1  |    Yes    |
-     * Finally it also required to define a group named `velMANN` that contains the following parameter
+     * Finally it also required to define a group named `VelMANN` that contains the following parameter
      * |      Parameter Name      |   Type   |                          Description                                | Mandatory |
      * |:------------------------:|:--------:|:-------------------------------------------------------------------:|:---------:|
      * |    `onnx_model_path`     | `string` |  Path to the `onnx` model that will be loaded to perform inference  |    Yes    |

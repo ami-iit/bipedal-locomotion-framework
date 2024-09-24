@@ -1,20 +1,20 @@
 /**
- * @file velMANNAutoregressiveInputBuilder.cpp
+ * @file VelMANNAutoregressiveInputBuilder.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/ML/velMANNAutoregressiveInputBuilder.h>
+#include <BipedalLocomotion/ML/VelMANNAutoregressiveInputBuilder.h>
 #include <BipedalLocomotion/Math/QuadraticBezierCurve.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ML;
 
-struct velMANNAutoregressiveInputBuilder::Impl
+struct VelMANNAutoregressiveInputBuilder::Impl
 {
-    velMANNDirectionalInput input;
-    velMANNAutoregressiveInput output;
+    VelMANNDirectionalInput input;
+    VelMANNAutoregressiveInput output;
 
     struct BezierCurve
     {
@@ -56,7 +56,7 @@ struct velMANNAutoregressiveInputBuilder::Impl
                                     Eigen::Ref<const Eigen::Vector2d> rawBaseDirection) const;
 };
 
-double velMANNAutoregressiveInputBuilder::Impl::evaluateMaxBaseDirectionAngle(
+double VelMANNAutoregressiveInputBuilder::Impl::evaluateMaxBaseDirectionAngle(
     Eigen::Ref<const Eigen::Vector2d> normalizedMotionDirection,
     Eigen::Ref<const Eigen::Vector2d> rawBaseDirection) const
 {
@@ -78,16 +78,16 @@ double velMANNAutoregressiveInputBuilder::Impl::evaluateMaxBaseDirectionAngle(
     return maxBaseDirectionAngleForward;
 }
 
-velMANNAutoregressiveInputBuilder::velMANNAutoregressiveInputBuilder()
+VelMANNAutoregressiveInputBuilder::VelMANNAutoregressiveInputBuilder()
 {
     m_pimpl = std::make_unique<Impl>();
 }
 
-velMANNAutoregressiveInputBuilder::~velMANNAutoregressiveInputBuilder() = default;
+VelMANNAutoregressiveInputBuilder::~VelMANNAutoregressiveInputBuilder() = default;
 
-bool velMANNAutoregressiveInputBuilder::setInput(const Input& input)
+bool VelMANNAutoregressiveInputBuilder::setInput(const Input& input)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressiveInputBuilder::setInput]";
+    constexpr auto logPrefix = "[VelMANNAutoregressiveInputBuilder::setInput]";
 
     if (m_pimpl->fsm == Impl::FSM::Idle)
     {
@@ -134,15 +134,15 @@ bool velMANNAutoregressiveInputBuilder::setInput(const Input& input)
     return true;
 }
 
-const velMANNAutoregressiveInput& velMANNAutoregressiveInputBuilder::getOutput() const
+const VelMANNAutoregressiveInput& VelMANNAutoregressiveInputBuilder::getOutput() const
 {
     return m_pimpl->output;
 }
 
-bool velMANNAutoregressiveInputBuilder::initialize(
+bool VelMANNAutoregressiveInputBuilder::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
-    constexpr auto logPrefix = "[velMANNAutoregressiveInputBuilder::initialize]";
+    constexpr auto logPrefix = "[VelMANNAutoregressiveInputBuilder::initialize]";
     auto ptr = paramHandler.lock();
 
     if (ptr == nullptr)
@@ -214,7 +214,7 @@ bool velMANNAutoregressiveInputBuilder::initialize(
     // if everything went fine we can resize the matrices
     if (!ok)
     {
-        log()->error("{} Unable complete the initialization of the velMANNAutoregressiveInputBuilder.",
+        log()->error("{} Unable complete the initialization of the VelMANNAutoregressiveInputBuilder.",
                      logPrefix);
         return false;
     }
@@ -237,9 +237,9 @@ bool velMANNAutoregressiveInputBuilder::initialize(
     return ok;
 }
 
-bool velMANNAutoregressiveInputBuilder::advance()
+bool VelMANNAutoregressiveInputBuilder::advance()
 {
-    constexpr auto logPrefix = "[velMANNAutoregressiveInputBuilder::advance]";
+    constexpr auto logPrefix = "[VelMANNAutoregressiveInputBuilder::advance]";
     if (m_pimpl->fsm == Impl::FSM::Idle)
     {
         log()->error("{} Please initialize the class before calling advance.", logPrefix);
@@ -365,7 +365,7 @@ bool velMANNAutoregressiveInputBuilder::advance()
     return true;
 }
 
-bool velMANNAutoregressiveInputBuilder::isOutputValid() const
+bool VelMANNAutoregressiveInputBuilder::isOutputValid() const
 {
     return m_pimpl->fsm == Impl::FSM::OutputValid;
 }

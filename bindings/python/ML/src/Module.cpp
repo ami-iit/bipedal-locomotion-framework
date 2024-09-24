@@ -11,10 +11,10 @@
 #include <BipedalLocomotion/bindings/ML/MANNAutoregressive.h>
 #include <BipedalLocomotion/bindings/ML/MANNTrajectoryGenerator.h>
 #include <BipedalLocomotion/bindings/ML/MANNAutoregressiveInputBuilder.h>
-#include <BipedalLocomotion/bindings/ML/velMANN.h>
-#include <BipedalLocomotion/bindings/ML/velMANNAutoregressive.h>
-#include <BipedalLocomotion/bindings/ML/velMANNTrajectoryGenerator.h>
-#include <BipedalLocomotion/bindings/ML/velMANNAutoregressiveInputBuilder.h>
+#include <BipedalLocomotion/bindings/ML/VelMANN.h>
+#include <BipedalLocomotion/bindings/ML/VelMANNAutoregressive.h>
+#include <BipedalLocomotion/bindings/ML/VelMANNTrajectoryGenerator.h>
+#include <BipedalLocomotion/bindings/ML/VelMANNAutoregressiveInputBuilder.h>
 
 
 namespace BipedalLocomotion

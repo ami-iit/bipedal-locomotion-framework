@@ -1,5 +1,5 @@
 /**
- * @file velMANNAutoregressive.h
+ * @file VelMANNAutoregressive.h
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -15,7 +15,7 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
-#include <BipedalLocomotion/ML/velMANN.h>
+#include <BipedalLocomotion/ML/VelMANN.h>
 #include <BipedalLocomotion/Math/SchmittTrigger.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
@@ -28,9 +28,9 @@ namespace ML
 {
 
 /**
- * velMANNFootState contains the state of a foot in contact with the ground.
+ * VelMANNFootState contains the state of a foot in contact with the ground.
  */
-struct velMANNFootState
+struct VelMANNFootState
 {
     Contacts::EstimatedContact contact; /**< Contact state */
     Math::SchmittTriggerState schmittTriggerState; /**< Schmitt trigger state */
@@ -45,28 +45,28 @@ struct velMANNFootState
      * @param footName name of the foot.
      * @param footIndex index of the foot in the model. This is required to compute the foot
      * position with the KinDynComputations object.
-     * @return a dummy velMANNFootState.
-     * @note a dummy velMANNFootState is generated assuming that the foot is in contact with the ground
+     * @return a dummy VelMANNFootState.
+     * @note a dummy VelMANNFootState is generated assuming that the foot is in contact with the ground
      * and the Math::SchmittTriggerState is in the on state (i.e., the foot is in contact). Moreover
-     * a dummy velMANNFootState is generated setting to zero the switch time of the Schmitt trigger.
+     * a dummy VelMANNFootState is generated setting to zero the switch time of the Schmitt trigger.
      * @warning This function assumes that the foot is in contact with the ground and the
      * Math::SchmittTriggerState is in the on state (i.e., the foot is in contact).
      */
-    static velMANNFootState generateFootState(iDynTree::KinDynComputations& kindyn,
+    static VelMANNFootState generateFootState(iDynTree::KinDynComputations& kindyn,
                                            const std::vector<Eigen::Vector3d>& corners,
                                            const std::string& footName,
                                            int footIndex);
 };
 
 /**
- * velMANNAutoregressiveInput contains the unput to velMANN network when used in autoregressive fashion.
+ * VelMANNAutoregressiveInput contains the unput to VelMANN network when used in autoregressive fashion.
  * The base position trajectory, base direction trajectory and base velocity trajectories are
  * written in a bidimensional local reference frame L in which we assume all the quantities related
  * to the ground-projected base trajectory in xi and yi to be expressed. At each step ti,
  * L is defined to have its origin in the current ground-projected robot base position and
  * orientation defined by the current base direction (along with its orthogonal vector).
  */
-struct velMANNAutoregressiveInput
+struct VelMANNAutoregressiveInput
 {
     /** Matrix containing the future desired position trajectory. The rows contain the x and y
      * position projected into the ground while the columns the position at each time instant. */
@@ -86,10 +86,10 @@ struct velMANNAutoregressiveInput
 };
 
 /**
- * velMANNAutoregressiveOutput contains the output to the velMANN network when used in autoregressive
+ * VelMANNAutoregressiveOutput contains the output to the VelMANN network when used in autoregressive
  * fashion.
  */
-struct velMANNAutoregressiveOutput
+struct VelMANNAutoregressiveOutput
 {
     Eigen::VectorXd jointsPosition; /**< Joint positions in radians */
     Eigen::VectorXd jointsVelocity; /**< Joint velocities in radians */
@@ -109,25 +109,23 @@ struct velMANNAutoregressiveOutput
 
 // clang-format off
 /**
- * velMANNAutoregressive is a class that allows to perform autoregressive inference with Mode-Adaptive
+ * VelMANNAutoregressive is a class that allows to perform autoregressive inference with Mode-Adaptive
  * Neural Networks (MANN).
- * @subsection velMANN_autoregressive velMANN Autoregressive
- * The following diagram shows how the velMANN network is used inside the velMANNAutoregressive class.
- * The output of velMANN is given to two blocks, one computes the kinematically feasible base position,
+ * @subsection VelMANN_autoregressive VelMANN Autoregressive
+ * The following diagram shows how the VelMANN network is used inside the VelMANNAutoregressive class.
+ * The output of VelMANN is given to two blocks, one computes the kinematically feasible base position,
  * while the other blends it to te input provided by the user
- * <img src="https://user-images.githubusercontent.com/16744101/237064989-b3d0d62f-2fc9-4ca4-9b11-ecca0c8c378e.png" alt="mann_autoregressive">
- * @note The implementation of the class follows the work presented in "P. M. Viceconte et al.,
- * "ADHERENT: Learning Human-like Trajectory Generators for Whole-body Control of Humanoid Robots,"
- * in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022,
- * doi: 10.1109/LRA.2022.3141658." https://doi.org/10.1109/LRA.2022.3141658
+ * @note The implementation of the class follows the work presented in "Trajectory Generation with
+ * Physics-Informed Learning and Drift Mitigation", available at
+ * https://github.com/ami-iit/paper_delia_2024_ral_physics-informed_trajectory_generation.
  */
 // clang-format on
-class velMANNAutoregressive
-    : public System::Advanceable<velMANNAutoregressiveInput, velMANNAutoregressiveOutput>
+class VelMANNAutoregressive
+    : public System::Advanceable<VelMANNAutoregressiveInput, VelMANNAutoregressiveOutput>
 {
 public:
     /**
-     * SupportFoot is an enum that contains the support foot considered by the velMANN network.
+     * SupportFoot is an enum that contains the support foot considered by the VelMANN network.
      */
     enum class SupportFoot
     {
@@ -146,9 +144,9 @@ public:
      */
     struct AutoregressiveState
     {
-        velMANNOutput previousVelMannOutput; /**< Output of the velMANN network generated at the previous
+        VelMANNOutput previousVelMannOutput; /**< Output of the VelMANN network generated at the previous
                                           iteration */
-        velMANNInput previousVelMannInput; /**< Input to the velMANN network at previous iteration */
+        VelMANNInput previousVelMannInput; /**< Input to the VelMANN network at previous iteration */
         manif::SE3d I_H_B_prev; /**< SE(3) transformation of the base direction respect to the
                                inertial frame*/
 
@@ -158,8 +156,8 @@ public:
         /** Past base angular velocity, Each element of the deque contains x, y, and z angular velocity. */
         std::deque<Eigen::Vector3d> pastProjectedBaseAngVelocity;
 
-        velMANNFootState leftFootState; /**< Left foot state */
-        velMANNFootState rightFootState; /**< Right foot state */
+        VelMANNFootState leftFootState; /**< Left foot state */
+        VelMANNFootState rightFootState; /**< Right foot state */
         manif::SE3d I_H_B; /**< SE(3) transformation of the base with respect to the inertial frame */
         SupportFoot supportFoot{SupportFoot::Unknown}; /**< Support foot */
         Eigen::Vector3d projectedContactPositionInWorldFrame; /**< Projected contact position in
@@ -191,11 +189,11 @@ public:
          * time to zero.
          */
         static AutoregressiveState
-        generateDummyAutoregressiveState(const velMANNInput& input,
-                                         const velMANNOutput& output,
+        generateDummyAutoregressiveState(const VelMANNInput& input,
+                                         const VelMANNOutput& output,
                                          const manif::SE3d& I_H_B,
-                                         const velMANNFootState& leftFootState,
-                                         const velMANNFootState& rightFootState,
+                                         const VelMANNFootState& leftFootState,
+                                         const VelMANNFootState& rightFootState,
                                          int mocapFrameRate,
                                          const std::chrono::nanoseconds& pastProjectedBaseHorizon);
     };
@@ -203,17 +201,17 @@ public:
     /**
      * Constructor
      */
-    velMANNAutoregressive();
+    VelMANNAutoregressive();
 
     /**
      * Destructor
      */
-    ~velMANNAutoregressive();
+    ~VelMANNAutoregressive();
 
     /**
      * Set the robot model.
      * @param model model of the robot considered by the network. Please load the very same model
-     * with the same joint serialization used to train the velMANN network.
+     * with the same joint serialization used to train the VelMANN network.
      * @return true in case of success, false otherwise.
      */
     bool setRobotModel(const iDynTree::Model& model);
@@ -242,7 +240,7 @@ public:
      * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.|    Yes    |
      * |   `switch_on_after`  |     `double`     |     Seconds to wait for before switching to activate from deactivate contact. Ensure it's greater than sampling time.        |    Yes    |
      * |  `switch_off_after`  |     `double`     |     Seconds to wait for before switching to deactivate from activate contact. Ensure it's greater than sampling time.        |    Yes    |
-     * Finally it also required to define a group named `velMANN` that contains the following parameter
+     * Finally it also required to define a group named `VelMANN` that contains the following parameter
      * |          Parameter Name         |   Type   |                                         Description                                         | Mandatory |
      * |:-------------------------------:|:--------:|:-------------------------------------------------------------------------------------------:|:---------:|
      * |        `onnx_model_path`        | `string` |         Path to the `onnx` model that will be loaded to perform inference.                  |    Yes    |
@@ -270,7 +268,7 @@ public:
      * @param jointPositions joint position.
      * @param basePose base pose.
      * @return true in case of success, false otherwise.
-     * @note Please call this function before calling velMANNAutoregressive::advance the first time.
+     * @note Please call this function before calling VelMANNAutoregressive::advance the first time.
      * @warning This function assumes that both the feet are in contact with the ground, the joint
      * and base velocities equal to zero.
      * @warning This function reset also the internal time to zero.
@@ -281,7 +279,7 @@ public:
      * Reset the autoregressive model
      * @param autoregressiveState the autoregressive state at which you want to reset your model.
      * @return true in case of success, false otherwise.
-     * @note Please call this function the before calling velMANNAutoregressive::advance the first time
+     * @note Please call this function the before calling VelMANNAutoregressive::advance the first time
      * time.
      */
     bool reset(const AutoregressiveState& autoregressiveState);
@@ -293,25 +291,25 @@ public:
     bool isOutputValid() const override;
 
     /**
-     * Get the output from velMANNAutoregressive.
+     * Get the output from VelMANNAutoregressive.
      * @return the output of the system.
      */
     const Output& getOutput() const override;
 
     /**
-     * Get the structure that has been used as input for velMANN.
-     * @return the velMANNInput
+     * Get the structure that has been used as input for VelMANN.
+     * @return the VelMANNInput
      */
-    const velMANNInput& getVelMANNInput() const;
+    const VelMANNInput& getVelMANNInput() const;
 
     /**
-     * Get the autoregressive state required to rest velMANNAutoregressive.
+     * Get the autoregressive state required to rest VelMANNAutoregressive.
      * @return the AutoregressiveState
      */
     const AutoregressiveState& getAutoregressiveState() const;
 
     /**
-     * Get the autoregressive state required to reset velMANNAutoregressive.
+     * Get the autoregressive state required to reset VelMANNAutoregressive.
      * @param jointPositions joint position
      * @param basePose base pose
      * @param state autoregressive state that will be populated
@@ -321,7 +319,7 @@ public:
      */
     bool populateInitialAutoregressiveState(Eigen::Ref<const Eigen::VectorXd> jointPositions,
                                             const manif::SE3d& basePose,
-                                            velMANNAutoregressive::AutoregressiveState& state);
+                                            VelMANNAutoregressive::AutoregressiveState& state);
 
 private:
     struct Impl;

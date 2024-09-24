@@ -1,5 +1,5 @@
 /**
- * @file velMANNTrajectoryGeneratorTest.cpp
+ * @file VelMANNTrajectoryGeneratorTest.cpp
  * @authors Evelyn D'Elia
  * @copyright 2024 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -14,7 +14,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/Contacts/Contact.h>
-#include <BipedalLocomotion/ML/velMANNTrajectoryGenerator.h>
+#include <BipedalLocomotion/ML/VelMANNTrajectoryGenerator.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 #include <FolderPath.h>
@@ -26,7 +26,7 @@ using namespace BipedalLocomotion::ParametersHandler;
 
 //TODO change to 26 joints
 
-TEST_CASE("velMANNTrajectoryGenerator")
+TEST_CASE("VelMANNTrajectoryGenerator")
 {
     using namespace std::chrono_literals;
 
@@ -86,7 +86,7 @@ TEST_CASE("velMANNTrajectoryGenerator")
     handler->setGroup("MANN", mannGroup);
 
     // input to generate a forward direction
-    velMANNTrajectoryGeneratorInput generatorInput;
+    VelMANNTrajectoryGeneratorInput generatorInput;
     generatorInput.desiredFutureBaseTrajectory.resize(2, 7);
     generatorInput.desiredFutureBaseVelocities.resize(2, 7);
     generatorInput.desiredFutureBaseDirections.resize(2, 7);
@@ -114,7 +114,7 @@ TEST_CASE("velMANNTrajectoryGenerator")
             -0.3129451427487485, 0.04242320961879248, -0.12993538373842523, 0.018668904587540704,
             0.033567343049341246, 0.3631242921725555;
 
-    velMANNTrajectoryGenerator generator;
+    VelMANNTrajectoryGenerator generator;
     REQUIRE(generator.setRobotModel(ml.model()));
     REQUIRE(generator.initialize(handler));
     REQUIRE(generator.setInitialState(jointPositions, basePose));
