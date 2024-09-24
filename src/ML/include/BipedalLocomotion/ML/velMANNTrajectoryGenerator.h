@@ -60,11 +60,13 @@ struct velMANNTrajectoryGeneratorOutput
 /**
  * velMANNTrajectoryGenerator is a class that uses velMANNAutoregressive to generate a kinematically
  * feasible trajectory for humanoid robots. The planner will generate a trajectory which duration is
- * equal to `slow_down_factor * time_horizon` seconds.
+ * equal to `slow_down_factor * time_horizon` seconds. This class differs from the MANNTrajectoryGenerator
+ * class in that the input and output features of the learned model are velocity-based rather than
+ * position-based. The postprocessing, using the 3D velocity output features of the learned model, allows
+ * more modularity in the trajectory generation. More details are available in the paper mentioned below.
  * @subsection mann_trajectory_generator velMANN trajectory generator
  * The diagram illustrates the utilization of the velMANNAutoregressive within the
  * velMANNTrajectoryGenerator class.
- * <img src="https://user-images.githubusercontent.com/16744101/239922103-1f23e08b-0091-475a-8879-61af66399c62.png" alt="mann_trajectory_generator">
  * To initialize the generator, the user needs to set the initial
  * state using the velMANNTrajectoryGenerator::setInitialState method. The
  * velMANNTrajectoryGeneratorInput, provided by the user, serves as the input for the
@@ -79,10 +81,9 @@ struct velMANNTrajectoryGeneratorOutput
  * velMANNAutoregressive at the designated merge point. Every time the velMANNAutoregressive::advance()
  * function is invoked by the velMANNTrajectoryGenerator, the autoregressive state is stored for future
  * reference.
- * @note The implementation of the class follows the work presented in "P. M. Viceconte et al.,
- * ADHERENT: Learning Human-like Trajectory Generators for Whole-body Control of Humanoid Robots,
- * in IEEE Robotics and Automation Letters, vol. 7, no. 2, pp. 2779-2786, April 2022,
- * doi: 10.1109/LRA.2022.3141658." https://doi.org/10.1109/LRA.2022.3141658
+ * @note The implementation of the class follows the work presented in "Trajectory Generation with
+ * Physics-Informed Learning and Drift Mitigation", available at
+ * https://github.com/ami-iit/paper_delia_2024_ral_physics-informed_trajectory_generation.
  */
 class velMANNTrajectoryGenerator
     : public System::Advanceable<velMANNTrajectoryGeneratorInput, velMANNTrajectoryGeneratorOutput>
