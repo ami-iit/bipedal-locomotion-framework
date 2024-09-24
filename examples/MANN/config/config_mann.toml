@@ -6,15 +6,12 @@ joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitc
                'r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow'] # right arm
 
 # the joints are ordered as in the joints_list
-# for model trained with shoulder/leg limits during retargeting
-initial_joints_configuration = [-0.109211802482605,   0.0189453512430191,  0.0716380625963211,
-                                -0.0714476704597473, -0.0932039991021156, -0.0208237245678902, # left leg
-                                -0.1050799787044525,  0.0326064452528954,  0.0738783776760101,
-                                -0.0878700911998749, -0.1038161143660545, -0.033658355474472, # right leg
-                                0.1518884301185608,  0.0002858876541723, -0.0078760478645563, # torso
-                                -0.0006626695394516, -0.0016657877713442, -0.0008768864790909, # neck
-                                -0.0355104058980942,  0.1000002548098564, -0.220658615231514, 0.0449834764003754, # left arm
-                                -0.0414549671113491,  0.0999528989195824, -0.2240447998046875,  0.0454560518264771] # right arm
+initial_joints_configuration = [-0.10922017141063572, 0.05081325960010118, 0.06581966291990003, -0.0898053099824925, -0.09324922528169599, -0.05110058859172172, # left leg
+                                -0.11021232812838086, 0.054291515925228385,0.0735575862560208, -0.09509332143185895, -0.09833823347493076, -0.05367281245082792, # right leg
+                                +0.1531558711397399, -0.001030634273454133, 0.0006584764419034815, # torso
+                                -0.0016821925351926288, -0.004284529460797688, 0.030389771690123243, # neck
+                                -0.040592118429752494, -0.1695472679986807, -0.20799422095574033, 0.045397975984119654, # left arm
+                                -0.03946672931050908, -0.16795588539580256, -0.20911090583076936, 0.0419854257806720] # right arm
 
 initial_base_height = 0.7748
 initial_base_quaternion =  [0.0, -0.0399893, 0.0, 0.9992001] # [x, y, z, w]
@@ -24,15 +21,12 @@ chest_link_frame_name = "chest"
 left_foot_frame_name = "l_sole"
 right_foot_frame_name = "r_sole"
 sampling_time = 0.02
-time_horizon = 0.8
+time_horizon = 1.0
 slow_down_factor = 5.0
 forward_direction = "x"
-scaling_factor = 0.5
+scaling_factor = 1.0
 mocap_frame_rate = 50 # Hz
 past_projected_base_horizon = 1.0
-threshold_radius = 0.3
-linear_pid_gain = 0.5
-rotational_pid_gain = 10.0
 
 [LEFT_FOOT]
 number_of_corners = 4
@@ -42,8 +36,8 @@ corner_2  = [-0.08, -0.03, 0.0]
 corner_3  = [-0.08, 0.03, 0.0]
 on_threshold = 0.02
 off_threshold = 0.02
-switch_on_after = 0.04
-switch_off_after = 0.04
+switch_on_after = 0.02
+switch_off_after = 0.02
 
 
 [RIGHT_FOOT]
@@ -54,9 +48,9 @@ corner_2  = [-0.08, -0.03, 0.0]
 corner_3  = [-0.08, 0.03, 0.0]
 on_threshold = 0.02
 off_threshold = 0.02
-switch_on_after = 0.04
-switch_off_after = 0.04
+switch_on_after = 0.02
+switch_off_after = 0.02
 
 [MANN]
 projected_base_datapoints = 12
-onnx_model_path = "./config/training_subsampled_mirrored_D2_10x_pi_loss_new_retarg_base_pose_features_20240514-173315_130e.onnx"
+onnx_model_path = "./config/ergocubSN000_26j_49e.onnx"

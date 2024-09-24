@@ -1,0 +1,63 @@
+joints_list = ['l_hip_pitch', 'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll',  # left leg
+               'r_hip_pitch', 'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll',  # right leg
+               'torso_pitch', 'torso_roll', 'torso_yaw',  # torso
+               'neck_pitch', 'neck_roll', 'neck_yaw', # neck
+               'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow', # left arm
+               'r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow'] # right arm
+
+# the joints are ordered as in the joints_list
+# for model trained with shoulder/leg limits during retargeting
+initial_joints_configuration = [-0.109211802482605,   0.0189453512430191,  0.0716380625963211,
+                                -0.0714476704597473, -0.0932039991021156, -0.0208237245678902, # left leg
+                                -0.1050799787044525,  0.0326064452528954,  0.0738783776760101,
+                                -0.0878700911998749, -0.1038161143660545, -0.033658355474472, # right leg
+                                0.1518884301185608,  0.0002858876541723, -0.0078760478645563, # torso
+                                -0.0006626695394516, -0.0016657877713442, -0.0008768864790909, # neck
+                                -0.0355104058980942,  0.1000002548098564, -0.220658615231514, 0.0449834764003754, # left arm
+                                -0.0414549671113491,  0.0999528989195824, -0.2240447998046875,  0.0454560518264771] # right arm
+
+initial_base_height = 0.7748
+initial_base_quaternion =  [0.0, -0.0399893, 0.0, 0.9992001] # [x, y, z, w]
+
+root_link_frame_name = "root_link"
+chest_link_frame_name = "chest"
+left_foot_frame_name = "l_sole"
+right_foot_frame_name = "r_sole"
+sampling_time = 0.02
+time_horizon = 0.8
+slow_down_factor = 5.0
+forward_direction = "x"
+scaling_factor = 0.5
+mocap_frame_rate = 50 # Hz
+past_projected_base_horizon = 1.0
+threshold_radius = 0.3
+linear_pid_gain = 0.2
+rotational_pid_gain = 2.0
+trajectory_length = 500
+
+[LEFT_FOOT]
+number_of_corners = 4
+corner_0  = [0.08, 0.03, 0.0]
+corner_1  = [0.08, -0.03, 0.0]
+corner_2  = [-0.08, -0.03, 0.0]
+corner_3  = [-0.08, 0.03, 0.0]
+on_threshold = 0.02
+off_threshold = 0.02
+switch_on_after = 0.04
+switch_off_after = 0.04
+
+
+[RIGHT_FOOT]
+number_of_corners = 4
+corner_0  = [0.08, 0.03, 0.0]
+corner_1  = [0.08, -0.03, 0.0]
+corner_2  = [-0.08, -0.03, 0.0]
+corner_3  = [-0.08, 0.03, 0.0]
+on_threshold = 0.02
+off_threshold = 0.02
+switch_on_after = 0.04
+switch_off_after = 0.04
+
+[MANN]
+projected_base_datapoints = 12
+onnx_model_path = "./config/training_subsampled_mirrored_10x_pi_20240514-173315_ep130.onnx"
