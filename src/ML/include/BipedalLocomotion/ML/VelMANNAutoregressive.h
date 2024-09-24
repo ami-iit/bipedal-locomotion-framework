@@ -232,14 +232,14 @@ public:
      * |    `mocap_frame_rate`    |   `int`  |                                       Frame rate of the mocap data.                                           |    Yes    |
      * | `past_projected_horizon` | `double` |                    Number of seconds of the past base horizon considered in the neural network.               |    Yes    |
      * It is also required to define two groups `LEFT_FOOT` and `RIGHT_FOOT` that contains the following parameter
-     * |    Parameter Name    |       Type       |                                                        Description                                                           | Mandatory |
-     * |:--------------------:|:----------------:|:----------------------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |  `number_of_corners` |       `int`      |                                        Number of corners associated to the foot                                              |    Yes    |
-     * |      `corner_<i>`    | `vector<double>` |               Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.                |    Yes    |
-     * |     `on_threshold`   |     `double`     |  Distance between the foot and the ground used as on threshold of the trigger to activate the contact. It must be positive.  |    Yes    |
-     * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as off threshold of the trigger to deactivate the contact. It must be positive.|    Yes    |
-     * |   `switch_on_after`  |     `double`     |     Seconds to wait for before switching to activate from deactivate contact. Ensure it's greater than sampling time.        |    Yes    |
-     * |  `switch_off_after`  |     `double`     |     Seconds to wait for before switching to deactivate from activate contact. Ensure it's greater than sampling time.        |    Yes    |
+     * |    Parameter Name    |       Type       |                                                  Description                                                  | Mandatory |
+     * |:--------------------:|:----------------:|:-------------------------------------------------------------------------------------------------------------:|:---------:|
+     * |  `number_of_corners` |       `int`      |                                   Number of corners associated to the foot                                    |    Yes    |
+     * |      `corner_<i>`    | `vector<double>` |        Position of the corner expressed in the foot frame. It must be from 0 to number_of_corners - 1.        |    Yes    |
+     * |     `on_threshold`   |     `double`     |      Distance between foot and ground used as threshold trigger to activate contact. It must be positive.     |    Yes    |
+     * |    `off_threshold`   |     `double`     | Distance between the foot and the ground used as threshold trigger to deactivate contact. It must be positive.|    Yes    |
+     * |   `switch_on_after`  |     `double`     | Seconds to wait before switching to activate from deactivate contact. Ensure it's greater than sampling time. |    Yes    |
+     * |  `switch_off_after`  |     `double`     | Seconds to wait before switching to deactivate from activate contact. Ensure it's greater than sampling time. |    Yes    |
      * Finally it also required to define a group named `VelMANN` that contains the following parameter
      * |          Parameter Name         |   Type   |                                         Description                                         | Mandatory |
      * |:-------------------------------:|:--------:|:-------------------------------------------------------------------------------------------:|:---------:|

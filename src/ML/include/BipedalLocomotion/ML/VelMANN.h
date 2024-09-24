@@ -23,7 +23,7 @@ namespace ML
 {
 
 /**
- * MANNInput contains the input to the MANN network.
+ * VelMANNInput contains the input to the MANN network.
  * The base linear and angular velocity trajectories are
  * written in a tridimensional local reference frame. At each step ti,
  * L is defined to have its origin in the current robot base position and
@@ -45,12 +45,12 @@ struct VelMANNInput
     Eigen::Vector3d baseAngle; /**< Vector containing the actual base euler angles in radians */
 
     /**
-     * Generate a dummy MANNInput from a given joint configuration
+     * Generate a dummy VelMANNInput from a given joint configuration
      * @param jointPositions vector containing the joint position in radians.
      * @param projectedBaseHorizon number of samples of the base horizon considered in the neural
      * network.
-     * @return a dummy MANNInput.
-     * @note A dummy MANNInput is generated assuming zero joint velocities, zero
+     * @return a dummy VelMANNInput.
+     * @note A dummy VelMANNInput is generated assuming zero joint velocities, zero
      * baseLinearVelocityTrajectory, and zero baseAngularVelocityTrajectory.
      * @warning the function assumes that the robot is not moving and facing forward.
      */

@@ -21,7 +21,7 @@ BSD-3-Clause license. -->
 
     <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking"</param>
-      <param name="remote">"/cmw-walking/log"</param>
+      <param name="remote">"/walking-coordinator/logger/log"</param>
       <param name="signal_name">"walking"</param>
       <param name="carrier">"udp"</param>
     </group>

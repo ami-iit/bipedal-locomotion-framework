@@ -10,7 +10,6 @@
 #include <pybind11/stl.h>
 
 #include <BipedalLocomotion/ML/VelMANN.h>
-
 #include <BipedalLocomotion/bindings/ML/VelMANN.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
 

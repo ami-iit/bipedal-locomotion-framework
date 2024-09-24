@@ -5,8 +5,6 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <iDynTree/Model/Model.h>
-#include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -14,7 +12,6 @@
 #include <BipedalLocomotion/ML/VelMANNAutoregressiveInputBuilder.h>
 #include <BipedalLocomotion/bindings/ML/VelMANNAutoregressiveInputBuilder.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
-#include <BipedalLocomotion/bindings/type_caster/swig.h>
 
 namespace BipedalLocomotion
 {

@@ -861,16 +861,6 @@ bool VelMANNAutoregressive::advance()
                       m_pimpl->integrator.getSolution().get_from_hash<"LieGroup"_h>());
 
     manif::SE3d::Tangent baseVelocity = manif::SE3d::Tangent::Zero();
-    // if (!m_pimpl->kinDyn.setRobotState(I_H_base.transform(),
-    //                                    velMannOutput.jointPositions,
-    //                                    baseVelocity.coeffs(),
-    //                                    velMannOutput.jointVelocities,
-    //                                    m_pimpl->gravity))
-    // {
-    //     log()->error("{} Unable to set the robot state in the kindyncomputations object.",
-    //                  logPrefix);
-    //     return false;
-    // }
 
     // The following function evaluate the position of the corners of a foot in the inertial frame
     auto evaluateFootCornersPosition
