@@ -54,6 +54,9 @@ TEST_CASE("VelMANNTrajectoryGenerator")
     handler->setParameter("forward_direction", "x");
     handler->setParameter("mocap_frame_rate", 50);
     handler->setParameter("past_projected_base_horizon", 1s);
+    handler->setParameter("threshold_radius", 0.3);
+    handler->setParameter("linear_pid_gain", 0.2);
+    handler->setParameter("rotational_pid_gain", 2.0);
 
     auto leftFootGroup = std::make_shared<StdImplementation>();
     leftFootGroup->setParameter("number_of_corners", 4);
@@ -123,7 +126,7 @@ TEST_CASE("VelMANNTrajectoryGenerator")
     Eigen::Vector3d finalCoMPosition = generator.getOutput().comTrajectory.back();
     Eigen::Vector3d initialCoMPosition = generator.getOutput().comTrajectory.front();
 
-    constexpr double forwardTolerance = 2;
+    constexpr double forwardTolerance = 0.5;
     constexpr double lateralTolerance = 1.4;
     constexpr double verticalTolerance = 0.1;
     REQUIRE(std::abs(finalCoMPosition[0] - initialCoMPosition[0]) > forwardTolerance);

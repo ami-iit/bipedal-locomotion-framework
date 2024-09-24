@@ -25,7 +25,7 @@ if(BUILD_TESTING)
   endif()
 
    # Get the onnx model of the vel-based network
-   set(VELMANN_ONNX_EXPECTED_MD5 9cda34e91d3e48a06f6f720ba7d2c830)
+   set(VELMANN_ONNX_EXPECTED_MD5 6ca94766f764e37c59a6fa41700f4440)
    if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx")
      file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx" VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE)
      string(COMPARE EQUAL ${VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE} ${VELMANN_ONNX_EXPECTED_MD5} VELMANN_ONNX_UPDATED)
@@ -34,8 +34,8 @@ if(BUILD_TESTING)
    endif()
 
    if(NOT ${VELMANN_ONNX_UPDATED})
-     message(STATUS "Fetching velMANN onnx model from huggingface.co/ami-iit/mann...")
-     file(DOWNLOAD https://huggingface.co/ami-iit/mann/resolve/main/ergocubSN000_26j_49e_velbased_mann.onnx
+     message(STATUS "Fetching VelMANN onnx model from huggingface.co/ami-iit/mann...")
+     file(DOWNLOAD https://huggingface.co/datasets/evelyd/paper_delia_2024_ral_physics-informed_trajectory_generation_dataset/resolve/main/onnx/training_subsampled_mirrored_10x_pi_20240514-173315_ep130.onnx
        ${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx
        EXPECTED_MD5 ${VELMANN_ONNX_EXPECTED_MD5})
    endif()
@@ -63,8 +63,8 @@ add_bipedal_test(
   LINKS BipedalLocomotion::ML)
 
 add_bipedal_test(
-  NAME velMANN
-  SOURCES velMANNTest.cpp
+  NAME VelMANN
+  SOURCES VelMANNTest.cpp
   LINKS BipedalLocomotion::ML)
 
 add_bipedal_test(
@@ -73,6 +73,6 @@ add_bipedal_test(
   LINKS BipedalLocomotion::ML)
 
 add_bipedal_test(
-  NAME velMANNTrajectoryGenerator
-  SOURCES velMANNTrajectoryGeneratorTest.cpp
+  NAME VelMANNTrajectoryGenerator
+  SOURCES VelMANNTrajectoryGeneratorTest.cpp
   LINKS BipedalLocomotion::ML)
