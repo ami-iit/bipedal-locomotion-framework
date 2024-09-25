@@ -38,7 +38,7 @@ jobs:
     name: Find Trailing Whitespace
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Find Trailing Whitespace
         run: |
           set +e
@@ -62,7 +62,7 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v4
 
     # Print environment variables to simplify development and debugging
     - name: Environment Variables
