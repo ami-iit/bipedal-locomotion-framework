@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
+- Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
 
 ### Changed
 
