@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
+- Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
 
 ### Changed
 
@@ -38,7 +39,6 @@ All notable changes to this project are documented in this file.
 - Implement joint torque control device and friction estimation through PINN (https://github.com/ami-iit/bipedal-locomotion-framework/pull/866)
 - Add a task in the IK to set the joint velocity limits (https://github.com/ami-iit/bipedal-locomotion-framework/pull/879)
 - Add the possibility to set the fixed joint configuration in `balancing-torque-control` app (https://github.com/ami-iit/bipedal-locomotion-framework/pull/880)
-- Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
 
 ### Changed
 - 🤖 [ergoCubSN001] Add logging of the wrist and fix the name of the waist imu (https://github.com/ami-iit/bipedal-locomotion-framework/pull/810)
