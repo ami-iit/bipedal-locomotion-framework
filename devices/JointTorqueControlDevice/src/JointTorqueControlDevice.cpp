@@ -520,9 +520,6 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
             }
         }
 
-        log()->error("{} LoadCouplingMatrix DEBUG: loaded kinematic coupling matrix from group {}", logPrefix, group_name);
-        log()->error("{}", coupling_matrix.fromJointVelocitiesToMotorVelocities);
-
         coupling_matrix.fromJointTorquesToMotorTorques
             = coupling_matrix.fromJointVelocitiesToMotorVelocities.transpose();
         coupling_matrix.fromMotorTorquesToJointTorques
@@ -648,18 +645,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
             log()->error("{} Parameter `model` not found", logPrefix);
             return false;
         }
-        Eigen::VectorXi historySize;
-        if (!frictionGroup->getParameter("history_size", historySize))
-        {
-            log()->error("{} Parameter `history_size` not found", logPrefix);
-            return false;
-        }
-        Eigen::VectorXi inputNumber;
-        if (!frictionGroup->getParameter("number_of_inputs", inputNumber))
-        {
-            log()->error("{} Parameter `number_of_inputs` not found", logPrefix);
-            return false;
-        }
+
         int threads;
         if (!frictionGroup->getParameter("thread_number", threads))
         {
@@ -670,8 +656,6 @@ bool JointTorqueControlDevice::loadFrictionParams(
         for (int i = 0; i < models.size(); i++)
         {
             pinnParameters[i].modelPath = models[i];
-            pinnParameters[i].historyLength = historySize[i];
-            pinnParameters[i].inputNumber = inputNumber[i];
             pinnParameters[i].threadNumber = threads;
         }
     }
@@ -767,8 +751,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     for (int i = 0; i < kt.size(); i++)
     {
-        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN"
-            && motorTorqueCurrentParameters[i].kfc > 0.0)
+        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN")
         {
             frictionEstimators[i] = std::make_unique<PINNFrictionEstimator>();
 

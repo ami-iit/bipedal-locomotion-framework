@@ -63,6 +63,7 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
 {
     std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
                                                              networkModelPath.end());
+
     Ort::SessionOptions sessionOptions;
 
 	// Set the number of intra-op threads
@@ -87,8 +88,9 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
     }
 
     // Get model input size
-    int inputCount = m_pimpl->session->GetInputCount();
+    std::vector<int64_t> inputShape = m_pimpl->session->GetInputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
 
+    const std::size_t inputCount = inputShape[1];
     m_pimpl->historyLength = inputCount / 2;
 
     // format the input
