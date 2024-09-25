@@ -25,6 +25,7 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
       BipedalLocomotion::VectorsCollection
       BipedalLocomotion::JointTorqueControlCommands
       BipedalLocomotion::Math
+      BipedalLocomotion::ContinuousDynamicalSystem
       PUBLIC_LINK_LIBRARIES
       onnxruntime::onnxruntime
       Eigen3::Eigen
