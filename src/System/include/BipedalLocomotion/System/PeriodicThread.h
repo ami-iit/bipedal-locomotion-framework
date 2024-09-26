@@ -8,8 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_SYSTEM_PERIODIC_THREAD_H
 #define BIPEDAL_LOCOMOTION_SYSTEM_PERIODIC_THREAD_H
 
+#include <atomic>
 #include <chrono>
-#include <memory>
+#include <thread>
 
 namespace BipedalLocomotion
 {
@@ -24,27 +25,19 @@ class PeriodicThread
 {
 public:
     // Default constructor
-    explicit PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
-                            int maximumNumberOfAcceptedDeadlineMiss = -1,
-                            int priority = 0,
-                            int policy = SCHED_OTHER);
+    PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
+                   int maximumNumberOfAcceptedDeadlineMiss = -1,
+                   int priority = 0,
+                   int policy = SCHED_OTHER);
 
     // Destructor
     virtual ~PeriodicThread();
 
-    /**
-     * @brief This method is called at each iteration of the thread.
-     * Override this method to implement the thread itself.
-     * @return true if the thread has to continue, false otherwise.
-     */
-    // virtual bool run() = 0;
-    virtual bool run();
+    // Copy constructor
+    PeriodicThread(const PeriodicThread&) = delete;
 
-    /**
-     * @brief This method is called at the beginning of the thread.
-     * @return true if the initialization was successful, false otherwise.
-     */
-    virtual bool threadInit();
+    // Copy assignment operator
+    PeriodicThread& operator=(const PeriodicThread&) = delete;
 
     /**
      * @brief Start the thread
@@ -63,10 +56,54 @@ public:
      */
     bool isRunning();
 
+protected:
+    /**
+     * @brief This method is called at each iteration of the thread.
+     * Override this method to implement the task to be performed from the thread.
+     * @return true if the thread has to continue, false otherwise.
+     */
+    virtual bool run();
+
+    /**
+     * @brief This method is called at the beginning of the thread.
+     * @return true if the initialization was successful, false otherwise.
+     */
+    virtual bool threadInit();
+
 private:
-    // private implementation
-    class Impl;
-    std::unique_ptr<Impl> m_impl;
+    /**
+     * @brief run the periodic thread.
+     */
+    void threadFunction();
+
+    /**
+     * @brief Advance the thread of one step, calling the user defined run function once.
+     */
+    void advance();
+
+    /**
+     * @brief Set the policy of the thread.
+     * @return true if the policy was correctly set, false otherwise.
+     */
+    bool setPolicy();
+
+    std::chrono::nanoseconds m_period = std::chrono::nanoseconds(100000); /**< Period of the thread.
+                                                                           */
+
+    int m_maximumNumberOfAcceptedDeadlineMiss = -1; /**< Maximum number of accepted deadline miss.
+                                                     */
+
+    int m_deadlineMiss = 0; /**< Number of deadline miss. */
+
+    int m_priority = 0; /**< Priority of the thread. */
+
+    int m_policy = SCHED_OTHER; /**< Policy of the thread. */
+
+    std::atomic<bool> m_isRunning = false; /**< Flag to check if the thread is running. */
+
+    std::atomic<bool> m_askToStop = false; /**< Flag to ask to stop the thread. */
+
+    std::thread m_thread; /**< Thread object. */
 };
 } // namespace System
 } // namespace BipedalLocomotion

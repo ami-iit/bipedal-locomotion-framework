@@ -15,10 +15,7 @@ public:
 
 bool Thread::run()
 {
-
-    BipedalLocomotion::clock().sleepFor(std::chrono::milliseconds(500));
     BipedalLocomotion::log()->info("[Thread::run] Thread is running.");
-
     return true;
 }
 
@@ -37,5 +34,12 @@ int main()
     auto thread = Thread();
     std::cerr << "Thread class pointer id: " << &thread << std::endl;
     thread.start();
+
+    while (thread.isRunning())
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+        thread.stop();
+    }
+    BipedalLocomotion::log()->info("[main] Thread about to exit.");
     return EXIT_SUCCESS;
 }
