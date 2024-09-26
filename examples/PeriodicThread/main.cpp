@@ -2,7 +2,6 @@
 #include <BipedalLocomotion/System/PeriodicThread.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <chrono>
-#include <iostream>
 
 class Thread : public BipedalLocomotion::System::PeriodicThread
 {
@@ -32,14 +31,13 @@ int main()
 {
     // Thread thread;
     auto thread = Thread();
-    std::cerr << "Thread class pointer id: " << &thread << std::endl;
     thread.start();
 
     while (thread.isRunning())
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(10000));
         thread.stop();
+        BipedalLocomotion::log()->info("[main] Thread is asked to stop.");
     }
-    BipedalLocomotion::log()->info("[main] Thread about to exit.");
     return EXIT_SUCCESS;
 }

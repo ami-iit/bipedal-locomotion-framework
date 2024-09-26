@@ -62,7 +62,7 @@ protected:
      * Override this method to implement the task to be performed from the thread.
      * @return true if the thread has to continue, false otherwise.
      */
-    virtual bool run();
+    virtual bool run() = 0;
 
     /**
      * @brief This method is called at the beginning of the thread.
