@@ -6,11 +6,13 @@
 #include <chrono>
 #include <csignal>
 #include <ctime>
+#include <iostream>
 #include <memory>
 #include <pthread.h>
 #include <sched.h>
 #include <signal.h>
 #include <thread>
+#include <typeinfo>
 
 namespace BipedalLocomotion
 {
@@ -136,6 +138,9 @@ private:
         {
             _forceToStop = true;
         }
+
+        BipedalLocomotion::log()->error("stopping the thread, _forcetostop: {}",
+                                        _forceToStop.load());
     }
 
     /**
@@ -149,12 +154,16 @@ private:
         // get the next wake up time
         auto nextWakeUpTime = now + m_period;
 
+        std::cerr << " m_owner id " << m_owner << std::endl;
+
         // run user defined function
+        BipedalLocomotion::log()->debug("about to call the owner run function");
         if (!m_owner->run())
         {
             m_isRunning = false;
             return;
         }
+        BipedalLocomotion::log()->debug("the owner run function has been called");
 
         // check if the thread has to stop
         if (m_askToStop)
@@ -190,10 +199,13 @@ private:
      */
     void run()
     {
-        while ((m_isRunning) || !(_forceToStop))
+        std::cerr << " m_impl id " << this << std::endl;
+        while ((m_isRunning) && !(_forceToStop.load()))
         {
-            step();
+            this->step();
         }
+
+        BipedalLocomotion::log()->error("closing thread");
     };
 
     /**
@@ -241,7 +253,7 @@ private:
             BipedalLocomotion::log()->error("{} Failed to set the policy", logPrefix);
             return;
         }
-        run();
+        this->run();
     };
 
 }; // class Impl
@@ -262,6 +274,11 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
 };
 
 PeriodicThread::~PeriodicThread(){};
+
+bool PeriodicThread::run()
+{
+    return true;
+};
 
 bool PeriodicThread::threadInit()
 {

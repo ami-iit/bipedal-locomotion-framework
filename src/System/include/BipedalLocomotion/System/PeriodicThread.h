@@ -24,20 +24,21 @@ class PeriodicThread
 {
 public:
     // Default constructor
-    PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
-                   int maximumNumberOfAcceptedDeadlineMiss = -1,
-                   int priority = 0,
-                   int policy = SCHED_OTHER);
+    explicit PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
+                            int maximumNumberOfAcceptedDeadlineMiss = -1,
+                            int priority = 0,
+                            int policy = SCHED_OTHER);
 
     // Destructor
-    ~PeriodicThread();
+    virtual ~PeriodicThread();
 
     /**
      * @brief This method is called at each iteration of the thread.
      * Override this method to implement the thread itself.
      * @return true if the thread has to continue, false otherwise.
      */
-    virtual bool run() = 0;
+    // virtual bool run() = 0;
+    virtual bool run();
 
     /**
      * @brief This method is called at the beginning of the thread.
