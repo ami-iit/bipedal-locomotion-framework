@@ -377,3 +377,39 @@
    fun:_ZN5Catch7Session3runEv
    fun:main
 }
+
+{
+   <yarp-3.8-yarp-robotinterface-12>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV37Private17readRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV316getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableEb
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch12_GLOBAL__N_121TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-13>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch12_GLOBAL__N_121TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:_ZN5Catch7Session3runIcEEiiPKPKT_
+}
