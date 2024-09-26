@@ -86,6 +86,22 @@
 }
 
 {
+   <ubuntu-20.04-opencv-aruco-tbb-ci>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   fun:start_thread
+   fun:clone
+}
+
+{
    <ubuntu-20.04-_dl_init-libgobject-libglib>
    Memcheck:Leak
    match-leak-kinds: possible
