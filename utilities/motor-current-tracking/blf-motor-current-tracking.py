@@ -25,35 +25,35 @@ PolyDriver = Type[blf.robot_interface.PolyDriver]
 
 class MotorParameters(ABC):
     # k_tau[A/Nm] includes the gear ratio
-    k_tau = {
-        "l_hip_roll": 94 * 1e-3,
-        "l_hip_pitch": 64 * 1e-3,
-        "l_hip_yaw": 150 * 1e-3,
-        "l_knee": 64 * 1e-3,
-        "l_ankle_pitch": 64 * 1e-3,
-        "l_ankle_roll": 177 * 1e-3,
-        "r_hip_roll": 94 * 1e-3,
-        "r_hip_pitch": 64 * 1e-3,
-        "r_hip_yaw": 150 * 1e-3,
-        "r_knee": 64 * 1e-3,
-        "r_ankle_pitch": 64 * 1e-3,
-        "r_ankle_roll": 177 * 1e-3,
-    }
+    k_tau = dict()
     # max_safety_current[A] limits the motor current to avoid damages
-    max_safety_current = {
-        "l_hip_roll": 8.0,
-        "l_hip_pitch": 8.0,
-        "l_hip_yaw": 4.0,
-        "l_knee": 6.0,
-        "l_ankle_pitch": 3.5,
-        "l_ankle_roll": 3.0,
-        "r_hip_roll": 8.0,
-        "r_hip_pitch": 8.0,
-        "r_hip_yaw": 4.0,
-        "r_knee": 6.0,
-        "r_ankle_pitch": 3.5,
-        "r_ankle_roll": 3.0,
-    }
+    max_safety_current = dict()
+
+    @staticmethod
+    def from_parameter_handler(motor_param_handler: ParamHandler) -> None:
+
+        joints_list = motor_param_handler.get_parameter_vector_string("joints_list")
+        k_tau = motor_param_handler.get_parameter_vector_float("k_tau")
+        max_safety_current = motor_param_handler.get_parameter_vector_float(
+            "max_safety_current"
+        )
+
+        if len(joints_list) != len(k_tau):
+            raise ValueError(
+                "{} The number of joints must be equal to the size of the k_tau".format(
+                    logPrefix
+                )
+            )
+
+        if len(joints_list) != len(max_safety_current):
+            raise ValueError(
+                "{} The number of joints must be equal to the size of the max_current".format(
+                    logPrefix
+                )
+            )
+
+        MotorParameters.k_tau = dict(zip(joints_list, k_tau))
+        MotorParameters.max_safety_current = dict(zip(joints_list, max_safety_current))
 
 
 class Trajectory(ABC):
@@ -122,12 +122,18 @@ class SinusoidTrajectoryGenerator(Trajectory):
 
         # Check if joint list is set
         if not self.joint_list:
-            raise ValueError("Joint list must be set before generating the trajectory")
+            raise ValueError(
+                "{} Joint list must be set before generating the trajectory".format(
+                    logPrefix
+                )
+            )
 
         # Check if joint index has to be specified
         if len(self.joint_list) > 1 and (joint_index is None):
             raise ValueError(
-                "Joint index must be specified when more than one joint is controlled"
+                "{} Joint index must be specified when more than one joint is controlled".format(
+                    logPrefix
+                )
             )
 
         # Set default joint index, if not specified
@@ -168,7 +174,9 @@ class SinusoidTrajectoryGenerator(Trajectory):
             or number_of_joints != upper_limits.size
         ):
             raise ValueError(
-                "The number of joints must be equal to the size of the lower and upper limits"
+                "{} The number of joints must be equal to the size of the lower and upper limits".format(
+                    logPrefix
+                )
             )
 
         starting_points = np.zeros((number_of_starting_points, number_of_joints))
@@ -203,7 +211,9 @@ class RampTrajectoryGenerator(Trajectory):
         param_handler: ParamHandler,
     ) -> "RampTrajectoryGenerator":
 
-        max_current_increment = param_handler.get_parameter_vector_float("max_current_increment")
+        max_current_increment = param_handler.get_parameter_vector_float(
+            "max_current_increment"
+        )
         speed_in = param_handler.get_parameter_vector_float("initial_speed")
         speed_end = param_handler.get_parameter_vector_float("final_speed")
         speed_increment = param_handler.get_parameter_vector_float("speed_increment")
@@ -246,12 +256,18 @@ class RampTrajectoryGenerator(Trajectory):
 
         # Check if joint list is set
         if not self.joint_list:
-            raise ValueError("Joint list must be set before generating the trajectory")
+            raise ValueError(
+                "{} Joint list must be set before generating the trajectory".format(
+                    logPrefix
+                )
+            )
 
         # Check if joint index has to be specified
         if len(self.joint_list) > 1 and (joint_index is None):
             raise ValueError(
-                "Joint index must be specified when more than one joint is controlled"
+                "{} Joint index must be specified when more than one joint is controlled".format(
+                    logPrefix
+                )
             )
 
         # Set default joint index, if not specified
@@ -295,7 +311,9 @@ class RampTrajectoryGenerator(Trajectory):
             or number_of_joints != upper_limits.size
         ):
             raise ValueError(
-                "The number of joints must be equal to the size of the lower and upper limits"
+                "{} The number of joints must be equal to the size of the lower and upper limits".format(
+                    logPrefix
+                )
             )
 
         starting_points = np.zeros((number_of_starting_points, number_of_joints))
@@ -407,11 +425,14 @@ def main():
             param_handler.get_group("RAMP")
         )
 
+    # Load the motor parameters
+    MotorParameters.from_parameter_handler(param_handler.get_group("MOTOR"))
+
     # Load joints to control and build the control board driver
     robot_control_handler = param_handler.get_group("ROBOT_CONTROL")
     joints_to_control = robot_control_handler.get_parameter_vector_string("joints_list")
     blf.log().info("{} Joints to control: {}".format(logPrefix, joints_to_control))
-    # check if the joints are in the list of supported joints
+    # check if the joints are in the list of available joints
     for joint in joints_to_control:
         if joint not in MotorParameters.max_safety_current.keys():
             raise RuntimeError(

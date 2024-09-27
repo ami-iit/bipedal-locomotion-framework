@@ -44,6 +44,7 @@ In this file, the following parameters are defined:
 4. the number of starting positions `number_of_starting_points` from which the same reference trajectory is repeated.
 5. the `SINUSOID` parameters group, which defines the sinusoid trajectory as detailed later
 6. the `RAMP` parameters group, which defines the ramp trajectory as detailed later
+7. the `MOTOR` parameters group, which defines the list of available joints `joints_list`, the respective `k_tau` coefficient (in [A/Nm]) and the respective `max_safety_current` (in [A]).
 
 Instead, the configuration file [`robot_control.ini`](./config/robots/ergoCubSN001/blf_motor_current_tracking/robot_control.ini) defines the list of motors to command.
 
@@ -117,6 +118,20 @@ initial_speed                    (0.15)
 final_speed                      (0.40)
 speed_increment                  (0.08)
 max_current_increment            (2.00)
+
+[MOTOR]
+joints_list         ("l_hip_roll", "l_hip_pitch", "l_hip_yaw",
+                     "l_knee", "l_ankle_pitch", "l_ankle_roll",
+                     "r_hip_roll", "r_hip_pitch", "r_hip_yaw",
+                     "r_knee", "r_ankle_pitch", "r_ankle_roll")
+k_tau                (0.094, 0.064, 0.150,
+                     0.064, 0.064, 0.177,
+                     0.094, 0.064, 0.150,
+                     0.064, 0.064, 0.177)
+max_safety_current  (8.0, 8.0, 4.0,
+                     6.0, 3.5, 3.0,
+                     8.0, 8.0, 4.0,
+                     6.0, 3.5, 3.0)
 
 [ROBOT_CONTROL]
 robot_name                              ergocub
