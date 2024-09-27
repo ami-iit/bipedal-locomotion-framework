@@ -279,11 +279,6 @@ class RampTrajectoryGenerator(Trajectory):
             t = t + dt
             motor_current = motor_current + dt * speed
 
-        # import matplotlib.pyplot as plt
-        # plt.figure(figsize=(10, 4))  # Create a new figure with a specific size
-        # plt.plot(np.array(trajectory), marker='o')  # Plot the data
-        # plt.show()  # Show the plot
-
         return trajectory
 
     def create_starting_points(
