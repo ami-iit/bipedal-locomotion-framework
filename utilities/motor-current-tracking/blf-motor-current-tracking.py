@@ -441,20 +441,16 @@ def main():
                 )
             )
     # check for which joints the motor current measure should be bypassed, when generating the reference trajectory
-    bypass_motor_current_measure = [
-        True
-        if joint
-        in [
-            "l_ankle_roll",
-            "r_ankle_roll",
-            "l_ankle_pitch",
-            "r_ankle_pitch",
-            "l_hip_yaw",
-            "r_hip_yaw",
-        ]
-        else False
-        for joint in joints_to_control
-    ]
+    bypass_motor_current_measure = param_handler.get_parameter_vector_bool(
+        "bypass_motor_current_measure"
+    )
+    if len(bypass_motor_current_measure) != len(joints_to_control):
+        raise ValueError(
+            "{} The number of joints must be equal to the size of the bypass_motor_current_measure parameter".format(
+                logPrefix
+            )
+        )
+
     trajectory_generator.set_joint_list(joints_to_control)
 
     poly_drivers = dict()

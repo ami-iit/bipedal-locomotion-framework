@@ -42,9 +42,10 @@ In this file, the following parameters are defined:
 2. the joints position safety threshold `safety_threshold`, which restricts the motion range of joints to `[joint_lower_limit + safety_threshold, joint_upper_limit - safety_threshold]`
 3. the `use_safety_threshold_for_starting_position` boolean, which determines wheter to use (or not) the `safety_threshold` when computing the starting positions.
 4. the number of starting positions `number_of_starting_points` from which the same reference trajectory is repeated.
-5. the `SINUSOID` parameters group, which defines the sinusoid trajectory as detailed later
-6. the `RAMP` parameters group, which defines the ramp trajectory as detailed later
-7. the `MOTOR` parameters group, which defines the list of available joints `joints_list`, the respective `k_tau` coefficient (in [A/Nm]) and the respective `max_safety_current` (in [A]).
+5. the `bypass_motor_current_measure` boolean vector (one element per motor), which determines wether to use the measured motor current when generating the trajectory as detailed later.
+6. the `SINUSOID` parameters group, which defines the sinusoid trajectory as detailed later.
+7. the `RAMP` parameters group, which defines the ramp trajectory as detailed later.
+8. the `MOTOR` parameters group, which defines the list of available joints `joints_list`, the respective `k_tau` coefficient (in [A/Nm]) and the respective `max_safety_current` (in [A]).
 
 Instead, the configuration file [`robot_control.ini`](./config/robots/ergoCubSN001/blf_motor_current_tracking/robot_control.ini) defines the list of motors to command.
 
@@ -68,7 +69,7 @@ The frequency is gradually decreased, every 2 cycles, from `max_frequency` to `m
 Once the frequency range is covered the amplitude is increased by `delta_current_increment`.
 The starting amplitude is set by `min_delta_current`, while the final one by `max_delta_current`.
 
-Note that for some motors, such as the `ankles` ones, the initial current `current_0` is not the measured one at the starting position, but is set to `0`.
+For each motor, if the respecitive boolean in the `bypass_motor_current_measure` vector is set to `true`, then the initial current `current_0` is not the measured one at the starting position, but is set to `0`.
 
 Each current sinusoidal signal is repeated for each starting position.
 
@@ -84,7 +85,7 @@ of motors to drive.
 
 They are ramp signals which increases of from an initial current to a maximum current, with a slope that ranges from `initial_speed` to `final_speed`.
 
-Depending on the motors, the initial current is set to `0` or to the mesured one at the starting position.
+Depending on the `bypass_motor_current_measure` parameter, the initial current is set to `0` (if the respective parameter is set to `true`) or to the measured one at the starting position (if the respective parameter is set to `false`).
 While the maximum current is given by the initial current increased of `max_current_increment`.
 
 Note that, each ramp is repeated twice for each starting position, in order to cover both direction of motion.
@@ -104,6 +105,7 @@ dt 0.002 #[s]
 safety_threshold 2.0 #[deg]
 use_safety_threshold_for_starting_position false
 number_of_starting_points 5
+bypass_motor_current_measure (true)
 
 [SINUSOID]
 min_delta_current             ( 0.7  ) #[A]
@@ -138,6 +140,6 @@ robot_name                              ergocub
 joints_list                             ("r_ankle_pitch")
 remote_control_boards                   ("right_leg")
 positioning_duration                    3.0  #[s]
-positioning_tolerance                   0.05 #[s]
-position_direct_max_admissible_error    0.1  #[s]
+positioning_tolerance                   0.05 #[rad]
+position_direct_max_admissible_error    0.1  #[rad]
 ```
