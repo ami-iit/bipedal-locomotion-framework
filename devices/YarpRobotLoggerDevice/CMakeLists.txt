@@ -62,5 +62,9 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
     PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
+  # This test only works on Linux, see https://github.com/ami-iit/bipedal-locomotion-framework/issues/873
+  if(NOT (WIN32 OR APPLE))
+    add_subdirectory(tests)
+  endif()
 endif()
 

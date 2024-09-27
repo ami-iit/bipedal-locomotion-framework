@@ -86,6 +86,22 @@
 }
 
 {
+   <ubuntu-20.04-opencv-aruco-tbb-ci>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.2.5
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.2
+   fun:start_thread
+   fun:clone
+}
+
+{
    <ubuntu-20.04-_dl_init-libgobject-libglib>
    Memcheck:Leak
    match-leak-kinds: possible
@@ -165,4 +181,235 @@
    fun:call_init
    fun:_dl_init
    obj:/usr/lib/x86_64-linux-gnu/ld-2.31.so
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-1>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV37Private17readRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV316getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableEb
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:main
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-2>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:allocate_dtv_entry
+   fun:allocate_and_init
+   fun:tls_get_addr_tail.isra.0
+   fun:__tls_get_addr
+   fun:_ZN6spdlog7details2os9thread_idEv
+   fun:_ZN6spdlog7details7log_msgC1ENS_10source_locEN3fmt2v617basic_string_viewIcEENS_5level10level_enumES6_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_10source_locENS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN17BipedalLocomotion21YarpRobotLoggerDevice4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver4openERNS_2os10SearchableE
+   fun:_ZN4yarp14robotinterface6Device4openEv
+   fun:_ZN4yarp14robotinterface5Robot7Private11openDevicesEv
+   fun:_ZN4yarp14robotinterface5Robot10enterPhaseENS0_11ActionPhaseE
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-3>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:allocate_dtv_entry
+   fun:allocate_and_init
+   fun:tls_get_addr_tail.isra.0
+   fun:__tls_get_addr
+   obj:/usr/lib/x86_64-linux-gnu/libgnutls.so.30.27.0
+   obj:/usr/lib/x86_64-linux-gnu/libgnutls.so.30.27.0
+   fun:_dl_fini
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-4>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:_dl_resize_dtv
+   fun:_dl_update_slotinfo
+   fun:update_get_addr
+   fun:__tls_get_addr
+   fun:_ZN6spdlog7details2os9thread_idEv
+   fun:_ZN6spdlog7details7log_msgC1ENS_10source_locEN3fmt2v617basic_string_viewIcEENS_5level10level_enumES6_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_10source_locENS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN17BipedalLocomotion21YarpRobotLoggerDevice4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver4openERNS_2os10SearchableE
+   fun:_ZN4yarp14robotinterface6Device4openEv
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-5>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:main
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-6>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV37Private17readRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV316getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableEb
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch21TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-7>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:allocate_dtv_entry
+   fun:allocate_and_init
+   fun:tls_get_addr_tail.isra.0
+   fun:__tls_get_addr
+   fun:_ZN6spdlog7details2os9thread_idEv
+   fun:_ZN6spdlog7details7log_msgC1ENS_10source_locEN3fmt2v617basic_string_viewIcEENS_5level10level_enumES6_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_10source_locENS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN6spdlog6logger4infoIJPKcEEEvN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN17BipedalLocomotion21YarpRobotLoggerDevice4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver4openERNS_2os10SearchableE
+   fun:_ZN4yarp14robotinterface6Device4openEv
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-8>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:_dl_resize_dtv
+   fun:_dl_update_slotinfo
+   fun:update_get_addr
+   fun:__tls_get_addr
+   fun:_ZN6spdlog7details2os9thread_idEv
+   fun:_ZN6spdlog7details7log_msgC1ENS_10source_locEN3fmt2v617basic_string_viewIcEENS_5level10level_enumES6_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_10source_locENS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN6spdlog6logger3logIJPKcEEEvNS_5level10level_enumEN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN6spdlog6logger4infoIJPKcEEEvN3fmt2v617basic_string_viewIcEEDpRKT_
+   fun:_ZN17BipedalLocomotion21YarpRobotLoggerDevice4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-9>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch21TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:_ZN5Catch7Session3runIcEEiiPKPKT_
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-10>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV37Private17readRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV316getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableEb
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:main
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-11>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:main
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-12>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV37Private17readRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+   fun:_ZN4yarp14robotinterface4impl15XMLReaderFileV316getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableEb
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch12_GLOBAL__N_121TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+}
+
+{
+   <yarp-3.8-yarp-robotinterface-13>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZN4yarp14robotinterface9XMLReader16getRobotFromFileERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKNS_2os10SearchableE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+   fun:_ZNK5Catch12_GLOBAL__N_121TestInvokerAsFunction6invokeEv
+   fun:_ZNK5Catch14TestCaseHandle6invokeEv
+   fun:_ZN5Catch10RunContext20invokeActiveTestCaseEv
+   fun:_ZN5Catch10RunContext14runCurrentTestEv
+   fun:_ZN5Catch10RunContext7runTestERKNS_14TestCaseHandleE
+   fun:_ZN5Catch12_GLOBAL__N_19TestGroup7executeEv
+   fun:_ZN5Catch7Session11runInternalEv
+   fun:_ZN5Catch7Session3runEv
+   fun:_ZN5Catch7Session3runIcEEiiPKPKT_
 }
