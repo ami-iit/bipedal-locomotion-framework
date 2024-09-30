@@ -56,6 +56,13 @@ public:
      */
     bool isRunning();
 
+    /**
+     * @brief Set the period of the thread.
+     * @param period period of the thread.
+     * @return true if the period was correctly set, false otherwise.
+     */
+    bool setPeriod(std::chrono::nanoseconds period);
+
 protected:
     /**
      * @brief This method is called at each iteration of the thread.

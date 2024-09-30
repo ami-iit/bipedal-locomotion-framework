@@ -74,6 +74,18 @@ bool PeriodicThread::setPolicy()
 #endif
 };
 
+bool PeriodicThread::setPeriod(std::chrono::nanoseconds period)
+{
+    if (m_isRunning.load())
+    {
+        BipedalLocomotion::log()->error("[PeriodicThread::setPeriod] The thread is running. The "
+                                        "period cannot be changed.");
+        return false;
+    }
+    m_period = period;
+    return true;
+}
+
 bool PeriodicThread::threadInit()
 {
     return true;
@@ -81,6 +93,16 @@ bool PeriodicThread::threadInit()
 
 void PeriodicThread::stop()
 {
+    if (!m_isRunning.load())
+    {
+        // thread is not running
+        return;
+    }
+    if (m_askToStop.load())
+    {
+        // thread is already asked to stop
+        return;
+    }
     m_askToStop.store(true);
 };
 
