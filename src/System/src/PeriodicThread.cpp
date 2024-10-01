@@ -1,6 +1,8 @@
 #include <atomic>
 #include <chrono>
 #include <csignal>
+#include <cstdlib>
+#include <iostream>
 #include <pthread.h>
 #include <sched.h>
 
@@ -25,11 +27,24 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
 
 PeriodicThread::~PeriodicThread()
 {
+    // stop the thread, if it is running
+    if (m_isRunning.load())
+    {
+        stop();
+    }
+
     // join the thread
     if (m_thread.joinable())
     {
         m_thread.join();
+        m_thread = std::thread();
+        BipedalLocomotion::log()->info("[PeriodicThread::~PeriodicThread] The thread joined.");
     }
+
+    //
+    std::cerr << "[PeriodicThread::~PeriodicThread] The thread object is "
+                 "destroyed."
+              << std::endl;
 };
 
 void PeriodicThread::threadFunction()
@@ -48,8 +63,11 @@ void PeriodicThread::threadFunction()
         return;
     }
 
+    // synchronize the thread
+    synchronize();
+
     // run loop
-    while (m_isRunning.load())
+    while (m_isRunning.load() && !m_askToStop.load())
     {
         this->advance();
     }
@@ -91,6 +109,16 @@ bool PeriodicThread::threadInit()
     return true;
 };
 
+void PeriodicThread::synchronize()
+{
+    if (!(m_barrier == nullptr))
+    {
+        BipedalLocomotion::log()->debug("[PeriodicThread::synchronize] This thread is waiting for "
+                                        "the other threads.");
+        m_barrier->wait();
+    }
+};
+
 void PeriodicThread::stop()
 {
     if (!m_isRunning.load())
@@ -106,7 +134,7 @@ void PeriodicThread::stop()
     m_askToStop.store(true);
 };
 
-bool PeriodicThread::start()
+bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> barrier)
 {
 
     if (m_isRunning.load())
@@ -117,6 +145,9 @@ bool PeriodicThread::start()
     {
         m_isRunning.store(true);
     }
+
+    // store the barrier
+    m_barrier = barrier;
 
     // lambda wrapper for the thread function
     auto threadFunctionLambda = [this]() { this->threadFunction(); };
@@ -140,13 +171,6 @@ void PeriodicThread::advance()
 
     // run user overridden function
     if (!run())
-    {
-        m_isRunning.store(false);
-        return;
-    }
-
-    // check if the thread has to stop
-    if (m_askToStop.load())
     {
         m_isRunning.store(false);
         return;
