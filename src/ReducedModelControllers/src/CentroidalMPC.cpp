@@ -940,7 +940,7 @@ struct CentroidalMPC::Impl
                         0 <= casadi::MX::mtimes(casadi::MX::reshape(contact.orientation(Sl(), i),
                                                                     3,
                                                                     3),
-                                                corner.force(Sl(), i)(2)));
+                                                corner.force(Sl(), i))(2));
                 }
             }
         }
