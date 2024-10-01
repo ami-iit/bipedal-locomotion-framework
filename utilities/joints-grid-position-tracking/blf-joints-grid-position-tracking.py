@@ -203,8 +203,7 @@ def main():
         ):
             raise RuntimeError("Unable to set the references")
 
-        if not vectors_collection_server.prepare_data():
-            raise RuntimeError("Unable to prepare the data")
+        vectors_collection_server.prepare_data()
 
         vectors_collection_server.clear_data()
 
