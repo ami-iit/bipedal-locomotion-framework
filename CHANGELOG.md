@@ -6,6 +6,7 @@ All notable changes to this project are documented in this file.
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
 - Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
 - Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
+- Add `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/894)
 
 ### Changed
 

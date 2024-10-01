@@ -36,6 +36,7 @@ void CreateIRobotControl(pybind11::module& module)
         .value("Velocity", IRobotControl::ControlMode::Velocity)
         .value("Torque", IRobotControl::ControlMode::Torque)
         .value("PWM", IRobotControl::ControlMode::PWM)
+        .value("Current", IRobotControl::ControlMode::Current)
         .value("Idle", IRobotControl::ControlMode::Idle)
         .value("Unknown", IRobotControl::ControlMode::Unknown)
         .export_values();
