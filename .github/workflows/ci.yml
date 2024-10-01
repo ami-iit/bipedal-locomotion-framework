@@ -390,12 +390,12 @@ jobs:
 
         # CasADi
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/ami-iit/casadi.git -b ${CasADi_TAG} casadi
+        git clone https://github.com/casadi/casadi.git -b ${CasADi_TAG} casadi
         cd casadi
         mkdir build
         cd build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install/deps -DWITH_IPOPT=BOOL:ON \
-              -DWITH_OSQP:BOOL=ON -DUSE_SYSTEM_WISE_OSQP=BOOL:ON ..
+              -DWITH_BUILD_IPOPT=OFF -DWITH_OSQP:BOOL=ON -DWITH_BUILD_OSQP=OFF ..
         cmake --build . --config ${{ matrix.build_type }} --target install -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
 
         # manif
