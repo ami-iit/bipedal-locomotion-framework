@@ -118,7 +118,6 @@ public:
      * @param currentContactList The current contact list, being generated.
      */
     static void resetContactList(const std::chrono::nanoseconds& time,
-                                 const std::chrono::nanoseconds& minStepDuration,
                                  const Contacts::ContactList& previousContactList,
                                  Contacts::ContactList& currentContactList);
 };
@@ -183,7 +182,29 @@ bool Planners::UnicycleTrajectoryGenerator::setRobotContactFrames(const iDynTree
 }
 
 bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const manif::SE3d& leftToRightTransform)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), leftToRightTransform);
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Vector3d& initialBasePosition)
+{
+    return initialize(handler, initialBasePosition, manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
     std::weak_ptr<const ParametersHandler::IParametersHandler> handler)
+{
+    return initialize(handler, Eigen::Vector3d::Zero(), manif::SE3d::Identity());
+}
+
+bool Planners::UnicycleTrajectoryGenerator::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
+    const Eigen::Vector3d& initialBasePosition,
+    const manif::SE3d& leftToRightTransform)
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::initialize]";
 
@@ -250,7 +271,10 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
     m_pImpl->newTrajectoryRequired = false;
 
     // Initialize the blf unicycle planner
-    ok = ok && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr);
+    ok = ok
+         && m_pImpl->unicycleTrajectoryPlanner.initialize(ptr,
+                                                          initialBasePosition,
+                                                          leftToRightTransform);
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
@@ -323,11 +347,9 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     if (!m_pImpl->output.contactPhaseList.lists().empty())
     {
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("left_foot"),
                                   leftContactList);
         m_pImpl->resetContactList(m_pImpl->time - m_pImpl->parameters.dt,
-                                  m_pImpl->unicycleTrajectoryPlanner.getMinStepDuration(),
                                   m_pImpl->output.contactPhaseList.lists().at("right_foot"),
                                   rightContactList);
     }
@@ -808,7 +830,6 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::generateFirstTraj
 
 void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
     const std::chrono::nanoseconds& time,
-    const std::chrono::nanoseconds& minStepDuration,
     const Contacts::ContactList& previousContactList,
     Contacts::ContactList& currentContactList)
 {
@@ -825,7 +846,7 @@ void Planners::UnicycleTrajectoryGenerator::Impl::resetContactList(
     // If not, try to get the last active
     if (activeContact == previousContactList.end())
     {
-        activeContact = previousContactList.getActiveContact(time - minStepDuration / 2);
+        activeContact = previousContactList.getPreviousContact(time);
     }
 
     // if any active contact found, add it to the current contact list

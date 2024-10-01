@@ -264,6 +264,27 @@ ContactList::const_iterator ContactList::getNextContact(const std::chrono::nanos
     return nextContact;
 }
 
+ContactList::const_iterator
+ContactList::getPreviousContact(const std::chrono::nanoseconds& time) const
+{
+    // With the reverse iterator we find the last step such that the deactivation time is smaller
+    // than time
+    ContactList::const_reverse_iterator presentReverse
+        = std::find_if(rbegin(), rend(), [time](const PlannedContact& a) -> bool {
+              return a.deactivationTime < time;
+          });
+
+    if (presentReverse == rend())
+    {
+        // No contact has activation time lower than the specified time.
+        return end();
+    }
+
+    return --(presentReverse.base()); // This is to convert a reverse iterator to a forward
+                                      // iterator. The -- is because base() returns a forward
+                                      // iterator to the next element.
+}
+
 bool ContactList::keepOnlyPresentContact(const std::chrono::nanoseconds& time)
 {
     ContactList::const_iterator dropPoint = getPresentContact(time);
