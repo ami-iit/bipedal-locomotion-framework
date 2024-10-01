@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 ### Fixed
 - Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
 - Bug fix of `prepare_data` method calling in `joints-grid-position-tracking` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/895)
+- Fix the normal force limit constraint in the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/898)
 
 ## [0.19.0] - 2024-09-06
 ### Added
