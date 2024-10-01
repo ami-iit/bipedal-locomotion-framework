@@ -189,6 +189,52 @@ double JointTorqueControlDevice::getKfcJtcvc(const std::string& jointName)
     return -1;
 }
 
+bool JointTorqueControlDevice::setMaxFrictionTorque(const std::string& jointName, const double maxFriction)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely modify motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Update the maxOutputFriction value
+        motorTorqueCurrentParameters[index].maxOutputFriction = maxFriction;
+
+        return true;
+    }
+
+    // jointName was not found
+    return false;
+}
+
+double JointTorqueControlDevice::getMaxFrictionTorque(const std::string& jointName)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Return the maxOutputFriction value
+        return motorTorqueCurrentParameters[index].maxOutputFriction;
+    }
+
+    // jointName was not found, return default value
+    return -1;
+}
+
 bool JointTorqueControlDevice::setFrictionModel(const std::string& jointName,
                                                 const std::string& model)
 {
@@ -330,6 +376,10 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
         }
     }
 
+    frictionTorque = saturation(frictionTorque,
+                                motorTorqueCurrentParameters[joint].maxOutputFriction,
+                                -motorTorqueCurrentParameters[joint].maxOutputFriction);
+
     return frictionTorque;
 }
 
@@ -340,16 +390,41 @@ void JointTorqueControlDevice::computeDesiredCurrents()
 
     estimatedFrictionTorques.zero();
 
+    std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
     for (int j = 0; j < this->axes; j++)
     {
-        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
-
         if (this->hijackingTorqueControl[j])
         {
             if (motorTorqueCurrentParameters[j].kfc > 0.0)
             {
                 estimatedFrictionTorques[j] = computeFrictionTorque(j);
             }
+        }
+    }
+
+    if (m_lowPassFilterParameters.enabled)
+    {
+        if (!lowPassFilter.setInput(yarp::eigen::toEigen(estimatedFrictionTorques)))
+        {
+            log()->error("Error in setting the input of the low pass filter");
+        }
+
+        if (!lowPassFilter.advance())
+        {
+            log()->error("Error in advancing the low pass filter");
+        }
+
+        for (int idx = 0; idx < estimatedFrictionTorques.size(); idx++)
+        {
+            estimatedFrictionTorques[idx] = lowPassFilter.getOutput()[idx];
+        }
+    }
+
+    for (int j = 0; j < this->axes; j++)
+    {
+        if (this->hijackingTorqueControl[j])
+        {
 
             desiredMotorCurrents[j]
                 = (desiredJointTorques[j]
@@ -367,7 +442,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
             {
                 std::lock_guard<std::mutex> lockOutput(m_status.mutex);
                 m_status.m_frictionLogging[j] = estimatedFrictionTorques[j];
-                m_status.m_torqueLogging[j] = desiredJointTorques[j];
+                m_status.m_motorPositionError[j] = m_motorPositionError[j];
                 m_status.m_currentLogging[j] = desiredMotorCurrents[j];
             }
         }
@@ -520,9 +595,6 @@ bool JointTorqueControlDevice::loadCouplingMatrix(Searchable& config,
             }
         }
 
-        log()->error("{} LoadCouplingMatrix DEBUG: loaded kinematic coupling matrix from group {}", logPrefix, group_name);
-        log()->error("{}", coupling_matrix.fromJointVelocitiesToMotorVelocities);
-
         coupling_matrix.fromJointTorquesToMotorTorques
             = coupling_matrix.fromJointVelocitiesToMotorVelocities.transpose();
         coupling_matrix.fromMotorTorquesToJointTorques
@@ -648,18 +720,7 @@ bool JointTorqueControlDevice::loadFrictionParams(
             log()->error("{} Parameter `model` not found", logPrefix);
             return false;
         }
-        Eigen::VectorXi historySize;
-        if (!frictionGroup->getParameter("history_size", historySize))
-        {
-            log()->error("{} Parameter `history_size` not found", logPrefix);
-            return false;
-        }
-        Eigen::VectorXi inputNumber;
-        if (!frictionGroup->getParameter("number_of_inputs", inputNumber))
-        {
-            log()->error("{} Parameter `number_of_inputs` not found", logPrefix);
-            return false;
-        }
+
         int threads;
         if (!frictionGroup->getParameter("thread_number", threads))
         {
@@ -670,8 +731,6 @@ bool JointTorqueControlDevice::loadFrictionParams(
         for (int i = 0; i < models.size(); i++)
         {
             pinnParameters[i].modelPath = models[i];
-            pinnParameters[i].historyLength = historySize[i];
-            pinnParameters[i].inputNumber = inputNumber[i];
             pinnParameters[i].threadNumber = threads;
         }
     }
@@ -743,6 +802,33 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!torqueGroup->getParameter("bwfilter_cutoff_freq", m_lowPassFilterParameters.cutoffFrequency))
+    {
+        log()->error("{} Parameter `bwfilter_cutoff_freq` not found", logPrefix);
+        return false;
+    }
+
+    if (!torqueGroup->getParameter("bwfilter_order", m_lowPassFilterParameters.order))
+    {
+        log()->error("{} Parameter `bwfilter_order` not found", logPrefix);
+        return false;
+    }
+
+    if (!torqueGroup->getParameter("bwfilter_enabled", m_lowPassFilterParameters.enabled))
+    {
+        log()->error("{} Parameter `bwfilter_enabled` not found", logPrefix);
+        return false;
+    }
+
+    m_lowPassFilterParameters.samplingTime = rate * 0.001;
+
+    std::vector<double> maxOutputFriction;
+    if (!torqueGroup->getParameter("max_output_friction", maxOutputFriction))
+    {
+        log()->error("{} Parameter `max_output_friction` not found", logPrefix);
+        return false;
+    }
+
     motorTorqueCurrentParameters.resize(kt.size());
     pinnParameters.resize(kt.size());
     coulombViscousParameters.resize(kt.size());
@@ -755,6 +841,19 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         motorTorqueCurrentParameters[i].kp = kp[i];
         motorTorqueCurrentParameters[i].maxCurr = maxCurr[i];
         motorTorqueCurrentParameters[i].frictionModel = frictionModels[i];
+        motorTorqueCurrentParameters[i].maxOutputFriction = maxOutputFriction[i];
+    }
+
+    auto filterParams = std::make_shared<ParametersHandler::YarpImplementation>();
+    filterParams->setParameter("cutoff_frequency", m_lowPassFilterParameters.cutoffFrequency);
+    filterParams->setParameter("order", m_lowPassFilterParameters.order);
+    filterParams->setParameter("sampling_time", m_lowPassFilterParameters.samplingTime);
+    if (m_lowPassFilterParameters.enabled)
+    {
+        lowPassFilter.initialize(filterParams);
+        Eigen::VectorXd initialFrictionTorque(kt.size());
+        initialFrictionTorque.setZero();
+        lowPassFilter.reset(initialFrictionTorque);
     }
 
     if (!this->loadFrictionParams(params))
@@ -767,8 +866,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     for (int i = 0; i < kt.size(); i++)
     {
-        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN"
-            && motorTorqueCurrentParameters[i].kfc > 0.0)
+        if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN")
         {
             frictionEstimators[i] = std::make_unique<PINNFrictionEstimator>();
 
@@ -810,7 +908,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     }
 
     m_vectorsCollectionServer.populateMetadata("motor_currents::desired", joint_list);
-    m_vectorsCollectionServer.populateMetadata("joint_torques::desired", joint_list);
+    m_vectorsCollectionServer.populateMetadata("position_error::input_network", joint_list);
     m_vectorsCollectionServer.populateMetadata("friction_torques::estimated", joint_list);
     m_vectorsCollectionServer.finalizeMetadata();
 
@@ -852,8 +950,8 @@ void JointTorqueControlDevice::publishStatus()
             std::lock_guard<std::mutex> lockOutput(m_status.mutex);
             m_vectorsCollectionServer.populateData("motor_currents::desired",
                                                    m_status.m_currentLogging);
-            m_vectorsCollectionServer.populateData("joint_torques::desired",
-                                                   m_status.m_torqueLogging);
+            m_vectorsCollectionServer.populateData("position_error::input_network",
+                                                   m_status.m_motorPositionError);
             m_vectorsCollectionServer.populateData("friction_torques::estimated",
                                                    m_status.m_frictionLogging);
             m_vectorsCollectionServer.sendData();
@@ -902,7 +1000,7 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
         m_motorPositionError.resize(axes, 1);
         m_motorPositionCorrected.resize(axes, 1);
         m_motorPositionsRadians.resize(axes, 1);
-        m_status.m_torqueLogging.resize(axes, 1);
+        m_status.m_motorPositionError.resize(axes, 1);
         m_status.m_frictionLogging.resize(axes, 1);
         m_status.m_currentLogging.resize(axes, 1);
     }

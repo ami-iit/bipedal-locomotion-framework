@@ -10,6 +10,11 @@ on:
   # Execute a "nightly" build at 2 AM UTC
   - cron:  '0 2 * * *'
 
+# Workaround for https://github.com/conda-forge/mumps-feedstock/issues/125
+# and https://github.com/conda-forge/mumps-feedstock/pull/126#issuecomment-2355357834
+env:
+  OMP_NUM_THREADS: 1
+
 jobs:
   build:
     name: '[${{ matrix.os }}@${{ matrix.build_type }}@conda]'
@@ -21,7 +26,7 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - uses: conda-incubator/setup-miniconda@v2
       with:
@@ -41,7 +46,7 @@ jobs:
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog \
                       nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl \
                       tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
-                      ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib cmake-package-check
+                      ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib cmake-package-check catch2
 
     - name: Linux-only Dependencies [Linux]
       if: contains(matrix.os, 'ubuntu')
@@ -79,7 +84,7 @@ jobs:
         mkdir -p build
         cd build
         cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
@@ -101,7 +106,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
       if: contains(matrix.os, 'windows')

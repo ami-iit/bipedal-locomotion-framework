@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -51,7 +51,7 @@ jobs:
           python3 ./generate_website.py --mcss_path ${GITHUB_WORKSPACE}/m.css/documentation/doxygen.py
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: site
           path: docs/site

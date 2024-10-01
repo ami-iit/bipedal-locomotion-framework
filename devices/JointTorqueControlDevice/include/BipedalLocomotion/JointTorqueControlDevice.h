@@ -14,6 +14,7 @@
 #include <BipedalLocomotion/PINNFrictionEstimator.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h>
 
 #include <iostream>
 #include <memory>
@@ -66,6 +67,7 @@ struct MotorTorqueCurrentParameters
     double kp; /**< proportional gain */
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
+    double maxOutputFriction; /**< maximum output of the friction model */
 
     /**
      * Reset the parameters
@@ -73,6 +75,7 @@ struct MotorTorqueCurrentParameters
     void reset()
     {
         kt = kfc = kp = maxCurr = 0.0;
+        maxOutputFriction = 0.0;
         frictionModel = "";
     }
 };
@@ -85,8 +88,6 @@ struct PINNParameters
 {
     std::string modelPath; /**< PINN model path */
     int threadNumber; /**< number of threads */
-    int historyLength; /**< history length */
-    int inputNumber; /**< number of inputs */
 
     /**
      * Reset the parameters
@@ -95,8 +96,6 @@ struct PINNParameters
     {
         modelPath = "";
         threadNumber = 0;
-        historyLength = 0;
-        inputNumber = 0;
     }
 };
 
@@ -141,6 +140,14 @@ struct CoulombViscousStribeckParameters
     }
 };
 
+struct LowPassFilterParameters
+{
+    double cutoffFrequency; /**< cutoff frequency */
+    int order; /**< order of the filter */
+    double samplingTime; /**< sampling time */
+    bool enabled; /**< true if the filter is enabled */
+};
+
 /**
  * @brief This class implements a device that allows to control the joints of a robot in torque mode.
  * The device is able to estimate the friction torque acting on the joints and to compensate it.
@@ -159,6 +166,7 @@ private:
     std::vector<CoulombViscousParameters> coulombViscousParameters;
     std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
     std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
+    BipedalLocomotion::ContinuousDynamicalSystem::ButterworthLowPassFilter lowPassFilter;
     std::mutex mutexTorqueControlParam_; /**< The mutex for protecting the parameters of the torque control. */
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;
@@ -176,6 +184,7 @@ private:
     std::vector<double> m_motorPositionCorrected;
     std::vector<double> m_motorPositionsRadians;
     std::vector<std::string> m_axisNames;
+    LowPassFilterParameters m_lowPassFilterParameters;
 
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
@@ -191,7 +200,7 @@ private:
     struct Status
     {
         std::mutex mutex;
-        std::vector<double> m_torqueLogging;
+        std::vector<double> m_motorPositionError;
         std::vector<double> m_frictionLogging;
         std::vector<double> m_currentLogging;
     } m_status;
@@ -277,10 +286,12 @@ public:
     virtual void run();
     virtual void threadRelease();
 
-    virtual bool setKpJtcvc(const std::string& jointName, const double kp);
+    virtual bool setKpJtcvc(const std::string& jointName, const double kp) override;
     virtual double getKpJtcvc(const std::string& jointName) override;
     virtual bool setKfcJtcvc(const std::string& jointName, const double kfc) override;
     virtual double getKfcJtcvc(const std::string& jointName) override;
+    virtual bool setMaxFrictionTorque(const std::string& jointName, const double maxFriction) override;
+    virtual double getMaxFrictionTorque(const std::string& jointName) override;
     virtual bool setFrictionModel(const std::string& jointName, const std::string& model) override;
     virtual std::string getFrictionModel(const std::string& jointName) override;
 };

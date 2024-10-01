@@ -3,11 +3,16 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
+- Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
+- Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
+- Add `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/894)
 - Add the possibility to initialize the base position and the feet pose in the `unicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/887)
 
 ### Changed
+
 ### Fixed
-### Removed
+- Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
 
 ## [0.19.0] - 2024-09-06
 ### Added

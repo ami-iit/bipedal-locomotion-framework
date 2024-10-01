@@ -15,7 +15,7 @@ To use the logger, launch the `yarprobotinterface` with the `launch-yarp-robot-l
 ```console
 yarprobotinterface --config launch-yarp-robot-logger.xml
 ```
-When you close the yarprobotinterface, the logger will save the logged data in a mat file. Additionally, a md file will contain information about the software version in the robot setup. If video recording is enabled, a mp4 file with the video recording will also be generated.
+When you close the yarprobotinterface, the logger will save the logged data in a mat file. Additionally, a md file will contain information about the software version in the robot setup. If video recording is enabled, a mp4 file with the video recording will also be generated. All these files will be saved in the working directory in which `yarprobotinterface` has been launched.
 
 ## How to log exogenous data
 The `YarpRobotLoggerDevice` can also log exogenous data, i.e., data not directly provided by the robot sensors and actuators. To do this:
