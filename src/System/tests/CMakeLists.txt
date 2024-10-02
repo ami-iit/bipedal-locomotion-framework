@@ -11,3 +11,8 @@ add_bipedal_test(
   NAME AdvanceableRunner
   SOURCES AdvanceableRunnerTest.cpp
   LINKS BipedalLocomotion::System BipedalLocomotion::TextLogging BipedalLocomotion::ParametersHandler)
+
+add_bipedal_test(
+  NAME PeriodicThread
+  SOURCES PeriodicThreadTest.cpp
+  LINKS BipedalLocomotion::System BipedalLocomotion::TextLogging)
