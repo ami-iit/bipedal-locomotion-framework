@@ -23,12 +23,13 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
     , m_maximumNumberOfAcceptedDeadlineMiss(maximumNumberOfAcceptedDeadlineMiss)
     , m_priority(priority)
     , m_policy(policy)
-    , m_deadlineMiss(0){};
+    , m_deadlineMiss(0)
+    , m_state(PeriodicThreadState::INACTIVE){};
 
 PeriodicThread::~PeriodicThread()
 {
-    // stop the thread, if it is running
-    if (m_isRunning.load())
+    // stop the thread, if it is not already stopped
+    if (m_state.load() != PeriodicThreadState::STOPPED)
     {
         stop();
     }
@@ -63,16 +64,20 @@ void PeriodicThread::threadFunction()
         return;
     }
 
+    m_state.store(PeriodicThreadState::INITIALIZED);
+
     // synchronize the thread
     synchronize();
 
     // run loop
-    while (m_isRunning.load() && !m_askToStop.load())
+    m_state.store(PeriodicThreadState::RUNNING);
+
+    while (m_state == PeriodicThreadState::RUNNING || m_state == PeriodicThreadState::IDLE)
     {
         this->advance();
     }
 
-    m_isRunning.store(false);
+    m_state.store(PeriodicThreadState::STOPPED);
 
     return;
 };
@@ -92,12 +97,25 @@ bool PeriodicThread::setPolicy()
 #endif
 };
 
+bool PeriodicThread::setPolicy(int priority, int policy)
+{
+    if (m_state.load() != PeriodicThreadState::INACTIVE)
+    {
+        BipedalLocomotion::log()->error("[PeriodicThread::setPolicy] The thread has already "
+                                        "started. The policy and priority cannot be changed.");
+        return false;
+    }
+    m_priority = priority;
+    m_policy = policy;
+    return true;
+};
+
 bool PeriodicThread::setPeriod(std::chrono::nanoseconds period)
 {
-    if (m_isRunning.load())
+    if (m_state.load() != PeriodicThreadState::INACTIVE)
     {
-        BipedalLocomotion::log()->error("[PeriodicThread::setPeriod] The thread is running. The "
-                                        "period cannot be changed.");
+        BipedalLocomotion::log()->error("[PeriodicThread::setPeriod] The thread has already "
+                                        "started. The period cannot be changed.");
         return false;
     }
     m_period = period;
@@ -121,29 +139,43 @@ void PeriodicThread::synchronize()
 
 void PeriodicThread::stop()
 {
-    if (!m_isRunning.load())
+    // stop the thread only if it is running or idling
+    if ((m_state.load() == PeriodicThreadState::RUNNING
+         || m_state.load() == PeriodicThreadState::IDLE))
     {
-        // thread is not running
-        return;
+        m_state.store(PeriodicThreadState::STOPPED);
     }
-    if (m_askToStop.load())
+};
+
+bool PeriodicThread::suspend()
+{
+    if (m_state.load() == PeriodicThreadState::RUNNING)
     {
-        // thread is already asked to stop
-        return;
+        m_state.store(PeriodicThreadState::IDLE);
+        return true;
     }
-    m_askToStop.store(true);
+    return false;
+};
+
+bool PeriodicThread::resume()
+{
+    if (m_state.load() == PeriodicThreadState::IDLE)
+    {
+        m_state.store(PeriodicThreadState::RUNNING);
+        return true;
+    }
+    return false;
 };
 
 bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> barrier)
 {
-
-    if (m_isRunning.load())
+    // only an inactive thread can be started
+    if (m_state.load() != PeriodicThreadState::INACTIVE)
     {
-        // thread is already running
         return false;
     } else
     {
-        m_isRunning.store(true);
+        m_state.store(PeriodicThreadState::STARTED);
     }
 
     // store the barrier
@@ -159,7 +191,7 @@ bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> b
 
 bool PeriodicThread::isRunning()
 {
-    return m_isRunning.load();
+    return (m_state.load() == PeriodicThreadState::RUNNING);
 }
 
 void PeriodicThread::advance()
@@ -169,11 +201,15 @@ void PeriodicThread::advance()
     // get the next wake up time
     auto nextWakeUpTime = now + m_period;
 
-    // run user overridden function
-    if (!run())
+    // run user overridden function, when not idling
+    if (m_state.load() != PeriodicThreadState::IDLE)
     {
-        m_isRunning.store(false);
-        return;
+        if (!run())
+        {
+            // an error occurred, stop the thread
+            m_state.store(PeriodicThreadState::STOPPED);
+            return;
+        }
     }
 
     // check if the deadline is missed
@@ -185,7 +221,7 @@ void PeriodicThread::advance()
             if (m_deadlineMiss > m_maximumNumberOfAcceptedDeadlineMiss)
             {
                 // we have to close the runner
-                m_isRunning.store(false);
+                m_state.store(PeriodicThreadState::STOPPED);
                 return;
             }
         }

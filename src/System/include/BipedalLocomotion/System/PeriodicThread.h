@@ -21,11 +21,24 @@ namespace BipedalLocomotion
 {
 namespace System
 {
+
+/**
+ * @brief Enum class which defines the state of the periodic thread state machine.
+ */
+enum class PeriodicThreadState
+{
+    INACTIVE, /**< The thread is not yet active. */
+    STARTED, /**< The thread has been started. */
+    INITIALIZED, /**< The thread has been initialized.*/
+    RUNNING, /**< The thread is running. */
+    IDLE, /**< The thread is idling. */
+    STOPPED /**< The thread is stopped. */
+};
+
 /**
  * @brief This class implements a periodic thread. The user has to inherit from this class and
  * implement the virtual methods.
  */
-
 class PeriodicThread
 {
 public:
@@ -58,6 +71,16 @@ public:
     void stop();
 
     /**
+     * @brief Suspend the thread.
+     */
+    bool suspend();
+
+    /**
+     * @brief Resume the thread.
+     */
+    bool resume();
+
+    /**
      * @brief Check if the thread is running.
      * @return true if the thread is running, false otherwise.
      */
@@ -69,6 +92,14 @@ public:
      * @return true if the period was correctly set, false otherwise.
      */
     bool setPeriod(std::chrono::nanoseconds period);
+
+    /**
+     * @brief Set the policy of the thread.
+     * @param policy policy of the thread.
+     * @param priority priority of the thread.
+     * @return true if the policy was correctly set, false otherwise.
+     */
+    bool setPolicy(int policy, int priority = 0);
 
 protected:
     /**
@@ -120,11 +151,11 @@ private:
 
     int m_policy = SCHED_OTHER; /**< Policy of the thread. */
 
-    std::atomic<bool> m_isRunning = false; /**< Flag to check if the thread is running. */
-
-    std::atomic<bool> m_askToStop = false; /**< Flag to ask to stop the thread. */
-
     std::thread m_thread; /**< Thread object. */
+
+    std::atomic<PeriodicThreadState> m_state = PeriodicThreadState::INACTIVE; /**< State of the
+                                                                               * thread.
+                                                                               */
 
     std::shared_ptr<BipedalLocomotion::System::Barrier> m_barrier; /**< Barrier to synchronize the
                                                                     * thread.
