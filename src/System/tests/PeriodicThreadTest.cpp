@@ -45,8 +45,6 @@ public:
 
 TEST_CASE("Test Periodic Thread", "[PeriodicThread]")
 {
-    using namespace std::chrono_literals;
-
     BipedalLocomotion::System::ClockBuilder::setFactory(
         std::make_shared<BipedalLocomotion::System::StdClockFactory>());
 
@@ -92,8 +90,6 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThread]")
 
 TEST_CASE("Test Periodic Thread", "[PeriodicThreadSynchronization]")
 {
-    using namespace std::chrono_literals;
-
     auto period = 100ms;
 
     auto barrier = BipedalLocomotion::System::Barrier::create(2);
@@ -124,4 +120,30 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThreadSynchronization]")
     // stop the threads
     thread1.stop();
     thread2.stop();
+}
+
+TEST_CASE("Test Periodic Thread", "[PeriodicThreadNotAllowed]")
+{
+
+    auto period = 50ms;
+
+    // create
+    auto thread = Thread();
+
+    // start the thread
+    REQUIRE(thread.start());
+    BipedalLocomotion::clock().sleepFor(period);
+
+    // try to set the period
+    REQUIRE(!thread.setPeriod(period));
+
+    // try to set the policy
+    REQUIRE(!thread.setPolicy(SCHED_OTHER, 0));
+
+    // stop the thread
+    thread.stop();
+    BipedalLocomotion::clock().sleepFor(period);
+
+    // try to resume the thread
+    REQUIRE(!thread.resume());
 }
