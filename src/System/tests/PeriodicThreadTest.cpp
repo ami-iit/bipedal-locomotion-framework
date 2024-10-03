@@ -64,7 +64,23 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThread]")
     // start the thread
     REQUIRE(thread.start());
 
-    BipedalLocomotion::clock().sleepFor(10 * period);
+    BipedalLocomotion::clock().sleepFor(period);
+
+    // check if the thread is running
+    REQUIRE(thread.isRunning());
+
+    // suspend the thread
+    REQUIRE(thread.suspend());
+    BipedalLocomotion::clock().sleepFor(period);
+
+    // check if the thread is suspended
+    int counter = thread.getCounter();
+    BipedalLocomotion::clock().sleepFor(period);
+    REQUIRE(counter == thread.getCounter());
+
+    // resume the thread
+    REQUIRE(thread.resume());
+    BipedalLocomotion::clock().sleepFor(period);
 
     // stop the thread
     thread.stop();
@@ -91,17 +107,16 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThreadSynchronization]")
 
     // start thread 1
     REQUIRE(thread1.start(barrier));
-    BipedalLocomotion::clock().sleepFor(5 * period);
+    BipedalLocomotion::clock().sleepFor(2 * period);
 
     // check that the thread 1 is waiting for thread 2
     // (i.e. threadInit has been called, but run has not been called yet)
-    REQUIRE(thread1.isRunning());
+    REQUIRE(thread1.isInitialized());
     REQUIRE(!thread2.isRunning());
-    REQUIRE(thread1.getCounter() == 0);
 
     // start thread 2
     REQUIRE(thread2.start(barrier));
-    BipedalLocomotion::clock().sleepFor(5 * period);
+    BipedalLocomotion::clock().sleepFor(period);
 
     // check that the thread 2 is running
     REQUIRE(thread2.isRunning());

@@ -30,7 +30,7 @@ enum class PeriodicThreadState
     INACTIVE, /**< The thread is not yet active. */
     STARTED, /**< The thread has been started. */
     INITIALIZED, /**< The thread has been initialized.*/
-    RUNNING, /**< The thread is running. */
+    EXECUTING, /**< The thread is executing the task. */
     IDLE, /**< The thread is idling. */
     STOPPED /**< The thread is stopped. */
 };
@@ -81,10 +81,17 @@ public:
     bool resume();
 
     /**
-     * @brief Check if the thread is running.
+     * @brief Check if the thread is running. This means that the thread has started and not yet
+     * stopped.
      * @return true if the thread is running, false otherwise.
      */
     bool isRunning();
+
+    /**
+     * @brief Check if the thread is initialized.
+     * @return true if the thread is initialized, false otherwise.
+     */
+    bool isInitialized();
 
     /**
      * @brief Set the period of the thread.
@@ -107,7 +114,7 @@ protected:
      * Override this method to implement the task to be performed from the thread.
      * @return true if the thread has to continue, false otherwise.
      */
-    virtual bool run() = 0;
+    virtual bool run();
 
     /**
      * @brief This method is called at the beginning of the thread.

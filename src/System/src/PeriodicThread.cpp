@@ -2,7 +2,6 @@
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
-#include <iostream>
 #include <pthread.h>
 #include <sched.h>
 
@@ -28,24 +27,15 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
 
 PeriodicThread::~PeriodicThread()
 {
-    // stop the thread, if it is not already stopped
-    if (m_state.load() != PeriodicThreadState::STOPPED)
-    {
-        stop();
-    }
+    // force stop of the thread
+    m_state.store(PeriodicThreadState::STOPPED);
 
     // join the thread
     if (m_thread.joinable())
     {
         m_thread.join();
         m_thread = std::thread();
-        BipedalLocomotion::log()->info("[PeriodicThread::~PeriodicThread] The thread joined.");
     }
-
-    //
-    std::cerr << "[PeriodicThread::~PeriodicThread] The thread object is "
-                 "destroyed."
-              << std::endl;
 };
 
 void PeriodicThread::threadFunction()
@@ -70,9 +60,9 @@ void PeriodicThread::threadFunction()
     synchronize();
 
     // run loop
-    m_state.store(PeriodicThreadState::RUNNING);
+    m_state.store(PeriodicThreadState::EXECUTING);
 
-    while (m_state == PeriodicThreadState::RUNNING || m_state == PeriodicThreadState::IDLE)
+    while (m_state == PeriodicThreadState::EXECUTING || m_state == PeriodicThreadState::IDLE)
     {
         this->advance();
     }
@@ -127,6 +117,11 @@ bool PeriodicThread::threadInit()
     return true;
 };
 
+bool PeriodicThread::run()
+{
+    return false;
+};
+
 void PeriodicThread::synchronize()
 {
     if (!(m_barrier == nullptr))
@@ -139,19 +134,21 @@ void PeriodicThread::synchronize()
 
 void PeriodicThread::stop()
 {
-    // stop the thread only if it is running or idling
-    if ((m_state.load() == PeriodicThreadState::RUNNING
+    // stop the thread only if it is executing or idling
+    if ((m_state.load() == PeriodicThreadState::EXECUTING
          || m_state.load() == PeriodicThreadState::IDLE))
     {
         m_state.store(PeriodicThreadState::STOPPED);
+        BipedalLocomotion::log()->debug("[PeriodicThread::stop] Thread is stopped.");
     }
 };
 
 bool PeriodicThread::suspend()
 {
-    if (m_state.load() == PeriodicThreadState::RUNNING)
+    if (m_state.load() == PeriodicThreadState::EXECUTING)
     {
         m_state.store(PeriodicThreadState::IDLE);
+        BipedalLocomotion::log()->debug("[PeriodicThread::suspend] Thread is suspended.");
         return true;
     }
     return false;
@@ -161,7 +158,8 @@ bool PeriodicThread::resume()
 {
     if (m_state.load() == PeriodicThreadState::IDLE)
     {
-        m_state.store(PeriodicThreadState::RUNNING);
+        m_state.store(PeriodicThreadState::EXECUTING);
+        BipedalLocomotion::log()->debug("[PeriodicThread::resume] Thread is resumed.");
         return true;
     }
     return false;
@@ -191,7 +189,13 @@ bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> b
 
 bool PeriodicThread::isRunning()
 {
-    return (m_state.load() == PeriodicThreadState::RUNNING);
+    return ((m_state.load() != PeriodicThreadState::INACTIVE)
+            && (m_state.load() != PeriodicThreadState::STOPPED));
+}
+
+bool PeriodicThread::isInitialized()
+{
+    return (m_state.load() == PeriodicThreadState::INITIALIZED);
 }
 
 void PeriodicThread::advance()
