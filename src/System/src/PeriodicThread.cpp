@@ -115,6 +115,36 @@ bool PeriodicThread::setPeriod(std::chrono::nanoseconds period)
     return true;
 }
 
+bool PeriodicThread::setMaximumNumberOfAcceptedDeadlineMiss(int maximumNumberOfAcceptedDeadlineMiss)
+{
+    if (m_state.load() != PeriodicThreadState::INACTIVE)
+    {
+        BipedalLocomotion::log()->error("[PeriodicThread::setMaximumNumberOfAcceptedDeadlineMiss] "
+                                        "The thread has already started. The maximum number of "
+                                        "accepted deadline miss cannot be changed.");
+        return false;
+    }
+    m_maximumNumberOfAcceptedDeadlineMiss = maximumNumberOfAcceptedDeadlineMiss;
+    return true;
+}
+
+int PeriodicThread::getNumberOfDeadlineMiss()
+{
+    return m_deadlineMiss.load();
+}
+
+bool PeriodicThread::enableEarlyWakeUp()
+{
+    if (m_state.load() != PeriodicThreadState::INACTIVE)
+    {
+        BipedalLocomotion::log()->error("[PeriodicThread::enableEarlyWakeUp] The thread has "
+                                        "already started. The early wake up cannot be changed.");
+        return false;
+    }
+    m_earlyWakeUp = true;
+    return true;
+}
+
 bool PeriodicThread::threadInit()
 {
     return true;
@@ -232,10 +262,10 @@ void PeriodicThread::advance()
     // check if the deadline is missed
     if (BipedalLocomotion::clock().now() > m_wakeUpTime)
     {
-        m_deadlineMiss++;
+        m_deadlineMiss.fetch_add(1); // increment the number of deadline miss
         if (m_maximumNumberOfAcceptedDeadlineMiss > 0)
         {
-            if (m_deadlineMiss > m_maximumNumberOfAcceptedDeadlineMiss)
+            if (m_deadlineMiss.load() > m_maximumNumberOfAcceptedDeadlineMiss)
             {
                 // we have to close the runner
                 m_state.store(PeriodicThreadState::STOPPED);

@@ -109,6 +109,25 @@ public:
      */
     bool setPolicy(int policy, int priority = 0);
 
+    /**
+     * @brief Set the maximum number of accepted deadline miss.
+     * @param maximumNumberOfAcceptedDeadlineMiss maximum number of accepted deadline miss.
+     */
+    bool setMaximumNumberOfAcceptedDeadlineMiss(int maximumNumberOfAcceptedDeadlineMiss);
+
+    /**
+     * @brief Get the number of deadline miss.
+     * @return number of deadline miss.
+     */
+    int getNumberOfDeadlineMiss();
+
+    /**
+     * @brief Enable the early wake up. The thread will be awaken before and busy wait until the
+     * actual wake up time.
+     * @return true if the early wake up was correctly set, false otherwise.
+     */
+    bool enableEarlyWakeUp();
+
 protected:
     /**
      * @brief This method is called at each iteration of the thread.
@@ -153,12 +172,11 @@ private:
                                                      * miss.
                                                      */
 
-    int m_deadlineMiss = 0; /**< Number of deadline miss. */
+    std::atomic<int> m_deadlineMiss = 0; /**< Number of deadline miss. */
 
     std::chrono::nanoseconds m_wakeUpTime = std::chrono::nanoseconds(0); /**< Wake up time of the
                                                                           * thread.
                                                                           */
-
     int m_priority = 0; /**< Priority of the thread. */
 
     int m_policy = SCHED_OTHER; /**< Policy of the thread. */
