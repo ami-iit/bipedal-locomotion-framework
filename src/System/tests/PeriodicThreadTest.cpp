@@ -43,6 +43,29 @@ public:
     }
 };
 
+class ThreadWithDeadlineMiss : public PeriodicThread
+{
+protected:
+    bool threadInit() override
+    {
+        return true;
+    }
+    bool run() override
+    {
+        BipedalLocomotion::clock().sleepFor(waitTime);
+        return true;
+    }
+
+private:
+    std::chrono::nanoseconds waitTime;
+
+public:
+    void setWaitTime(std::chrono::nanoseconds time)
+    {
+        waitTime = time;
+    }
+};
+
 TEST_CASE("Test Periodic Thread", "[PeriodicThread]")
 {
     BipedalLocomotion::System::ClockBuilder::setFactory(
@@ -140,10 +163,44 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThreadNotAllowed]")
     // try to set the policy
     REQUIRE(!thread.setPolicy(SCHED_OTHER, 0));
 
+    // try to set the maximum number of accepted deadline miss
+    REQUIRE(!thread.setMaximumNumberOfAcceptedDeadlineMiss(0));
+
+    // try to enable early wake up
+    REQUIRE(!thread.enableEarlyWakeUp());
+
     // stop the thread
     thread.stop();
     BipedalLocomotion::clock().sleepFor(period);
 
     // try to resume the thread
     REQUIRE(!thread.resume());
+}
+
+TEST_CASE("Test Periodic Thread", "[PeriodicThreadDeadlineMiss]")
+{
+    auto period = 50ms;
+
+    // create
+    auto thread = ThreadWithDeadlineMiss();
+
+    // set the period
+    REQUIRE(thread.setPeriod(period));
+
+    // set the wait time in the run function to trigger a deadline miss
+    thread.setWaitTime(2 * period);
+
+    // set the maximum number of accepted deadline miss
+    REQUIRE(thread.setMaximumNumberOfAcceptedDeadlineMiss(2));
+
+    // start the thread
+    REQUIRE(thread.start());
+
+    BipedalLocomotion::clock().sleepFor(10 * period);
+
+    // check if the thread is stopped
+    REQUIRE(!thread.isRunning());
+
+    // check the number of deadline miss
+    REQUIRE(thread.getNumberOfDeadlineMiss() == 3);
 }
