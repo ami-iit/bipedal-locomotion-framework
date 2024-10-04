@@ -79,8 +79,10 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThread]")
     // set the period
     REQUIRE(thread.setPeriod(period));
 
+#ifdef __linux__
     // set the policy
     REQUIRE(thread.setPolicy(SCHED_OTHER, 0));
+#endif
 
     // start the thread
     REQUIRE(thread.start());
@@ -160,8 +162,10 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThreadNotAllowed]")
     // try to set the period
     REQUIRE(!thread.setPeriod(period));
 
+#ifdef __linux__
     // try to set the policy
     REQUIRE(!thread.setPolicy(SCHED_OTHER, 0));
+#endif
 
     // try to set the maximum number of accepted deadline miss
     REQUIRE(!thread.setMaximumNumberOfAcceptedDeadlineMiss(0));

@@ -2,8 +2,11 @@
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
+
+#ifdef __linux__
 #include <pthread.h>
 #include <sched.h>
+#endif
 
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/PeriodicThread.h>
@@ -13,6 +16,8 @@ namespace BipedalLocomotion
 {
 namespace System
 {
+
+#ifdef __linux__
 
 PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
                                int maximumNumberOfAcceptedDeadlineMiss,
@@ -27,6 +32,20 @@ PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
     , m_wakeUpTime(std::chrono::nanoseconds(0))
     , m_earlyWakeUp(earlyWakeUp)
     , m_state(PeriodicThreadState::INACTIVE){};
+
+#else
+
+PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
+                               int maximumNumberOfAcceptedDeadlineMiss,
+                               bool earlyWakeUp)
+    : m_period(period)
+    , m_maximumNumberOfAcceptedDeadlineMiss(maximumNumberOfAcceptedDeadlineMiss)
+    , m_deadlineMiss(0)
+    , m_wakeUpTime(std::chrono::nanoseconds(0))
+    , m_earlyWakeUp(earlyWakeUp)
+    , m_state(PeriodicThreadState::INACTIVE){};
+
+#endif
 
 PeriodicThread::~PeriodicThread()
 {
@@ -90,6 +109,7 @@ bool PeriodicThread::setPolicy()
 #endif
 };
 
+#ifdef __linux__
 bool PeriodicThread::setPolicy(int priority, int policy)
 {
     if (m_state.load() != PeriodicThreadState::INACTIVE)
@@ -102,6 +122,7 @@ bool PeriodicThread::setPolicy(int priority, int policy)
     m_policy = policy;
     return true;
 };
+#endif
 
 bool PeriodicThread::setPeriod(std::chrono::nanoseconds period)
 {

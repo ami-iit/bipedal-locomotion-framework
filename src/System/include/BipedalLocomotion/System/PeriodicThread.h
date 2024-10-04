@@ -11,9 +11,7 @@
 #include <atomic>
 #include <chrono>
 #include <memory>
-#include <mutex>
 #include <thread>
-#include <vector>
 
 #include <BipedalLocomotion/System/Barrier.h>
 
@@ -42,12 +40,19 @@ enum class PeriodicThreadState
 class PeriodicThread
 {
 public:
+#ifdef __linux__
     // Default constructor
     PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
                    int maximumNumberOfAcceptedDeadlineMiss = -1,
                    int priority = 0,
                    int policy = SCHED_OTHER,
                    bool earlyWakeUp = false);
+#else
+    // Default constructor
+    PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
+                   int maximumNumberOfAcceptedDeadlineMiss = -1,
+                   bool earlyWakeUp = false);
+#endif
 
     // Destructor
     virtual ~PeriodicThread();
@@ -101,6 +106,7 @@ public:
      */
     bool setPeriod(std::chrono::nanoseconds period);
 
+#ifdef __linux__
     /**
      * @brief Set the policy of the thread.
      * @param policy policy of the thread.
@@ -108,6 +114,7 @@ public:
      * @return true if the policy was correctly set, false otherwise.
      */
     bool setPolicy(int policy, int priority = 0);
+#endif
 
     /**
      * @brief Set the maximum number of accepted deadline miss.
@@ -177,9 +184,11 @@ private:
     std::chrono::nanoseconds m_wakeUpTime = std::chrono::nanoseconds(0); /**< Wake up time of the
                                                                           * thread.
                                                                           */
+#ifdef __linux__
     int m_priority = 0; /**< Priority of the thread. */
 
     int m_policy = SCHED_OTHER; /**< Policy of the thread. */
+#endif
 
     std::thread m_thread; /**< Thread object. */
 
