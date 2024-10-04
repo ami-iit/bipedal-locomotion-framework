@@ -43,9 +43,11 @@ In this file, the following parameters are defined:
 3. the `use_safety_threshold_for_starting_position` boolean, which determines wheter to use (or not) the `safety_threshold` when computing the starting positions.
 4. the number of starting positions `number_of_starting_points` from which the same reference trajectory is repeated.
 5. the `bypass_motor_current_measure` boolean vector (one element per motor), which determines wether to use the measured motor current when generating the trajectory as detailed later.
-6. the `SINUSOID` parameters group, which defines the sinusoid trajectory as detailed later.
-7. the `RAMP` parameters group, which defines the ramp trajectory as detailed later.
-8. the `MOTOR` parameters group, which defines the list of available joints `joints_list`, the respective `k_tau` coefficient (in [A/Nm]) and the respective `max_safety_current` (in [A]).
+6. the `software_joint_lower_limits` optional float vector, which overrides (only if reducing the range of motion) the hardware `joint_lower_limits`.
+7. the `software_joint_upper_limits` optional float vector, which overrides (only if reducing the range of motion) the hardware `joint_upper_limits`.
+8. the `SINUSOID` parameters group, which defines the sinusoid trajectory as detailed later.
+9. the `RAMP` parameters group, which defines the ramp trajectory as detailed later.
+10. the `MOTOR` parameters group, which defines the list of available joints `joints_list`, the respective `k_tau` coefficient (in [A/Nm]) and the respective `max_safety_current` (in [A]).
 
 Instead, the configuration file [`robot_control.ini`](./config/robots/ergoCubSN001/blf_motor_current_tracking/robot_control.ini) defines the list of motors to command.
 
