@@ -17,12 +17,15 @@ namespace System
 PeriodicThread::PeriodicThread(std::chrono::nanoseconds period,
                                int maximumNumberOfAcceptedDeadlineMiss,
                                int priority,
-                               int policy)
+                               int policy,
+                               bool earlyWakeUp)
     : m_period(period)
     , m_maximumNumberOfAcceptedDeadlineMiss(maximumNumberOfAcceptedDeadlineMiss)
     , m_priority(priority)
     , m_policy(policy)
     , m_deadlineMiss(0)
+    , m_wakeUpTime(std::chrono::nanoseconds(0))
+    , m_earlyWakeUp(earlyWakeUp)
     , m_state(PeriodicThreadState::INACTIVE){};
 
 PeriodicThread::~PeriodicThread()
@@ -202,8 +205,18 @@ void PeriodicThread::advance()
 {
     // get the current time
     auto now = BipedalLocomotion::clock().now();
+
+    // busy wait until wake up time
+    if (m_earlyWakeUp)
+    {
+        while (now < m_wakeUpTime)
+        {
+            now = BipedalLocomotion::clock().now();
+        }
+    }
+
     // get the next wake up time
-    auto nextWakeUpTime = now + m_period;
+    m_wakeUpTime = now + m_period;
 
     // run user overridden function, when not idling
     if (m_state.load() != PeriodicThreadState::IDLE)
@@ -217,7 +230,7 @@ void PeriodicThread::advance()
     }
 
     // check if the deadline is missed
-    if (BipedalLocomotion::clock().now() > nextWakeUpTime)
+    if (BipedalLocomotion::clock().now() > m_wakeUpTime)
     {
         m_deadlineMiss++;
         if (m_maximumNumberOfAcceptedDeadlineMiss > 0)
@@ -235,7 +248,13 @@ void PeriodicThread::advance()
     BipedalLocomotion::clock().yield();
 
     // wait until the next deadline
-    BipedalLocomotion::clock().sleepUntil(nextWakeUpTime);
+    if (m_earlyWakeUp)
+    {
+        BipedalLocomotion::clock().sleepUntil(m_wakeUpTime - m_schedulerLatency);
+    } else
+    {
+        BipedalLocomotion::clock().sleepUntil(m_wakeUpTime);
+    }
 };
 
 } // namespace System

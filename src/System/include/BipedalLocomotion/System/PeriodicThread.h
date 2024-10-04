@@ -46,7 +46,8 @@ public:
     PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
                    int maximumNumberOfAcceptedDeadlineMiss = -1,
                    int priority = 0,
-                   int policy = SCHED_OTHER);
+                   int policy = SCHED_OTHER,
+                   bool earlyWakeUp = false);
 
     // Destructor
     virtual ~PeriodicThread();
@@ -154,6 +155,10 @@ private:
 
     int m_deadlineMiss = 0; /**< Number of deadline miss. */
 
+    std::chrono::nanoseconds m_wakeUpTime = std::chrono::nanoseconds(0); /**< Wake up time of the
+                                                                          * thread.
+                                                                          */
+
     int m_priority = 0; /**< Priority of the thread. */
 
     int m_policy = SCHED_OTHER; /**< Policy of the thread. */
@@ -167,6 +172,13 @@ private:
     std::shared_ptr<BipedalLocomotion::System::Barrier> m_barrier; /**< Barrier to synchronize the
                                                                     * thread.
                                                                     */
+    const std::chrono::nanoseconds m_schedulerLatency
+        = std::chrono::microseconds(100); /**< Scheduler latency when waking up a thread. Indeed, it
+                                             varies depending on the OS. For now we fix it to a
+                                             constant value. Note that in real-time OS it might be
+                                             smaller. */
+    bool m_earlyWakeUp = false; /**< If true, the thread will be awaken before and busy wait until
+                                   the actual wake up time. */
 };
 } // namespace System
 } // namespace BipedalLocomotion
