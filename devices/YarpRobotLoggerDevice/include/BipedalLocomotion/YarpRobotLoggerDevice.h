@@ -21,13 +21,13 @@
 #include <yarp/dev/IMultipleWrapper.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
-#include <yarp/os/PeriodicThread.h>
 #include <yarp/sig/Vector.h>
 
 #include <robometry/BufferManager.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/System/PeriodicThread.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
@@ -37,20 +37,17 @@ namespace BipedalLocomotion
 
 class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
                               public yarp::dev::IMultipleWrapper,
-                              public yarp::os::PeriodicThread
+                              public BipedalLocomotion::System::PeriodicThread
 {
 public:
-    YarpRobotLoggerDevice(double period,
-                          yarp::os::ShouldUseSystemClock useSystemClock
-                          = yarp::os::ShouldUseSystemClock::No);
-    YarpRobotLoggerDevice();
+    YarpRobotLoggerDevice(double period = 0.01);
     ~YarpRobotLoggerDevice();
 
     virtual bool open(yarp::os::Searchable& config) final;
     virtual bool close() final;
     virtual bool attachAll(const yarp::dev::PolyDriverList& poly) final;
     virtual bool detachAll() final;
-    virtual void run() final;
+    virtual bool run() final;
 
 private:
     std::chrono::nanoseconds m_previousTimestamp;
