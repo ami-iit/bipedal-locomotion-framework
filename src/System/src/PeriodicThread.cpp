@@ -2,6 +2,7 @@
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
+#include <thread>
 
 #ifdef __linux__
 #include <pthread.h>
@@ -64,15 +65,36 @@ void PeriodicThread::threadFunction()
 {
     constexpr auto logPrefix = "[PeriodicThread::threadFunction]";
 
+    m_initializationSuccessful.store(true);
+
     // thread initialization
     if (!threadInit())
     {
-        return;
+        log()->error("{} The thread initialization failed.", logPrefix);
+        m_initializationSuccessful.store(false);
     }
 
     // set the policy
     if (!setPolicy())
     {
+        log()->error("{} The policy and priority cannot be set.", logPrefix);
+        m_initializationSuccessful.store(false);
+    }
+
+    // Notify that initialization is completed (successful or not)
+    {
+        // https://en.cppreference.com/w/cpp/thread/condition_variable:
+        // Even if the shared variable is atomic, it must be modified while owning the mutex to
+        // correctly publish the modification to the waiting thread.
+        std::lock_guard<std::mutex> lock(m_cv_mtx);
+        m_ready.store(true);
+    }
+    m_cv.notify_one();
+
+    // cannot continue if the initialization was not successful
+    if (!m_initializationSuccessful.load())
+    {
+        m_state.store(PeriodicThreadState::STOPPED);
         return;
     }
 
@@ -96,14 +118,34 @@ void PeriodicThread::threadFunction()
 
 bool PeriodicThread::setPolicy()
 {
+    constexpr auto logPrefix = "[PeriodicThread::setPolicy]";
+
 #ifdef __linux__
     // get the current thread native handle
     pthread_t nativeHandle = pthread_self();
     // get the current thread parameters
     sched_param params;
     params.sched_priority = m_priority;
-    // set the new policy
-    return (pthread_setschedparam(nativeHandle, m_policy, &params) == 0);
+    // Set the scheduling policy to SCHED_FIFO and priority
+    int ret = pthread_setschedparam(nativeHandle, SCHED_FIFO, &params);
+    if (ret != 0)
+    {
+        log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
+        if (ret == EPERM)
+        {
+            log()->error("{} The calling thread does not have the appropriate privileges to set "
+                         "the requested scheduling policy and parameters. Try to run the "
+                         "YarpLoggerDevice with 'sudo -E'.",
+                         logPrefix);
+        }
+        return false;
+    } else
+    {
+        log()->info("{} Scheduling policy set to SCHED_FIFO with priority {}",
+                    logPrefix,
+                    params.sched_priority);
+        return true;
+    }
 #else
     return true;
 #endif
@@ -221,6 +263,9 @@ bool PeriodicThread::resume()
 
 bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> barrier)
 {
+
+    std::unique_lock<std::mutex> lock(m_cv_mtx); // lock the mutex for the condition variable
+
     // only an inactive thread can be started
     if (m_state.load() != PeriodicThreadState::INACTIVE)
     {
@@ -236,9 +281,19 @@ bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> b
     // lambda wrapper for the thread function
     auto threadFunctionLambda = [this]() { this->threadFunction(); };
 
+    // start the thread
     m_thread = std::thread(threadFunctionLambda);
 
-    return m_thread.joinable();
+    // check if the thread is joinable
+    if (!m_thread.joinable())
+    {
+        return false;
+    }
+
+    // check if initialization was successful and thread started
+    m_cv.wait(lock, [this] { return m_ready.load(); });
+
+    return m_initializationSuccessful.load();
 };
 
 bool PeriodicThread::isRunning()

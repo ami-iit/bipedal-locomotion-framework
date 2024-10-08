@@ -10,7 +10,9 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <memory>
+#include <mutex>
 #include <thread>
 
 #include <BipedalLocomotion/System/Barrier.h>
@@ -206,6 +208,15 @@ private:
                                              smaller. */
     bool m_earlyWakeUp = false; /**< If true, the thread will be awaken before and busy wait until
                                    the actual wake up time. */
+
+    std::condition_variable m_cv; /**< Condition variable to check for
+                                   * initialization.
+                                   */
+    std::atomic<bool> m_ready = false; /**< Flag to signal that the inizialization task are
+                                          completed. */
+    std::atomic<bool> m_initializationSuccessful = false; /**< Flag to signal the result of
+                                                          initialization */
+    std::mutex m_cv_mtx; /**< Mutex to protect the condition variable. */
 };
 } // namespace System
 } // namespace BipedalLocomotion
