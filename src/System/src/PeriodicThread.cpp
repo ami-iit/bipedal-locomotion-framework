@@ -127,7 +127,7 @@ bool PeriodicThread::setPolicy()
     sched_param params;
     params.sched_priority = m_priority;
     // Set the scheduling policy to SCHED_FIFO and priority
-    int ret = pthread_setschedparam(nativeHandle, SCHED_FIFO, &params);
+    int ret = pthread_setschedparam(nativeHandle, m_policy, &params);
     if (ret != 0)
     {
         log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
@@ -141,9 +141,9 @@ bool PeriodicThread::setPolicy()
         return false;
     } else
     {
-        log()->info("{} Scheduling policy set to SCHED_FIFO with priority {}",
-                    logPrefix,
-                    params.sched_priority);
+        log()->debug("{} Scheduling policy set to SCHED_FIFO with priority {}",
+                     logPrefix,
+                     params.sched_priority);
         return true;
     }
 #else
