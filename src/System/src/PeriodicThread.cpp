@@ -141,8 +141,9 @@ bool PeriodicThread::setPolicy()
         return false;
     } else
     {
-        log()->debug("{} Scheduling policy set to SCHED_FIFO with priority {}",
+        log()->debug("{} Scheduling policy set to {} with priority {}",
                      logPrefix,
+                     m_policy,
                      params.sched_priority);
         return true;
     }
@@ -152,7 +153,7 @@ bool PeriodicThread::setPolicy()
 };
 
 #ifdef __linux__
-bool PeriodicThread::setPolicy(int priority, int policy)
+bool PeriodicThread::setPolicy(int policy, int priority)
 {
     if (m_state.load() != PeriodicThreadState::INACTIVE)
     {
