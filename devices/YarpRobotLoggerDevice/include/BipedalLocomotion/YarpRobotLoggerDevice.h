@@ -174,6 +174,15 @@ private:
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
+    enum class RealTimeSchedulingStrategy
+    {
+        None,
+        EarlyWakeUp,
+        FIFO,
+        EarlyWakeUpAndFIFO,
+    };
+    RealTimeSchedulingStrategy m_RealTimeSchedulingStrategy{RealTimeSchedulingStrategy::None};
+
     void lookForNewLogs();
     void lookForExogenousSignals();
 

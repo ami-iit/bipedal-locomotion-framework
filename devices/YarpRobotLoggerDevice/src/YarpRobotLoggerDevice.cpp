@@ -15,6 +15,9 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#ifdef __linux__
+#include <sched.h>
+#endif
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
@@ -136,6 +139,78 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     if (params->getParameter("sampling_period_in_s", devicePeriod))
     {
         this->setPeriod(std::chrono::nanoseconds(static_cast<int64_t>(devicePeriod)));
+    }
+
+    std::string realTimeSchedulingStrategy{"none"};
+    if (!params->getParameter("real_time_scheduling_strategy", realTimeSchedulingStrategy))
+    {
+        log()->info("{} The 'real_time_scheduling_strategy' parameter is not found. "
+                    "YarpLoggerDevice will run without any real time strategy.",
+                    logPrefix);
+    }
+    if (realTimeSchedulingStrategy == "none")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::None;
+    } else if (realTimeSchedulingStrategy == "early_wakeup")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUp;
+    } else if (realTimeSchedulingStrategy == "fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::FIFO;
+    } else if (realTimeSchedulingStrategy == "early_wakeup_and_fifo")
+    {
+        m_RealTimeSchedulingStrategy = RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO;
+    } else
+    {
+        log()->error("{} The 'real_time_scheduling_strategy' parameter is not valid. Available "
+                     "options are 'none', 'early_wakeup', 'fifo', 'early_wakeup_and_fifo'.",
+                     logPrefix);
+        return false;
+    }
+
+    switch (m_RealTimeSchedulingStrategy)
+    {
+
+    case RealTimeSchedulingStrategy::None:
+        break;
+
+    case RealTimeSchedulingStrategy::EarlyWakeUp:
+        if (!this->enableEarlyWakeUp())
+        {
+            log()->error("{} Failed to enable the early wake up.", logPrefix);
+            return false;
+        }
+        break;
+#ifdef __linux__
+    case RealTimeSchedulingStrategy::FIFO:
+        if (!this->setPolicy(SCHED_FIFO, 80))
+        {
+            log()->error("{} Failed to set the policy to SCHED_FIFO.", logPrefix);
+            return false;
+        }
+        log()->info("{} The FIFO scheduling policy is set.", logPrefix);
+        break;
+    case RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO:
+        if (!this->enableEarlyWakeUp())
+        {
+            log()->error("{} Failed to enable the early wake up.", logPrefix);
+            return false;
+        }
+        if (!this->setPolicy(SCHED_FIFO, 80))
+        {
+            log()->error("{} Failed to set the policy to SCHED_FIFO.", logPrefix);
+            return false;
+        }
+        break;
+#else
+    case RealTimeSchedulingStrategy::FIFO:
+        log()->error("{} The FIFO scheduling policy is not supported on this OS.", logPrefix);
+        return false;
+    case RealTimeSchedulingStrategy::EarlyWakeUpAndFIFO:
+        log()->error("{} The EarlyWakeUpAndFIFO scheduling policy is not supported on this OS.",
+                     logPrefix);
+        return false;
+#endif
     }
 
     if (!params->getParameter("text_logging_subnames", m_textLoggingSubnames))
