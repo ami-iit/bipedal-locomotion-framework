@@ -1,1 +1,2 @@
 add_subdirectory(UnicycleTrajectoryGenerator)
+add_subdirectory(PeriodicThread)

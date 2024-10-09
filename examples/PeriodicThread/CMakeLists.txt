@@ -1,0 +1,5 @@
+add_executable(PeriodicThreadExample main.cpp)
+
+target_link_libraries(PeriodicThreadExample
+BipedalLocomotion::System
+BipedalLocomotion::TextLogging)

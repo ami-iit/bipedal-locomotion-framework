@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
 - Add `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/894)
 - Add the possibility to initialize the base position and the feet pose in the `unicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/887)
+- Add a `Periodic Thread Class` and add options to reduce `YarpLoggerDevice` latency (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 
 ### Changed
 
