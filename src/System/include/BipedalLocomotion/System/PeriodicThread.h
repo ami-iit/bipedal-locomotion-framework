@@ -36,14 +36,21 @@ enum class PeriodicThreadState
 };
 
 /**
- * @brief This class implements a periodic thread. The user has to inherit from this class and
- * implement the virtual methods.
+ * @brief The PeriodicThread class is designed to implement a periodic thread that performs a
+ * specific task at regular intervals. The task is defined by overriding the virtual run method. The
+ * class provides various methods to control the thread's lifecycle, including starting, stopping,
+ * suspending, and resuming the thread. It also allows configuring thread-specific parameters like
+ * priority and scheduling policy (on Linux systems). Additionally, it supports synchronization with
+ * other threads using barriers and can handle early wake-up scenarios to minimize latency.
+ * Finally, the class provides a mechanism to monitor the number of deadline misses, which can be
+ * useful for real-time applications.
  */
 class PeriodicThread
 {
 public:
 #ifdef __linux__
     // Default constructor
+
     PeriodicThread(std::chrono::nanoseconds period = std::chrono::nanoseconds(100000),
                    int maximumNumberOfAcceptedDeadlineMiss = -1,
                    int priority = 0,
@@ -68,7 +75,9 @@ public:
     /**
      * @brief Start the thread.
      * @param barrier barrier to synchronize the thread. If nullptr, the thread will start
-     * immediately, without waiting for other threads to reach the barrier.
+     * immediately, without waiting for other threads to reach the barrier. Instead, if for example
+     * the barrier is creted as std::make_shared<BipedalLocomotion::System::Barrier>(2), the thread
+     * will wait for another thread to reach the barrier before starting.
      * @return true if the thread was correctly started, false otherwise.
      */
     bool start(std::shared_ptr<BipedalLocomotion::System::Barrier> barrier = nullptr);
@@ -93,13 +102,13 @@ public:
      * stopped.
      * @return true if the thread is running, false otherwise.
      */
-    bool isRunning();
+    bool isRunning() const;
 
     /**
      * @brief Check if the thread is initialized.
      * @return true if the thread is initialized, false otherwise.
      */
-    bool isInitialized();
+    bool isInitialized() const;
 
     /**
      * @brief Set the period of the thread.
@@ -108,14 +117,28 @@ public:
      */
     bool setPeriod(std::chrono::nanoseconds period);
 
+    /**
+     * @brief Get the period of the thread.
+     * @return period of the thread.
+     */
+    std::chrono::nanoseconds getPeriod() const;
+
 #ifdef __linux__
     /**
-     * @brief Set the policy of the thread.
+     * @brief Set the policy and priority of the thread before starting it. When starting, the
+     * thread will try to use this policy and priority.
      * @param policy policy of the thread.
      * @param priority priority of the thread.
-     * @return true if the policy was correctly set, false otherwise.
+     * @return true if the policy and priority are correctly set, false otherwise.
      */
     bool setPolicy(int policy, int priority = 0);
+
+    /**
+     * @brief Get the policy and prority of the thread.
+     * @return policy of the thread.
+     */
+    void getPolicy(int& policy, int& priority) const;
+
 #endif
 
     /**
@@ -125,10 +148,16 @@ public:
     bool setMaximumNumberOfAcceptedDeadlineMiss(int maximumNumberOfAcceptedDeadlineMiss);
 
     /**
+     * @brief Get the maximum number of accepted deadline miss.
+     * @return maximum number of accepted deadline miss.
+     */
+    int getMaximumNumberOfAcceptedDeadlineMiss() const;
+
+    /**
      * @brief Get the number of deadline miss.
      * @return number of deadline miss.
      */
-    int getNumberOfDeadlineMiss();
+    int getNumberOfDeadlineMiss() const;
 
     /**
      * @brief Enable the early wake up. The thread will be awaken before and busy wait until the
@@ -136,6 +165,12 @@ public:
      * @return true if the early wake up was correctly set, false otherwise.
      */
     bool enableEarlyWakeUp();
+
+    /**
+     * @brief Check if the early wake up is enabled.
+     * @return true if the early wake up is enabled, false otherwise.
+     */
+    bool isEarlyWakeUpEnabled() const;
 
 protected:
     /**
@@ -153,33 +188,34 @@ protected:
 
 private:
     /**
-     * @brief run the periodic thread.
+     * @brief This is the function being executed by the std::thread.
      */
     void threadFunction();
 
     /**
-     * @brief Advance the thread of one step, calling the user defined run function once.
+     * @brief Advance the thread of one step, calling the virtual run function once.
      */
     void advance();
 
     /**
-     * @brief Synchronize the thread.
+     * @brief Synchronize the thread with other threads with a barrier.
      */
     void synchronize();
 
     /**
-     * @brief Set the policy of the thread.
-     * @return true if the policy was correctly set, false otherwise.
+     * @brief Set the policy and priority of the thread.
+     * @return true if the policy and priority were correctly set, false otherwise.
      */
     bool setPolicy();
 
-    std::chrono::nanoseconds m_period = std::chrono::nanoseconds(100000); /**< Period of the
-                                                                           * thread.
-                                                                           */
+    std::atomic<std::chrono::nanoseconds> m_period = std::chrono::nanoseconds(100000); /**< Period
+                                                                                        * of the
+                                                                                        * thread.
+                                                                                        */
 
-    int m_maximumNumberOfAcceptedDeadlineMiss = -1; /**< Maximum number of accepted deadline
-                                                     * miss.
-                                                     */
+    std::atomic<int> m_maximumNumberOfAcceptedDeadlineMiss = -1; /**< Maximum number of accepted
+                                                                  * deadline miss.
+                                                                  */
 
     std::atomic<int> m_deadlineMiss = 0; /**< Number of deadline miss. */
 
@@ -187,9 +223,9 @@ private:
                                                                           * thread.
                                                                           */
 #ifdef __linux__
-    int m_priority = 0; /**< Priority of the thread. */
+    std::atomic<int> m_priority = 0; /**< Priority of the thread. */
 
-    int m_policy = SCHED_OTHER; /**< Policy of the thread. */
+    std::atomic<int> m_policy = SCHED_OTHER; /**< Policy of the thread. */
 #endif
 
     std::thread m_thread; /**< Thread object. */
@@ -206,17 +242,15 @@ private:
                                              varies depending on the OS. For now we fix it to a
                                              constant value. Note that in real-time OS it might be
                                              smaller. */
-    bool m_earlyWakeUp = false; /**< If true, the thread will be awaken before and busy wait until
-                                   the actual wake up time. */
+    std::atomic<bool> m_earlyWakeUp = false; /**< If true, the thread will be awaken before and busy
+                                   wait until the actual wake up time. */
 
-    std::condition_variable m_cv; /**< Condition variable to check for
-                                   * initialization.
-                                   */
-    std::atomic<bool> m_ready = false; /**< Flag to signal that the inizialization task are
-                                          completed. */
+    std::condition_variable m_cv; /**< Condition variable to check for initialization.*/
+    std::mutex m_cvMutex; /**< Mutex to protect the condition variable. */
+    std::atomic<bool> m_ready = false; /**< Flag to signal that the inizialization tasks of the
+                                          thread are completed. */
     std::atomic<bool> m_initializationSuccessful = false; /**< Flag to signal the result of
                                                           initialization */
-    std::mutex m_cv_mtx; /**< Mutex to protect the condition variable. */
 };
 } // namespace System
 } // namespace BipedalLocomotion

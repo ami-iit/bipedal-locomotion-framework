@@ -86,7 +86,7 @@ void PeriodicThread::threadFunction()
         // https://en.cppreference.com/w/cpp/thread/condition_variable:
         // Even if the shared variable is atomic, it must be modified while owning the mutex to
         // correctly publish the modification to the waiting thread.
-        std::lock_guard<std::mutex> lock(m_cv_mtx);
+        std::lock_guard<std::mutex> lock(m_cvMutex);
         m_ready.store(true);
     }
     m_cv.notify_one();
@@ -125,9 +125,9 @@ bool PeriodicThread::setPolicy()
     pthread_t nativeHandle = pthread_self();
     // get the current thread parameters
     sched_param params;
-    params.sched_priority = m_priority;
+    params.sched_priority = m_priority.load();
     // Set the scheduling policy to SCHED_FIFO and priority
-    int ret = pthread_setschedparam(nativeHandle, m_policy, &params);
+    int ret = pthread_setschedparam(nativeHandle, m_policy.load(), &params);
     if (ret != 0)
     {
         log()->error("{} Failed to set scheduling policy, with error: {}", logPrefix, ret);
@@ -135,7 +135,7 @@ bool PeriodicThread::setPolicy()
         {
             log()->error("{} The calling thread does not have the appropriate privileges to set "
                          "the requested scheduling policy and parameters. Try to run the "
-                         "YarpLoggerDevice with 'sudo -E'.",
+                         "application with 'sudo -E'.",
                          logPrefix);
         }
         return false;
@@ -143,7 +143,7 @@ bool PeriodicThread::setPolicy()
     {
         log()->debug("{} Scheduling policy set to {} with priority {}",
                      logPrefix,
-                     m_policy,
+                     m_policy.load(),
                      params.sched_priority);
         return true;
     }
@@ -161,9 +161,15 @@ bool PeriodicThread::setPolicy(int policy, int priority)
                                         "started. The policy and priority cannot be changed.");
         return false;
     }
-    m_priority = priority;
-    m_policy = policy;
+    m_policy.store(policy);
+    m_priority.store(priority);
     return true;
+};
+
+void PeriodicThread::getPolicy(int& policy, int& priority) const
+{
+    policy = m_policy.load();
+    priority = m_priority.load();
 };
 #endif
 
@@ -179,6 +185,11 @@ bool PeriodicThread::setPeriod(std::chrono::nanoseconds period)
     return true;
 }
 
+std::chrono::nanoseconds PeriodicThread::getPeriod() const
+{
+    return m_period.load();
+}
+
 bool PeriodicThread::setMaximumNumberOfAcceptedDeadlineMiss(int maximumNumberOfAcceptedDeadlineMiss)
 {
     if (m_state.load() != PeriodicThreadState::INACTIVE)
@@ -188,11 +199,16 @@ bool PeriodicThread::setMaximumNumberOfAcceptedDeadlineMiss(int maximumNumberOfA
                                         "accepted deadline miss cannot be changed.");
         return false;
     }
-    m_maximumNumberOfAcceptedDeadlineMiss = maximumNumberOfAcceptedDeadlineMiss;
+    m_maximumNumberOfAcceptedDeadlineMiss.store(maximumNumberOfAcceptedDeadlineMiss);
     return true;
 }
 
-int PeriodicThread::getNumberOfDeadlineMiss()
+int PeriodicThread::getMaximumNumberOfAcceptedDeadlineMiss() const
+{
+    return m_maximumNumberOfAcceptedDeadlineMiss.load();
+}
+
+int PeriodicThread::getNumberOfDeadlineMiss() const
 {
     return m_deadlineMiss.load();
 }
@@ -205,7 +221,7 @@ bool PeriodicThread::enableEarlyWakeUp()
                                         "already started. The early wake up cannot be changed.");
         return false;
     }
-    m_earlyWakeUp = true;
+    m_earlyWakeUp.store(true);
     return true;
 }
 
@@ -265,7 +281,7 @@ bool PeriodicThread::resume()
 bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> barrier)
 {
 
-    std::unique_lock<std::mutex> lock(m_cv_mtx); // lock the mutex for the condition variable
+    std::unique_lock<std::mutex> lock(m_cvMutex); // lock the mutex for the condition variable
 
     // only an inactive thread can be started
     if (m_state.load() != PeriodicThreadState::INACTIVE)
@@ -297,15 +313,20 @@ bool PeriodicThread::start(std::shared_ptr<BipedalLocomotion::System::Barrier> b
     return m_initializationSuccessful.load();
 };
 
-bool PeriodicThread::isRunning()
+bool PeriodicThread::isRunning() const
 {
     return ((m_state.load() != PeriodicThreadState::INACTIVE)
             && (m_state.load() != PeriodicThreadState::STOPPED));
 }
 
-bool PeriodicThread::isInitialized()
+bool PeriodicThread::isInitialized() const
 {
     return (m_state.load() == PeriodicThreadState::INITIALIZED);
+}
+
+bool PeriodicThread::isEarlyWakeUpEnabled() const
+{
+    return (m_earlyWakeUp.load());
 }
 
 void PeriodicThread::advance()
@@ -314,7 +335,7 @@ void PeriodicThread::advance()
     auto now = BipedalLocomotion::clock().now();
 
     // busy wait until wake up time
-    if (m_earlyWakeUp)
+    if (isEarlyWakeUpEnabled())
     {
         while (now < m_wakeUpTime)
         {
@@ -323,7 +344,7 @@ void PeriodicThread::advance()
     }
 
     // get the next wake up time
-    m_wakeUpTime = now + m_period;
+    m_wakeUpTime = now + m_period.load();
 
     // run user overridden function, when not idling
     if (m_state.load() != PeriodicThreadState::IDLE)
@@ -340,9 +361,9 @@ void PeriodicThread::advance()
     if (BipedalLocomotion::clock().now() > m_wakeUpTime)
     {
         m_deadlineMiss.fetch_add(1); // increment the number of deadline miss
-        if (m_maximumNumberOfAcceptedDeadlineMiss > 0)
+        if (m_maximumNumberOfAcceptedDeadlineMiss.load() > 0)
         {
-            if (m_deadlineMiss.load() > m_maximumNumberOfAcceptedDeadlineMiss)
+            if (m_deadlineMiss.load() > m_maximumNumberOfAcceptedDeadlineMiss.load())
             {
                 // we have to close the runner
                 m_state.store(PeriodicThreadState::STOPPED);
@@ -355,7 +376,7 @@ void PeriodicThread::advance()
     BipedalLocomotion::clock().yield();
 
     // wait until the next deadline
-    if (m_earlyWakeUp)
+    if (isEarlyWakeUpEnabled())
     {
         BipedalLocomotion::clock().sleepUntil(m_wakeUpTime - m_schedulerLatency);
     } else

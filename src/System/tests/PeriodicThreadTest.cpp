@@ -173,6 +173,9 @@ TEST_CASE("Test Periodic Thread", "[PeriodicThreadNotAllowed]")
     // try to enable early wake up
     REQUIRE(!thread.enableEarlyWakeUp());
 
+    // check that early wake up has not enabled
+    REQUIRE(!thread.isEarlyWakeUpEnabled());
+
     // stop the thread
     thread.stop();
     BipedalLocomotion::clock().sleepFor(period);
