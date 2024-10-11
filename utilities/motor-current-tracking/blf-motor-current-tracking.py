@@ -514,12 +514,6 @@ def main():
         lower_limits = np.maximum(lower_limits, np.deg2rad(software_lower_limits))
         upper_limits = np.minimum(upper_limits, np.deg2rad(software_upper_limits))
 
-
-    # Modify joint limits to reduce range of motion
-    for idx, joint in enumerate(joints_to_control):
-        if joint == "l_hip_roll" or joint == "r_hip_roll":
-            upper_limits[idx] = np.deg2rad(80)
-
     # Create the sensor bridge
     sensor_bridge = blf.robot_interface.YarpSensorBridge()
     sensor_bridge_handler = param_handler.get_group("SENSOR_BRIDGE")
