@@ -13,12 +13,12 @@
 #include <string>
 #include <unordered_map>
 
-#include <iDynTree/Core/MatrixDynSize.h>
-#include <iDynTree/Core/MatrixFixSize.h>
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
-#include <iDynTree/Core/VectorFixSize.h>
-#include <iDynTree/Core/Wrench.h>
+#include <iDynTree/MatrixDynSize.h>
+#include <iDynTree/MatrixFixSize.h>
+#include <iDynTree/Transform.h>
+#include <iDynTree/Twist.h>
+#include <iDynTree/VectorFixSize.h>
+#include <iDynTree/Wrench.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 

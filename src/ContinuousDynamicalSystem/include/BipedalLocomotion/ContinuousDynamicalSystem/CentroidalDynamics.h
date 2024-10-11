@@ -151,6 +151,13 @@ public:
      * @return true in case of success, false otherwise.
      */
     bool setControlInput(const Input& controlInput);
+
+    /**
+     * Set the gravity vector of the dynamical system.
+     * @param gravity the value of the gravity vector used in the system dynamics.
+     * @return true in case of success, false otherwise.
+     */
+    void setGravityVector(const Eigen::Ref<const Eigen::Vector3d>& gravity);
 };
 } // namespace ContinuousDynamicalSystem
 } // namespace BipedalLocomotion

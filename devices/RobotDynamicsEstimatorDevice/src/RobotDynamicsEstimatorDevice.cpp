@@ -10,8 +10,8 @@
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/yarp/YARPConversions.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/YARPConversions.h>
 #include <yarp/eigen/Eigen.h>
 
 using namespace BipedalLocomotion;

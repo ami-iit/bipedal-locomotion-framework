@@ -13,7 +13,7 @@
 
 #include <Eigen/Dense>
 
-#include <iDynTree/Core/MatrixView.h>
+#include <iDynTree/MatrixView.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>

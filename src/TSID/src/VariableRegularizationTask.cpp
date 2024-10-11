@@ -9,7 +9,7 @@
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::TSID;

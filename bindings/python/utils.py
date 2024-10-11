@@ -66,7 +66,10 @@ def create_tsid(kindyn: idyn.KinDynComputations,
     tuple
         a tuple containing the solver, a dictionary of the tasks and the variables handler
     """
-
+    import warnings
+    warnings.warn("The function is deprecated. It will be removed in the next release. "
+                  "Please use bipedalLocomotion.tsid.QPTSID.build() instead.",
+                  DeprecationWarning)
     solver = blf.tsid.QPTSID()
     tasks = dict()
     variables_handler = blf.system.VariablesHandler()

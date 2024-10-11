@@ -20,12 +20,17 @@ BSD-3-Clause license. -->
   <param name="text_logging_subnames">("ergoCubSN001/yarprobotinterface")</param>
   <param name="code_status_cmd_prefixes">("ssh ergocub@10.0.2.2" "ssh ergocub@10.0.2.3")</param>
 
+  <!-- <group name="REAL_TIME_STREAMING">
+    <param name="remote">"/rtLoggingVectorCollections"</param>
+  </group> -->
+
+
   <group name="Telemetry">
     <param name="save_period">1800.0</param>
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking", "GridTracking","cmw")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking", "GridTracking","cmw", "Balancing", "CurrentControl")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
@@ -43,9 +48,16 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="Balancing">
-      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing_position_controller"</param>
-      <param name="remote">"/balancing_position_controller/logger"</param>
+      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing_torque_controller"</param>
+      <param name="remote">"/balancing_torque_controller/logger"</param>
       <param name="signal_name">"balancing"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="CurrentControl">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/current_control_trajectory"</param>
+      <param name="remote">"/motor_current_tracking/logger"</param>
+      <param name="signal_name">"current_control"</param>
       <param name="carrier">"udp"</param>
     </group>
 
@@ -96,15 +108,14 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="CartesianWrenches">
-      <!-- <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client", "left_arm_wrench_client", "right_arm_wrench_client")</param> -->
-      <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client")</param>
+      <param name="cartesian_wrenches_list">("left_front_wrench_client", "left_rear_wrench_client", "right_front_wrench_client", "right_rear_wrench_client", "left_arm_wrench_client", "right_arm_wrench_client", "left_leg_wrench_client", "right_leg_wrench_client")</param>
     </group>
 
     <group name="InertialSensors">
-      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)</param>
-      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)</param>
-      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)</param>
-      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)</param>
+      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
+      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
+      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
+      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
     </group>
 
   </group>
@@ -117,8 +128,10 @@ BSD-3-Clause license. -->
       <elem name="left_rear_wrench_client">left_rear_wrench_client</elem>
       <elem name="right_front_wrench_client">right_front_wrench_client</elem>
       <elem name="right_rear_wrench_client">right_rear_wrench_client</elem>
-      <!--elem name="right_arm_wrench_client">right_arm_wrench_client</elem>
-      <elem name="left_arm_wrench_client">left_arm_wrench_client</elem-->
+      <elem name="right_leg_wrench_client">right_leg_wrench_client</elem>
+      <elem name="left_leg_wrench_client">left_leg_wrench_client</elem>
+      <elem name="right_arm_wrench_client">right_arm_wrench_client</elem>
+      <elem name="left_arm_wrench_client">left_arm_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
       <!-- <elem name="realsense">realsense</elem> -->
       <elem name="jabra">jabra</elem>

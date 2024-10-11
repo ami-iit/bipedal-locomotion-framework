@@ -53,10 +53,6 @@
 #include <BipedalLocomotion/bindings/Planners/Module.h>
 @endcmakeiftarget BipedalLocomotion::Planners
 
-@cmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
-#include <BipedalLocomotion/bindings/Planners/UnicycleModule.h>
-@endcmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
-
 @cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
 @endcmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
@@ -168,10 +164,6 @@ PYBIND11_MODULE(bindings, m)
     py::module plannersModule = m.def_submodule("planners");
     bindings::Planners::CreateModule(plannersModule);
     @endcmakeiftarget BipedalLocomotion::Planners
-
-    @cmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
-    bindings::Planners::CreateUnicycleModule(plannersModule);
-    @endcmakeiftarget BipedalLocomotion::Planners && BipedalLocomotion::Unicycle
 
     @cmakeiftarget BipedalLocomotion::RobotInterface && BipedalLocomotion::RobotInterfaceYarpImplementation
     py::module robotInterfaceModule = m.def_submodule("robot_interface");

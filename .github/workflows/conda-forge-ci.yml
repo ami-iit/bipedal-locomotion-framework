@@ -10,6 +10,11 @@ on:
   # Execute a "nightly" build at 2 AM UTC
   - cron:  '0 2 * * *'
 
+# Workaround for https://github.com/conda-forge/mumps-feedstock/issues/125
+# and https://github.com/conda-forge/mumps-feedstock/pull/126#issuecomment-2355357834
+env:
+  OMP_NUM_THREADS: 1
+
 jobs:
   build:
     name: '[${{ matrix.os }}@${{ matrix.build_type }}@conda]'
@@ -21,11 +26,11 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        miniforge-variant: Mambaforge
+        miniforge-variant: Miniforge3
         miniforge-version: latest
         channels: conda-forge,robostack-staging
         channel-priority: true
@@ -36,42 +41,40 @@ jobs:
         # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
         conda config --remove channels defaults
         # Dependencies
-        mamba install cmake compilers make ninja pkg-config \
-                      "idyntree>=8.0.0" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
+        conda install cmake compilers make ninja pkg-config \
+                      "idyntree>=12.2.1" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad spdlog \
                       nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl \
                       tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
-                      ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib
+                      ros-humble-rclcpp onnxruntime-cpp libbayes-filters-lib cmake-package-check catch2
 
     - name: Linux-only Dependencies [Linux]
       if: contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
-        mamba install manifpy expat-cos6-x86_64 libselinux-cos6-x86_64 libxau-cos6-x86_64 libxcb-cos6-x86_64 \
-                      libxdamage-cos6-x86_64 libxext-cos6-x86_64 libxfixes-cos6-x86_64 \
-                      libxxf86vm-cos6-x86_64 mesalib mesa-libgl-cos6-x86_64 \
-                      mesa-libgl-devel-cos6-x86_64
+        conda install manifpy mesa-libgl-devel-cos7-x86_64
 
     - name: Windows-only Dependencies [Windows]
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
-        # Compilation related dependencies
-        mamba install vs2019_win-64
+        conda install vs2019_win-64
 
-    - name: Remove icub-models and pcl [Windows]
+    - name: Windows-workarounds [Windows]
       if: contains(matrix.os, 'windows')
-      shell: bash -l {0}
+      shell: cmd /C CALL {0}
       run: |
-        # Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
-        # pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
-        # pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
-        mamba remove icub-models pcl
+        :: Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
+        :: pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
+        :: pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
+        :: pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
+        conda install "pybind11<2.12.0"
+        conda remove icub-models pcl
 
     - name: Print used environment
       shell: bash -l {0}
       run: |
-        mamba list
+        conda list
         env
 
     - name: Configure [Linux&macOS]
@@ -80,8 +83,8 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF \
-              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Linux&macOS]
       if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
@@ -103,7 +106,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
       if: contains(matrix.os, 'windows')
@@ -118,3 +121,10 @@ jobs:
       run: |
         cd build
         ctest --output-on-failure -C ${{ matrix.build_type }}
+
+    - name: Install and test installed package
+      shell: bash -l {0}
+      run: |
+        cd build
+        cmake --install . --config ${{ matrix.build_type }}
+        cmake-package-check BipedalLocomotionFramework --targets BipedalLocomotion::Framework

@@ -33,8 +33,8 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/ModelTestUtils.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -320,30 +320,32 @@ inline std::string customInt2string(int i)
     return ss.str();
 }
 
-// Workaround for https://github.com/ami-iit/bipedal-locomotion-framework/issues/799
-inline iDynTree::Model customGetRandomModelWithNoPrismaticJoints(unsigned int nrOfJoints, size_t nrOfAdditionalFrames = 10, bool onlyRevoluteJoints=false)
+// Workaround for https://github.com/ami-iit/bipedal-locomotion-framework/issues/799 and
+// https://github.com/robotology/idyntree/pull/1171
+inline iDynTree::Model customGetRandomModelWithNoPrismaticJoints(unsigned int nrOfJoints,
+                                                                 size_t nrOfAdditionalFrames = 10,
+                                                                 bool onlyRevoluteJoints = false)
 {
     iDynTree::Model model;
 
     model.addLink("baseLink", iDynTree::getRandomLink());
 
-    for(unsigned int i=0; i < nrOfJoints; i++)
+    for (unsigned int i = 0; i < nrOfJoints; i++)
     {
         std::string parentLink = iDynTree::getRandomLinkOfModel(model);
         std::string linkName = "link" + customInt2string(i);
-        iDynTree::addRandomLinkToModel(model,parentLink,linkName,onlyRevoluteJoints);
+        iDynTree::addRandomLinkToModel(model, parentLink, linkName, onlyRevoluteJoints);
     }
 
-    for(unsigned int i=0; i < nrOfAdditionalFrames; i++)
+    for (unsigned int i = 0; i < nrOfAdditionalFrames; i++)
     {
         std::string parentLink = iDynTree::getRandomLinkOfModel(model);
         std::string frameName = "additionalFrame" + customInt2string(i);
-        iDynTree::addRandomAdditionalFrameToModel(model,parentLink,frameName);
+        iDynTree::addRandomAdditionalFrameToModel(model, parentLink, frameName);
     }
 
     return model;
 }
-
 
 TEST_CASE("QP-IK")
 {
@@ -365,7 +367,10 @@ TEST_CASE("QP-IK")
             // create the model
             size_t nrOfAdditionalFrames = 10;
             bool onlyRevoluteJoints = true;
-            const iDynTree::Model model = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,nrOfAdditionalFrames,onlyRevoluteJoints);
+            const iDynTree::Model model
+                = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,
+                                                            nrOfAdditionalFrames,
+                                                            onlyRevoluteJoints);
             REQUIRE(kinDyn->loadRobotModel(model));
 
             const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);
@@ -499,7 +504,11 @@ TEST_CASE("QP-IK [With strict limits]")
     constexpr std::size_t numberOfJoints = 30;
 
     // create the model
-    const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+    size_t nrOfAdditionalFrames = 10;
+    bool onlyRevoluteJoints = true;
+    const iDynTree::Model model = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,
+                                                                            nrOfAdditionalFrames,
+                                                                            onlyRevoluteJoints);
     REQUIRE(kinDyn->loadRobotModel(model));
 
     const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);
@@ -629,7 +638,11 @@ TEST_CASE("QP-IK [With builder]")
     constexpr std::size_t numberOfJoints = 30;
 
     // create the model
-    const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+    size_t nrOfAdditionalFrames = 10;
+    bool onlyRevoluteJoints = true;
+    const iDynTree::Model model = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,
+                                                                            nrOfAdditionalFrames,
+                                                                            onlyRevoluteJoints);
     REQUIRE(kinDyn->loadRobotModel(model));
 
     // VariableHandler and IK params
@@ -782,7 +795,11 @@ TEST_CASE("QP-IK [Distance and Gravity tasks]")
     constexpr std::size_t numberOfJoints = 30;
 
     // create the model
-    const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+    size_t nrOfAdditionalFrames = 10;
+    bool onlyRevoluteJoints = true;
+    const iDynTree::Model model = customGetRandomModelWithNoPrismaticJoints(numberOfJoints,
+                                                                            nrOfAdditionalFrames,
+                                                                            onlyRevoluteJoints);
     REQUIRE(kinDyn->loadRobotModel(model));
 
     const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);

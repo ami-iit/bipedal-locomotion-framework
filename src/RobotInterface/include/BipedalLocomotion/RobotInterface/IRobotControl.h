@@ -8,7 +8,10 @@
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_IROBOT_CONTROL_H
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_IROBOT_CONTROL_H
 
+#include <future>
 #include <memory>
+#include <optional>
+#include <vector>
 
 #include <Eigen/Dense>
 
@@ -64,24 +67,30 @@ public:
      */
     virtual bool checkMotionDone(bool& motionDone,
                                  bool& isTimerExpired,
-                                 std::vector<std::pair<std::string, double>>& info) = 0;
+                                 std::vector<std::pair<std::string, double>>& info)
+        = 0;
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlModes vector containing the control mode for each joint.
+     * @param currentJointValues current joint values.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
      * expressed in Nm.
      */
-    virtual bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                               const std::vector<IRobotControl::ControlMode>& controlModes) = 0;
+    virtual bool
+    setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                  const std::vector<IRobotControl::ControlMode>& controlModes,
+                  std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {})
+        = 0;
 
     /**
      * Set the desired reference.
-     * @param jointValues desired joint values.
+     * @param desiredJointValues desired joint values.
      * @param controlMode a control mode for all the joints.
+     * @param currentJointValues current joint values.
      * @return True/False in case of success/failure.
      * @note In case of position control the values has to be expressed in rad, in case of velocity
      * control in rad/s. If the robot is controlled in torques, the desired joint values are
@@ -90,8 +99,11 @@ public:
      * Otherwise call setReferences(Eigen::Ref<const Eigen::VectorXd>, const
      * std::vector<IRobotControl::ControlMode>&).
      */
-    virtual bool setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                               const IRobotControl::ControlMode& controlMode) = 0;
+    virtual bool
+    setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                  const IRobotControl::ControlMode& controlMode,
+                  std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues = {})
+        = 0;
 
     /**
      * Set the control mode.
@@ -110,10 +122,39 @@ public:
     virtual bool setControlMode(const IRobotControl::ControlMode& mode) = 0;
 
     /**
+     * Set the control mode in an asynchronous thread.
+     * @param controlModes vector containing the control mode for each joint.
+     * @return An std::future object to a boolean True/False in case of success/failure.
+     * @warning At the current stage only revolute joints are supported.
+     * Since this function spawns a new thread, the invoking thread is not blocked.
+     */
+    virtual std::future<bool>
+    setControlModeAsync(const std::vector<IRobotControl::ControlMode>& controlModes) = 0;
+
+    /**
+     * Set the desired control mode in an asynchronous thread.
+     * @param controlMode a control mode for all the joints.
+     * @return An std::future object to a boolean True/False in case of success/failure.
+     * @warning Call this function if you want to control all the joint with the same control mode.
+     * Since this function spawns a new thread, the invoking thread is not blocked.
+     */
+    virtual std::future<bool> setControlModeAsync(const IRobotControl::ControlMode& mode) = 0;
+
+    /**
      * Get the list of the controlled joints
      * @return A vector containing the name of the controlled joints.
      */
     virtual std::vector<std::string> getJointList() const = 0;
+
+    /**
+     * Get the actuated joints limits.
+     * @param lowerLimits vector to be filled with the lower limits of the actuated joints.
+     * @param upperLimits vector to be filled with the upper limits of the actuated joints.
+     * @return True/False in case of success/failure.
+     */
+    virtual bool getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
+                                Eigen::Ref<Eigen::VectorXd> upperLimits) const
+        = 0;
 
     /**
      * Check if the class is valid.
@@ -126,7 +167,6 @@ public:
      * Destructor.
      */
     virtual ~IRobotControl() = default;
-
 };
 } // namespace RobotInterface
 } // namespace BipedalLocomotion

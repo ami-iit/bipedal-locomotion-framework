@@ -15,8 +15,8 @@
 
 // iDynTree
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/Model.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelLoader.h>
 
 // BLF
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>

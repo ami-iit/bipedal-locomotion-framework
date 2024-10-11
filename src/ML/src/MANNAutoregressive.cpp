@@ -16,7 +16,7 @@
 #include <BipedalLocomotion/Math/Constants.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model.h>
 #include <manif/SE3.h>
 
 using namespace BipedalLocomotion::ML;

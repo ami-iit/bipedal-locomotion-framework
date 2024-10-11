@@ -7,6 +7,7 @@ BSD-3-Clause license. -->
   <param name="robot">icubSim</param>
   <param name="sampling_period_in_s">0.01</param>
   <param name="port_prefix">/yarp-robot-logger</param>
+  <param name="maximum_admissible_time_step">1.0</param>
 
   <group name="Telemetry">
     <param name="save_period">600.0</param>

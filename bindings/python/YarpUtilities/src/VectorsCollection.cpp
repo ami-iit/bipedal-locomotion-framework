@@ -5,10 +5,11 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/eigen.h>
 
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <BipedalLocomotion/bindings/YarpUtilities/BufferedPort.h>
@@ -46,6 +47,74 @@ void CreateVectorsCollectionServer(pybind11::module& module)
              })
         .def("prepare_data", &VectorsCollectionServer::prepareData);
 }
+
+void CreateVectorsCollectionClient(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionClient>(module, "VectorsCollectionClient")
+        .def(py::init())
+        .def(
+            "initialize",
+            [](VectorsCollectionClient& impl,
+               std::shared_ptr<const ::BipedalLocomotion::ParametersHandler::IParametersHandler>
+                   handler) -> bool { return impl.initialize(handler); },
+            py::arg("handler"))
+        .def("connect", &VectorsCollectionClient::connect)
+        .def("disconnect", &VectorsCollectionClient::disconnect)
+        .def("get_metadata",
+             [](VectorsCollectionClient& impl)
+                 -> BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata {
+                 BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+                 if (impl.getMetadata(metadata) == false)
+                 {
+                     throw ::pybind11::value_error("Impossible to retrieve the metadata.");
+                 }
+                 return metadata;
+             })
+        .def("read_data",
+             [](VectorsCollectionClient& impl,
+                bool shouldWait) -> BipedalLocomotion::YarpUtilities::VectorsCollection {
+                 VectorsCollection* collectionPtr = impl.readData(shouldWait);
+                 if (collectionPtr == nullptr)
+                 {
+                     // Return an empty collection
+                     VectorsCollection collection;
+                     return collection;
+                 }
+                 VectorsCollection collection = *collectionPtr;
+                 return collection;
+             });
+}
+
+void CreateVectorsCollectionMetadata(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollectionMetadata>(module, "VectorsCollectionMetadata")
+        .def(py::init())
+        .def(py::init<const std::map<std::string, std::vector<std::string>>&>())
+        .def("to_string", &VectorsCollectionMetadata::toString)
+        .def_readwrite("vectors", &VectorsCollectionMetadata::vectors);
+}
+
+void CreateVectorsCollection(pybind11::module& module)
+{
+    namespace py = ::pybind11;
+
+    using namespace ::BipedalLocomotion::YarpUtilities;
+
+    py::class_<VectorsCollection>(module, "VectorsCollection")
+        .def(py::init())
+        .def(py::init<const std::map<std::string, std::vector<double>>&>())
+        .def("to_string", &VectorsCollection::toString)
+        .def_readwrite("vectors", &VectorsCollection::vectors);
+}
+
 } // namespace YarpUtilities
 } // namespace bindings
 } // namespace BipedalLocomotion

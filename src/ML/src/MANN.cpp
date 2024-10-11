@@ -202,9 +202,32 @@ bool MANN::initialize(
     std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
                                                              networkModelPath.end());
 
-    m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
-                                                      networkModelPathAsOrtString.c_str(),
-                                                      Ort::SessionOptions{nullptr});
+    // As explained in https://onnxruntime.ai/docs/performance/tune-performance/threading.html,
+    // onnxruntime uses intra-op parallelism to speed up the inference. The number of threads can be
+    // set by the user. The default value is the number of available cores on the machine.
+    int numberOfIntraThreads{0};
+    if (!ptr->getParameter("number_of_threads", numberOfIntraThreads))
+    {
+        log()->info("{} The number of threads has not been set. The default value will be used. "
+                    "The model will use the number of available cores. Please check "
+                    "https://onnxruntime.ai/docs/performance/tune-performance/threading.html for "
+                    "more information.",
+                    logPrefix);
+    }
+
+    if (numberOfIntraThreads > 0)
+    {
+        Ort::SessionOptions sessionOptions;
+        sessionOptions.SetIntraOpNumThreads(numberOfIntraThreads);
+        m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
+                                                          networkModelPathAsOrtString.c_str(),
+                                                          sessionOptions);
+    } else
+    {
+        m_pimpl->session = std::make_unique<Ort::Session>(m_pimpl->env,
+                                                          networkModelPathAsOrtString.c_str(),
+                                                          Ort::SessionOptions{nullptr});
+    }
 
     if (m_pimpl->session == nullptr)
     {

@@ -12,7 +12,7 @@
 #include <tuple>
 #include <type_traits>
 
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h>
 #include <BipedalLocomotion/GenericContainer/NamedTuple.h>

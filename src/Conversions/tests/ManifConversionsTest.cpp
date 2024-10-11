@@ -10,7 +10,7 @@
 
 #include <BipedalLocomotion/Conversions/CommonConversions.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 TEST_CASE("Manif Conversions")
 {
@@ -32,4 +32,8 @@ TEST_CASE("Manif Conversions")
 
     manif::SE3d pose2 = BipedalLocomotion::Conversions::toManifPose(R, pos);
     REQUIRE(pose2.transform().isApprox(iDynTree::toEigen(iDynH.asHomogeneousTransform())));
+
+    manif::SO3d rot = quat;
+    iDynTree::Rotation idynRot = BipedalLocomotion::Conversions::toiDynTreeRot(rot);
+    REQUIRE(iDynTree::toEigen(idynRot).isApprox(R, tolerance));
 }

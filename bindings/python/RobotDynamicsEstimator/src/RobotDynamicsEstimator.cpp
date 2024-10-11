@@ -9,7 +9,7 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model.h>
 
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>

@@ -8,9 +8,9 @@
 #ifndef BIPEDAL_LOCOMOTION_MANIF_CONVERSIONS_H
 #define BIPEDAL_LOCOMOTION_MANIF_CONVERSIONS_H
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Core/Transform.h>
-#include <iDynTree/Core/Twist.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Transform.h>
+#include <iDynTree/Twist.h>
 
 #include <manif/manif.h>
 
@@ -121,6 +121,17 @@ inline manif::SE3Tangentd toManifTwist(const iDynTree::Twist& twist)
 inline iDynTree::Transform toiDynTreePose(const manif::SE3d& se3)
 {
     return iDynTree::Transform(iDynTree::make_matrix_view(se3.transform()));
+}
+
+/**
+ * @brief Convert a manif SO3 object into and iDynTree::Rotation
+ *
+ * @param so3 a manif SO3 object
+ * @return rotation as iDynTree::Rotation
+ */
+inline iDynTree::Rotation toiDynTreeRot(const manif::SO3d& so3)
+{
+    return iDynTree::Rotation(iDynTree::make_matrix_view(so3.rotation()));
 }
 
 } // namespace Conversions

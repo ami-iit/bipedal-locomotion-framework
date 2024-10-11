@@ -14,8 +14,8 @@
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TSID/SE3Task.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/ModelTestUtils.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;

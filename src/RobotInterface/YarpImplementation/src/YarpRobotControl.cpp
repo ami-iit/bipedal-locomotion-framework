@@ -6,10 +6,12 @@
  */
 
 #include <cmath>
+#include <future>
 #include <thread>
 #include <unordered_map>
 
 #include <yarp/dev/IAxisInfo.h>
+#include <yarp/dev/IControlLimits.h>
 #include <yarp/dev/IControlMode.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IEncodersTimed.h>
@@ -19,9 +21,9 @@
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/IVelocityControl.h>
 #include <yarp/dev/PolyDriver.h>
-#include <yarp/os/Time.h>
 
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
+#include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::RobotInterface;
@@ -55,6 +57,7 @@ struct YarpRobotControl::Impl
     yarp::dev::ICurrentControl* currentInterface{nullptr}; /**< Current control interface. */
     yarp::dev::IControlMode* controlModeInterface{nullptr}; /**< Control mode interface. */
     yarp::dev::IAxisInfo* axisInfoInterface{nullptr}; /**< Axis info interface. */
+    yarp::dev::IControlLimits* controlLimitsInterface{nullptr}; /**< Control limits interface. */
 
     std::size_t actuatedDOFs; /**< Number of the actuated DoFs. */
 
@@ -63,7 +66,8 @@ struct YarpRobotControl::Impl
     std::vector<IRobotControl::ControlMode> controlModes; /**< Vector containing the map between the
                                                              joint and the current control mode */
     std::vector<yarp::conf::vocab32_t> controlModesYarp; /**< Vector containing the map between the
-                                                             joint and the current yarp control mode */
+                                                             joint and the current yarp control mode
+                                                          */
 
     std::vector<std::string> axesName; /**< List containing the mapping between the joints index and
                                           the their name */
@@ -74,10 +78,12 @@ struct YarpRobotControl::Impl
     std::vector<double> positionControlRefSpeeds; /**< Vector containing the ref speed in
                                                      deg/seconds for the position control joints. */
 
-    double positioningDuration{0.0}; /**< Duration of the trajectory generated when the joint is
-                                        controlled in position mode */
-    double startPositionControlInstant{0.0}; /**< Initial time instant of the trajectory generated
-                                                when the joint is controlled in position mode */
+    std::chrono::nanoseconds positioningDuration{0}; /**< Duration of the trajectory generated when
+                                                        the joint is controlled in position mode */
+    std::chrono::nanoseconds startPositionControlInstant{0}; /**< Initial time instant of the
+                                                                  trajectory generated when the
+                                                                  joint is controlled in position
+                                                                  mode */
     double positioningTolerance{0.0}; /**< Max Admissible error for position control joint [rad] */
     double positionDirectMaxAdmissibleError{0.0}; /**< Max admissible error for position direct
                                                      control joint [rad] */
@@ -217,9 +223,9 @@ struct YarpRobotControl::Impl
         }
 
         // resize the desired joint value vector associated to each control mode
-        for (const auto& [mode, indeces] : this->desiredJointValuesAndMode.index)
+        for (const auto& [mode, indices] : this->desiredJointValuesAndMode.index)
         {
-            this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
+            this->desiredJointValuesAndMode.value[mode].resize(indices.size());
         }
 
         // resize the position control reference speed vector
@@ -325,6 +331,12 @@ struct YarpRobotControl::Impl
             return false;
         }
 
+        if (!robotDevice->view(controlLimitsInterface) || controlLimitsInterface == nullptr)
+        {
+            log()->error("{} Cannot load the IControlMode interface.", errorPrefix);
+            return false;
+        }
+
         // get the number of degree of freedom
         int dofs = 0;
         if (!encodersInterface->getAxes(&dofs))
@@ -370,9 +382,9 @@ struct YarpRobotControl::Impl
         }
 
         // resize the desired joint value vector associated to each control mode
-        for (const auto& [mode, indeces] : this->desiredJointValuesAndMode.index)
+        for (const auto& [mode, indices] : this->desiredJointValuesAndMode.index)
         {
-            this->desiredJointValuesAndMode.value[mode].resize(indeces.size());
+            this->desiredJointValuesAndMode.value[mode].resize(indices.size());
         }
 
         // resize the reference speed for the position control mode
@@ -387,8 +399,9 @@ struct YarpRobotControl::Impl
      * Return the the worst position error for the joint controlled in position direct.
      * The first value is the index while the second is the error in radians.
      */
-    std::pair<int, double> getWorstPositionDirectError(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                                                       Eigen::Ref<const Eigen::VectorXd> jointPositions) const
+    std::pair<int, double>
+    getWorstPositionDirectError(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+                                Eigen::Ref<const Eigen::VectorXd> jointPositions) const
     {
         // clear the std::pair
         std::pair<int, double> worstError{0, 0.0};
@@ -461,44 +474,85 @@ struct YarpRobotControl::Impl
         return nullptr;
     }
 
-    bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues)
+    bool setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
+                       std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues)
     {
         constexpr auto errorPrefix = "[YarpRobotControl::Impl::setReferences]";
 
-        if(!this->getJointPos())
+        // the following checks are performed only if the robot is controlled in position direct or
+        // in position mode
+        if (!this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].empty()
+            || !this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::PositionDirect]
+                    .empty())
         {
-            log()->error("{} Unable to get the joint position.", errorPrefix);
-            return  false;
+
+            if (jointValues.size() != this->actuatedDOFs)
+            {
+                log()->error("{} The size of the joint values is different from the number of "
+                             "actuated DoFs. Expected size: {}. Received size: {}.",
+                             errorPrefix,
+                             this->actuatedDOFs,
+                             jointValues.size());
+                return false;
+            }
+
+            if (currentJointValues.has_value())
+            {
+                if (currentJointValues->size() != this->actuatedDOFs)
+                {
+                    log()->error("{} The size of the current joint values is different from the "
+                                 "number of actuated DoFs. Expected size: {}. Received size: {}.",
+                                 errorPrefix,
+                                 this->actuatedDOFs,
+                                 currentJointValues->size());
+                    return false;
+                }
+                this->positionFeedback = currentJointValues.value();
+            } else
+            {
+                if (!this->getJointPos())
+                {
+                    log()->error("{} Unable to get the joint position.", errorPrefix);
+                    return false;
+                }
+            }
+
+            const auto worstError = this->getWorstPositionDirectError(jointValues, //
+                                                                      this->positionFeedback);
+
+            if (worstError.second > this->positionDirectMaxAdmissibleError)
+            {
+                log()->error("{} The worst error between the current and the desired position of "
+                             "the "
+                             "joint named '{}' is greater than {} deg. Error = {} deg.",
+                             errorPrefix,
+                             this->axesName[worstError.first],
+                             180 / M_PI * this->positionDirectMaxAdmissibleError,
+                             180 / M_PI * worstError.second);
+                return false;
+            }
         }
 
-        const auto worstError = this->getWorstPositionDirectError(jointValues,
-                                                                  this->positionFeedback);
-
-        if (worstError.second > this->positionDirectMaxAdmissibleError)
+        for (const auto& [mode, indices] : this->desiredJointValuesAndMode.index)
         {
-            log()->error("{} The worst error between the current and the desired position of the "
-                         "joint named '{}' is greater than {} deg. Error = {} deg.",
-                         errorPrefix,
-                         this->axesName[worstError.first],
-                         180 / M_PI * this->positionDirectMaxAdmissibleError,
-                         180 / M_PI * worstError.second);
-            return false;
-        }
-
-        for (const auto& [mode, indeces] : this->desiredJointValuesAndMode.index)
-        {
-            // if indeces vector is empty no joint is controlled with this specific control mode
-            if (indeces.empty())
+            // if indices vector is empty no joint is controlled with this specific control mode
+            if (indices.empty())
+            {
                 continue;
+            }
 
             if (mode == IRobotControl::ControlMode::Idle)
+            {
                 continue;
+            }
 
             else if (mode == IRobotControl::ControlMode::Unknown)
             {
                 std::string joints = "";
-                for (const auto& index : indeces)
+                for (const auto& index : indices)
+                {
                     joints += " '" + this->axesName[index] + "'";
+                }
 
                 log()->error("{} The following joints does not have a specified control "
                              "mode:{}. Please set a feasible control mode.",
@@ -508,20 +562,22 @@ struct YarpRobotControl::Impl
 
             } else if (mode == IRobotControl::ControlMode::Position)
             {
-                for (int i = 0; i < indeces.size(); i++)
+                const double positioningDurationSeconds
+                    = std::chrono::duration<double>(this->positioningDuration).count();
+                for (int i = 0; i < indices.size(); i++)
                 {
-                    const auto jointError = std::abs(jointValues[indeces[i]]
-                                                     - this->positionFeedback[indeces[i]]);
+                    const auto jointError
+                        = std::abs(jointValues[indices[i]] - this->positionFeedback[indices[i]]);
 
                     constexpr double scaling = 180 / M_PI;
                     constexpr double minVelocityInDegPerSeconds = 3.0;
                     this->positionControlRefSpeeds[i]
                         = std::max(minVelocityInDegPerSeconds,
-                                   scaling * (jointError / this->positioningDuration));
+                                   scaling * (jointError / positioningDurationSeconds));
                 }
 
-                if (!this->positionInterface->setRefSpeeds(indeces.size(),
-                                                           indeces.data(),
+                if (!this->positionInterface->setRefSpeeds(indices.size(),
+                                                           indices.data(),
                                                            this->positionControlRefSpeeds.data()))
                 {
                     log()->error("{} Unable to set the reference speed for the position control "
@@ -530,22 +586,27 @@ struct YarpRobotControl::Impl
                     return false;
                 }
 
-                this->startPositionControlInstant = yarp::os::Time::now();
+                this->startPositionControlInstant = BipedalLocomotion::clock().now();
             }
 
             // Yarp wants the quantities in degrees
             double scaling = 180 / M_PI;
-            // if the control mode is torque or PWM it is not required to change the unit of
+            // if the control mode is torque or PWM current it is not required to change the unit of
             // measurement
-            if (mode == ControlMode::Torque || mode == ControlMode::PWM
+            if (mode == ControlMode::Torque //
+                || mode == ControlMode::PWM //
                 || mode == ControlMode::Current)
+            {
                 scaling = 1;
+            }
 
-            for (int i = 0; i < indeces.size(); i++)
-                this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indeces[i]];
+            for (int i = 0; i < indices.size(); i++)
+            {
+                this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
+            }
 
-            if (!this->control(mode)(indeces.size(),
-                                     indeces.data(),
+            if (!this->control(mode)(indices.size(),
+                                     indices.data(),
                                      this->desiredJointValuesAndMode.value[mode].data()))
 
             {
@@ -554,6 +615,18 @@ struct YarpRobotControl::Impl
             }
         }
         return true;
+    }
+
+    bool checkControlMode(const std::vector<IRobotControl::ControlMode>& controlModes) const
+    {
+        return controlModes == this->controlModes;
+    }
+
+    bool checkControlMode(const IRobotControl::ControlMode& mode) const
+    {
+        return std::all_of(this->controlModes.begin(),
+                           this->controlModes.end(),
+                           [&mode](const auto& m) { return m == mode; });
     }
 };
 
@@ -610,12 +683,14 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
     }
 
     // mandatory parameters
+    using namespace std::chrono_literals;
     bool ok = ptr->getParameter("positioning_duration", m_pimpl->positioningDuration)
-              && (m_pimpl->positioningDuration > 0);
+              && (m_pimpl->positioningDuration > 0s);
     ok = ok && ptr->getParameter("positioning_tolerance", m_pimpl->positioningTolerance)
          && (m_pimpl->positioningTolerance > 0);
-    ok = ok && ptr->getParameter("position_direct_max_admissible_error",
-                                 m_pimpl->positionDirectMaxAdmissibleError)
+    ok = ok
+         && ptr->getParameter("position_direct_max_admissible_error",
+                              m_pimpl->positionDirectMaxAdmissibleError)
          && (m_pimpl->positionDirectMaxAdmissibleError > 0);
 
     return ok;
@@ -623,58 +698,71 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
 
 bool YarpRobotControl::setControlMode(const std::vector<IRobotControl::ControlMode>& controlModes)
 {
-    if (controlModes != m_pimpl->controlModes)
+    if (!m_pimpl->setControlModes(controlModes))
     {
-        m_pimpl->controlModes = controlModes;
-        if (!m_pimpl->setControlModes(m_pimpl->controlModes))
-        {
-            log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
-            return false;
-        }
+        log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
+        return false;
     }
+
+    // if the control mode is set for all the joints, we can store it
+    m_pimpl->controlModes = controlModes;
 
     return true;
 }
 
 bool YarpRobotControl::setControlMode(const IRobotControl::ControlMode& mode)
 {
-    // check if all the joints are controlled in the desired control mode
-    if (!std::all_of(m_pimpl->controlModes.begin(),
-                     m_pimpl->controlModes.end(),
-                     [&mode](const auto& m) { return m == mode; }))
-    {
-        std::fill(m_pimpl->controlModes.begin(), m_pimpl->controlModes.end(), mode);
-        if (!m_pimpl->setControlModes(m_pimpl->controlModes))
-        {
-            log()->error("[YarpRobotControl::setControlMode] Unable to set the control modes.");
-            return false;
-        }
-    }
-    return true;
+    // create a vector containing the same control mode for all the joints
+    const std::vector<IRobotControl::ControlMode> controlModes(m_pimpl->actuatedDOFs, mode);
+    return this->setControlMode(controlModes);
 }
 
-bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> jointValues,
-                                     const std::vector<IRobotControl::ControlMode>& controlModes)
+std::future<bool>
+YarpRobotControl::setControlModeAsync(const std::vector<IRobotControl::ControlMode>& controlModes)
 {
-   if (!this->setControlMode(controlModes))
-   {
-       log()->error("[YarpRobotControl::setReferences] Unable to set the control modes.");
-       return false;
-   }
+    // lambda function to set the control mode
+    auto setControlMode
+        = [this, controlModes]() -> bool { return this->setControlMode(controlModes); };
 
-   return m_pimpl->setReferences(jointValues);
+    return std::async(std::launch::async, setControlMode);
 }
 
-bool YarpRobotControl::setReferences(Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
-                                     const IRobotControl::ControlMode& mode)
+std::future<bool> YarpRobotControl::setControlModeAsync(const IRobotControl::ControlMode& mode)
 {
-    if (!this->setControlMode(mode))
+    // lambda function to set the control mode
+    auto setControlMode = [this, mode]() -> bool { return this->setControlMode(mode); };
+
+    return std::async(std::launch::async, setControlMode);
+}
+
+bool YarpRobotControl::setReferences(
+    Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+    const std::vector<IRobotControl::ControlMode>& controlModes,
+    std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues)
+{
+    if (!m_pimpl->checkControlMode(controlModes))
     {
-        log()->error("[YarpRobotControl::setReferences] Unable to set the control mode.");
+        log()->error("[YarpRobotControl::setReferences] Control modes are not the expected one. "
+                     "Please call setControlMode before calling this function.");
         return false;
     }
 
-    return m_pimpl->setReferences(desiredJointValues);
+    return m_pimpl->setReferences(desiredJointValues, currentJointValues);
+}
+
+bool YarpRobotControl::setReferences(
+    Eigen::Ref<const Eigen::VectorXd> desiredJointValues,
+    const IRobotControl::ControlMode& mode,
+    std::optional<Eigen::Ref<const Eigen::VectorXd>> currentJointValues)
+{
+    if (!m_pimpl->checkControlMode(mode))
+    {
+        log()->error("[YarpRobotControl::setReferences] Control mode is not the expected one. "
+                     "Please call setControlMode before calling this function.");
+        return false;
+    }
+
+    return m_pimpl->setReferences(desiredJointValues, currentJointValues);
 }
 
 bool YarpRobotControl::checkMotionDone(bool& motionDone,
@@ -716,8 +804,9 @@ bool YarpRobotControl::checkMotionDone(bool& motionDone,
         }
     }
 
-    const double now = yarp::os::Time::now();
-    constexpr double timeTolerance = 1.0;
+    using namespace std::chrono_literals;
+    const std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
+    constexpr std::chrono::nanoseconds timeTolerance{1s};
     if (now - m_pimpl->startPositionControlInstant > m_pimpl->positioningDuration + timeTolerance)
     {
         isTimeExpired = true;
@@ -738,4 +827,37 @@ std::vector<std::string> YarpRobotControl::getJointList() const
 bool YarpRobotControl::isValid() const
 {
     return m_pimpl->robotDevice != nullptr;
+}
+
+bool YarpRobotControl::getJointLimits(Eigen::Ref<Eigen::VectorXd> lowerLimits,
+                                      Eigen::Ref<Eigen::VectorXd> upperLimits) const
+{
+
+    constexpr auto errorPrefix = "[YarpRobotControl::getJointLimits]";
+
+    if (lowerLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the first input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     lowerLimits.size());
+        return false;
+    }
+
+    if (upperLimits.size() != m_pimpl->actuatedDOFs)
+    {
+        log()->error("{} The size of the second input vector is not "
+                     "correct. Expected size: {}. Received size: {}.",
+                     errorPrefix,
+                     m_pimpl->actuatedDOFs,
+                     upperLimits.size());
+        return false;
+    }
+
+    for (int i = 0; i < m_pimpl->actuatedDOFs; i++)
+    {
+        m_pimpl->controlLimitsInterface->getLimits(i, &lowerLimits[i], &upperLimits[i]);
+    }
+    return true;
 }

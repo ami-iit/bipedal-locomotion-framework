@@ -475,7 +475,9 @@ def main():
 
         # send the joint pose
         if not robot_control.set_references(
-            desired_joint_positions, blf.robot_interface.YarpRobotControl.PositionDirect
+            desired_joint_positions,
+            blf.robot_interface.YarpRobotControl.PositionDirect,
+            joint_positions,
         ):
             raise RuntimeError("Unable to set the references")
 
@@ -487,9 +489,7 @@ def main():
         com_from_desired = kindyn.getCenterOfMassPosition().toNumPy()
         com_from_measured = kindyn_with_measured.getCenterOfMassPosition().toNumPy()
 
-        if not vectors_collection_server.prepare_data():
-            raise RuntimeError("Unable to prepare the data")
-
+        vectors_collection_server.prepare_data()
         vectors_collection_server.clear_data()
 
         vectors_collection_server.populate_data("zmp::desired_planner", desired_zmp)

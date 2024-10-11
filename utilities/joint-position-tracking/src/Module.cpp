@@ -10,9 +10,9 @@
 #include <iomanip>
 
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
+#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
-#include <BipedalLocomotion/RobotInterface/YarpHelper.h>
 
 #include <Eigen/Dense>
 
@@ -32,18 +32,18 @@ double Module::getPeriod()
 
 bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHandler> handler)
 {
+    constexpr auto logPrefix = "[Module::createPolydriver]";
     auto ptr = handler->getGroup("ROBOT_INTERFACE").lock();
     if (ptr == nullptr)
     {
-        std::cerr << "[Module::createPolydriver] Robot interface options is empty." << std::endl;
+        log()->error("{} Unable to find the group ROBOT_INTERFACE.", logPrefix);
         return false;
     }
     ptr->setParameter("local_prefix", this->getName());
     m_controlBoard = RobotInterface::constructRemoteControlBoardRemapper(ptr);
     if (!m_controlBoard.isValid())
     {
-        std::cerr << "[Module::createPolydriver] the robot polydriver has not been constructed."
-                  << std::endl;
+        log()->error("{} Unable to create the polydriver.", logPrefix);
         return false;
     }
 
@@ -52,14 +52,16 @@ bool Module::createPolydriver(std::shared_ptr<ParametersHandler::IParametersHand
     yarp::dev::IEncoders* axis;
     m_controlBoard.poly->view(axis);
     if (axis != nullptr)
+    {
         axis->getAxes(&controlBoardDOFs);
+    }
 
     if (controlBoardDOFs != 1)
     {
-        std::cerr << "[Module::createPolydriver] The current implementation can be used to control "
-                     "only one joint. Please be sure that the size of the joint_list and "
-                     "remote_control_boards is equal to one."
-                  << std::endl;
+        log()->error("{} The current implementation can be used to control only one joint. "
+                     "Please be sure that the size of the joint_list and remote_control_boards is "
+                     "equal to one.",
+                     logPrefix);
         return false;
     }
 
@@ -70,16 +72,12 @@ bool Module::initializeRobotControl(std::shared_ptr<ParametersHandler::IParamete
 {
     if (!m_robotControl.initialize(handler->getGroup("ROBOT_CONTROL")))
     {
-        std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
-                     "control board"
-                  << std::endl;
+        log()->error("[Module::initializeRobotControl] Unable to initialize the control board");
         return false;
     }
     if (!m_robotControl.setDriver(m_controlBoard.poly))
     {
-        std::cerr << "[Module::initializeRobotControl] Unable to initialize the "
-                     "control board"
-                  << std::endl;
+        log()->error("[Module::initializeRobotControl] Unable to set the driver");
         return false;
     }
 
@@ -90,8 +88,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
 {
     if (!m_sensorBridge.initialize(handler->getGroup("SENSOR_BRIDGE")))
     {
-        std::cerr << "[Module::initializeSensorBridge] Unable to initialize the sensor bridge"
-                  << std::endl;
+        log()->error("[Module::initializeSensorBridge] Unable to initialize the sensor bridge");
         return false;
     }
 
@@ -99,7 +96,7 @@ bool Module::instantiateSensorBridge(std::shared_ptr<ParametersHandler::IParamet
     list.push(m_controlBoard.poly.get(), m_controlBoard.key.c_str());
     if (!m_sensorBridge.setDriversList(list))
     {
-        std::cerr << "[Module::initializeSensorBridge] Unable to set the driver list" << std::endl;
+        log()->error("[Module::initializeSensorBridge] Unable to set the driver list");
         return false;
     }
 
@@ -113,28 +110,43 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
     auto parametersHandler = std::make_shared<ParametersHandler::YarpImplementation>(rf);
 
     std::string name;
-    if(!parametersHandler->getParameter("name", name))
+    if (!parametersHandler->getParameter("name", name))
+    {
+        log()->error("[Module::configure] Unable to find the parameter 'name'.");
         return false;
+    }
     this->setName(name.c_str());
 
-    if(!parametersHandler->getParameter("sampling_time", m_dT))
+    if (!parametersHandler->getParameter("sampling_time", m_dT))
+    {
+        log()->error("[Module::configure] Unable to find the parameter 'sampling_time'.");
         return false;
+    }
 
     double maxValue = 0;
-    if(!parametersHandler->getParameter("max_angle_deg", maxValue))
+    if (!parametersHandler->getParameter("max_angle_deg", maxValue))
+    {
+        log()->error("[Module::configure] Unable to find the parameter 'max_angle_deg'.");
         return false;
+    }
 
     maxValue *= M_PI / 180;
 
     double minValue = 0;
-    if(!parametersHandler->getParameter("min_angle_deg", minValue))
+    if (!parametersHandler->getParameter("min_angle_deg", minValue))
+    {
+        log()->error("[Module::configure] Unable to find the parameter 'min_angle_deg'.");
         return false;
+    }
 
     minValue *= M_PI / 180;
 
     double trajectoryDuration = 5;
-    if(!parametersHandler->getParameter("trajectory_duration", trajectoryDuration))
+    if (!parametersHandler->getParameter("trajectory_duration", trajectoryDuration))
+    {
+        log()->error("[Module::configure] Unable to find the parameter 'trajectory_duration'.");
         return false;
+    }
 
     this->createPolydriver(parametersHandler);
     this->initializeRobotControl(parametersHandler);
@@ -156,7 +168,7 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     if (!m_sensorBridge.advance())
     {
-        std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
+        log()->error("[Module::configure] Unable to read the sensor.");
         return false;
     }
     m_sensorBridge.getJointPositions(m_currentJointPos);
@@ -172,7 +184,14 @@ bool Module::configure(yarp::os::ResourceFinder& rf)
 
     m_initTrajectoryTime = yarp::os::Time::now();
 
-    std::cout << "[Module::configure] Starting the experiment." << std::endl;
+    // switch in position direct control
+    if (!m_robotControl.setControlMode(RobotInterface::IRobotControl::ControlMode::PositionDirect))
+    {
+        log()->error("[Module::configure] Unable to switch in position direct control.");
+        return false;
+    }
+
+    log()->info("[Module::configure] Module configured.");
 
     return true;
 }
@@ -183,7 +202,9 @@ bool Module::generateNewTrajectory()
 
     // the trajectory is ended
     if (std::next(m_currentSetPoint, 1) == m_setPoints.end())
+    {
         return false;
+    }
 
     std::advance(m_currentSetPoint, 1);
     double endTrajectory = *m_currentSetPoint;
@@ -200,23 +221,38 @@ bool Module::generateNewTrajectory()
 
 bool Module::updateModule()
 {
+    constexpr auto logPrefix = "[Module::updateModule]";
+
     if (!m_sensorBridge.advance())
     {
-        std::cerr << "[Module::updateModule] Unable to read the sensor." << std::endl;
+        log()->error("{} Unable to read the sensor.", logPrefix);
         return false;
     }
 
-    m_sensorBridge.getJointPositions(m_currentJointPos);
+    if (!m_sensorBridge.getJointPositions(m_currentJointPos))
+    {
+        log()->error("{} Unable to get the joint position.", logPrefix);
+        return false;
+    }
 
     // set the reference
-    m_robotControl.setReferences(m_spline.getOutput().position,
-                                 RobotInterface::IRobotControl::ControlMode::PositionDirect);
+    if (!m_robotControl.setReferences(m_spline.getOutput().position,
+                                      RobotInterface::IRobotControl::ControlMode::PositionDirect,
+                                      m_currentJointPos))
+    {
+        log()->error("{} Unable to set the reference.", logPrefix);
+        return false;
+    }
 
     m_logJointPos.push_back(m_currentJointPos[0]);
     m_logDesiredJointPos.push_back(m_spline.getOutput().position[0]);
 
     // advance the spline
-    m_spline.advance();
+    if (!m_spline.advance())
+    {
+        log()->error("{} Unable to advance the spline.", logPrefix);
+        return false;
+    }
 
     const double now = yarp::os::Time::now();
     if (now - m_initTrajectoryTime > std::chrono::duration<double>(m_timeKnots.back()).count() + 2)
@@ -235,7 +271,7 @@ bool Module::updateModule()
 
 bool Module::close()
 {
-    std::cout << "[Module::close] I'm storing the dataset." << std::endl;
+    log()->info("[Module::close] Storing the dataset.");
 
     // set the file name
     std::time_t t = std::time(nullptr);
@@ -256,11 +292,14 @@ bool Module::close()
 
     stream.close();
 
-    std::cout << "[Module::close] Dataset stored. Closing." << std::endl;
+    log()->info("[Module::close] Dataset stored in {}", fileName.str());
 
     // switch back in position control
-    m_robotControl.setReferences(m_spline.getOutput().position,
-                                 RobotInterface::IRobotControl::ControlMode::Position);
+    if (!m_robotControl.setControlMode(RobotInterface::IRobotControl::ControlMode::Position))
+    {
+        log()->error("[Module::close] Unable to switch back in position control.");
+        return false;
+    }
 
     return true;
 }

@@ -9,7 +9,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 // std
-#include <iDynTree/Core/Transform.h>
+#include <iDynTree/Transform.h>
 #include <memory>
 #include <random>
 
@@ -28,8 +28,8 @@
 #include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/ModelTestUtils.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/ModelTestUtils.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -39,7 +39,7 @@ using namespace BipedalLocomotion::Conversions;
 using namespace std::chrono_literals;
 
 constexpr auto robotVelocity = "robotVelocity";
-constexpr std::chrono::nanoseconds dT = 5ms;
+constexpr std::chrono::nanoseconds dT = 10ms;
 
 struct InverseKinematicsAndTasks
 {
@@ -62,7 +62,7 @@ struct System
 
 std::shared_ptr<IParametersHandler> createParameterHandler()
 {
-    constexpr double gain = 0.5;
+    constexpr double gain = 20.0;
 
     auto parameterHandler = std::make_shared<StdImplementation>();
     parameterHandler->setParameter("robot_velocity_variable_name", robotVelocity);
@@ -109,7 +109,6 @@ InverseKinematicsAndTasks createIK(std::shared_ptr<IParametersHandler> handler,
     REQUIRE(out.ik->addTask(out.se3Task, "se3_task", highPriority));
 
     out.regularizationTask = std::make_shared<JointTrackingTask>();
-
 
     REQUIRE(out.regularizationTask->setKinDyn(kinDyn));
     REQUIRE(out.regularizationTask->initialize(handler->getGroup("REGULARIZATION_TASK")));
@@ -189,14 +188,17 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
     Eigen::VectorXd jointPositions(kinDyn->getNrOfDegreesOfFreedom());
     Eigen::Vector3d gravity;
 
-    REQUIRE(kinDyn->getRobotState(basePose, jointPositions, baseVelocity, jointVelocities, gravity));
+    REQUIRE(kinDyn->getRobotState(basePose, //
+                                  jointPositions,
+                                  baseVelocity,
+                                  jointVelocities,
+                                  gravity));
 
     // perturb the joint position
     for (int i = 0; i < kinDyn->getNrOfDegreesOfFreedom(); i++)
     {
         jointPositions[i] += distribution(generator);
     }
-
 
     out.dynamics = std::make_shared<FloatingBaseSystemKinematics>();
     out.dynamics->setState({basePose.topRightCorner<3, 1>(),
@@ -226,7 +228,11 @@ TEST_CASE("QP-IK")
         DYNAMIC_SECTION("Model with " << numberOfJoints << " joints")
         {
             // create the model
-            const iDynTree::Model model = iDynTree::getRandomModel(numberOfJoints);
+            constexpr std::size_t nrOfAdditionalFrames = 10;
+            constexpr bool onlyRevoluteJoints = true;
+            const iDynTree::Model model = iDynTree::getRandomChain(numberOfJoints,
+                                                                   nrOfAdditionalFrames,
+                                                                   onlyRevoluteJoints);
             REQUIRE(kinDyn->loadRobotModel(model));
 
             const auto desiredSetPoints = getDesiredReference(kinDyn, numberOfJoints);
@@ -251,7 +257,7 @@ TEST_CASE("QP-IK")
             REQUIRE(ikAndTasks.regularizationTask->setSetPoint(desiredSetPoints.joints));
 
             // propagate the inverse kinematics for
-            constexpr std::size_t iterations = 10;
+            constexpr std::size_t iterations = 20;
             Eigen::Vector3d gravity;
             gravity << 0, 0, -9.81;
             Eigen::Matrix4d baseTransform = Eigen::Matrix4d::Identity();

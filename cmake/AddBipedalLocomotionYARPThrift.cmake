@@ -33,7 +33,7 @@ function(add_bipedal_locomotion_yarp_thrift)
 
   add_library(${name} ${AUTOGENERATE_SRC} ${AUTOGENERATE_HDR})
 
-  target_link_libraries(${name} PUBLIC YARP::YARP_OS)
+  target_link_libraries(${name} PUBLIC YARP::YARP_os)
 
   add_library(BipedalLocomotion::${name} ALIAS ${name})
 
@@ -57,7 +57,7 @@ function(add_bipedal_locomotion_yarp_thrift)
       PUBLIC_HEADER    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}"       COMPONENT dev
       PRIVATE_HEADER   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/BipedalLocomotion/${installation_folder}/impl"  COMPONENT dev)
 
-    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_TARGETS ${name})
+    set_property(GLOBAL APPEND PROPERTY BipedalLocomotionFramework_INSTALLED_TARGETS ${name})
 
     message(STATUS "Created target ${name} for export ${PROJECT_NAME}.")
 

@@ -18,7 +18,7 @@
 #include <yarp/os/Value.h>
 #include <yarp/sig/Vector.h>
 
-#include <iDynTree/Core/VectorDynSize.h>
+#include <iDynTree/VectorDynSize.h>
 
 namespace BipedalLocomotion
 {

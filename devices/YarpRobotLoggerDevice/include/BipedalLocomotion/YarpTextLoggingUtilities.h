@@ -6,8 +6,8 @@
 #ifndef BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_YARP_TEXT_LOGGING_UTILITIES_H
 #define BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_YARP_TEXT_LOGGING_UTILITIES_H
 
-#include <string>
 #include <cstdint>
+#include <string>
 
 #include <yarp/os/Bottle.h>
 
@@ -56,6 +56,5 @@ struct TextLoggingEntry
 };
 
 } // namespace BipedalLocomotion
-
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_YARP_ROBOT_LOGGER_DEVICE_YARP_TEXT_LOGGING_UTILITIES_H

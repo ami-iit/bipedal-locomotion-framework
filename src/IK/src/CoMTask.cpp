@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/IK/CoMTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -73,11 +73,10 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     std::string maskDescription = "";
     auto boolToString = [](bool b) { return b ? " true" : " false"; };
-    for(const auto flag : m_mask)
+    for (const auto flag : m_mask)
     {
         maskDescription += boolToString(flag);
     }
-
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -113,6 +112,16 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
+    // the following parameters are optional
+    if (!ptr->getParameter("use_exogenous_feedback", m_useExogenousFeedback))
+    {
+        log()->info("{} [{}] Unable to find the 'use_exogenous_feedback' parameter. "
+                    "The default value is used: {}.",
+                    errorPrefix,
+                    m_description,
+                    m_useExogenousFeedback);
+    }
+
     // set the gains for the controllers
     double kpLinearScalar;
     Eigen::Vector3d kpLinearVector;
@@ -137,8 +146,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                     errorPrefix,
                     m_description,
                     maskDescription);
-    }
-    else
+    } else
     {
         // convert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
@@ -147,7 +155,7 @@ bool CoMTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
         // Update the mask description
         maskDescription.clear();
-        for(const auto flag : m_mask)
+        for (const auto flag : m_mask)
         {
             maskDescription += boolToString(flag);
         }
@@ -168,8 +176,10 @@ bool CoMTask::update()
     m_isValid = false;
 
     // set the state
-    m_R3Controller.setState(toEigen(m_kinDyn->getCenterOfMassPosition()));
-
+    if (!m_useExogenousFeedback)
+    {
+        m_R3Controller.setState(toEigen(m_kinDyn->getCenterOfMassPosition()));
+    }
     // update the controller
     m_R3Controller.computeControlLaw();
 
@@ -234,4 +244,15 @@ CoMTask::Type CoMTask::type() const
 bool CoMTask::isValid() const
 {
     return m_isValid;
+}
+
+bool CoMTask::setFeedback(Eigen::Ref<const Eigen::Vector3d> feedback)
+{
+    bool ok = true;
+    if (m_useExogenousFeedback)
+    {
+        ok = ok && m_R3Controller.setState(feedback);
+    }
+
+    return ok;
 }

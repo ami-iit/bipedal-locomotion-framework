@@ -10,8 +10,8 @@
 
 #include <Eigen/Dense>
 
-#include <iDynTree/Core/Rotation.h>
-#include <iDynTree/Core/Transform.h>
+#include <iDynTree/Rotation.h>
+#include <iDynTree/Transform.h>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/bindings/type_caster/swig.h>

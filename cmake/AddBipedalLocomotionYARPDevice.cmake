@@ -52,12 +52,14 @@ function(add_bipedal_yarp_device)
     target_link_libraries(${name} PUBLIC ${public_link_libraries})
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
     target_compile_features(${name} PUBLIC cxx_std_17)
+    target_compile_definitions(${name} PRIVATE -D_USE_MATH_DEFINES)
+
 
     # Specify include directories for both compilation and installation process.
     # The $<INSTALL_PREFIX> generator expression is useful to ensure to create
     # relocatable configuration files, see https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-relocatable-packages
     target_include_directories(${name} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-      "<INSTALLINTERFACE:<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
+      "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
 
     # Specify installation targets, typology and destination folders.
     yarp_install(TARGETS ${name}
@@ -73,3 +75,4 @@ function(add_bipedal_yarp_device)
   endif()
 
 endfunction()
+

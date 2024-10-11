@@ -15,7 +15,7 @@ To use the logger, launch the `yarprobotinterface` with the `launch-yarp-robot-l
 ```console
 yarprobotinterface --config launch-yarp-robot-logger.xml
 ```
-When you close the yarprobotinterface, the logger will save the logged data in a mat file. Additionally, a md file will contain information about the software version in the robot setup. If video recording is enabled, a mp4 file with the video recording will also be generated.
+When you close the yarprobotinterface, the logger will save the logged data in a mat file. Additionally, a md file will contain information about the software version in the robot setup. If video recording is enabled, a mp4 file with the video recording will also be generated. All these files will be saved in the working directory in which `yarprobotinterface` has been launched.
 
 ## How to log exogenous data
 The `YarpRobotLoggerDevice` can also log exogenous data, i.e., data not directly provided by the robot sensors and actuators. To do this:
@@ -106,8 +106,9 @@ class Module:
 The `vectors_collection_server` helps you to handle the data you want to send and to populate the metadata. To use this functionality, call `BipedalLocomotion.yarp_utilities.VectorsCollectionServer.populate_metadata` during the configuration phase. Once you have finished populating the metadata you should call `BipedalLocomotion.yarp_utilities.VectorsCollectionServer.finalize_metadata`
 ```python
 #This code should go into the configuration phase
-logger_option = blf.parameters_handler.YarpImplementation(rf)
-if not self.vectors_collection_server.initialize(logger_option.get_group("LOGGER")):
+logger_option = blf.parameters_handler.StdParametersHandler()
+logger_option.set_parameter_string("remote", "/test/log")
+if not self.vectors_collection_server.initialize(logger_option):
     blf.log().error("[BalancingController::configure] Unable to configure the server.")
     raise RuntimeError("Unable to configure the server.")
 

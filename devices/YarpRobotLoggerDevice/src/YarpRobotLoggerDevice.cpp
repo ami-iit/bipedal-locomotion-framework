@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -28,6 +27,8 @@
 #include <BipedalLocomotion/YarpTextLoggingUtilities.h>
 #include <BipedalLocomotion/YarpUtilities/Helper.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+
+#include <Eigen/Core>
 
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
@@ -103,6 +104,8 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
     // the logging message are streamed using yarp
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
+
+    m_sendDataRT = false;
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
@@ -115,14 +118,33 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice()
     // the logging message are streamed using yarp
     BipedalLocomotion::TextLogging::LoggerBuilder::setFactory(
         std::make_shared<BipedalLocomotion::TextLogging::YarpLoggerFactory>());
+
+    m_sendDataRT = false;
 }
 
 YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
+    auto rtParameters = params->getGroup("REAL_TIME_STREAMING").lock();
+    m_sendDataRT = rtParameters != nullptr;
+    if (m_sendDataRT)
+    {
+        if (!m_vectorCollectionRTDataServer.initialize(rtParameters))
+        {
+            log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
+            return false;
+        }
+        std::string remote;
+        rtParameters->getParameter("remote", remote);
+        log()->info("{} Activating Real Time Logging on yarp port: {}", logPrefix, remote);
+    } else
+    {
+        log()->info("{} Real time logging not activated", logPrefix);
+    }
 
     double devicePeriod{0.01};
     if (params->getParameter("sampling_period_in_s", devicePeriod))
@@ -142,6 +164,14 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will be "
                     "added to commands.",
                     logPrefix);
+    }
+
+    if (!params->getParameter("maximum_admissible_time_step", m_acceptableStep))
+    {
+        log()->info("{} Unable to get the 'maximum_admissible_time_step' parameter. The time "
+                    "step will be set to the default value. Default value: {}",
+                    logPrefix,
+                    m_acceptableStep);
     }
 
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
@@ -389,7 +419,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     for (const auto& input : inputs)
     {
         auto group = ptr->getGroup(input).lock();
-        std::string signalName, remote;
+        std::string signalFullName, remote;
         if (group == nullptr)
         {
             log()->error("{} Unable to get the group named {}.", logPrefix, input);
@@ -404,7 +434,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        if (!group->getParameter("signal_name", signalName))
+        if (!group->getParameter("signal_name", signalFullName))
         {
             log()->error("{} Unable to get the signal_name parameter for the group named {}.",
                          logPrefix,
@@ -412,13 +442,13 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        m_vectorsCollectionSignals[remote].signalName = signalName;
+        m_vectorsCollectionSignals[remote].signalName = signalFullName;
         if (!m_vectorsCollectionSignals[remote].client.initialize(group))
         {
             log()->error("{} Unable to initialize the vectors collection signal for the group "
                          "named {}.",
                          logPrefix,
-                         signalName);
+                         signalFullName);
             return false;
         }
     }
@@ -432,10 +462,10 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     for (const auto& input : inputs)
     {
         auto group = ptr->getGroup(input).lock();
-        std::string local, signalName, remote, carrier;
+        std::string local, signalFullName, remote, carrier;
         if (group == nullptr || !group->getParameter("local", local)
             || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
-            || !group->getParameter("signal_name", signalName))
+            || !group->getParameter("signal_name", signalFullName))
         {
             log()->error("{} Unable to get the parameters related to the input: {}.",
                          logPrefix,
@@ -443,7 +473,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
             return false;
         }
 
-        m_vectorSignals[remote].signalName = signalName;
+        m_vectorSignals[remote].signalName = signalFullName;
         m_vectorSignals[remote].remote = remote;
         m_vectorSignals[remote].local = local;
         m_vectorSignals[remote].carrier = carrier;
@@ -529,6 +559,17 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
                     logPrefix);
     }
 
+    if (!ptr->getParameter("stream_joint_accelerations", m_streamJointAccelerations))
+    {
+        log()->info("{} The 'stream_joint_accelerations' parameter is not found. Set to true by "
+                    "default",
+                    logPrefix);
+    }
+    if (!m_streamJointAccelerations)
+    {
+        log()->info("{} The joint accelerations is not logged", logPrefix);
+    }
+
     if (!ptr->getParameter("stream_motor_states", m_streamMotorStates))
     {
         log()->info("{} The 'stream_motor_states' parameter is not found. The motor states is not "
@@ -605,9 +646,72 @@ bool YarpRobotLoggerDevice::setupRobotCameraBridge(
     return true;
 }
 
+bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
+                                       std::size_t vectorSize,
+                                       const std::vector<std::string>& metadataNames)
+{
+    if (metadataNames.empty() || vectorSize != metadataNames.size())
+    {
+        log()->warn("The metadata names are empty or the size of the metadata names is different "
+                    "from the vector size. The default metadata will be used.");
+        if (!m_bufferManager.addChannel({nameKey, {vectorSize, 1}}))
+        {
+            log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
+            return false;
+        }
+    } else
+    {
+        if (!m_bufferManager.addChannel({nameKey, {metadataNames.size(), 1}, metadataNames}))
+        {
+            log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
+            return false;
+        }
+    }
+    if (m_sendDataRT)
+    {
+        std::string rtNameKey = robotRtRootName + treeDelim + nameKey;
+
+        // if the metadata names are empty then the default metadata will be used
+        if (!metadataNames.empty())
+        {
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames))
+            {
+                log()->error("[Realtime logging] Failed to populate the metadata for the signal {}",
+                             rtNameKey);
+                return false;
+            }
+
+        } else
+        {
+            std::vector<std::string> defaultMetadata;
+            for (std::size_t i = 0; i < vectorSize; i++)
+            {
+                defaultMetadata.push_back("element_" + std::to_string(i));
+            }
+
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, defaultMetadata))
+            {
+                log()->error("[Realtime logging] Failed to populate the metadata for the signal {}",
+                             rtNameKey);
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
+
+    bool ok = true;
+    // open the TextLogging port
+    ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
+    // run the thread
+    m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
+
+    // run the thread for reading the exogenous signals
+    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
 
     if (!m_robotSensorBridge->setDriversList(poly))
     {
@@ -639,43 +743,54 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
     const unsigned dofs = joints.size();
     m_bufferManager.setDescriptionList(joints);
+    if (m_sendDataRT)
+    {
+        char* tmp = std::getenv("YARP_ROBOT_NAME");
+        std::string metadataName = robotRtRootName + treeDelim + robotName;
+        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
 
-    bool ok = true;
+        metadataName = robotRtRootName + treeDelim + timestampsName;
+        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
+
+        std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+    }
 
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && m_bufferManager.addChannel({"joints_state::positions", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"joints_state::velocities", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"joints_state::accelerations", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"joints_state::torques", {dofs, 1}, joints});
+        ok = ok && addChannel(jointStatePositionsName, joints.size(), joints);
+        ok = ok && addChannel(jointStateVelocitiesName, joints.size(), joints);
+        if (m_streamJointAccelerations)
+        {
+            ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+        }
+        ok = ok && addChannel(jointStateTorquesName, joints.size(), joints);
     }
     if (m_streamMotorStates)
     {
-        ok = ok && m_bufferManager.addChannel({"motors_state::positions", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"motors_state::velocities", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"motors_state::accelerations", {dofs, 1}, joints});
-        ok = ok && m_bufferManager.addChannel({"motors_state::currents", {dofs, 1}, joints});
+        ok = ok && addChannel(motorStatePositionsName, joints.size(), joints);
+        ok = ok && addChannel(motorStateVelocitiesName, joints.size(), joints);
+        ok = ok && addChannel(motorStateAccelerationsName, joints.size(), joints);
+        ok = ok && addChannel(motorStateCurrentsName, joints.size(), joints);
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && m_bufferManager.addChannel({"motors_state::PWM", {dofs, 1}, joints});
+        ok = ok && addChannel(motorStatePwmName, joints.size(), joints);
     }
 
     if (m_streamPIDs)
     {
-        ok = ok && m_bufferManager.addChannel({"PIDs", {dofs, 1}, joints});
+        ok = ok && addChannel(motorStatePidsName, joints.size(), joints);
     }
 
     if (m_streamFTSensors)
     {
         for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
         {
-            ok = ok
-                 && m_bufferManager.addChannel({"FTs::" + sensorName,
-                                                {6, 1}, //
-                                                {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"}});
+            std::string fullFTSensorName = ftsName + treeDelim + sensorName;
+            ok = ok && addChannel(fullFTSensorName, ftElementNames.size(), ftElementNames);
         }
     }
 
@@ -683,60 +798,65 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     {
         for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
         {
-            ok = ok
-                 && m_bufferManager.addChannel({"gyros::" + sensorName,
-                                                {3, 1}, //
-                                                {"omega_x", "omega_y", "omega_z"}});
+            std::string fullGyroSensorName = gyrosName + treeDelim + sensorName;
+            ok = ok && addChannel(fullGyroSensorName, gyroElementNames.size(), gyroElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
+            std::string fullAccelerometerSensorName = accelerometersName + treeDelim + sensorName;
             ok = ok
-                 && m_bufferManager.addChannel({"accelerometers::" + sensorName,
-                                                {3, 1}, //
-                                                {"a_x", "a_y", "a_z"}});
+                 && addChannel(fullAccelerometerSensorName,
+                               accelerometerElementNames.size(), //
+                               accelerometerElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
+            std::string fullOrientationsSensorName = orientationsName + treeDelim + sensorName;
             ok = ok
-                 && m_bufferManager.addChannel({"orientations::" + sensorName,
-                                                {3, 1}, //
-                                                {"r", "p", "y"}});
+                 && addChannel(fullOrientationsSensorName,
+                               orientationElementNames.size(), //
+                               orientationElementNames);
         }
 
         for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
+            std::string fullMagnetometersSensorName = magnetometersName + treeDelim + sensorName;
             ok = ok
-                 && m_bufferManager.addChannel({"magnetometers::" + sensorName,
-                                                {3, 1}, //
-                                                {"mag_x", "mag_y", "mag_z"}});
+                 && addChannel(fullMagnetometersSensorName,
+                               magnetometerElementNames.size(), //
+                               magnetometerElementNames);
         }
 
         // an IMU contains a gyro accelerometer and an orientation sensor
         for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
         {
+            std::string fullAccelerometerSensorName = accelerometersName + treeDelim + sensorName;
+            std::string fullGyroSensorName = gyrosName + treeDelim + sensorName;
+            std::string fullOrientationsSensorName = orientationsName + treeDelim + sensorName;
             ok = ok
-                 && m_bufferManager.addChannel({"accelerometers::" + sensorName,
-                                                {3, 1}, //
-                                                {"a_x", "a_y", "a_z"}})
-                 && m_bufferManager.addChannel({"gyros::" + sensorName,
-                                                {3, 1}, //
-                                                {"omega_x", "omega_y", "omega_z"}})
-                 && m_bufferManager.addChannel({"orientations::" + sensorName,
-                                                {3, 1}, //
-                                                {"r", "p", "y"}});
+                 && addChannel(fullAccelerometerSensorName,
+                               accelerometerElementNames.size(), //
+                               accelerometerElementNames);
+            ok = ok && addChannel(fullGyroSensorName, gyroElementNames.size(), gyroElementNames);
+            ok = ok
+                 && addChannel(fullOrientationsSensorName,
+                               orientationElementNames.size(), //
+                               orientationElementNames);
         }
     }
 
     if (m_streamCartesianWrenches)
     {
-        for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
+        for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
         {
+            std::string fullCartesianWrenchName
+                = cartesianWrenchesName + treeDelim + cartesianWrenchName;
             ok = ok
-                 && m_bufferManager.addChannel({"cartesian_wrenches::" + sensorName,
-                                                {6, 1}, //
-                                                {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"}});
+                 && addChannel(fullCartesianWrenchName,
+                               cartesianWrenchNames.size(), //
+                               cartesianWrenchNames);
         }
     }
 
@@ -744,23 +864,73 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     {
         for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
+            std::string fullTemperatureSensorName = temperatureName + treeDelim + sensorName;
             ok = ok
-                 && m_bufferManager.addChannel({"temperatures::" + sensorName,
-                                                {1, 1}, //
-                                                {"temperature"}});
+                 && addChannel(fullTemperatureSensorName,
+                               temperatureNames.size(), //
+                               temperatureNames);
         }
+    }
+
+    // this is required only if the realtime is enabled
+    if (m_sendDataRT)
+    {
+        std::string signalFullName = "";
+
+        for (auto& [name, signal] : m_vectorsCollectionSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+                = signal.client.readData(false);
+            if (externalSignalCollection != nullptr)
+            {
+                if (!signal.dataArrived)
+                {
+                    bool channelAdded = false;
+                    for (const auto& [key, vector] : externalSignalCollection->vectors)
+                    {
+                        signalFullName = signal.signalName + treeDelim + key;
+                        const auto& metadata = signal.metadata.vectors.find(key);
+                        if (metadata == signal.metadata.vectors.cend())
+                        {
+                            log()->warn("{} Unable to find the metadata for the signal named {}. "
+                                        "The "
+                                        "default one will be used.",
+                                        logPrefix,
+                                        signalFullName);
+                            channelAdded = addChannel(signalFullName, vector.size());
+
+                        } else
+                        {
+                            channelAdded = addChannel(signalFullName, //
+                                                      vector.size(),
+                                                      {metadata->second});
+                        }
+                    }
+                    signal.dataArrived = channelAdded;
+                }
+            }
+        }
+
+        for (auto& [name, signal] : m_vectorSignals)
+        {
+            std::lock_guard<std::mutex> lock(signal.mutex);
+            yarp::sig::Vector* vector = signal.port.read(false);
+            if (vector != nullptr)
+            {
+                if (!signal.dataArrived)
+                {
+                    signalFullName = signal.signalName;
+                    signal.dataArrived = addChannel(signalFullName, vector->size());
+                }
+            }
+        }
+
+        m_vectorCollectionRTDataServer.finalizeMetadata();
     }
 
     // resize the temporary vectors
     m_jointSensorBuffer.resize(dofs);
-
-    // open the TextLogging port
-    ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
-    // run the thread
-    m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
-
-    // run the thread for reading the exogenous signals
-    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
 
     // The user can avoid to record the camera
     if (m_cameraBridge != nullptr)
@@ -994,37 +1164,47 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     auto connectToExogeneous = [this](auto& signals) -> void {
         for (auto& [name, signal] : signals)
         {
-            std::lock_guard<std::mutex> lock(signal.mutex);
             if (signal.connected)
             {
                 continue;
             }
 
-            // try to connect to the signal
-            signal.connected = signal.connect();
+            bool connectionDone = false;
 
-            // if the connection is successful, get the metadata
-            // this is required only for the vectors collection signal
-            if constexpr (std::is_same_v<std::decay_t<decltype(signal)>,
-                                         typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
             {
-                if (!signal.connected)
-                {
-                    continue;
-                }
+                std::lock_guard<std::mutex> lock(signal.mutex);
 
-                log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
-                            "metadata for the vectors collection signal named: {}",
-                            name);
+                connectionDone = signal.connect();
 
-                if (!signal.client.getMetadata(signal.metadata))
+                // try to connect to the signal
+
+                // if the connection is successful, get the metadata
+                // this is required only for the vectors collection signal
+                if constexpr (std::is_same_v<
+                                  std::decay_t<decltype(signal)>,
+                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
                 {
-                    log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
-                                "the metadata for the signal named: {}. The exogenous signal will "
-                                "not contain the metadata.",
+                    if (!connectionDone)
+                    {
+                        continue;
+                    }
+
+                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
+                                "metadata for the vectors collection signal named: {}",
                                 name);
+
+                    if (!signal.client.getMetadata(signal.metadata))
+                    {
+                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
+                                    "the metadata for the signal named: {}. The exogenous signal will "
+                                    "not contain the metadata.",
+                                    name);
+                    }
                 }
             }
+
+            signal.connected = connectionDone;
+
         }
     };
 
@@ -1092,20 +1272,27 @@ void YarpRobotLoggerDevice::lookForNewLogs()
 
         // check for new messages
         yarp::profiler::NetworkProfiler::getPortsList(yarpPorts);
-        for (const auto& port : yarpPorts)
+
+        // make a new scope for lock guarding text logging port
         {
-            // check if the port has not be already connected if exits, its resposive
-            // it is a text logging port and it should be logged
-            if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
-                && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
-                && (m_textLoggingSubnames.empty()
-                    || this->hasSubstring(port.name, m_textLoggingSubnames))
-                && yarp::os::Network::exists(port.name))
+            for (const auto& port : yarpPorts)
             {
-                m_textLoggingPortNames.insert(port.name);
-                yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
+                // check if the port has not be already connected if exits, its resposive
+                // it is a text logging port and it should be logged
+                // This operation does not require a lock since it is not touching the port object
+                // as the connection operation is done through yarpserver and not through the port
+                // directly. YARP inside will take care of the connection.
+                if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
+                    && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
+                    && (m_textLoggingSubnames.empty()
+                        || this->hasSubstring(port.name, m_textLoggingSubnames))
+                    && yarp::os::Network::exists(port.name))
+                {
+                    m_textLoggingPortNames.insert(port.name);
+                    yarp::os::Network::connect(port.name, m_textLoggingPortName, "udp");
+                }
             }
-        }
+        } // end of scope for lock guarding text logging port
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -1244,7 +1431,46 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
 void YarpRobotLoggerDevice::run()
 {
+    auto logData = [this](const std::string& name, const auto& data, const double time) {
+        m_bufferManager.push_back(data, time, name);
+        std::string rtName = robotRtRootName + treeDelim + name;
+        if (m_sendDataRT)
+        {
+            m_vectorCollectionRTDataServer.populateData(rtName, data);
+        }
+    };
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
+    const std::chrono::nanoseconds t = BipedalLocomotion::clock().now();
+
+    if (!m_firstRun)
+    {
+        if (t - m_previousTimestamp > m_acceptableStep)
+        {
+            log()->warn("{} The time step is too big. The previous timestamp is {} and the current "
+                        "timestamp is {}. The time step is {}.",
+                        logPrefix,
+                        std::chrono::duration<double>(m_previousTimestamp),
+                        std::chrono::duration<double>(t),
+                        std::chrono::duration<double>(t - m_previousTimestamp));
+            return;
+        }
+    }
+
+    const double time = std::chrono::duration<double>(t).count();
+    std::string signalFullName = "";
+    std::string rtSignalFullName = "";
+
+    std::lock_guard lock(m_bufferManagerMutex);
+    if (m_sendDataRT)
+    {
+        m_vectorCollectionRTDataServer.prepareData();
+        m_vectorCollectionRTDataServer.clearData();
+        Eigen::Matrix<double, 1, 1> timeData;
+        timeData << time;
+        rtSignalFullName = robotRtRootName + treeDelim + timestampsName;
+        m_vectorCollectionRTDataServer.populateData(rtSignalFullName, timeData);
+    }
 
     // get the data
     if (!m_robotSensorBridge->advance())
@@ -1252,27 +1478,26 @@ void YarpRobotLoggerDevice::run()
         log()->error("{} Could not advance sensor bridge.", logPrefix);
     }
 
-    const double time = std::chrono::duration<double>(BipedalLocomotion::clock().now()).count();
-
-    std::lock_guard lock(m_bufferManagerMutex);
-    // collect the data
     if (m_streamJointStates)
     {
         if (m_robotSensorBridge->getJointPositions(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::positions");
+            logData(jointStatePositionsName, m_jointSensorBuffer, time);
         }
         if (m_robotSensorBridge->getJointVelocities(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::velocities");
+            logData(jointStateVelocitiesName, m_jointSensorBuffer, time);
         }
-        if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+        if (m_streamJointAccelerations)
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::accelerations");
+            if (m_robotSensorBridge->getJointAccelerations(m_jointSensorBuffer))
+            {
+                logData(jointStateAccelerationsName, m_jointSensorBuffer, time);
+            }
         }
         if (m_robotSensorBridge->getJointTorques(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "joints_state::torques");
+            logData(jointStateTorquesName, m_jointSensorBuffer, time);
         }
     }
 
@@ -1280,19 +1505,19 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getMotorPositions(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::positions");
+            logData(motorStatePositionsName, m_jointSensorBuffer, time);
         }
         if (m_robotSensorBridge->getMotorVelocities(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::velocities");
+            logData(motorStateVelocitiesName, m_jointSensorBuffer, time);
         }
         if (m_robotSensorBridge->getMotorAccelerations(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::accelerations");
+            logData(motorStateAccelerationsName, m_jointSensorBuffer, time);
         }
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::currents");
+            logData(motorStateCurrentsName, m_jointSensorBuffer, time);
         }
     }
 
@@ -1300,7 +1525,7 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getMotorPWMs(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "motors_state::PWM");
+            logData(motorStatePwmName, m_jointSensorBuffer, time);
         }
     }
 
@@ -1308,56 +1533,77 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getPidPositions(m_jointSensorBuffer))
         {
-            m_bufferManager.push_back(m_jointSensorBuffer, time, "PIDs");
+            logData(motorStatePidsName, m_jointSensorBuffer, time);
         }
     }
 
-    for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
+    if (m_streamFTSensors)
     {
-        if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
+        for (const auto& sensorName : m_robotSensorBridge->getSixAxisForceTorqueSensorsList())
         {
-            m_bufferManager.push_back(m_ftBuffer, time, "FTs::" + sensorName);
+            if (m_robotSensorBridge->getSixAxisForceTorqueMeasurement(sensorName, m_ftBuffer))
+            {
+                signalFullName = ftsName + treeDelim + sensorName;
+                logData(signalFullName, m_ftBuffer, time);
+            }
         }
     }
 
-    for (const auto& sensorname : m_robotSensorBridge->getTemperatureSensorsList())
+    if (m_streamTemperatureSensors)
     {
-        if (m_robotSensorBridge->getTemperature(sensorname, m_ftTemperatureBuffer))
+        for (const auto& sensorName : m_robotSensorBridge->getTemperatureSensorsList())
         {
-            m_bufferManager.push_back({m_ftTemperatureBuffer}, time, "temperatures::" + sensorname);
+            if (m_robotSensorBridge->getTemperature(sensorName, m_ftTemperatureBuffer))
+            {
+                signalFullName = temperatureName + treeDelim + sensorName;
+
+                Eigen::Matrix<double, 1, 1> temperatureData;
+                temperatureData << m_ftTemperatureBuffer;
+                logData(signalFullName, temperatureData, time);
+            }
         }
     }
 
-    for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
+    if (m_streamInertials)
     {
-        if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
+        for (const auto& sensorName : m_robotSensorBridge->getGyroscopesList())
         {
-            m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
+            if (m_robotSensorBridge->getGyroscopeMeasure(sensorName, m_gyroBuffer))
+            {
+                signalFullName = gyrosName + treeDelim + sensorName;
+                logData(signalFullName, m_gyroBuffer, time);
+            }
         }
-    }
 
-    for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
-    {
-        if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName,
-                                                                   m_acceloremeterBuffer))
+        // pack the data for the accelerometer
+        for (const auto& sensorName : m_robotSensorBridge->getLinearAccelerometersList())
         {
-            m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
+            if (m_robotSensorBridge->getLinearAccelerometerMeasurement(sensorName,
+                                                                       m_acceloremeterBuffer))
+            {
+                signalFullName = accelerometersName + treeDelim + sensorName;
+                logData(signalFullName, m_acceloremeterBuffer, time);
+            }
         }
-    }
 
-    for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
-    {
-        if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName, m_orientationBuffer))
+        // pack the data for the orientations
+        for (const auto& sensorName : m_robotSensorBridge->getOrientationSensorsList())
         {
-            m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
+            if (m_robotSensorBridge->getOrientationSensorMeasurement(sensorName,
+                                                                     m_orientationBuffer))
+            {
+                signalFullName = orientationsName + treeDelim + sensorName;
+                logData(signalFullName, m_orientationBuffer, time);
+            }
         }
-    }
 
-    for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
-    {
-        if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
+        for (const auto& sensorName : m_robotSensorBridge->getMagnetometersList())
         {
-            m_bufferManager.push_back(m_magnemetometerBuffer, time, "magnetometers::" + sensorName);
+            if (m_robotSensorBridge->getMagnetometerMeasurement(sensorName, m_magnemetometerBuffer))
+            {
+                signalFullName = magnetometersName + treeDelim + sensorName;
+                logData(signalFullName, m_magnemetometerBuffer, time);
+            }
         }
     }
 
@@ -1366,39 +1612,54 @@ void YarpRobotLoggerDevice::run()
     {
         if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
         {
-            // it will return a tuple containing the Accelerometer, the gyro and the orientatio
+            // it will return a tuple containing the Accelerometer, the gyro and the orientation
             this->unpackIMU(m_analogSensorBuffer,
                             m_acceloremeterBuffer,
                             m_gyroBuffer,
                             m_orientationBuffer);
 
-            m_bufferManager.push_back(m_acceloremeterBuffer, time, "accelerometers::" + sensorName);
-            m_bufferManager.push_back(m_gyroBuffer, time, "gyros::" + sensorName);
-            m_bufferManager.push_back(m_orientationBuffer, time, "orientations::" + sensorName);
+            signalFullName = accelerometersName + treeDelim + sensorName;
+            logData(signalFullName, m_acceloremeterBuffer, time);
+
+            signalFullName = gyrosName + treeDelim + sensorName;
+            logData(signalFullName, m_gyroBuffer, time);
+
+            signalFullName = orientationsName + treeDelim + sensorName;
+            logData(signalFullName, m_orientationBuffer, time);
         }
     }
 
-    for (const auto& sensorName : m_robotSensorBridge->getCartesianWrenchesList())
+    if (m_streamCartesianWrenches)
     {
-        if (m_robotSensorBridge->getCartesianWrench(sensorName, m_ftBuffer))
+        for (const auto& cartesianWrenchName : m_robotSensorBridge->getCartesianWrenchesList())
         {
-            m_bufferManager.push_back(m_ftBuffer, time, "cartesian_wrenches::" + sensorName);
+            if (m_robotSensorBridge->getCartesianWrench(cartesianWrenchName, m_ftBuffer))
+            {
+                signalFullName = cartesianWrenchesName + treeDelim + cartesianWrenchName;
+                logData(signalFullName, m_ftBuffer, time);
+            }
         }
     }
 
-    std::string signalFullName;
     for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
             = signal.client.readData(false);
+
         if (collection != nullptr)
         {
             if (!signal.dataArrived)
             {
+                bool channelAdded = false;
                 for (const auto& [key, vector] : collection->vectors)
                 {
-                    signalFullName = signal.signalName + "::" + key;
+                    signalFullName = signal.signalName + treeDelim + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
                     if (metadata == signal.metadata.vectors.cend())
                     {
@@ -1406,39 +1667,46 @@ void YarpRobotLoggerDevice::run()
                                     "default one will be used.",
                                     logPrefix,
                                     signalFullName);
-                        m_bufferManager.addChannel({signalFullName, {vector.size(), 1}});
+                        channelAdded = addChannel(signalFullName, vector.size());
+
                     } else
                     {
-                        // if the metadata is found we use it
-                        m_bufferManager.addChannel({signalFullName, //
-                                                    {vector.size(), 1},
-                                                    metadata->second});
+                        channelAdded = addChannel(signalFullName, //
+                                                  vector.size(),
+                                                  {metadata->second});
                     }
-
-                    signal.dataArrived = true;
                 }
-            }
-
-            for (const auto& [key, vector] : collection->vectors)
+                signal.dataArrived = channelAdded;
+            } else
             {
-                signalFullName = signal.signalName + "::" + key;
-                m_bufferManager.push_back(vector, time, signalFullName);
+                for (const auto& [key, vector] : collection->vectors)
+                {
+                    signalFullName = signal.signalName + treeDelim + key;
+                    logData(signalFullName, vector, time);
+                }
             }
         }
     }
 
     for (auto& [name, signal] : m_vectorSignals)
     {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
+
+        signalFullName = signal.signalName;
+
         if (vector != nullptr)
         {
             if (!signal.dataArrived)
             {
-                m_bufferManager.addChannel({signal.signalName, {vector->size(), 1}});
-                signal.dataArrived = true;
+                signal.dataArrived = addChannel(signalFullName, vector->size());
             }
-            m_bufferManager.push_back(*vector, time, signal.signalName);
+            logData(signalFullName, *vector, time);
         }
     }
 
@@ -1450,11 +1718,12 @@ void YarpRobotLoggerDevice::run()
         yarp::os::Bottle* b = m_textLoggingPort.read(false);
         if (b != nullptr)
         {
-            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b, std::to_string(time));
+            msg = BipedalLocomotion::TextLoggingEntry::deserializeMessage(*b,
+                                                                            std::to_string(time));
             if (msg.isValid)
             {
                 signalFullName = msg.portSystem + "::" + msg.portPrefix + "::" + msg.processName
-                                 + "::p" + msg.processPID;
+                                    + "::p" + msg.processPID;
 
                 // matlab does not support the character - as a key of a struct
                 findAndReplaceAll(signalFullName, "-", "_");
@@ -1467,7 +1736,7 @@ void YarpRobotLoggerDevice::run()
                     m_bufferManager.addChannel({signalFullName, {1, 1}});
                     m_textLogsStoredInManager.insert(signalFullName);
                 }
-
+                //Not using logData here because we don't want to stream the data to RT
                 m_bufferManager.push_back(msg, time, signalFullName);
             }
             bufferportSize = m_textLoggingPort.getPendingReads();
@@ -1476,6 +1745,14 @@ void YarpRobotLoggerDevice::run()
             break;
         }
     }
+
+    if (m_sendDataRT)
+    {
+        m_vectorCollectionRTDataServer.sendData();
+    }
+
+    m_previousTimestamp = t;
+    m_firstRun = false;
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,

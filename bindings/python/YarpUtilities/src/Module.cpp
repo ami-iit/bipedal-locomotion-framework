@@ -20,7 +20,10 @@ void CreateModule(pybind11::module& module)
     module.doc() = "YarpUtilities module.";
 
     CreateVectorsCollectionServer(module);
+    CreateVectorsCollectionClient(module);
+    CreateVectorsCollectionMetadata(module);
+    CreateVectorsCollection(module);
 }
-} // namespace IK
+} // namespace YarpUtilities
 } // namespace bindings
 } // namespace BipedalLocomotion

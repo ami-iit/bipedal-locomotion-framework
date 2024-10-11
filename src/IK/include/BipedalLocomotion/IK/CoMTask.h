@@ -54,8 +54,12 @@ class CoMTask : public IKLinearTask
                                                                               velocity (base +
                                                                               joint) */
 
-    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector. */
-    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector. */
+    static constexpr std::size_t m_linearVelocitySize{3}; /**< Size of the linear velocity vector.
+                                                           */
+    static constexpr std::size_t m_spatialVelocitySize{6}; /**< Size of the spatial velocity vector.
+                                                            */
+
+    bool m_useExogenousFeedback{false}; /**< True if the feedback of the position task must  */
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
@@ -69,7 +73,6 @@ class CoMTask : public IKLinearTask
 
     Eigen::MatrixXd m_jacobian; /**< CoM Jacobian matrix in MIXED representation */
 public:
-
     /**
      * Initialize the task.
      * @param paramHandler pointer to the parameters handler.
@@ -79,6 +82,7 @@ public:
      * |   `robot_velocity_variable_name`   |            `string`          |                            Name of the variable contained in `VariablesHandler` describing the robot velocity                            |    Yes    |
      * |             `kp_linear`            | `double` or `vector<double>` |                                               Gain of the position controller                                                            |    Yes    |
      * |               `mask`               |         `vector<bool>`       |  Mask representing the DoFs controlled. E.g. [1,0,1] will enable the control on the x and z coordinates only. (Default value, [1,1,1])   |    No     |
+     * |    `use_exogenous_feedback`        |             `bool`           |  If true the task will consider the CoM position provided by the user as feedback. The feedback must be set using `setFeedback()`. (Default value `false`)   |    No     |
      * @return True in case of success, false otherwise.
      * Where the generalized robot velocity is a vector containing the base spatial-velocity
      * (expressed in mixed representation) and the joint velocities.
@@ -118,7 +122,8 @@ public:
      * @param velocity velocity of the CoM expressed in mixed representation
      * @return True in case of success, false otherwise.
      */
-    bool setSetPoint(Eigen::Ref<const Eigen::Vector3d> position, Eigen::Ref<const Eigen::Vector3d> velocity);
+    bool setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
+                     Eigen::Ref<const Eigen::Vector3d> velocity);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -137,6 +142,14 @@ public:
      * @return True if the objects are valid, false otherwise.
      */
     bool isValid() const override;
+
+    /**
+     * Set the feedback for the Proportional controller.
+     * @param comPosition position of the CoM respect to the inertial frame.
+     * @note the feedback will be considered only if the `use_exogenous_feedback` is set to true.
+     * @return True in case of success, false otherwise.
+     */
+    bool setFeedback(Eigen::Ref<const Eigen::Vector3d> comPosition);
 };
 
 BLF_REGISTER_IK_TASK(CoMTask);

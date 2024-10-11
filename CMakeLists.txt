@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.16.0)
 
 ## MAIN project
 project(BipedalLocomotionFramework
-  VERSION 0.18.100)
+  VERSION 0.19.100)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -120,7 +120,7 @@ install_basic_package_files(${PROJECT_NAME}
                             NAMESPACE BipedalLocomotion::
                             VERSION ${BipedalLocomotionFramework_VERSION}
                             COMPATIBILITY AnyNewerVersion
-                            TARGETS_PROPERTY BipedalLocomotionFramework_TARGETS
+                            TARGETS_PROPERTY BipedalLocomotionFramework_INSTALLED_TARGETS
                             VARS_PREFIX ${PROJECT_NAME}
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
                             DEPENDENCIES ${FRAMEWORK_PUBLIC_DEPENDENCIES}
@@ -138,3 +138,5 @@ endif()
 add_subdirectory(bindings)
 
 add_subdirectory(utilities)
+
+add_subdirectory(examples)

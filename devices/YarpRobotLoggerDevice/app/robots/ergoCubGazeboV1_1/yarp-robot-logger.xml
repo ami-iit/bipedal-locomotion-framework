@@ -10,19 +10,27 @@ BSD-3-Clause license. -->
   <param name="video_codec_code">mp4v</param>
   <param name="port_prefix">/yarp-robot-logger</param>
   <param name="text_logging_subnames">("ergoCubGazeboV1/yarprobotinterface")</param>
+  <param name="maximum_admissible_time_step">1.0</param>
 
   <group name="Telemetry">
     <param name="save_period">600.0</param>
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking", "CurrentControl")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
       <param name="local">"/yarp-robot-logger/exogenous_signals/walking"</param>
       <param name="remote">"/walking-coordinator/logger/log"</param>
       <param name="signal_name">"walking"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="CurrentControl">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/current_control_trajectory"</param>
+      <param name="remote">"/motor_current_tracking/logger"</param>
+      <param name="signal_name">"current_control"</param>
       <param name="carrier">"udp"</param>
     </group>
   </group>
@@ -37,6 +45,7 @@ BSD-3-Clause license. -->
   <group name="RobotSensorBridge">
     <param name="check_for_nan">false</param>
     <param name="stream_joint_states">true</param>
+    <param name="stream_joint_accelerations">false</param>
     <param name="stream_inertials">true</param>
     <param name="stream_cartesian_wrenches">false</param>
     <param name="stream_forcetorque_sensors">true</param>

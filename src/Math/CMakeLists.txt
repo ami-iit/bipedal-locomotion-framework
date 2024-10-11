@@ -11,7 +11,7 @@ if(FRAMEWORK_COMPILE_Math)
     PUBLIC_HEADERS        ${H_PREFIX}/CARE.h ${H_PREFIX}/Constants.h
                           ${H_PREFIX}/LinearizedFrictionCone.h ${H_PREFIX}/ContactWrenchCone.h
                           ${H_PREFIX}/Wrench.h ${H_PREFIX}/SchmittTrigger.h ${H_PREFIX}/QuadraticBezierCurve.h
-                          ${H_PREFIX}/Spline.h ${H_PREFIX}/LinearSpline.h ${H_PREFIX}/CubicSpline.h ${H_PREFIX}/QuinticSpline.h
+                          ${H_PREFIX}/Spline.h ${H_PREFIX}/ZeroOrderSpline.h  ${H_PREFIX}/LinearSpline.h ${H_PREFIX}/CubicSpline.h ${H_PREFIX}/QuinticSpline.h
     SOURCES               src/CARE.cpp  src/LinearizedFrictionCone.cpp src/ContactWrenchCone.cpp
                           src/SchmittTrigger.cpp src/QuadraticBezierCurve.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler

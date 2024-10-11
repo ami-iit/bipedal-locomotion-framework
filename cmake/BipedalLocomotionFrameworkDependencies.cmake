@@ -17,8 +17,8 @@ endif()
 ################################################################################
 ########################## Mandatory dependencies ##############################
 
-find_package(iDynTree 3.0.0 REQUIRED)
-dependency_classifier(iDynTree MINIMUM_VERSION 3.0.0 IS_USED TRUE PUBLIC)
+find_package(iDynTree 12.2.1 REQUIRED)
+dependency_classifier(iDynTree MINIMUM_VERSION 12.2.1 IS_USED TRUE PUBLIC)
 
 find_package(Eigen3 3.2.92 REQUIRED)
 dependency_classifier(Eigen3 MINIMUM_VERSION 3.2.92 IS_USED TRUE PUBLIC)
@@ -32,10 +32,10 @@ find_package(rclcpp 16.0.0 QUIET)
 checkandset_dependency(rclcpp MINIMUM_VERSION 16.0.0)
 dependency_classifier(rclcpp MINIMUM_VERSION 16.0.0 IS_USED ${FRAMEWORK_USE_rclcpp} PUBLIC)
 
-find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools QUIET)
+find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools robotinterface QUIET)
 checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
-                      COMPONENTS companion profiler dev os idl_tools PUBLIC)
+                      COMPONENTS companion profiler dev os idl_tools robotinterface PUBLIC)
 
 find_package(Qhull QUIET)
 checkandset_dependency(Qhull MINIMUM_VERSION)
@@ -114,10 +114,28 @@ checkandset_dependency(UnicyclePlanner)
 find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
 
-##########################      Components       ##############################
+##########################      Test-related options       ##############################
+
+# MemoryAllocationMonitor require glibc >= 2.35
+set(FRAMEWORK_GLIBC_GEQ_2_35 OFF)
+if(BUILD_TESTING AND UNIX AND NOT APPLE)
+  execute_process(COMMAND ldd --version
+                  OUTPUT_VARIABLE FRAMEWORK_LDD_VERSION_OUTPUT)
+  string(REGEX MATCH "GLIBC ([0-9]+.[0-9]+)" FRAMEWORK_LDD_REGEX_OUTPUT ${FRAMEWORK_LDD_VERSION_OUTPUT})
+  set(FRAMEWORK_LDD_GLIBC_VERSION ${CMAKE_MATCH_1})
+  if(FRAMEWORK_LDD_GLIBC_VERSION VERSION_GREATER_EQUAL "2.35")
+    set(FRAMEWORK_GLIBC_GEQ_2_35 ON)
+  endif()
+endif()
+framework_dependent_option(FRAMEWORK_RUN_MemoryAllocationMonitor_tests
+  "Run MemoryAllocationMonitor tests?" ON
+  "BUILD_TESTING;UNIX;NOT APPLE;FRAMEWORK_GLIBC_GEQ_2_35" OFF)
+
 framework_dependent_option(FRAMEWORK_RUN_Valgrind_tests
   "Run Valgrind tests?" OFF
   "BUILD_TESTING;VALGRIND_FOUND" OFF)
+
+##########################      Components       ##############################
 
 framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
@@ -258,6 +276,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_BalancingPositionControlApplication
 framework_dependent_option(FRAMEWORK_COMPILE_YarpRobotLoggerDevice
   "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
   "FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_Perception;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_robometry" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_JointTorqueControlDevice
+  "Do you want to generate and compile the YarpRobotLoggerDevice?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_YarpUtilities;FRAMEWORK_USE_onnxruntime" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_VectorsCollectionWrapper
   "Do you want to generate and compile the VectorsCollectionWrapper?" ON

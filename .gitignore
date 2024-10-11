@@ -12,6 +12,8 @@ build*
 # IDEs
 .idea*
 .vscode*
+.vs*
+CMakeSettings.json
 
 # ======
 # Python (https://github.com/github/gitignore/blob/master/Python.gitignore)
@@ -155,3 +157,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# compile commands file for resolving includes
+compile_commands.json

@@ -8,8 +8,8 @@
 #include <BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h>
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <chrono>
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Model.h>
 #include <manif/manif.h>
 
 using namespace BipedalLocomotion::Estimators;

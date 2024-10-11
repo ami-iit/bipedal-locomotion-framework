@@ -12,8 +12,8 @@
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h>
 
-#include <BipedalLocomotion/bindings/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
+#include <BipedalLocomotion/bindings/System/ILinearTaskSolver.h>
 #include <BipedalLocomotion/bindings/TSID/TaskSpaceInverseDynamics.h>
 
 namespace BipedalLocomotion
@@ -44,6 +44,37 @@ void CreateTaskSpaceInverseDynamics(pybind11::module& module)
     py::class_<TaskSpaceInverseDynamics, //
                ::BipedalLocomotion::System::ILinearTaskSolver<TSIDLinearTask, TSIDState>> //
         (module, "TaskSpaceInverseDynamics");
+
+    py::class_<TaskSpaceInverseDynamicsProblem>(module, "TaskSpaceInverseDynamicsProblem")
+        .def_readwrite("variables_handler", &TaskSpaceInverseDynamicsProblem::variablesHandler)
+        .def_readwrite("weights", &TaskSpaceInverseDynamicsProblem::weights)
+        .def_property_readonly(
+            "tsid",
+            [](const TaskSpaceInverseDynamicsProblem& impl) { return impl.tsid.get(); },
+            py::return_value_policy::reference_internal)
+        .def("__getitem__",
+             [](TaskSpaceInverseDynamicsProblem& impl, int index) -> py::object {
+                 if (index == 0)
+                 {
+                     return py::cast(impl.variablesHandler);
+                 }
+                 if (index == 1)
+                 {
+                     return py::cast(impl.weights);
+                 }
+                 if (index == 2)
+                 {
+                     // in this case the ownership of the object is taken py python.
+                     // Python will call the destructor and delete operator when the object’s
+                     // reference count reaches zero. Undefined behavior ensues when the C++ side
+                     // does the same, or when the data was not dynamically allocated. (This will
+                     // not happen since the reasle is called)
+                     return py::cast(impl.tsid.release(), py::return_value_policy::take_ownership);
+                 }
+
+                 throw pybind11::index_error();
+             })
+        .def("is_valid", &TaskSpaceInverseDynamicsProblem::isValid);
 }
 
 } // namespace TSID

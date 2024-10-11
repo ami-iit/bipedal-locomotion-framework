@@ -27,11 +27,7 @@ namespace bindings
 namespace System
 {
 
-void CreateSharedInputPort(pybind11::module& module);
-
-void CreateSharedOutputPort(pybind11::module& module);
-
-void CreateSharedSource(pybind11::module& module);
+void CreateCommonDataStructure(pybind11::module& module);
 
 template <class Input>
 void CreateInputPort(pybind11::module& module, const std::string& pythonClassName)
@@ -58,20 +54,9 @@ void CreateOutputPort(pybind11::module& module, const std::string& pythonClassNa
 }
 
 template <class Input, class Output>
-void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassName)
+void CreateAdvanceableImpl(pybind11::module& module, const std::string& pythonClassName)
 {
     namespace py = ::pybind11;
-
-    // the empty signal is already registered by the system module
-    // please check Advanceable.cpp
-    if constexpr (!std::is_same<Input, ::BipedalLocomotion::System::EmptySignal>())
-    {
-        ::BipedalLocomotion::bindings::System::CreateInputPort<Input>(module, pythonClassName);
-    }
-    if constexpr (!std::is_same<Output, ::BipedalLocomotion::System::EmptySignal>())
-    {
-        ::BipedalLocomotion::bindings::System::CreateOutputPort<Output>(module, pythonClassName);
-    }
 
     const std::string advanceableName = "_" + pythonClassName + "Advanceable";
     py::class_<::BipedalLocomotion::System::Advanceable<Input, Output>,
@@ -88,16 +73,64 @@ void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassN
             .def("close", &::BipedalLocomotion::System::Advanceable<Input, Output>::close);
 }
 
-template <class Input> void CreateSink(pybind11::module& module, const std::string& pythonClassName)
+template <class Input, class Output>
+void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassName)
+{
+    namespace py = ::pybind11;
+
+    // the empty signal is already registered by the system module
+    // please check Advanceable.cpp
+    if constexpr (!std::is_same<Input, ::BipedalLocomotion::System::EmptySignal>()
+                  && !std::is_same<Input, ::Eigen::VectorXd>())
+    {
+        ::BipedalLocomotion::bindings::System::CreateInputPort<Input>(module, pythonClassName);
+    }
+    if constexpr (!std::is_same<Output, ::BipedalLocomotion::System::EmptySignal>()
+                  && !std::is_same<Output, ::Eigen::VectorXd>())
+    {
+        ::BipedalLocomotion::bindings::System::CreateOutputPort<Output>(module, pythonClassName);
+    }
+
+    if constexpr (!std::is_same<Input, ::Eigen::VectorXd>()
+                  && !std::is_same<Output, ::Eigen::VectorXd>())
+    {
+        ::BipedalLocomotion::bindings::System::CreateAdvanceableImpl<Input, //
+                                                                     Output>(module,
+                                                                             pythonClassName);
+    }
+}
+
+template <class Input>
+void CreateSinkImpl(pybind11::module& module, const std::string& pythonClassName)
 {
     using Output = ::BipedalLocomotion::System::EmptySignal;
-    CreateAdvanceable<Input, Output>(module, pythonClassName);
-
     namespace py = ::pybind11;
     const std::string sinkName = "_" + pythonClassName + "Sink";
     py::class_<::BipedalLocomotion::System::Sink<Input>,
                ::BipedalLocomotion::System::Advanceable<Input, Output>> //
         (module, sinkName.c_str());
+}
+
+template <class Input> void CreateSink(pybind11::module& module, const std::string& pythonClassName)
+{
+    using Output = ::BipedalLocomotion::System::EmptySignal;
+    CreateAdvanceable<Input, Output>(module, pythonClassName);
+
+    if (!std::is_same<Input, ::Eigen::VectorXd>())
+    {
+        CreateSinkImpl<Input>(module, pythonClassName);
+    }
+}
+
+template <class Output>
+void CreateSourceImpl(pybind11::module& module, const std::string& pythonClassName)
+{
+    using Input = ::BipedalLocomotion::System::EmptySignal;
+    namespace py = ::pybind11;
+    const std::string sourceName = "_" + pythonClassName + "Source";
+    py::class_<::BipedalLocomotion::System::Source<Output>,
+               ::BipedalLocomotion::System::Advanceable<Input, Output>> //
+        (module, sourceName.c_str());
 }
 
 template <class Output>
@@ -106,11 +139,10 @@ void CreateSource(pybind11::module& module, const std::string& pythonClassName)
     using Input = ::BipedalLocomotion::System::EmptySignal;
     CreateAdvanceable<Input, Output>(module, pythonClassName);
 
-    namespace py = ::pybind11;
-    const std::string sourceName = "_" + pythonClassName + "Source";
-    py::class_<::BipedalLocomotion::System::Source<Output>,
-               ::BipedalLocomotion::System::Advanceable<Input, Output>> //
-        (module, sourceName.c_str());
+    if (!std::is_same<Output, ::Eigen::VectorXd>())
+    {
+        CreateSourceImpl<Output>(module, pythonClassName);
+    }
 }
 
 } // namespace System

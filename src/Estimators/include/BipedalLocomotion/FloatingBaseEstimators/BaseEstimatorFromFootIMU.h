@@ -12,7 +12,7 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 #include <iDynTree/KinDynComputations.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model.h>
 #include <manif/SE3.h>
 #include <manif/SO3.h>
 

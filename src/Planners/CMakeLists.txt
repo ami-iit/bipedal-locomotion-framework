@@ -26,10 +26,10 @@ if (FRAMEWORK_COMPILE_Unicycle)
 
   add_bipedal_locomotion_library(
     NAME Unicycle
-    PUBLIC_HEADERS ${H_PREFIX}/UnicyclePlanner.h
-    SOURCES src/UnicyclePlanner.cpp
-    PUBLIC_LINK_LIBRARIES BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts Eigen3::Eigen
-    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging iDynTree::idyntree-core UnicyclePlanner
+    PUBLIC_HEADERS ${H_PREFIX}/UnicycleTrajectoryPlanner.h ${H_PREFIX}/UnicycleTrajectoryGenerator.h ${H_PREFIX}/UnicycleUtilities.h
+    SOURCES src/UnicycleTrajectoryPlanner.cpp src/UnicycleTrajectoryGenerator.cpp src/UnicycleUtilities.cpp
+    PUBLIC_LINK_LIBRARIES BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts Eigen3::Eigen iDynTree::idyntree-modelio
+    PRIVATE_LINK_LIBRARIES BipedalLocomotion::TextLogging UnicyclePlanner BipedalLocomotion::ContinuousDynamicalSystem BipedalLocomotion::ManifConversions
     INSTALLATION_FOLDER Planners)
 
 endif()

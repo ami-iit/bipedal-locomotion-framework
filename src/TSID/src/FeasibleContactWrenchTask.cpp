@@ -9,8 +9,8 @@
 #include <BipedalLocomotion/TSID/FeasibleContactWrenchTask.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/EigenHelpers.h>
+#include <iDynTree/Model.h>
 
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::TSID;
