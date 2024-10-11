@@ -503,7 +503,7 @@ def main():
     except ValueError:
         software_lower_limits = None
         software_upper_limits = None
-    
+
     if software_lower_limits is not None and software_upper_limits is not None:
         if len(software_lower_limits) != len(joints_to_control) or len(software_upper_limits) != len(joints_to_control):
             raise ValueError(

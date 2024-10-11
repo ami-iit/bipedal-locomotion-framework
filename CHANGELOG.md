@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file.
 - Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
 - Add `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/894)
 - Add the possibility to initialize the base position and the feet pose in the `unicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/887)
+- Add software joint position limits  to the `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/901)
 
 ### Changed
 
