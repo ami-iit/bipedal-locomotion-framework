@@ -1,6 +1,6 @@
 # 🤖 VelMANN
 
-This tutorial aims to give the user a receipt that can be followed to use the `velMANNAutoregressive` and `velMANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
+This tutorial aims to give the user a receipt that can be followed to use the `VelMANNAutoregressive` and `VelMANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
 
 The tutorial requires the following Python package installed:
 - `bipedal_locomotion_framework` to use MANN network;

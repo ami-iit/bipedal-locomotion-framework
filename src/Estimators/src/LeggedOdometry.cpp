@@ -930,7 +930,6 @@ bool LeggedOdometry::changeFixedFrame(const std::ptrdiff_t& newIdx,
     }
 
     m_pimpl->m_world_H_fixedFrame.quat(frameOrientationInWorld);
-
     m_pimpl->m_world_H_fixedFrame.translation(framePositionInWorld);
     m_pimpl->m_currentFixedFrameIdx = newIdx;
 
