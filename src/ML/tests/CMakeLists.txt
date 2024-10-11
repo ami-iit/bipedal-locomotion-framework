@@ -24,6 +24,22 @@ if(BUILD_TESTING)
       EXPECTED_MD5 ${MANN_ONNX_EXPECTED_MD5})
   endif()
 
+   # Get the onnx model of the vel-based network
+   set(VELMANN_ONNX_EXPECTED_MD5 6ca94766f764e37c59a6fa41700f4440)
+   if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx")
+     file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx" VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE)
+     string(COMPARE EQUAL ${VELMANN_ONNX_MODEL_CHECKSUM_VARIABLE} ${VELMANN_ONNX_EXPECTED_MD5} VELMANN_ONNX_UPDATED)
+   else()
+     set(VELMANN_ONNX_UPDATED FALSE)
+   endif()
+
+   if(NOT ${VELMANN_ONNX_UPDATED})
+     message(STATUS "Fetching VelMANN onnx model from huggingface.co/ami-iit/mann...")
+     file(DOWNLOAD https://huggingface.co/datasets/evelyd/paper_delia_2024_ral_physics-informed_trajectory_generation_dataset/resolve/main/onnx/training_subsampled_mirrored_10x_pi_20240514-173315_ep130.onnx
+       ${CMAKE_CURRENT_BINARY_DIR}/model_velbased.onnx
+       EXPECTED_MD5 ${VELMANN_ONNX_EXPECTED_MD5})
+   endif()
+
   # Get the urdf model of the robot
   set(ERGOCUB_MODEL_EXPECTED_MD5 7d24f42cb415e660abc4bbc8a52d355f)
   if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
@@ -47,6 +63,16 @@ add_bipedal_test(
   LINKS BipedalLocomotion::ML)
 
 add_bipedal_test(
+  NAME VelMANN
+  SOURCES VelMANNTest.cpp
+  LINKS BipedalLocomotion::ML)
+
+add_bipedal_test(
   NAME MANNTrajectoryGenerator
   SOURCES MANNTrajectoryGeneratorTest.cpp
+  LINKS BipedalLocomotion::ML)
+
+add_bipedal_test(
+  NAME VelMANNTrajectoryGenerator
+  SOURCES VelMANNTrajectoryGeneratorTest.cpp
   LINKS BipedalLocomotion::ML)

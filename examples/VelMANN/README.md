@@ -1,6 +1,6 @@
-# 🤖 MANN
+# 🤖 VelMANN
 
-This tutorial aims to give the user a receipt that can be followed to use the `MANNAutoregressive` and `MANNTrajectoryGenerator` or the `velMANNAutoregressive` and `velMANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
+This tutorial aims to give the user a receipt that can be followed to use the `VelMANNAutoregressive` and `VelMANNTrajectoryGenerator` classes to generate a trajectory for the `ergoCub` robot.
 
 The tutorial requires the following Python package installed:
 - `bipedal_locomotion_framework` to use MANN network;
@@ -13,32 +13,19 @@ If you installed `bipedal-locomotion-framework` with the [`robotology-superbuild
 
 In case you do want to run this tutorial without compiling `bipedal-locomotion-framework` we suggest installing the dependencies with `conda` as follows
 ```console
-conda create -n blf-mann-tutorial
-conda activate blf-mann-tutorial
-conda install -c conda-forge -c robotology bipedal-locomotion-framework meshcat-python notebook resolve_robotics_uri_py ergocub-software
+mamba create -n blf-mann-tutorial
+mamba activate blf-mann-tutorial
+mamba install -c conda-forge -c robotology bipedal-locomotion-framework meshcat-python notebook resolve_robotics_uri_py ergocub-software
 ```
 
 Then you can run the notebooks by typing the following command in a terminal:
-1. `MANNTrajectoryGenerator`
+
+1. `velMANNTrajectoryGenerator`
     ```console
-    jupyter notebook MANNTrajectoryGenerator.ipynb
+    jupyter notebook VelMANNTrajectoryGenerator.ipynb
     ```
 
-    https://github.com/ami-iit/bipedal-locomotion-framework/assets/16744101/b3b921b9-efc8-4090-9f75-178cd0f9d119
-
-2. `MANNAutoregressive`
+2. `velMANNAutoregressive`
     ```console
-    jupyter notebook MANNAutoregressive.ipynb
-    ```
-
-    https://github.com/ami-iit/bipedal-locomotion-framework/assets/16744101/7ba65d66-68f9-4bd9-aede-a8edd00d82d5
-
-3. `velMANNTrajectoryGenerator`
-    ```console
-    jupyter notebook velMANNTrajectoryGenerator.ipynb
-    ```
-
-4. `velMANNAutoregressive`
-    ```console
-    jupyter notebook velMANNAutoregressive.ipynb
+    jupyter notebook VelMANNAutoregressive.ipynb
     ```

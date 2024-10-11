@@ -9,6 +9,8 @@ All notable changes to this project are documented in this file.
 - Add `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/894)
 - Add the possibility to initialize the base position and the feet pose in the `unicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/887)
 - Add software joint position limits  to the `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/901)
+- Implement `velMANN` class to perform inference on MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
+- Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 
 ### Changed
 
@@ -55,6 +57,7 @@ All notable changes to this project are documented in this file.
 - Refactor the `Planners::UnicyclePlanner` to mimic the functionalitites of the planner deployed in [walking-controllers](https://github.com/robotology/walking-controllers) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/844)
 
 ### Fixed
+- Fix the Python binding for the `change_fixed_frame` function to use `Eigen::Vector4d` for the input quaternion instead of `Eigen::Quaterniond`, which isn't supported by `pybind11`(https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Fix the barrier logic for threads synchronization (https://github.com/ami-iit/bipedal-locomotion-framework/pull/811)
 - InstallBasicPackageFiles: Fix bug of OVERRIDE_MODULE_PATH that corrupt `CMAKE_MODULE_PATH` values set by blf transitive dependencies (https://github.com/ami-iit/bipedal-locomotion-framework/pull/827)
 - InstallBasicPackageFiles: Fix compatibility with CMake 3.29.1 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/835)
