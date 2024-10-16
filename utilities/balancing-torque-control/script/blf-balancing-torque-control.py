@@ -243,6 +243,9 @@ class Application:
             "com_from_desired", ["x", "y", "z"]
         )
         self.vectors_collection_server.populate_metadata(
+            "com_reference", ["x", "y", "z"]
+        )
+        self.vectors_collection_server.populate_metadata(
             "com_from_measured", ["x", "y", "z"]
         )
         self.vectors_collection_server.populate_metadata(
@@ -510,6 +513,11 @@ class Application:
         self.vectors_collection_server.populate_data(
             "com_from_desired", com_from_desired
         )
+
+        self.vectors_collection_server.populate_data(
+            "com_reference", com_spline_output.position
+        )
+
         self.vectors_collection_server.populate_data(
             "com_from_measured", com_from_measured
         )
