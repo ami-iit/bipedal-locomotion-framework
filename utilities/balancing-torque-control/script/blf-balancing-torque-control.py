@@ -97,6 +97,8 @@ class Application:
         are_joint_ok, self.joint_positions, _ = self.sensor_bridge.get_joint_positions()
         if not are_joint_ok:
             raise ValueError("Impossible to get the joint position.")
+        
+        self.initial_joint_positions = self.joint_positions.copy()
 
         base_frame = param_handler.get_parameter_string("base_frame")
         base_link, self.frame_T_link = self.get_base_frame(
@@ -174,7 +176,7 @@ class Application:
             raise ValueError("Impossible to set the set point for the left foot task.")
 
         if not self.tsid.tasks["joint_regularization_task"].set_set_point(
-            self.joint_positions
+            self.initial_joint_positions
         ):
             raise ValueError(
                 "Impossible to set the set point for the joint regularization task."
