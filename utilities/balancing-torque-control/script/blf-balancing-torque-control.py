@@ -81,6 +81,14 @@ class Application:
             self.poly_drivers["REMOTE_CONTROL_BOARD"].poly
         ):
             raise ValueError("Impossible to set the polydriver in the robot control.")
+        
+        self.joint_torque_lower_limits = param_handler.get_group("ROBOT_CONTROL").get_parameter_vector_float(
+            "joint_torque_lower_limits"
+        )
+
+        self.joint_torque_upper_limits = param_handler.get_group("ROBOT_CONTROL").get_parameter_vector_float(
+            "joint_torque_upper_limits"
+        )
 
         # Create the sensor bridge
         self.sensor_bridge = blf.robot_interface.YarpSensorBridge()
@@ -453,9 +461,18 @@ class Application:
 
             self.first_iteration = False
 
+        tsid_torques = self.tsid.solver.get_output().joint_torques
+
+        # thresholding the torques
+        tsid_torques = np.clip(
+            tsid_torques,
+            self.joint_torque_lower_limits,
+            self.joint_torque_upper_limits,
+        )
+
         # send the joint torques
         if not self.robot_control.set_references(
-            self.tsid.solver.get_output().joint_torques,
+            tsid_torques,
             blf.robot_interface.YarpRobotControl.Torque,
         ):
             blf.log().error("Impossible to set the joint torques.")
@@ -536,7 +553,7 @@ class Application:
             "desired_right_contact_wrench", self.tsid.solver.get_output().contact_wrenches["rf_wrench"].wrench
         )
         self.vectors_collection_server.populate_data(
-            "desired_torque", self.tsid.solver.get_output().joint_torques
+            "desired_torque", tsid_torques
         )
 
         self.vectors_collection_server.send_data()
