@@ -253,6 +253,12 @@ class Application:
         self.vectors_collection_server.populate_metadata(
             "desired_torque", self.robot_control.get_joint_list()
         )
+        self.vectors_collection_server.populate_metadata(
+            "desired_left_contact_wrench", ["Fx", "Fy", "Fz", "Tx", "Ty", "Tz"]
+        )
+        self.vectors_collection_server.populate_metadata(
+            "desired_right_contact_wrench", ["Fx", "Fy", "Fz", "Tx", "Ty", "Tz"]
+        )
         self.vectors_collection_server.finalize_metadata()
 
     def build_remote_control_board_driver(
@@ -522,6 +528,12 @@ class Application:
 
         self.vectors_collection_server.populate_data(
             "com_from_measured", com_from_measured
+        )
+        self.vectors_collection_server.populate_data(
+            "desired_left_contact_wrench", self.tsid.solver.get_output().contact_wrenches["lf_wrench"].wrench
+        )
+        self.vectors_collection_server.populate_data(
+            "desired_right_contact_wrench", self.tsid.solver.get_output().contact_wrenches["rf_wrench"].wrench
         )
         self.vectors_collection_server.populate_data(
             "desired_torque", self.tsid.solver.get_output().joint_torques
