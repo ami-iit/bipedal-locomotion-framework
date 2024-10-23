@@ -190,10 +190,16 @@ class Application:
                 "Impossible to set the set point for the joint regularization task."
             )
 
-        if not self.tsid.tasks["torso_task"].set_set_point(
-            manif.SO3.Identity(), manif.SO3Tangent.Zero(), manif.SO3Tangent.Zero()
-        ):
-            raise ValueError("Impossible to set the set point for the torso task.")
+        # torso_initial_orientation = self.kindyn_with_measured.getWorldTransform("chest")
+
+        # if not self.tsid.tasks["torso_task"].set_set_point(
+        #      blf.conversions.to_manif_rot(
+        #         torso_initial_orientation.getRotation().toNumPy()
+        #     ),
+        #     manif.SO3Tangent.Zero(),
+        #     manif.SO3Tangent.Zero()
+        # ):
+        #     raise ValueError("Impossible to set the set point for the torso task.")
 
         self.desired_joint_positions = self.joint_positions.copy()
         self.desired_joint_velocities = self.joint_velocities.copy()
