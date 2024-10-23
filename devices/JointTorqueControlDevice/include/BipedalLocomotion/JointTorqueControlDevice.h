@@ -65,6 +65,7 @@ struct MotorTorqueCurrentParameters
     double kt; /**< motor torque to current gain */
     double kfc; /**< friction compensation weight parameter */
     double kp; /**< proportional gain */
+    double ki; /**< integral gain */
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
     double maxOutputFriction; /**< maximum output of the friction model */
@@ -176,21 +177,14 @@ private:
     yarp::sig::Vector measuredJointPositions;
     yarp::sig::Vector measuredMotorPositions;
     yarp::sig::Vector estimatedFrictionTorques;
+    yarp::sig::Vector torqueIntegralErrors;
     std::string m_portPrefix{"/hijackingTrqCrl"}; /**< Default port prefix. */
     BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::vector<int> m_gearRatios;
-    std::vector<double> m_initialDeltaMotorJointRadians;
-    std::vector<double> m_motorPositionError;
-    std::vector<double> m_motorPositionCorrected;
-    std::vector<double> m_motorPositionsRadians;
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
 
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
-
-    double m_tempJointPosRad = 0.0;
-    double m_tempJointPosMotorSideRad = 0.0;
-    double m_jointVelRadSec = 0.0;
 
     CouplingMatrices couplingMatrices;
 
@@ -200,7 +194,6 @@ private:
     struct Status
     {
         std::mutex mutex;
-        std::vector<double> m_motorPositionError;
         std::vector<double> m_frictionLogging;
         std::vector<double> m_currentLogging;
     } m_status;
@@ -288,13 +281,18 @@ public:
 
     virtual bool setKpJtcvc(const std::string& jointName, const double kp) override;
     virtual double getKpJtcvc(const std::string& jointName) override;
+    virtual bool setKiJtcvc(const std::string& jointName, const double ki) override;
+    virtual double getKiJtcvc(const std::string& jointName) override;
     virtual bool setKfcJtcvc(const std::string& jointName, const double kfc) override;
     virtual double getKfcJtcvc(const std::string& jointName) override;
     virtual bool setMaxFrictionTorque(const std::string& jointName, const double maxFriction) override;
     virtual double getMaxFrictionTorque(const std::string& jointName) override;
     virtual bool setFrictionModel(const std::string& jointName, const std::string& model) override;
     virtual std::string getFrictionModel(const std::string& jointName) override;
+    virtual bool setPINNModel(const std::string& jointName, const std::string& pinnModelName) override;
+    virtual std::string getPINNModel(const std::string& jointName) override;
+    virtual bool setKtJtcvc(const std::string& jointName, const double kt) override;
+    virtual double getKtJtcvc(const std::string& jointName) override;
 };
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_JOINT_TORQUE_CONTROL_DEVICE_H
-

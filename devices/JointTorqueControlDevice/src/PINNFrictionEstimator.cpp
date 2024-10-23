@@ -29,7 +29,7 @@ struct PINNFrictionEstimator::Impl
     Ort::MemoryInfo memoryInfo;
 
     std::deque<float> jointVelocityBuffer;
-    std::deque<float> errorPositionBuffer;
+    std::deque<float> motorVelocityBuffer;
 
     size_t historyLength;
 
@@ -58,8 +58,8 @@ PINNFrictionEstimator::PINNFrictionEstimator()
 PINNFrictionEstimator::~PINNFrictionEstimator() = default;
 
 bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
-                                              const std::size_t intraOpNumThreads,
-                                              const std::size_t interOpNumThreads)
+                                       const std::size_t intraOpNumThreads,
+                                       const std::size_t interOpNumThreads)
 {
     std::basic_string<ORTCHAR_T> networkModelPathAsOrtString(networkModelPath.begin(),
                                                              networkModelPath.end());
@@ -80,7 +80,6 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
                                                       networkModelPathAsOrtString.c_str(),
                                                       sessionOptions);
 
-
     if (m_pimpl->session == nullptr)
     {
         BipedalLocomotion::log()->error("Unable to load the model from the file: {}", networkModelPath);
@@ -91,15 +90,18 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
     std::vector<int64_t> inputShape = m_pimpl->session->GetInputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
 
     const std::size_t inputCount = inputShape[1];
-    m_pimpl->historyLength = inputCount / 2;
+
+    int numberOfInputs = 2;
+
+    m_pimpl->historyLength = inputCount / numberOfInputs;
 
     // format the input
-    m_pimpl->structuredInput.rawData.resize(m_pimpl->historyLength * 2);
+    m_pimpl->structuredInput.rawData.resize(inputCount);
     m_pimpl->structuredInput.shape[0] = 1; // batch
-    m_pimpl->structuredInput.shape[1] = m_pimpl->historyLength * 2;
+    m_pimpl->structuredInput.shape[1] = inputCount;
 
     m_pimpl->jointVelocityBuffer.resize(m_pimpl->historyLength);
-    m_pimpl->errorPositionBuffer.resize(m_pimpl->historyLength);
+    m_pimpl->motorVelocityBuffer.resize(m_pimpl->historyLength);
 
     // create tensor required by onnx
     m_pimpl->structuredInput.tensor
@@ -130,27 +132,27 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
 
 void PINNFrictionEstimator::resetEstimator()
 {
+    m_pimpl->motorVelocityBuffer.clear();
     m_pimpl->jointVelocityBuffer.clear();
-    m_pimpl->errorPositionBuffer.clear();
 }
 
-bool PINNFrictionEstimator::estimate(double inputDeltaPosition,
-                                            double inputJointVelocity,
-                                            double& output)
+bool PINNFrictionEstimator::estimate(double inputMotorVelocity,
+                                     double inputJointVelocity,
+                                     double& output)
 {
-    if (m_pimpl->errorPositionBuffer.size() == m_pimpl->historyLength)
+    if (m_pimpl->motorVelocityBuffer.size() == m_pimpl->historyLength)
     {
         // The buffer is full, remove the oldest element
-        m_pimpl->errorPositionBuffer.pop_front();
+        m_pimpl->motorVelocityBuffer.pop_front();
         m_pimpl->jointVelocityBuffer.pop_front();
     }
 
     // Push element into the queue
-    m_pimpl->errorPositionBuffer.push_back(inputDeltaPosition);
+    m_pimpl->motorVelocityBuffer.push_back(inputMotorVelocity);
     m_pimpl->jointVelocityBuffer.push_back(inputJointVelocity);
 
     // Check if the buffer is full
-    if (m_pimpl->errorPositionBuffer.size() < m_pimpl->historyLength)
+    if (m_pimpl->motorVelocityBuffer.size() < m_pimpl->historyLength)
     {
         // The buffer is not full yet
         return false;
@@ -160,10 +162,10 @@ bool PINNFrictionEstimator::estimate(double inputDeltaPosition,
     // Copy the joint positions and then the motor positions in the
     // structured input without emptying the buffer
     // Use iterators to copy the data to the vector
-    std::copy(m_pimpl->errorPositionBuffer.cbegin(),
-              m_pimpl->errorPositionBuffer.cend(),
+    std::copy(m_pimpl->motorVelocityBuffer.cbegin(),
+              m_pimpl->motorVelocityBuffer.cend(),
               m_pimpl->structuredInput.rawData.begin());
-    std::copy(m_pimpl->jointVelocityBuffer.cbegin(),
+        std::copy(m_pimpl->jointVelocityBuffer.cbegin(),
               m_pimpl->jointVelocityBuffer.cend(),
               m_pimpl->structuredInput.rawData.begin() + m_pimpl->historyLength);
 

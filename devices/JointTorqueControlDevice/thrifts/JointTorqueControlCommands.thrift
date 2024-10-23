@@ -23,5 +23,16 @@ service JointTorqueControlCommands
     bool setFrictionModel(1:string jointName, 2:string model);
 
     string getFrictionModel(1:string jointName);
-}
 
+    bool setPINNModel(1:string jointName, 2:string pinnModelName);
+
+    string getPINNModel(1:string jointName);
+
+    bool setKtJtcvc(1:string jointName, 2:double kt);
+
+    double getKtJtcvc(1:string jointName);
+
+    bool setKiJtcvc(1:string jointName, 2:double ki);
+
+    double getKiJtcvc(1:string jointName);
+}

@@ -47,12 +47,14 @@ public:
 
     /**
      * Estimate the joint friction starting from raw data
-     * @param[in] inputDeltaPosition a double representing difference between the joint position and the motor position motor side (rad)
+     * @param[in] inputMotorVelocity a double representing the motor velocity (rad/sec)
      * @param[in] inputJointVelocity a double representing the joint velocity (rad/sec)
      * @param[out] output a double representing the joint friction torque
      * @return true if the estimation is successful, false otherwise
      */
-    bool estimate(double inputDeltaPosition, double inputJointVelocity, double& output);
+    bool estimate(double inputMotorVelocity,
+                  double inputJointVelocity,
+                  double& output);
 
 
 private:
@@ -61,4 +63,3 @@ private:
 };
 
 #endif // BIPEDAL_LOCOMOTION_FRAMEWORK_PINN_FRICTION_ESTIMATOR_H
-
