@@ -143,6 +143,54 @@ double JointTorqueControlDevice::getKpJtcvc(const std::string& jointName)
     return -1;
 }
 
+bool JointTorqueControlDevice::setKiJtcvc(const std::string& jointName, const double ki)
+{
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        std::size_t index = std::distance(m_axisNames.begin(), it);
+
+        {
+            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+            motorTorqueCurrentParameters[index].ki = ki;
+
+            log()->info("Request for ki des = {}", ki);
+            log()->info("Setting value ki = {}", motorTorqueCurrentParameters[index].ki);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+double JointTorqueControlDevice::getKiJtcvc(const std::string& jointName)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Log the ki value
+        log()->info("ki value is {}", motorTorqueCurrentParameters[index].ki);
+
+        // Return the ki value
+        return motorTorqueCurrentParameters[index].ki;
+    }
+
+    // jointName was not found, return default value
+    return -1;
+}
+
 bool JointTorqueControlDevice::setKfcJtcvc(const std::string& jointName, const double kfc)
 {
     // Use std::find to locate the jointName in m_axisNames
@@ -282,6 +330,106 @@ std::string JointTorqueControlDevice::getFrictionModel(const std::string& jointN
     return model;
 }
 
+bool JointTorqueControlDevice::setPINNModel(const std::string& jointName,
+                                            const std::string& pinnModelName)
+{
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        pinnParameters[index].modelPath = pinnModelName;
+
+        // Lock the mutex to safely modify motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        if (!frictionEstimators[index]->initialize(pinnParameters[index].modelPath,
+                                               pinnParameters[index].threadNumber,
+                                               pinnParameters[index].threadNumber))
+        {
+            log()->error("[JointTorqueControlDevice::setPINNModel] Failed to re-initialize friction estimator with model {}", pinnModelName);
+            return false;
+        }
+
+        return true;
+    }
+
+    log()->error("[JointTorqueControlDevice::setPINNModel] Failed to set the PINN model {}. The joint {} is not found.", pinnModelName, jointName);
+    return true;
+}
+
+std::string JointTorqueControlDevice::getPINNModel(const std::string& jointName)
+{
+    std::string pinnModelName = "none";
+
+    size_t index = 0;
+
+    do
+    {
+        if (m_axisNames[index] == jointName)
+        {
+            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+            return pinnParameters[index].modelPath;
+        }
+
+        index++;
+    } while (index < m_axisNames.size());
+
+    return pinnModelName;
+}
+
+bool JointTorqueControlDevice::setKtJtcvc(const std::string& jointName, const double kt)
+{
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        std::size_t index = std::distance(m_axisNames.begin(), it);
+
+        {
+            std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+            motorTorqueCurrentParameters[index].kt = kt;
+
+            log()->info("Request for kt des = {}", kt);
+            log()->info("Setting value kt = {}", motorTorqueCurrentParameters[index].kt);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+double JointTorqueControlDevice::getKtJtcvc(const std::string& jointName)
+{
+    // Use std::find to locate the jointName in m_axisNames
+    auto it = std::find(m_axisNames.begin(), m_axisNames.end(), jointName);
+
+    // If jointName is found
+    if (it != m_axisNames.end())
+    {
+        // Calculate the index of the found element
+        size_t index = std::distance(m_axisNames.begin(), it);
+
+        // Lock the mutex to safely access motorTorqueCurrentParameters
+        std::lock_guard<std::mutex> lock(mutexTorqueControlParam_);
+
+        // Log the kp value
+        log()->info("kt value is {}", motorTorqueCurrentParameters[index].kt);
+
+        // Return the kp value
+        return motorTorqueCurrentParameters[index].kt;
+    }
+
+    // jointName was not found, return default value
+    return -1;
+}
+
 // HIJACKING CONTROL
 void JointTorqueControlDevice::startHijackingTorqueControlIfNecessary(int j)
 {
@@ -296,12 +444,6 @@ void JointTorqueControlDevice::startHijackingTorqueControlIfNecessary(int j)
             frictionEstimators[j]->resetEstimator();
 
             this->readStatus();
-            for (int i = 0; i < axes; i++)
-            {
-                m_initialDeltaMotorJointRadians[i]
-                    = (measuredMotorPositions[i] - m_gearRatios[i] * measuredJointPositions[i])
-                      * M_PI / 180.0;
-            }
         }
 
         this->hijackingTorqueControl[j] = true;
@@ -359,17 +501,9 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
         frictionTorque = tauCoulomb + tauViscous + tauStribeck;
     } else if (motorTorqueCurrentParameters[joint].frictionModel == "FRICTION_PINN")
     {
-        m_tempJointPosRad = measuredJointPositions[joint] * M_PI / 180.0;
-        m_tempJointPosMotorSideRad = m_gearRatios[joint] * m_tempJointPosRad;
-        m_motorPositionsRadians[joint] = measuredMotorPositions[joint] * M_PI / 180.0;
-        m_motorPositionCorrected[joint]
-            = m_motorPositionsRadians[joint] - m_initialDeltaMotorJointRadians[joint];
-        m_jointVelRadSec = measuredJointVelocities[joint] * M_PI / 180.0;
-        m_motorPositionError[joint] = m_tempJointPosMotorSideRad - m_motorPositionCorrected[joint];
-
         // Test network with inputs position error motor side, joint velocity
-        if (!frictionEstimators[joint]->estimate(m_motorPositionError[joint],
-                                                 m_jointVelRadSec,
+        if (!frictionEstimators[joint]->estimate(measuredMotorVelocities[joint] * M_PI / 180.0,
+                                                 measuredJointVelocities[joint] * M_PI / 180.0,
                                                  frictionTorque))
         {
             frictionTorque = 0.0;
@@ -425,11 +559,14 @@ void JointTorqueControlDevice::computeDesiredCurrents()
     {
         if (this->hijackingTorqueControl[j])
         {
+            torqueIntegralErrors[j]
+                += (desiredJointTorques[j] - measuredJointTorques[j]) * this->getPeriod();
 
             desiredMotorCurrents[j]
                 = (desiredJointTorques[j]
                    + motorTorqueCurrentParameters[j].kp
                          * (desiredJointTorques[j] - measuredJointTorques[j])
+                   + motorTorqueCurrentParameters[j].ki * torqueIntegralErrors[j]
                    + motorTorqueCurrentParameters[j].kfc * estimatedFrictionTorques[j])
                   / motorTorqueCurrentParameters[j].kt;
 
@@ -442,7 +579,6 @@ void JointTorqueControlDevice::computeDesiredCurrents()
             {
                 std::lock_guard<std::mutex> lockOutput(m_status.mutex);
                 m_status.m_frictionLogging[j] = estimatedFrictionTorques[j];
-                m_status.m_motorPositionError[j] = m_motorPositionError[j];
                 m_status.m_currentLogging[j] = desiredMotorCurrents[j];
             }
         }
@@ -788,6 +924,12 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         log()->error("{} Parameter `kp` not found", logPrefix);
         return false;
     }
+    Eigen::VectorXd ki;
+    if (!torqueGroup->getParameter("ki", ki))
+    {
+        log()->error("{} Parameter `ki` not found", logPrefix);
+        return false;
+    }
     Eigen::VectorXd maxCurr;
     if (!torqueGroup->getParameter("max_curr", maxCurr))
     {
@@ -839,6 +981,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         motorTorqueCurrentParameters[i].kt = kt[i];
         motorTorqueCurrentParameters[i].kfc = kfc[i];
         motorTorqueCurrentParameters[i].kp = kp[i];
+        motorTorqueCurrentParameters[i].ki = ki[i];
         motorTorqueCurrentParameters[i].maxCurr = maxCurr[i];
         motorTorqueCurrentParameters[i].frictionModel = frictionModels[i];
         motorTorqueCurrentParameters[i].maxOutputFriction = maxOutputFriction[i];
@@ -862,8 +1005,6 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    int threadNumber = 1;
-
     for (int i = 0; i < kt.size(); i++)
     {
         if (motorTorqueCurrentParameters[i].frictionModel == "FRICTION_PINN")
@@ -871,8 +1012,8 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
             frictionEstimators[i] = std::make_unique<PINNFrictionEstimator>();
 
             if (!frictionEstimators[i]->initialize(pinnParameters[i].modelPath,
-                                                   threadNumber,
-                                                   threadNumber))
+                                                   pinnParameters[i].threadNumber,
+                                                   pinnParameters[i].threadNumber))
             {
                 log()->error("{} Failed to initialize friction estimator", logPrefix);
                 return false;
@@ -950,8 +1091,6 @@ void JointTorqueControlDevice::publishStatus()
             std::lock_guard<std::mutex> lockOutput(m_status.mutex);
             m_vectorsCollectionServer.populateData("motor_currents::desired",
                                                    m_status.m_currentLogging);
-            m_vectorsCollectionServer.populateData("position_error::input_network",
-                                                   m_status.m_motorPositionError);
             m_vectorsCollectionServer.populateData("friction_torques::estimated",
                                                    m_status.m_frictionLogging);
             m_vectorsCollectionServer.sendData();
@@ -991,16 +1130,12 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
         measuredJointVelocities.resize(axes, 0.0);
         measuredMotorVelocities.resize(axes, 0.0);
         measuredJointTorques.resize(axes, 0.0);
+        torqueIntegralErrors.resize(axes, 0.0);
         measuredJointPositions.resize(axes, 0.0);
         measuredMotorPositions.resize(axes, 0.0);
         estimatedFrictionTorques.resize(axes, 0.0);
         m_gearRatios.resize(axes, 1);
         m_axisNames.resize(axes);
-        m_initialDeltaMotorJointRadians.resize(axes, 1);
-        m_motorPositionError.resize(axes, 1);
-        m_motorPositionCorrected.resize(axes, 1);
-        m_motorPositionsRadians.resize(axes, 1);
-        m_status.m_motorPositionError.resize(axes, 1);
         m_status.m_frictionLogging.resize(axes, 1);
         m_status.m_currentLogging.resize(axes, 1);
     }
@@ -1309,4 +1444,3 @@ void JointTorqueControlDevice::controlLoop()
 
     timeOfLastControlLoop = BipedalLocomotion::clock().now();;
 }
-
