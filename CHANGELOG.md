@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 
 ### Changed
+- Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
 
 ### Fixed
 - Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
