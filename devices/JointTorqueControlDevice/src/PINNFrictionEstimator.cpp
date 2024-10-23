@@ -193,3 +193,4 @@ bool PINNFrictionEstimator::estimate(double inputMotorVelocity,
 
     return true;
 }
+
