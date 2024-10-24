@@ -69,7 +69,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
         file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "    if(os.path.exists(library_dll_path)):${NEW_LINE}")
         file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "        os.add_dll_directory(library_dll_path)${NEW_LINE}")
     endif()
-    
+
     file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "from .bindings import *${NEW_LINE}from . import utils${NEW_LINE}")
 
     # Install the __init__.py file
