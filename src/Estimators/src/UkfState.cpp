@@ -191,10 +191,10 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
         dynamicsGroup->setParameter("sampling_time", state->m_dT);
 
         // create variable handler
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
-            log()->error("{} Unable to find the parameter 'input_name'.", logPrefix);
+            log()->error("{} Unable to find the parameter 'variable_name'.", logPrefix);
             return nullptr;
         }
         std::vector<double> covariances;
@@ -236,7 +236,7 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
         // add dynamics to the list
         state->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
 
-        state->m_stateToUkfNames[inputName] = dynamicsGroupName;
+        state->m_stateToUkfNames[variableName] = dynamicsGroupName;
     }
 
     // finalize estimator
