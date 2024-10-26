@@ -214,8 +214,8 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         dynamicsGroup->setParameter("sampling_time", measurement->m_dT);
 
         // create variable handler
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
             BipedalLocomotion::log()->error("{} Unable to find the parameter 'input_name'.",
                                             logPrefix);
@@ -255,7 +255,7 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         // add dynamics to the list
         measurement->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
 
-        measurement->m_ukfNamesToMeasures[dynamicsGroupName] = inputName;
+        measurement->m_ukfNamesToMeasures[dynamicsGroupName] = variableName;
     }
 
     measurement->m_inputDescription

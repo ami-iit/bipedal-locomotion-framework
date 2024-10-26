@@ -130,6 +130,11 @@ bool RobotDynamicsEstimatorDevice::createSubModels(
     }
     subModelList = subModelCreator.getSubModelList();
 
+    for (const auto& subModel : subModelList)
+    {
+        log()->info("{} Submodel {}.", logPrefix, subModel.getModel().toString());
+    }
+
     for (int idx = 0; idx < subModelList.size(); idx++)
     {
         kinDynWrapperList.emplace_back(std::make_shared<KinDynWrapper>());
@@ -323,13 +328,21 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
         m_estimatorOutput.output.ftWrenchesBiases[ftBias].setZero(); // FT bias
     }
 
-    if (!m_robotSensorBridge->getMotorCurrents(m_estimatorOutput.output.tau_m))
+    // if (!m_robotSensorBridge->getMotorCurrents(m_estimatorOutput.output.tau_m))
+    // {
+    //     return false;
+    // }
+    // Eigen::VectorXd temp(m_gearboxRatio.size());
+    // temp = m_gearboxRatio.array() * m_torqueConstant.array();
+    // m_estimatorOutput.output.tau_m = m_estimatorOutput.output.tau_m.array() * temp.array();
+    if (!m_robotSensorBridge->getJointTorques(m_estimatorOutput.output.tau_m))
     {
         return false;
     }
-    Eigen::VectorXd temp(m_gearboxRatio.size());
-    temp = m_gearboxRatio.array() * m_torqueConstant.array();
-    m_estimatorOutput.output.tau_m = m_estimatorOutput.output.tau_m.array() * temp.array();
+    for (int index = 0; index < m_estimatorOutput.output.tau_m.size(); index++)
+    {
+        m_estimatorOutput.output.tau_m[index] = m_estimatorOutput.output.tau_m[index] / m_gearboxRatio[index];
+    }
 
     if (!m_estimator->setInitialState(m_estimatorOutput.output))
     {
@@ -402,6 +415,7 @@ bool RobotDynamicsEstimatorDevice::setupRobotDynamicsEstimator(
         return false;
     }
 
+    // Create kindyn computation object
     m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     if (!m_kinDyn->loadRobotModel(modelLoader.model()))
     {
@@ -612,9 +626,18 @@ bool RobotDynamicsEstimatorDevice::updateMeasurements()
         return false;
     }
 
-    if (!m_robotSensorBridge->getMotorCurrents(m_estimatorInput.input.motorCurrents))
+    // if (!m_robotSensorBridge->getMotorCurrents(m_estimatorInput.input.motorCurrents))
+    // {
+    //     return false;
+    // }
+    if (!m_robotSensorBridge->getJointTorques(m_estimatorInput.input.motorCurrents))
     {
         return false;
+    }
+    for (int i = 0; i < m_estimatorInput.input.motorCurrents.size(); i++)
+    {
+        m_estimatorInput.input.motorCurrents[i] = m_estimatorInput.input.motorCurrents[i]
+                                                  / m_gearboxRatio[i] / m_torqueConstant[i];
     }
 
     for (auto& [key, value] : m_estimatorInput.input.ftWrenches)
