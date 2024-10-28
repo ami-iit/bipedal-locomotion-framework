@@ -209,7 +209,11 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
             log()->error("{} Unable to find the parameter 'initial_covariance'.", logPrefix);
             return nullptr;
         }
-        state->m_stateVariableHandler.addVariable(dynamicsGroupName, covariances.size());
+        if (!state->m_stateVariableHandler.addVariable(dynamicsGroupName, covariances.size()))
+        {
+            log()->error("{} Unable to add the variable named '{}'.", logPrefix, dynamicsGroupName);
+            return nullptr;
+        }
 
         std::string dynamicModel;
         if (!dynamicsGroup->getParameter("dynamic_model", dynamicModel))
