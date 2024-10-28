@@ -203,7 +203,8 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
             log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
             return nullptr;
         }
-        if (!dynamicsGroup->getParameter("initial_covariance", covariances))
+        std::vector<double> initialCovariances;
+        if (!dynamicsGroup->getParameter("initial_covariance", initialCovariances))
         {
             log()->error("{} Unable to find the parameter 'initial_covariance'.", logPrefix);
             return nullptr;
