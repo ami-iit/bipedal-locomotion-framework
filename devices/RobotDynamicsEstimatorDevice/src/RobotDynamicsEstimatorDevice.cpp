@@ -640,6 +640,9 @@ bool RobotDynamicsEstimatorDevice::updateMeasurements()
                                                   / m_gearboxRatio[i] / m_torqueConstant[i];
     }
 
+    // Read friction torques
+    // m_estimatorInput.input.fr
+
     for (auto& [key, value] : m_estimatorInput.input.ftWrenches)
     {
         if (!m_robotSensorBridge
