@@ -59,16 +59,10 @@ BSD-3-Clause license. -->
         <param name="beta">2.0</param>
         <param name="kappa">0.0</param>
         <group name="UKF_STATE">
-            <!--param name="dynamics_list">
-                ("JOINT_VELOCITY", "MOTOR_TORQUE", "FRICTION_TORQUE", "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT",
-                 "RIGHT_LEG_FT_BIAS", "RIGHT_FOOT_FRONT_FT_BIAS", "RIGHT_FOOT_REAR_FT_BIAS",
-                 "RIGHT_LEG_ACC_BIAS", "RIGHT_FOOT_FRONT_ACC_BIAS", "RIGHT_FOOT_REAR_ACC_BIAS",
-                 "RIGHT_LEG_GYRO_BIAS", "RIGHT_FOOT_FRONT_GYRO_BIAS", "RIGHT_FOOT_REAR_GYRO_BIAS")
-             </param-->
              <param name="dynamics_list">
-                 ("JOINT_VELOCITY", "MOTOR_TORQUE", "FRICTION_TORQUE", "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT")
+                 ("JOINT_VELOCITY", "MOTOR_TORQUE", "FRICTION_TORQUE", "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT",
+                  "BASE_ACC", "BASE_GYRO")
               </param>
-             <!-- Available models = ["ZeroVelocityStateDynamics", "JointVelocityStateDynamics", "FrictionTorqueStateDynamics"] -->
              <group name="JOINT_VELOCITY">
                 <param name="variable_name">ds</param>
                 <param name="elements">("r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
@@ -123,18 +117,11 @@ BSD-3-Clause license. -->
         </group>
 
         <group name="UKF_MEASUREMENT">
-            <!--param name="dynamics_list">
-                ("JOINT_VELOCITY", "MOTOR_CURRENT",
-                 "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT",
-                 "RIGHT_LEG_ACC", "RIGHT_FOOT_FRONT_ACC", "RIGHT_FOOT_REAR_ACC",
-                 "RIGHT_LEG_GYRO", "RIGHT_FOOT_FRONT_GYRO", "RIGHT_FOOT_REAR_GYRO")
-            </param-->
             <param name="dynamics_list">
                 ("JOINT_VELOCITY", "MOTOR_CURRENT",
-                "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT")
+                "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT",
+                "BASE_ACC", "BASE_GYRO")
             </param>
-            <!-- Available models = ["ConstantMeasurementModel", "AccelerometerMeasurementDynamics",
-                                    "GyroscopeMeasurementDynamics", "MotorCurrentMeasurementDynamics"] -->
             <group name="JOINT_VELOCITY">
                 <param name="variable_name">ds</param>
                 <param name="associated_state">JOINT_VELOCITY</param>
@@ -170,14 +157,14 @@ BSD-3-Clause license. -->
                 <param name="dynamic_model">ConstantMeasurementModel</param>
             </group>
             <group name="BASE_ACC">
-                <param name="variable_name">base_imu_0_acc</param>
+                <param name="variable_name">waist_acc</param>
                 <param name="associated_state">BASE_ACC</param>
                 <param name="covariance">(1e-3, 1e-3, 1e-3)</param>
                 <param name="use_bias">false</param>
                 <param name="dynamic_model">ConstantMeasurementModel</param>
             </group>
             <group name="BASE_GYRO">
-                <param name="variable_name">base_imu_0_gyro</param>
+                <param name="variable_name">waist_gyro</param>
                 <param name="associated_state">BASE_GYRO</param>
                 <param name="covariance">(1e-3, 1e-3, 1e-3)</param>
                 <param name="use_bias">false</param>
