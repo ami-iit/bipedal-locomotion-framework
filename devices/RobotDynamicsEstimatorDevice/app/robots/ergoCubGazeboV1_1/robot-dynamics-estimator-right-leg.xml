@@ -118,7 +118,7 @@ BSD-3-Clause license. -->
 
         <group name="UKF_MEASUREMENT">
             <param name="dynamics_list">
-                ("JOINT_VELOCITY", "MOTOR_CURRENT",
+                ("JOINT_VELOCITY", "MOTOR_CURRENT", "FRICTION_TORQUE",
                 "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT",
                 "BASE_ACC", "BASE_GYRO")
             </param>
@@ -134,6 +134,12 @@ BSD-3-Clause license. -->
                 <param name="gear_ratio">(100.0, -160.0, 100.0, 100.0, 100.0, 160.0)</param>
                 <param name="torque_constant">(0.111, 0.047, 0.047, 0.111, 0.111, 0.025)</param>
                 <param name="dynamic_model">MotorCurrentMeasurementDynamics</param>
+            </group>
+            <group name="FRICTION_TORQUE">
+                <param name="variable_name">tau_F</param>
+                <param name="associated_state">FRICTION_TORQUE</param>
+                <param name="covariance">(1e-1, 1e-1, 1e-1, 1e-1, 1e-1, 1e-1)</param>
+                <param name="dynamic_model">ConstantMeasurementModel</param>
             </group>
             <group name="RIGHT_LEG_FT">
                 <param name="variable_name">r_leg_ft</param>
