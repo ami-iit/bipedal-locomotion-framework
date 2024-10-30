@@ -60,6 +60,33 @@ public:
      * threads to run.
      */
     void yield() final;
+
+private:
+
+    /**
+     * PrecisionScheduler is a class that allows to set the system timer resolution to the minimum
+     * value for higher precision. This class is used only on Windows systems.
+     */
+    struct PrecisionScheduler
+    {
+        /**
+         * Constructor.
+         * It sets the system timer resolution to the minimum value for higher precision.
+         * @note Only affects Windows systems.
+         */
+        PrecisionScheduler();
+
+        /**
+         * Destructor.
+         * It restores the system timer resolution to the default value.
+         * @note Only affects Windows systems.
+         */
+        ~PrecisionScheduler();
+    };
+
+    PrecisionScheduler m_precisionScheduler; /**< PrecisionScheduler object.
+                                                  It is used only on Windows systems. */
+
 };
 
 class StdClockFactory final : public ClockFactory

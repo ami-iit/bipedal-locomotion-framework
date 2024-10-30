@@ -8,6 +8,10 @@
 #include <chrono>
 #include <thread>
 
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
+
 #include <BipedalLocomotion/System/StdClock.h>
 
 using namespace BipedalLocomotion::System;
@@ -30,6 +34,30 @@ void StdClock::sleepUntil(const std::chrono::nanoseconds& time)
 void StdClock::yield()
 {
     std::this_thread::yield();
+}
+
+StdClock::PrecisionScheduler::PrecisionScheduler()
+{
+#if defined(_WIN32)
+    // Only affects Windows systems.
+    TIMECAPS tm; // Stores system timer capabilities.
+    // Get the minimum timer resolution supported by the system.
+    timeGetDevCaps(&tm, sizeof(TIMECAPS));
+    // Set the system timer resolution to the minimum value for higher precision.
+    timeBeginPeriod(tm.wPeriodMin);
+#endif
+}
+
+StdClock::PrecisionScheduler::~PrecisionScheduler()
+{
+#if defined(_WIN32)
+    // Only affects Windows systems.
+    TIMECAPS tm; // Stores system timer capabilities.
+    // Get the minimum timer resolution supported by the system.
+    timeGetDevCaps(&tm, sizeof(TIMECAPS));
+    // Restore the system timer resolution to the default value.
+    timeEndPeriod(tm.wPeriodMin);
+#endif
 }
 
 IClock& StdClockFactory::createClock()
