@@ -12,6 +12,7 @@ function(add_bipedal_locomotion_library)
     PRIVATE_HEADERS
     PUBLIC_LINK_LIBRARIES
     PRIVATE_LINK_LIBRARIES
+    PRIVATE_WINDOWS_LINK_LIBRARIES
     SUBDIRECTORIES)
 
   set(prefix "bipedal_component")
@@ -32,6 +33,7 @@ function(add_bipedal_locomotion_library)
   set(private_headers ${${prefix}_PRIVATE_HEADERS})
   set(public_link_libraries ${${prefix}_PUBLIC_LINK_LIBRARIES})
   set(private_link_libraries ${${prefix}_PRIVATE_LINK_LIBRARIES})
+  set(private_windows_link_libraries ${${prefix}_PRIVATE_WINDOWS_LINK_LIBRARIES})
   set(subdirectories ${${prefix}_SUBDIRECTORIES})
 
   if(NOT installation_folder)
@@ -75,6 +77,10 @@ function(add_bipedal_locomotion_library)
 
     target_link_libraries(${name} PUBLIC ${public_link_libraries})
     target_link_libraries(${name} PRIVATE ${private_link_libraries})
+
+    if(WIN32)
+      target_link_libraries(${name} PRIVATE ${private_windows_link_libraries})
+    endif()
 
     set_target_properties(${name} PROPERTIES
       OUTPUT_NAME "${PROJECT_NAME}${name}"
