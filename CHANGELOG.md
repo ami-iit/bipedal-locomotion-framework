@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 - Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
+- Set the system timer resolution to the minimum value for higher precision on `Windows` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/907)
 
 ### Fixed
 - Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
