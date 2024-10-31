@@ -5,17 +5,17 @@
 
 <devices>
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_wrench_client" type="genericSensorClient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/left_arm/cartesianEndEffectorWrench:o</param>
     <param name="local">/yarp_robot_logger/left_arm_wrench</param>
     <param name="carrier">udp</param>
-  </device>
+  </device> -->
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_leg_wrench_client" type="genericSensorClient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_leg_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/left_leg/cartesianEndEffectorWrench:o</param>
     <param name="local">/yarp_robot_logger/left_leg_wrench</param>
     <param name="carrier">udp</param>
-  </device>
+  </device> -->
 
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_front_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/left_foot_front/cartesianEndEffectorWrench:o</param>
@@ -29,17 +29,17 @@
     <param name="carrier">udp</param>
   </device>
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_arm_wrench_client" type="genericSensorClient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_arm_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/right_arm/cartesianEndEffectorWrench:o</param>
     <param name="local">/yarp_robot_logger/right_arm_wrench</param>
     <param name="carrier">udp</param>
-  </device>
+  </device> -->
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_leg_wrench_client" type="genericSensorClient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_leg_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/right_leg/cartesianEndEffectorWrench:o</param>
     <param name="local">/yarp_robot_logger/right_leg_wrench</param>
     <param name="carrier">udp</param>
-  </device>
+  </device> -->
 
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="right_front_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/right_foot_front/cartesianEndEffectorWrench:o</param>

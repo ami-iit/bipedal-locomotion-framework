@@ -231,10 +231,10 @@ public:
 
     /**
      * @brief setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.
-     * @param measurementToUkfNames is a map containing the mapping between the name of the measurement and the name of the variable in the ukf.
+     * @param variableNameToUkfState is a map containing the mapping between the name of state variable and the name of the ukf state.
      * @note the map should contain only the name of the state dynamics.
      */
-    void setStateNameMapping(const std::map<std::string, std::string>& stateToUkfNames);
+    void setStateNameMapping(const std::map<std::pair<std::string, std::string>, std::string>& m_variableNameToUkfState);
 
 }; // classUkfMeasurement
 
