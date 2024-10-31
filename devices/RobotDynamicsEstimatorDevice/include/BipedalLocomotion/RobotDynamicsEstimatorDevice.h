@@ -15,6 +15,7 @@
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <iDynTree/Estimation/ContactStateMachine.h>
 #include <iDynTree/Estimation/ExtWrenchesAndJointTorquesEstimator.h>
@@ -97,9 +98,12 @@ public:
 
 private:
     // class members
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::string m_portPrefix{"/rde"}; /**< Default port prefix. */
     std::string m_robot{"ergocubSim"}; /**< Robot name. Default is ergocubSim. */
     std::string m_baseLink{"root_link"}; /**< Base link name. Default is root_link. */
+    std::string m_contactLink{"chest"}; /**< Base link name. Default is root_link. */
+    std::string m_baseIMU{"waist_imu_0"}; /**< Base IMU name. Default is imu_link. */
     std::vector<std::string> m_jointNameList{}; /**< Joint name list. */
     Eigen::VectorXd m_gearboxRatio; /**< Gearbox ratio list. */
     Eigen::VectorXd m_torqueConstant; /**< Torque constant list. */
@@ -151,6 +155,11 @@ private:
     } m_remappedVirtualAnalogSensorsInterfaces; /**< Remapped virtual analog sensor interfaces. */
     yarp::sig::Vector m_estimatedJointTorquesYARP; /**< Estimated joint torques in YARP format. */
     Eigen::Vector3d m_temp3DMeasurement; /**< Temporary 3D measurement. */
+    const std::vector<std::string> ftElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+    const std::string gyrosName = "gyros";
+    const std::vector<std::string> gyroElementNames = {"omega_x", "omega_y", "omega_z"};
+    const std::string accelerometersName = "accelerometers";
+    const std::vector<std::string> accelerometerElementNames = {"a_x", "a_y", "a_z"};
 
     // class methods
     /**
@@ -184,6 +193,12 @@ private:
      */
     bool setupRobotDynamicsEstimator(
         std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Setup the vectors collection server.
+     * @return true/false on success/failure.
+     */
+    bool configureVectorsCollectionServer();
 
     /**
      * Setup the robot sensor bridge.
