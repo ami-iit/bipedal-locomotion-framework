@@ -7,8 +7,8 @@ BSD-3-Clause license. -->
   <param name="robot">ergocub</param>
   <param name="sampling_period_in_s">0.01</param>
 
-  <param name="rgb_cameras_fps">(20)</param>
-  <param name="rgb_cameras_rgb_save_mode">("video")</param>
+  <param name="rgb_cameras_fps">()</param>
+  <param name="rgb_cameras_rgb_save_mode">()</param>
 
   <param name="rgbd_cameras_fps">()</param>
   <param name="rgbd_cameras_depth_scale">()</param>
@@ -77,7 +77,7 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="RobotCameraBridge">
-      <param name="stream_cameras">true</param>
+      <param name="stream_cameras">false</param>
       <group name="Cameras">
         <param name="rgb_cameras_list">("jabra")</param>
         <param name="rgbd_cameras_list">()</param>
@@ -100,11 +100,11 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="SixAxisForceTorqueSensors">
-      <param name="sixaxis_forcetorque_sensors_list">(l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft, r_arm_ft, l_arm_ft)</param>
+      <param name="sixaxis_forcetorque_sensors_list">(l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft)</param>
     </group>
 
     <group name="TemperatureSensors">
-      <param name="temperature_sensors_list">(l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft, r_arm_ft, l_arm_ft)</param>
+      <param name="temperature_sensors_list">(l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft)</param>
     </group>
 
     <group name="CartesianWrenches">
@@ -112,10 +112,10 @@ BSD-3-Clause license. -->
     </group>
 
     <group name="InertialSensors">
-      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
-      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
-      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
-      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu, r_arm_ft_imu, l_arm_ft_imu)</param>
+      <param name="accelerometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="gyroscopes_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="magnetometers_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
+      <param name="orientation_sensors_list">(waist_imu_0, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)</param>
     </group>
 
   </group>
@@ -134,7 +134,7 @@ BSD-3-Clause license. -->
       <elem name="left_arm_wrench_client">left_arm_wrench_client</elem>
       <elem name="mas-remapper">mas-remapper</elem>
       <!-- <elem name="realsense">realsense</elem> -->
-      <elem name="jabra">jabra</elem>
+      <!-- <elem name="jabra">jabra</elem> -->
     </paramlist>
   </action>
 
