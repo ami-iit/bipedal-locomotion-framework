@@ -274,6 +274,10 @@ public:
     virtual bool setRefTorques(const double* t);
     virtual bool setRefTorque(int j, double t);
 
+    // HACK MOTOR ACCELERATION TO PUBLISH FRICTION TORQUES
+    virtual bool getMotorEncoderAcceleration(int j, double* acc);
+    virtual bool getMotorEncoderAccelerations(double* accs);
+
     // CONTROL THREAD
     virtual bool threadInit();
     virtual void run();

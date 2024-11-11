@@ -1399,6 +1399,34 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
     return true;
 }
 
+// TO BE UPDATE
+// We publish the friction torque by using the motor acceleration as the friction
+// torque does not have a dedicated interface in the remote control board.
+// This can be done as the motor acceleration interface is not used and streams
+// zero constant values.
+// Once there will be a dedicated interface for the friction torque or solution
+// to publish the friction torque, this method will be updated.
+bool JointTorqueControlDevice::getMotorEncoderAccelerations(double* accs)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    memcpy(accs, estimatedFrictionTorques.data(), this->axes * sizeof(double));
+    return true;
+}
+
+// TO BE UPDATE
+// We publish the friction torque by using the motor acceleration as the friction
+// torque does not have a dedicated interface in the remote control board.
+// This can be done as the motor acceleration interface is not used and streams
+// zero constant values.
+// Once there will be a dedicated interface for the friction torque or solution
+// to publish the friction torque, this method will be updated.
+bool JointTorqueControlDevice::getMotorEncoderAcceleration(int j, double* acc)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    *acc = estimatedFrictionTorques[j];
+    return true;
+}
+
 // HIJACKED CONTROL THREAD
 bool JointTorqueControlDevice::threadInit()
 {
