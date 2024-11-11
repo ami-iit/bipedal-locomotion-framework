@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file.
 - Add software joint position limits  to the `blf-motor-current-tracking.py` application (https://github.com/ami-iit/bipedal-locomotion-framework/pull/901)
 - Implement `velMANN` class to perform inference on MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
+- Add KF to estimate joint and motor velocities in JoinTorqueControlDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/909)
 
 ### Changed
 - Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
