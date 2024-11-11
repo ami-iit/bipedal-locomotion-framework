@@ -606,24 +606,6 @@ void JointTorqueControlDevice::readStatus()
 {
     auto logPrefix = "[JointTorqueControlDevice::readStatus]";
 
-    if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
-    {
-        log()->error("{} Failed to get Motor encoders speed", logPrefix);
-    }
-    if (!this->PassThroughControlBoard::getMotorEncoderSpeeds(measuredMotorVelocities.data()))
-    {
-        // In case the motor speed can not be directly measured, it tries to estimate it from joint
-        // velocity if available
-        if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
-        {
-            log()->error("{} Failed to get Motor encoders speed", logPrefix);
-        } else
-        {
-            yarp::eigen::toEigen(measuredMotorVelocities)
-                = couplingMatrices.fromJointVelocitiesToMotorVelocities
-                  * yarp::eigen::toEigen(measuredJointVelocities);
-        }
-    }
     if (!this->PassThroughControlBoard::getTorques(measuredJointTorques.data()))
     {
         log()->error("{} Failed to get joint torque", logPrefix);
@@ -635,6 +617,74 @@ void JointTorqueControlDevice::readStatus()
     if (!this->PassThroughControlBoard::getMotorEncoders(measuredMotorPositions.data()))
     {
         log()->error("{} Failed to get motor position", logPrefix);
+    }
+
+    if (m_estimateJointVelocity)
+    {
+        for (size_t i = 0; i < measuredJointPositions.size(); ++i)
+        {
+            if (!m_KFJointList[i].kfPredict())
+            {
+                log()->error("{} Failed to predict the Kalman filter", logPrefix);
+            }
+            m_measurementKF(0) = measuredJointPositions[i];
+            if (!m_KFJointList[i].kfSetMeasurementVector(m_measurementKF))
+            {
+                log()->error("{} Failed to set measurement vector", logPrefix);
+            }
+            if (!m_KFJointList[i].kfUpdate())
+            {
+                log()->error("{} Failed to update the Kalman filter", logPrefix);
+            }
+            m_KFJointList[i].kfGetStates(m_estimateKF);
+            measuredJointVelocities[i] = m_estimateKF(1);
+        }
+    }
+    else
+    {
+        if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
+        {
+            log()->error("{} Failed to get Motor encoders speed", logPrefix);
+        }
+    }
+
+    if (m_estimateMotorVelocity)
+    {
+        for (size_t i = 0; i < measuredMotorPositions.size(); ++i)
+        {
+            if (!m_KFMotorList[i].kfPredict())
+            {
+                log()->error("{} Failed to predict the Kalman filter", logPrefix);
+            }
+            m_measurementKF(0) = measuredMotorPositions[i];
+            if (!m_KFMotorList[i].kfSetMeasurementVector(m_measurementKF))
+            {
+                log()->error("{} Failed to set measurement vector", logPrefix);
+            }
+            if (!m_KFMotorList[i].kfUpdate())
+            {
+                log()->error("{} Failed to update the Kalman filter", logPrefix);
+            }
+            m_KFMotorList[i].kfGetStates(m_estimateKF);
+            measuredMotorVelocities[i] = m_estimateKF(1);
+        }
+    }
+    else
+    {
+        if (!this->PassThroughControlBoard::getMotorEncoderSpeeds(measuredMotorVelocities.data()))
+        {
+            // In case the motor speed can not be directly measured, it tries to estimate it from joint
+            // velocity if available
+            if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
+            {
+                log()->error("{} Failed to get Motor encoders speed", logPrefix);
+            } else
+            {
+                yarp::eigen::toEigen(measuredMotorVelocities)
+                    = couplingMatrices.fromJointVelocitiesToMotorVelocities
+                    * yarp::eigen::toEigen(measuredJointVelocities);
+            }
+        }
     }
 }
 
@@ -899,6 +949,46 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     }
     this->setPeriod(rate * 0.001);
 
+    // Read group KF_JOINT
+    auto kfJointGroup = params->getGroup("KF_JOINT").lock();
+    if (kfJointGroup == nullptr)
+    {
+        log()->warn("{} Group `KF_JOINT` not found in configuration.", logPrefix);
+    }
+    else
+    {
+        // Create KF for joint velocity estimation
+        if (!constructKalmanFilters(kfJointGroup, m_KFJointList))
+        {
+            log()->warn("{} Failed to construct Kalman filter", logPrefix);
+        }
+        else
+        {
+            log()->info("{} Kalman filter for joint velocity estimation created", logPrefix);
+            m_estimateJointVelocity = true;
+        }
+    }
+
+    // Read group KF_MOTOR
+    auto kfMotorGroup = params->getGroup("KF_MOTOR").lock();
+    if (kfMotorGroup == nullptr)
+    {
+        log()->warn("{} Group `KF_MOTOR` not found in configuration.", logPrefix);
+    }
+    else
+    {
+        // Create KF for motor velocity estimation
+        if (!constructKalmanFilters(kfMotorGroup, m_KFMotorList))
+        {
+            log()->warn("{} Failed to construct Kalman filter", logPrefix);
+        }
+        else
+        {
+            log()->info("{} Kalman filter for motor velocity estimation created", logPrefix);
+            m_estimateMotorVelocity = true;
+        }
+    }
+
     auto torqueGroup = params->getGroup("TORQUE_CURRENT_PARAMS").lock();
     if (torqueGroup == nullptr)
     {
@@ -1104,6 +1194,135 @@ void JointTorqueControlDevice::publishStatus()
     }
 }
 
+bool JointTorqueControlDevice::constructKalmanFilters(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+                                                      std::vector<iDynTree::DiscreteKalmanFilterHelper> & kfList)
+{
+    auto kfGroup = paramHandler.lock();
+    if (kfGroup == nullptr)
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Invalid parameter handler");
+        return false;
+    }
+    
+    Eigen::VectorXd q0;
+    if (!kfGroup->getParameter("Q0", q0))
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Parameter `Q0` not found");
+        return false;
+    }
+
+    Eigen::VectorXd q1;
+    if (!kfGroup->getParameter("Q1", q1))
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Parameter `Q1` not found");
+        return false;
+    }
+
+    Eigen::VectorXd q2;
+    if (!kfGroup->getParameter("Q2", q2))
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Parameter `Q2` not found");
+        return false;
+    }
+
+    Eigen::VectorXd r;
+    if (!kfGroup->getParameter("R", r))
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Parameter `R` not found");
+        return false;
+    }
+
+    Eigen::VectorXd p0;
+    if (!kfGroup->getParameter("P0", p0))
+    {
+        log()->error("[JointTorqueControlDevice::constructKalmanFilters] Parameter `P0` not found");
+        return false;
+    }
+
+    int numJoints = r.size();
+    double dt = this->getPeriod();
+
+    kfList.resize(numJoints);
+
+    iDynTree::MatrixDynSize A_idyn;
+    A_idyn.resize(3, 3);
+    A_idyn.zero();
+    // Fill the diagonal blocks for A_total_idyn
+    A_idyn(0, 0) = 1;
+    A_idyn(0, 1) = dt;
+    A_idyn(1, 1) = 1;
+    A_idyn(1, 2) = dt;
+    A_idyn(2, 2) = 1;
+
+    // Construct the H_total_idyn matrix
+    iDynTree::MatrixDynSize H_idyn;
+    H_idyn.resize(1, 3);
+    H_idyn.zero();
+    H_idyn(0, 0) = 1;
+
+    for (int joint = 0; joint < numJoints; ++joint)
+    {
+        if (!kfList[joint].constructKalmanFilter(A_idyn, H_idyn))
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to construct Kalman filter");
+            return false;
+        }
+
+        // Construct the Q matrix (system noise covariance)
+        iDynTree::MatrixDynSize Q_idyn;
+        Q_idyn.resize(3, 3);
+        Q_idyn.zero();
+        Q_idyn(0, 0) = q0(joint);
+        Q_idyn(1, 1) = q1(joint);
+        Q_idyn(2, 2) = q2(joint);
+        if (!kfList[joint].kfSetSystemNoiseCovariance(Q_idyn))
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to set system noise covariance");
+            return false;
+        }
+
+        // Construct the R matrix (measurement noise covariance)
+        iDynTree::MatrixDynSize R_idyn;
+        R_idyn.resize(1, 1);
+        R_idyn(0, 0) = r(joint);
+        if (!kfList[joint].kfSetMeasurementNoiseCovariance(R_idyn))
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to set measurement noise covariance");
+            return false;
+        }
+
+        // Set initial state x0 and covariance P0
+        iDynTree::VectorDynSize x0;
+        x0.resize(3);
+        x0.zero();
+        if (!kfList[joint].kfSetInitialState(x0))
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to set initial state");
+            return false;
+        }
+
+        iDynTree::MatrixDynSize P0_idyn;
+        P0_idyn.resize(3, 3);
+        P0_idyn.zero();
+        P0_idyn(0, 0) = p0(joint);
+        P0_idyn(1, 1) = p0(joint);
+        P0_idyn(2, 2) = p0(joint);
+        if (!kfList[joint].kfSetStateCovariance(P0_idyn))
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to set state covariance");
+            return false;
+        }
+
+        if (!kfList[joint].kfInit())
+        {
+            log()->error("[JointTorqueControlDevice::constructKalmanFilters] Failed to initialize Kalman filter");
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
 {
     if (!openCalledCorrectly)
@@ -1138,6 +1357,15 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
         m_axisNames.resize(axes);
         m_status.m_frictionLogging.resize(axes, 1);
         m_status.m_currentLogging.resize(axes, 1);
+    }
+
+    // Initialize variables for KF idyntree
+    if (ret)
+    {
+        m_KFJointList.resize(axes);
+        m_KFMotorList.resize(axes);
+        m_measurementKF.resize(1);
+        m_estimateKF.resize(3);
     }
 
     // Load coupling matrices
@@ -1396,6 +1624,34 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
 {
     std::lock_guard<std::mutex>(this->globalMutex);
     *trq = desiredJointTorques[j];
+    return true;
+}
+
+bool JointTorqueControlDevice::getEncoderSpeeds(double* spds)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    memcpy(spds, measuredJointVelocities.data(), this->axes * sizeof(double));
+    return true;
+}
+
+bool JointTorqueControlDevice::getEncoderSpeed(int j, double* sp)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    *sp = measuredJointVelocities[j];
+    return true;
+}
+
+bool JointTorqueControlDevice::getMotorEncoderSpeeds(double* spds)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    memcpy(spds, measuredMotorVelocities.data(), this->axes * sizeof(double));
+    return true;
+}
+
+bool JointTorqueControlDevice::getMotorEncoderSpeed(int j, double* sp)
+{
+    std::lock_guard<std::mutex>(this->globalMutex);
+    *sp = measuredMotorVelocities[j];
     return true;
 }
 

@@ -27,6 +27,8 @@
 
 #include <Eigen/Core>
 
+#include <iDynTree/KalmanFilter.h>
+
 #include <JointTorqueControlCommands.h>
 
 
@@ -183,6 +185,13 @@ private:
     std::vector<int> m_gearRatios;
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
+    
+    iDynTree::VectorDynSize m_measurementKF;
+    iDynTree::VectorDynSize m_estimateKF;
+    std::vector<iDynTree::DiscreteKalmanFilterHelper> m_KFJointList;
+    std::vector<iDynTree::DiscreteKalmanFilterHelper> m_KFMotorList;
+    bool m_estimateJointVelocity = false;
+    bool m_estimateMotorVelocity = false;
 
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
@@ -199,6 +208,15 @@ private:
     } m_status;
 
     bool openCalledCorrectly{false};
+
+     /**
+     * Construct the Kalman filters
+     * @param paramHandler pointer to the parameter handler
+     * @param kfList reference to the Kalman filter helper
+     * @return true if the Kalman filters have been constructed successfully, false otherwise
+     */
+    bool constructKalmanFilters(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
+                                std::vector<iDynTree::DiscreteKalmanFilterHelper> & kfList);
 
     // HIJACKING CONTROL
     /**
@@ -275,6 +293,10 @@ public:
     virtual bool setRefTorque(int j, double t);
 
     // HACK MOTOR ACCELERATION TO PUBLISH FRICTION TORQUES
+    virtual bool getEncoderSpeed(int j, double* sp);
+    virtual bool getEncoderSpeeds(double* spds);
+    virtual bool getMotorEncoderSpeed(int m, double* sp);
+    virtual bool getMotorEncoderSpeeds(double* spds);
     virtual bool getMotorEncoderAcceleration(int j, double* acc);
     virtual bool getMotorEncoderAccelerations(double* accs);
 
