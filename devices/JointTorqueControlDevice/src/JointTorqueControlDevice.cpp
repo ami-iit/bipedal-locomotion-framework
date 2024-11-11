@@ -1203,7 +1203,7 @@ bool JointTorqueControlDevice::constructKalmanFilters(std::weak_ptr<const Parame
         log()->error("[JointTorqueControlDevice::constructKalmanFilters] Invalid parameter handler");
         return false;
     }
-    
+
     Eigen::VectorXd q0;
     if (!kfGroup->getParameter("Q0", q0))
     {
