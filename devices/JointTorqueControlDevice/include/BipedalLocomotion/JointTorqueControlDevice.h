@@ -293,10 +293,10 @@ public:
     virtual bool setRefTorque(int j, double t);
 
     // HACK MOTOR ACCELERATION TO PUBLISH FRICTION TORQUES
-    virtual bool getEncoderSpeed(int j, double* sp);
-    virtual bool getEncoderSpeeds(double* spds);
-    virtual bool getMotorEncoderSpeed(int m, double* sp);
-    virtual bool getMotorEncoderSpeeds(double* spds);
+    // virtual bool getEncoderSpeed(int j, double* sp);
+    // virtual bool getEncoderSpeeds(double* spds);
+    // virtual bool getMotorEncoderSpeed(int m, double* sp);
+    // virtual bool getMotorEncoderSpeeds(double* spds);
     virtual bool getMotorEncoderAcceleration(int j, double* acc);
     virtual bool getMotorEncoderAccelerations(double* accs);
 

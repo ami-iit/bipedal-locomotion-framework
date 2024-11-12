@@ -1627,33 +1627,33 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
     return true;
 }
 
-bool JointTorqueControlDevice::getEncoderSpeeds(double* spds)
-{
-    std::lock_guard<std::mutex>(this->globalMutex);
-    memcpy(spds, measuredJointVelocities.data(), this->axes * sizeof(double));
-    return true;
-}
+// bool JointTorqueControlDevice::getEncoderSpeeds(double* spds)
+// {
+//     std::lock_guard<std::mutex>(this->globalMutex);
+//     memcpy(spds, measuredJointVelocities.data(), this->axes * sizeof(double));
+//     return true;
+// }
 
-bool JointTorqueControlDevice::getEncoderSpeed(int j, double* sp)
-{
-    std::lock_guard<std::mutex>(this->globalMutex);
-    *sp = measuredJointVelocities[j];
-    return true;
-}
+// bool JointTorqueControlDevice::getEncoderSpeed(int j, double* sp)
+// {
+//     std::lock_guard<std::mutex>(this->globalMutex);
+//     *sp = measuredJointVelocities[j];
+//     return true;
+// }
 
-bool JointTorqueControlDevice::getMotorEncoderSpeeds(double* spds)
-{
-    std::lock_guard<std::mutex>(this->globalMutex);
-    memcpy(spds, measuredMotorVelocities.data(), this->axes * sizeof(double));
-    return true;
-}
+// bool JointTorqueControlDevice::getMotorEncoderSpeeds(double* spds)
+// {
+//     std::lock_guard<std::mutex>(this->globalMutex);
+//     memcpy(spds, measuredMotorVelocities.data(), this->axes * sizeof(double));
+//     return true;
+// }
 
-bool JointTorqueControlDevice::getMotorEncoderSpeed(int j, double* sp)
-{
-    std::lock_guard<std::mutex>(this->globalMutex);
-    *sp = measuredMotorVelocities[j];
-    return true;
-}
+// bool JointTorqueControlDevice::getMotorEncoderSpeed(int j, double* sp)
+// {
+//     std::lock_guard<std::mutex>(this->globalMutex);
+//     *sp = measuredMotorVelocities[j];
+//     return true;
+// }
 
 // TO BE UPDATE
 // We publish the friction torque by using the motor acceleration as the friction
