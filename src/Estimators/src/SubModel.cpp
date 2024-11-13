@@ -109,6 +109,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                 ft.forceDirection = RDE::FTSensor::Direction::Negative;
             }
 
+            log()->error("Do errore 7");
             ft.frameIndex = idynSubModel.getFrameIndex(ft.frame);
 
             ftList[ft.name] = std::move(ft);
@@ -122,6 +123,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
             {
                 if (idynSubModel.isLinkNameUsed(firstLink))
                 {
+                    log()->error("Do errore 6");
                     idynSubModel.addAdditionalFrameToLink(
                         firstLink,
                         ftFromConfig.frame,
@@ -131,6 +133,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                                                                  ftFromConfig.frame)));
                 } else
                 {
+                    log()->error("Do errore 5");
                     idynSubModel.addAdditionalFrameToLink(
                         secondLink,
                         ftFromConfig.frame,
@@ -281,6 +284,11 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
             }
         }
         frameIdx++;
+    }
+
+    if (!frameFound)
+    {
+        log()->error("[SubModelCreator::populateSubModel] Unable to find the IMU frame in the submodel.");
     }
 
     return subModel;

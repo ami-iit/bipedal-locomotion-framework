@@ -86,15 +86,15 @@ public:
      * \code{.ini}
      * # UkfMeasurement.ini
      *
-     * dynamics_list                   ("JOINT_VELOCITY", "MOTOR_CURRENT", "RIGHT_LEG_FT", "RIGHT_FOOT_REAR_GYRO")
+     * dynamics_list                   ("JOINT_VELOCITIES", "MOTOR_CURRENTS", "RIGHT_LEG_FT", "RIGHT_FOOT_REAR_GYRO")
      *
-     * [JOINT_VELOCITY]
+     * [JOINT_VELOCITIES]
      * name                            "ds"
      * elements                        ("r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")
      * covariance                      (1e-3, 1e-3, 1e-3, 1e-3, 1e-3, 1e-3)
      * dynamic_model                   "JointVelocityDynamics"
      *
-     * [FRICTION_TORQUE]
+     * [FRICTION_TORQUES]
      * name                            "tau_F"
      * elements                        ("r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")
      * covariance                      (1e-2, 1e-2, 1e-2, 1e-2, 1e-2, 1e-1)

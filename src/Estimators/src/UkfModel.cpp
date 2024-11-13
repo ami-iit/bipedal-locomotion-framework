@@ -18,6 +18,9 @@ using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 void UkfModel::unpackState()
 {
+    log()->info("[UkfModel::unpackState] Unpacking state.");
+    log()->info("Joint velocities: {}", m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
+    //log()->info("Joint velocities value: {}", m_currentState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset, m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size));
     m_jointVelocityState
         = m_currentState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
                                  m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);

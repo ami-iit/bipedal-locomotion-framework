@@ -113,11 +113,11 @@ bool RDE::MotorCurrentMeasurementDynamics::checkStateVariableHandler()
     constexpr auto errorPrefix = "[MotorCurrentMeasurementDynamics::checkStateVariableHandler]";
 
     // Check if the variable handler contains the variables used by this dynamics
-    if (!m_stateVariableHandler.getVariable("MOTOR_TORQUE").isValid())
+    if (!m_stateVariableHandler.getVariable("MOTOR_TORQUES").isValid())
     {
         log()->error("{} The variable handler does not contain the expected measurement name {}.",
                      errorPrefix,
-                     "MOTOR_TORQUE");
+                     "MOTOR_TORQUES");
         return false;
     }
 
@@ -133,8 +133,8 @@ bool RDE::MotorCurrentMeasurementDynamics::update()
 
 void RDE::MotorCurrentMeasurementDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_motorTorque = ukfState.segment(m_stateVariableHandler.getVariable("MOTOR_TORQUE").offset,
-                                     m_stateVariableHandler.getVariable("MOTOR_TORQUE").size);
+    m_motorTorque = ukfState.segment(m_stateVariableHandler.getVariable("MOTOR_TORQUES").offset,
+                                     m_stateVariableHandler.getVariable("MOTOR_TORQUES").size);
 }
 
 void RDE::MotorCurrentMeasurementDynamics::setInput(const UKFInput& /*ukfInput*/)
