@@ -1635,9 +1635,9 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
 }
 
 // TO BE UPDATE
-// We publish the friction torque by using the motor acceleration as the friction
+// We publish the friction torque by using the motor acceleration as the friction 
 // torque does not have a dedicated interface in the remote control board.
-// This can be done as the motor acceleration interface is not used and streams
+// This can be done as the motor acceleration interface is not used and streams 
 // zero constant values.
 // Once there will be a dedicated interface for the friction torque or solution
 // to publish the friction torque, this method will be updated.
