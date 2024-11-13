@@ -34,17 +34,26 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
 #       CONFIGURE_PACKAGE_NAME joint_torque_control_device)
 
   add_bipedal_yarp_device(
-        NAME PassThroughControlBoardDevice
-        TYPE BipedalLocomotion::PassThroughControlBoardDevice
-        SOURCES src/PassThroughControlBoardDevice.cpp
-                src/PassThroughControlBoard.cpp
-        PUBLIC_HEADERS include/BipedalLocomotion/PassThroughControlBoardDevice.h
-                       include/BipedalLocomotion/PassThroughControlBoard.h
-        PRIVATE_LINK_LIBRARIES
-        BipedalLocomotion::SystemYarpImplementation
-        BipedalLocomotion::JointTorqueControlCommands
-        PUBLIC_LINK_LIBRARIES
-        onnxruntime::onnxruntime
+        NAME PassThroughControlBoard
+        TYPE BipedalLocomotion::PassThroughControlBoard
+        SOURCES src/PassThroughControlBoard.cpp
+        PUBLIC_HEADERS include/BipedalLocomotion/PassThroughControlBoard.h
         ${YARP_LIBRARIES}
-        CONFIGURE_PACKAGE_NAME pass_through_control_board_device)    
+        CONFIGURE_PACKAGE_NAME pass_through_control_board_device)
+
+#  add_bipedal_yarp_device(
+#        NAME PassThroughControlBoardDevice
+#        TYPE BipedalLocomotion::PassThroughControlBoardDevice
+#        SOURCES src/PassThroughControlBoardDevice.cpp
+#                src/PassThroughControlBoard.cpp
+#        PUBLIC_HEADERS include/BipedalLocomotion/PassThroughControlBoardDevice.h
+#                       include/BipedalLocomotion/PassThroughControlBoard.h
+#        PRIVATE_LINK_LIBRARIES
+#        BipedalLocomotion::SystemYarpImplementation
+#        BipedalLocomotion::JointTorqueControlCommands
+#        PUBLIC_LINK_LIBRARIES
+#        onnxruntime::onnxruntime
+#        ${YARP_LIBRARIES}
+#        CONFIGURE_PACKAGE_NAME pass_through_control_board_device) 
+ 
 endif()
