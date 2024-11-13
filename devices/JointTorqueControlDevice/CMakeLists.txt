@@ -38,6 +38,7 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
         TYPE BipedalLocomotion::PassThroughControlBoard
         SOURCES src/PassThroughControlBoard.cpp
         PUBLIC_HEADERS include/BipedalLocomotion/PassThroughControlBoard.h
+        PUBLIC_LINK_LIBRARIES
         ${YARP_LIBRARIES}
         CONFIGURE_PACKAGE_NAME pass_through_control_board_device)
 
