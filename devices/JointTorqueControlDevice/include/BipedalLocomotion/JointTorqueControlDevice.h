@@ -185,6 +185,10 @@ private:
     std::vector<int> m_gearRatios;
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
+    bool isTorqueControlEnabled = false;
+
+    // TO DELETE
+    std::chrono::nanoseconds m_time = std::chrono::nanoseconds::zero();
     
     iDynTree::VectorDynSize m_measurementKF;
     iDynTree::VectorDynSize m_estimateKF;

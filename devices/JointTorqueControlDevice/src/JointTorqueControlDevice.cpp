@@ -448,6 +448,8 @@ void JointTorqueControlDevice::startHijackingTorqueControlIfNecessary(int j)
 
         this->hijackingTorqueControl[j] = true;
         hijackedMotors.push_back(j);
+
+        isTorqueControlEnabled = true;
     }
 }
 
@@ -463,6 +465,15 @@ void JointTorqueControlDevice::stopHijackingTorqueControlIfNecessary(int j)
     }
     hijackedMotors.erase(std::remove(hijackedMotors.begin(), hijackedMotors.end(), j),
                          hijackedMotors.end());
+
+    bool allFalse = std::all_of(this->hijackingTorqueControl.begin(), this->hijackingTorqueControl.end(), [](bool val) {
+        return !val;
+    });
+
+    if (allFalse) {
+        // Set your variable here, for example:
+        isTorqueControlEnabled = false;
+    }
 }
 
 bool JointTorqueControlDevice::isHijackingTorqueControl(int j)
@@ -1145,7 +1156,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
 
     // run the thread
     m_torqueControlIsRunning = false;
-    m_publishEstimationThread = std::thread([this] { this->publishStatus(); });
+    // m_publishEstimationThread = std::thread([this] { this->publishStatus(); });
 
     return ret;
 }
@@ -1425,10 +1436,10 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
 bool JointTorqueControlDevice::detachAll()
 {
     m_torqueControlIsRunning = false;
-    if (m_publishEstimationThread.joinable())
-    {
-        m_publishEstimationThread.join();
-    }
+    // if (m_publishEstimationThread.joinable())
+    // {
+    //     m_publishEstimationThread.join();
+    // }
 
     m_rpcPort.close();
     this->PeriodicThread::stop();
@@ -1577,8 +1588,6 @@ bool JointTorqueControlDevice::setRefTorques(const double* trqs)
     {
         std::lock_guard<std::mutex>(this->globalMutex);
         memcpy(desiredJointTorques.data(), trqs, this->axes * sizeof(double));
-
-        this->controlLoop();
     }
 
     return true;
@@ -1594,8 +1603,6 @@ bool JointTorqueControlDevice::setRefTorques(const int n_joints,
         {
             desiredJointTorques[joints[i]] = trqs[i];
         }
-
-        this->controlLoop();
     }
 
     return true;
@@ -1707,24 +1714,36 @@ void JointTorqueControlDevice::run()
 
 void JointTorqueControlDevice::controlLoop()
 {
-
-    // Read status from the controlboard
-    this->readStatus();
-
-    // update desired  current
-    this->computeDesiredCurrents();
-
-    std::vector<double> desiredMotorCurrentsHijackedMotors;
-    desiredMotorCurrentsHijackedMotors.clear();
-
-    for (std::vector<int>::iterator it = hijackedMotors.begin(); it != hijackedMotors.end(); ++it)
+    if (isTorqueControlEnabled)
     {
-        desiredMotorCurrentsHijackedMotors.push_back(desiredMotorCurrents[*it]);
+        // Take time now
+        std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
+
+        // Read status from the controlboard
+        this->readStatus();
+
+        // update desired  current
+        this->computeDesiredCurrents();
+
+        std::vector<double> desiredMotorCurrentsHijackedMotors;
+        desiredMotorCurrentsHijackedMotors.clear();
+
+        for (std::vector<int>::iterator it = hijackedMotors.begin(); it != hijackedMotors.end(); ++it)
+        {
+            desiredMotorCurrentsHijackedMotors.push_back(desiredMotorCurrents[*it]);
+        }
+
+        this->setRefCurrents(hijackedMotors.size(),
+                            hijackedMotors.data(),
+                            desiredMotorCurrentsHijackedMotors.data());
+
+        timeOfLastControlLoop = BipedalLocomotion::clock().now();
+
+        // Print time every 10 seconds
+        if ((timeOfLastControlLoop - m_time).count() >= 1.0*1e-9)
+        {
+            log()->error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control loop time: {} ms", (timeOfLastControlLoop - now).count() * 1e-6);
+            m_time = BipedalLocomotion::clock().now();
+        }
     }
-
-    this->setRefCurrents(hijackedMotors.size(),
-                         hijackedMotors.data(),
-                         desiredMotorCurrentsHijackedMotors.data());
-
-    timeOfLastControlLoop = BipedalLocomotion::clock().now();;
 }

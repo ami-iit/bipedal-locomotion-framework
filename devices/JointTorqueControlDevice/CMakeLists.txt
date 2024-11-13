@@ -8,28 +8,43 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
       THRIFT thrifts/JointTorqueControlCommands.thrift
       INSTALLATION_FOLDER JointTorqueControlDevice)
 
+#   add_bipedal_yarp_device(
+#       NAME JointTorqueControlDevice
+#       TYPE BipedalLocomotion::JointTorqueControlDevice
+#       SOURCES src/JointTorqueControlDevice.cpp
+#               src/PassThroughControlBoard.cpp
+#               src/PINNFrictionEstimator.cpp
+#       PUBLIC_HEADERS include/BipedalLocomotion/JointTorqueControlDevice.h
+#                      include/BipedalLocomotion/PassThroughControlBoard.h
+#                      include/BipedalLocomotion/PINNFrictionEstimator.h
+#       PRIVATE_LINK_LIBRARIES
+#       BipedalLocomotion::YarpUtilities
+#       BipedalLocomotion::SystemYarpImplementation
+#       BipedalLocomotion::RobotInterfaceYarpImplementation
+#       BipedalLocomotion::ParametersHandlerYarpImplementation
+#       BipedalLocomotion::VectorsCollection
+#       BipedalLocomotion::JointTorqueControlCommands
+#       BipedalLocomotion::Math
+#       BipedalLocomotion::ContinuousDynamicalSystem
+#       PUBLIC_LINK_LIBRARIES
+#       onnxruntime::onnxruntime
+#       Eigen3::Eigen
+#       ${YARP_LIBRARIES}
+#       ${iDynTree_LIBRARIES}
+#       CONFIGURE_PACKAGE_NAME joint_torque_control_device)
+
   add_bipedal_yarp_device(
-      NAME JointTorqueControlDevice
-      TYPE BipedalLocomotion::JointTorqueControlDevice
-      SOURCES src/JointTorqueControlDevice.cpp
-              src/PassThroughControlBoard.cpp
-              src/PINNFrictionEstimator.cpp
-      PUBLIC_HEADERS include/BipedalLocomotion/JointTorqueControlDevice.h
-                     include/BipedalLocomotion/PassThroughControlBoard.h
-                     include/BipedalLocomotion/PINNFrictionEstimator.h
-      PRIVATE_LINK_LIBRARIES
-      BipedalLocomotion::YarpUtilities
-      BipedalLocomotion::SystemYarpImplementation
-      BipedalLocomotion::RobotInterfaceYarpImplementation
-      BipedalLocomotion::ParametersHandlerYarpImplementation
-      BipedalLocomotion::VectorsCollection
-      BipedalLocomotion::JointTorqueControlCommands
-      BipedalLocomotion::Math
-      BipedalLocomotion::ContinuousDynamicalSystem
-      PUBLIC_LINK_LIBRARIES
-      onnxruntime::onnxruntime
-      Eigen3::Eigen
-      ${YARP_LIBRARIES}
-      ${iDynTree_LIBRARIES}
-      CONFIGURE_PACKAGE_NAME joint_torque_control_device)
+        NAME PassThroughControlBoardDevice
+        TYPE BipedalLocomotion::PassThroughControlBoardDevice
+        SOURCES src/PassThroughControlBoardDevice.cpp
+                src/PassThroughControlBoard.cpp
+        PUBLIC_HEADERS include/BipedalLocomotion/PassThroughControlBoardDevice.h
+                       include/BipedalLocomotion/PassThroughControlBoard.h
+        PRIVATE_LINK_LIBRARIES
+        BipedalLocomotion::SystemYarpImplementation
+        BipedalLocomotion::JointTorqueControlCommands
+        PUBLIC_LINK_LIBRARIES
+        onnxruntime::onnxruntime
+        ${YARP_LIBRARIES}
+        CONFIGURE_PACKAGE_NAME pass_through_control_board_device)    
 endif()
