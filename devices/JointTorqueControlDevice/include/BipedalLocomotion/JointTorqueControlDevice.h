@@ -170,6 +170,7 @@ private:
     std::vector<CoulombViscousStribeckParameters> coulombViscousStribeckParameters;
     std::vector<std::unique_ptr<PINNFrictionEstimator>> frictionEstimators;
     BipedalLocomotion::ContinuousDynamicalSystem::ButterworthLowPassFilter lowPassFilter;
+    BipedalLocomotion::ContinuousDynamicalSystem::ButterworthLowPassFilter lowPassFilterMotorVelocities;
     std::mutex mutexTorqueControlParam_; /**< The mutex for protecting the parameters of the torque control. */
     yarp::sig::Vector desiredJointTorques;
     yarp::sig::Vector desiredMotorCurrents;

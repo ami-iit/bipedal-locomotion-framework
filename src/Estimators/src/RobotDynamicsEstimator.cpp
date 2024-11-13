@@ -339,6 +339,13 @@ RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParameters
 
         std::pair<std::string, std::string> key = std::make_pair(variableName, sensorType);
         estimator->m_pimpl->variableNameToUkfMeasurement[key].push_back(dynamicsName);
+
+        // print the map[key] size and values
+        log()->info("{} key: {}, size: {}", logPrefix, key.first, estimator->m_pimpl->variableNameToUkfMeasurement[key].size());
+        for (auto const& value : estimator->m_pimpl->variableNameToUkfMeasurement[key])
+        {
+            log()->info("{} key: {}, value: {}", logPrefix, key.first, value);
+        }
     }
 
     // Finalize the estimator

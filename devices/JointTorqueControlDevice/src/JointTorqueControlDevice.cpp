@@ -1094,10 +1094,35 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     filterParams->setParameter("sampling_time", m_lowPassFilterParameters.samplingTime);
     if (m_lowPassFilterParameters.enabled)
     {
-        lowPassFilter.initialize(filterParams);
+        if (!lowPassFilter.initialize(filterParams))
+        {
+            log()->error("{} Failed to initialize low pass filter", logPrefix);
+            return false;
+        }
         Eigen::VectorXd initialFrictionTorque(kt.size());
         initialFrictionTorque.setZero();
-        lowPassFilter.reset(initialFrictionTorque);
+        if (!lowPassFilter.reset(initialFrictionTorque))
+        {
+            log()->error("{} Failed to reset low pass filter", logPrefix);
+            return false;
+        }
+    }
+
+    auto filterParamsMotorVel = std::make_shared<ParametersHandler::YarpImplementation>();
+    filterParams->setParameter("cutoff_frequency", 3.0);
+    filterParams->setParameter("order", 1);
+    filterParams->setParameter("sampling_time", rate * 0.001);
+    if (!lowPassFilterMotorVelocities.initialize(filterParams))
+    {
+        log()->error("{} Failed to initialize low pass filter for motor velocities", logPrefix);
+        return false;
+    }
+    Eigen::VectorXd initialMotorVelocities(kt.size());
+    initialMotorVelocities.setZero();
+    if (!lowPassFilterMotorVelocities.reset(initialMotorVelocities))
+    {
+        log()->error("{} Failed to reset low pass filter for motor velocities", logPrefix);
+        return false;
     }
 
     if (!this->loadFrictionParams(params))

@@ -386,8 +386,6 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
         }
         ftFromModel[key] = iDynTree::toEigen(ftWrench);
 
-        log()->info("{} Expected FT {} wrench: {}", logPrefix, key, ftFromModel[key].transpose());
-
         if (!m_robotSensorBridge
                  ->getSixAxisForceTorqueMeasurement(key, m_estimatorOutput.output.ftWrenches[key]))
         {
@@ -902,6 +900,9 @@ void RobotDynamicsEstimatorDevice::run()
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimatorDevice::run]";
 
+    // check timelapsed estimation loop
+    auto time = BipedalLocomotion::clock().now();
+
     // advance sensor bridge
     if (!m_robotSensorBridge->advance())
     {
@@ -918,8 +919,9 @@ void RobotDynamicsEstimatorDevice::run()
             close();
             return;
         }
-
         m_isFirstRun = false;
+
+        m_timePrint = BipedalLocomotion::clock().now();
     }
 
     // update estimator measurements
@@ -947,6 +949,18 @@ void RobotDynamicsEstimatorDevice::run()
     {
         std::lock_guard<std::mutex> lockOutput(m_estimatorOutput.mutex);
         m_estimatorOutput.output = m_estimator->getOutput();
+    }
+
+    // print time elapsed
+    auto newTime = BipedalLocomotion::clock().now();
+    auto timeElapsedPrint = std::chrono::duration<double>(newTime - m_timePrint);
+
+    // Print only every 40 seconds
+    if (timeElapsedPrint.count() > 40.0)
+    {
+        auto timeElapsed = std::chrono::duration<double>(newTime - time);
+        log()->error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> {} Time elapsed: {} s", logPrefix, timeElapsed.count());
+        m_timePrint = BipedalLocomotion::clock().now();
     }
 
     return;

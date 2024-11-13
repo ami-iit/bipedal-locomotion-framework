@@ -161,6 +161,8 @@ private:
     const std::string accelerometersName = "accelerometers";
     const std::vector<std::string> accelerometerElementNames = {"a_x", "a_y", "a_z"};
 
+    std::chrono::nanoseconds m_timePrint;
+
     // class methods
     /**
      * Setup the robot model from parameter handler.
