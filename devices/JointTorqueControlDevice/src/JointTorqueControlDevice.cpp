@@ -1634,34 +1634,6 @@ bool JointTorqueControlDevice::getRefTorque(int j, double* trq)
     return true;
 }
 
-// bool JointTorqueControlDevice::getEncoderSpeeds(double* spds)
-// {
-//     std::lock_guard<std::mutex>(this->globalMutex);
-//     memcpy(spds, measuredJointVelocities.data(), this->axes * sizeof(double));
-//     return true;
-// }
-
-// bool JointTorqueControlDevice::getEncoderSpeed(int j, double* sp)
-// {
-//     std::lock_guard<std::mutex>(this->globalMutex);
-//     *sp = measuredJointVelocities[j];
-//     return true;
-// }
-
-// bool JointTorqueControlDevice::getMotorEncoderSpeeds(double* spds)
-// {
-//     std::lock_guard<std::mutex>(this->globalMutex);
-//     memcpy(spds, measuredMotorVelocities.data(), this->axes * sizeof(double));
-//     return true;
-// }
-
-// bool JointTorqueControlDevice::getMotorEncoderSpeed(int j, double* sp)
-// {
-//     std::lock_guard<std::mutex>(this->globalMutex);
-//     *sp = measuredMotorVelocities[j];
-//     return true;
-// }
-
 // TO BE UPDATE
 // We publish the friction torque by using the motor acceleration as the friction
 // torque does not have a dedicated interface in the remote control board.
@@ -1716,9 +1688,6 @@ void JointTorqueControlDevice::controlLoop()
 {
     if (isTorqueControlEnabled)
     {
-        // Take time now
-        std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
-
         // Read status from the controlboard
         this->readStatus();
 
@@ -1738,12 +1707,5 @@ void JointTorqueControlDevice::controlLoop()
                             desiredMotorCurrentsHijackedMotors.data());
 
         timeOfLastControlLoop = BipedalLocomotion::clock().now();
-
-        // Print time every 10 seconds
-        if ((timeOfLastControlLoop - m_time).count() >= 1.0*1e-9)
-        {
-            log()->error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control loop time: {} ms", (timeOfLastControlLoop - now).count() * 1e-6);
-            m_time = BipedalLocomotion::clock().now();
-        }
     }
 }

@@ -186,9 +186,6 @@ private:
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
     bool isTorqueControlEnabled = false;
-
-    // TO DELETE
-    std::chrono::nanoseconds m_time = std::chrono::nanoseconds::zero();
     
     iDynTree::VectorDynSize m_measurementKF;
     iDynTree::VectorDynSize m_estimateKF;
@@ -297,10 +294,6 @@ public:
     virtual bool setRefTorque(int j, double t);
 
     // HACK MOTOR ACCELERATION TO PUBLISH FRICTION TORQUES
-    // virtual bool getEncoderSpeed(int j, double* sp);
-    // virtual bool getEncoderSpeeds(double* spds);
-    // virtual bool getMotorEncoderSpeed(int m, double* sp);
-    // virtual bool getMotorEncoderSpeeds(double* spds);
     virtual bool getMotorEncoderAcceleration(int j, double* acc);
     virtual bool getMotorEncoderAccelerations(double* accs);
 
