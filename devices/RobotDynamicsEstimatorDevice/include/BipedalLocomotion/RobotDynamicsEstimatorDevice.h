@@ -99,10 +99,9 @@ public:
 private:
     // class members
     BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
-    std::string m_portPrefix{"/rde"}; /**< Default port prefix. */
     std::string m_robot{"ergocubSim"}; /**< Robot name. Default is ergocubSim. */
     std::string m_baseLink{"root_link"}; /**< Base link name. Default is root_link. */
-    std::string m_contactLink{"chest"}; /**< Base link name. Default is root_link. */
+    std::string m_contactFrame{"chest"}; /**< Base link name. Default is root_link. */
     std::string m_baseIMU{"waist_imu_0"}; /**< Base IMU name. Default is imu_link. */
     std::vector<std::string> m_jointNameList{}; /**< Joint name list. */
     Eigen::VectorXd m_gearboxRatio; /**< Gearbox ratio list. */

@@ -54,12 +54,12 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
                     m_baseLink);
     }
 
-    if (!ptr->getParameter("contact_link", m_contactLink))
+    if (!ptr->getParameter("contact_frame", m_contactFrame))
     {
-        log()->info("{} The parameter 'contact_link' is not provided. The default one "
+        log()->info("{} The parameter 'contact_frame' is not provided. The default one "
                     "will be used {}.",
                     logPrefix,
-                    m_contactLink);
+                    m_contactFrame);
     }
 
     if (!ptr->getParameter("base_imu", m_baseIMU))
@@ -291,7 +291,7 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     auto baseFrameIdx = m_iDynEstimator.model().getFrameIndex(m_baseLink);
     auto fullBodyUnknowns = iDynTree::LinkUnknownWrenchContacts(m_iDynEstimator.model());
     fullBodyUnknowns.clear();
-    auto contactLinkIdx = m_iDynEstimator.model().getFrameIndex(m_contactLink);
+    auto contactLinkIdx = m_iDynEstimator.model().getFrameIndex(m_contactFrame);
     fullBodyUnknowns.addNewUnknownFullWrenchInFrameOrigin(m_iDynEstimator.model(), contactLinkIdx);
 
     // Initialize variables for estimation
@@ -613,14 +613,6 @@ bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
                     m_robot);
     }
 
-    if (!generalGroupHandler->getParameter("port_prefix", m_portPrefix))
-    {
-        log()->info("{} The parameter 'port_prefix' is not provided. The default one "
-                    "will be used {}.",
-                    logPrefix,
-                    m_portPrefix);
-    }
-
     if (!setupRobotSensorBridge(params))
     {
         log()->error("{} Could not setup the RobotSensorBridge.", logPrefix);
@@ -673,11 +665,6 @@ bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
 
 bool RobotDynamicsEstimatorDevice::openCommunications()
 {
-    if (!m_loggerPort.open(m_portPrefix + "/data:o"))
-    {
-        return false;
-    }
-
     return true;
 }
 
