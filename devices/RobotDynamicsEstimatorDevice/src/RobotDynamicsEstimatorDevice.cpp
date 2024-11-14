@@ -762,8 +762,7 @@ bool RobotDynamicsEstimatorDevice::updateMeasurements()
         log()->error("{} Could not get motor accelerations.", logPrefix);
         return false;
     }
-    m_estimatorInput.input.frictionTorques = m_estimatorInput.input.frictionTorques.array()
-                                             * 180.0 / M_PI;
+    m_estimatorInput.input.frictionTorques = m_estimatorInput.input.frictionTorques.array();
 
     for (auto& [key, value] : m_estimatorInput.input.ftWrenches)
     {
