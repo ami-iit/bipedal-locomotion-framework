@@ -334,8 +334,12 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
         m_kinDyn->getRelativeTransform(m_kinDyn->getFloatingBase(),
                                        m_baseIMU));
 
+    /////////////////////////////// ERROR - CHANGE baseVelocity WITH baseIMUVelocity ///////////////////////////////
     manif::SE3Tangentd baseVelocity;
     baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseVelocity.coeffs().tail(3);
+    log()->error("TODO - Change CHANGE baseVelocity WITH baseIMUVelocity");
+    return false;
+    ////////////////////////////////////////////////////////////
 
     Eigen::Vector3d bOmegaIB;
     bOmegaIB = baseVelocity.coeffs().tail(3);
