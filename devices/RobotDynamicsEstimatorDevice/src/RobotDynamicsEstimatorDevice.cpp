@@ -334,12 +334,9 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
         m_kinDyn->getRelativeTransform(m_kinDyn->getFloatingBase(),
                                        m_baseIMU));
 
-    /////////////////////////////// ERROR - CHANGE baseVelocity WITH baseIMUVelocity ///////////////////////////////
     manif::SE3Tangentd baseVelocity;
-    baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseVelocity.coeffs().tail(3);
-    log()->error("TODO - Change CHANGE baseVelocity WITH baseIMUVelocity");
-    return false;
-    ////////////////////////////////////////////////////////////
+    baseVelocity.setZero();
+    baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseIMUVelocity;
 
     Eigen::Vector3d bOmegaIB;
     bOmegaIB = baseVelocity.coeffs().tail(3);
@@ -875,8 +872,12 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
 
         // Publish on WBD ports
         yarp::eigen::toEigen(m_estimatedJointTorquesYARP) = m_estimatedTauj;
-        m_remappedVirtualAnalogSensorsInterfaces.ivirtsens->updateVirtualAnalogSensorMeasure(
-            m_estimatedJointTorquesYARP);
+
+        if (!m_remappedVirtualAnalogSensorsInterfaces.ivirtsens->updateVirtualAnalogSensorMeasure(
+            m_estimatedJointTorquesYARP))
+        {
+            log()->error("{} Could not update the virtual analog sensor measure.", logPrefix);
+        }
 
         // release the CPU
         BipedalLocomotion::clock().yield();
