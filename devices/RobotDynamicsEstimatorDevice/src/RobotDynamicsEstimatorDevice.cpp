@@ -832,22 +832,22 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
         {
             std::lock_guard<std::mutex> lockOutput(m_estimatorOutput.mutex);
 
-            m_vectorsCollectionServer.populateData("ds::measured", m_estimatorInput.input.jointVelocities);
+            // m_vectorsCollectionServer.populateData("ds::measured", m_estimatorInput.input.jointVelocities);
             m_vectorsCollectionServer.populateData("ds::estimated", m_estimatorOutput.output.ds);
             
             m_vectorsCollectionServer.populateData("tau_m::estimated", m_estimatorOutput.output.tau_m);
 
             m_vectorsCollectionServer.populateData("tau_F::estimated", m_estimatorOutput.output.tau_F);
-            m_vectorsCollectionServer.populateData("tau_F::measured", m_estimatorInput.input.frictionTorques);
+            // m_vectorsCollectionServer.populateData("tau_F::measured", m_estimatorInput.input.frictionTorques);
 
             m_estimatedTauj = m_estimatorOutput.output.tau_m - m_estimatorOutput.output.tau_F;
             m_vectorsCollectionServer.populateData("tau_j::estimated", m_estimatedTauj);
-            m_vectorsCollectionServer.populateData("tau_j::measured", m_measuredTauj);
+            // m_vectorsCollectionServer.populateData("tau_j::measured", m_measuredTauj);
 
             for (auto& [key, value] : m_estimatorOutput.output.ftWrenches)
             {
                 m_vectorsCollectionServer.populateData("fts::" + key + "::estimated", value);
-                m_vectorsCollectionServer.populateData("fts::" + key + "::measured", m_estimatorInput.input.ftWrenches[key]);
+                // m_vectorsCollectionServer.populateData("fts::" + key + "::measured", m_estimatorInput.input.ftWrenches[key]);
             }
             
             for (auto& [key, value] : m_estimatorOutput.output.contactWrenches)
@@ -858,13 +858,13 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
             for (auto& [key, value] : m_estimatorOutput.output.linearAccelerations)
             {
                 m_vectorsCollectionServer.populateData("accelerometers::" + key + "::estimated", value);
-                m_vectorsCollectionServer.populateData("accelerometers::" + key + "::measured", m_estimatorInput.input.linearAccelerations[key]);
+                // m_vectorsCollectionServer.populateData("accelerometers::" + key + "::measured", m_estimatorInput.input.linearAccelerations[key]);
             }
 
             for (auto& [key, value] : m_estimatorOutput.output.angularVelocities)
             {
                 m_vectorsCollectionServer.populateData("gyroscopes::" + key + "::estimated", value);
-                m_vectorsCollectionServer.populateData("gyroscopes::" + key + "::measured", m_estimatorInput.input.angularVelocities[key]);
+                // m_vectorsCollectionServer.populateData("gyroscopes::" + key + "::measured", m_estimatorInput.input.angularVelocities[key]);
             }
 
             m_vectorsCollectionServer.sendData();
