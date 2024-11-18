@@ -543,7 +543,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
         {
             if (motorTorqueCurrentParameters[j].kfc > 0.0)
             {
-                estimatedFrictionTorques[j] = computeFrictionTorque(j);
+                estimatedFrictionTorques[j] = motorTorqueCurrentParameters[j].kfc * computeFrictionTorque(j);
             }
         }
     }
@@ -578,7 +578,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
                    + motorTorqueCurrentParameters[j].kp
                          * (desiredJointTorques[j] - measuredJointTorques[j])
                    + motorTorqueCurrentParameters[j].ki * torqueIntegralErrors[j]
-                   + motorTorqueCurrentParameters[j].kfc * estimatedFrictionTorques[j])
+                   + estimatedFrictionTorques[j])
                   / motorTorqueCurrentParameters[j].kt;
 
             desiredMotorCurrents[j] = desiredMotorCurrents[j] / m_gearRatios[j];
