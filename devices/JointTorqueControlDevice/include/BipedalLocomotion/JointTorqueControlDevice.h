@@ -186,7 +186,7 @@ private:
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
     bool isTorqueControlEnabled = false;
-    
+
     iDynTree::VectorDynSize m_measurementKF;
     iDynTree::VectorDynSize m_estimateKF;
     std::vector<iDynTree::DiscreteKalmanFilterHelper> m_KFJointList;
