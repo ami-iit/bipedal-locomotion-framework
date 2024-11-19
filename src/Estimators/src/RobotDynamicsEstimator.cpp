@@ -422,6 +422,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
+        }
     }
 
     for (auto const& [key, val] : initialState.ftWrenchesBiases)
@@ -438,6 +443,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
         }
     }
 
@@ -456,6 +466,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
+        }
     }
 
     for (auto const& [key, val] : initialState.accelerometerBiases)
@@ -472,6 +487,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
         }
     }
 
@@ -490,6 +510,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
+        }
     }
 
     for (auto const& [key, val] : initialState.linearAccelerations)
@@ -507,6 +532,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
         }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
+        }
     }
 
     for (auto const& [key, val] : initialState.angularVelocities)
@@ -523,6 +553,11 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        }
+        else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
         }
     }
 
@@ -707,7 +742,7 @@ const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.angularVelocities)
-        {
+        {        
             if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "gyroscope"}]).size > 0)
             {
                 m_pimpl->estimatorOutput.angularVelocities[key]
@@ -769,11 +804,6 @@ const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
                                    m_pimpl->stateHandler
                                        .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .size);
-                log()->info("{} Variable {} associated to key {} found in the state vector and has value {}.",
-                             logPrefix,
-                             m_pimpl->variableNameToUkfState[{key, "none"}],
-                             key,
-                             m_pimpl->estimatorOutput.contactWrenches[key]);
             } else
             {
                 log()->debug("{} Variable {} associated to key {} not found in the state vector.",
