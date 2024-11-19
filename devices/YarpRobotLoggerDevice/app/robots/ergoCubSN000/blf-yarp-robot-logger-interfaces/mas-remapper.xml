@@ -6,16 +6,16 @@
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="mas-remapper" type="multipleanalogsensorsremapper">
   <param name="period">10</param>
   <param name="ThreeAxisGyroscopesNames">
-    (sensor_imu_xsensmt, rfeimu_gyro, l_arm_ft_gyro, r_arm_ft_gyro, l_foot_front_ft_gyro, l_foot_rear_ft_gyro, r_foot_front_ft_gyro, r_foot_rear_ft_gyro, l_leg_ft_gyro, r_leg_ft_gyro)
+    (waist_imu_0, l_arm_ft_imu, r_arm_ft_imu, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)
   </param>
   <param name="ThreeAxisLinearAccelerometersNames">
-    (sensor_imu_xsensmt, rfeimu_acc, l_arm_ft_acc, r_arm_ft_acc, l_foot_front_ft_acc, l_foot_rear_ft_acc, r_foot_front_ft_acc, r_foot_rear_ft_acc, l_leg_ft_acc, r_leg_ft_acc)
+    (waist_imu_0, l_arm_ft_imu, r_arm_ft_imu, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)
   </param>
   <param name="ThreeAxisMagnetometersNames">
-    (sensor_imu_xsensmt, rfeimu_mag, l_arm_ft_mag, r_arm_ft_mag, l_foot_front_ft_mag, l_foot_rear_ft_mag, r_foot_front_ft_mag, r_foot_rear_ft_mag, l_leg_ft_mag, r_leg_ft_mag)
+    (waist_imu_0, l_arm_ft_imu, r_arm_ft_imu, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)
   </param>
   <param name="OrientationSensorsNames">
-    (sensor_imu_xsensmt, rfeimu_eul, l_arm_ft_eul, r_arm_ft_eul, l_foot_front_ft_eul, l_foot_rear_ft_eul, r_foot_front_ft_eul, r_foot_rear_ft_eul, l_leg_ft_eul, r_leg_ft_eul)
+    (waist_imu_0, l_arm_ft_imu, r_arm_ft_imu, l_foot_front_ft_imu, l_foot_rear_ft_imu, r_foot_front_ft_imu, r_foot_rear_ft_imu, l_leg_ft_imu, r_leg_ft_imu)
   </param>
   <param name="SixAxisForceTorqueSensorsNames">
     (l_arm_ft, r_arm_ft, l_foot_front_ft, l_foot_rear_ft, r_foot_front_ft, r_foot_rear_ft, l_leg_ft, r_leg_ft)
@@ -30,14 +30,14 @@
       <elem name="right_arm_ft_client">right_arm_ft_client</elem>
       <elem name="left_leg_ft_client">left_leg_ft_client</elem>
       <elem name="right_leg_ft_client">right_leg_ft_client</elem>
-      <elem name="head_imu_acc">head_imu_acc</elem>
+      <!--elem name="head_imu_acc">head_imu_acc</elem-->
+      <elem name="waist_imu_client">waist_imu_client</elem>
       <elem name="left_arm_imu_client">left_arm_imu_client</elem>
       <elem name="right_arm_imu_client">right_arm_imu_client</elem>
       <elem name="left_foot_imu_client">left_foot_imu_client</elem>
       <elem name="right_foot_imu_client">right_foot_imu_client</elem>
       <elem name="left_leg_imu_client">left_leg_imu_client</elem>
       <elem name="right_leg_imu_client">right_leg_imu_client</elem>
-      <elem name="waist_client">waist_client</elem>
     </paramlist>
   </action>
 
