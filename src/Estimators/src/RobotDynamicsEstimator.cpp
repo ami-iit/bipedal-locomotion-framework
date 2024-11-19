@@ -446,8 +446,7 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
         }
         else
         {
-            log()->error("{} Variable `{}` not found.", logPrefix, key);
-            return false;
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
@@ -468,8 +467,7 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
         }
         else
         {
-            log()->error("{} Variable `{}` not found.", logPrefix, key);
-            return false;
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
@@ -490,8 +488,7 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
         }
         else
         {
-            log()->error("{} Variable `{}` not found.", logPrefix, key);
-            return false;
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
