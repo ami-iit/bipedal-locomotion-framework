@@ -141,6 +141,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_YarpUtilities
   "Compile YarpHelper library?" ON
   "FRAMEWORK_USE_YARP" OFF)
 
+framework_dependent_option(FRAMEWORK_COMPILE_Ros1Publisher
+  "Compile YarpUtilities::RosPublisher class?" ON
+  "FRAMEWORK_USE_YARP" OFF)
+
 framework_dependent_option(FRAMEWORK_COMPILE_RosImplementation
   "Compile All the ROS implementations?" ON
   "FRAMEWORK_USE_rclcpp" OFF)

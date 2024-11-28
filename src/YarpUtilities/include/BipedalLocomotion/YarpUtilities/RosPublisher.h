@@ -30,7 +30,7 @@ namespace YarpUtilities
  *  - Transform broadcaster
  * Although the class might be ROS independent, in order to run the code, ROS is required and usual YARP-ROS connections need to be made.
  */
-class RosPublisher
+class [[deprecated("The ROS 1-based BipedalLocomotion::YarpUtilities::RosPublisher is deprecated, use ROS 2 instead.")]] RosPublisher
 {
 public:
     /**
