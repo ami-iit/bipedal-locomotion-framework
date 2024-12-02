@@ -1682,9 +1682,17 @@ struct YarpSensorBridge::Impl
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
                       * controlBoardRemapperMeasures.motorVelocitiesUnordered * M_PI / 180;
 
+                // TO BE CHANGED
+                // For the time being instead of reading the motor acceleration we are reading the
+                // estimated friction torques
+
+                // controlBoardRemapperMeasures.motorAccelerations.noalias()
+                //     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                //       * controlBoardRemapperMeasures.motorAccelerationsUnordered * M_PI / 180;
+
                 controlBoardRemapperMeasures.motorAccelerations.noalias()
                     = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.motorAccelerationsUnordered * M_PI / 180;
+                      * controlBoardRemapperMeasures.motorAccelerationsUnordered;
             } else
             {
                 log()->error("{} Unable to read from IMotorEncoders interface, use previous "

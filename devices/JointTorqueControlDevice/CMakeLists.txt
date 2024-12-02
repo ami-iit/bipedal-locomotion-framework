@@ -32,4 +32,5 @@ if(FRAMEWORK_COMPILE_JointTorqueControlDevice)
       ${YARP_LIBRARIES}
       ${iDynTree_LIBRARIES}
       CONFIGURE_PACKAGE_NAME joint_torque_control_device)
+
 endif()
