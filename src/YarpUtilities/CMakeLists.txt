@@ -5,10 +5,17 @@
 # set target name
 if(FRAMEWORK_COMPILE_YarpUtilities)
 
+  set(YarpUtilities_Ros1Publisher_PUBLIC_HEADERS "")
+  set(YarpUtilities_Ros1Publisher_SOURCES "")
+  if(FRAMEWORK_COMPILE_Ros1Publisher)
+    list(APPEND YarpUtilities_Ros1Publisher_PUBLIC_HEADERS "include/BipedalLocomotion/YarpUtilities/RosPublisher.h")
+    list(APPEND YarpUtilities_Ros1Publisher_SOURCES "src/RosPublisher.cpp")
+  endif()
+
   add_bipedal_locomotion_library(
     NAME                   YarpUtilities
-    SOURCES                src/Helper.cpp src/RosPublisher.cpp
-    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp include/BipedalLocomotion/YarpUtilities/RosPublisher.h
+    SOURCES                src/Helper.cpp ${YarpUtilities_Ros1Publisher_SOURCES}
+    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/Helper.h include/BipedalLocomotion/YarpUtilities/Helper.tpp ${YarpUtilities_Ros1Publisher_PUBLIC_HEADERS}
     PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES} ${iDynTree_LIBRARIES} BipedalLocomotion::GenericContainer BipedalLocomotion::ParametersHandler BipedalLocomotion::TextLogging
     SUBDIRECTORIES         tests)
 

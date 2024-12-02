@@ -12,11 +12,14 @@ All notable changes to this project are documented in this file.
 - Implement `velMANN` class to perform inference on MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Add KF to estimate joint and motor velocities in JoinTorqueControlDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/909)
+- Added option `FRAMEWORK_COMPILE_Ros1Publisher` to enable or disable the compilation of the `BipedalLocomotion::YarpUtilities::RosPublisher` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/914)
 
 ### Changed
 - Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
 - Set the system timer resolution to the minimum value for higher precision on `Windows` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/907)
 - Write estimated friction torques from jtcvc instead of motor accelerations on YARP (https://github.com/ami-iit/bipedal-locomotion-framework/pull/908)
+- Update the `mas-remapper` configuration file for `ergoCubSN000` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/913)
+- Deprecate the `BipedalLocomotion::YarpUtilities::RosPublisher` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/914)
 
 ### Fixed
 - Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
