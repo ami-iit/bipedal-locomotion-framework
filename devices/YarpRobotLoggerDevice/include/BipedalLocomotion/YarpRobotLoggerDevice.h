@@ -262,9 +262,7 @@ private:
 
     const std::string timestampsName = "timestamps";
 
-    virtual bool lastCallSave();
-
-    virtual bool periodicSave();
+    virtual bool saveData();
 };
 
 } // namespace BipedalLocomotion

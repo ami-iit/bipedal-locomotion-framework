@@ -8,7 +8,5 @@
 
 service YarpRobotLoggerDeviceCommands
 {
-    bool lastCallSave();
-
-    bool periodicSave();
+    bool saveData();
 }

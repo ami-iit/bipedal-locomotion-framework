@@ -2006,14 +2006,7 @@ bool YarpRobotLoggerDevice::close()
     return true;
 }
 
-bool YarpRobotLoggerDevice::lastCallSave()
-{
-    std::string fileName;
-    m_bufferManager.saveToFile(fileName);
-    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::last_call);
-}
-
-bool YarpRobotLoggerDevice::periodicSave()
+bool YarpRobotLoggerDevice::saveData()
 {
     std::string fileName;
     m_bufferManager.saveToFile(fileName);
