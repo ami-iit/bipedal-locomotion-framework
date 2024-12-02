@@ -394,6 +394,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    this->yarp().attachAsServer(this->m_rpcPort);
+    if (!m_rpcPort.open(m_rpcPortName))
+    {
+        log()->error("{} Could not open", logPrefix);
+        return false;
+    }
+
     return true;
 }
 
@@ -1997,4 +2004,18 @@ bool YarpRobotLoggerDevice::close()
     }
 
     return true;
+}
+
+bool YarpRobotLoggerDevice::lastCallSave()
+{
+    std::string fileName;
+    m_bufferManager.saveToFile(fileName);
+    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::last_call);
+}
+
+bool YarpRobotLoggerDevice::periodicSave()
+{
+    std::string fileName;
+    m_bufferManager.saveToFile(fileName);
+    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
 }
