@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Implement `velMANN` class to perform inference on MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Added option `FRAMEWORK_COMPILE_Ros1Publisher` to enable or disable the compilation of the `BipedalLocomotion::YarpUtilities::RosPublisher` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/914)
+- Added rpc commands to `YarpLoggerDevice` to trigger the saving of data to a local file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/915)
 
 ### Changed
 - Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
