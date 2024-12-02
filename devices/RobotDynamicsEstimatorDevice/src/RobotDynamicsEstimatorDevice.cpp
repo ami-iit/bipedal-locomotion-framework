@@ -88,6 +88,46 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
         return false;
     }
 
+    std::vector<std::string> fixedJointsList;
+    if (!ptr->getParameter("fixed_joint_list_names", fixedJointsList)) {
+        BipedalLocomotion::log()->debug("{} Unable to find the joint list.",
+                                        logPrefix);
+    }
+
+    // check that none of the fixed joints is in the controlled joints
+    for (const auto &fixedJoint : fixedJointsList) {
+        if (std::find(m_jointNameList.begin(), m_jointNameList.end(), fixedJoint) !=
+            m_jointNameList.end()) {
+        // If found, throw an error
+        BipedalLocomotion::log()->error(
+            "{} Fixed joint {} is also in the controlled joints "
+            "list.",
+            logPrefix, fixedJoint);
+        return false;
+        }
+    }
+
+    Eigen::VectorXd fixedJointPositions;
+    if (!ptr->getParameter("fixed_joint_list_values", fixedJointPositions)) {
+        BipedalLocomotion::log()->debug(
+            "{} Unable to find the initial joint position.", logPrefix);
+    }
+
+    if (fixedJointPositions.size() != fixedJointsList.size()) {
+        BipedalLocomotion::log()->error(
+            "{} The size of the initial joint position is different "
+            "from the size of the joint list.",
+            logPrefix);
+        return false;
+    }
+
+    // create the map of the fixed joints with the corresponding position
+    std::unordered_map<std::string, double> fixedJointsMap;
+
+    for (size_t i{}; i < fixedJointsList.size(); i++) {
+        fixedJointsMap[fixedJointsList[i]] = fixedJointPositions[i] * M_PI / 180.0;
+    }
+
     if (!ptr->getParameter("torque_constant", m_torqueConstant))
     {
         log()->error("{} Could not find parameter `torque_constant`", logPrefix);
@@ -114,7 +154,9 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
     jointsAndFTs.insert(jointsAndFTs.begin(), m_jointNameList.begin(), m_jointNameList.end());
     jointsAndFTs.insert(jointsAndFTs.end(), ftJointList.begin(), ftJointList.end());
 
-    if (!mdlLdr.loadReducedModelFromFile(modelFilePath, jointsAndFTs))
+    log()->error("");
+
+    if (!mdlLdr.loadReducedModelFromFile(modelFilePath, jointsAndFTs, fixedJointsMap))
     {
         log()->error("{} Could not load robot model", logPrefix);
         return false;
