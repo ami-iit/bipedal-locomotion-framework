@@ -180,7 +180,7 @@ private:
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
-    const std::string m_rpcPortName{"/YarpRobotLoggerDevice/commands/rpc:i"}; /**< name of Remote
+    const std::string m_rpcPortName{"/commands/rpc:i"}; /**< name of Remote
                                                                             Procedure Call port. */
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
