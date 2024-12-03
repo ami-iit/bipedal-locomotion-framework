@@ -394,8 +394,19 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    // open rpc port for YarpRobotLoggerDevice commands
+    std::string portPrefix{};
+
+    if (!params->getParameter("port_prefix", portPrefix))
+    {
+
+        log()->info("{} The 'port_prefix' is not provided. It willnot be used.", logPrefix);
+    }
+
+    std::string rpcPortFullName = portPrefix + m_rpcPortName;
+
     this->yarp().attachAsServer(this->m_rpcPort);
-    if (!m_rpcPort.open(m_rpcPortName))
+    if (!m_rpcPort.open(rpcPortFullName))
     {
         log()->error("{} Could not open", logPrefix);
         return false;
