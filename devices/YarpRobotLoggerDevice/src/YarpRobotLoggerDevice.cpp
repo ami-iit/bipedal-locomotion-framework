@@ -395,7 +395,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     }
 
     // open rpc port for YarpRobotLoggerDevice commands
-    std::string portPrefix{};
+    std::string portPrefix{"/yarp-robot-logger"};
 
     if (!params->getParameter("port_prefix", portPrefix))
     {
