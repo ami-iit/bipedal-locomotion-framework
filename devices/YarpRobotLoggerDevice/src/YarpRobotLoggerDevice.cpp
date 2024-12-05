@@ -400,7 +400,9 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     if (!params->getParameter("port_prefix", portPrefix))
     {
 
-        log()->info("{} The 'port_prefix' is not provided. It willnot be used.", logPrefix);
+        log()->info("{} The 'port_prefix' is not provided. The default prefix {} will be used.",
+                    logPrefix,
+                    portPrefix);
     }
 
     std::string rpcPortFullName = portPrefix + m_rpcPortName;
