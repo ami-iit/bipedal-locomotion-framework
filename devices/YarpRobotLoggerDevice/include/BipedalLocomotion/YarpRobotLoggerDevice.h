@@ -174,6 +174,7 @@ private:
     bool m_streamCartesianWrenches{false};
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
+    bool m_logText{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
