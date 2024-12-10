@@ -339,6 +339,24 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
                                                          m_pImpl->output.rightFootTrajectory
                                                              .mixedAcceleration);
 
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootinContact,
+                                                         m_pImpl->output.contactStatus
+                                                             .leftFootInContact);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.rightFootinContact,
+                                                         m_pImpl->output.contactStatus
+                                                             .rightFootInContact);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.isLeftFootLastSwinging,
+                                                         m_pImpl->output.contactStatus
+                                                             .UsedLeftAsFixed);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.mergePoints,
+                                                         m_pImpl->output.mergePoints);
+
+    m_pImpl->output.steps.leftSteps = m_pImpl->trajectory.leftSteps;
+    m_pImpl->output.steps.rightSteps = m_pImpl->trajectory.rightSteps;
+
     // instatiate variables for the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
     BipedalLocomotion::Contacts::ContactList leftContactList, rightContactList;
@@ -394,6 +412,8 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     contactListMap["right_foot"] = rightContactList;
 
     m_pImpl->output.contactPhaseList.setLists(contactListMap);
+
+    m_pImpl->output.isValid = true;
 
     return m_pImpl->output;
 }
