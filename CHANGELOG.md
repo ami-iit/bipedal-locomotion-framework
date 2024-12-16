@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
-## [unreleased]
+## [0.20.0] - 2024-12-16
 ### Added
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
 - Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
