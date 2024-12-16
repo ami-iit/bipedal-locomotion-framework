@@ -306,6 +306,8 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     double comHeightDelta;
     Eigen::Vector2d leftZMPDelta;
     Eigen::Vector2d rightZMPDelta;
+    Eigen::Vector2d leftZMPInitSwitchDelta;
+    Eigen::Vector2d rightZMPInitSwitchDelta;
     double lastStepDCMOffset;
 
     // parse initialization parameters
@@ -359,6 +361,15 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     ok = ok && loadParamWithFallback("comHeightDelta", comHeightDelta, 0.01);
     ok = ok && loadParam("leftZMPDelta", leftZMPDelta);
     ok = ok && loadParam("rightZMPDelta", rightZMPDelta);
+    ok = ok
+         && loadParamWithFallback("leftZMPInitSwitchDelta",
+                                  leftZMPInitSwitchDelta,
+                                  Eigen::Vector2d::Zero());
+    ok = ok
+         && loadParamWithFallback("rightZMPInitSwitchDelta",
+                                  rightZMPInitSwitchDelta,
+                                  Eigen::Vector2d::Zero());
+
     ok = ok && loadParamWithFallback("lastStepDCMOffset", lastStepDCMOffset, 0.5);
     ok = ok && loadParam("leftContactFrameName", m_pImpl->parameters.leftContactFrameName);
     ok = ok && loadParam("rightContactFrameName", m_pImpl->parameters.rightContactFrameName);
@@ -413,6 +424,14 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
     dcmGenerator->setOmega(omega);
     dcmGenerator->setFirstDCMTrajectoryMode(FirstDCMTrajectoryMode::FifthOrderPoly);
     ok = ok && dcmGenerator->setLastStepDCMOffsetPercentage(lastStepDCMOffset);
+
+    auto zmpGenerator = m_pImpl->generator.addZMPTrajectoryGenerator();
+    iDynTree::Vector2 leftZMPInitSwitchDeltaVec{leftZMPInitSwitchDelta};
+    iDynTree::Vector2 rightZMPInitSwitchDeltaVec{rightZMPInitSwitchDelta};
+    ok = ok && zmpGenerator->setStanceZMPDelta(leftZMPDeltaVec, rightZMPDeltaVec);
+    ok = ok
+         && zmpGenerator->setInitialSwitchZMPDelta(leftZMPInitSwitchDeltaVec,
+                                                   rightZMPInitSwitchDeltaVec);
 
     // initialize the COM system
     m_pImpl->comSystem.dynamics
@@ -548,6 +567,7 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
 
     auto unicyclePlanner = m_pImpl->generator.unicyclePlanner();
     auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
+    auto zmpGenerator = m_pImpl->generator.addZMPTrajectoryGenerator();
 
     double initTime{m_pImpl->input.initTime.count() * 1e-9};
     m_pImpl->initTime = m_pImpl->input.initTime;
@@ -651,6 +671,13 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
             return false;
         }
 
+        // set the initial state of the ZMP trajectory generator
+        if (!zmpGenerator->setWeightInitialState(m_pImpl->input.zmpInitialState))
+        {
+            log()->error("{} Failed to set the initial state of the zmp generator.", logPrefix);
+            return false;
+        }
+
         // generate the new trajectory
         if (!(m_pImpl->generator.reGenerate(initTime,
                                             dt,
@@ -695,6 +722,21 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
                                                             m_pImpl->output.dcmTrajectory.position);
     Planners::UnicycleUtilities::Conversions::convertVector(dcmGenerator->getDCMVelocity(),
                                                             m_pImpl->output.dcmTrajectory.velocity);
+    // get the ZMP trajectory
+    std::vector<iDynTree::Vector2> leftZMP, rightZMP, globalZMP;
+    zmpGenerator->getZMPTrajectory(globalZMP);
+    Planners::UnicycleUtilities::Conversions::convertVector(globalZMP,
+                                                            m_pImpl->output.zmpTrajectory.position);
+    zmpGenerator->getLocalZMPTrajectories(leftZMP, rightZMP);
+    Planners::UnicycleUtilities::Conversions::convertVector(leftZMP,
+                                                            m_pImpl->output.zmpTrajectory
+                                                                .localPositionLeft);
+    Planners::UnicycleUtilities::Conversions::convertVector(rightZMP,
+                                                            m_pImpl->output.zmpTrajectory
+                                                                .localPositionRight);
+    zmpGenerator->getWeightPercentage(m_pImpl->output.zmpTrajectory.weightInLeftFoot,
+                                      m_pImpl->output.zmpTrajectory.weightInRightFoot);
+    zmpGenerator->getInitialStatesAtMergePoints(m_pImpl->output.zmpTrajectory.initialState);
 
     // get the CoM planar trajectory
     std::chrono::nanoseconds time = m_pImpl->input.initTime;
