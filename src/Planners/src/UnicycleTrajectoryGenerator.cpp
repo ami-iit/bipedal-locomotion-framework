@@ -750,6 +750,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
     trajectory.zmpGeneratorInitialState
         .assign(unicycleTrajectoryPlanner.getOutput().zmpTrajectory.initialState.begin(),
                 unicycleTrajectoryPlanner.getOutput().zmpTrajectory.initialState.end());
+    trajectory.zmpGeneratorInitialState.pop_front();
 
     // get feet cubic spline trajectory
 
