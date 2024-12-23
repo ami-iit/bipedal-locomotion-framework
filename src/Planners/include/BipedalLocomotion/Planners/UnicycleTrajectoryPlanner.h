@@ -120,7 +120,7 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 
     COMTrajectory comTrajectory; /**< CoM trajectory */
 
-    std::optional<DCMTrajectory> dcmTrajectory; /**< DCM trajectory */
+    DCMTrajectory dcmTrajectory; /**< DCM trajectory */
 
     std::optional<ZMPTrajectory> zmpTrajectory; /**< ZMP trajectory */
 

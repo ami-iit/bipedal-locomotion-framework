@@ -207,13 +207,8 @@ int main(int argc, char* argv[])
         w_H_right = rightFootPlanner.getOutput().transform;
 
         // get the DCM trajectory from the unicycle trajectory generator
-        bool isDCMGeneratorUsed = output.dcmTrajectory.has_value();
-        auto dcmPosition = (isDCMGeneratorUsed)
-                               ? output.dcmTrajectory->position
-                               : std::vector<Eigen::Vector2d>(1, Eigen::Vector2d(0.0, 0.0));
-        auto dcmVelocity = (isDCMGeneratorUsed)
-                               ? output.dcmTrajectory->velocity
-                               : std::vector<Eigen::Vector2d>(1, Eigen::Vector2d(0.0, 0.0));
+        auto dcmPosition = output.dcmTrajectory.position;
+        auto dcmVelocity = output.dcmTrajectory.velocity;
 
         if (saveResults)
         {

@@ -418,8 +418,6 @@ bool Planners::UnicycleTrajectoryPlanner::initialize(
 
     m_pImpl->output.zmpTrajectory
         = std::make_optional<UnicycleTrajectoryPlannerOutput::ZMPTrajectory>();
-    m_pImpl->output.dcmTrajectory
-        = std::make_optional<UnicycleTrajectoryPlannerOutput::DCMTrajectory>();
 
     auto dcmGenerator = m_pImpl->generator.addDCMTrajectoryGenerator();
     iDynTree::Vector2 leftZMPDeltaVec{leftZMPDelta};
@@ -724,9 +722,9 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
     };
 
     Planners::UnicycleUtilities::Conversions::convertVector(dcmGenerator->getDCMPosition(),
-                                                            m_pImpl->output.dcmTrajectory->position);
+                                                            m_pImpl->output.dcmTrajectory.position);
     Planners::UnicycleUtilities::Conversions::convertVector(dcmGenerator->getDCMVelocity(),
-                                                            m_pImpl->output.dcmTrajectory->velocity);
+                                                            m_pImpl->output.dcmTrajectory.velocity);
     // get the ZMP trajectory
     std::vector<iDynTree::Vector2> leftZMP, rightZMP, globalZMP;
     zmpGenerator->getZMPTrajectory(globalZMP);
@@ -754,19 +752,19 @@ bool Planners::UnicycleTrajectoryPlanner::advance()
         BipedalLocomotion::GenericContainer::named_param<"dx"_h, Eigen::VectorXd>());
     Eigen::Vector4d controlInput;
 
-    m_pImpl->output.comTrajectory.position.resize(m_pImpl->output.dcmTrajectory->position.size());
-    m_pImpl->output.comTrajectory.velocity.resize(m_pImpl->output.dcmTrajectory->position.size());
+    m_pImpl->output.comTrajectory.position.resize(m_pImpl->output.dcmTrajectory.position.size());
+    m_pImpl->output.comTrajectory.velocity.resize(m_pImpl->output.dcmTrajectory.position.size());
     m_pImpl->output.comTrajectory.acceleration.resize(
-        m_pImpl->output.dcmTrajectory->position.size());
+        m_pImpl->output.dcmTrajectory.position.size());
 
-    for (size_t i = 0; i < m_pImpl->output.dcmTrajectory->position.size(); i++)
+    for (size_t i = 0; i < m_pImpl->output.dcmTrajectory.position.size(); i++)
     {
         // populate CoM planar position
         m_pImpl->output.comTrajectory.position[i].head<2>() = state.head<2>();
 
         // set the control input, u
-        controlInput << m_pImpl->output.dcmTrajectory->position.at(i),
-            m_pImpl->output.dcmTrajectory->velocity.at(i);
+        controlInput << m_pImpl->output.dcmTrajectory.position.at(i),
+            m_pImpl->output.dcmTrajectory.velocity.at(i);
         m_pImpl->comSystem.dynamics->setControlInput({controlInput});
 
         // compute the state derivative xdot = Ax + Bu

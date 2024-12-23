@@ -285,11 +285,8 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
 
     // Get the generator being used and instantiate optional outputs
     ok = ok && loadParamWithFallback("use_zmp_generator", m_useZMPGenerator, false);
-    m_useDCMGenerator = !m_useZMPGenerator;
     m_pImpl->output.zmpTrajectory
         = std::make_optional<UnicycleTrajectoryGeneratorOutput::ZMPTrajectory>();
-    m_pImpl->output.dcmTrajectory
-        = std::make_optional<UnicycleTrajectoryGeneratorOutput::DCMTrajectory>();
 
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
@@ -313,18 +310,10 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
-    if (m_useDCMGenerator)
-    {
-        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
-                                                             m_pImpl->output.dcmTrajectory
-                                                                 ->position);
-        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
-                                                             m_pImpl->output.dcmTrajectory
-                                                                 ->velocity);
-    } else
-    {
-        m_pImpl->output.dcmTrajectory.reset();
-    }
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
+                                                         m_pImpl->output.dcmTrajectory.position);
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
+                                                         m_pImpl->output.dcmTrajectory.velocity);
 
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comPosition,
                                                          m_pImpl->output.comTrajectory.position);
@@ -715,12 +704,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     // get dcm position
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .dcmTrajectory->position,
+                                                         .dcmTrajectory.position,
                                                      trajectory.dcmPosition,
                                                      mergePoint);
     // get dcm velocity
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .dcmTrajectory->velocity,
+                                                         .dcmTrajectory.velocity,
                                                      trajectory.dcmVelocity,
                                                      mergePoint);
     // get feet contact status
