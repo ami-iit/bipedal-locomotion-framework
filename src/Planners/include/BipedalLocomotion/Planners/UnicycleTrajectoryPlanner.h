@@ -23,6 +23,7 @@
 #include <chrono>
 #include <deque>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 namespace BipedalLocomotion::Planners
@@ -119,9 +120,9 @@ struct BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput
 
     COMTrajectory comTrajectory; /**< CoM trajectory */
 
-    DCMTrajectory dcmTrajectory; /**< DCM trajectory */
+    std::optional<DCMTrajectory> dcmTrajectory; /**< DCM trajectory */
 
-    ZMPTrajectory zmpTrajectory; /**< ZMP trajectory */
+    std::optional<ZMPTrajectory> zmpTrajectory; /**< ZMP trajectory */
 
     ContactStatus contactStatus; /**< Contact status of the feet */
 

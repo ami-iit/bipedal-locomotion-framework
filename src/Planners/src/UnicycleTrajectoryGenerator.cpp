@@ -21,6 +21,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -282,6 +283,14 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
                                                           initialBasePosition,
                                                           leftToRightTransform);
 
+    // Get the generator being used and instantiate optional outputs
+    ok = ok && loadParamWithFallback("use_zmp_generator", m_useZMPGenerator, false);
+    m_useDCMGenerator = !m_useZMPGenerator;
+    m_pImpl->output.zmpTrajectory
+        = std::make_optional<UnicycleTrajectoryGeneratorOutput::ZMPTrajectory>();
+    m_pImpl->output.dcmTrajectory
+        = std::make_optional<UnicycleTrajectoryGeneratorOutput::DCMTrajectory>();
+
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
     ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
@@ -304,11 +313,18 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 {
     constexpr auto logPrefix = "[UnicycleTrajectoryGenerator::getOutput]";
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
-                                                         m_pImpl->output.dcmTrajectory.position);
-
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
-                                                         m_pImpl->output.dcmTrajectory.velocity);
+    if (m_useDCMGenerator)
+    {
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
+                                                             m_pImpl->output.dcmTrajectory
+                                                                 ->position);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
+                                                             m_pImpl->output.dcmTrajectory
+                                                                 ->velocity);
+    } else
+    {
+        m_pImpl->output.dcmTrajectory.reset();
+    }
 
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.comPosition,
                                                          m_pImpl->output.comTrajectory.position);
@@ -360,28 +376,37 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.mergePoints,
                                                          m_pImpl->output.mergePoints);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.zmpPosition,
-                                                         m_pImpl->output.zmpTrajectory.position);
+    if (m_useZMPGenerator)
+    {
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.zmpPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->position);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootZMPPosition,
-                                                         m_pImpl->output.zmpTrajectory
-                                                             .localPositionLeft);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootZMPPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->localPositionLeft);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.rightFootZMPPosition,
-                                                         m_pImpl->output.zmpTrajectory
-                                                             .localPositionRight);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .rightFootZMPPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->localPositionRight);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInLeftFoot,
-                                                         m_pImpl->output.zmpTrajectory
-                                                             .weightInLeftFoot);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInLeftFoot,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->weightInLeftFoot);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInRightFoot,
-                                                         m_pImpl->output.zmpTrajectory
-                                                             .weightInRightFoot);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInRightFoot,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->weightInRightFoot);
 
-    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
-                                                             .zmpGeneratorInitialState,
-                                                         m_pImpl->output.zmpTrajectory.initialState);
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .zmpGeneratorInitialState,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->initialState);
+    } else
+    {
+        m_pImpl->output.zmpTrajectory.reset();
+    }
 
     m_pImpl->output.steps.leftSteps = m_pImpl->trajectory.leftSteps;
     m_pImpl->output.steps.rightSteps = m_pImpl->trajectory.rightSteps;
@@ -690,12 +715,12 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     // get dcm position
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .dcmTrajectory.position,
+                                                         .dcmTrajectory->position,
                                                      trajectory.dcmPosition,
                                                      mergePoint);
     // get dcm velocity
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .dcmTrajectory.velocity,
+                                                         .dcmTrajectory->velocity,
                                                      trajectory.dcmVelocity,
                                                      mergePoint);
     // get feet contact status
@@ -727,29 +752,29 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
 
     // get zmp trajectory
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .zmpTrajectory.position,
+                                                         .zmpTrajectory->position,
                                                      trajectory.zmpPosition,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .zmpTrajectory.localPositionLeft,
+                                                         .zmpTrajectory->localPositionLeft,
                                                      trajectory.leftFootZMPPosition,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .zmpTrajectory.localPositionRight,
+                                                         .zmpTrajectory->localPositionRight,
                                                      trajectory.rightFootZMPPosition,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .zmpTrajectory.weightInLeftFoot,
+                                                         .zmpTrajectory->weightInLeftFoot,
                                                      trajectory.weightInLeftFoot,
                                                      mergePoint);
     Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
-                                                         .zmpTrajectory.weightInRightFoot,
+                                                         .zmpTrajectory->weightInRightFoot,
                                                      trajectory.weightInRightFoot,
                                                      mergePoint);
 
     trajectory.zmpGeneratorInitialState
-        .assign(unicycleTrajectoryPlanner.getOutput().zmpTrajectory.initialState.begin(),
-                unicycleTrajectoryPlanner.getOutput().zmpTrajectory.initialState.end());
+        .assign(unicycleTrajectoryPlanner.getOutput().zmpTrajectory->initialState.begin(),
+                unicycleTrajectoryPlanner.getOutput().zmpTrajectory->initialState.end());
     trajectory.zmpGeneratorInitialState.pop_front();
 
     // get feet cubic spline trajectory
