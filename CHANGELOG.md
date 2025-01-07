@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project are documented in this file.
 
+## [unreleased]
+### Added
+### Changed
+### Fixed
+
 ## [0.20.0] - 2024-12-16
 ### Added
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
@@ -602,7 +607,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.20.0...master
+[0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0
