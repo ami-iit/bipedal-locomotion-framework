@@ -99,6 +99,9 @@ public:
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
 
+    manif::SE3d measuredTransform;
+    bool useMeasuredTransform;
+
     /**
      * ask for a new trajectory to the unicycle trajectory planner
      */
@@ -558,12 +561,22 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
 
             std::chrono::nanoseconds initTimeTrajectory
                 = m_pImpl->time + m_pImpl->newTrajectoryMergeCounter * m_pImpl->parameters.dt;
+            manif::SE3d measuredTransform;
 
-            manif::SE3d measuredTransform = m_pImpl->trajectory.isLeftFootLastSwinging.front()
-                                                ? m_pImpl->trajectory.rightFootTransform.at(
-                                                    m_pImpl->newTrajectoryMergeCounter)
-                                                : m_pImpl->trajectory.leftFootTransform.at(
-                                                    m_pImpl->newTrajectoryMergeCounter);
+            if (m_pImpl->useMeasuredTransform)
+            {
+                measuredTransform = m_pImpl->measuredTransform;
+                m_pImpl->useMeasuredTransform = false; // once used, it is no more usable. User
+                                                       // should reset it again.
+            } else
+            {
+
+                measuredTransform = m_pImpl->trajectory.isLeftFootLastSwinging.front()
+                                        ? m_pImpl->trajectory.rightFootTransform.at(
+                                              m_pImpl->newTrajectoryMergeCounter)
+                                        : m_pImpl->trajectory.leftFootTransform.at(
+                                              m_pImpl->newTrajectoryMergeCounter);
+            }
 
             // ask for a new trajectory (and spawn an asynchronous thread to compute it)
             {
@@ -957,4 +970,11 @@ std::chrono::nanoseconds
 BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::getSamplingTime() const
 {
     return m_pImpl->parameters.dt;
+};
+
+void BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::setMeasuredTransform(
+    const manif::SE3d& measuredTransform)
+{
+    m_pImpl->measuredTransform = measuredTransform;
+    m_pImpl->useMeasuredTransform = true;
 };

@@ -174,6 +174,11 @@ public:
      */
     std::chrono::nanoseconds getSamplingTime() const;
 
+    /**
+     * @brief Set the measured transform to use when regenerating the trajectory.
+     */
+    void setMeasuredTransform(const manif::SE3d& measuredTransform);
+
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
