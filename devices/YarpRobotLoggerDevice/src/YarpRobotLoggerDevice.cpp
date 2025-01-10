@@ -1361,6 +1361,13 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             wakeUpTime = time;
         }
         wakeUpTime += recordVideoPeriod;
+        if (wakeUpTime < time)
+        {
+            // Before acquiring the image we already spent more time than expected.
+            // At this point the next frame should be acquired considering the nominal period
+            // starting from the current time, as if we reset the clock.
+            wakeUpTime = time + recordVideoPeriod;
+        }
 
         // get the frame from the camera
         if (writer.rgb != nullptr)
@@ -1450,13 +1457,16 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
         // release the CPU
         BipedalLocomotion::clock().yield();
-
-        if (wakeUpTime < BipedalLocomotion::clock().now())
+        auto endTime = BipedalLocomotion::clock().now();
+        if (wakeUpTime < endTime)
         {
             log()->info("{} The video thread spent more time than expected to save the camera "
-                        "named: {}.",
+                        "named: {}. Expected: {}s. Measured: {}s. Nominal: {}s.",
                         logPrefix,
-                        cameraName);
+                        cameraName,
+                        std::chrono::duration<double>(wakeUpTime - time),
+                        std::chrono::duration<double>(endTime - time),
+                        std::chrono::duration<double>(recordVideoPeriod));
         }
 
         // sleep
