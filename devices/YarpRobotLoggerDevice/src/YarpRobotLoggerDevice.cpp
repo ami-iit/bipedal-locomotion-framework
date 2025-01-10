@@ -1853,11 +1853,21 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     // save the video if there is any
     for (const auto& camera : m_rgbCamerasList)
     {
+        log()->info("{} Saving the rgb camera named {}.", logPrefix, camera);
+
+        auto start = BipedalLocomotion::clock().now();
+
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
             log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
             return false;
         }
+
+        log()->info("{} Saved video {}_{}_{} in {}s.",
+                    fileName,
+                    camera,
+                    "rgb",
+                    std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
 
         if (method != robometry::SaveCallbackSaveMethod::periodic)
         {
@@ -1891,17 +1901,37 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 
     for (const auto& camera : m_rgbdCamerasList)
     {
+        log()->info("{} Saving the rgb camera named {}.", logPrefix, camera);
+
+        auto start = BipedalLocomotion::clock().now();
+
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
             log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
             return false;
         }
 
+        log()->info("{} Saved video {}_{}_{} in {}s.",
+                    fileName,
+                    camera,
+                    "rgb",
+                    std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+
+        log()->info("{} Saving the depth camera named {}.", logPrefix, camera);
+
+        start = BipedalLocomotion::clock().now();
+
         if (!saveVideo(m_videoWriters[camera].depth, camera, "depth"))
         {
             log()->error("{} Unable to save the depth for the camera named {}", logPrefix, camera);
             return false;
         }
+
+        log()->info("{} Saved video {}_{}_{} in {}s.",
+                    fileName,
+                    camera,
+                    "depth",
+                    std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
 
         if (method != robometry::SaveCallbackSaveMethod::periodic)
         {
@@ -1961,6 +1991,9 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     }
 
     // save the status of the code
+    log()->info("{} Saving the status of the code...", logPrefix);
+    auto start = BipedalLocomotion::clock().now();
+
     std::ofstream file(fileName + ".md");
     file << "# " << fileName << std::endl;
     file << "File containing all the installed software required to replicate the experiment.  "
@@ -1987,6 +2020,10 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     }
 
     file.close();
+    log()->info("{} Status of the code saved to file {} in {}s.",
+                logPrefix,
+                fileName + ".md",
+                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
 
     return true;
 }
@@ -2039,7 +2076,17 @@ bool YarpRobotLoggerDevice::close()
 
 bool YarpRobotLoggerDevice::saveData()
 {
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveData]";
+
     std::string fileName;
+    log()->info("{} Saving data to .mat file...", logPrefix);
+    auto start = BipedalLocomotion::clock().now();
+
     m_bufferManager.saveToFile(fileName);
+
+    log()->info("{} Data saved to file {}.mat in {}s.",
+                logPrefix,
+                fileName,
+                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
     return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
 }
