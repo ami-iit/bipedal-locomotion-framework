@@ -116,32 +116,13 @@ bool TorqueFeasibleRegionTask::initialize(std::weak_ptr<const IParametersHandler
 }
 
 bool TorqueFeasibleRegionTask::setTorqueFeasibleRegion(
-    Eigen::Ref<const Eigen::MatrixXd> Q, 
-    Eigen::Ref<const Eigen::VectorXd> l, 
-    Eigen::Ref<const Eigen::VectorXd> u
-)
+    Eigen::Ref<const Eigen::Matrix2d> Q, 
+    Eigen::Ref<const Eigen::Vector2d> l, 
+    Eigen::Ref<const Eigen::Vector2d> u)
 {
     constexpr auto errorPrefix = "[TorqueFeasibleRegionTask::setTorqueFeasibleRegion]";
 
     m_isValid = false;
-    if (Q.rows() != m_variableSize || Q.rows() != m_variableSize)
-    {
-        log()->error("{} The matrix Q must have an order equal to {}", errorPrefix, m_variableSize);
-        return false;
-    }
-
-        if (Q.rows() != m_variableSize || Q.rows() != m_variableSize)
-    {
-        log()->error("{} The vector l must have a dimension equal to {}", errorPrefix, m_variableSize);
-        return false;
-    }
-
-        if (Q.rows() != m_variableSize || Q.rows() != m_variableSize)
-    {
-        log()->error("{} The vector u must have a dimension equal to {}", errorPrefix, m_variableSize);
-        return false;
-    }
-
     m_A << Q, -Q;
     m_A = m_A * m_S;
 
