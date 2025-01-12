@@ -1,11 +1,11 @@
 /**
- * @file VariableLinearTask.cpp
+ * @file SPUTorqueLimitTask.cpp
  * @authors Roberto Mauceri
  * @copyright 2025 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TSID/VariableLinearTask.h>
+#include <BipedalLocomotion/TSID/SPUTorqueLimitTask.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -16,9 +16,9 @@ using namespace BipedalLocomotion::TSID;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion;
 
-bool VariableLinearTask::setVariablesHandler(const VariablesHandler& variablesHandler)
+bool SPUTorqueLimitTask::setVariablesHandler(const VariablesHandler& variablesHandler)
 {
-    constexpr auto errorPrefix = "[VariableLinearTask::setVariablesHandler]";
+    constexpr auto errorPrefix = "[SPUTorqueLimitTask::setVariablesHandler]";
 
     System::VariablesHandler::VariableDescription variable;
 
@@ -46,11 +46,11 @@ bool VariableLinearTask::setVariablesHandler(const VariablesHandler& variablesHa
     }
 
     // resize the matrices
-    m_S.resize(2 * m_variableSize, variablesHandler.getNumberOfVariables());
-    m_S.setZero();
+    m_A.resize(2 * m_variableSize, variablesHandler.getNumberOfVariables());
+    m_A.setZero();
     m_b.resize(2 * m_variableSize);
 
-    // S (selection matrix) is constant
+    // A (selection matrix) is constant
     if (m_controlledElements.size() != 0)
     {
         for (int i = 0; i < m_controlledElements.size(); i++)
@@ -66,7 +66,7 @@ bool VariableLinearTask::setVariablesHandler(const VariablesHandler& variablesHa
                 return false;
             }
 
-            m_S(i, index) = 1;
+            m_A(i, index) = 1;
         }
     } else
     {
@@ -88,27 +88,41 @@ bool VariableLinearTask::setVariablesHandler(const VariablesHandler& variablesHa
     return true;
 }
 
-bool VariableLinearTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
+bool SPUTorqueLimitTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
 {
 
 }
 
-bool VariableLinearTask::setUpperBound(Eigen::Ref<const Eigen::VectorXd> setPoint)
+bool SPUTorqueLimitTask::setUpperBound(Eigen::Ref<const Eigen::VectorXd> setPoint)
 {
 
 }
 
-std::size_t VariableLinearTask::size() const
+bool SPUTorqueLimitTask::update()
+{
+    constexpr auto errorPrefix = "[SPUTorqueLimitTask::update]";
+
+    m_isValid = false;
+    
+    m_A = 0;
+    m_b = 0
+
+    m_isValid = true;
+
+    return m_isValid;
+}
+
+std::size_t SPUTorqueLimitTask::size() const
 {
     return m_b.size();
 }
 
-VariableLinearTask::Type VariableLinearTask::type() const
+SPUTorqueLimitTask::Type SPUTorqueLimitTask::type() const
 {
     return Type::inequality; // By default, the "<" operator is considered
 }
 
-bool VariableLinearTask::isValid() const
+bool SPUTorqueLimitTask::isValid() const
 {
     return m_isValid;
 }

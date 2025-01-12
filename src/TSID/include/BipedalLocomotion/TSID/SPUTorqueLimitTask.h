@@ -1,5 +1,5 @@
 /**
- * @file VariableLinearTask.h
+ * @file SPUTorqueLimitTask.h
  * @authors Roberto Mauceri
  * @copyright 2025 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -15,7 +15,7 @@ namespace BipedalLocomotion
 namespace TSID
 {
 /**
- * VariableLinearTask is a concrete implementation of the Task. Please use this element if
+ * SPUTorqueLimitTask is a concrete implementation of the Task. Please use this element if
  * you want to create a inequality linear in the variable. The task represents the following equation
  * \f[
  * Ax < b
@@ -23,7 +23,7 @@ namespace TSID
  * where \f$x\f$ are the elements of the variable you want to constraint.
  */    
 
-class VariableLinearTask : public TSIDLinearTask
+class SPUTorqueLimitTask : public TSIDLinearTask
 {
     std::string m_variableName; /**< Name of the variable considered that will be regularized */
     std::vector<std::string> m_controlledElements; /**< Name of the variable elements considered in
@@ -70,7 +70,7 @@ public:
     std::size_t size() const override;
 
     /**
-     * The VariableLinearTask is an inequality task.
+     * The SPUTorqueLimitTask is an inequality task.
      * @return the type of the task.
      */
     Type type() const override;
