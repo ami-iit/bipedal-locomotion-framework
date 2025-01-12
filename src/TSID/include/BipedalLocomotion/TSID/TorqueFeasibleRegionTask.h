@@ -32,8 +32,7 @@ class TorqueFeasibleRegionTask : public TSIDLinearTask
     bool m_isValid{false}; /**< True if the task is valid. */
     std::size_t m_variableSize{0}; /**< Size of the regularized variable. */
 
-protected:
-    Eigen::MatrixXd m_S; /** Selection Matrix */
+    Eigen::MatrixXd m_S; /**< Selection Matrix */
 
 public:
     /**
@@ -67,10 +66,9 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setFeasibleRegion(
-        Eigen::Ref<const Eigen::MatrixXd> Q, 
-        Eigen::Ref<const Eigen::VectorXd> l, 
-        Eigen::Ref<const Eigen::VectorXd> u
-    );
+        Eigen::Ref<const Eigen::Matrix2d> Q, 
+        Eigen::Ref<const Eigen::Vector2d> l, 
+        Eigen::Ref<const Eigen::Vector2d> u);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
