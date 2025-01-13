@@ -2,11 +2,6 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
-framework_dependent_option(FRAMEWORK_COMPILE_example_devices
-  "Compile example devices?" ON
-  "BUILD_DEVICE_EXAMPLES" OFF)
-
-
 function(add_bipedal_yarp_device)
   set(options )
   set(oneValueArgs NAME)
