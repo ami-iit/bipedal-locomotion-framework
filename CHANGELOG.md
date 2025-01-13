@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 ### Changed
 ### Fixed
+- Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README
 
 ## [0.20.0] - 2024-12-16
 ### Added
