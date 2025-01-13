@@ -49,7 +49,7 @@ target_link_libraries(pybind11_blf PRIVATE
 # # The generated Python dynamic module must have the same name as the pybind11
 # # module, i.e. `bindings`.
 set_target_properties(pybind11_blf PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${BLF_PYTHON_PACKAGE}"
+    LIBRARY_OUTPUT_DIRECTORY $<1:${BLF_PYTHON_PACKAGE}> # Prevent appending Release/Debug to the output path in Windows
     OUTPUT_NAME "bindings")
 
 if(FRAMEWORK_TEST_PYTHON_BINDINGS)
