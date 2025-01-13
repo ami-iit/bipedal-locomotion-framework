@@ -7,6 +7,7 @@ All notable changes to this project are documented in this file.
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 ### Fixed
+- Avoid using ``iCubGazeboV3`` model in ``BaseEstimatorFromFootIMU`` test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 
 ## [0.20.0] - 2024-12-16
 ### Added
