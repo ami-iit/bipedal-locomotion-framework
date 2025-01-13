@@ -1461,7 +1461,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
         if (wakeUpTime < endTime)
         {
             log()->info("{} The video thread spent more time than expected to save the camera "
-                        "named: {}. Expected: {}s. Measured: {}s. Nominal: {}s.",
+                        "named: {}. Expected: {}. Measured: {}. Nominal: {}.",
                         logPrefix,
                         cameraName,
                         std::chrono::duration<double>(wakeUpTime - time),
@@ -1873,7 +1873,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
             return false;
         }
 
-        log()->info("{} Saved video {}_{}_{} in {}s.",
+        log()->info("{} Saved video {}_{}_{} in {}.",
                     fileName,
                     camera,
                     "rgb",
@@ -1921,7 +1921,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
             return false;
         }
 
-        log()->info("{} Saved video {}_{}_{} in {}s.",
+        log()->info("{} Saved video {}_{}_{} in {}.",
                     fileName,
                     camera,
                     "rgb",
@@ -1937,7 +1937,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
             return false;
         }
 
-        log()->info("{} Saved video {}_{}_{} in {}s.",
+        log()->info("{} Saved video {}_{}_{} in {}.",
                     fileName,
                     camera,
                     "depth",
@@ -2030,7 +2030,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     }
 
     file.close();
-    log()->info("{} Status of the code saved to file {} in {}s.",
+    log()->info("{} Status of the code saved to file {} in {}.",
                 logPrefix,
                 fileName + ".md",
                 std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
@@ -2094,7 +2094,7 @@ bool YarpRobotLoggerDevice::saveData()
 
     m_bufferManager.saveToFile(fileName);
 
-    log()->info("{} Data saved to file {}.mat in {}s.",
+    log()->info("{} Data saved to file {}.mat in {}.",
                 logPrefix,
                 fileName,
                 std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
