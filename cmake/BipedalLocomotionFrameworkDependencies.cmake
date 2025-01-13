@@ -153,10 +153,6 @@ framework_dependent_option(FRAMEWORK_COMPILE_TomlImplementation
   "Compile All the TOML implementations?" ON
   "FRAMEWORK_USE_tomlplusplus" OFF)
 
-framework_dependent_option(FRAMEWORK_COMPILE_Math
-  "Compile Math library?" ON
-  "FRAMEWORK_USE_manif" OFF)
-
 framework_dependent_option(FRAMEWORK_COMPILE_Estimators
   "Compile Estimators library?" ON
   "" OFF)
@@ -176,6 +172,10 @@ framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
   "" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_Math
+  "Compile Math library?" ON
+  "FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_System" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Unicycle
     "Compile the Unicycle Planner library?" ON
