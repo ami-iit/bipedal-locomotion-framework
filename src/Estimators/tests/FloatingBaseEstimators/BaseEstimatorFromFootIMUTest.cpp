@@ -51,7 +51,7 @@ TEST_CASE("BaseEstimatorFromFootIMU")
     REQUIRE(populateConfig(parameterHandler, footFrameName));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    const std::string model_path = iCubModels::getModelFile("iCubGazeboV3");
+    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5");
     std::vector<std::string> joints_list
         = {"neck_pitch",     "neck_roll",   "neck_yaw",         "torso_pitch",
            "torso_roll",     "torso_yaw",   "l_shoulder_pitch", "l_shoulder_roll",
