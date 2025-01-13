@@ -12,11 +12,13 @@ if(FRAMEWORK_COMPILE_TSID)
                            ${H_PREFIX}/BaseDynamicsTask.h ${H_PREFIX}/JointDynamicsTask.h
                            ${H_PREFIX}/TaskSpaceInverseDynamics.h
                            ${H_PREFIX}/FeasibleContactWrenchTask.h
+                           ${H_PREFIX}/VariableFeasibleRegionTask.h
                            ${H_PREFIX}/VariableRegularizationTask.h
                            ${H_PREFIX}/QPFixedBaseTSID.h ${H_PREFIX}/QPTSID.h
     SOURCES                src/TSIDLinearTask.cpp src/SO3Task.cpp src/SE3Task.cpp src/JointTrackingTask.cpp src/CoMTask.cpp src/AngularMomentumTask.cpp src/R3Task.cpp
                            src/BaseDynamicsTask.cpp src/JointDynamicsTask.cpp
                            src/FeasibleContactWrenchTask.cpp
+                           src/VariableFeasibleRegionTask.cpp
                            src/VariableRegularizationTask.cpp
                            src/QPFixedBaseTSID.cpp src/QPTSID.cpp src/TaskSpaceInverseDynamics.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen

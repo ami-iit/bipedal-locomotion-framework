@@ -1,5 +1,5 @@
 /**
- * @file TorqueFeasibleRegionTask.h
+ * @file VariableFeasibleRegionTask.h
  * @authors Roberto Mauceri
  * @copyright 2025 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -15,7 +15,7 @@ namespace BipedalLocomotion
 namespace TSID
 {
 /**
- * TorqueFeasibleRegionTask is a concrete implementation of the Task. Please use this element if
+ * VariableFeasibleRegionTask is a concrete implementation of the Task. Please use this element if
  * you want to create a inequality linear in the variable. The task represents the following equation
  * \f[
  * Ax < b
@@ -23,16 +23,17 @@ namespace TSID
  * where \f$x\f$ are the elements of the variable you want to constraint.
  */    
 
-class TorqueFeasibleRegionTask : public TSIDLinearTask
+class VariableFeasibleRegionTask : public TSIDLinearTask
 {
-    std::string m_variableName; /**< Name of the variable considered that will be regularized */
+    std::string m_variableName; /**< Name of the variable considered in the task. */
     std::vector<std::string> m_controlledElements; /**< Name of the variable elements considered in
-                                                     the task */
+                                                     the task. */
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
-    std::size_t m_variableSize{0}; /**< Size of the regularized variable. */
+    std::size_t m_variableSize{0}; /**< Size of the variable considered in the task. */
 
-    Eigen::MatrixXd m_S; /**< Selection Matrix */
+    Eigen::MatrixXd m_S; /**< Selection Matrix. */
+    Eigen::MatrixXd m_C; /**< Change of Coordinate Matrix. */
 
 public:
     /**
@@ -59,16 +60,16 @@ public:
     bool setVariablesHandler(const System::VariablesHandler& variablesHandler) override;
 
     /**
-     * Set the matrices that define the feasible region for the SPU torques
-     * @param Q change of coordinates matrix (2d)
-     * @param l lower_bounds (2d)
-     * @param u upper_bounds (2d)
+     * Set the region of feasibility for the desired elements of the variable.
+     * @param C change of coordinates matrix
+     * @param l lower_bounds
+     * @param u upper_bounds
      * @return True in case of success, false otherwise.
      */
     bool setFeasibleRegion(
-        Eigen::Ref<const Eigen::Matrix2d> Q, 
-        Eigen::Ref<const Eigen::Vector2d> l, 
-        Eigen::Ref<const Eigen::Vector2d> u);
+        Eigen::Ref<const Eigen::MatrixXd> C, 
+        Eigen::Ref<const Eigen::VectorXd> l, 
+        Eigen::Ref<const Eigen::VectorXd> u);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
@@ -77,7 +78,7 @@ public:
     std::size_t size() const override;
 
     /**
-     * The TorqueFeasibleRegionTask is an inequality task.
+     * The VariableFeasibleRegionTask is an inequality task.
      * @return the type of the task.
      */
     Type type() const override;

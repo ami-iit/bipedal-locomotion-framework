@@ -1,11 +1,11 @@
 /**
- * @file TorqueFeasibleRegionTask.cpp
+ * @file VariableFeasibleRegionTask.cpp
  * @authors Roberto Mauceri
  * @copyright 2025 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TSID/TorqueFeasibleRegionTask.h>
+#include <BipedalLocomotion/TSID/VariableFeasibleRegionTask.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -16,9 +16,9 @@ using namespace BipedalLocomotion::TSID;
 using namespace BipedalLocomotion::System;
 using namespace BipedalLocomotion;
 
-bool TorqueFeasibleRegionTask::setVariablesHandler(const VariablesHandler& variablesHandler)
+bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& variablesHandler)
 {
-    constexpr auto errorPrefix = "[TorqueFeasibleRegionTask::setVariablesHandler]";
+    constexpr auto errorPrefix = "[VariableFeasibleRegionTask::setVariablesHandler]";
 
     System::VariablesHandler::VariableDescription variable;
 
@@ -48,11 +48,14 @@ bool TorqueFeasibleRegionTask::setVariablesHandler(const VariablesHandler& varia
     m_A.resize(2 * m_variableSize, variablesHandler.getNumberOfVariables());
     m_b.resize(2 * m_variableSize);
 
+    // m_C (change of coordinate matrix)
+    m_C.resize(2 * m_variableSize, m_variableSize);
+
     // m_S (selection matrix)
     m_S.resize(m_variableSize, variablesHandler.getNumberOfVariables());
     m_S.setZero();
-    // S is constant
-    if (m_controlledElements.size() == 2)
+    // m_S is constant
+    if (m_controlledElements.size() != 0)
     {
         for (int i = 0; i < m_controlledElements.size(); i++)
         {
@@ -66,25 +69,31 @@ bool TorqueFeasibleRegionTask::setVariablesHandler(const VariablesHandler& varia
                              m_variableName);
                 return false;
             }
-
             m_S(i, index) = 1;
         }
     } else
     {
-        log()->error("{} The size of the variable named {} is different from expected. "
-                        "Expected: 2, Passed: {}.",
-                        errorPrefix,
-                        m_variableName,
-                        variable.size);
-        return false;
+        if (m_variableSize != variable.size)
+        {
+            log()->error("{} The size of the variable named {} is different from expected. "
+                         "Expected: {}, Passed: {}.",
+                         errorPrefix,
+                         m_variableName,
+                         m_variableSize,
+                         variable.size);
+            return false;
+        }
+        // if the size of the m_controlledElements vector is zero, this means that the entire
+        // variable is regularized
+        iDynTree::toEigen(this->subA(variable)).setIdentity(); // devo sostituirlo col comando sotto?
+        m_S = Eigen::MatrixXd::Identity(variable.size, variable.size);
     }
-
     return true;
 }
 
-bool TorqueFeasibleRegionTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
+bool VariableFeasibleRegionTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
 {
-   constexpr auto errorPrefix = "[TorqueFeasibleRegionTask::initialize]";
+   constexpr auto errorPrefix = "[VariableFeasibleRegionTask::initialize]";
 
     auto ptr = paramHandler.lock();
     if (ptr == nullptr)
@@ -105,43 +114,67 @@ bool TorqueFeasibleRegionTask::initialize(std::weak_ptr<const IParametersHandler
         log()->error("{} Error while retrieving the size of the variable.", errorPrefix);
         return false;
     }
+    // set the variable size
     m_variableSize = variableSize;
 
     // set the description
-    m_description = "SPU Torque Limit Task [variable: " + m_variableName + ", elements: 2]";
+    m_description = "Variable Feasible Region Task [variable: " + m_variableName + ", elements: ";
+
+    if (!ptr->getParameter("elements_name", m_controlledElements))
+    {
+        m_description += "All";
+        log()->debug("{} The elements_name is not set. All the {} elements will be considered.",
+                     errorPrefix,
+                     m_variableSize);
+    } else
+    {
+        if (m_variableSize != m_controlledElements.size())
+        {
+            log()->error("{} The size of the elements_name vector is different from the one "
+                         "expected. Expected: {}, Retrieved: {}",
+                         errorPrefix,
+                         m_variableSize,
+                         m_controlledElements.size());
+            return false;
+        }
+        for (const auto& element : m_controlledElements)
+        {
+            m_description += " " + element;
+        }
+    }
+    m_description += "]";
 
     m_isInitialized = true;
     return true;
 
 }
 
-bool TorqueFeasibleRegionTask::setTorqueFeasibleRegion(
-    Eigen::Ref<const Eigen::Matrix2d> Q, 
-    Eigen::Ref<const Eigen::Vector2d> l, 
-    Eigen::Ref<const Eigen::Vector2d> u)
+bool VariableFeasibleRegionTask::setFeasibleRegion(
+    Eigen::Ref<const Eigen::MatrixXd> C, 
+    Eigen::Ref<const Eigen::VectorXd> l, 
+    Eigen::Ref<const Eigen::VectorXd> u)
 {
-    constexpr auto errorPrefix = "[TorqueFeasibleRegionTask::setTorqueFeasibleRegion]";
+    constexpr auto errorPrefix = "[VariableFeasibleRegionTask::setFeasibleRegion]";
+    // check if the size of the matrices is correct
 
-    m_isValid = false;
-    m_A << Q, -Q;
-    m_A = m_A * m_S;
+    m_C << C, -C;
+    m_A = m_C * m_S;
 
     m_b << u, -l;
-    m_isValid = true;
-    return true
+    return true;
 }
 
-std::size_t TorqueFeasibleRegionTask::size() const
+std::size_t VariableFeasibleRegionTask::size() const
 {
     return m_b.size();
 }
 
-TorqueFeasibleRegionTask::Type TorqueFeasibleRegionTask::type() const
+VariableFeasibleRegionTask::Type VariableFeasibleRegionTask::type() const
 {
-    return Type::inequality;    // by default, the "<" operator is considered
+    return Type::inequality;
 }
 
-bool TorqueFeasibleRegionTask::isValid() const
+bool VariableFeasibleRegionTask::isValid() const
 {
     return m_isValid;
 }
