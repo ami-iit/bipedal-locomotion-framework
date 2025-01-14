@@ -600,7 +600,7 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
             m_pimpl->ukfMeasurementFromSensors[m_pimpl->variableNameToUkfMeasurement[{key, "ft"}][index]] = value;
         }
     }
-    
+
     for (auto& [key, value] : input.linearAccelerations)
     {
         for (int index = 0; index < m_pimpl->variableNameToUkfMeasurement[{key, "accelerometer"}].size(); index++)

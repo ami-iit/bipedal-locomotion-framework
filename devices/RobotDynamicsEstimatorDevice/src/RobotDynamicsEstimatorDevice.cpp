@@ -347,7 +347,7 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     const Eigen::Vector3d baseAngularVelocity = baseVelocity.coeffs().tail(3);
 
     if (!m_iDynEstimator
-             .updateKinematicsFromFloatingBase(sidyn, 
+             .updateKinematicsFromFloatingBase(sidyn,
                                                dsidyn,
                                                ddsidyn,
                                                baseFrameIdx,
@@ -849,7 +849,7 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
 
             m_vectorsCollectionServer.populateData("ds::measured", m_estimatorInput.input.jointVelocities);
             m_vectorsCollectionServer.populateData("ds::estimated", m_estimatorOutput.output.ds);
-            
+
             m_vectorsCollectionServer.populateData("tau_m::estimated", m_estimatorOutput.output.tau_m);
 
             m_vectorsCollectionServer.populateData("tau_F::estimated", m_estimatorOutput.output.tau_F);
@@ -864,7 +864,7 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
                 m_vectorsCollectionServer.populateData("fts::" + key + "::estimated", value);
                 m_vectorsCollectionServer.populateData("fts::" + key + "::measured", m_estimatorInput.input.ftWrenches[key]);
             }
-            
+
             for (auto& [key, value] : m_estimatorOutput.output.contactWrenches)
             {
                 m_vectorsCollectionServer.populateData("contacts::" + key + "::estimated", value);
