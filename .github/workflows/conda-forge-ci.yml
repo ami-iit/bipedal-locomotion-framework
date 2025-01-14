@@ -106,7 +106,9 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        :: The option -DPython3_EXECUTABLE=%CONDA_PREFIX%\python.exe is passed explicitly as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/910#issuecomment-2589862552
+        :: once that is not necessary anymore, drop it
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DPython3_EXECUTABLE=%CONDA_PREFIX%\python.exe -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
       if: contains(matrix.os, 'windows')
