@@ -64,6 +64,9 @@ jobs:
       if: contains(matrix.os, 'windows')
       shell: cmd /C CALL {0}
       run: |
+        :: We delete all the Python executables installed by GitHub Actions as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/910#issuecomment-2589862552
+        :: once that is not necessary anymore, remove this
+        mdir /s /q C:\hostedtoolcache\windows\Python
         :: Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
         :: pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
         :: pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
@@ -106,9 +109,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        :: The option -DPython3_EXECUTABLE=%CONDA_PREFIX%\python.exe is passed explicitly as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/910#issuecomment-2589862552
-        :: once that is not necessary anymore, drop it
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DPython3_EXECUTABLE=%CONDA_PREFIX%\python.exe -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
       if: contains(matrix.os, 'windows')
