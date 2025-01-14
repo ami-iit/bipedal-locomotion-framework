@@ -66,7 +66,7 @@ jobs:
       run: |
         :: We delete all the Python executables installed by GitHub Actions as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/910#issuecomment-2589862552
         :: once that is not necessary anymore, remove this
-        mdir /s /q C:\hostedtoolcache\windows\Python
+        rmdir /s /q C:\hostedtoolcache\windows\Python
         :: Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
         :: pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
         :: pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
