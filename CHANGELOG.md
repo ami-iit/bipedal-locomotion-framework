@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 ### Changed
 ### Fixed
+- Fix RDE and JTC devices after testing on the robot (https://github.com/ami-iit/bipedal-locomotion-framework/pull/921)
 
 ## [0.20.0] - 2024-12-16
 ### Added
