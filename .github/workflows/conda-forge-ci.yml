@@ -106,6 +106,8 @@ jobs:
       run: |
         mkdir -p build
         cd build
+        where python3
+        set
         cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%\Library -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Windows]
