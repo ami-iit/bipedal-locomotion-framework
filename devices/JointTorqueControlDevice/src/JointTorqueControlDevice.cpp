@@ -543,7 +543,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
         {
             if (motorTorqueCurrentParameters[j].kfc > 0.0)
             {
-                estimatedFrictionTorques[j] = motorTorqueCurrentParameters[j].kfc * computeFrictionTorque(j);
+                estimatedFrictionTorques[j] = computeFrictionTorque(j);
             }
         }
     }
@@ -578,7 +578,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
                    + motorTorqueCurrentParameters[j].kp
                          * (desiredJointTorques[j] - measuredJointTorques[j])
                    + motorTorqueCurrentParameters[j].ki * torqueIntegralErrors[j]
-                   + estimatedFrictionTorques[j])
+                   + motorTorqueCurrentParameters[j].kfc * estimatedFrictionTorques[j])
                   / motorTorqueCurrentParameters[j].kt;
 
             desiredMotorCurrents[j] = desiredMotorCurrents[j] / m_gearRatios[j];
@@ -1094,35 +1094,10 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     filterParams->setParameter("sampling_time", m_lowPassFilterParameters.samplingTime);
     if (m_lowPassFilterParameters.enabled)
     {
-        if (!lowPassFilter.initialize(filterParams))
-        {
-            log()->error("{} Failed to initialize low pass filter", logPrefix);
-            return false;
-        }
+        lowPassFilter.initialize(filterParams);
         Eigen::VectorXd initialFrictionTorque(kt.size());
         initialFrictionTorque.setZero();
-        if (!lowPassFilter.reset(initialFrictionTorque))
-        {
-            log()->error("{} Failed to reset low pass filter", logPrefix);
-            return false;
-        }
-    }
-
-    auto filterParamsMotorVel = std::make_shared<ParametersHandler::YarpImplementation>();
-    filterParams->setParameter("cutoff_frequency", 3.0);
-    filterParams->setParameter("order", 1);
-    filterParams->setParameter("sampling_time", rate * 0.001);
-    if (!lowPassFilterMotorVelocities.initialize(filterParams))
-    {
-        log()->error("{} Failed to initialize low pass filter for motor velocities", logPrefix);
-        return false;
-    }
-    Eigen::VectorXd initialMotorVelocities(kt.size());
-    initialMotorVelocities.setZero();
-    if (!lowPassFilterMotorVelocities.reset(initialMotorVelocities))
-    {
-        log()->error("{} Failed to reset low pass filter for motor velocities", logPrefix);
-        return false;
+        lowPassFilter.reset(initialFrictionTorque);
     }
 
     if (!this->loadFrictionParams(params))

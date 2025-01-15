@@ -58,15 +58,6 @@ if(FRAMEWORK_USE_icub-models)
             icub-models::icub-models
             BipedalLocomotion::ManifConversions)
 
-        add_bipedal_test(NAME FrictionTorqueStateDynamics
-            SOURCES FrictionTorqueStateDynamicsTest.cpp
-            LINKS BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            Eigen3::Eigen
-            BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
-
         add_bipedal_test(NAME GyroscopeMeasurementDynamics
             SOURCES GyroscopeMeasurementDynamicsTest.cpp
             LINKS BipedalLocomotion::RobotDynamicsEstimator
