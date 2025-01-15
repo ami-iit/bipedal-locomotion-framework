@@ -7,9 +7,9 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
-
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
+
 
 ## [0.20.0] - 2024-12-16
 ### Added
@@ -613,7 +613,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.20.0...master
+[0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0
