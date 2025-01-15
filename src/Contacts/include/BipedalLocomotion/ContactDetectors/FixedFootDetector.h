@@ -116,6 +116,12 @@ public:
      * @return the fixed foot.
      */
     const EstimatedContact& getFixedFoot() const;
+
+    /**
+     * Get the fixed foot detector current time.
+     * @return the fixed foot detector current time.
+     */
+    std::chrono::nanoseconds getCurrentTime() const;
 };
 
 } // namespace Contacts
