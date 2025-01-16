@@ -43,16 +43,10 @@ bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& var
                      m_variableName);
         return false;
     }
-
-    // resize the matrices
-    m_A.resize(2 * m_variableSize, variablesHandler.getNumberOfVariables());
-    m_b.resize(2 * m_variableSize);
-
-    // m_C (change of coordinate matrix)
-    m_C.resize(2 * m_variableSize, m_variableSize);
+    m_NumberOfVariables = variablesHandler.getNumberOfVariables();
 
     // m_S (selection matrix)
-    m_S.resize(m_variableSize, variablesHandler.getNumberOfVariables());
+    m_S.resize(m_variableSize, m_NumberOfVariables);
     m_S.setZero();
     // m_S is constant
     if (m_controlledElements.size() != 0)
@@ -165,7 +159,7 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
                      C.cols());
         return false;
     }
-    if (l.size() != C.rows())
+    if (C.rows() != l.size())
     {
         log()->error("{} The size of the vector l is not correct. Expected: {}, Passed: {}.",
                      errorPrefix,
@@ -173,7 +167,7 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
                      l.size());
         return false;
     }
-    if (u.size() != C.rows())
+    if (C.rows() != u.size())
     {
         log()->error("{} The size of the vector u is not correct. Expected: {}, Passed: {}.",
                      errorPrefix,
@@ -181,10 +175,22 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
                      u.size());
         return false;
     }
+    if (!(u.array() >= l.array()).all())
+    {
+        log()->error("{} The elements of the vector u must be greater than or equal to"
+        " the elements of the vector l.",
+                     errorPrefix);
+        return false;
+    }
+
+    // resize the matrices
+    m_A.resize(2 * C.rows(), m_NumberOfVariables);
+    m_b.resize(2 * C.rows());
+    m_T.resize(2 * C.rows(), C.cols());
 
     // set the matrices
-    m_C << C, -C;
-    m_A = m_C * m_S;
+    m_T << C, -C;
+    m_A = m_T * m_S;
 
     m_b << u, -l;
     return true;
