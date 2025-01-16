@@ -30,10 +30,11 @@ class VariableFeasibleRegionTask : public TSIDLinearTask
                                                      the task. */
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
+    std::size_t m_NumberOfVariables{0}; /**< Number of variables. */
     std::size_t m_variableSize{0}; /**< Size of the variable considered in the task. */
 
     Eigen::MatrixXd m_S; /**< Selection Matrix. */
-    Eigen::MatrixXd m_C; /**< Change of Coordinate Matrix. */
+    Eigen::MatrixXd m_T; /**< Transformation Matrix. */
 
 public:
     /**
