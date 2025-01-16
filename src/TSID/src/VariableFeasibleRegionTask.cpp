@@ -71,7 +71,8 @@ bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& var
             }
             m_S(i, index) = 1;
         }
-    } else
+    } 
+    else
     {
         if (m_variableSize != variable.size)
         {
@@ -85,8 +86,8 @@ bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& var
         }
         // if the size of the m_controlledElements vector is zero, this means that the entire
         // variable is regularized
-        iDynTree::toEigen(this->subA(variable)).setIdentity(); // devo sostituirlo col comando sotto?
-        m_S = Eigen::MatrixXd::Identity(variable.size, variable.size);
+        // iDynTree::toEigen(this->subA(variable)).setIdentity(); // devo sostituirlo col comando sotto?
+        m_S = Eigen::MatrixXd::Identity(m_variableSize, m_variableSize);
     }
     return true;
 }
@@ -146,7 +147,6 @@ bool VariableFeasibleRegionTask::initialize(std::weak_ptr<const IParametersHandl
 
     m_isInitialized = true;
     return true;
-
 }
 
 bool VariableFeasibleRegionTask::setFeasibleRegion(
@@ -155,8 +155,34 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
     Eigen::Ref<const Eigen::VectorXd> u)
 {
     constexpr auto errorPrefix = "[VariableFeasibleRegionTask::setFeasibleRegion]";
-    // check if the size of the matrices is correct
 
+    // check if the size of the matrices is correct
+    if (C.cols() != m_variableSize)
+    {
+        log()->error("{} The number of columns of the matrix C is not correct. Expected: {}, Passed: {}.",
+                     errorPrefix,
+                     m_variableSize,
+                     C.cols());
+        return false;
+    }
+    if (l.size() != C.rows())
+    {
+        log()->error("{} The size of the vector l is not correct. Expected: {}, Passed: {}.",
+                     errorPrefix,
+                     C.rows(),
+                     l.size());
+        return false;
+    }
+    if (u.size() != C.rows())
+    {
+        log()->error("{} The size of the vector u is not correct. Expected: {}, Passed: {}.",
+                     errorPrefix,
+                     C.rows(),
+                     u.size());
+        return false;
+    }
+
+    // set the matrices
     m_C << C, -C;
     m_A = m_C * m_S;
 
