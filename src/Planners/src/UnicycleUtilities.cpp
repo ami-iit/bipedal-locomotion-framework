@@ -14,7 +14,6 @@
 #include <iDynTree/VectorDynSize.h>
 #include <iDynTree/VectorFixSize.h>
 
-
 namespace BipedalLocomotion::Planners::UnicycleUtilities
 {
 
@@ -145,8 +144,7 @@ namespace Conversions
 {
 void convertToBLF(const iDynTree::Transform& input, manif::SE3d& output)
 {
-    output.asSO3() = iDynTree::toEigen(input.getRotation().asQuaternion());
-    output.translation(iDynTree::toEigen(input.getPosition()));
+    output = BipedalLocomotion::Conversions::toManifPose(input);
 }
 
 void convertToBLF(const iDynTree::Twist& input, manif::SE3d::Tangent& output)

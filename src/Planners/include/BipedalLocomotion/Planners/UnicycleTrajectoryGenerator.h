@@ -101,12 +101,13 @@ public:
      * Initialize the planner.
      *
      * @note The following parameters are required by the class:
-     * |           Name              |      Type      |      Default      |     Example     |                     Description                           |
-     * | :-------------------------: | :------------: | :---------------: | :-------------: | :-------------------------------------------------------: |
-     * | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called    |
-     * |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator         |
-     * | `leftContactFrameName`      |     string     |         -         |    "l_sole"     |     Name of the left foot contact frame                   |
-     * | `rightContactFrameName`     |     string     |         -         |    "r_sole"     |     Name of the right foot contact frame                  |
+     * |           Name              |      Type      |      Default      |     Example     |                     Description                         |
+     * | :-------------------------: | :------------: | :---------------: | :-------------: | :-----------------------------------------------------: |
+     * | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called  |
+     * |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator       |
+     * | `leftContactFrameName`      |     string     |         -         |    "l_sole"     |     Name of the left foot contact frame                 |
+     * | `rightContactFrameName`     |     string     |         -         |    "r_sole"     |     Name of the right foot contact frame                |
+     * | `use_zmp_generator`         |     bool       |       false       |       -         |     If true enables the zmp generator                   |
      *
      * Implicitely, the class needs also all the parameters required by the Bipedalocotion::Planner::UnicyclePlanner class.
     // clang-format on
@@ -182,6 +183,8 @@ private:
      * @return True in case of success, false otherwise.
      */
     bool generateFirstTrajectory();
+
+    bool m_useZMPGenerator{false}; /**< True if the ZMP generator is enabled. False otherwise. */
 };
 
 #endif // BIPEDAL_LOCOMOTION_PLANNERS_UNICYCLE_TRAJECTORY_GENERATOR_H
