@@ -49,6 +49,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |    [`ManifConversions`](./src/Conversions)     | Library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |    [`matioCppConversions`](./src/Conversions)  | Library related conversion utilities used in the framework |         [`matio-cpp`](https://github.com/ami-iit/matio-cpp)          |
 |    [`CasadiConversions`](./src/Conversions)  | Library related conversion utilities used in the framework |         [`CasADi`](https://github.com/casadi/casadi)          |
+|    [`ContinuousDynamicalSystem`](./src/ContinuousDynamicalSystem)  | Library containing algorithms for continuous dynamical systems |         [`manif`](https://github.com/artivis/manif)         |
 |        [`Estimators`](./src/Estimators)        |                 Library containing observers                 |                              -                               |
 |  [`FloatingBaseEstimator`](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
 |  [`RobotDynamicsEstimator`](./src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |

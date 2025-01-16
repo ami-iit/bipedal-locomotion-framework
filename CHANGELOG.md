@@ -9,7 +9,7 @@ All notable changes to this project are documented in this file.
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
-
+- Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
 
 ## [0.20.0] - 2024-12-16
 ### Added
