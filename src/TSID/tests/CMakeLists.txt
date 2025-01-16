@@ -47,6 +47,10 @@ add_bipedal_test(
   SOURCES AngularMomentumTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
 
+add_bipedal_test(
+  NAME VariableFeasibleRegionTask
+  SOURCES VariableFeasibleRegionTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
 
 add_bipedal_test(
   NAME QPFixedBaseTSID
