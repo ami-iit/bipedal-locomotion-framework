@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add `VariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
