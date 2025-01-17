@@ -148,8 +148,8 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
     Eigen::Ref<const Eigen::VectorXd> l, 
     Eigen::Ref<const Eigen::VectorXd> u)
 {
+    m_isValid = false;
     constexpr auto errorPrefix = "[VariableFeasibleRegionTask::setFeasibleRegion]";
-
     // check if the size of the matrices is correct
     if (C.cols() != m_variableSize)
     {
@@ -182,6 +182,7 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
                      errorPrefix);
         return false;
     }
+    m_isValid = true;
 
     // resize the matrices
     m_A.resize(2 * C.rows(), m_NumberOfVariables);
