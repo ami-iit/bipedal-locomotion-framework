@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 ### Changed
+- Change RDE and JTC devices after testing on the robot (https://github.com/ami-iit/bipedal-locomotion-framework/pull/923)
 ### Fixed
 - Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
 

@@ -639,7 +639,7 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
             m_pimpl->ukfMeasurementFromSensors[m_pimpl->variableNameToUkfMeasurement[{key, "ft"}][index]] = value;
         }
     }
-    
+
     for (auto& [key, value] : input.linearAccelerations)
     {
         for (int index = 0; index < m_pimpl->variableNameToUkfMeasurement[{key, "accelerometer"}].size(); index++)
@@ -739,7 +739,7 @@ const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.angularVelocities)
-        {        
+        {
             if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "gyroscope"}]).size > 0)
             {
                 m_pimpl->estimatorOutput.angularVelocities[key]
