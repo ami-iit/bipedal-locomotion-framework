@@ -89,25 +89,25 @@ TEST_CASE("Variable Feasible Region Task")
                     .isZero());
 
         REQUIRE(A.middleCols(variablesHandler.getVariable(variable2Name).offset,
-                              variablesHandler.getVariable(variable2Name).size)
-                     .isZero());
+                             variablesHandler.getVariable(variable2Name).size)
+                    .isZero());
 
         // check the matrix A
-        Eigen::MatrixXd expectedA(2*anyDimension, variableTotalSize);
-        Eigen::MatrixXd expectedT(2*anyDimension, variable1ControlledElementNames.size());
+        Eigen::MatrixXd expectedA(2 * anyDimension, variableTotalSize);
+        Eigen::MatrixXd expectedT(2 * anyDimension, variable1ControlledElementNames.size());
         Eigen::MatrixXd expectedS(variable1ControlledElementNames.size(), variableTotalSize);
         std::size_t index = variablesHandler.getVariable(variable1Name).offset;
 
         expectedS.setZero();
         expectedS(0, index + 0) = 1.0;
         expectedS(1, index + 2) = 1.0;
-        
+
         expectedT << C, -C;
         expectedA = expectedT * expectedS;
         REQUIRE(A.isApprox(expectedA));
 
         // check the vector B
-        Eigen::VectorXd expectedB(2*anyDimension);
+        Eigen::VectorXd expectedB(2 * anyDimension);
         expectedB << u, -l;
         REQUIRE(B.isApprox(expectedB));
     }
@@ -140,12 +140,12 @@ TEST_CASE("Variable Feasible Region Task")
         Eigen::Ref<const Eigen::VectorXd> B = task2.getB();
 
         // A == expectedT implies S == identity
-        Eigen::MatrixXd expectedT(2*anyDimension, variable2ElementSize);
+        Eigen::MatrixXd expectedT(2 * anyDimension, variable2ElementSize);
         expectedT << C, -C;
         REQUIRE(A.isApprox(expectedT));
 
         // check the vector B
-        Eigen::VectorXd expectedB(2*anyDimension);
+        Eigen::VectorXd expectedB(2 * anyDimension);
         expectedB << u, -l;
         REQUIRE(B.isApprox(expectedB));
     }
