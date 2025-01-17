@@ -18,7 +18,7 @@ The minimum required dependencies are `Eigen3`, `iDynTree` and `spdlog`. If you 
 
 \section exported-components 📙 Exported components
 
-The **bipedal-locomotion-framework** project consists of several components. The components are stored in the [`src`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src) folder and their compilation depends on the installed dependencies.
+The **bipedal-locomotion-framework** project consists of several components. The components are stored in the [`src`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/v0.20.0/src) folder and their compilation depends on the installed dependencies.
 
 |                    Component                   |                         Description                          |                   Additional Dependencies                    |
 | :--------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -30,6 +30,7 @@ The **bipedal-locomotion-framework** project consists of several components. The
 |    [`ManifConversions`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions)     | Library related conversion utilities used in the framework |         [`manif`](https://github.com/artivis/manif)          |
 |    [`matioCppConversions`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions)  | Library related conversion utilities used in the framework |         [`matio-cpp`](https://github.com/ami-iit/matio-cpp)          |
 |    [`CasadiConversions`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Conversions)  | Library related conversion utilities used in the framework |         [`CasADi`](https://github.com/casadi/casadi)          |
+|    [`ContinuousDynamicalSystem`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/ContinuousDynamicalSystem)  | Library containing algorithms for continuous dynamical systems |         [`manif`](https://github.com/artivis/manif)         |
 |        [`Estimators`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Estimators)        |                 Library containing observers                 |                              -                               |
 |  [`FloatingBaseEstimator`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
 |  [`RobotDynamicsEstimator`](https://github.com/ami-iit/bipedal-locomotion-framework/tree/master/src/Estimators)   |         Library containing floating base estimators          |         [`manif`](https://github.com/artivis/manif)          |
@@ -54,10 +55,10 @@ The **bipedal-locomotion-framework** project consists of several components. The
 \warning ⚠️  Including `BipedalLocomotion/Framework.h` may result in higher compilation time because of the inclusion of headers which may not be used in your project. It is always suggested to follow the [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/cc0fad4be0db26e40713b6076263f204a311b573/docs/WhyIWYU.md) paradigm. This applies also for the CMake targets. It is suggested to link only the targets used in your project.
 
 \section install-with-conda 📦 Install with conda (recommended)
-You can easily the library with [`conda`](https://anaconda.org/robotology/bipedal-locomotion-framework) using the following command
+You can easily the library with [`conda`](https://anaconda.org/conda-forge/bipedal-locomotion-framework) using the following command
 
 ~~~~~~~~~~~~~{.sh}
-conda install -c robotology bipedal-locomotion-framework
+conda install -c conda-forge bipedal-locomotion-framework
 ~~~~~~~~~~~~~
 
 `conda` will automatically install all the required dipendencies.

@@ -32,12 +32,15 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
+#include <YarpRobotLoggerDeviceCommands.h>
+
 namespace BipedalLocomotion
 {
 
 class YarpRobotLoggerDevice : public yarp::dev::DeviceDriver,
                               public yarp::dev::IMultipleWrapper,
-                              public yarp::os::PeriodicThread
+                              public yarp::os::PeriodicThread,
+                              public YarpRobotLoggerDeviceCommands
 {
 public:
     YarpRobotLoggerDevice(double period,
@@ -177,6 +180,10 @@ private:
     std::mutex m_bufferManagerMutex;
     robometry::BufferManager m_bufferManager;
 
+    const std::string m_rpcPortName{"/commands/rpc:i"}; /**< name of Remote
+                                                                            Procedure Call port. */
+    yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
+
     void lookForNewLogs();
     void lookForExogenousSignals();
 
@@ -254,6 +261,8 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
+
+    virtual bool saveData();
 };
 
 } // namespace BipedalLocomotion

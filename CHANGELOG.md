@@ -3,6 +3,12 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+### Changed
+### Fixed
+- Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
+
+## [0.20.0] - 2024-12-16
+### Added
 - Add `USE_SYSTEM_tiny-process-library` CMake option to use `tiny-process-library` found in system (https://github.com/ami-iit/bipedal-locomotion-framework/pull/891)
 - Add the test for the `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/862)
 - Implement low-pass filter for estimated friction torques in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/892)
@@ -12,11 +18,15 @@ All notable changes to this project are documented in this file.
 - Implement `velMANN` class to perform inference on MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Implement `velMANNAutoregressive`, `velMANNAutoregressiveInputBuilder`, and `velMANNTrajectoryGenerator` to generate trajectories using MANN model with velocity-based features in `ML` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/889)
 - Add KF to estimate joint and motor velocities in JoinTorqueControlDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/909)
+- Added option `FRAMEWORK_COMPILE_Ros1Publisher` to enable or disable the compilation of the `BipedalLocomotion::YarpUtilities::RosPublisher` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/914)
+- Added rpc commands to `YarpLoggerDevice` to trigger the saving of data to a local file (https://github.com/ami-iit/bipedal-locomotion-framework/pull/915)
 
 ### Changed
 - Change device jtcvc to use motor velocity and joint velocity in input to PINN models (https://github.com/ami-iit/bipedal-locomotion-framework/pull/903)
 - Set the system timer resolution to the minimum value for higher precision on `Windows` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/907)
 - Write estimated friction torques from jtcvc instead of motor accelerations on YARP (https://github.com/ami-iit/bipedal-locomotion-framework/pull/908)
+- Update the `mas-remapper` configuration file for `ergoCubSN000` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/913)
+- Deprecate the `BipedalLocomotion::YarpUtilities::RosPublisher` class (https://github.com/ami-iit/bipedal-locomotion-framework/pull/914)
 
 ### Fixed
 - Bug fix of `JointTorqueControlDevice` device (https://github.com/ami-iit/bipedal-locomotion-framework/pull/890)
@@ -598,7 +608,8 @@ All notable changes to this project are documented in this file.
 - Added `mas-imu-test` application to check the output of MAS IMUs (https://github.com/ami-iit/bipedal-locomotion-framework/pull/62)
 - Implement motor currents reading in `YarpSensorBridge`. (https://github.com/ami-iit/bipedal-locomotion-framework/pull/187)
 
-[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...master
+[unreleased]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.20.0...master
+[0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/ami-iit/bipedal-locomotion-framework/compare/v0.16.1...v0.17.0

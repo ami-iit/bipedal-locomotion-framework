@@ -34,6 +34,11 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
     endif()
   endif()
 
+  add_bipedal_locomotion_yarp_thrift(
+      NAME YarpRobotLoggerDeviceCommands
+      THRIFT thrifts/YarpRobotLoggerDeviceCommands.thrift
+      INSTALLATION_FOLDER YarpRobotLoggerDevice)
+
   # Warning: the <package> option of yarp_configure_plugins_installation should be different from the plugin name
   add_bipedal_yarp_device(
     NAME YarpRobotLoggerDevice
@@ -55,6 +60,7 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
       BipedalLocomotion::PerceptionInterfaceYarpImplementation
       BipedalLocomotion::TextLoggingYarpImplementation
       BipedalLocomotion::SystemYarpImplementation
+      BipedalLocomotion::YarpRobotLoggerDeviceCommands
       tiny-process-library::tiny-process-library
     CONFIGURE_PACKAGE_NAME yarp_robot_logger_device)
 

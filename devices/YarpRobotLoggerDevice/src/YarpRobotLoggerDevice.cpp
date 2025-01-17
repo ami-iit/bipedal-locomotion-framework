@@ -394,6 +394,26 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    // open rpc port for YarpRobotLoggerDevice commands
+    std::string portPrefix{"/yarp-robot-logger"};
+
+    if (!params->getParameter("port_prefix", portPrefix))
+    {
+
+        log()->info("{} The 'port_prefix' is not provided. The default prefix {} will be used.",
+                    logPrefix,
+                    portPrefix);
+    }
+
+    std::string rpcPortFullName = portPrefix + m_rpcPortName;
+
+    this->yarp().attachAsServer(this->m_rpcPort);
+    if (!m_rpcPort.open(rpcPortFullName))
+    {
+        log()->error("{} Could not open", logPrefix);
+        return false;
+    }
+
     return true;
 }
 
@@ -1997,4 +2017,11 @@ bool YarpRobotLoggerDevice::close()
     }
 
     return true;
+}
+
+bool YarpRobotLoggerDevice::saveData()
+{
+    std::string fileName;
+    m_bufferManager.saveToFile(fileName);
+    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
 }
