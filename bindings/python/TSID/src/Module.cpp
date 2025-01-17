@@ -43,6 +43,7 @@ void CreateModule(pybind11::module& module)
     CreateFeasibleContactWrenchTask(module);
     CreateTaskSpaceInverseDynamics(module);
     CreateVariableRegularizationTask(module);
+    CreateVariableFeasibleRegionTask(module);
     CreateAngularMomentumTask(module);
     CreateQPTSID(module);
     CreateQPFixedBaseTSID(module);

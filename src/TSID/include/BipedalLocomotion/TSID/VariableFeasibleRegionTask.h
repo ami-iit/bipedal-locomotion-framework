@@ -16,18 +16,21 @@ namespace TSID
 {
 /**
  * VariableFeasibleRegionTask is a concrete implementation of the Task. Please use this element if
- * you want to create a inequality linear in the variable. The task represents the following equation
+ * you want to create a inequality linear constraint on a subset of the optimization variable. The
+ * task represents the following equation:
  * \f[
- * Ax < b
+ * l < Cx < u
  * \f]
- * where \f$x\f$ are the elements of the variable you want to constraint.
- */    
-
+ * where \f$C\f$ is a generic transformation matrix (m x n), \f$l\f$ is a vector of lower bounds (m
+ * x 1), \f$u\f$ is a vector of upper bounds (m x 1), and \f$x\f$ are the elements of the variable
+ * you want to consider (n x 1). \f$m\f$ is the number of constraints and \f$n\f$ is the number of
+ * variables.
+ */
 class VariableFeasibleRegionTask : public TSIDLinearTask
 {
     std::string m_variableName; /**< Name of the variable considered in the task. */
     std::vector<std::string> m_controlledElements; /**< Name of the variable elements considered in
-                                                     the task. */
+                                                      the task. */
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
     std::size_t m_NumberOfVariables{0}; /**< Number of variables. */
@@ -37,6 +40,7 @@ class VariableFeasibleRegionTask : public TSIDLinearTask
     Eigen::MatrixXd m_T; /**< Transformation Matrix. */
 
 public:
+    // clang-format off
     /**
      * Initialize the planner.
      * @param paramHandler pointer to the parameters handler.
@@ -44,12 +48,13 @@ public:
      * @note the following parameters are required by the class
      * |  Parameter Name  |   Type   |                                   Description                                          | Mandatory |
      * |:----------------:|:--------:|:--------------------------------------------------------------------------------------:|:---------:|
-     * | `variable_name`  | `string` | Name of the variable that you want to regularize. |    Yes    |
-     * | `variable_size`  |   `int`  | Number of the elements that will be regularized. |    Yes     |
-     * | `elements_name`  | `vector` | Name of the elements to consider. If not specified all the elements are constrained |    No     |
+     * | `variable_name`  | `string` | Name of the variable that you want to regularize.                                      |    Yes    |
+     * | `variable_size`  |   `int`  | Number of the elements that will be regularized.                                       |    Yes    |
+     * | `elements_name`  | `vector` | Name of the elements to consider. If not specified all the elements are constrained    |    No     |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the set of variables required by the TSIDLinearTask. The variables are stored in the
@@ -62,15 +67,15 @@ public:
 
     /**
      * Set the region of feasibility for the desired elements of the variable.
-     * @param C change of coordinates matrix
-     * @param l lower_bounds
-     * @param u upper_bounds
+     * @param C generic linear transformation matrix (m x n) where m is the number of constraints
+     * and n is the number of variables.
+     * @param l lower_bounds (m x 1)
+     * @param u upper_bounds (m x 1)
      * @return True in case of success, false otherwise.
      */
-    bool setFeasibleRegion(
-        Eigen::Ref<const Eigen::MatrixXd> C, 
-        Eigen::Ref<const Eigen::VectorXd> l, 
-        Eigen::Ref<const Eigen::VectorXd> u);
+    bool setFeasibleRegion(Eigen::Ref<const Eigen::MatrixXd> C,
+                           Eigen::Ref<const Eigen::VectorXd> l,
+                           Eigen::Ref<const Eigen::VectorXd> u);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)
