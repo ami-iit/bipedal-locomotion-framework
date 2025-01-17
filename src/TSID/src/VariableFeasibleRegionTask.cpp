@@ -185,14 +185,13 @@ bool VariableFeasibleRegionTask::setFeasibleRegion(
     m_isValid = true;
 
     // resize the matrices
+    m_T.resize(2 * C.rows(), C.cols());
     m_A.resize(2 * C.rows(), m_NumberOfVariables);
     m_b.resize(2 * C.rows());
-    m_T.resize(2 * C.rows(), C.cols());
 
     // set the matrices
     m_T << C, -C;
     m_A = m_T * m_S;
-
     m_b << u, -l;
     return true;
 }
