@@ -15,8 +15,6 @@ option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 option(BUILD_TESTING "Create tests using CMake" OFF)
 include(CTest)
 
-option(BUILD_DEVICE_EXAMPLES "Create example devices using CMake" OFF)
-
 # Check BipedalLocomotionFramework dependencies, find necessary libraries.
 include(BipedalLocomotionFrameworkDependencies)
 

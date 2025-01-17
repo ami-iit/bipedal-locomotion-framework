@@ -51,7 +51,7 @@ TEST_CASE("BaseEstimatorFromFootIMU")
     REQUIRE(populateConfig(parameterHandler, footFrameName));
 
     // Load the reduced iDynTree model to be passed to the estimator
-    const std::string model_path = iCubModels::getModelFile("iCubGazeboV3");
+    const std::string model_path = iCubModels::getModelFile("iCubGazeboV2_5");
     std::vector<std::string> joints_list
         = {"neck_pitch",     "neck_roll",   "neck_yaw",         "torso_pitch",
            "torso_roll",     "torso_yaw",   "l_shoulder_pitch", "l_shoulder_roll",
@@ -88,9 +88,15 @@ TEST_CASE("BaseEstimatorFromFootIMU")
     baseVelocity.setZero();
     Eigen::Vector3d gravity;
     gravity << 0, 0, -BipedalLocomotion::Math::StandardAccelerationOfGravitation;
-    manif::SE3d I = manif::SE3d::Identity();
+    manif::SE3d basePose = manif::SE3d::Identity();
+    Eigen::Matrix3d alignedRoot;
+    alignedRoot << -1.0,  0.0,  0.0,
+                    0.0, -1.0,  0.0,
+                    0.0,  0.0,  1.0;
+    Eigen::Quaterniond alignedRootQuaternion(alignedRoot);
+    basePose.quat(alignedRootQuaternion);
 
-    REQUIRE(kinDyn->setRobotState(I.transform(), encoders, baseVelocity, encoder_speeds, gravity));
+    REQUIRE(kinDyn->setRobotState(basePose.transform(), encoders, baseVelocity, encoder_speeds, gravity));
 
     BaseEstimatorFromFootIMUInput input;
     input.jointPositions = encoders;
@@ -105,5 +111,5 @@ TEST_CASE("BaseEstimatorFromFootIMU")
     REQUIRE(estimator.isOutputValid());
 
     constexpr double tolerance = 1e-3;
-    REQUIRE(estimator.getOutput().basePose.coeffs().isApprox(I.coeffs(), tolerance));
+    REQUIRE(estimator.getOutput().basePose.coeffs().isApprox(basePose.coeffs(), tolerance));
 }

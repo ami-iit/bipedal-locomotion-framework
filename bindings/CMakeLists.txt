@@ -50,7 +50,7 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
     add_subdirectory(python)
 
     # Create the __init__.py file
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/__init__.py "")
+    file(WRITE ${BLF_PYTHON_PACKAGE}/__init__.py "")
 
     # If we are on Windows and BUILD_SHARED_LIBS is ON, handle the fact that
     # the Python interpreter does not look into PATH to find dll (see https://docs.python.org/3.8/library/os.html#os.add_dll_directory)
@@ -68,6 +68,12 @@ if(FRAMEWORK_COMPILE_PYTHON_BINDINGS)
         file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "if(library_dll_path != os.path.join(os.environ.get('CONDA_PREFIX', ''),'Library','bin') and library_dll_path != os.path.join(os.environ.get('CONDA_PREFIX', ''),'bin')):${NEW_LINE}")
         file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "    if(os.path.exists(library_dll_path)):${NEW_LINE}")
         file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "        os.add_dll_directory(library_dll_path)${NEW_LINE}")
+
+        # For running tests, we need to add also the path where the dependecies are installed.
+        # We add idyntree to update the dll path for the tests.
+        file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "import idyntree${NEW_LINE}")
+
+
     endif()
 
     file(APPEND "${BLF_PYTHON_PACKAGE}/__init__.py" "from .bindings import *${NEW_LINE}from . import utils${NEW_LINE}")
