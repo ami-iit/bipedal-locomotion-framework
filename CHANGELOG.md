@@ -3,6 +3,7 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
+- Add `VariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
 ### Changed
 ### Fixed
 - Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
