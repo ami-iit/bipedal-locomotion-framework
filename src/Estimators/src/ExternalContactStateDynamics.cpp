@@ -53,7 +53,7 @@ bool RDE::ExternalContactStateDynamics::initialize(
 
     if (!ptr->getParameter("k", m_k))
     {
-        log()->error("{} Error while retrieving the friction_k2 variable.", errorPrefix);
+        log()->error("{} Error while retrieving the k variable.", errorPrefix);
         return false;
     }
 
@@ -125,7 +125,7 @@ bool RDE::ExternalContactStateDynamics::checkStateVariableHandler()
 
 bool RDE::ExternalContactStateDynamics::update()
 {
-    m_updatedVariable = m_k.asDiagonal() * m_currentState;
+    m_updatedVariable = m_k * m_currentState;
     m_updatedVariable *= -std::chrono::duration<double>(m_dT).count();
     m_updatedVariable += m_currentState;
 

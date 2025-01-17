@@ -122,6 +122,9 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
             {
                 if (idynSubModel.isLinkNameUsed(firstLink))
                 {
+                    log()->info("Adding frame {} to link {}.",
+                                ftFromConfig.frame,
+                                firstLink);
                     idynSubModel.addAdditionalFrameToLink(
                         firstLink,
                         ftFromConfig.frame,
@@ -131,6 +134,9 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                                                                  ftFromConfig.frame)));
                 } else
                 {
+                    log()->info("Adding frame {} to link {}.",
+                                ftFromConfig.frame,
+                                secondLink);
                     idynSubModel.addAdditionalFrameToLink(
                         secondLink,
                         ftFromConfig.frame,
@@ -144,6 +150,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                 ft.name = ftFromConfig.name;
                 ft.frame = ftFromConfig.frame;
 
+                log()->info("Frame {} added to the model.", ft.frame);
                 ft.frameIndex = idynSubModel.getFrameIndex(ft.frame);
 
                 if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
@@ -281,6 +288,15 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
             }
         }
         frameIdx++;
+    }
+
+    if (!frameFound)
+    {
+        log()->error("[SubModelCreator::populateSubModel] Unable to find an IMU for the submodel.");
+    }
+    else
+    {
+        log()->info("[SubModelCreator::populateSubModel] The IMU frame {} is the base frame of the submodel.", subModel.m_imuBaseFrameName);
     }
 
     return subModel;
