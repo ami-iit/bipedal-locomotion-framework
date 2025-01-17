@@ -139,7 +139,7 @@ TEST_CASE("Variable Feasible Region Task")
         Eigen::Ref<const Eigen::MatrixXd> A = task2.getA();
         Eigen::Ref<const Eigen::VectorXd> B = task2.getB();
 
-        // A == expectedT imply S == identity
+        // A == expectedT implies S == identity
         Eigen::MatrixXd expectedT(2*anyDimension, variable2ElementSize);
         expectedT << C, -C;
         REQUIRE(A.isApprox(expectedT));
