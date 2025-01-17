@@ -21,6 +21,7 @@
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/bindings/TSID/VariableRegularizationTask.h>
+#include <BipedalLocomotion/bindings/TSID/VariableFeasibleRegionTask.h>
 
 namespace BipedalLocomotion
 {
