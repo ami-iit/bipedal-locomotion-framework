@@ -122,7 +122,7 @@ TEST_CASE("Variable Feasible Region Task")
 
         const int variable2ElementSize = variablesHandler.getVariable(variable2Name).size;
         const int variableTotalSize = variablesHandler.getNumberOfVariables();
-        const int anyDimension = 1234;
+        const int anyDimension = 21;
 
         // the matrix C can have any number of rows
         Eigen::MatrixXd C(anyDimension, variable2ElementSize);
@@ -139,10 +139,13 @@ TEST_CASE("Variable Feasible Region Task")
         Eigen::Ref<const Eigen::MatrixXd> A = task2.getA();
         Eigen::Ref<const Eigen::VectorXd> B = task2.getB();
 
-        // A == expectedT implies S == identity
+        // subA == ExpectedT implies subS == identity
         Eigen::MatrixXd expectedT(2 * anyDimension, variable2ElementSize);
+        Eigen::MatrixXd subA;
+        int variable2ElementOffset = variablesHandler.getVariable(variable2Name).offset;
         expectedT << C, -C;
-        REQUIRE(A.isApprox(expectedT));
+        subA = A.block(0, variable2ElementOffset, 2 * anyDimension, variable2ElementSize);
+        REQUIRE(subA.isApprox(expectedT));
 
         // check the vector B
         Eigen::VectorXd expectedB(2 * anyDimension);

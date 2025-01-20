@@ -81,8 +81,11 @@ bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& var
         }
         // if the size of the m_controlledElements vector is zero, this means that the entire
         // variable is considered
-        // iDynTree::toEigen(this->subA(variable)).setIdentity();
-        m_S = Eigen::MatrixXd::Identity(m_variableSize, m_variableSize);
+        int startIndex = variable.offset;
+        for (int i = 0; i < m_variableSize; i++)
+        {
+            m_S(i, startIndex + i) = 1.0;
+        }
     }
     return true;
 }
