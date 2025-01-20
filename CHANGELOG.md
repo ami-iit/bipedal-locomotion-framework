@@ -40,7 +40,6 @@ All notable changes to this project are documented in this file.
 - Bug fix of `prepare_data` method calling in `joints-grid-position-tracking` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/895)
 - Fix the normal force limit constraint in the `CentroidalMPC` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/898)
 - Fix loading of Python bindings on Windows when installed in arbitrary directory (https://github.com/ami-iit/bipedal-locomotion-framework/pull/905)
-- Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
 
 ## [0.19.0] - 2024-09-06
 ### Added
