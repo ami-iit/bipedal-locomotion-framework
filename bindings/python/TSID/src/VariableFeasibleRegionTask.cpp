@@ -20,7 +20,7 @@ namespace bindings
 namespace TSID
 {
 
-void CreateVariableRegularizationTask(pybind11::module& module)
+void CreateVariableFeasibleRegionTask(pybind11::module& module)
 {
     namespace py = ::pybind11;
     using namespace ::BipedalLocomotion::TSID;

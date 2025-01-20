@@ -80,9 +80,8 @@ bool VariableFeasibleRegionTask::setVariablesHandler(const VariablesHandler& var
             return false;
         }
         // if the size of the m_controlledElements vector is zero, this means that the entire
-        // variable is regularized
-        // iDynTree::toEigen(this->subA(variable)).setIdentity(); // devo sostituirlo col comando
-        // sotto?
+        // variable is considered
+        // iDynTree::toEigen(this->subA(variable)).setIdentity();
         m_S = Eigen::MatrixXd::Identity(m_variableSize, m_variableSize);
     }
     return true;

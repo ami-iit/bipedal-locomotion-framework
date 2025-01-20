@@ -5,8 +5,8 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#ifndef BIPEDAL_LOCOMOTION_TSID_VARIABLE_LINEAR_TASK_H
-#define BIPEDAL_LOCOMOTION_TSID_VARIABLE_LINEAR_TASK_H
+#ifndef BIPEDAL_LOCOMOTION_TSID_VARIABLE_FEASIBLE_REGION_TASK_H
+#define BIPEDAL_LOCOMOTION_TSID_VARIABLE_FEASIBLE_REGION_TASK_H
 
 #include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
@@ -19,7 +19,7 @@ namespace TSID
  * you want to create a inequality linear constraint on a subset of the optimization variable. The
  * task represents the following equation:
  * \f[
- * l < Cx < u
+ * l \ne Cx \ne u
  * \f]
  * where \f$C\f$ is a generic transformation matrix (m x n), \f$l\f$ is a vector of lower bounds (m
  * x 1), \f$u\f$ is a vector of upper bounds (m x 1), and \f$x\f$ are the elements of the variable
@@ -99,4 +99,4 @@ public:
 } // namespace TSID
 } // namespace BipedalLocomotion
 
-#endif // BIPEDAL_LOCOMOTION_TSID_VARIABLE_LINEAR_TASK_H
+#endif // BIPEDAL_LOCOMOTION_TSID_VARIABLE_FEASIBLE_REGION_TASK_H
