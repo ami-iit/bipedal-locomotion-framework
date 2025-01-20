@@ -251,7 +251,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     covariance << 2.3e-3, 1.9e-3, 1.8e-3;
     const std::string model = "GyroscopeMeasurementDynamics";
     const bool useBias = true;
-    gyroHandler->setParameter("name", name);
+    gyroHandler->setParameter("variable_name", name);
     gyroHandler->setParameter("covariance", covariance);
     gyroHandler->setParameter("dynamic_model", model);
     gyroHandler->setParameter("use_bias", useBias);

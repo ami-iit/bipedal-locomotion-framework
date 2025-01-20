@@ -28,17 +28,19 @@ TEST_CASE("External Contact State Dynamics")
     Eigen::VectorXd covariance(6);
     covariance << 1e-3, 1e-3, 5e-3, 5e-3, 5e-3, 5e-3;
     const std::string model = "ExternalContactStateDynamics";
-    Eigen::VectorXd k(6);
-    k << 1e-1, 1e-1, 1e-1, 1e-1, 1e-1, 1e-1;
+    double k = 1e-1;
     using namespace std::chrono_literals;
     constexpr std::chrono::nanoseconds dT = 10ms;
 
-    parameterHandler->setParameter("name", name);
+    parameterHandler->setParameter("variable_name", name);
+    parameterHandler->setParameter("sensor_type", "none");
     parameterHandler->setParameter("covariance", covariance);
     parameterHandler->setParameter("initial_covariance", covariance);
     parameterHandler->setParameter("dynamic_model", model);
     parameterHandler->setParameter("sampling_time", dT);
     parameterHandler->setParameter("k", k);
+
+    REQUIRE(parameterHandler != nullptr);
 
     // Create variable handler
     constexpr size_t sizeVariable = 6;
@@ -75,7 +77,7 @@ TEST_CASE("External Contact State Dynamics")
     Eigen::VectorXd expectedNextState(covariance.size());
     expectedNextState
         = currentState.array()
-          - k.array() * currentState.array() * std::chrono::duration<double>(dT).count();
+          - k * currentState.array() * std::chrono::duration<double>(dT).count();
 
     REQUIRE((expectedNextState - nextState).isZero());
 }
