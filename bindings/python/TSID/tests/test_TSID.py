@@ -299,3 +299,31 @@ def test_variable_regularization_task():
     regularizer_2 = blf.tsid.VariableRegularizationTask()
     assert regularizer_2.initialize(param_handler=param_handler_2)
     assert regularizer_2.set_variables_handler(variables_handler=var_handler)
+
+def test_variable_feasible_region_task():
+
+    # Set the parameters
+    param_handler_1 = blf.parameters_handler.StdParametersHandler()
+    param_handler_1.set_parameter_string(name="variable_name", value="mysterious_variables")
+    param_handler_1.set_parameter_int(name="variable_size", value=15)
+
+    # Set the parameters
+    param_handler_2 = blf.parameters_handler.StdParametersHandler()
+    param_handler_2.set_parameter_string(name="variable_name", value="torques")
+    param_handler_2.set_parameter_int(name="variable_size", value=3)
+    param_handler_2.set_parameter_vector_string(name="elements_name",
+                                                value = ["roll", "pitch", "yaw"])
+
+    var_handler = blf.system.VariablesHandler()
+    var_handler.add_variable("mysterious_variables", 15)
+    var_handler.add_variable("torques", ["roll", "pitch"])
+
+    # Initialize the task
+    task_1 = blf.tsid.VariableFeasibleRegionTask()
+    assert task_1.initialize(param_handler=param_handler_1)
+    assert task_1.set_variables_handler(variables_handler=var_handler)
+
+    # Initialize the task
+    task_2 = blf.tsid.VariableFeasibleRegionTask()
+    assert task_2.initialize(param_handler=param_handler_2)
+    assert task_2.set_variables_handler(variables_handler=var_handler)
