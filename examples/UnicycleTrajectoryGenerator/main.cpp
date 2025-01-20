@@ -207,8 +207,8 @@ int main(int argc, char* argv[])
         w_H_right = rightFootPlanner.getOutput().transform;
 
         // get the DCM trajectory from the unicycle trajectory generator
-        auto dcmPosition = output.dcmTrajectory.position;
-        auto dcmVelocity = output.dcmTrajectory.velocity;
+        const auto& dcmPosition = output.dcmTrajectory.position;
+        const auto& dcmVelocity = output.dcmTrajectory.velocity;
 
         if (saveResults)
         {
@@ -241,8 +241,6 @@ int main(int argc, char* argv[])
             Ydcm(i) = dcmPosition[i][1];
         }
 
-        log()->debug("[main] DCM x: {}", Xdcm.transpose());
-        log()->debug("[main] DCM y: {}", Ydcm.transpose());
 
         BipedalLocomotion::clock().sleepUntil(currentTime + dtChrono);
 
