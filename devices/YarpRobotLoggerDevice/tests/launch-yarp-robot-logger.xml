@@ -12,7 +12,7 @@ BSD-3-Clause license. -->
         <!-- A 4-axis controlboard -->
         <device xmlns:xi="http://www.w3.org/2001/XInclude" name="sim_controlboard" type="fakeMotionControl">
 	        <group name="GENERAL">
-                <param name="AxisName">"sim_joint_1" "sim_joint_2" "sim_joint_3" "sim_joint_4"</param>
+                <param name="AxisName">("sim_joint_1","sim_joint_2","sim_joint_3","sim_joint_4")</param>
 		        <param name="Joints">4</param>
 	        </group>
         </device>

@@ -4,9 +4,13 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 ### Changed
+- Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
+- Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Change RDE and JTC devices after testing on the robot (https://github.com/ami-iit/bipedal-locomotion-framework/pull/923)
+
 ### Fixed
 - Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
+- Avoid using ``iCubGazeboV3`` model in ``BaseEstimatorFromFootIMU`` test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 
 ## [0.20.0] - 2024-12-16
 ### Added

@@ -13,7 +13,7 @@ on:
 env:
   vcpkg_robotology_TAG: v0.11.0
   YCM_TAG: v0.15.3
-  YARP_TAG: v3.8.0
+  YARP_TAG: v3.10.1
   iDynTree_TAG: v12.3.3
   CasADi_TAG: 3.5.5.2
   manif_TAG: 0.0.5
