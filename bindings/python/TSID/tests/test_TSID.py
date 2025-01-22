@@ -310,13 +310,13 @@ def test_variable_feasible_region_task():
     # Set the parameters
     param_handler_2 = blf.parameters_handler.StdParametersHandler()
     param_handler_2.set_parameter_string(name="variable_name", value="torques")
-    param_handler_2.set_parameter_int(name="variable_size", value=3)
+    param_handler_2.set_parameter_int(name="variable_size", value=2)
     param_handler_2.set_parameter_vector_string(name="elements_name",
-                                                value = ["roll", "pitch", "yaw"])
+                                                value = ["roll", "pitch"])
 
     var_handler = blf.system.VariablesHandler()
     var_handler.add_variable("mysterious_variables", 15)
-    var_handler.add_variable("torques", ["roll", "pitch"])
+    var_handler.add_variable("torques", ["roll", "pitch", "yaw"])
 
     # Initialize the task
     task_1 = blf.tsid.VariableFeasibleRegionTask()
@@ -327,3 +327,27 @@ def test_variable_feasible_region_task():
     task_2 = blf.tsid.VariableFeasibleRegionTask()
     assert task_2.initialize(param_handler=param_handler_2)
     assert task_2.set_variables_handler(variables_handler=var_handler)
+
+    # Test set_feasible_region (correct case)
+    C = np.array([[1, 2], [0, 1]])
+    l = np.array([0, 0])
+    u = np.array([1, 1])
+    assert task_2.set_feasible_region(C, l, u)
+
+    # Test infinite bounds (correct case)
+    C = np.array([[1, 2], [0, 1]])
+    l = np.array([-np.infty, 0])
+    u = np.array([1, np.infty])
+    assert task_2.set_feasible_region(C, l, u)
+
+    # Test wrong dimensions (incorrect case)
+    C = np.array([[1, 2], [0, 1]])
+    l = np.array([0, 0, 0])
+    u = np.array([1, 1, 1])
+    assert not task_2.set_feasible_region(C, l, u)
+
+    # Test lower bound greater than upper bound (incorrect case)
+    C = np.array([[1, 2], [0, 1]])
+    l = np.array([0, 2])
+    u = np.array([1, 1])
+    assert not task_2.set_feasible_region(C, l, u)
