@@ -340,7 +340,13 @@ def test_variable_feasible_region_task():
     u = np.array([1, np.infty])
     assert task_2.set_feasible_region(C, l, u)
 
-    # Test wrong dimensions (incorrect case)
+    # Test inconsistency with the variable size = 2 (incorrect case)
+    C = np.array([[1, 2, 0], [0, 1, 2], [0, 0, 1]])
+    l = np.array([0, 0, 0])
+    u = np.array([1, 1, 1])
+    assert not task_2.set_feasible_region(C, l, u)
+
+    # Test inconsistent dimensions among C, l, and u (incorrect case)
     C = np.array([[1, 2], [0, 1]])
     l = np.array([0, 0, 0])
     u = np.array([1, 1, 1])
