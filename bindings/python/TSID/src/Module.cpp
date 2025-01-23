@@ -21,6 +21,7 @@
 #include <BipedalLocomotion/bindings/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/bindings/TSID/TaskSpaceInverseDynamics.h>
 #include <BipedalLocomotion/bindings/TSID/VariableRegularizationTask.h>
+#include <BipedalLocomotion/bindings/TSID/VariableFeasibleRegionTask.h>
 
 namespace BipedalLocomotion
 {
@@ -43,6 +44,7 @@ void CreateModule(pybind11::module& module)
     CreateFeasibleContactWrenchTask(module);
     CreateTaskSpaceInverseDynamics(module);
     CreateVariableRegularizationTask(module);
+    CreateVariableFeasibleRegionTask(module);
     CreateAngularMomentumTask(module);
     CreateQPTSID(module);
     CreateQPFixedBaseTSID(module);

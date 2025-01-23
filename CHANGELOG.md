@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file.
 ## [unreleased]
 ### Added
 - Add `ZMPgenerator` to `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
+- Add `VariableFeasibleRegionTaskVariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
