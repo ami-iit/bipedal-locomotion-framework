@@ -21,6 +21,7 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -74,6 +75,12 @@ public:
         std::deque<Eigen::Vector3d> comPosition;
         std::deque<Eigen::Vector3d> comVelocity;
         std::deque<Eigen::Vector3d> comAcceleration;
+        std::deque<Eigen::Vector2d> zmpPosition;
+        std::deque<Eigen::Vector2d> leftFootZMPPosition;
+        std::deque<Eigen::Vector2d> rightFootZMPPosition;
+        std::deque<double> weightInLeftFoot;
+        std::deque<double> weightInRightFoot;
+        std::deque<InitialState> zmpGeneratorInitialState;
         std::deque<bool> leftFootinContact;
         std::deque<bool> rightFootinContact;
         std::deque<bool> isLeftFootLastSwinging;
@@ -276,6 +283,11 @@ bool Planners::UnicycleTrajectoryGenerator::initialize(
                                                           initialBasePosition,
                                                           leftToRightTransform);
 
+    // Get the generator being used and instantiate optional outputs
+    ok = ok && loadParamWithFallback("use_zmp_generator", m_useZMPGenerator, false);
+    m_pImpl->output.zmpTrajectory
+        = std::make_optional<UnicycleTrajectoryGeneratorOutput::ZMPTrajectory>();
+
     // Initialize contact frames
     std::string leftContactFrameName, rightContactFrameName;
     ok = ok && loadParam("leftContactFrameName", leftContactFrameName);
@@ -300,7 +312,6 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
 
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmPosition,
                                                          m_pImpl->output.dcmTrajectory.position);
-
     Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.dcmVelocity,
                                                          m_pImpl->output.dcmTrajectory.velocity);
 
@@ -338,6 +349,56 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
                                                              .rightFootMixedAcceleration,
                                                          m_pImpl->output.rightFootTrajectory
                                                              .mixedAcceleration);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootinContact,
+                                                         m_pImpl->output.contactStatus
+                                                             .leftFootInContact);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.rightFootinContact,
+                                                         m_pImpl->output.contactStatus
+                                                             .rightFootInContact);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.isLeftFootLastSwinging,
+                                                         m_pImpl->output.contactStatus
+                                                             .UsedLeftAsFixed);
+
+    Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.mergePoints,
+                                                         m_pImpl->output.mergePoints);
+
+    if (m_useZMPGenerator)
+    {
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.zmpPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->position);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.leftFootZMPPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->localPositionLeft);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .rightFootZMPPosition,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->localPositionRight);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInLeftFoot,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->weightInLeftFoot);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory.weightInRightFoot,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->weightInRightFoot);
+
+        Planners::UnicycleUtilities::populateVectorFromDeque(m_pImpl->trajectory
+                                                                 .zmpGeneratorInitialState,
+                                                             m_pImpl->output.zmpTrajectory
+                                                                 ->initialState);
+    } else
+    {
+        m_pImpl->output.zmpTrajectory.reset();
+    }
+
+    m_pImpl->output.steps.leftSteps = m_pImpl->trajectory.leftSteps;
+    m_pImpl->output.steps.rightSteps = m_pImpl->trajectory.rightSteps;
 
     // instatiate variables for the contact phase lists
     BipedalLocomotion::Contacts::ContactListMap contactListMap;
@@ -394,6 +455,8 @@ Planners::UnicycleTrajectoryGenerator::getOutput() const
     contactListMap["right_foot"] = rightContactList;
 
     m_pImpl->output.contactPhaseList.setLists(contactListMap);
+
+    m_pImpl->output.isValid = true;
 
     return m_pImpl->output;
 }
@@ -594,6 +657,7 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::askNewTraje
         = trajectory.comPosition[mergePoint].head<2>();
     unicycleTrajectoryPlannerInput.comInitialState.initialPlanarVelocity
         = trajectory.comVelocity[mergePoint].head<2>();
+    unicycleTrajectoryPlannerInput.zmpInitialState = trajectory.zmpGeneratorInitialState.front();
 
     // set the input
     this->unicycleTrajectoryPlanner.setInput(unicycleTrajectoryPlannerInput);
@@ -674,6 +738,34 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::mergeTrajec
                                                          .comTrajectory.acceleration,
                                                      trajectory.comAcceleration,
                                                      mergePoint);
+
+    // get zmp trajectory
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .zmpTrajectory->position,
+                                                     trajectory.zmpPosition,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .zmpTrajectory->localPositionLeft,
+                                                     trajectory.leftFootZMPPosition,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .zmpTrajectory->localPositionRight,
+                                                     trajectory.rightFootZMPPosition,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .zmpTrajectory->weightInLeftFoot,
+                                                     trajectory.weightInLeftFoot,
+                                                     mergePoint);
+    Planners::UnicycleUtilities::appendVectorToDeque(unicycleTrajectoryPlanner.getOutput()
+                                                         .zmpTrajectory->weightInRightFoot,
+                                                     trajectory.weightInRightFoot,
+                                                     mergePoint);
+
+    trajectory.zmpGeneratorInitialState
+        .assign(unicycleTrajectoryPlanner.getOutput().zmpTrajectory->initialState.begin(),
+                unicycleTrajectoryPlanner.getOutput().zmpTrajectory->initialState.end());
+    trajectory.zmpGeneratorInitialState.pop_front();
+
     // get feet cubic spline trajectory
 
     // get left foot cubic spline
@@ -772,6 +864,11 @@ bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::Impl::advanceTraj
     trajectoryStepLambda(trajectory.rightFootTransform);
     trajectoryStepLambda(trajectory.rightFootMixedVelocity);
     trajectoryStepLambda(trajectory.rightFootMixedAcceleration);
+    trajectoryStepLambda(trajectory.zmpPosition);
+    trajectoryStepLambda(trajectory.leftFootZMPPosition);
+    trajectoryStepLambda(trajectory.rightFootZMPPosition);
+    trajectoryStepLambda(trajectory.weightInLeftFoot);
+    trajectoryStepLambda(trajectory.weightInRightFoot);
 
     // at each sampling time the merge points are decreased by one.
     // If the first merge point is equal to 0 it will be dropped.

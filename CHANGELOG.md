@@ -3,11 +3,15 @@ All notable changes to this project are documented in this file.
 
 ## [unreleased]
 ### Added
-- Add `VariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
+- Add `ZMPgenerator` to `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
+- Add `VariableFeasibleRegionTaskVariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
+
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
+
 ### Fixed
+- Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
 - Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
 - Avoid using ``iCubGazeboV3`` model in ``BaseEstimatorFromFootIMU`` test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 
