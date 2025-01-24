@@ -14,6 +14,7 @@ All notable changes to this project are documented in this file.
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
 - Add missing `ContinuousDynamicalSystem` row to `Exported components` in the README (https://github.com/ami-iit/bipedal-locomotion-framework/pull/919)
 - Avoid using ``iCubGazeboV3`` model in ``BaseEstimatorFromFootIMU`` test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
+- Fix typos in tsid balancing torque control config files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/926)
 
 ## [0.20.0] - 2024-12-16
 ### Added

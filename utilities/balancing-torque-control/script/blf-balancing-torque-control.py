@@ -233,6 +233,7 @@ class Application:
             raise RuntimeError("Unable to initialize the vectors collection server")
 
         # populate the metadata
+        self.vectors_collection_server.populate_metadata("com_desired", ["x", "y", "z"])
         self.vectors_collection_server.populate_metadata("global_zmp", ["x", "y"])
         self.vectors_collection_server.populate_metadata(
             "global_zmp_from_measured", ["x", "y"]
@@ -516,6 +517,7 @@ class Application:
         self.vectors_collection_server.populate_data(
             "desired_torque", self.tsid.solver.get_output().joint_torques
         )
+        self.vectors_collection_server.populate_data("com_desired", com_spline_output.position)
 
         self.vectors_collection_server.send_data()
 
