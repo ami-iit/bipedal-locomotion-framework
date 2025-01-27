@@ -31,6 +31,7 @@ std::shared_ptr<ParametersHandler::IParametersHandler> getUnicycleParametersHand
     handler->setParameter("mergePointRatios", Eigen::Vector2d(0.4, 0.4));
     handler->setParameter("leftContactFrameName", "l_sole");
     handler->setParameter("rightContactFrameName", "r_sole");
+    handler->setParameter("use_zmp_generator", false);
 
     return handler;
 }
@@ -205,23 +206,24 @@ int main(int argc, char* argv[])
         w_H_left = leftFootPlanner.getOutput().transform;
         w_H_right = rightFootPlanner.getOutput().transform;
 
+        // get the DCM trajectory from the unicycle trajectory generator
+        const auto& dcmPosition = output.dcmTrajectory.position;
+        const auto& dcmVelocity = output.dcmTrajectory.velocity;
+
         if (saveResults)
         {
             positionLeftFoot.push_back(w_H_left.translation());
             positionRightFoot.push_back(w_H_right.translation());
             positionCOM.push_back(output.comTrajectory.position.front());
             velocityCOM.push_back(output.comTrajectory.velocity.front());
-            DCMposition.push_back(output.dcmTrajectory.position.front());
-            DCMvelocity.push_back(output.dcmTrajectory.velocity.front());
+            DCMposition.push_back(dcmPosition.front());
+            DCMvelocity.push_back(dcmVelocity.front());
 
             i++;
             time.push_back(
                 std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - timeStart)
                     .count());
         }
-        // get the DCM trajectory from the unicycle trajectory generator
-        auto dcmPosition = output.dcmTrajectory.position;
-        auto dcmVelocity = output.dcmTrajectory.velocity;
 
         Eigen::VectorXd Xdcm;
         Xdcm.resize(dcmPosition.size());
@@ -239,8 +241,6 @@ int main(int argc, char* argv[])
             Ydcm(i) = dcmPosition[i][1];
         }
 
-        // log()->info("[main] DCM x: {}", Xdcm.transpose());
-        // log()->info("[main] DCM y: {}", Ydcm.transpose());
 
         BipedalLocomotion::clock().sleepUntil(currentTime + dtChrono);
 

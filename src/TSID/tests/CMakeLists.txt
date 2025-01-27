@@ -43,10 +43,14 @@ add_bipedal_test(
   LINKS BipedalLocomotion::TSID)
 
 add_bipedal_test(
+  NAME VariableFeasibleRegionTaskTSID
+  SOURCES VariableFeasibleRegionTaskTest.cpp
+  LINKS BipedalLocomotion::TSID)
+
+add_bipedal_test(
   NAME AngularMomentumTaskTSID
   SOURCES AngularMomentumTaskTest.cpp
   LINKS BipedalLocomotion::TSID)
-
 
 add_bipedal_test(
   NAME QPFixedBaseTSID
