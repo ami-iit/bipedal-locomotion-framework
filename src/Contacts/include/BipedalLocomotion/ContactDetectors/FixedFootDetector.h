@@ -121,7 +121,7 @@ public:
      * Get the fixed foot detector current time.
      * @return the fixed foot detector current time.
      */
-    std::chrono::nanoseconds getCurrentTime() const;
+    const std::chrono::nanoseconds& getCurrentTime() const;
 };
 
 } // namespace Contacts
