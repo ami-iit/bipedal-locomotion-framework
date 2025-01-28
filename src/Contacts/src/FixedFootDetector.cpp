@@ -267,7 +267,7 @@ const EstimatedContact& FixedFootDetector::getFixedFoot() const
     return m_dummyContact;
 }
 
-std::chrono::nanoseconds FixedFootDetector::getCurrentTime() const
+const std::chrono::nanoseconds& FixedFootDetector::getCurrentTime() const
 {
     return m_currentTime;
 };
