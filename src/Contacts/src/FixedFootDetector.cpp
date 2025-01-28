@@ -267,10 +267,6 @@ const EstimatedContact& FixedFootDetector::getFixedFoot() const
     return m_dummyContact;
 }
 
-/**
- * Get the fixed foot detector current time.
- * @return the fixed foot detector current time.
- */
 std::chrono::nanoseconds FixedFootDetector::getCurrentTime() const
 {
     return m_currentTime;
