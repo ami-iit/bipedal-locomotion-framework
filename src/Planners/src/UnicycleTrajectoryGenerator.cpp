@@ -99,8 +99,9 @@ public:
 
     BipedalLocomotion::Planners::UnicycleTrajectoryPlanner unicycleTrajectoryPlanner;
 
-    manif::SE3d measuredTransform;
-    bool useMeasuredTransform;
+    manif::SE3d measuredLeftFootTransform;
+    manif::SE3d measuredRightFootTransform;
+    bool useMeasuredFeetTransforms;
 
     /**
      * ask for a new trajectory to the unicycle trajectory planner
@@ -563,11 +564,13 @@ bool Planners::UnicycleTrajectoryGenerator::advance()
                 = m_pImpl->time + m_pImpl->newTrajectoryMergeCounter * m_pImpl->parameters.dt;
             manif::SE3d measuredTransform;
 
-            if (m_pImpl->useMeasuredTransform)
+            if (m_pImpl->useMeasuredFeetTransforms)
             {
-                measuredTransform = m_pImpl->measuredTransform;
-                m_pImpl->useMeasuredTransform = false; // once used, it is no more usable. User
-                                                       // should reset it again.
+                measuredTransform = m_pImpl->trajectory.isLeftFootLastSwinging.front()
+                                        ? m_pImpl->measuredRightFootTransform
+                                        : m_pImpl->measuredLeftFootTransform;
+                m_pImpl->useMeasuredFeetTransforms = false; // once used, it is no more usable. User
+                                                            // should reset it again.
             } else
             {
 
@@ -972,9 +975,10 @@ BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::getSamplingTime() cons
     return m_pImpl->parameters.dt;
 };
 
-void BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::setMeasuredTransform(
-    const manif::SE3d& measuredTransform)
+void BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::setFeetTransform(
+    const manif::SE3d& leftFootTransform, const manif::SE3d& rightFootTransform)
 {
-    m_pImpl->measuredTransform = measuredTransform;
-    m_pImpl->useMeasuredTransform = true;
+    m_pImpl->measuredLeftFootTransform = leftFootTransform;
+    m_pImpl->measuredRightFootTransform = rightFootTransform;
+    m_pImpl->useMeasuredFeetTransforms = true;
 };
