@@ -29,6 +29,14 @@
 
 include(CMakeDependentOption)
 
+# Find an optional dependency, without searching for it at all if FRAMEWORK_USE_${package}
+# is not defined (in that case find_package will be called by checkandset_dependency)
+macro(blf_optional_find_package package)
+  if(NOT DEFINED FRAMEWORK_USE_{package})
+    find_package(${package} ${ARGN})
+  endif()
+endmacro()
+
 # Check if a package is installed and set some cmake variables
 macro(checkandset_dependency package)
 

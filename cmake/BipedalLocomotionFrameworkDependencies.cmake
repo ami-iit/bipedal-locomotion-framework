@@ -28,90 +28,90 @@ dependency_classifier(spdlog MINIMUM_VERSION 1.5.0 IS_USED TRUE PUBLIC)
 
 ########################## Optional dependencies ##############################
 
-find_package(rclcpp 16.0.0 QUIET)
+blf_optional_find_package(rclcpp 16.0.0 QUIET)
 checkandset_dependency(rclcpp MINIMUM_VERSION 16.0.0)
 dependency_classifier(rclcpp MINIMUM_VERSION 16.0.0 IS_USED ${FRAMEWORK_USE_rclcpp} PUBLIC)
 
-find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools robotinterface QUIET)
+blf_optional_find_package(YARP 3.7.0 COMPONENTS companion profiler dev os idl_tools robotinterface QUIET)
 checkandset_dependency(YARP MINIMUM_VERSION 3.7.0)
 dependency_classifier(YARP MINIMUM_VERSION 3.7.0 IS_USED ${FRAMEWORK_USE_YARP}
                       COMPONENTS companion profiler dev os idl_tools robotinterface PUBLIC)
 
-find_package(Qhull QUIET)
+blf_optional_find_package(Qhull QUIET)
 checkandset_dependency(Qhull MINIMUM_VERSION)
 dependency_classifier(Qhull MINIMUM_VERSION IS_USED ${FRAMEWORK_USE_Qhull} PRIVATE)
 
-find_package(casadi QUIET)
+blf_optional_find_package(casadi QUIET)
 checkandset_dependency(casadi)
 dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi} PUBLIC)
 add_compile_definitions(casadi_VERSION=${casadi_VERSION})
 
 
-find_package(cppad QUIET)
+blf_optional_find_package(cppad QUIET)
 checkandset_dependency(cppad)
 dependency_classifier(cppad PUBLIC IS_USED ${FRAMEWORK_USE_cppad})
 
-find_package(manif 0.0.4 QUIET)
+blf_optional_find_package(manif 0.0.4 QUIET)
 checkandset_dependency(manif MINIMUM_VERSION 0.0.4)
 dependency_classifier(manif MINIMUM_VERSION 0.0.4 IS_USED ${FRAMEWORK_USE_manif} PUBLIC)
 
-find_package(OsqpEigen 0.7.0 QUIET)
+blf_optional_find_package(OsqpEigen 0.7.0 QUIET)
 checkandset_dependency(OsqpEigen MINIMUM_VERSION 0.7.0)
 dependency_classifier(OsqpEigen MINIMUM_VERSION 0.7.0 IS_USED ${FRAMEWORK_USE_OsqpEigen})
 
-find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
+blf_optional_find_package(Python3 3.6 COMPONENTS Interpreter Development QUIET)
 checkandset_dependency(Python3 MINIMUM_VERSION 3.6 COMPONENTS Interpreter Development)
 
-find_package(pybind11 2.4.3 CONFIG QUIET)
+blf_optional_find_package(pybind11 2.4.3 CONFIG QUIET)
 checkandset_dependency(pybind11)
 
-find_package(matioCpp QUIET)
+blf_optional_find_package(matioCpp QUIET)
 checkandset_dependency(matioCpp)
 dependency_classifier(matioCpp IS_USED ${FRAMEWORK_USE_matioCpp} PUBLIC)
 
-find_package(LieGroupControllers 0.2.0 QUIET)
+blf_optional_find_package(LieGroupControllers 0.2.0 QUIET)
 checkandset_dependency(LieGroupControllers MINIMUM_VERSION 0.2.0)
 dependency_classifier(LieGroupControllers MINIMUM_VERSION 0.2.0 IS_USED ${FRAMEWORK_USE_LieGroupControllers} PUBLIC)
 
-find_package(OpenCV QUIET)
+blf_optional_find_package(OpenCV QUIET)
 checkandset_dependency(OpenCV)
 dependency_classifier(OpenCV IS_USED ${FRAMEWORK_USE_OpenCV} PUBLIC)
 
-find_package(PCL QUIET)
+blf_optional_find_package(PCL QUIET)
 checkandset_dependency(PCL)
 dependency_classifier(PCL IS_USED ${FRAMEWORK_USE_PCL} PUBLIC)
 
-find_package(realsense2 QUIET)
+blf_optional_find_package(realsense2 QUIET)
 checkandset_dependency(realsense2)
 dependency_classifier(realsense2 IS_USED ${FRAMEWORK_USE_realsense2} PUBLIC)
 
-find_package(nlohmann_json 3.7.3 QUIET)
+blf_optional_find_package(nlohmann_json 3.7.3 QUIET)
 checkandset_dependency(nlohmann_json MINIMUM_VERSION 3.7.3)
 dependency_classifier(nlohmann_json MINIMUM_VERSION 3.7.3 IS_USED ${FRAMEWORK_USE_nlohmann_json})
 
-find_package(tomlplusplus 3.0.1 QUIET)
+blf_optional_find_package(tomlplusplus 3.0.1 QUIET)
 checkandset_dependency(tomlplusplus MINIMUM_VERSION 3.0.1)
 dependency_classifier(tomlplusplus MINIMUM_VERSION 3.0.1 IS_USED ${FRAMEWORK_USE_tomlplusplus} PUBLIC)
 
-find_package(robometry 1.1.0 QUIET)
+blf_optional_find_package(robometry 1.1.0 QUIET)
 checkandset_dependency(robometry MINIMUM_VERSION 1.1.0)
 dependency_classifier(robometry MINIMUM_VERSION 1.1.0 IS_USED ${FRAMEWORK_USE_robometry})
 
-find_package(BayesFilters QUIET)
+blf_optional_find_package(BayesFilters QUIET)
 checkandset_dependency(BayesFilters)
 dependency_classifier(BayesFilters IS_USED ${FRAMEWORK_USE_BayesFilters} PUBLIC)
 
 # required only for some tests
-find_package(icub-models 1.23.3 QUIET)
+blf_optional_find_package(icub-models 1.23.3 QUIET)
 checkandset_dependency(icub-models)
 
-find_package(VALGRIND QUIET)
+blf_optional_find_package(VALGRIND QUIET)
 checkandset_dependency(VALGRIND)
 
-find_package(UnicyclePlanner QUIET)
+blf_optional_find_package(UnicyclePlanner QUIET)
 checkandset_dependency(UnicyclePlanner)
 
-find_package(onnxruntime QUIET)
+blf_optional_find_package(onnxruntime QUIET)
 checkandset_dependency(onnxruntime)
 
 ##########################      Test-related options       ##############################
