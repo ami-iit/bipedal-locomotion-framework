@@ -5,6 +5,7 @@ All notable changes to this project are documented in this file.
 ### Added
 - Add `ZMPgenerator` to `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
 - Add `VariableFeasibleRegionTaskVariableFeasibleRegionTask` in the TSID controller (https://github.com/ami-iit/bipedal-locomotion-framework/pull/922)
+- Add `setFeetTransform` in the `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/927)
 - Add `getCurrentTime` to the `FixedFootDetector` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/928)
 
 ### Changed

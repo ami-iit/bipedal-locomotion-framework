@@ -174,6 +174,11 @@ public:
      */
     std::chrono::nanoseconds getSamplingTime() const;
 
+    /**
+     * @brief Set the feet transforms to use when regenerating the trajectory.
+     */
+    void setFeetTransform(const manif::SE3d& leftFootTransform, const manif::SE3d& rightFootTransform);
+
 private:
     class Impl;
     std::unique_ptr<Impl> m_pImpl;
