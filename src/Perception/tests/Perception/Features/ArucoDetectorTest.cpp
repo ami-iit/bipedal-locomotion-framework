@@ -25,9 +25,9 @@ TEST_CASE("Aruco Detector - Live Camera Feed with Boards")
 {
     std::shared_ptr<IParametersHandler> parameterHandler = std::make_shared<StdImplementation>();
     parameterHandler->setParameter("marker_dictionary", "6X6_250");
-    parameterHandler->setParameter("marker_length", 0.05); // Reduced marker length to test with small markers
+    parameterHandler->setParameter("marker_length", 0.1); // Reduced marker length to test with small markers
     parameterHandler->setParameter("markers_x", 5); // Number of markers in X direction
-    parameterHandler->setParameter("markers_y", 4); // Number of markers in Y direction
+    parameterHandler->setParameter("markers_y", 7); // Number of markers in Y direction
     parameterHandler->setParameter("marker_separation", 0.02); // Marker separation in meters
     parameterHandler->setParameter("camera_matrix", std::vector<double>{600, 0, 320, 0, 600, 240, 0, 0, 1}); // Example Values, replace with calibrated ones
     parameterHandler->setParameter("distortion_coefficients", std::vector<double>{0.0, 0.0, 0.0, 0.0, 0.0});
