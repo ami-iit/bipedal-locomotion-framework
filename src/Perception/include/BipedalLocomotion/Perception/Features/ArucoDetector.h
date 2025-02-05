@@ -13,6 +13,7 @@
 
 #include <Eigen/Dense>
 #include <opencv2/core.hpp>
+#include <opencv2/aruco.hpp> // Include for Board definition
 
 #include <memory>
 #include <unordered_map>
@@ -29,11 +30,16 @@ struct ArucoMarkerData
 {
     /**
      * Marker ID
+     * Note: When detecting boards, a special ID (e.g., 0) can be used
+     *       to represent the board's pose.
      */
     int id{-1};
 
     /**
-     * Marker corners in camera coordinates
+     * Marker corners in camera coordinates.
+     * For boards, this may contain the corners of one of the markers
+     * on the board or be left empty, depending on how you want to
+     * represent the board's visual information.
      * in the order
      * - top left
      * - top right
@@ -43,7 +49,7 @@ struct ArucoMarkerData
     std::vector<cv::Point2f> corners;
 
     /**
-     * Pose of the marker in camera frame
+     * Pose of the marker/board in camera frame
      * cam_H_marker
      */
     Eigen::Matrix4d pose;
@@ -55,6 +61,11 @@ struct ArucoMarkerData
  */
 struct ArucoDetectorOutput
 {
+    /**
+     * Map of detected markers/boards.
+     * Key: Marker ID (or special ID for the board)
+     * Value: ArucoMarkerData for the corresponding marker/board
+     */
     std::unordered_map<int, ArucoMarkerData> markers;
     double timeNow{-1.0};
 };
@@ -78,6 +89,12 @@ public:
      * - "marker_length" marker length in m
      * - "camera_matrix" 9d vector representing the camera calbration matrix in row major order
      * - "distortion_coefficients" 5d vector containing camera distortion coefficients
+     *
+     * For board detection, also require:
+     * - "markers_x": Number of markers in the X direction of the board.
+     * - "markers_y": Number of markers in the Y direction of the board.
+     * - "marker_separation": Separation between markers on the board (in meters).
+     *
      * @param[in] handlerWeak weak pointer to a ParametersHandler::IParametersHandler interface
      * @tparameter Derived particular implementation of the IParameterHandler
      * @return True in case of success, false otherwise.
@@ -85,7 +102,7 @@ public:
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) final;
 
     /**
-     * Set image for which markers need to be detected
+     * Set image for which markers/boards need to be detected
      * @param[in] inputImg image as OpenCV mat
      * @param[in] timeNow current time in chosen time units
      *                    it is useful for bookkeeping
@@ -101,25 +118,26 @@ public:
     bool advance() final;
 
     /**
-     * Get the detected markers' data from the current step
+     * Get the detected markers'/boards' data from the current step
      * @return A struct containing a map container of detected markers.
      */
     const ArucoDetectorOutput& getOutput() const final;
 
     /**
-     * Get the detected marker data
-     * @param[in] id marker id
+     * Get the detected marker/board data
+     * @param[in] id marker/board id.  Use a special ID (e.g., 0) to retrieve
+     *             the board's pose if board detection is enabled.
      * @param[in] markerData detected marker identifiers data
-     * @return True in case of success, false if marker was not detected
+     * @return True in case of success, false if marker/board was not detected
      */
     bool getDetectedMarkerData(const int& id, ArucoMarkerData& markerData);
 
     /**
-     * Get the image with drawn detected markers
+     * Get the image with drawn detected markers/board pose.
      * @param[in] outputImg image with detected markers drawn on it
-     * @param[in] drawFrames draw also estimated marker poses, set to false by default
+     * @param[in] drawFrames draw also estimated marker/board poses, set to false by default
      * @param[in] axisLengthForDrawing axis length for drawing the frame axes, 0.1 by default
-     * @return True in case of success, false if no marker was detected
+     * @return True in case of success, false if no marker/board was detected
      */
     bool getImageWithDetectedMarkers(cv::Mat& outputImg,
                                      const bool& drawFrames = false,
