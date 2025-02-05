@@ -10,6 +10,11 @@ BSD-3-Clause license. -->
   <param name="maximum_admissible_time_step">1.0</param>
   <param name="log_text">true</param>
 
+  <param name="enable_real_time_logging" extern-name="enable_real_time_logging">false</param>
+  <group name="REAL_TIME_STREAMING">
+    <param name="remote">"/yarp-robot-logger/rt_logging"</param>
+  </group>
+
   <group name="Telemetry">
     <param name="save_period">600.0</param>
   </group>
