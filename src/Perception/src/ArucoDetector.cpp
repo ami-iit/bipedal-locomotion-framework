@@ -11,6 +11,36 @@ using namespace BipedalLocomotion::Conversions;
 #include <opencv2/calib3d.hpp>
 #include <opencv2/core/eigen.hpp>
 
+#ifndef __cpp_lib_optional // Check if std::optional is available
+#include <memory> // For std::unique_ptr
+
+template <typename T>
+class Optional
+{
+public:
+    Optional() : m_hasValue(false) {}
+    Optional(const T& value) : m_value(value), m_hasValue(true) {}
+
+    bool has_value() const { return m_hasValue; }
+    T value() const
+    {
+        if (!m_hasValue)
+        {
+            throw std::runtime_error("Accessing an empty Optional value");
+        }
+        return m_value;
+    }
+
+private:
+    bool m_hasValue;
+    T m_value;
+};
+
+#else // std::optional is available
+#include <optional>
+using Optional = std::optional;
+#endif
+
 class ArucoDetector::Impl
 {
 public:
@@ -45,6 +75,11 @@ public:
     Eigen::Matrix3d Reig; /**< placeholder rotation matrix as Eigen object*/
     Eigen::Vector3d teig; /**< placeholder translation vector as Eigen object*/
     Eigen::Matrix4d poseEig; /**< placeholder pose matrix as Eigen object*/
+
+     // Optional board parameters
+    Optional<int> markersX;
+    Optional<int> markersY;
+    Optional<double> markerSeparation;
 
     /**
      * Utility map for choosing Aruco marker dictionary depending on user parameter
@@ -118,7 +153,6 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
     }
 
 // In OpenCV 4.7.0 getPredefinedDictionary started returning a cv::aruco::Dictionary
-// instead of a cv::Ptr<cv::aruco::Dictionary>
 #if (CV_VERSION_MAJOR >= 5) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
     m_pimpl->dictionary = cv::makePtr<cv::aruco::Dictionary>();
     *(m_pimpl->dictionary)
@@ -169,40 +203,39 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
     m_pimpl->distCoeff = cv::Mat(5, 1, CV_64F);
     cv::eigen2cv(distCoeffVec, m_pimpl->distCoeff);
 
-    // Board configuration parameters
+    // Read optional board parameters
+    int markersX;
+    int markersY;
+    double markerSeparation;
+
+    if (handle->getParameter("markers_x", markersX))
+    {
+        m_pimpl->markersX = markersX;
+    }
+
+    if (handle->getParameter("markers_y", markersY))
+    {
+        m_pimpl->markersY = markersY;
+    }
+
+    if (handle->getParameter("marker_separation", markerSeparation))
+    {
+        m_pimpl->markerSeparation = markerSeparation;
+    }
+
+    // Board configuration
     if (m_pimpl->isBoard)
     {
-        int markersX;
-        int markersY;
-        double markerSeparation;
-
-        if (!handle->getParameter("markers_x", markersX))
+        if (!m_pimpl->markersX.has_value() || !m_pimpl->markersY.has_value() || !m_pimpl->markerSeparation.has_value())
         {
-            log()->error("{} The parameter handler could not find \"markers_x\" in the "
-                         "configuration file, required for board detection.",
-                         printPrefix);
-            return false;
-        }
-        if (!handle->getParameter("markers_y", markersY))
-        {
-            log()->error("{} The parameter handler could not find \"markers_y\" in the "
-                         "configuration file, required for board detection.",
-                         printPrefix);
-            return false;
-        }
-
-        if (!handle->getParameter("marker_separation", markerSeparation))
-        {
-            log()->error("{} The parameter handler could not find \"marker_separation\" in the "
-                         "configuration file, required for board detection.",
-                         printPrefix);
+            log()->error("{} is_board is true, but not all board parameters (markers_x, markers_y, marker_separation) were provided.", printPrefix);
             return false;
         }
 
         // Create the board object
-        cv::Size boardSize(markersX, markersY);
+        cv::Size boardSize(m_pimpl->markersX.value(), m_pimpl->markersY.value());
         float markerLength = m_pimpl->markerLength;
-        float markerDistance = markerSeparation; // distance in meters
+        float markerDistance = m_pimpl->markerSeparation.value(); // distance in meters
 
         // Create the board layout (assuming sequential IDs)
         std::vector<int> markerIds;
@@ -294,10 +327,10 @@ bool ArucoDetector::advance()
             m_pimpl->poseEig = toEigenPose(m_pimpl->Reig, m_pimpl->teig);
 
             // Store the board's pose as marker id 0
-            ArucoData markerData{0,
+            ArucoData boardData{0,
                                        {}, // No corners for board
                                        m_pimpl->poseEig};
-            m_pimpl->out.markers[0] = markerData;
+            m_pimpl->out.markers[0] = boardData;
         }
         else
         {
@@ -353,14 +386,14 @@ bool ArucoDetector::isOutputValid() const
     return true;
 }
 
-bool ArucoDetector::getDetectedMarkerData(const int& id, ArucoData& markerData)
+bool ArucoDetector::getDetectedMarkerData(const int& id, ArucoData& Data)
 {
     if (m_pimpl->out.markers.find(id) == m_pimpl->out.markers.end())
     {
         return false;
     }
 
-    markerData = m_pimpl->out.markers.at(id);
+    Data = m_pimpl->out.markers.at(id);
     return true;
 }
 
