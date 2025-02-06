@@ -20,6 +20,7 @@ public:
     void resetBuffers();
 
     // parameters
+    bool isBoard{false}; /**< flag to check if we want to detect a board */
     cv::Ptr<cv::aruco::Dictionary> dictionary; /**< container with detected markers data */
     double markerLength; /**< marker length*/
     cv::Mat cameraMatrix; /**< camera calibration matrix*/
@@ -72,6 +73,9 @@ public:
                       {"7X7_1000", cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_7X7_1000},
                       {"ARUCO_ORIGINAL",
                        cv::aruco::PREDEFINED_DICTIONARY_NAME::DICT_ARUCO_ORIGINAL}};
+
+    // Helper method for single marker pose estimation
+    void estimateSingleMarkersPose();
 };
 
 ArucoDetector::ArucoDetector()
@@ -117,10 +121,19 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
 // instead of a cv::Ptr<cv::aruco::Dictionary>
 #if (CV_VERSION_MAJOR >= 5) || (CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR >= 7)
     m_pimpl->dictionary = cv::makePtr<cv::aruco::Dictionary>();
-    *(m_pimpl->dictionary) = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
+    *(m_pimpl->dictionary)
+        = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
 #else
     m_pimpl->dictionary = cv::aruco::getPredefinedDictionary(m_pimpl->availableDict.at(dictName));
 #endif
+
+    if (!handle->getParameter("is_board", m_pimpl->isBoard))
+    {
+        log()->error("{} The parameter handler could not find \" is_board \" in the "
+                     "configuration file.",
+                     printPrefix);
+        return false;
+    }
 
     if (!handle->getParameter("marker_length", m_pimpl->markerLength))
     {
@@ -156,42 +169,58 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
     m_pimpl->distCoeff = cv::Mat(5, 1, CV_64F);
     cv::eigen2cv(distCoeffVec, m_pimpl->distCoeff);
 
-    // Board configuration parameters (read from file or hardcode)
-    int markersX;
-    int markersY;
-    double markerSeparation;
-
-    if (!handle->getParameter("markers_x", markersX))
+    // Board configuration parameters
+    if (m_pimpl->isBoard)
     {
-        log()->error("{} The parameter handler could not find \"markers_x\" in the configuration file.", printPrefix);
-        return false;
+        int markersX;
+        int markersY;
+        double markerSeparation;
+
+        if (!handle->getParameter("markers_x", markersX))
+        {
+            log()->error("{} The parameter handler could not find \"markers_x\" in the "
+                         "configuration file, required for board detection.",
+                         printPrefix);
+            return false;
+        }
+        if (!handle->getParameter("markers_y", markersY))
+        {
+            log()->error("{} The parameter handler could not find \"markers_y\" in the "
+                         "configuration file, required for board detection.",
+                         printPrefix);
+            return false;
+        }
+
+        if (!handle->getParameter("marker_separation", markerSeparation))
+        {
+            log()->error("{} The parameter handler could not find \"marker_separation\" in the "
+                         "configuration file, required for board detection.",
+                         printPrefix);
+            return false;
+        }
+
+        // Create the board object
+        cv::Size boardSize(markersX, markersY);
+        float markerLength = m_pimpl->markerLength;
+        float markerDistance = markerSeparation; // distance in meters
+
+        // Create the board layout (assuming sequential IDs)
+        std::vector<int> markerIds;
+        for (int i = 0; i < boardSize.width * boardSize.height; ++i)
+        {
+            markerIds.push_back(i); // Sequential IDs
+        }
+        // Define the board using the layout and the dictionary
+        m_pimpl->board = cv::aruco::GridBoard::create(boardSize.width,
+                                                      boardSize.height,
+                                                      markerLength,
+                                                      markerDistance,
+                                                      m_pimpl->dictionary);
     }
-    if (!handle->getParameter("markers_y", markersY))
+    else
     {
-        log()->error("{} The parameter handler could not find \"markers_y\" in the configuration file.", printPrefix);
-        return false;
+        m_pimpl->board = nullptr; // Ensure board is null if not using it
     }
-      if (!handle->getParameter("marker_separation", markerSeparation))
-    {
-        log()->error("{} The parameter handler could not find \"marker_separation\" in the configuration file.", printPrefix);
-        return false;
-    }
-
-
-    // Create the board object
-    cv::Size boardSize(markersX, markersY);
-    float markerLength = m_pimpl->markerLength;
-    float markerDistance = markerSeparation; // distance in meters
-
-    // Create the board layout (assuming sequential IDs)
-    std::vector<int> markerIds;
-    for (int i = 0; i < boardSize.width * boardSize.height; ++i)
-    {
-        markerIds.push_back(i); // Sequential IDs
-    }
-    // Define the board using the layout and the dictionary
-    m_pimpl->board = cv::aruco::GridBoard::create(boardSize.width, boardSize.height, markerLength, markerDistance, m_pimpl->dictionary);
-
 
     m_pimpl->initialized = true;
     return true;
@@ -232,19 +261,23 @@ bool ArucoDetector::advance()
 
     m_pimpl->resetBuffers();
 
-    // Detect markers
     cv::aruco::detectMarkers(m_pimpl->currentImg,
                              m_pimpl->dictionary,
                              m_pimpl->currentDetectedMarkerCorners,
                              m_pimpl->currentDetectedMarkerIds);
 
-    if (m_pimpl->currentDetectedMarkerIds.size() > 0)
+    if (m_pimpl->isBoard)
     {
-        // Estimate board pose (assuming you have an ArUco board)
+        if (m_pimpl->board == nullptr) {
+            log()->error("{} Board is enabled, but board object is null. This should not happen. Check initialize method.", printPrefix);
+            return false; // Or handle the error in another appropriate way.
+        }
+
+        // Estimate board pose
         cv::Vec3d rvec, tvec;
         int valid_corners = cv::aruco::estimatePoseBoard(m_pimpl->currentDetectedMarkerCorners,
                                                          m_pimpl->currentDetectedMarkerIds,
-                                                         m_pimpl->board, // Assuming you have board object
+                                                         m_pimpl->board,
                                                          m_pimpl->cameraMatrix,
                                                          m_pimpl->distCoeff,
                                                          rvec,
@@ -261,42 +294,48 @@ bool ArucoDetector::advance()
             m_pimpl->poseEig = toEigenPose(m_pimpl->Reig, m_pimpl->teig);
 
             // Store the board's pose as marker id 0
-            ArucoMarkerData markerData{0,
+            ArucoData markerData{0,
                                        {}, // No corners for board
                                        m_pimpl->poseEig};
             m_pimpl->out.markers[0] = markerData;
         }
         else
         {
-            // Board not detected (or not enough markers)
-            // Estimate pose of single markers
-            cv::aruco::estimatePoseSingleMarkers(m_pimpl->currentDetectedMarkerCorners,
-                                                 m_pimpl->markerLength,
-                                                 m_pimpl->cameraMatrix,
-                                                 m_pimpl->distCoeff,
-                                                 m_pimpl->currentDetectedMarkersRotVecs,
-                                                 m_pimpl->currentDetectedMarkersTransVecs);
-
-            for (std::size_t idx = 0; idx < m_pimpl->currentDetectedMarkerIds.size(); idx++)
-            {
-                cv::Rodrigues(m_pimpl->currentDetectedMarkersRotVecs[idx], m_pimpl->R);
-                cv::cv2eigen(m_pimpl->R, m_pimpl->Reig);
-                m_pimpl->teig << m_pimpl->currentDetectedMarkersTransVecs[idx](0),
-                    m_pimpl->currentDetectedMarkersTransVecs[idx](1),
-                    m_pimpl->currentDetectedMarkersTransVecs[idx](2);
-
-                m_pimpl->poseEig = toEigenPose(m_pimpl->Reig, m_pimpl->teig);
-                ArucoMarkerData markerData{m_pimpl->currentDetectedMarkerIds[idx],
-                                           m_pimpl->currentDetectedMarkerCorners[idx],
-                                           m_pimpl->poseEig};
-                m_pimpl->out.markers[m_pimpl->currentDetectedMarkerIds[idx]] = markerData;
-            }
+            log()->debug("{} Board not detected (or not enough markers). Falling back to single marker estimation.", printPrefix);
+            m_pimpl->estimateSingleMarkersPose();
         }
-
-        m_pimpl->out.timeNow = m_pimpl->currentTime;
+    } else {
+        // isBoard is false, so estimate single marker poses
+        m_pimpl->estimateSingleMarkersPose();
     }
 
+    m_pimpl->out.timeNow = m_pimpl->currentTime;
     return true;
+}
+
+void ArucoDetector::Impl::estimateSingleMarkersPose() {
+    // Estimate pose of single markers
+    cv::aruco::estimatePoseSingleMarkers(currentDetectedMarkerCorners,
+                                         markerLength,
+                                         cameraMatrix,
+                                         distCoeff,
+                                         currentDetectedMarkersRotVecs,
+                                         currentDetectedMarkersTransVecs);
+
+    for (std::size_t idx = 0; idx < currentDetectedMarkerIds.size(); idx++)
+    {
+        cv::Rodrigues(currentDetectedMarkersRotVecs[idx], R);
+        cv::cv2eigen(R, Reig);
+        teig << currentDetectedMarkersTransVecs[idx](0),
+            currentDetectedMarkersTransVecs[idx](1),
+            currentDetectedMarkersTransVecs[idx](2);
+
+        poseEig = toEigenPose(Reig, teig);
+        ArucoData markerData{currentDetectedMarkerIds[idx],
+                                   currentDetectedMarkerCorners[idx],
+                                   poseEig};
+        out.markers[currentDetectedMarkerIds[idx]] = markerData;
+    }
 }
 
 const ArucoDetectorOutput& ArucoDetector::getOutput() const
@@ -314,7 +353,7 @@ bool ArucoDetector::isOutputValid() const
     return true;
 }
 
-bool ArucoDetector::getDetectedMarkerData(const int& id, ArucoMarkerData& markerData)
+bool ArucoDetector::getDetectedMarkerData(const int& id, ArucoData& markerData)
 {
     if (m_pimpl->out.markers.find(id) == m_pimpl->out.markers.end())
     {
@@ -345,7 +384,8 @@ bool ArucoDetector::getImageWithDetectedMarkers(cv::Mat& outputImg,
                                    m_pimpl->currentDetectedMarkerCorners,
                                    m_pimpl->currentDetectedMarkerIds);
 
-    if (drawFrames && m_pimpl->out.markers.find(0) != m_pimpl->out.markers.end()) // Assuming board ID is 0
+    if (drawFrames && m_pimpl->out.markers.find(0) != m_pimpl->out.markers.end()) // Assuming board
+                                                                                  // ID is 0
     {
         // Draw coordinate axes on the board
         cv::Vec3d rvec, tvec;
@@ -353,25 +393,25 @@ bool ArucoDetector::getImageWithDetectedMarkers(cv::Mat& outputImg,
         // Convert Eigen pose back to OpenCV rvec and tvec
         Eigen::Matrix3d rotationMatrix = Eigen::Matrix3d::Identity();
         Eigen::Vector3d translationVector = Eigen::Vector3d::Zero();
-        if (m_pimpl->out.markers.count(0)) {
-            rotationMatrix = m_pimpl->out.markers.at(0).pose.block<3,3>(0,0);
-            translationVector = m_pimpl->out.markers.at(0).pose.block<3,1>(0,3);
+        if (m_pimpl->out.markers.count(0))
+        {
+            rotationMatrix = m_pimpl->out.markers.at(0).pose.block<3, 3>(0, 0);
+            translationVector = m_pimpl->out.markers.at(0).pose.block<3, 1>(0, 3);
         }
 
-
         cv::eigen2cv(rotationMatrix, m_pimpl->R); // Convert Eigen rotation to OpenCV Mat
-        cv::Rodrigues(m_pimpl->R, rvec);        // Convert rotation matrix to rotation vector
+        cv::Rodrigues(m_pimpl->R, rvec); // Convert rotation matrix to rotation vector
 
         tvec[0] = translationVector(0);
         tvec[1] = translationVector(1);
         tvec[2] = translationVector(2);
 
         cv::drawFrameAxes(outputImg,
-                              m_pimpl->cameraMatrix,
-                              m_pimpl->distCoeff,
-                              rvec, // rotation vector
-                              tvec, // translation vector
-                              axisLengthForDrawing);
+                          m_pimpl->cameraMatrix,
+                          m_pimpl->distCoeff,
+                          rvec, // rotation vector
+                          tvec, // translation vector
+                          axisLengthForDrawing);
     }
 
     return true;

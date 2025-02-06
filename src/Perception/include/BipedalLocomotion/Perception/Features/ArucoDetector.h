@@ -26,7 +26,7 @@ namespace Perception
 /**
  * Aruco marker identifiers
  */
-struct ArucoMarkerData
+struct ArucoData
 {
     /**
      * Marker ID
@@ -64,9 +64,9 @@ struct ArucoDetectorOutput
     /**
      * Map of detected markers/boards.
      * Key: Marker ID (or special ID for the board)
-     * Value: ArucoMarkerData for the corresponding marker/board
+     * Value: ArucoData for the corresponding marker/board
      */
-    std::unordered_map<int, ArucoMarkerData> markers;
+    std::unordered_map<int, ArucoData> markers;
     double timeNow{-1.0};
 };
 
@@ -130,7 +130,7 @@ public:
      * @param[in] markerData detected marker identifiers data
      * @return True in case of success, false if marker/board was not detected
      */
-    bool getDetectedMarkerData(const int& id, ArucoMarkerData& markerData);
+    bool getDetectedMarkerData(const int& id, ArucoData& arucoData);
 
     /**
      * Get the image with drawn detected markers/board pose.

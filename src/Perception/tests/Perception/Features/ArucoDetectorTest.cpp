@@ -24,6 +24,7 @@ using namespace BipedalLocomotion::ParametersHandler;
 TEST_CASE("Aruco Detector - Live Camera Feed with Boards")
 {
     std::shared_ptr<IParametersHandler> parameterHandler = std::make_shared<StdImplementation>();
+    parameterHandler->setParameter("is_board", true);
     parameterHandler->setParameter("marker_dictionary", "6X6_250");
     parameterHandler->setParameter("marker_length", 0.1); // Reduced marker length to test with small markers
     parameterHandler->setParameter("markers_x", 5); // Number of markers in X direction
@@ -44,7 +45,7 @@ TEST_CASE("Aruco Detector - Live Camera Feed with Boards")
     cv::namedWindow("Aruco Detection - Live with Boards", cv::WINDOW_AUTOSIZE);
 
     auto startTime = std::chrono::steady_clock::now();
-    auto endTime = startTime + std::chrono::seconds(10); // Run for 10 seconds
+    auto endTime = startTime + std::chrono::seconds(20); // Run for 10 seconds
 
     while (std::chrono::steady_clock::now() < endTime)
     {
@@ -62,7 +63,7 @@ TEST_CASE("Aruco Detector - Live Camera Feed with Boards")
         }
 
         // Check for board detection
-        ArucoMarkerData boardData;
+        ArucoData boardData;
         bool boardDetected = detector.getDetectedMarkerData(0, boardData); // Check for board with id 0
         if (boardDetected)
         {
