@@ -86,6 +86,8 @@ bool UkfMeasurement::finalize(const System::VariablesHandler& handler)
             .addVariable(m_dynamicsList[indexDyn2].first,
                          m_dynamicsList[indexDyn2].second->getCovariance().size());
 
+        BipedalLocomotion::log()->info("{}: size {}", m_dynamicsList[indexDyn2].first, m_dynamicsList[indexDyn2].second->getCovariance().size());
+
         m_covarianceR
             .block(m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).offset,
                    m_measurementVariableHandler.getVariable(m_dynamicsList[indexDyn2].first).offset,
@@ -136,9 +138,9 @@ bool UkfMeasurement::finalize(const System::VariablesHandler& handler)
     return true;
 }
 
-void UkfMeasurement::setStateNameMapping(const std::map<std::string, std::string>& stateToUkfNames)
+void UkfMeasurement::setStateNameMapping(const std::map<std::pair<std::string, std::string>, std::string>& variableNameToUkfState)
 {
-    m_stateToUkfNames = stateToUkfNames;
+    m_variableNameToUkfState = variableNameToUkfState;
 }
 
 std::unique_ptr<UkfMeasurement>
@@ -214,12 +216,17 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         dynamicsGroup->setParameter("sampling_time", measurement->m_dT);
 
         // create variable handler
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
             BipedalLocomotion::log()->error("{} Unable to find the parameter 'input_name'.",
                                             logPrefix);
             return nullptr;
+        }
+        std::string sensorType;
+        if (!dynamicsGroup->getParameter("sensor_type", sensorType))
+        {
+            sensorType = "none";
         }
         std::vector<double> covariances;
         if (!dynamicsGroup->getParameter("covariance", covariances))
@@ -255,7 +262,7 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         // add dynamics to the list
         measurement->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
 
-        measurement->m_ukfNamesToMeasures[dynamicsGroupName] = inputName;
+        measurement->m_ukfNamesToMeasures[dynamicsGroupName] = variableName;
     }
 
     measurement->m_inputDescription

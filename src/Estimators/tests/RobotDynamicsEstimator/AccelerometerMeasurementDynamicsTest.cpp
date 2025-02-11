@@ -268,7 +268,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     covariance << 2.3e-3, 1.9e-3, 3.1e-3;
     const std::string model = "AccelerometerMeasurementDynamics";
     const bool useBias = true;
-    accHandler->setParameter("name", name);
+    accHandler->setParameter("variable_name", name);
     accHandler->setParameter("covariance", covariance);
     accHandler->setParameter("dynamic_model", model);
     accHandler->setParameter("use_bias", useBias);

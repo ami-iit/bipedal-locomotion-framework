@@ -38,7 +38,7 @@ class ExternalContactStateDynamics : public Dynamics
     System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables
                                                         and the sizes in the ukf state vector. */
     std::chrono::nanoseconds m_dT{std::chrono::nanoseconds::zero()}; /**< Sampling time. */
-    Eigen::VectorXd m_k; /**< Model constant. */
+    double m_k; /**< Model constant. */
 
     /**
      * Controls whether the variable handler contains the variables on which the dynamics depend.

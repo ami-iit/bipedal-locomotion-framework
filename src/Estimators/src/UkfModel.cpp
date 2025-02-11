@@ -45,32 +45,32 @@ void UkfModel::unpackState()
         {
             m_FTMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "ft"}]).offset,
+                               m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "ft"}]).size);
         }
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             m_extContactMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "none"}]).offset,
+                               m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "none"}]).size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
         {
             m_accMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "accelerometer"}]).offset,
+                               m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "accelerometer"}]).size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
         {
             m_gyroMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "gyroscope"}]).offset,
+                               m_stateVariableHandler.getVariable(m_variableNameToUkfState[{key, "gyroscope"}]).size);
         }
     }
 }

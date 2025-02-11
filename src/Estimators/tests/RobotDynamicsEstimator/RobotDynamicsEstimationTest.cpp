@@ -398,11 +398,6 @@ TEST_CASE("RobotDynamicsEstimator Test")
 
     RobotDynamicsEstimatorInput input;
 
-    // Set here input that are constant
-    input.basePose.setIdentity();
-    input.baseVelocity.setZero();
-    input.baseAcceleration.setZero();
-
     int numOfSamples = 10;
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {

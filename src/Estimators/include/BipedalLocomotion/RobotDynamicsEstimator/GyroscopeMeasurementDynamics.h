@@ -48,6 +48,7 @@ class GyroscopeMeasurementDynamics : public Dynamics
     Eigen::VectorXd m_jointVelocityFullModel; /**< Vector of joint velocities. */
     UKFInput m_ukfInput; /**< Input of the UKF used to update the dynamics. */
     std::string m_name; /**< Name of dynamics. */
+    std::string m_gyroName; /**< Name of the gyroscope variable in the state vector. */
     std::vector<std::string> m_elements = {}; /**< Elements composing the variable vector. */
     System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables
                                                         and the sizes in the ukf state vector. */
