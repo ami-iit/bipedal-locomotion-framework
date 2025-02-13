@@ -10,8 +10,8 @@ add_bipedal_test(
 
 
 add_bipedal_test(
-  NAME IntegratorFloatingBaseSystemKinematicsTest
-  SOURCES IntegratorFloatingBaseSystemKinematics.cpp
+  NAME IntegratorFloatingBaseSystemVelocityKinematicsTest
+  SOURCES IntegratorFloatingBaseSystemVelocityKinematics.cpp
   LINKS BipedalLocomotion::ContinuousDynamicalSystem
         BipedalLocomotion::TestUtils Eigen3::Eigen)
 

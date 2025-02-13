@@ -1,5 +1,5 @@
 /**
- * @file IntegratorFloatingBaseSystemKinematics.cpp
+ * @file IntegratorFloatingBaseSystemVelocityKinematics.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
@@ -15,7 +15,7 @@
 
 #include <manif/SO3.h>
 
-#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 #include <BipedalLocomotion/TestUtils/MemoryAllocationMonitor.h>
 
@@ -29,7 +29,7 @@ TEST_CASE("Integrator - Linear system")
     constexpr double tolerance = 1e-3;
     constexpr std::chrono::nanoseconds simulationTime = 500ms;
 
-    auto system = std::make_shared<FloatingBaseSystemKinematics>();
+    auto system = std::make_shared<FloatingBaseSystemVelocityKinematics>();
 
     Eigen::Matrix<double, 6, 1> twist;
     twist.setRandom();
@@ -58,7 +58,7 @@ TEST_CASE("Integrator - Linear system")
 
     system->setState({position0, rotation0, jointPosition0});
 
-    ForwardEuler<FloatingBaseSystemKinematics> integrator;
+    ForwardEuler<FloatingBaseSystemVelocityKinematics> integrator;
     integrator.setIntegrationStep(dT);
     integrator.setDynamicalSystem(system);
 
