@@ -11,7 +11,7 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
   add_bipedal_locomotion_library(
     NAME                   ContinuousDynamicalSystem
     PUBLIC_HEADERS         ${H_PREFIX}/DynamicalSystem.h ${H_PREFIX}/LinearTimeInvariantSystem.h
-                           ${H_PREFIX}/FloatingBaseSystemVelocityKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h ${H_PREFIX}/FixedBaseDynamics.h ${H_PREFIX}/FirstOrderSmoother.h
+                           ${H_PREFIX}/FloatingBaseSystemVelocityKinematics.h ${H_PREFIX}/FloatingBaseSystemAccelerationKinematics.h ${H_PREFIX}/FloatingBaseDynamicsWithCompliantContacts.h ${H_PREFIX}/FixedBaseDynamics.h ${H_PREFIX}/FirstOrderSmoother.h
                            ${H_PREFIX}/CentroidalDynamics.h
                            ${H_PREFIX}/LieGroupDynamics.h ${H_PREFIX}/SO3Dynamics.h
                            ${H_PREFIX}/Integrator.h  ${H_PREFIX}/FixedStepIntegrator.h ${H_PREFIX}/ForwardEuler.h ${H_PREFIX}/RK4.h
@@ -19,7 +19,7 @@ if(FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
                            ${H_PREFIX}/MultiStateWeightProvider.h
                            ${H_PREFIX}/ButterworthLowPassFilter.h
     PRIVATE_HEADERS        ${H_PREFIX}/impl/traits.h
-    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemVelocityKinematics.cpp src/CompliantContactWrench.cpp
+    SOURCES                src/LinearTimeInvariantSystem.cpp src/FloatingBaseSystemVelocityKinematics.cpp src/FloatingBaseSystemAccelerationKinematics.cpp src/CompliantContactWrench.cpp
                            src/FloatingBaseDynamicsWithCompliantContacts.cpp src/FixedBaseDynamics.cpp src/CentroidalDynamics.cpp
                            src/FirstOrderSmoother.cpp src/MultiStateWeightProvider.cpp
                            src/ButterworthLowPassFilter.cpp
