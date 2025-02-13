@@ -27,11 +27,11 @@ def test_floating_base_system_kinematics():
     joint_position0 = np.zeros(23)
 
 
-    system = blf.continuous_dynamical_system.FloatingBaseSystemKinematics()
+    system = blf.continuous_dynamical_system.FloatingBaseSystemVelocityKinematics()
     system.state = position0, rotation0, joint_position0
     assert system.set_control_input((twist, joint_velocity))
 
-    integrator = blf.continuous_dynamical_system.FloatingBaseSystemKinematicsForwardEulerIntegrator()
+    integrator = blf.continuous_dynamical_system.FloatingBaseSystemVelocityKinematicsForwardEulerIntegrator()
     assert integrator.set_dynamical_system(system)
     integrator.integration_step = timedelta(seconds=dt)
 
