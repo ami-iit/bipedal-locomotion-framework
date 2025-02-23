@@ -12,7 +12,7 @@
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h>
 
-#include <iDynTree/Estimation/ContactStateMachine.h>
+#include <iDynTree/ContactStateMachine.h>
 #include <iDynTree/ModelLoader.h>
 
 #include <yarp/os/PeriodicThread.h>

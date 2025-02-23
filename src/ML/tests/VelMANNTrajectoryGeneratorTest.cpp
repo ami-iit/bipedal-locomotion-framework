@@ -7,8 +7,8 @@
 
 #include <memory>
 
-#include <iDynTree/Model/Model.h>
-#include <iDynTree/ModelIO/ModelLoader.h>
+#include <iDynTree/Model.h>
+#include <iDynTree/ModelLoader.h>
 
 // Catch2
 #include <catch2/catch_test_macros.hpp>

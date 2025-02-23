@@ -24,7 +24,7 @@ if(FRAMEWORK_USE_icub-models)
     SOURCES BaseEstimatorFromFootIMUTest.cpp
     LINKS BipedalLocomotion::FloatingBaseEstimators BipedalLocomotion::ParametersHandler BipedalLocomotion::ManifConversions
           Eigen3::Eigen
-          iDynTree::idyntree-modelio-urdf
+          iDynTree::idyntree-modelio
           icub-models::icub-models)
 
 endif()
