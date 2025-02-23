@@ -16,8 +16,8 @@
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 
-#include <iDynTree/Estimation/ContactStateMachine.h>
-#include <iDynTree/Estimation/ExtWrenchesAndJointTorquesEstimator.h>
+#include <iDynTree/ContactStateMachine.h>
+#include <iDynTree/ExtWrenchesAndJointTorquesEstimator.h>
 #include <iDynTree/ModelLoader.h>
 
 #include <yarp/dev/DeviceDriver.h>
