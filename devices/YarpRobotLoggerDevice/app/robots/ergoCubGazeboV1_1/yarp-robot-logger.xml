@@ -23,7 +23,7 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="ExogenousSignals">
-    <param name="vectors_collection_exogenous_inputs">("Walking", "CurrentControl")</param>
+    <param name="vectors_collection_exogenous_inputs">("Walking", "CurrentControl", "BalancingTSID")</param>
     <param name="vectors_exogenous_inputs">()</param>
 
     <group name="Walking">
@@ -37,6 +37,13 @@ BSD-3-Clause license. -->
       <param name="local">"/yarp-robot-logger/exogenous_signals/current_control_trajectory"</param>
       <param name="remote">"/motor_current_tracking/logger"</param>
       <param name="signal_name">"current_control"</param>
+      <param name="carrier">"udp"</param>
+    </group>
+
+    <group name="BalancingTSID">
+      <param name="local">"/yarp-robot-logger/exogenous_signals/balancing_tsid"</param>
+      <param name="remote">"/balancing_torque_controller/logger"</param>
+      <param name="signal_name">"balancing_tsid"</param>
       <param name="carrier">"udp"</param>
     </group>
   </group>
