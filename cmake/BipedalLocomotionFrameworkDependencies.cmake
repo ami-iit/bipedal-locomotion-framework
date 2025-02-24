@@ -292,3 +292,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
 framework_dependent_option(FRAMEWORK_COMPILE_JointsGridPositionTrackingApplication
   "Compile joints-grid-position-tracking application?" ON
   "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface;FRAMEWORK_COMPILE_Math" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_MotorCurrentTrackingApplication
+  "Compile motor-current-tracking application?" ON
+  "FRAMEWORK_COMPILE_YarpImplementation;FRAMEWORK_COMPILE_PYTHON_BINDINGS;FRAMEWORK_COMPILE_RobotInterface" OFF)
