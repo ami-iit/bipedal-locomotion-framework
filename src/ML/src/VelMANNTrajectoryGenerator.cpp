@@ -13,10 +13,10 @@
 #include <BipedalLocomotion/ML/VelMANNTrajectoryGenerator.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <iDynTree/Model/Model.h>
+#include <iDynTree/Model.h>
 #include <manif/SE3.h>
 
-#include <iDynTree/Core/EigenHelpers.h>
+#include <iDynTree/EigenHelpers.h>
 
 using namespace BipedalLocomotion::ML;
 using namespace BipedalLocomotion;
