@@ -3,6 +3,7 @@
 # GNU Lesser General Public License v2.1 or any later version.
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include(FetchContent)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
 
 
