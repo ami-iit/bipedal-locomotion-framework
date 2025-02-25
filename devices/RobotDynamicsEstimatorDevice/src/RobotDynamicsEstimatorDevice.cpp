@@ -311,8 +311,17 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     // Set logPrefix
     const std::string logPrefix = "[RobotDynamicsEstimatorDevice::setEstimatorInitialState]";
 
-    Eigen::VectorXd s(m_kinDyn->model().getNrOfDOFs());
-    Eigen::VectorXd dds(m_kinDyn->model().getNrOfDOFs());
+    iDynTree::Model model = m_kinDyn->model();
+    if (!model.isValid())
+    {
+        log()->error("{} The model is not valid.", logPrefix);
+        return false;
+    }
+
+    int nrOfDOFs = model.getNrOfDOFs();
+
+    Eigen::VectorXd s(nrOfDOFs);
+    Eigen::VectorXd dds(nrOfDOFs);
 
     if (!m_robotSensorBridge->getJointPositions(s))
     {
@@ -330,24 +339,24 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     m_estimatorOutput.output.tau_F.setZero();
 
     // Set contact information and specify the unknown wrench on the base link
-    auto baseFrameIdx = m_iDynEstimator.model().getFrameIndex(m_baseLink);
-    auto fullBodyUnknowns = iDynTree::LinkUnknownWrenchContacts(m_iDynEstimator.model());
+    auto baseFrameIdx = model.getFrameIndex(m_baseLink);
+    auto fullBodyUnknowns = iDynTree::LinkUnknownWrenchContacts(model);
     fullBodyUnknowns.clear();
-    auto contactLinkIdx = m_iDynEstimator.model().getFrameIndex(m_contactFrame);
-    fullBodyUnknowns.addNewUnknownFullWrenchInFrameOrigin(m_iDynEstimator.model(), contactLinkIdx);
+    auto contactLinkIdx = model.getFrameIndex(m_contactFrame);
+    fullBodyUnknowns.addNewUnknownFullWrenchInFrameOrigin(model, contactLinkIdx);
 
     // Initialize variables for estimation
-    auto expectedFT = iDynTree::SensorsMeasurements(m_iDynEstimator.sensors());
-    auto estimatedContacts = iDynTree::LinkContactWrenches(m_iDynEstimator.model());
-    auto estimatedTau = iDynTree::JointDOFsDoubleArray(m_iDynEstimator.model());
+    auto expectedFT = iDynTree::SensorsMeasurements(model.sensors());
+    auto estimatedContacts = iDynTree::LinkContactWrenches(model);
+    auto estimatedTau = iDynTree::JointDOFsDoubleArray(model);
 
     iDynTree::Vector3 gravity;
     gravity.zero();
     gravity.setVal(2, -BipedalLocomotion::Math::StandardAccelerationOfGravitation);
 
-    auto sidyn = iDynTree::JointPosDoubleArray(m_iDynEstimator.model());
-    auto dsidyn = iDynTree::JointDOFsDoubleArray(m_iDynEstimator.model());
-    auto ddsidyn = iDynTree::JointDOFsDoubleArray(m_iDynEstimator.model());
+    auto sidyn = iDynTree::JointPosDoubleArray(model);
+    auto dsidyn = iDynTree::JointDOFsDoubleArray(model);
+    auto ddsidyn = iDynTree::JointDOFsDoubleArray(model);
 
     for (int index = 0; index < sidyn.size(); index++)
     {
@@ -372,9 +381,8 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
 
     manif::SE3d baseHimu; // Transform from the base frame to the imu frame.
     // Get transform matrix from imu to base
-    baseHimu = Conversions::toManifPose(
-        m_kinDyn->getRelativeTransform(m_kinDyn->getFloatingBase(),
-                                       m_baseIMU));
+    auto imuIdx = model.getFrameIndex(m_baseIMU);
+    baseHimu = Conversions::toManifPose(model.getFrameTransform(imuIdx));
 
     manif::SE3Tangentd baseVelocity;
     baseVelocity.setZero();
@@ -563,7 +571,7 @@ bool RobotDynamicsEstimatorDevice::setupRobotDynamicsEstimator(
         return false;
     }
 
-    if (!m_iDynEstimator.setModelAndSensors(m_kinDyn->model(), modelLoader.sensors()))
+    if (!m_iDynEstimator.setModelAndSensors(modelLoader.model(), modelLoader.sensors()))
     {
         log()->error("{} Impossible to create ExtWrenchesAndJointTorquesEstimator.", logPrefix);
         return false;
