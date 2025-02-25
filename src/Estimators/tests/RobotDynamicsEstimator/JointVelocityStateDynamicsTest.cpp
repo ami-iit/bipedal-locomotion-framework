@@ -9,7 +9,7 @@
 #include <catch2/generators/catch_generators_all.hpp>
 #include <chrono>
 
-#include <iCubModels/iCubModels.h>
+#include <ResolveRoboticsURICpp.h>
 #include <yarp/os/ResourceFinder.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -35,7 +35,11 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
+    std::optional<std::string> pathTemp = ResolveRoboticsURICpp::resolveRoboticsURI("package://ergoCub/robots/ergoCubSN000/model.urdf");
+    REQUIRE(pathTemp.has_value());
+
+    std::string modelPath = pathTemp.value();
+    BipedalLocomotion::log()->info("Model path {}", modelPath);
 
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
