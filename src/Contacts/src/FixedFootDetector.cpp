@@ -266,3 +266,8 @@ const EstimatedContact& FixedFootDetector::getFixedFoot() const
     log()->error("{} Unable to find the fixed foot. This should never happen.", logPrefix);
     return m_dummyContact;
 }
+
+const std::chrono::nanoseconds& FixedFootDetector::getCurrentTime() const
+{
+    return m_currentTime;
+};

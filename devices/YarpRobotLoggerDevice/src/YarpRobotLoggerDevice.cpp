@@ -129,10 +129,20 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
-    auto rtParameters = params->getGroup("REAL_TIME_STREAMING").lock();
-    m_sendDataRT = rtParameters != nullptr;
+
+    if (!params->getParameter("enable_real_time_logging", m_sendDataRT))
+    {
+        log()->error("{} Unable to get the 'enable_real_time_logging' parameter. The device will "
+                     "not "
+                     "be opened.",
+                     logPrefix);
+        return false;
+    }
+
     if (m_sendDataRT)
     {
+        auto rtParameters = params->getGroup("REAL_TIME_STREAMING").lock();
+
         if (!m_vectorCollectionRTDataServer.initialize(rtParameters))
         {
             log()->error("Failed to initalize the vectorsCollectionServer", logPrefix);
@@ -154,7 +164,8 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     if (!params->getParameter("log_text", m_logText))
     {
-        log()->info("{} Unable to get the 'log_text' parameter for the telemetry. Default value: {}.",
+        log()->info("{} Unable to get the 'log_text' parameter for the telemetry. Default value: "
+                    "{}.",
                     logPrefix,
                     m_logText);
     }
@@ -168,7 +179,6 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                         logPrefix);
         }
     }
-
 
     if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
     {
@@ -684,7 +694,8 @@ bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
     if (metadataNames.empty() || vectorSize != metadataNames.size())
     {
         log()->warn("The metadata names for channel {} are empty or the size of the metadata names "
-                    "is different from the vector size. The default metadata will be used.", nameKey);
+                    "is different from the vector size. The default metadata will be used.",
+                    nameKey);
         if (!m_bufferManager.addChannel({nameKey, {vectorSize, 1}}))
         {
             log()->error("Failed to add the channel in buffer manager named: {}", nameKey);
@@ -1224,14 +1235,17 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                         continue;
                     }
 
-                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get the "
+                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get "
+                                "the "
                                 "metadata for the vectors collection signal named: {}",
                                 name);
 
                     if (!signal.client.getMetadata(signal.metadata))
                     {
-                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to get "
-                                    "the metadata for the signal named: {}. The exogenous signal will "
+                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to "
+                                    "get "
+                                    "the metadata for the signal named: {}. The exogenous signal "
+                                    "will "
                                     "not contain the metadata.",
                                     name);
                     }
@@ -1239,7 +1253,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
             }
 
             signal.connected = connectionDone;
-
         }
     };
 
