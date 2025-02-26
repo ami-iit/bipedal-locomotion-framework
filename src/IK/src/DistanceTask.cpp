@@ -189,7 +189,7 @@ bool DistanceTask::update()
         return m_isValid;
     }
 
-    if (m_isSetPointSetAtLeastOnce)
+    if (!m_isSetPointSetAtLeastOnce)
     {
         log()->error("[DistanceTask::update] The set point has not been set at least once.");
         return m_isValid;
