@@ -182,6 +182,19 @@ bool DistanceTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[DistanceTask::update] The task is not initialized. Please call initialize "
+                     "method.");
+        return m_isValid;
+    }
+
+    if (m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[DistanceTask::update] The set point has not been set at least once.");
+        return m_isValid;
+    }
+
     if (m_referenceName == "")
     {
         m_framePosition = toEigen(m_kinDyn->getWorldTransform(m_targetFrameIndex).getPosition());
@@ -222,6 +235,7 @@ bool DistanceTask::update()
 bool DistanceTask::setDesiredDistance(double desiredDistance)
 {
     m_desiredDistance = std::abs(desiredDistance);
+    m_isSetPointSetAtLeastOnce = true;
     return true;
 }
 

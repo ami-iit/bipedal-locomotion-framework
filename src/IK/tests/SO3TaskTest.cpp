@@ -87,6 +87,8 @@ TEST_CASE("SO3 Task")
             const auto desiredRotation = manif::SO3d::Random();
             const auto desiredVelocity = manif::SO3d::Tangent::Random();
 
+            REQUIRE_FALSE(task.update());
+
             REQUIRE(task.setSetPoint(desiredRotation, desiredVelocity));
 
             REQUIRE(task.update());

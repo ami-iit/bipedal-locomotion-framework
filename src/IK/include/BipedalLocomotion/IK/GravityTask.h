@@ -125,6 +125,7 @@ class GravityTask : public IKLinearTask
     Eigen::MatrixXd m_bm; /**< Matrix filtering acceleration. */
 
     iDynTree::FrameIndex m_targetFrameIndex; /**< Index of the target frame. */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set-point has been set at least once */
 
 public:
     // clang-format off

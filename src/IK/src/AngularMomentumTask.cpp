@@ -140,6 +140,19 @@ bool AngularMomentumTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[AngularMomentumTask::update] The task is not initialized. Please call "
+                     "initialize method.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[AngularMomentumTask::update] The set point has not been set at least once.");
+        return m_isValid;
+    }
+
     if (!m_kinDyn->getCentroidalTotalMomentumJacobian(m_centroidalMomentumMatrix))
     {
         log()->error("[AngularMomentumTask::update] Unable to get the centroidal momentum matrix.");
@@ -190,6 +203,8 @@ bool AngularMomentumTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> desiredA
             }
         }
     }
+
+    m_isSetPointSetAtLeastOnce = true;
     return true;
 }
 

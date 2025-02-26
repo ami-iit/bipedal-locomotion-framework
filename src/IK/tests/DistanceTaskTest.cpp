@@ -100,6 +100,8 @@ TEST_CASE("Distance task")
             REQUIRE(task.initialize(parameterHandler));
             REQUIRE(task.setVariablesHandler(variablesHandler));
 
+            REQUIRE_FALSE(task.update());
+
             double desiredDistance = 1.0;
             REQUIRE(task.setSetPoint(desiredDistance));
 

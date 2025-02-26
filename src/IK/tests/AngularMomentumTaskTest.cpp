@@ -80,6 +80,7 @@ TEST_CASE("AngularMomentum Task")
             REQUIRE(task.setVariablesHandler(variablesHandler));
             REQUIRE(task.size() == 3);
 
+            REQUIRE_FALSE(task.update());
 
             REQUIRE(task.setSetPoint(desiredAngularMomentum));
 

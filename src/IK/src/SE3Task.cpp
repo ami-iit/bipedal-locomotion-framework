@@ -40,8 +40,7 @@ bool SE3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // get the variable
-    if (!variablesHandler.getVariable(m_robotVelocityVariable.name,
-                                      m_robotVelocityVariable))
+    if (!variablesHandler.getVariable(m_robotVelocityVariable.name, m_robotVelocityVariable))
     {
         log()->error("[SE3Task::setVariablesHandler] Unable to get the variable named {}.",
                      m_robotVelocityVariable.name);
@@ -76,11 +75,10 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
     std::string maskDescription = "";
     auto boolToString = [](bool b) { return b ? " true" : " false"; };
-    for(const auto flag : m_mask)
+    for (const auto flag : m_mask)
     {
         maskDescription += boolToString(flag);
     }
-
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
@@ -136,15 +134,13 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     // set the gains for the R3 controller
     double kpLinearScalar;
     Eigen::Vector3d kpLinearVector;
-    if(ptr->getParameter("kp_linear", kpLinearScalar))
+    if (ptr->getParameter("kp_linear", kpLinearScalar))
     {
         m_R3Controller.setGains(kpLinearScalar);
-    }
-    else if(ptr->getParameter("kp_linear", kpLinearVector))
+    } else if (ptr->getParameter("kp_linear", kpLinearVector))
     {
         m_R3Controller.setGains(kpLinearVector);
-    }
-    else
+    } else
     {
         log()->error("{} [{} {}] Unable to get the proportional linear gain.",
                      errorPrefix,
@@ -156,15 +152,13 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     // set gains for the SO3 controller
     double kpAngularScalar;
     Eigen::Vector3d kpAngularVector;
-    if(ptr->getParameter("kp_angular", kpAngularScalar))
+    if (ptr->getParameter("kp_angular", kpAngularScalar))
     {
         m_SO3Controller.setGains(kpAngularScalar);
-    }
-    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    } else if (ptr->getParameter("kp_angular", kpAngularVector))
     {
         m_SO3Controller.setGains(kpAngularVector);
-    }
-    else
+    } else
     {
         log()->error("{} [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -181,8 +175,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
                     descriptionPrefix,
                     frameName,
                     maskDescription);
-    }
-    else
+    } else
     {
         // covert an std::vector in a std::array
         std::copy(mask.begin(), mask.end(), m_mask.begin());
@@ -193,7 +186,7 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
 
         // Update the mask description
         maskDescription.clear();
-        for(const auto flag : m_mask)
+        for (const auto flag : m_mask)
         {
             maskDescription += boolToString(flag);
         }
@@ -221,9 +214,10 @@ bool SE3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     }
 
     m_description = descriptionPrefix + frameName + " Mask:" + maskDescription
-      + ". Use exogenous feedback position:" + boolToString(m_usePositionExogenousFeedback)
-      + ". Use exogenous feedback orientation:" + boolToString(m_useOrientationExogenousFeedback)
-      + ".";
+                    + ". Use exogenous feedback position:"
+                    + boolToString(m_usePositionExogenousFeedback)
+                    + ". Use exogenous feedback orientation:"
+                    + boolToString(m_useOrientationExogenousFeedback) + ".";
 
     // initialize the feedback of the controller
     m_R3Controller.setState(manif::SE3d::Translation::Zero());
@@ -240,6 +234,19 @@ bool SE3Task::update()
     using namespace iDynTree;
 
     m_isValid = false;
+
+    if (!m_isInitialized)
+    {
+        log()->error("[SE3Task::update] The task is not initialized. Please call initialize "
+                     "method.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[SE3Task::update] The set point has not been set at least once.");
+        return m_isValid;
+    }
 
     auto getControllerState = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
@@ -322,6 +329,8 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F, const manif::SE3d::Tangent& 
 
     ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat());
     ok = ok && m_SO3Controller.setFeedForward(mixedVelocity.ang());
+
+    m_isSetPointSetAtLeastOnce = ok;
 
     return ok;
 }

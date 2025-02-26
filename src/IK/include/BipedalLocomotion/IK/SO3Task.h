@@ -59,8 +59,9 @@ class SO3Task : public IKLinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
-    Eigen::MatrixXd m_jacobian;
+    Eigen::MatrixXd m_jacobian; /**< Internal buffer to store the jacobian. */
 
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
 public:
 
     /**

@@ -53,7 +53,8 @@ class AngularMomentumTask : public IKLinearTask
 
     Eigen::MatrixXd m_centroidalMomentumMatrix;
     std::size_t m_angularMomentumTaskSize{m_angularVelocitySize}; /**< DoFs associated to the linear task */
-    std::array<bool, m_angularVelocitySize> m_mask{true, true, true};
+    std::array<bool, m_angularVelocitySize> m_mask{true, true, true}; /**< Mask representing the angular momentum coordinates controlled. */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
 public:
 
     /**

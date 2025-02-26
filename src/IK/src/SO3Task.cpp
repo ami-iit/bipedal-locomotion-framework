@@ -38,8 +38,7 @@ bool SO3Task::setVariablesHandler(const System::VariablesHandler& variablesHandl
     }
 
     // get the variable
-    if (!variablesHandler.getVariable(m_robotVelocityVariable.name,
-                                      m_robotVelocityVariable))
+    if (!variablesHandler.getVariable(m_robotVelocityVariable.name, m_robotVelocityVariable))
     {
         log()->error("[SO3Task::setVariablesHandler] Unable to get the variable named {}.",
                      m_robotVelocityVariable.name);
@@ -94,7 +93,6 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
         return false;
     }
 
-
     auto ptr = paramHandler.lock();
     if (ptr == nullptr)
     {
@@ -133,12 +131,10 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     if (ptr->getParameter("kp_angular", kpAngularScalar))
     {
         m_SO3Controller.setGains(kpAngularScalar);
-    }
-    else if(ptr->getParameter("kp_angular", kpAngularVector))
+    } else if (ptr->getParameter("kp_angular", kpAngularVector))
     {
         m_SO3Controller.setGains(kpAngularVector);
-    }
-    else
+    } else
     {
         log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -161,6 +157,19 @@ bool SO3Task::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[SO3Task::update] The task is not initialized. Please call initialize "
+                     "method.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[SO3Task::update] The set point has not been set at least once.");
+        return m_isValid;
+    }
+
     // set the state
     m_SO3Controller.setState(toManifRot(m_kinDyn->getWorldTransform(m_frameIndex).getRotation()));
 
@@ -169,8 +178,7 @@ bool SO3Task::update()
 
     m_b = m_SO3Controller.getControl().coeffs();
 
-    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex,
-                                                m_jacobian))
+    if (!m_kinDyn->getFrameFreeFloatingJacobian(m_frameIndex, m_jacobian))
     {
         log()->error("[SO3Task::update] Unable to get the jacobian.");
         return m_isValid;
@@ -189,6 +197,8 @@ bool SO3Task::setSetPoint(const manif::SO3d& I_R_F, const manif::SO3d::Tangent& 
     bool ok = true;
     ok = ok && m_SO3Controller.setDesiredState(I_R_F);
     ok = ok && m_SO3Controller.setFeedForward(angularVelocity);
+
+    m_isSetPointSetAtLeastOnce = ok;
 
     return ok;
 }

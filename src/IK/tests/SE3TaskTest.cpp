@@ -89,6 +89,8 @@ TEST_CASE("SE3 Task")
             const auto desiredPose = manif::SE3d::Random();
             const auto desiredVelocity = manif::SE3d::Tangent::Random();
 
+            REQUIRE_FALSE(task.update());
+
             REQUIRE(task.setSetPoint(desiredPose, desiredVelocity));
 
             REQUIRE(task.update());

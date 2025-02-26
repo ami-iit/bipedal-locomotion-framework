@@ -152,6 +152,19 @@ bool GravityTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[GravityTask::update] The task is not initialized. Please call initialize "
+                     "method.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[GravityTask::update] The set point has not been set at least once.");
+        return m_isValid;
+    }
+
     auto targetRotation = toEigen(m_kinDyn->getWorldTransform(m_targetFrameIndex).getRotation());
 
     Eigen::Vector3d desiredZDirectionAbsolute = targetRotation * m_desiredZDirectionBody;
@@ -189,8 +202,10 @@ bool GravityTask::setFeedForwardVelocityInTargetFrame(
 bool GravityTask::setSetPoint(const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection,
                               const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
 {
-    return setDesiredGravityDirectionInTargetFrame(desiredGravityDirection)
-           && setFeedForwardVelocityInTargetFrame(feedforwardVelocity);
+    m_isSetPointSetAtLeastOnce = setDesiredGravityDirectionInTargetFrame(desiredGravityDirection)
+                                 && setFeedForwardVelocityInTargetFrame(feedforwardVelocity);
+
+    return m_isSetPointSetAtLeastOnce;
 }
 
 std::size_t GravityTask::size() const
