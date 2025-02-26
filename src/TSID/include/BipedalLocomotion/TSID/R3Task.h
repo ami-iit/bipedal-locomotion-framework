@@ -77,6 +77,8 @@ private:
     /** State of the proportional derivative controller implemented in the task */
     Mode m_controllerMode{Mode::Enable};
 
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set-point has been set at least once */
+
 public:
     /**
      * Initialize the planner.

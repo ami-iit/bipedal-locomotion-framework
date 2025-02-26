@@ -132,8 +132,7 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     if (ptr->getParameter("kp_angular", scalarBuffer))
     {
         kpAngular.setConstant(scalarBuffer);
-    }
-    else if(!ptr->getParameter("kp_angular", kpAngular))
+    } else if (!ptr->getParameter("kp_angular", kpAngular))
     {
         log()->error("{}, [{} {}] Unable to get the proportional angular gain.",
                      errorPrefix,
@@ -145,8 +144,7 @@ bool SO3Task::initialize(std::weak_ptr<const ParametersHandler::IParametersHandl
     if (ptr->getParameter("kd_angular", scalarBuffer))
     {
         kdAngular.setConstant(scalarBuffer);
-    }
-    else if(!ptr->getParameter("kd_angular", kdAngular))
+    } else if (!ptr->getParameter("kd_angular", kdAngular))
     {
         log()->error("{}, [{} {}] Unable to get the derivative angular gain.",
                      errorPrefix,
@@ -175,13 +173,18 @@ bool SO3Task::update()
         return m_isValid;
     }
 
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[SO3Task::update] The set-point has not been set at least once.");
+        return m_isValid;
+    }
+
     m_SO3Controller.setState(BipedalLocomotion::Conversions::toManifRot(
                                  m_kinDyn->getWorldTransform(m_frameIndex).getRotation()),
                              iDynTree::toEigen(
                                  m_kinDyn->getFrameVel(m_frameIndex).getAngularVec3()));
 
     m_SO3Controller.computeControlLaw();
-
 
     m_b = -iDynTree::toEigen(m_kinDyn->getFrameBiasAcc(m_frameIndex)).tail<3>();
     m_b += m_SO3Controller.getControl().coeffs();
@@ -206,6 +209,8 @@ bool SO3Task::setSetPoint(const manif::SO3d& I_R_F,
 
     ok = ok && m_SO3Controller.setDesiredState(I_R_F, angularVelocity);
     ok = ok && m_SO3Controller.setFeedForward(angularAcceleration);
+
+    m_isSetPointSetAtLeastOnce = ok;
 
     return ok;
 }

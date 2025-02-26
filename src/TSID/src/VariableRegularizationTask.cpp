@@ -88,6 +88,24 @@ bool VariableRegularizationTask::setVariablesHandler(const VariablesHandler& var
     return true;
 }
 
+bool VariableRegularizationTask::update()
+{
+    if (!m_isInitialized)
+    {
+        log()->error("[VariableRegularizationTask::update] Please call initialize() before update().");
+        return false;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[VariableRegularizationTask::update] The set-point has not been set at least once.");
+        return false;
+    }
+
+    // no-op this is just for check
+    return true;
+}
+
 bool VariableRegularizationTask::initialize(std::weak_ptr<const IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[VariableRegularizationTask::initialize]";
@@ -159,7 +177,10 @@ bool VariableRegularizationTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> s
     }
     m_isValid = true;
     m_b = setPoint;
-    return true;
+
+    m_isSetPointSetAtLeastOnce = m_isValid;
+
+    return m_isValid;
 }
 
 std::size_t VariableRegularizationTask::size() const

@@ -172,6 +172,18 @@ bool CoMTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[CoMTask::update] The task is not initialized.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[CoMTask::update] The set-point has not been set at least once.");
+        return m_isValid;
+    }
+
     // set the state
     m_R3Controller.setState(toEigen(m_kinDyn->getCenterOfMassPosition()),
                             toEigen(m_kinDyn->getCenterOfMassVelocity()));
@@ -226,6 +238,7 @@ bool CoMTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> position,
     bool ok = true;
     ok = ok && m_R3Controller.setDesiredState(position, velocity);
     ok = ok && m_R3Controller.setFeedForward(acceleration);
+    m_isSetPointSetAtLeastOnce = ok;
     return ok;
 }
 

@@ -69,7 +69,8 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
-bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool JointTrackingTask::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointTrackingTask::initialize]";
 
@@ -109,7 +110,8 @@ bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParam
 
     if (m_kp.size() != m_kinDyn->getNrOfDegreesOfFreedom())
     {
-        log()->error("{} The size of the kp gain does not match with the one stored in kinDynComputations object. "
+        log()->error("{} The size of the kp gain does not match with the one stored in "
+                     "kinDynComputations object. "
                      "Expected: {}. Given: {}",
                      errorPrefix,
                      m_kinDyn->getNrOfDegreesOfFreedom(),
@@ -119,7 +121,8 @@ bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParam
 
     if (m_kd.size() != m_kinDyn->getNrOfDegreesOfFreedom())
     {
-        log()->error("{} The size of the kd gain does not match with the one stored in kinDynComputations object. "
+        log()->error("{} The size of the kd gain does not match with the one stored in "
+                     "kinDynComputations object. "
                      "Expected: {}. Given: {}",
                      errorPrefix,
                      m_kinDyn->getNrOfDegreesOfFreedom(),
@@ -149,13 +152,19 @@ bool JointTrackingTask::update()
 
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
-        std::cerr << errorPrefix << " Unable to get the joint position" << std::endl;
+        log()->error("{} Unable to get the joint position", errorPrefix);
         return false;
     }
 
     if (!m_kinDyn->getJointVel(m_jointVelocity))
     {
-        std::cerr << errorPrefix << " Unable to get the joint velocity" << std::endl;
+        log()->error("{} Unable to get the joint velocity", errorPrefix);
+        return false;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("{} The set-point has not been set at least once.", errorPrefix);
         return false;
     }
 
@@ -174,14 +183,14 @@ bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosit
 }
 
 bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity)
+                                    Eigen::Ref<const Eigen::VectorXd> jointVelocity)
 {
     return this->setSetPoint(jointPosition, jointVelocity, m_zero);
 }
 
 bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosition,
-                                     Eigen::Ref<const Eigen::VectorXd> jointVelocity,
-                                     Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
+                                    Eigen::Ref<const Eigen::VectorXd> jointVelocity,
+                                    Eigen::Ref<const Eigen::VectorXd> jointAcceleration)
 {
     constexpr std::string_view errorPrefix = "[JointTrackingTask::setSetpoint] ";
 
@@ -189,17 +198,22 @@ bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosit
         || jointVelocity.size() != m_kinDyn->getNrOfDegreesOfFreedom()
         || jointAcceleration.size() != m_kinDyn->getNrOfDegreesOfFreedom())
     {
-        std::cerr << errorPrefix << "Wrong size of the desired reference trajectory:" << std::endl
-                  << "Expected size: " << m_kinDyn->getNrOfDegreesOfFreedom() << std::endl
-                  << "Joint position size: " << jointPosition.size() << std::endl
-                  << "Joint velocity size: " << jointVelocity.size() << std::endl
-                  << "Joint acceleration size: " << jointAcceleration.size() << std::endl;
+        log()->error("{} Wrong size of the desired reference trajectory. Expected size: {}. "
+                     "Joint position size: {}. Joint velocity size: {}. Joint acceleration size: "
+                     "{}.",
+                     errorPrefix,
+                     m_kinDyn->getNrOfDegreesOfFreedom(),
+                     jointPosition.size(),
+                     jointVelocity.size(),
+                     jointAcceleration.size());
         return false;
     }
 
     m_desiredJointPosition = jointPosition;
     m_desiredJointVelocity = jointVelocity;
     m_desiredJointAcceleration = jointAcceleration;
+
+    m_isSetPointSetAtLeastOnce = true;
 
     return true;
 }

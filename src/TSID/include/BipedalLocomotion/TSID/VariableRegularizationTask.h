@@ -32,6 +32,8 @@ class VariableRegularizationTask : public TSIDLinearTask
     bool m_isValid{false}; /**< True if the task is valid. */
     std::size_t m_variableSize{0}; /**< Size of the regularized variable. */
 
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
+
 public:
     /**
      * Initialize the planner.
@@ -62,6 +64,12 @@ public:
      * @return True in case of success, false otherwise.
      */
     bool setSetPoint(Eigen::Ref<const Eigen::VectorXd> setPoint);
+
+    /**
+     * Update the content of the task.
+     * @return True in case of success, false otherwise.
+     */
+    bool update() override;
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

@@ -203,6 +203,12 @@ bool R3Task::update()
         return m_isValid;
     }
 
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[R3Task::update] The set-point has not been set at least once.");
+        return m_isValid;
+    }
+
     auto getGenericControllerOutput = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
             return controller.getControl().coeffs();
@@ -253,13 +259,15 @@ bool R3Task::update()
     return m_isValid;
 }
 
-bool R3Task::setSetPoint(Eigen::Ref<const Eigen::Vector3d> I_p_F,
-                         Eigen::Ref<const Eigen::Vector3d> velocity, /** = Eigen::Vector3d::Zero() */
-                         Eigen::Ref<const Eigen::Vector3d> acceleration /** = Eigen::Vector3d::Zero()*/)
+bool R3Task::setSetPoint(
+    Eigen::Ref<const Eigen::Vector3d> I_p_F,
+    Eigen::Ref<const Eigen::Vector3d> velocity, /** = Eigen::Vector3d::Zero() */
+    Eigen::Ref<const Eigen::Vector3d> acceleration /** = Eigen::Vector3d::Zero()*/)
 {
     bool ok = true;
     ok = ok && m_R3Controller.setDesiredState(I_p_F, velocity);
     ok = ok && m_R3Controller.setFeedForward(acceleration);
+    m_isSetPointSetAtLeastOnce = ok;
 
     return ok;
 }
