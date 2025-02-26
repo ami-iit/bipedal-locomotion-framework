@@ -196,6 +196,7 @@ bool GravityTask::setFeedForwardVelocityInTargetFrame(
     const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
 {
     m_feedForwardBody = feedforwardVelocity;
+
     return true;
 }
 

@@ -708,8 +708,7 @@ TEST_CASE("QP-IK [With builder]")
 
     auto gravityTask = std::dynamic_pointer_cast<GravityTask>(ik->getTask("GRAVITY_TASK").lock());
     REQUIRE_FALSE(gravityTask == nullptr);
-    REQUIRE(
-        gravityTask->setDesiredGravityDirectionInTargetFrame(desiredSetPoints.desiredBodyGravity));
+    REQUIRE(gravityTask->setSetPoint(desiredSetPoints.desiredBodyGravity));
 
     // propagate the inverse kinematics for
     constexpr std::size_t iterations = 30;
@@ -854,8 +853,7 @@ TEST_CASE("QP-IK [Distance and Gravity tasks]")
 
     REQUIRE(ikTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
 
-    REQUIRE(ikTasks.gravityTask->setDesiredGravityDirectionInTargetFrame(
-        desiredSetPoints.desiredBodyGravity));
+    REQUIRE(ikTasks.gravityTask->setSetPoint(desiredSetPoints.desiredBodyGravity));
 
     // propagate the inverse kinematics for
     constexpr std::size_t iterations = 30;
@@ -988,8 +986,7 @@ TEST_CASE("QP-IK [Distance and Gravity tasks Unconstrained]")
 
     REQUIRE(ikTasks.distanceTask->setDesiredDistance(desiredSetPoints.targetDistance));
 
-    REQUIRE(ikTasks.gravityTask->setDesiredGravityDirectionInTargetFrame(
-        desiredSetPoints.desiredBodyGravity));
+    REQUIRE(ikTasks.gravityTask->setSetPoint(desiredSetPoints.desiredBodyGravity));
 
     // propagate the inverse kinematics for
     constexpr std::size_t iterations = 30;
