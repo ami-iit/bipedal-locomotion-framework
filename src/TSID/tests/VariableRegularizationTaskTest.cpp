@@ -52,7 +52,12 @@ TEST_CASE("Variable Regularization task")
 
         Eigen::VectorXd regularize(elementNames.size());
         regularize.setRandom();
+
+        REQUIRE_FALSE(task.update());
+
         REQUIRE(task.setSetPoint(regularize));
+
+        REQUIRE(task.update());
 
         Eigen::Ref<const Eigen::MatrixXd> A = task.getA();
 

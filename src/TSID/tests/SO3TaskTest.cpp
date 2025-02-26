@@ -89,6 +89,8 @@ TEST_CASE("SO3 Task")
             const auto desiredVelocity = manif::SO3d::Tangent::Random();
             const auto desiredAcceleration = manif::SO3d::Tangent::Random();
 
+            REQUIRE_FALSE(task.update());
+
             REQUIRE(task.setSetPoint(desiredOrientation, desiredVelocity, desiredAcceleration));
 
             REQUIRE(task.update());

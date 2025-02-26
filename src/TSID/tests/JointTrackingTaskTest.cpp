@@ -89,6 +89,8 @@ TEST_CASE("Joint Regularization task")
             REQUIRE(task.initialize(parameterHandler));
             REQUIRE(task.setVariablesHandler(variablesHandler));
 
+            REQUIRE_FALSE(task.update());
+
             REQUIRE(task.setSetPoint(Eigen::VectorXd::Zero(model.getNrOfDOFs()),
                                      Eigen::VectorXd::Zero(model.getNrOfDOFs()),
                                      feedforwardDesiredJointAcc));

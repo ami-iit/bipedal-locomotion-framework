@@ -100,6 +100,9 @@ TEST_CASE("Angular momentum task")
                 REQUIRE(task.setKinDyn(kinDyn));
                 REQUIRE(task.initialize(parameterHandler));
                 REQUIRE(task.setVariablesHandler(variablesHandler));
+
+                REQUIRE_FALSE(task.update());
+
                 REQUIRE(task.setSetPoint(desiredAngularMomentum, //
                                          desiredAngularMomentumRateOfChange));
                 REQUIRE(task.update());
