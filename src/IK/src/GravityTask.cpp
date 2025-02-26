@@ -189,6 +189,7 @@ bool GravityTask::setDesiredGravityDirectionInTargetFrame(
 {
     m_desiredZDirectionBody = desiredGravityDirection;
     m_desiredZDirectionBody.normalize();
+    m_isSetPointSetAtLeastOnce = true;
     return true;
 }
 
@@ -196,7 +197,7 @@ bool GravityTask::setFeedForwardVelocityInTargetFrame(
     const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity)
 {
     m_feedForwardBody = feedforwardVelocity;
-
+    m_isSetPointSetAtLeastOnce = true;
     return true;
 }
 
