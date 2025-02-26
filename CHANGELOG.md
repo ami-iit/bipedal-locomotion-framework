@@ -9,10 +9,12 @@ All notable changes to this project are documented in this file.
 - Add `getCurrentTime` to the `FixedFootDetector` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/928)
 - Add the possibility to easily disable/enable the rt logging in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/932)
 - Enable Programmatic Creation of `VariableRegularizationTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/934)
+- Check if the setpoint has been set at least once in TSID and IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
+- Remove the possibility of setting the desired gravity direction and desired forward velocity separately in the `IK::GravityTrask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
