@@ -52,6 +52,7 @@ class AccelerometerMeasurementDynamics : public Dynamics
                                                               containa the accelerometer. */
     UKFInput m_ukfInput; /**< Input of the UKF used to update the dynamics. */
     std::string m_name; /**< Name of dynamics. */
+    std::string m_accName; /**< Name of the accelerometer variable in the state vector. */
     System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables
                                                         and the sizes in the ukf state vector. */
     Eigen::VectorXd m_covSingleVar; /**< Covariance of the accelerometer measurement from

@@ -8,7 +8,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <iCubModels/iCubModels.h>
+#include <ResolveRoboticsURICpp.h>
 #include <yarp/os/ResourceFinder.h>
 
 #include <iDynTree/KinDynComputations.h>
@@ -34,7 +34,11 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
+    std::optional<std::string> pathTemp = ResolveRoboticsURICpp::resolveRoboticsURI("package://ergoCub/robots/ergoCubSN000/model.urdf");
+    REQUIRE(pathTemp.has_value());
+
+    std::string modelPath = pathTemp.value();
+    BipedalLocomotion::log()->info("Model path {}", modelPath);
 
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
@@ -251,7 +255,7 @@ TEST_CASE("Gyroscope Measurement Dynamics")
     covariance << 2.3e-3, 1.9e-3, 1.8e-3;
     const std::string model = "GyroscopeMeasurementDynamics";
     const bool useBias = true;
-    gyroHandler->setParameter("name", name);
+    gyroHandler->setParameter("variable_name", name);
     gyroHandler->setParameter("covariance", covariance);
     gyroHandler->setParameter("dynamic_model", model);
     gyroHandler->setParameter("use_bias", useBias);

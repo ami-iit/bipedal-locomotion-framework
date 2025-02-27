@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/Math/Wrench.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
@@ -191,11 +190,16 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
         dynamicsGroup->setParameter("sampling_time", state->m_dT);
 
         // create variable handler
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
-            log()->error("{} Unable to find the parameter 'input_name'.", logPrefix);
+            log()->error("{} Unable to find the parameter 'variable_name'.", logPrefix);
             return nullptr;
+        }
+        std::string sensorType;
+        if (!dynamicsGroup->getParameter("sensor_type", sensorType))
+        {
+            sensorType = "none";
         }
         std::vector<double> covariances;
         if (!dynamicsGroup->getParameter("covariance", covariances))
@@ -203,12 +207,17 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
             log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
             return nullptr;
         }
-        if (!dynamicsGroup->getParameter("initial_covariance", covariances))
+        std::vector<double> initialCovariances;
+        if (!dynamicsGroup->getParameter("initial_covariance", initialCovariances))
         {
             log()->error("{} Unable to find the parameter 'initial_covariance'.", logPrefix);
             return nullptr;
         }
-        state->m_stateVariableHandler.addVariable(dynamicsGroupName, covariances.size());
+        if (!state->m_stateVariableHandler.addVariable(dynamicsGroupName, covariances.size()))
+        {
+            log()->error("{} Unable to add the variable named '{}'.", logPrefix, dynamicsGroupName);
+            return nullptr;
+        }
 
         std::string dynamicModel;
         if (!dynamicsGroup->getParameter("dynamic_model", dynamicModel))
@@ -236,7 +245,8 @@ RDE::UkfState::build(std::weak_ptr<const ParametersHandler::IParametersHandler> 
         // add dynamics to the list
         state->m_dynamicsList.emplace_back(dynamicsGroupName, dynamicsInstance);
 
-        state->m_stateToUkfNames[inputName] = dynamicsGroupName;
+        std::pair<std::string, std::string> key = std::make_pair(variableName, sensorType);
+        state->m_variableNameToUkfState[key] = dynamicsGroupName;
     }
 
     // finalize estimator
