@@ -103,6 +103,13 @@ jobs:
         cd build
         ctest --output-on-failure -C ${{ matrix.build_type }}
 
+    - name: Install and test installed package [Linux&macOS]
+      shell: bash -l {0}
+      run: |
+        cd build
+        cmake --install . --config ${{ matrix.build_type }}
+        cmake-package-check BipedalLocomotionFramework --targets BipedalLocomotion::Framework
+
     - name: Configure [Windows]
       if: contains(matrix.os, 'windows')
       shell: cmd /C call {0}
@@ -125,8 +132,8 @@ jobs:
         cd build
         ctest --output-on-failure -C ${{ matrix.build_type }}
 
-    - name: Install and test installed package
-      shell: bash -l {0}
+    - name: Install and test installed package [Windows]
+      shell: cmd /C call {0}
       run: |
         cd build
         cmake --install . --config ${{ matrix.build_type }}
