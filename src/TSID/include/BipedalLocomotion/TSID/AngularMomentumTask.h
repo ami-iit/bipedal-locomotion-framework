@@ -60,6 +60,7 @@ class AngularMomentumTask : public TSIDLinearTask
                                                                object */
 
     LieGroupControllers::ProportionalControllerR3d m_R3Controller; /**< Controller in R3 */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
 
 public:
     /**

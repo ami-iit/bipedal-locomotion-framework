@@ -48,6 +48,7 @@ class JointTrackingTask : public IKLinearTask
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
 public:
     /**
      * Initialize the task.

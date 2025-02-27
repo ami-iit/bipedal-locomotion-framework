@@ -162,6 +162,18 @@ bool AngularMomentumTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("[AngularMomentumTask::update] The task is not initialized.");
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[AngularMomentumTask::update] The set-point has not been set at least once.");
+        return m_isValid;
+    }
+
     // update the control law
     m_R3Controller.setState(iDyn::toEigen(m_kinDyn->getCentroidalTotalMomentum().getAngularVec3()));
     m_R3Controller.computeControlLaw();
@@ -185,6 +197,8 @@ bool AngularMomentumTask::setSetPoint(Eigen::Ref<const Eigen::Vector3d> angularM
 {
     bool ok = m_R3Controller.setFeedForward(angularMomentumDerivative);
     ok = ok && m_R3Controller.setDesiredState(angularMomentum);
+
+    m_isSetPointSetAtLeastOnce = ok;
     return ok;
 }
 

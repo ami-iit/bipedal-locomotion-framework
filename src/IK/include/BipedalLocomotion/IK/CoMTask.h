@@ -72,6 +72,8 @@ class CoMTask : public IKLinearTask
     std::size_t m_DoFs{m_linearVelocitySize}; /**< DoFs associated to the task */
 
     Eigen::MatrixXd m_jacobian; /**< CoM Jacobian matrix in MIXED representation */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set-point has been set at least once */
+
 public:
     /**
      * Initialize the task.

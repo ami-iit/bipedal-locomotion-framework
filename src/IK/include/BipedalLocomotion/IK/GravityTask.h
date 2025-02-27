@@ -125,6 +125,7 @@ class GravityTask : public IKLinearTask
     Eigen::MatrixXd m_bm; /**< Matrix filtering acceleration. */
 
     iDynTree::FrameIndex m_targetFrameIndex; /**< Index of the target frame. */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set-point has been set at least once */
 
 public:
     // clang-format off
@@ -170,25 +171,6 @@ public:
     bool update() override;
 
     /**
-     * @brief Set the desired gravity direction expressed the target frame.
-     * @param desiredGravityDirection The desired gravity direction.
-     * @return True in case of success, false otherwise.
-     *
-     * The input is normalized, unless the norm is too small.
-     */
-    bool setDesiredGravityDirectionInTargetFrame(
-        const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection);
-
-    /**
-     * @brief Set the feedforward angular velocity expressed in the target frame.
-     * @param feedforwardVelocity The desired feedforward velocity in rad/s.
-     * @return True in case of success, false otherwise.
-     * Only the first two components are used.
-     */
-    bool
-    setFeedForwardVelocityInTargetFrame(const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity);
-
-    /**
      * @brief Set the desired gravity direction expressed the target frame and the feedforward
      * velocity.
      * @param desiredGravityDirection The desired gravity direction in target frame.
@@ -204,6 +186,27 @@ public:
     bool setSetPoint(const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection,
                      const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity
                      = Eigen::Vector3d::Zero());
+
+   /**
+     * @brief Set the desired gravity direction expressed the target frame.
+     * @param desiredGravityDirection The desired gravity direction.
+     * @return True in case of success, false otherwise.
+     *
+     * The input is normalized, unless the norm is too small.
+     */
+    [[deprecated("Use setSetPoint instead")]]
+    bool setDesiredGravityDirectionInTargetFrame(
+        const Eigen::Ref<const Eigen::Vector3d> desiredGravityDirection);
+
+    /**
+     * @brief Set the feedforward angular velocity expressed in the target frame.
+     * @param feedforwardVelocity The desired feedforward velocity in rad/s.
+     * @return True in case of success, false otherwise.
+     * Only the first two components are used.
+     */
+    [[deprecated("Use setSetPoint instead")]]
+    bool setFeedForwardVelocityInTargetFrame( //
+        const Eigen::Ref<const Eigen::Vector3d> feedforwardVelocity);
 
     /**
      * Get the size of the task. (I.e the number of rows of the vector b)

@@ -238,6 +238,12 @@ bool SE3Task::update()
         return m_isValid;
     }
 
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("[SE3Task::update] The set-point has not been set at least once.");
+        return m_isValid;
+    }
+
     auto getGenericControllerOutput = [&](const auto& controller) {
         if (m_controllerMode == Mode::Enable)
             return controller.getControl().coeffs();
@@ -316,6 +322,8 @@ bool SE3Task::setSetPoint(const manif::SE3d& I_H_F,
 
     ok = ok && m_SO3Controller.setDesiredState(I_H_F.quat(), mixedVelocity.ang());
     ok = ok && m_SO3Controller.setFeedForward(mixedAcceleration.ang());
+
+    m_isSetPointSetAtLeastOnce = ok;
 
     return ok;
 }

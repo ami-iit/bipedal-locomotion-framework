@@ -38,7 +38,6 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
         return false;
     }
 
-
     if (!variablesHandler.getVariable(m_robotVelocityVariableName, robotVelocityVariable))
     {
         log()->error("{} Error while retrieving the robot velocity variable.", errorPrefix);
@@ -55,7 +54,6 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
         return false;
     }
 
-
     // resize the matrices
     m_A.resize(m_kinDyn->getNrOfDegreesOfFreedom(), variablesHandler.getNumberOfVariables());
     m_A.setZero();
@@ -71,7 +69,8 @@ bool JointTrackingTask::setVariablesHandler(const System::VariablesHandler& vari
     return true;
 }
 
-bool JointTrackingTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool JointTrackingTask::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[JointTrackingTask::initialize] ";
 
@@ -131,6 +130,18 @@ bool JointTrackingTask::update()
 
     m_isValid = false;
 
+    if (!m_isInitialized)
+    {
+        log()->error("{} The task is not initialized. Please call initialize method.", errorPrefix);
+        return m_isValid;
+    }
+
+    if (!m_isSetPointSetAtLeastOnce)
+    {
+        log()->error("{} The set point has not been set at least once.", errorPrefix);
+        return m_isValid;
+    }
+
     if (!m_kinDyn->getJointPos(m_jointPosition))
     {
         log()->error("{} Unable to get the joint position.", errorPrefix);
@@ -167,6 +178,8 @@ bool JointTrackingTask::setSetPoint(Eigen::Ref<const Eigen::VectorXd> jointPosit
 
     m_desiredJointPosition = jointPosition;
     m_desiredJointVelocity = jointVelocity;
+
+    m_isSetPointSetAtLeastOnce = true;
 
     return true;
 }

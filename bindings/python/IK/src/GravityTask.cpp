@@ -29,12 +29,6 @@ void CreateGravityTask(pybind11::module& module)
 
     py::class_<GravityTask, std::shared_ptr<GravityTask>, IKLinearTask>(module, "GravityTask")
         .def(py::init())
-        .def("set_desired_gravity_direction_in_target_frame",
-             &GravityTask::setDesiredGravityDirectionInTargetFrame,
-             py::arg("desired_gravity_direction"))
-        .def("set_feedforward_velocity_in_target_frame",
-             &GravityTask::setFeedForwardVelocityInTargetFrame,
-             py::arg("feedforward_velocity"))
         .def("set_set_point",
              &GravityTask::setSetPoint,
              py::arg("desired_gravity_direction"),

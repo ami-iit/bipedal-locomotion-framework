@@ -64,6 +64,7 @@ class DistanceTask : public IKLinearTask
     double m_computedDistance{0.0}; /**< Computed distance. */
     double m_distanceNumericThreshold{0.001}; /**< Numeric threshold when inverting the computed
                                                  distance in the Jacobian computation. */
+    bool m_isSetPointSetAtLeastOnce{false}; /**< True if the set point has been set at least once. */
 
 public:
     // clang-format off

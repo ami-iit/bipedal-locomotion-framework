@@ -88,6 +88,8 @@ TEST_CASE("Distance task")
             desiredDirection.normalize();
             Eigen::Vector3d feedforward({0.1, 0.2, 0.3});
 
+            REQUIRE_FALSE(task.update());
+
             REQUIRE(task.setSetPoint(desiredDirection, feedforward));
 
             REQUIRE(task.update());

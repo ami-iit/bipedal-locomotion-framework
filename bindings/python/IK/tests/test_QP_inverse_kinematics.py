@@ -256,9 +256,7 @@ def test_gravity_task():
     assert gravity_task.set_variables_handler(variables_handler=gravity_task_var_handler)
 
     # Set desired distance
-    assert gravity_task.set_desired_gravity_direction_in_target_frame(desired_gravity_direction=[np.random.uniform(-0.5,0.5) for _ in range(3)])
-    assert gravity_task.set_feedforward_velocity_in_target_frame(feedforward_velocity=[np.random.uniform(-0.5,0.5) for _ in range(3)])
-    assert gravity_task.set_set_point(desired_gravity_direction=[np.random.uniform(-0.5,0.5) for _ in range(3)])
+    assert gravity_task.set_set_point(desired_gravity_direction=[np.random.uniform(-0.5,0.5) for _ in range(3)], feedforward_velocity=[np.random.uniform(-0.5,0.5) for _ in range(3)])
 
 def test_joint_velocity_limits_task():
 
