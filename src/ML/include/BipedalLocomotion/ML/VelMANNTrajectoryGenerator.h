@@ -64,7 +64,7 @@ struct VelMANNTrajectoryGeneratorOutput
  * class in that the input and output features of the learned model are velocity-based rather than
  * position-based. The postprocessing, using the 3D velocity output features of the learned model, allows
  * more modularity in the trajectory generation. More details are available in the paper mentioned below.
- * @subsection mann_trajectory_generator VelMANN trajectory generator
+ * @subsection velmann_trajectory_generator VelMANN trajectory generator
  * The diagram illustrates the utilization of the VelMANNAutoregressive within the
  * VelMANNTrajectoryGenerator class.
  * To initialize the generator, the user needs to set the initial
