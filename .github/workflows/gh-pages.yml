@@ -33,7 +33,7 @@ jobs:
           conda config --remove channels defaults
 
           # Dependencies
-          conda install python==3.12.* doxygen=1.9.1 toml pygments docutils jinja2
+          conda install python==3.12.* doxygen=1.9.1 toml pygments==2.18.* docutils jinja2
 
       - name: Fetch m.css
         shell: bash -l {0}
@@ -41,7 +41,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}
           git clone https://github.com/mosra/m.css.git
           cd m.css
-          git checkout 4bf4ddade48717ffabbdc6a1fd7ed15a75f9bec3
+          git checkout 6838b947a3cfae7bfe6040c934ad5bec62b6242d
 
       - name: Build docs
         shell: bash -l {0}
