@@ -104,6 +104,7 @@ jobs:
         ctest --output-on-failure -C ${{ matrix.build_type }}
 
     - name: Install and test installed package [Linux&macOS]
+      if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
         cd build
@@ -133,6 +134,7 @@ jobs:
         ctest --output-on-failure -C ${{ matrix.build_type }}
 
     - name: Install and test installed package [Windows]
+      if: contains(matrix.os, 'windows')
       shell: cmd /C call {0}
       run: |
         cd build
