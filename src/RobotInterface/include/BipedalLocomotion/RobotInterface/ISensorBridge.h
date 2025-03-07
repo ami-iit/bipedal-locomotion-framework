@@ -45,6 +45,7 @@ struct SensorBridgeOptions
     bool isPIDsEnabled{false}; /** flag to connect pid position measurement sources */
     bool isMotorSensorsEnabled{false}; /** flag to connect motor measurement sources */
     bool isPWMControlEnabled{false}; /** flag to connect PWM measurement sources */
+    bool isMotorTemperatureSensorEnabled{false}; /** flag to connect motor temperature measurement sources */
 
     bool isTemperatureSensorEnabled{false}; /** flag to connect temperature measurement sources */
 
@@ -712,6 +713,35 @@ public:
      */
     virtual bool getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAccelerations,
                                        OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get motor temperature in degrees celsius
+     * @param[out] motorTemperature motor temperature in degrees celsius
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @warning the size is decided at the configuration and remains fixed,
+     * and internal checks must be done at the implementation level by the Derived class.
+     * This means that the user must pass a resized argument "motorTemperatures" to this method
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorTemperatures(Eigen::Ref<Eigen::VectorXd> motorTemperatures,
+                                       OptionalDoubleRef receiveTimeInSeconds = {})
+    {
+        return false;
+    };
+
+    /**
+     * Get motor temperature in degrees celsius
+     * @param[in] jointName name of the joint
+     * @param[out] motorTemperature motor temperature in degrees celsius
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     */
+    virtual bool getMotorTemperature(const std::string& jointName,
+                                     double& motorTemperature,
+                                     OptionalDoubleRef receiveTimeInSeconds = {})
     {
         return false;
     };

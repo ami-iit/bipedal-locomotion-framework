@@ -48,6 +48,15 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
         log()->info("{} Joint accelerations will not be streamed.", logPrefix);
     }
 
+    if (!ptr->getParameter("stream_motor_temperature", m_pimpl->metaData.bridgeOptions.isMotorTemperatureSensorEnabled))
+    {
+        log()->info("{} Unable to get stream_motor_temperature. Set to false by default", logPrefix);
+    }
+    if (!m_pimpl->metaData.bridgeOptions.isMotorTemperatureSensorEnabled)
+    {
+        log()->info("{} Motor temperature sensors will not be streamed.", logPrefix);
+    }
+
     bool ret{true};
     ret = m_pimpl->subConfigLoader("stream_joint_states",
                                    "RemoteControlBoardRemapper",
@@ -437,6 +446,14 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
     {
         return false;
     }
+
+    if (jointVelocties.size() != m_pimpl->controlBoardRemapperMeasures.jointVelocities.size())
+    {
+        log()->error("[YarpSensorBridge::getJointVelocities] Joint velocities and positions have "
+                     "different sizes.");
+        return false;
+    }
+
     jointVelocties = m_pimpl->controlBoardRemapperMeasures.jointVelocities;
 
     if (receiveTimeInSeconds)
@@ -498,6 +515,14 @@ bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAc
     {
         return false;
     }
+
+    if (jointAccelerations.size()
+        != m_pimpl->controlBoardRemapperMeasures.jointAccelerations.size())
+    {
+        log()->error("{} Joint accelerations and positions have different sizes.", logPrefix);
+        return false;
+    }
+
     jointAccelerations = m_pimpl->controlBoardRemapperMeasures.jointAccelerations;
     if (receiveTimeInSeconds)
     {
@@ -716,6 +741,13 @@ bool YarpSensorBridge::getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrent
         return false;
     }
 
+    if (motorCurrents.size() != m_pimpl->controlBoardRemapperMeasures.motorCurrents.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorCurrents] The size of the input vector does not "
+                     "match the number of motor currents.");
+        return false;
+    }
+
     motorCurrents = m_pimpl->controlBoardRemapperMeasures.motorCurrents;
 
     if (receiveTimeInSeconds)
@@ -763,6 +795,13 @@ bool YarpSensorBridge::getMotorPWMs(Eigen::Ref<Eigen::VectorXd> motorPWMs,
                                           m_pimpl->metaData.bridgeOptions.isPWMControlEnabled,
                                           m_pimpl->controlBoardRemapperMeasures.motorPWMs))
     {
+        return false;
+    }
+
+    if (motorPWMs.size() != m_pimpl->controlBoardRemapperMeasures.motorPWMs.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorPWMs] The size of the input vector does not match "
+                     "the number of motor PWMs.");
         return false;
     }
 
@@ -816,6 +855,13 @@ bool YarpSensorBridge::getJointTorques(Eigen::Ref<Eigen::VectorXd> jointTorques,
         return false;
     }
 
+    if (jointTorques.size() != m_pimpl->controlBoardRemapperMeasures.jointTorques.size())
+    {
+        log()->error("[YarpSensorBridge::getJointTorques] The size of the input vector does not "
+                     "match the number of joint torques.");
+        return false;
+    }
+
     jointTorques = m_pimpl->controlBoardRemapperMeasures.jointTorques;
 
     if (receiveTimeInSeconds)
@@ -863,6 +909,13 @@ bool YarpSensorBridge::getPidPositions(Eigen::Ref<Eigen::VectorXd> pidPositions,
                                           m_pimpl->metaData.bridgeOptions.isPIDsEnabled,
                                           m_pimpl->controlBoardRemapperMeasures.pidPositions))
     {
+        return false;
+    }
+
+    if (pidPositions.size() != m_pimpl->controlBoardRemapperMeasures.pidPositions.size())
+    {
+        log()->error("[YarpSensorBridge::getPidPositions] The size of the input vector does not "
+                     "match the number of pid positions.");
         return false;
     }
 
@@ -917,6 +970,13 @@ bool YarpSensorBridge::getPidPositionErrors(Eigen::Ref<Eigen::VectorXd> pidPosit
         return false;
     }
 
+    if (pidPositionErrors.size() != m_pimpl->controlBoardRemapperMeasures.pidPositionErrors.size())
+    {
+        log()->error("[YarpSensorBridge::getPidPositionErrors] The size of the input vector does "
+                     "not match the number of pid position errors.");
+        return false;
+    }
+
     pidPositionErrors = m_pimpl->controlBoardRemapperMeasures.pidPositionErrors;
 
     if (receiveTimeInSeconds)
@@ -964,6 +1024,13 @@ bool YarpSensorBridge::getMotorPositions(Eigen::Ref<Eigen::VectorXd> motorPositi
                                           m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
                                           m_pimpl->controlBoardRemapperMeasures.motorPositions))
     {
+        return false;
+    }
+
+    if (motorPositions.size() != m_pimpl->controlBoardRemapperMeasures.motorPositions.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorPositions] The size of the input vector does not "
+                     "match the number of motor positions.");
         return false;
     }
 
@@ -1017,6 +1084,13 @@ bool YarpSensorBridge::getMotorVelocities(Eigen::Ref<Eigen::VectorXd> motorVeloc
         return false;
     }
 
+    if (motorVelocties.size() != m_pimpl->controlBoardRemapperMeasures.motorVelocities.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorVelocities] The size of the input vector does not "
+                     "match the number of motor velocities.");
+        return false;
+    }
+
     motorVelocties = m_pimpl->controlBoardRemapperMeasures.motorVelocities;
 
     if (receiveTimeInSeconds)
@@ -1067,8 +1141,71 @@ bool YarpSensorBridge::getMotorAccelerations(Eigen::Ref<Eigen::VectorXd> motorAc
         return false;
     }
 
+    if (motorAccelerations.size()
+        != m_pimpl->controlBoardRemapperMeasures.motorAccelerations.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorAccelerations] The size of the input vector does "
+                     "not match the number of motor accelerations.");
+        return false;
+    }
+
     motorAccelerations = m_pimpl->controlBoardRemapperMeasures.motorAccelerations;
 
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorTemperature(const std::string& jointName,
+                                           double& motorTorque,
+                                           OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorTorque]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motor,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorTemperatures))
+    {
+        return false;
+    }
+
+    int idx;
+    if (!m_pimpl->getIndexFromVector(m_pimpl->metaData.sensorsList.jointsList, jointName, idx))
+    {
+        log()->error("[YarpSensorBridge::getMotorTorque] {} could not be found in the configured "
+                     "list of motors.",
+                     jointName);
+        return false;
+    }
+
+    motorTorque = m_pimpl->controlBoardRemapperMeasures.motorTemperatures[idx];
+    if (receiveTimeInSeconds)
+        receiveTimeInSeconds.value().get()
+            = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
+
+    return true;
+}
+
+bool YarpSensorBridge::getMotorTemperatures(Eigen::Ref<Eigen::VectorXd> motorTemperatures,
+                                            OptionalDoubleRef receiveTimeInSeconds)
+{
+    if (!m_pimpl->checkControlBoardSensor("[YarpSensorBridge::getMotorTemperatures]",
+                                          m_pimpl->controlBoardRemapperInterfaces.motor,
+                                          m_pimpl->metaData.bridgeOptions.isMotorSensorsEnabled,
+                                          m_pimpl->controlBoardRemapperMeasures.motorTemperatures))
+    {
+        return false;
+    }
+
+    if (motorTemperatures.size() != m_pimpl->controlBoardRemapperMeasures.motorTemperatures.size())
+    {
+        log()->error("[YarpSensorBridge::getMotorTemperatures] The size of the input vector does "
+                     "not match the number of motor temperatures.");
+        return false;
+    }
+
+    motorTemperatures = m_pimpl->controlBoardRemapperMeasures.motorTemperatures;
     if (receiveTimeInSeconds)
         receiveTimeInSeconds.value().get()
             = m_pimpl->controlBoardRemapperMeasures.receivedTimeInSeconds;
