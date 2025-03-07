@@ -611,6 +611,17 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
         log()->info("{} The joint accelerations is not logged", logPrefix);
     }
 
+    if (!ptr->getParameter("stream_motor_temperature", m_streamMotorTemperature))
+    {
+        log()->info("{} The 'stream_motor_temperature' parameter is not found. The motor "
+                    "temperature is not logged",
+                    logPrefix);
+    }
+    if (!m_streamMotorTemperature)
+    {
+        log()->info("{} The motor temperature is not logged", logPrefix);
+    }
+
     if (!ptr->getParameter("stream_motor_states", m_streamMotorStates))
     {
         log()->info("{} The 'stream_motor_states' parameter is not found. The motor states is not "
@@ -822,6 +833,10 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         ok = ok && addChannel(motorStateVelocitiesName, joints.size(), joints);
         ok = ok && addChannel(motorStateAccelerationsName, joints.size(), joints);
         ok = ok && addChannel(motorStateCurrentsName, joints.size(), joints);
+        if (m_streamMotorTemperature)
+        {
+            ok = ok && addChannel(motorStateTemperaturesName, joints.size(), joints);
+        }
     }
 
     if (m_streamMotorPWM)
@@ -1579,6 +1594,14 @@ void YarpRobotLoggerDevice::run()
         if (m_robotSensorBridge->getMotorCurrents(m_jointSensorBuffer))
         {
             logData(motorStateCurrentsName, m_jointSensorBuffer, time);
+        }
+
+        if (m_streamMotorTemperature)
+        {
+            if (m_robotSensorBridge->getMotorTemperatures(m_jointSensorBuffer))
+            {
+                logData(motorStateTemperaturesName, m_jointSensorBuffer, time);
+            }
         }
     }
 

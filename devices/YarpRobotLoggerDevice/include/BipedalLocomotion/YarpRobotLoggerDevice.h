@@ -168,6 +168,7 @@ private:
     bool m_streamMotorStates{false};
     bool m_streamJointStates{false};
     bool m_streamJointAccelerations{true};
+    bool m_streamMotorTemperature{false};
     bool m_streamMotorPWM{false};
     bool m_streamPIDs{false};
     bool m_streamInertials{false};
@@ -226,6 +227,7 @@ private:
     const std::string motorStateVelocitiesName = "motors_state::velocities";
     const std::string motorStateAccelerationsName = "motors_state::accelerations";
     const std::string motorStateCurrentsName = "motors_state::currents";
+    const std::string motorStateTemperaturesName = "motors_state::temperatures";
     const std::string motorStatePwmName = "motors_state::PWM";
 
     const std::string motorStatePidsName = "PIDs";
