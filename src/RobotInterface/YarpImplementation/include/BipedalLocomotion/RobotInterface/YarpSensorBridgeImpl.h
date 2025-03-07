@@ -25,8 +25,8 @@
 #include <yarp/dev/IAnalogSensor.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IGenericSensor.h>
-#include <yarp/dev/IMotorEncoders.h>
 #include <yarp/dev/IMotor.h>
+#include <yarp/dev/IMotorEncoders.h>
 #include <yarp/dev/IPidControl.h>
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
@@ -66,7 +66,7 @@ struct YarpSensorBridge::Impl
         yarp::dev::ICurrentControl* currsensors{nullptr};
         yarp::dev::ITorqueControl* torques{nullptr};
         yarp::dev::IMotorEncoders* motorEncoders{nullptr};
-        yarp::dev::IMotor* motor{nullptr};        
+        yarp::dev::IMotor* motor{nullptr};
         yarp::dev::IPidControl* pids{nullptr};
         yarp::dev::IAmplifierControl* amp{nullptr};
     };
