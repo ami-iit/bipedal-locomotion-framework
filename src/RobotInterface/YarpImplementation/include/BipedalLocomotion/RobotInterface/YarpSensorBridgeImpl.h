@@ -25,6 +25,7 @@
 #include <yarp/dev/IAnalogSensor.h>
 #include <yarp/dev/ICurrentControl.h>
 #include <yarp/dev/IGenericSensor.h>
+#include <yarp/dev/IMotor.h>
 #include <yarp/dev/IMotorEncoders.h>
 #include <yarp/dev/IPidControl.h>
 #include <yarp/dev/ITorqueControl.h>
@@ -65,6 +66,7 @@ struct YarpSensorBridge::Impl
         yarp::dev::ICurrentControl* currsensors{nullptr};
         yarp::dev::ITorqueControl* torques{nullptr};
         yarp::dev::IMotorEncoders* motorEncoders{nullptr};
+        yarp::dev::IMotor* motor{nullptr};
         yarp::dev::IPidControl* pids{nullptr};
         yarp::dev::IAmplifierControl* amp{nullptr};
     };
@@ -124,6 +126,7 @@ struct YarpSensorBridge::Impl
         Eigen::VectorXd pidPositions;
         Eigen::VectorXd pidPositionErrors;
         Eigen::VectorXd motorPWMs;
+        Eigen::VectorXd motorTemperatures;
 
         Eigen::VectorXd jointPositionsUnordered;
         Eigen::VectorXd jointVelocitiesUnordered;
@@ -133,6 +136,7 @@ struct YarpSensorBridge::Impl
         Eigen::VectorXd motorPositionsUnordered;
         Eigen::VectorXd motorVelocitiesUnordered;
         Eigen::VectorXd motorAccelerationsUnordered;
+        Eigen::VectorXd motorTemperaturesUnordered;
         Eigen::VectorXd pidPositionsUnordered;
         Eigen::VectorXd pidPositionErrorsUnordered;
         Eigen::VectorXd motorPWMsUnordered;
@@ -981,6 +985,7 @@ struct YarpSensorBridge::Impl
         bool okPWM = !metaData.bridgeOptions.isPWMControlEnabled;
         bool okMotorsSensor = !metaData.bridgeOptions.isMotorSensorsEnabled;
         bool okPID = !metaData.bridgeOptions.isPIDsEnabled;
+        bool okMotorTemperature = !metaData.bridgeOptions.isMotorTemperatureSensorEnabled;
 
         for (int devIdx = 0; devIdx < devList.size(); devIdx++)
         {
@@ -1011,7 +1016,13 @@ struct YarpSensorBridge::Impl
                 okPID = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.pids);
             }
 
-            if (okPID && okJointsSensor && okMotorsSensor && okPWM)
+            if (!okMotorTemperature && metaData.bridgeOptions.isMotorTemperatureSensorEnabled)
+            {
+                okMotorTemperature
+                    = devList[devIdx]->poly->view(controlBoardRemapperInterfaces.motor);
+            }
+
+            if (okPID && okJointsSensor && okMotorsSensor && okPWM && okMotorTemperature)
             {
                 if (!compareControlBoardJointsList())
                 {
@@ -1092,6 +1103,18 @@ struct YarpSensorBridge::Impl
 
             // zero buffers
             controlBoardRemapperMeasures.motorPWMs.setZero();
+        }
+
+        if (metaData.bridgeOptions.isMotorTemperatureSensorEnabled)
+        {
+            // firstly resize all the controlboard data buffers
+            controlBoardRemapperMeasures.motorTemperatures.resize(metaData.bridgeOptions.nrJoints);
+
+            controlBoardRemapperMeasures.motorTemperaturesUnordered.resize(
+                metaData.bridgeOptions.nrJoints);
+
+            // zero buffers
+            controlBoardRemapperMeasures.motorTemperatures.setZero();
         }
 
         if (metaData.bridgeOptions.isMotorSensorsEnabled)
@@ -1724,6 +1747,34 @@ struct YarpSensorBridge::Impl
             } else
             {
                 log()->error("{} Unable to read from ICurrentControl interface, use previous "
+                             "measurement.",
+                             logPrefix);
+            }
+        }
+
+        if (controlBoardRemapperInterfaces.motor)
+        {
+            ok = controlBoardRemapperInterfaces.motor->getTemperatures(
+                controlBoardRemapperMeasures.motorTemperaturesUnordered.data());
+
+            if (ok)
+            {
+                if (checkForNan)
+                {
+                    if (nanExistsInVec(controlBoardRemapperMeasures.motorTemperaturesUnordered,
+                                       logPrefix,
+                                       "MotorTemperatures"))
+                    {
+                        return false;
+                    }
+                }
+
+                controlBoardRemapperMeasures.motorTemperatures.noalias()
+                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
+                      * controlBoardRemapperMeasures.motorTemperaturesUnordered;
+            } else
+            {
+                log()->error("{} Unable to read from IMotorTemperature interface, use previous "
                              "measurement.",
                              logPrefix);
             }

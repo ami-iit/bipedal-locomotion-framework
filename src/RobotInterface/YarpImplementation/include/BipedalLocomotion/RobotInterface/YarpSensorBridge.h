@@ -60,6 +60,8 @@ namespace RobotInterface
  * |                            |stream_motor_states              | boolean           |Flag to activate the attachment to remapped control boards for motor states reading      |
  * |                            |stream_motor_PWM                 | boolean           |Flag to activate the attachment to remapped control boards for PWM reading      |
  * |                            |stream_temperatures              | boolean           |Flag to activate the attachment to MAS temperature sensors      |
+ * |                            |stream_joint_accelerations       | boolean           |Flag to activate the attachment to joint accelerations from encoders      |
+ * |                            |stream_motor_temperature         | boolean           |Flag to activate the attachment to motor temperature sensors      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects IMU to be opened as genericSensorClient devices communicating through the inertial server and other inertials as a part multiple analog sensors remapper ("multipleanalogsensorsremapper") |
@@ -417,6 +419,32 @@ public:
      */
     bool getMotorCurrents(Eigen::Ref<Eigen::VectorXd> motorCurrents,
                           OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+
+    /**
+     * Get motor temperature in degrees celsius
+      * @param[out] motorTemperature motor temperature in degrees celsius
+      * @param[out] receiveTimeInSeconds time at which the measurement was received
+      * @warning the size is decided at the configuration and remains fixed,
+      * and internal checks must be done at the implementation level by the Derived class.
+      * This means that the user must pass a resized argument "motorTemperatures" to this method
+      * @return true/false in case of success/failure
+      */
+    bool getMotorTemperatures(Eigen::Ref<Eigen::VectorXd> motorTemperatures,
+                              OptionalDoubleRef receiveTimeInSeconds = {}) final;
+
+
+    /**
+     * Get motor temperature in degrees celsius
+     * @param[in] jointName name of the joint
+     * @param[out] motorTemperature motor temperature in degrees celsius
+     * @param[out] receiveTimeInSeconds time at which the measurement was received
+     * @return true/false in case of success/failure
+     * @return true/false in case of success/failure
+     */
+    bool getMotorTemperature(const std::string& jointName,
+                             double& motorTemperature,
+                             OptionalDoubleRef receiveTimeInSeconds = {}) final;
 
     /**
      * Get motor PWM
