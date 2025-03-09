@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="125" column="1" declfile="BipedalLocomotion/IK/AngularMomentumTask.h" declline="125" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="126" column="1" declfile="BipedalLocomotion/IK/AngularMomentumTask.h" declline="126" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h_1a9c21e3a141322c92512a73d9d4abf926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/CoMTask.h" line="155" column="1" declfile="BipedalLocomotion/IK/CoMTask.h" declline="155" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/CoMTask.h" line="157" column="1" declfile="BipedalLocomotion/IK/CoMTask.h" declline="157" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="DistanceTask_8h_1ac2b1c12c6c6d0f5ac4f674740abec9f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="158" column="1" declfile="BipedalLocomotion/IK/DistanceTask.h" declline="158" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="159" column="1" declfile="BipedalLocomotion/IK/DistanceTask.h" declline="159" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="GravityTask_8h_1a66f963ba444d2ce629f1c33616f9d897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/GravityTask.h" line="227" column="1" declfile="BipedalLocomotion/IK/GravityTask.h" declline="227" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/GravityTask.h" line="230" column="1" declfile="BipedalLocomotion/IK/GravityTask.h" declline="230" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="JointLimitsTask_8h_1ade53115ca185227c77634f864e25cc4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/JointTrackingTask.h" line="129" column="1" declfile="BipedalLocomotion/IK/JointTrackingTask.h" declline="129" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/JointTrackingTask.h" line="130" column="1" declfile="BipedalLocomotion/IK/JointTrackingTask.h" declline="130" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="JointVelocityLimitsTask_8h_1a6e3296647e88e6193503ab6253fcd445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/R3Task.h" line="162" column="1" declfile="BipedalLocomotion/IK/R3Task.h" declline="162" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/R3Task.h" line="163" column="1" declfile="BipedalLocomotion/IK/R3Task.h" declline="163" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h_1a0ff0374b8057bb71f111ff308153c60c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -176,7 +176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SE3Task.h" line="206" column="1" declfile="BipedalLocomotion/IK/SE3Task.h" declline="206" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/SE3Task.h" line="207" column="1" declfile="BipedalLocomotion/IK/SE3Task.h" declline="207" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h_1a529fd7727949f8881cd162334d9507af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -192,7 +192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="136" column="1" declfile="BipedalLocomotion/IK/SO3Task.h" declline="136" declcolumn="1"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="137" column="1" declfile="BipedalLocomotion/IK/SO3Task.h" declline="137" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

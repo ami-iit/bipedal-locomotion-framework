@@ -35,7 +35,6 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
@@ -133,6 +132,10 @@ $x$
             </dt>
             <dd>Set the desired setpoint.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9385c9f7eb2f85b01f2ff59267c9cb7a" class="m-doc">update</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Update the content of the task.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a4d9fa58ed90d17f878a63cfc6cac73d0" class="m-doc">size</a>(</span><span class="m-doc-wrap">) const -&gt; std::size_t <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the size of the task.</dd>
@@ -214,6 +217,20 @@ $x$
               <tfoot>
                 <tr>
                   <th>Returns</th>
+                  <td>True in case of success, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a9385c9f7eb2f85b01f2ff59267c9cb7a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />TSID::<wbr />VariableRegularizationTask::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9385c9f7eb2f85b01f2ff59267c9cb7a" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Update the content of the task.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
                   <td>True in case of success, false otherwise.</td>
                 </tr>
               </tfoot>

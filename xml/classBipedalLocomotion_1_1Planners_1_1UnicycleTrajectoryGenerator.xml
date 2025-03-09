@@ -16,7 +16,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="152" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" bodystart="151" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="184" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1af8fe3dbc1af46440a8d020fe62d3b34d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::m_useZMPGenerator</definition>
+        <argsstring></argsstring>
+        <name>m_useZMPGenerator</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the ZMP generator is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>False otherwise. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="192" column="10" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" bodystart="192" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -90,12 +106,13 @@
 <para><verbatim>   Initialize the planner.
 
    @note The following parameters are required by the class:
-   |           Name              |      Type      |      Default      |     Example     |                     Description                           |
-   | :-------------------------: | :------------: | :---------------: | :-------------: | :-------------------------------------------------------: |
-   | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called    |
-   |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator         |
-   | `leftContactFrameName`      |     string     |         -         |    &quot;l_sole&quot;     |     Name of the left foot contact frame                   |
-   | `rightContactFrameName`     |     string     |         -         |    &quot;r_sole&quot;     |     Name of the right foot contact frame                  |
+   |           Name              |      Type      |      Default      |     Example     |                     Description                         |
+   | :-------------------------: | :------------: | :---------------: | :-------------: | :-----------------------------------------------------: |
+   | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called  |
+   |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator       |
+   | `leftContactFrameName`      |     string     |         -         |    &quot;l_sole&quot;     |     Name of the left foot contact frame                 |
+   | `rightContactFrameName`     |     string     |         -         |    &quot;r_sole&quot;     |     Name of the right foot contact frame                |
+   | `use_zmp_generator`         |     bool       |       false       |       -         |     If true enables the zmp generator                   |
 
    Implicitely, the class needs also all the parameters required by the Bipedalocotion::Planner::UnicyclePlanner class.
 </verbatim> clang-format on <verbatim>   @param handler Pointer to the parameter handler.
@@ -104,7 +121,139 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="117" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="118" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a2f5180fc5ae02546d2031545b1bcba35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::initialize</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, const Eigen::Vector3d &amp;initialBasePosition, const manif::SE3d &amp;leftToRightTransform)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>initialBasePosition</declname>
+        </param>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>leftToRightTransform</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the planner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the parameter handler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initialBasePosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial position of the base. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>leftToRightTransform</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transformation Matrix between the left and right foot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="126" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a80befc498d25d2bf6558209f84a877b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::initialize</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, const manif::SE3d &amp;leftToRightTransform)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>leftToRightTransform</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the planner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the parameter handler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>leftToRightTransform</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transformation Matrix between the left and right foot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="135" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a53f67659245e8121a8d21d931425ba00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::initialize</definition>
+        <argsstring>(std::weak_ptr&lt; const ParametersHandler::IParametersHandler &gt; handler, const Eigen::Vector3d &amp;initialBasePosition)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>std::weak_ptr&lt; const <ref refid="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler" kindref="compound">ParametersHandler::IParametersHandler</ref> &gt;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>initialBasePosition</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the planner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the parameter handler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initialBasePosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial position of the base. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="143" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a202108d0e2ee16f73e15ad1c63986555" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>const <ref refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGeneratorOutput" kindref="compound">UnicycleTrajectoryGeneratorOutput</ref> &amp;</type>
@@ -122,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="123" column="45"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="150" column="45"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1adac1c1f922fb7d852d2e35d7205b5654" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -140,7 +289,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="129" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="156" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a15e8f9e43ed8e797cee17ba2addbeb3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -170,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="136" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="163" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1ae65275f2302a65dc13e69c816d2bcec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -188,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="142" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="169" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a72c0083cb500f98a28b9b80f7ae647cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::chrono::nanoseconds</type>
@@ -205,7 +354,29 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="148" column="30"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="175" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1ac199ac0c8e6e280dc035cb10fffce450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void BipedalLocomotion::Planners::UnicycleTrajectoryGenerator::setFeetTransform</definition>
+        <argsstring>(const manif::SE3d &amp;leftFootTransform, const manif::SE3d &amp;rightFootTransform)</argsstring>
+        <name>setFeetTransform</name>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>leftFootTransform</declname>
+        </param>
+        <param>
+          <type>const manif::SE3d &amp;</type>
+          <declname>rightFootTransform</declname>
+        </param>
+        <briefdescription>
+<para>Set the feet transforms to use when regenerating the trajectory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="180" column="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -224,7 +395,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="158" column="10"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="190" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -308,7 +479,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="81" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" bodystart="83" bodyend="159"/>
+    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" line="81" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h" bodystart="83" bodyend="193"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1ae65275f2302a65dc13e69c816d2bcec8" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>Advanceable</name></member>
@@ -319,12 +490,16 @@
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a202108d0e2ee16f73e15ad1c63986555" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>getOutput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a72c0083cb500f98a28b9b80f7ae647cf" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>getSamplingTime</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a24d305e02243069ba96e1cd24d5ada87" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a2f5180fc5ae02546d2031545b1bcba35" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a80befc498d25d2bf6558209f84a877b2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a53f67659245e8121a8d21d931425ba00" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a975a7ecbf38c917c7b72519581fc7dba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>Input</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a27c614cb30c1e4b78e64791f4919dfa7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a74d1418613e89a7f2993ea936228a44a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a02ec5c947f1d2d83d2952c3b899cc58f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>InputPort</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1adac1c1f922fb7d852d2e35d7205b5654" prot="public" virt="virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>isOutputValid</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1aa3c25d33d67b23ad38dff7b8827572a6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>m_pImpl</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1af8fe3dbc1af46440a8d020fe62d3b34d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>m_useZMPGenerator</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1ae147cdee9ff9160a9dfe0d3e349a9aad" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>operator=</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1adf0d9fc07bab0ec5d4db7f3a35816bf2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>operator=</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1a54f476d3c8d6d003fb714309ea6272aa" prot="public" virt="non-virtual" ambiguityscope="BipedalLocomotion::System::InputPort::"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>operator=</name></member>
@@ -335,6 +510,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a7c0d15e677a1935918fc747ba4c25ec1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a0a39b891749961d34507b4b591886741" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a581340f280eca1890a8a7b2331761b57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>OutputPort</name></member>
+      <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1ac199ac0c8e6e280dc035cb10fffce450" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>setFeetTransform</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1a15e8f9e43ed8e797cee17ba2addbeb3c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1InputPort_1ad2637be5c9075a2d8f09fedc6a42d808" prot="public" virt="pure-virtual" ambiguityscope="Advanceable&lt; UnicycleTrajectoryGeneratorInput, UnicycleTrajectoryGeneratorOutput &gt;::"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGenerator_1aa2a54bbac689ae5b626ac85d4dd853cd" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGenerator</scope><name>setRobotContactFrames</name></member>

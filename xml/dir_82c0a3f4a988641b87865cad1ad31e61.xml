@@ -6,6 +6,10 @@
     <innerfile refid="MANNAutoregressive_8h">MANNAutoregressive.h</innerfile>
     <innerfile refid="MANNAutoregressiveInputBuilder_8h">MANNAutoregressiveInputBuilder.h</innerfile>
     <innerfile refid="MANNTrajectoryGenerator_8h">MANNTrajectoryGenerator.h</innerfile>
+    <innerfile refid="VelMANN_8h">VelMANN.h</innerfile>
+    <innerfile refid="VelMANNAutoregressive_8h">VelMANNAutoregressive.h</innerfile>
+    <innerfile refid="VelMANNAutoregressiveInputBuilder_8h">VelMANNAutoregressiveInputBuilder.h</innerfile>
+    <innerfile refid="VelMANNTrajectoryGenerator_8h">VelMANNTrajectoryGenerator.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="45" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="45" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="47" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a07b069886b358a9f0a35e1f8d5671276" prot="public" static="no" mutable="no">
         <type>DCMInitialState</type>
@@ -31,7 +31,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="47" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="49" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a650baff917ab1a2d7748723e7b75fef7" prot="public" static="no" mutable="no">
+        <type>InitialState</type>
+        <definition>InitialState BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput::zmpInitialState</definition>
+        <argsstring></argsstring>
+        <name>zmpInitialState</name>
+        <briefdescription>
+<para>Initial state of the ZMP trajectory generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="51" column="18" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1aab1afe2c2d1e58221a070e47c084c67b" prot="public" static="no" mutable="no">
         <type><ref refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState" kindref="compound">COMInitialState</ref></type>
@@ -45,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="55" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="55" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="59" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a69b32074cf6df1e5ad45112e9fb4a3ad" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -60,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="57" column="10" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="57" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="61" column="10" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a7c3e89f279fbd083c64c13901e51c400" prot="public" static="no" mutable="no">
         <type>std::chrono::nanoseconds</type>
@@ -74,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="60" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="60" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="64" column="30" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1ab94d7e7b56aed851da5478c21b8421bb" prot="public" static="no" mutable="no">
         <type>manif::SE3d</type>
@@ -88,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="62" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="62" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="66" column="17" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -103,7 +117,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="65" column="43"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="69" column="43"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -123,7 +137,7 @@
         <link refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1_1COMInitialState"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="35" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="36" bodyend="66"/>
+    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="37" column="1" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="38" bodyend="70"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1aab1afe2c2d1e58221a070e47c084c67b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>comInitialState</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a07b069886b358a9f0a35e1f8d5671276" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>dcmInitialState</name></member>
@@ -132,6 +146,7 @@
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a69b32074cf6df1e5ad45112e9fb4a3ad" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>isLeftLastSwinging</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1ab94d7e7b56aed851da5478c21b8421bb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>measuredTransform</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1ac3dc4b76c6bb9e5cf9b8cf5e72751f73" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>plannerInput</name></member>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerInput_1a650baff917ab1a2d7748723e7b75fef7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerInput</scope><name>zmpInitialState</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

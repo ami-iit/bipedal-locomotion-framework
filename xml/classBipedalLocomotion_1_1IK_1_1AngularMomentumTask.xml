@@ -98,12 +98,28 @@
         <name>m_mask</name>
         <initializer>{true, true, true}</initializer>
         <briefdescription>
+<para>Mask representing the angular momentum coordinates controlled. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="56" column="16" bodyfile="BipedalLocomotion/IK/AngularMomentumTask.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aa6fc9a444dd9b76ba0e52b56a6bef93d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::IK::AngularMomentumTask::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="57" column="10" bodyfile="BipedalLocomotion/IK/AngularMomentumTask.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
@@ -189,7 +205,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="71" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="72" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ae1f400e1aa466e2edf8ecaaf5de0e106" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -220,7 +236,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="78" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="79" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a2a854f6c6ba7a7795a272cc77b6c21fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -253,7 +269,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="91" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="92" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a7b318269698acb82846c5d913530f11e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -271,7 +287,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="97" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="98" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a1c076d716aafc77e1a4eadf69406177c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -301,7 +317,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="105" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1affc1f83bf94e354fbc926195935d1b9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -319,7 +335,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="110" column="17"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="111" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1af196740947b398a49294690227b2054b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -337,7 +353,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="116" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="117" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aa265b0bcd4834336c574d5472880b35e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -355,14 +371,14 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="122" column="10"/>
+        <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="123" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" kindref="compound">AngularMomentumTask</ref> is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control robot centroidal angular momentum. The task assumes perfect control of the robot velocity <formula id="35">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="36">\[ A_{cmm_\omega} \nu = {}^{G[A]} h_\omega ^* \]</formula> where <formula id="37">$A_{cmm_\omega}$</formula> is the angular part of the robot centroidal momentum matrix <formula id="38">${}^{G[A]} h_\omega ^*$</formula> is the desired centroidal angular momentum. <simplesect kind="note"><para><ref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" kindref="compound">AngularMomentumTask</ref> can be used to control also a subset of element of the AngularMomentum. Please refer to <computeroutput>mask</computeroutput> parameter in <ref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0d554820cfaf291fa05a18309d7e9219" kindref="member">IK::AngularMomentumTask::initialize</ref> method. </para>
+<para>Please use this element if you want to control robot centroidal angular momentum. The task assumes perfect control of the robot velocity <formula id="209">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="210">\[ A_{cmm_\omega} \nu = {}^{G[A]} h_\omega ^* \]</formula> where <formula id="211">$A_{cmm_\omega}$</formula> is the angular part of the robot centroidal momentum matrix <formula id="212">${}^{G[A]} h_\omega ^*$</formula> is the desired centroidal angular momentum. <simplesect kind="note"><para><ref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask" kindref="compound">AngularMomentumTask</ref> can be used to control also a subset of element of the AngularMomentum. Please refer to <computeroutput>mask</computeroutput> parameter in <ref refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0d554820cfaf291fa05a18309d7e9219" kindref="member">IK::AngularMomentumTask::initialize</ref> method. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -413,7 +429,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="36" column="1" bodyfile="BipedalLocomotion/IK/AngularMomentumTask.h" bodystart="37" bodyend="123"/>
+    <location file="BipedalLocomotion/IK/AngularMomentumTask.h" line="36" column="1" bodyfile="BipedalLocomotion/IK/AngularMomentumTask.h" bodystart="37" bodyend="124"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>getB</name></member>
@@ -428,6 +444,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a6451d98ed40aefbde444043128631217" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_centroidalMomentumMatrix</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_description</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aad2b89ff3fb2078cfa78b20440d48996" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1aa6fc9a444dd9b76ba0e52b56a6bef93d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a0e2873044e9bf67462aff4aafe691125" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1ad0b8d4f0a403d2eecdcae48d7e723a0d" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_kinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1AngularMomentumTask_1a07b0580e9032bfcd45d92c14be36db3a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::AngularMomentumTask</scope><name>m_mask</name></member>

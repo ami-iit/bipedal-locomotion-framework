@@ -12,6 +12,7 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1R3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::R3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SE3Task</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1SO3Task" prot="public" virt="non-virtual">BipedalLocomotion::TSID::SO3Task</derivedcompoundref>
+    <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1VariableFeasibleRegionTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::VariableFeasibleRegionTask</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" prot="public" virt="non-virtual">BipedalLocomotion::TSID::VariableRegularizationTask</derivedcompoundref>
     <includes local="no">BipedalLocomotion/TSID/TSIDLinearTask.h</includes>
       <sectiondef kind="public-func">
@@ -79,6 +80,12 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="12">
+        <label>BipedalLocomotion::TSID::VariableFeasibleRegionTask</label>
+        <link refid="classBipedalLocomotion_1_1TSID_1_1VariableFeasibleRegionTask"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="3">
         <label>BipedalLocomotion::TSID::AngularMomentumTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask"/>
@@ -115,7 +122,7 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion::TSID::VariableRegularizationTask</label>
         <link refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask"/>
         <childnode refid="1" relation="public-inheritance">

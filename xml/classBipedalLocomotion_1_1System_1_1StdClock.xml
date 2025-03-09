@@ -4,6 +4,24 @@
     <compoundname>BipedalLocomotion::System::StdClock</compoundname>
     <basecompoundref refid="classBipedalLocomotion_1_1System_1_1IClock" prot="public" virt="non-virtual">BipedalLocomotion::System::IClock</basecompoundref>
     <includes local="no">BipedalLocomotion/System/StdClock.h</includes>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1StdClock_1_1PrecisionScheduler" prot="private">BipedalLocomotion::System::StdClock::PrecisionScheduler</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1System_1_1StdClock_1aa4c63d48d490e59206b3be51a1a356ef" prot="private" static="no" mutable="no">
+        <type>PrecisionScheduler</type>
+        <definition>PrecisionScheduler BipedalLocomotion::System::StdClock::m_precisionScheduler</definition>
+        <argsstring></argsstring>
+        <name>m_precisionScheduler</name>
+        <briefdescription>
+<para>PrecisionScheduler object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It is used only on Windows systems. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/System/StdClock.h" line="87" column="24" bodyfile="BipedalLocomotion/System/StdClock.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1System_1_1StdClock_1a5471595a2f6413c2728266960de8335b" prot="public" static="no" const="no" explicit="no" inline="no" final="yes" virt="virtual">
         <type>std::chrono::nanoseconds</type>
@@ -140,9 +158,10 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/StdClock.h" line="33" column="1" bodyfile="BipedalLocomotion/System/StdClock.h" bodystart="34" bodyend="63"/>
+    <location file="BipedalLocomotion/System/StdClock.h" line="33" column="1" bodyfile="BipedalLocomotion/System/StdClock.h" bodystart="34" bodyend="90"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1IClock_1a99a28837fb84b2a1df959890ec561f82" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::System::StdClock</scope><name>IClock</name></member>
+      <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1aa4c63d48d490e59206b3be51a1a356ef" prot="private" virt="non-virtual"><scope>BipedalLocomotion::System::StdClock</scope><name>m_precisionScheduler</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a5471595a2f6413c2728266960de8335b" prot="public" virt="virtual"><scope>BipedalLocomotion::System::StdClock</scope><name>now</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a88fcacd5a6be8e802f58224dcd4600e8" prot="public" virt="virtual"><scope>BipedalLocomotion::System::StdClock</scope><name>sleepFor</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1StdClock_1a0559fc93c09b6add2ed2e264c9be81fd" prot="public" virt="virtual"><scope>BipedalLocomotion::System::StdClock</scope><name>sleepUntil</name></member>

@@ -35,7 +35,6 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
@@ -115,6 +114,22 @@
             </dt>
             <dd></dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2f5180fc5ae02546d2031545b1bcba35" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition,
+              const manif::SE3d&amp; leftToRightTransform) -&gt; bool</span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a80befc498d25d2bf6558209f84a877b2" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const manif::SE3d&amp; leftToRightTransform) -&gt; bool</span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a53f67659245e8121a8d21d931425ba00" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition) -&gt; bool</span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a202108d0e2ee16f73e15ad1c63986555" class="m-doc">getOutput</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryGeneratorOutput.html" class="m-doc">UnicycleTrajectoryGeneratorOutput</a>&amp; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Get the output of the planner.</dd>
@@ -134,6 +149,11 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a72c0083cb500f98a28b9b80f7ae647cf" class="m-doc">getSamplingTime</a>(</span><span class="m-doc-wrap">) const -&gt; std::chrono::nanoseconds</span>
             </dt>
             <dd>Get the sampling time of the planner.</dd>
+            <dt id="ac199ac0c8e6e280dc035cb10fffce450">
+              <span class="m-doc-wrap-bumper">void <a href="#ac199ac0c8e6e280dc035cb10fffce450" class="m-doc-self">setFeetTransform</a>(</span><span class="m-doc-wrap">const manif::SE3d&amp; leftFootTransform,
+              const manif::SE3d&amp; rightFootTransform)</span>
+            </dt>
+            <dd>Set the feet transforms to use when regenerating the trajectory.</dd>
           </dl>
         </section>
         <section>
@@ -163,17 +183,89 @@
 <pre>   Initialize the planner.
 
    @note The following parameters are required by the class:
-   |           Name              |      Type      |      Default      |     Example     |                     Description                           |
-   | :-------------------------: | :------------: | :---------------: | :-------------: | :-------------------------------------------------------: |
-   | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called    |
-   |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator         |
-   | `leftContactFrameName`      |     string     |         -         |    &quot;l_sole&quot;     |     Name of the left foot contact frame                   |
-   | `rightContactFrameName`     |     string     |         -         |    &quot;r_sole&quot;     |     Name of the right foot contact frame                  |
+   |           Name              |      Type      |      Default      |     Example     |                     Description                         |
+   | :-------------------------: | :------------: | :---------------: | :-------------: | :-----------------------------------------------------: |
+   | `planner_advance_time_in_s` |     double     |       0.08        |       -         |     The time in advance at which the planner is called  |
+   |           `dt`              |     double     |      0.002        |       -         |     The sampling time of the trajectory generator       |
+   | `leftContactFrameName`      |     string     |         -         |    &quot;l_sole&quot;     |     Name of the left foot contact frame                 |
+   | `rightContactFrameName`     |     string     |         -         |    &quot;r_sole&quot;     |     Name of the right foot contact frame                |
+   | `use_zmp_generator`         |     bool       |       false       |       -         |     If true enables the zmp generator                   |
 
    Implicitely, the class needs also all the parameters required by the Bipedalocotion::Planner::UnicyclePlanner class.
 </pre><p>clang-format on</p><pre>   @param handler Pointer to the parameter handler.
    @return True in case of success, false otherwise.
 </pre>
+          </div></section>
+          <section class="m-doc-details" id="a2f5180fc5ae02546d2031545b1bcba35"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryGenerator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2f5180fc5ae02546d2031545b1bcba35" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition,
+              const manif::SE3d&amp; leftToRightTransform)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>initialBasePosition</td>
+                  <td>Initial position of the base.</td>
+                </tr>
+                <tr>
+                  <td>leftToRightTransform</td>
+                  <td>Transformation Matrix between the left and right foot.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a80befc498d25d2bf6558209f84a877b2"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryGenerator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a80befc498d25d2bf6558209f84a877b2" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const manif::SE3d&amp; leftToRightTransform)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>leftToRightTransform</td>
+                  <td>Transformation Matrix between the left and right foot.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a53f67659245e8121a8d21d931425ba00"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryGenerator::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a53f67659245e8121a8d21d931425ba00" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>initialBasePosition</td>
+                  <td>Initial position of the base.</td>
+                </tr>
+              </tbody>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a202108d0e2ee16f73e15ad1c63986555"><div>
             <h3>

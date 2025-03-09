@@ -3,7 +3,6 @@
   <compounddef id="dir_d792c8169525b3134e3d3a9911cdd860" kind="dir">
     <compoundname>BipedalLocomotion/YarpUtilities</compoundname>
     <innerfile refid="Helper_8h">Helper.h</innerfile>
-    <innerfile refid="RosPublisher_8h">RosPublisher.h</innerfile>
     <innerfile refid="VectorsCollectionClient_8h">VectorsCollectionClient.h</innerfile>
     <innerfile refid="VectorsCollectionServer_8h">VectorsCollectionServer.h</innerfile>
     <briefdescription>

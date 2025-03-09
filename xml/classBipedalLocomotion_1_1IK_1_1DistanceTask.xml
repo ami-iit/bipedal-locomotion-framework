@@ -218,6 +218,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/IK/DistanceTask.h" line="65" column="12" bodyfile="BipedalLocomotion/IK/DistanceTask.h" bodystart="65" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a3b520e2c7318aed604d457597ec54243" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::IK::DistanceTask::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="67" column="10" bodyfile="BipedalLocomotion/IK/DistanceTask.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1aa4dbed0db2135579039cec2eb2a51f4e" prot="private" static="yes" constexpr="yes" mutable="no">
@@ -320,7 +335,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="85" column="5"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="86" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a37d5ce15f2ffc3ea8f46a4a05b935cae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -351,7 +366,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="92" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="93" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a8365912c55099acb5061a876f2b386e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -384,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="105" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="106" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a2458c120729223e110e76ece8344e8d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -402,7 +417,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="111" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="112" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1aa3cc5b03e7935cee91287a79089c6972" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -434,7 +449,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="119" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="120" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a1efde120dccb1eebc59fc0e10f482823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -467,7 +482,7 @@ It is equivalent to setDesiredDistance</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="130" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="131" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a64bc311b8ca41c302a5cdca56a6975bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -484,7 +499,7 @@ It is equivalent to setDesiredDistance</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="137" column="12"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="138" column="12"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a1bb91a55a081577bfeb7eef6cb869b59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -502,7 +517,7 @@ It is equivalent to setDesiredDistance</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="143" column="17"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="144" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1afc4afe6cc7d8ce530c82ddc6395bce61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -520,7 +535,7 @@ It is equivalent to setDesiredDistance</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="149" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="150" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1DistanceTask_1ae20fef4d74c4745dfd513db1557e41a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -538,14 +553,14 @@ It is equivalent to setDesiredDistance</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/DistanceTask.h" line="155" column="10"/>
+        <location file="BipedalLocomotion/IK/DistanceTask.h" line="156" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>The <ref refid="classBipedalLocomotion_1_1IK_1_1DistanceTask" kindref="compound">DistanceTask</ref> class controls the distance of a frame with respect the world origin, or another frame. </para>
     </briefdescription>
     <detaileddescription>
-<para>The task assumes perfect control of the robot velocity <formula id="35">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="46">\[ \frac{1}{d} p ^ \top J_p \nu = k (d ^ * - d) \]</formula> where <formula id="47">$p$</formula> is the position of the target frame wrt the base or world frame. <formula id="48">$d$</formula> is the current distance. <formula id="49">$J_p$</formula> is the linear part of the robot jacobian. <formula id="50">$k$</formula> is the controller gain and <formula id="51">$d ^ *$</formula> is the desired distance. </para>
+<para>The task assumes perfect control of the robot velocity <formula id="209">$\nu$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="215">\[ \frac{1}{d} p ^ \top J_p \nu = k (d ^ * - d) \]</formula> where <formula id="216">$p$</formula> is the position of the target frame wrt the base or world frame. <formula id="217">$d$</formula> is the current distance. <formula id="218">$J_p$</formula> is the linear part of the robot jacobian. <formula id="50">$k$</formula> is the controller gain and <formula id="219">$d ^ *$</formula> is the desired distance. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -594,7 +609,7 @@ It is equivalent to setDesiredDistance</para>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/DistanceTask.h" line="37" column="1" bodyfile="BipedalLocomotion/IK/DistanceTask.h" bodystart="38" bodyend="156"/>
+    <location file="BipedalLocomotion/IK/DistanceTask.h" line="37" column="1" bodyfile="BipedalLocomotion/IK/DistanceTask.h" bodystart="38" bodyend="157"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>getB</name></member>
@@ -612,6 +627,7 @@ It is equivalent to setDesiredDistance</para>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a81d729b24e27011c23671c24fc4afab9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_DoFs</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a57d08e2be501c4f148839d9759327691" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_framePosition</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1aa2a8b281631ed8de5da235b85e1482f3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1a3b520e2c7318aed604d457597ec54243" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1ae12b5cd5bdb761ed0709304761ed95ac" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1ab396ab25d6b8078266b05b21e4e1c879" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_jacobian</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1DistanceTask_1ad504a29fb379dc3cd7fe4266ff4741c2" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::DistanceTask</scope><name>m_kinDyn</name></member>

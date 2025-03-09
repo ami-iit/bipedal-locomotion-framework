@@ -2,7 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1YarpUtilities" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::YarpUtilities</compoundname>
-    <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1RosPublisher" prot="public">BipedalLocomotion::YarpUtilities::RosPublisher</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient" prot="public">BipedalLocomotion::YarpUtilities::VectorsCollectionClient</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer" prot="public">BipedalLocomotion::YarpUtilities::VectorsCollectionServer</innerclass>
       <sectiondef kind="func">

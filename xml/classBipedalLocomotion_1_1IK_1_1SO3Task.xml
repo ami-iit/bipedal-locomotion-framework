@@ -97,12 +97,28 @@
         <argsstring></argsstring>
         <name>m_jacobian</name>
         <briefdescription>
+<para>Internal buffer to store the jacobian. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="BipedalLocomotion/IK/SO3Task.h" line="62" column="21" bodyfile="BipedalLocomotion/IK/SO3Task.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a7332e314721f8a85e2b26afe976ba087" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::IK::SO3Task::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="64" column="10" bodyfile="BipedalLocomotion/IK/SO3Task.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
@@ -194,7 +210,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="79" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="80" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a54f52ee7b2330ddb22d55701725643f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -225,7 +241,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="86" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="87" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1afc22bf005895ac0c715399b574a9a9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -258,7 +274,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="99" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="100" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a4fe68df9a3cd0a8f290b8c7080cbcbe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -276,7 +292,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="105" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="106" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1aea8a99e6d0f7070dbc282ccc33f9c778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -319,7 +335,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="114" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="115" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1ae144756720b28fa084e87ad0f70c14df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -337,7 +353,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="121" column="17"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="122" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a35c09013202f649f35a153142dbdbe8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -355,7 +371,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="127" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="128" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1IK_1_1SO3Task_1a762d09e4dd536e2e54b27b87352b23c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -373,14 +389,14 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/IK/SO3Task.h" line="133" column="10"/>
+        <location file="BipedalLocomotion/IK/SO3Task.h" line="134" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1IK_1_1SO3Task" kindref="compound">SO3Task</ref> is a concrete implementation of the IK::Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot velocity <formula id="100">$\dot{\nu}$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="101">\[ J_\omega \nu = \omega ^ * \]</formula> where <formula id="53">$J_\omega$</formula> is the angular part of the robot Jacobian and <formula id="102">$\omega ^ *$</formula> is the desired velocity. The desired velocity is chosen such that the orientation of the frame will asymptotically converge to the desired trajectory. <formula id="102">$\omega ^ *$</formula> is computed with a Proportional controller in <formula id="43">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot velocity <formula id="155">$\dot{\nu}$</formula> that contains the base linear and angular velocity expressed in mixed representation and the joint velocities. The task represents the following equation <formula id="264">\[ J_\omega \nu = \omega ^ * \]</formula> where <formula id="221">$J_\omega$</formula> is the angular part of the robot Jacobian and <formula id="265">$\omega ^ *$</formula> is the desired velocity. The desired velocity is chosen such that the orientation of the frame will asymptotically converge to the desired trajectory. <formula id="265">$\omega ^ *$</formula> is computed with a Proportional controller in <formula id="120">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -431,7 +447,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/IK/SO3Task.h" line="42" column="1" bodyfile="BipedalLocomotion/IK/SO3Task.h" bodystart="43" bodyend="134"/>
+    <location file="BipedalLocomotion/IK/SO3Task.h" line="42" column="1" bodyfile="BipedalLocomotion/IK/SO3Task.h" bodystart="43" bodyend="135"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>getB</name></member>
@@ -445,6 +461,7 @@ Where the generalized robot velocity is a vector containing the base spatial-vel
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_description</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1aa1325a364c394d82943af92ca331d28c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_frameIndex</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1afd62782520026e73a94ad2e0fc308085" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a7332e314721f8a85e2b26afe976ba087" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a0f36ca78b9e0e3ffb18e2e864fc436f3" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1ac1200bfcd431814ccfcd7eaba7a30846" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_jacobian</name></member>
       <member refid="classBipedalLocomotion_1_1IK_1_1SO3Task_1a45c3bb3d4bb7d17ac4e2fe44cb5d39d5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::IK::SO3Task</scope><name>m_kinDyn</name></member>

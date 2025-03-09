@@ -17,6 +17,7 @@
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamics" prot="public">BipedalLocomotion::TSID::TaskSpaceInverseDynamics</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TaskSpaceInverseDynamicsProblem" prot="public">BipedalLocomotion::TSID::TaskSpaceInverseDynamicsProblem</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" prot="public">BipedalLocomotion::TSID::TSIDLinearTask</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1TSID_1_1VariableFeasibleRegionTask" prot="public">BipedalLocomotion::TSID::VariableFeasibleRegionTask</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" prot="public">BipedalLocomotion::TSID::VariableRegularizationTask</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="TSIDLinearTask_8h_1a8c786538e67769422c9f848db4bc3959" prot="public" static="no">
@@ -48,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="132" column="1" declfile="BipedalLocomotion/TSID/AngularMomentumTask.h" declline="132" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="133" column="1" declfile="BipedalLocomotion/TSID/AngularMomentumTask.h" declline="133" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="BaseDynamicsTask_8h_1abf27b7686e685788cb69e0f67e800814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -80,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="139" column="1" declfile="BipedalLocomotion/TSID/CoMTask.h" declline="139" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="140" column="1" declfile="BipedalLocomotion/TSID/CoMTask.h" declline="140" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="FeasibleContactWrenchTask_8h_1ab06fc1102de78fd12415be481f2fa2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -128,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="142" column="1" declfile="BipedalLocomotion/TSID/JointTrackingTask.h" declline="142" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="143" column="1" declfile="BipedalLocomotion/TSID/JointTrackingTask.h" declline="143" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="TSID_2include_2BipedalLocomotion_2TSID_2R3Task_8h_1a31878b5f9d122e444f5c69f811156dd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -144,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/R3Task.h" line="172" column="1" declfile="BipedalLocomotion/TSID/R3Task.h" declline="172" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/R3Task.h" line="174" column="1" declfile="BipedalLocomotion/TSID/R3Task.h" declline="174" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h_1a0cc5e6a3fe0198a21742eeb62ce0590a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -160,7 +161,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="182" column="1" declfile="BipedalLocomotion/TSID/SE3Task.h" declline="182" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="183" column="1" declfile="BipedalLocomotion/TSID/SE3Task.h" declline="183" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h_1a762d6b990fb8078342e98abb25b8b5ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -176,7 +177,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SO3Task.h" line="136" column="1" declfile="BipedalLocomotion/TSID/SO3Task.h" declline="136" declcolumn="1"/>
+        <location file="BipedalLocomotion/TSID/SO3Task.h" line="137" column="1" declfile="BipedalLocomotion/TSID/SO3Task.h" declline="137" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="VariableRegularizationTask_8h_1a124bd212bed0fae278690179a09f0c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::TSID::BLF_REGISTER_TSID_TASK</definition>
+        <argsstring>(VariableRegularizationTask)</argsstring>
+        <name>BLF_REGISTER_TSID_TASK</name>
+        <param>
+          <type><ref refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" kindref="compound">VariableRegularizationTask</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/VariableRegularizationTask.h" line="93" column="1" declfile="BipedalLocomotion/TSID/VariableRegularizationTask.h" declline="93" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

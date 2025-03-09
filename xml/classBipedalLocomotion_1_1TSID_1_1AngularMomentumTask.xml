@@ -78,6 +78,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="62" column="52" bodyfile="BipedalLocomotion/TSID/AngularMomentumTask.h" bodystart="62" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac9657c1ec27a8beaa83502813691e597" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::AngularMomentumTask::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="63" column="10" bodyfile="BipedalLocomotion/TSID/AngularMomentumTask.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a275ea055f9fe7782ff4c6859cc742362" prot="private" static="yes" constexpr="yes" mutable="no">
@@ -165,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="79" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="80" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eeaba156cd7325f8229f1a8b3f93cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -196,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="86" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="87" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a478a45a91d950bb0531e7abaef523465" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -229,7 +244,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="96" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="97" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4d85e404b2290c7c4a590db7faba5e6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -247,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="102" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="103" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac79b986221c2b3c91c51ff6ca9150839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -289,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="111" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4984a250856cf3eb2ca7f2e768682efb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -307,7 +322,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="117" column="17"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="118" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ad629d399cdc84de02002c19c9d753882" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -325,7 +340,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="124" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a6d0bf29627dc8622721706e3f4e5e79e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -343,14 +358,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="129" column="10"/>
+        <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="130" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask" kindref="compound">AngularMomentumTask</ref> is a concrete implementation of the <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the Centroidal angular momentum of the robot. The task represents the following equation <formula id="260">\[ \sum \begin{bmatrix} S(p_{C_k} - x &amp; I_{3 \times 3} \end{bmatrix} f_k = \dot{h} ^ * _\omega \]</formula> where the suffix <formula id="261">$S$</formula> is the skew operator. <formula id="262">$p_{C_k}$</formula> is the position of the contact <formula id="50">$k$</formula>, <formula id="29">$x$</formula> is the CoM position, <formula id="263">$f_k$</formula> is the contact wrench expressed in mixed representation. Finally <formula id="264">$\dot{h} ^ * _\omega$</formula> is the desired rate of change of the angular momentum. The angular momentum rate of change is computed by a Proportional controller in <formula id="265">$\mathbb{R}^3$</formula>. </para>
+<para>Please use this element if you want to control the Centroidal angular momentum of the robot. The task represents the following equation <formula id="146">\[ \sum \begin{bmatrix} S(p_{C_k} - x &amp; I_{3 \times 3} \end{bmatrix} f_k = \dot{h} ^ * _\omega \]</formula> where the suffix <formula id="147">$S$</formula> is the skew operator. <formula id="148">$p_{C_k}$</formula> is the position of the contact <formula id="50">$k$</formula>, <formula id="52">$x$</formula> is the CoM position, <formula id="149">$f_k$</formula> is the contact wrench expressed in mixed representation. Finally <formula id="150">$\dot{h} ^ * _\omega$</formula> is the desired rate of change of the angular momentum. The angular momentum rate of change is computed by a Proportional controller in <formula id="151">$\mathbb{R}^3$</formula>. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
@@ -399,7 +414,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="42" column="1" bodyfile="BipedalLocomotion/TSID/AngularMomentumTask.h" bodystart="43" bodyend="130"/>
+    <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="42" column="1" bodyfile="BipedalLocomotion/TSID/AngularMomentumTask.h" bodystart="43" bodyend="131"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>getB</name></member>
@@ -413,6 +428,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1afa24177ee38525dbe17c96a816d8a4ea" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_contactWrenches</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_description</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1aaf32037587c71a7b39581d4775e547f4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac9657c1ec27a8beaa83502813691e597" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a10108f5939ddea2e5fa531c4b82743b5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1ac7860f6d5fb61e79b4c74d06d9ee154a" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_kinDyn</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1AngularMomentumTask_1a4eb60bd141ba8bc69833e54886399554" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::AngularMomentumTask</scope><name>m_R3Controller</name></member>

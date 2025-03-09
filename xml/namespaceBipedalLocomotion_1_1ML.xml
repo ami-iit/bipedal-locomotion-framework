@@ -14,6 +14,18 @@
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorInput" prot="public">BipedalLocomotion::ML::MANNTrajectoryGeneratorInput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1ML_1_1MANNTrajectoryGeneratorOutput" prot="public">BipedalLocomotion::ML::MANNTrajectoryGeneratorOutput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator" prot="public">BipedalLocomotion::ML::MANNTrajectoryGenerator</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNInput" prot="public">BipedalLocomotion::ML::VelMANNInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNOutput" prot="public">BipedalLocomotion::ML::VelMANNOutput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ML_1_1VelMANN" prot="public">BipedalLocomotion::ML::VelMANN</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNFootState" prot="public">BipedalLocomotion::ML::VelMANNFootState</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInput" prot="public">BipedalLocomotion::ML::VelMANNAutoregressiveInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveOutput" prot="public">BipedalLocomotion::ML::VelMANNAutoregressiveOutput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressive" prot="public">BipedalLocomotion::ML::VelMANNAutoregressive</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNDirectionalInput" prot="public">BipedalLocomotion::ML::VelMANNDirectionalInput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInputBuilder" prot="public">BipedalLocomotion::ML::VelMANNAutoregressiveInputBuilder</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGeneratorInput" prot="public">BipedalLocomotion::ML::VelMANNTrajectoryGeneratorInput</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGeneratorOutput" prot="public">BipedalLocomotion::ML::VelMANNTrajectoryGeneratorOutput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGenerator" prot="public">BipedalLocomotion::ML::VelMANNTrajectoryGenerator</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

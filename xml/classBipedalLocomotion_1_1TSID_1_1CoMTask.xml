@@ -121,6 +121,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/CoMTask.h" line="63" column="21" bodyfile="BipedalLocomotion/TSID/CoMTask.h" bodystart="63" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9368a0b21635db6e7e73ee743dbd7dbd" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::CoMTask::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set-point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="64" column="10" bodyfile="BipedalLocomotion/TSID/CoMTask.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aede268494a33319a87ef83fe5e554575" prot="private" static="yes" constexpr="yes" mutable="no">
@@ -219,7 +234,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="81" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="82" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a3755665cdab9f7ae7d5d0be7adab4535" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -250,7 +265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="88" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="89" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9dad79e04ccbb53e994f48261cdfedd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -283,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="101" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="102" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a51f32365f6d523620a057332f59cd9ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -301,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="107" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="108" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a318949bf90cf9405898a576ad808ac24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -357,7 +372,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="116" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="117" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a903008ca278ca76560e8e33d92793766" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -375,7 +390,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="124" column="17"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="125" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1afd58f75e69dedcec3085b8ad1a320183" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -393,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="130" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="131" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa54d65b28cbfc9624c4a98cf7e3a2a30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -411,14 +426,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/CoMTask.h" line="136" column="10"/>
+        <location file="BipedalLocomotion/TSID/CoMTask.h" line="137" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>ComTask is a concrete implementation of the <ref refid="structBipedalLocomotion_1_1TSID_1_1TSIDLinearTask" kindref="compound">TSIDLinearTask</ref>. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the position of the CoM. The task assumes perfect control of the robot acceleration <formula id="100">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="269">\[ J \dot{\nu} + \dot{J} \nu = \dot{v}_{CoM} ^ * \]</formula> where <formula id="40">$J$</formula> is the robot CoM jacobian and <formula id="270">$\dot{v}_{CoM} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the CoM will asymptotically converge to the desired trajectory. <formula id="271">$\dot{v} ^ *$</formula> is computed with a standard PD controller in <formula id="42">$R^3$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the position of the CoM. The task assumes perfect control of the robot acceleration <formula id="155">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="156">\[ J \dot{\nu} + \dot{J} \nu = \dot{v}_{CoM} ^ * \]</formula> where <formula id="157">$J$</formula> is the robot CoM jacobian and <formula id="158">$\dot{v}_{CoM} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the CoM will asymptotically converge to the desired trajectory. <formula id="159">$\dot{v} ^ *$</formula> is computed with a standard PD controller in <formula id="160">$R^3$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -469,7 +484,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/CoMTask.h" line="41" column="1" bodyfile="BipedalLocomotion/TSID/CoMTask.h" bodystart="42" bodyend="137"/>
+    <location file="BipedalLocomotion/TSID/CoMTask.h" line="41" column="1" bodyfile="BipedalLocomotion/TSID/CoMTask.h" bodystart="42" bodyend="138"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>getB</name></member>
@@ -482,6 +497,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a5efff74f1d43a59376a9c93a0400120a" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_description</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa26d081131d3ac849ca06270a31a90cb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_DoFs</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a7d11d085ea0b666bb291d8aa939604e4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a9368a0b21635db6e7e73ee743dbd7dbd" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1aa642d8da6bae5013709a456ef8157767" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a694f5b3a8e9bb03b48fe92004a470cc5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_jacobian</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1CoMTask_1a23ffff245ee7de0d7f2406159abd5b61" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::CoMTask</scope><name>m_kinDyn</name></member>

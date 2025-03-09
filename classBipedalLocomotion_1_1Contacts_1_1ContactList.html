@@ -35,7 +35,6 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
@@ -196,6 +195,10 @@
             <dd>Get the next contact given the time.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ad1a6136e4c7f01886a379dc359c6b5f1" class="m-doc">getPresentContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
+            </dt>
+            <dd>Get the contact given the time.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0d6362b1ea2e7803216040724c8f58b0" class="m-doc">getPreviousContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const -&gt; const_iterator</span>
             </dt>
             <dd>Get the contact given the time.</dd>
             <dt>
@@ -547,6 +550,30 @@
               </tfoot>
             </table>
 <p>It returns the contact with the highest activation time lower than time. If no contacts have an activation time lower than time, it returns an iterator to the end. Notice that the contact may not be active, i.e. the deactivationTime may be lower than time.</p>
+          </div></section>
+          <section class="m-doc-details" id="a0d6362b1ea2e7803216040724c8f58b0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const_iterator BipedalLocomotion::<wbr />Contacts::<wbr />ContactList::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0d6362b1ea2e7803216040724c8f58b0" class="m-doc-self">getPreviousContact</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time) const</span></span>
+            </h3>
+            <p>Get the contact given the time.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">time</td>
+                  <td>The present time.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>an iterator to the last contact having an activation time lower than time. If no contact satisfies this condition, it returns a pointer to the end.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>It returns the contact with the highest deactivation time lower than time. If no contacts have a deactivation time lower than time, it returns an iterator to the end.</p>
           </div></section>
           <section class="m-doc-details" id="ab44bbf63b56a9ddc25d70a69da354312"><div>
             <h3>

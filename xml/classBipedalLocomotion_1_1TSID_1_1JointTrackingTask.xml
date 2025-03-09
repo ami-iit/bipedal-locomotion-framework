@@ -174,6 +174,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="50" column="21" bodyfile="BipedalLocomotion/TSID/JointTrackingTask.h" bodystart="50" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a3c6f3b9a004882a83702c882eb0c6507" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::JointTrackingTask::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="53" column="10" bodyfile="BipedalLocomotion/TSID/JointTrackingTask.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ae0293ff1f064e3cbb84c78ae08588f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -228,7 +243,7 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>kd</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Derivative Gain of the controller. if not specified <formula id="275">$k_d = 2 \sqrt{k_p}$</formula>   </para>
+</entry><entry thead="no" align='center'><para>Derivative Gain of the controller. if not specified <formula id="166">$k_d = 2 \sqrt{k_p}$</formula>   </para>
 </entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
@@ -240,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="66" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="67" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a785ee191931e5f44c287519113b1682a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -271,7 +286,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="73" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="74" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ab7e33485266f942af7edd3e24fa0bc08" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -304,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="86" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="87" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a06157a0b7b15abff79d447cc9038573d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -322,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="92" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="93" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1acb6c520e023fa2a11f6db4eee6b5b30e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -354,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="100" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="101" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a2100edf0419bdcc5f9cd371c512c2a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -398,7 +413,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="109" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="110" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a6c9ac17e12dbb8a7c2be7321f1b86b71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -452,7 +467,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="119" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="120" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aadda63716a30397931c84195cd8415b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -470,7 +485,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="127" column="17"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="128" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a9f15c416528b416790ecb325cd2ad6a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -488,7 +503,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="133" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="134" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ae4217033c29324728b7881a536c513a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -506,14 +521,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="139" column="10"/>
+        <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="140" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>JointsTrackingTask is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="274">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \ddot{s} ^ * \]</formula> where <formula id="81">$0_6$</formula> and <formula id="82">$I_n$</formula> are the zero and the identity matrix. The desired joint acceleration is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="96">$\mathbb{R}^n$</formula>. </para>
+<para>Please use this element if you want to control the desired joint position of the robot. The task represents the following equation <formula id="163">\[ \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu = \ddot{s} ^ * \]</formula> where <formula id="164">$0_6$</formula> and <formula id="165">$I_n$</formula> are the zero and the identity matrix. The desired joint acceleration is chosen such that the joint will converge to the desired trajectory and it is computed with a standard standard PD controller in <formula id="105">$\mathbb{R}^n$</formula>. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -562,7 +577,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="33" column="1" bodyfile="BipedalLocomotion/TSID/JointTrackingTask.h" bodystart="34" bodyend="140"/>
+    <location file="BipedalLocomotion/TSID/JointTrackingTask.h" line="33" column="1" bodyfile="BipedalLocomotion/TSID/JointTrackingTask.h" bodystart="34" bodyend="141"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>getB</name></member>
@@ -577,6 +592,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a28eaa6e9d52ebeac488f6fcf371e1414" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_desiredJointPosition</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1ac38ad09e4fc3082e8eca3b03a08b79b8" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_desiredJointVelocity</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a5955436e6d90abdeb8e2b10bf16dea81" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a3c6f3b9a004882a83702c882eb0c6507" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aa2563ae93a0ea6da74e8b25e2d2e72b5" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1aef8f84b6fc62f109e3f081ebf1d2615f" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_jointPosition</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1JointTrackingTask_1a931676c35830c155cec2f411fa98d77c" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::JointTrackingTask</scope><name>m_jointVelocity</name></member>

@@ -201,6 +201,7 @@
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a0e131fe319b5b2663ace97fa6f7898da" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput</scope><name>mergePoints</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1adef690fa5fb9e70563704f5d31f5637c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput</scope><name>rightFootTrajectory</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a81757c47e7aea32b49be98640f2874f7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput</scope><name>steps</name></member>
+      <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1a9526117cbac2ab4011d0d41d09d57b5f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryGeneratorOutput</scope><name>zmpTrajectory</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

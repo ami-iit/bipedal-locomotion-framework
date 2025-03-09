@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/System/StdClock.h" line="72" column="12"/>
+        <location file="BipedalLocomotion/System/StdClock.h" line="99" column="12"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -51,7 +51,7 @@
         <link refid="classBipedalLocomotion_1_1System_1_1ClockFactory"/>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/System/StdClock.h" line="65" column="1" bodyfile="BipedalLocomotion/System/StdClock.h" bodystart="66" bodyend="73"/>
+    <location file="BipedalLocomotion/System/StdClock.h" line="92" column="1" bodyfile="BipedalLocomotion/System/StdClock.h" bodystart="93" bodyend="100"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1StdClockFactory_1a0d52fae693d8ddfd2e10f003c0763a88" prot="public" virt="virtual"><scope>BipedalLocomotion::System::StdClockFactory</scope><name>createClock</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1ClockFactory_1a2cda40326f053a485bfe4aca0e1dfd70" prot="public" virt="virtual"><scope>BipedalLocomotion::System::StdClockFactory</scope><name>~ClockFactory</name></member>

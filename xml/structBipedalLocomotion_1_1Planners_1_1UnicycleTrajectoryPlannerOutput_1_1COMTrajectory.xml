@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="72" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="72" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="76" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a8dad557c1d890417445ca559e6558376" prot="public" static="no" mutable="no">
         <type>std::vector&lt; Eigen::Vector3d &gt;</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="73" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="73" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="77" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="77" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a79b1faf2644d7d7386112e145509d211" prot="public" static="no" mutable="no">
         <type>std::vector&lt; Eigen::Vector3d &gt;</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="74" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="74" bodyend="-1"/>
+        <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="78" column="21" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -73,7 +73,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="70" column="5" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="71" bodyend="75"/>
+    <location file="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" line="74" column="5" bodyfile="BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h" bodystart="75" bodyend="79"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a79b1faf2644d7d7386112e145509d211" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::COMTrajectory</scope><name>acceleration</name></member>
       <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory_1a08b0e08010645239bb4cee9f2f715e05" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::COMTrajectory</scope><name>position</name></member>

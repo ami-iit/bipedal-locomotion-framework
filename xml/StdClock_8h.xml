@@ -49,6 +49,7 @@
       </node>
     </invincdepgraph>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClock" prot="public">BipedalLocomotion::System::StdClock</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1System_1_1StdClock_1_1PrecisionScheduler" prot="private">BipedalLocomotion::System::StdClock::PrecisionScheduler</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1System_1_1StdClockFactory" prot="public">BipedalLocomotion::System::StdClockFactory</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1System">BipedalLocomotion::System</innernamespace>

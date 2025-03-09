@@ -35,7 +35,6 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
@@ -127,6 +126,54 @@
               class <a href="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator.html" class="m-doc">MANNTrajectoryGenerator</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1ML_1_1MANNTrajectoryGenerator.html" class="m-doc">MANNTrajectoryGenerator</a> is a class that uses <a href="classBipedalLocomotion_1_1ML_1_1MANNAutoregressive.html" class="m-doc">MANNAutoregressive</a> to generate a kinematically feasible trajectory for humanoid robots.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNInput.html" class="m-doc">VelMANNInput</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1VelMANNInput.html" class="m-doc">VelMANNInput</a> contains the input to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNOutput.html" class="m-doc">VelMANNOutput</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1MANNOutput.html" class="m-doc">MANNOutput</a> contains the output to the <a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> network.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1ML_1_1VelMANN.html" class="m-doc">VelMANN</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a> is a class that allows to perform the inference of an <code>onnx</code> implementing Mode-Adaptive Neural Networks (<a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>).</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNFootState.html" class="m-doc">VelMANNFootState</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1VelMANNFootState.html" class="m-doc">VelMANNFootState</a> contains the state of a foot in contact with the ground.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInput.html" class="m-doc">VelMANNAutoregressiveInput</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInput.html" class="m-doc">VelMANNAutoregressiveInput</a> contains the unput to <a href="classBipedalLocomotion_1_1ML_1_1VelMANN.html" class="m-doc">VelMANN</a> network when used in autoregressive fashion.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveOutput.html" class="m-doc">VelMANNAutoregressiveOutput</a>
+            </dt>
+            <dd><a href="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveOutput.html" class="m-doc">VelMANNAutoregressiveOutput</a> contains the output to the <a href="classBipedalLocomotion_1_1ML_1_1VelMANN.html" class="m-doc">VelMANN</a> network when used in autoregressive fashion.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressive.html" class="m-doc">VelMANNAutoregressive</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressive.html" class="m-doc">VelMANNAutoregressive</a> is a class that allows to perform autoregressive inference with Mode-Adaptive Neural Networks (<a href="classBipedalLocomotion_1_1ML_1_1MANN.html" class="m-doc">MANN</a>).</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNDirectionalInput.html" class="m-doc">VelMANNDirectionalInput</a>
+            </dt>
+            <dd>Structure representing directional input for <a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressive.html" class="m-doc">VelMANNAutoregressive</a>.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInputBuilder.html" class="m-doc">VelMANNAutoregressiveInputBuilder</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInputBuilder.html" class="m-doc">VelMANNAutoregressiveInputBuilder</a> generates a <a href="structBipedalLocomotion_1_1ML_1_1VelMANNAutoregressiveInput.html" class="m-doc">VelMANNAutoregressiveInput</a> from a pair of directional inputs.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGeneratorInput.html" class="m-doc">VelMANNTrajectoryGeneratorInput</a>
+            </dt>
+            <dd>Input of the planner.</dd>
+            <dt>
+              struct <a href="structBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGeneratorOutput.html" class="m-doc">VelMANNTrajectoryGeneratorOutput</a>
+            </dt>
+            <dd>Output of the trajectory planner.</dd>
+            <dt>
+              class <a href="classBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGenerator.html" class="m-doc">VelMANNTrajectoryGenerator</a>
+            </dt>
+            <dd><a href="classBipedalLocomotion_1_1ML_1_1VelMANNTrajectoryGenerator.html" class="m-doc">VelMANNTrajectoryGenerator</a> is a class that uses <a href="classBipedalLocomotion_1_1ML_1_1VelMANNAutoregressive.html" class="m-doc">VelMANNAutoregressive</a> to generate a kinematically feasible trajectory for humanoid robots.</dd>
           </dl>
         </section>
       </div>

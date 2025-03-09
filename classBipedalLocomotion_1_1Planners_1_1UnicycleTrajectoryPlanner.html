@@ -35,7 +35,6 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.16.1/index.html">v0.16.1</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
@@ -120,6 +119,22 @@
             <dd>Get the index of the left foot contact frame.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#aef151639c1e5fea815c8972f565c972e" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a81ebb2cdd7dc371c4e4e19de615b55ba" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition,
+              const manif::SE3d&amp; leftToRightTransform) -&gt; bool</span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aed4799e93fab811bcaa7830f604fad7e" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const manif::SE3d&amp; leftToRightTransform) -&gt; bool</span>
+            </dt>
+            <dd>Initialize the planner.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a601708ae120e888d9deb69c4db1e1445" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition) -&gt; bool</span>
             </dt>
             <dd>Initialize the planner.</dd>
             <dt>
@@ -218,7 +233,78 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are required by the class:</p></aside><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td><code>referencePosition</code></td><td>list of 2 doubles</td><td>-</td><td>(0.1 0.0)</td><td>The reference position of the unicycle controller</td></tr><tr><td><code>controlType</code></td><td>string</td><td>&quot;direct&quot;</td><td>-</td><td>The control mode used by the unicycle controller</td></tr><tr><td><code>unicycleGain</code></td><td>double</td><td>10.0</td><td>-</td><td>The main gain of the unicycle controller</td></tr><tr><td><code>slowWhenTurningGain</code></td><td>double</td><td>2.0</td><td>-</td><td>The turning gain of the unicycle controller</td></tr><tr><td><code>slowWhenBackwardFactor</code></td><td>double</td><td>0.4</td><td>-</td><td>The backward gain of the unicycle controller</td></tr><tr><td><code>slowWhenSidewaysFactor</code></td><td>double</td><td>0.2</td><td>-</td><td>The sideways gain of the unicycle controller</td></tr><tr><td><code>dt</code></td><td>double</td><td>0.002</td><td>-</td><td>The sampling time of the planner</td></tr><tr><td><code>plannerHorizon</code></td><td>double</td><td>20.0</td><td>-</td><td>The planner time horizon</td></tr><tr><td><code>positionWeight</code></td><td>double</td><td>1.0</td><td>-</td><td>The position weight of the OC problem</td></tr><tr><td><code>timeWeight</code></td><td>double</td><td>2.5</td><td>-</td><td>The time weight of the OC problem</td></tr><tr><td><code>maxStepLength</code></td><td>double</td><td>0.32</td><td>-</td><td>The maximum length of a step</td></tr><tr><td><code>minStepLength</code></td><td>double</td><td>0.01</td><td>-</td><td>The minimum length of a step</td></tr><tr><td><code>maxLengthBackwardFactor</code></td><td>double</td><td>0.8</td><td>-</td><td>The factor of maximum backward walk</td></tr><tr><td><code>nominalWidth</code></td><td>double</td><td>0.20</td><td>-</td><td>The nominal feet distance</td></tr><tr><td><code>minWidth</code></td><td>double</td><td>0.14</td><td>-</td><td>The minimum feet distance</td></tr><tr><td><code>minStepDuration</code></td><td>double</td><td>0.65</td><td>-</td><td>The minimum duration of a step</td></tr><tr><td><code>maxStepDuration</code></td><td>double</td><td>1.5</td><td>-</td><td>The maximum duration of a step</td></tr><tr><td><code>nominalDuration</code></td><td>double</td><td>0.8</td><td>-</td><td>The nominal duration of a step</td></tr><tr><td><code>maxAngleVariation</code></td><td>double</td><td>18.0</td><td>-</td><td>The maximum unicycle rotation</td></tr><tr><td><code>minAngleVariation</code></td><td>double</td><td>5.0</td><td>-</td><td>The minimum unicycle rotation</td></tr><tr><td><code>saturationFactors</code></td><td>list of 2 doubles</td><td>-</td><td>(0.7 0.7)</td><td>Linear and Angular velocity conservative factors</td></tr><tr><td><code>leftYawDeltaInDeg</code></td><td>double</td><td>0.0</td><td>-</td><td>Offset for the left foot rotation around the z axis</td></tr><tr><td><code>rightYawDeltaInDeg</code></td><td>double</td><td>0.0</td><td>-</td><td>Offset for the right foot rotation around the z axis</td></tr><tr><td><code>swingLeft</code></td><td>bool</td><td>false</td><td>-</td><td>Perform the first step with the left foot</td></tr><tr><td><code>startAlwaysSameFoot</code></td><td>bool</td><td>false</td><td>-</td><td>Restart with the default foot if still</td></tr><tr><td><code>terminalStep</code></td><td>bool</td><td>true</td><td>-</td><td>Add a terminal step at the end of the horizon</td></tr><tr><td><code>mergePointRatios</code></td><td>list of 2 doubles</td><td>-</td><td>(0.4 0.4)</td><td>The ratios of the DS phase in which it is present a merge point</td></tr><tr><td><code>switchOverSwingRatio</code></td><td>double</td><td>0.2</td><td>-</td><td>The ratio between single and double support phases</td></tr><tr><td><code>lastStepSwitchTime</code></td><td>double</td><td>0.3</td><td>-</td><td>Time duration of double support phase in final step</td></tr><tr><td><code>isPauseActive</code></td><td>bool</td><td>true</td><td>-</td><td>If true, the planner can pause, instead of make tiny steps.</td></tr><tr><td><code>comHeight</code></td><td>double</td><td>0.70</td><td>-</td><td>CoM height in double support phase</td></tr><tr><td><code>comHeightDelta</code></td><td>double</td><td>0.01</td><td>-</td><td>Delta to add to CoM heinght in Single support phases</td></tr><tr><td><code>leftZMPDelta</code></td><td>list of 2 doubles</td><td>-</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame of the foot</td></tr><tr><td><code>rightZMPDelta</code></td><td>list of 2 doubles</td><td>-</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame of the foot</td></tr><tr><td><code>lastStepDCMOffset</code></td><td>double</td><td>0.5</td><td>-</td><td>Last Step DCM Offset. If 0, DCM coincides with stance foot ZMP</td></tr><tr><td><code>leftContactFrameName</code></td><td>string</td><td>-</td><td>&quot;l_sole&quot;</td><td>Name of the left foot contact frame</td></tr><tr><td><code>rightContactFrameName</code></td><td>string</td><td>-</td><td>&quot;r_sole&quot;</td><td>Name of the right foot contact frame</td></tr></tbody></table>
+<aside class="m-note m-info"><h4>Note</h4><p>The following parameters are required by the class:</p></aside><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td><code>referencePosition</code></td><td>list of 2 doubles</td><td>-</td><td>(0.1 0.0)</td><td>The reference position of the unicycle controller</td></tr><tr><td><code>controlType</code></td><td>string</td><td>&quot;direct&quot;</td><td>-</td><td>The control mode used by the unicycle controller</td></tr><tr><td><code>unicycleGain</code></td><td>double</td><td>10.0</td><td>-</td><td>The main gain of the unicycle controller</td></tr><tr><td><code>slowWhenTurningGain</code></td><td>double</td><td>2.0</td><td>-</td><td>The turning gain of the unicycle controller</td></tr><tr><td><code>slowWhenBackwardFactor</code></td><td>double</td><td>0.4</td><td>-</td><td>The backward gain of the unicycle controller</td></tr><tr><td><code>slowWhenSidewaysFactor</code></td><td>double</td><td>0.2</td><td>-</td><td>The sideways gain of the unicycle controller</td></tr><tr><td><code>dt</code></td><td>double</td><td>0.002</td><td>-</td><td>The sampling time of the planner</td></tr><tr><td><code>plannerHorizon</code></td><td>double</td><td>20.0</td><td>-</td><td>The planner time horizon</td></tr><tr><td><code>positionWeight</code></td><td>double</td><td>1.0</td><td>-</td><td>The position weight of the OC problem</td></tr><tr><td><code>timeWeight</code></td><td>double</td><td>2.5</td><td>-</td><td>The time weight of the OC problem</td></tr><tr><td><code>maxStepLength</code></td><td>double</td><td>0.32</td><td>-</td><td>The maximum length of a step</td></tr><tr><td><code>minStepLength</code></td><td>double</td><td>0.01</td><td>-</td><td>The minimum length of a step</td></tr><tr><td><code>maxLengthBackwardFactor</code></td><td>double</td><td>0.8</td><td>-</td><td>The factor of maximum backward walk</td></tr><tr><td><code>nominalWidth</code></td><td>double</td><td>0.20</td><td>-</td><td>The nominal feet distance</td></tr><tr><td><code>minWidth</code></td><td>double</td><td>0.14</td><td>-</td><td>The minimum feet distance</td></tr><tr><td><code>minStepDuration</code></td><td>double</td><td>0.65</td><td>-</td><td>The minimum duration of a step</td></tr><tr><td><code>maxStepDuration</code></td><td>double</td><td>1.5</td><td>-</td><td>The maximum duration of a step</td></tr><tr><td><code>nominalDuration</code></td><td>double</td><td>0.8</td><td>-</td><td>The nominal duration of a step</td></tr><tr><td><code>maxAngleVariation</code></td><td>double</td><td>18.0</td><td>-</td><td>The maximum unicycle rotation</td></tr><tr><td><code>minAngleVariation</code></td><td>double</td><td>5.0</td><td>-</td><td>The minimum unicycle rotation</td></tr><tr><td><code>saturationFactors</code></td><td>list of 2 doubles</td><td>-</td><td>(0.7 0.7)</td><td>Linear and Angular velocity conservative factors</td></tr><tr><td><code>leftYawDeltaInDeg</code></td><td>double</td><td>0.0</td><td>-</td><td>Offset for the left foot rotation around the z axis</td></tr><tr><td><code>rightYawDeltaInDeg</code></td><td>double</td><td>0.0</td><td>-</td><td>Offset for the right foot rotation around the z axis</td></tr><tr><td><code>swingLeft</code></td><td>bool</td><td>false</td><td>-</td><td>Perform the first step with the left foot</td></tr><tr><td><code>startAlwaysSameFoot</code></td><td>bool</td><td>false</td><td>-</td><td>Restart with the default foot if still</td></tr><tr><td><code>terminalStep</code></td><td>bool</td><td>true</td><td>-</td><td>Add a terminal step at the end of the horizon</td></tr><tr><td><code>mergePointRatios</code></td><td>list of 2 doubles</td><td>-</td><td>(0.4 0.4)</td><td>The ratios of the DS phase in which it is present a merge point</td></tr><tr><td><code>switchOverSwingRatio</code></td><td>double</td><td>0.2</td><td>-</td><td>The ratio between single and double support phases</td></tr><tr><td><code>lastStepSwitchTime</code></td><td>double</td><td>0.3</td><td>-</td><td>Time duration of double support phase in final step</td></tr><tr><td><code>isPauseActive</code></td><td>bool</td><td>true</td><td>-</td><td>If true, the planner can pause, instead of make tiny steps.</td></tr><tr><td><code>comHeight</code></td><td>double</td><td>0.70</td><td>-</td><td>CoM height in double support phase</td></tr><tr><td><code>comHeightDelta</code></td><td>double</td><td>0.01</td><td>-</td><td>Delta to add to CoM heinght in Single support phases</td></tr><tr><td><code>leftZMPDelta</code></td><td>list of 2 doubles</td><td>-</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame of the foot</td></tr><tr><td><code>rightZMPDelta</code></td><td>list of 2 doubles</td><td>-</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame of the foot</td></tr><tr><td><code>leftZMPInitSwitchDelta</code></td><td>list of 2 doubles</td><td>(0.0 0.0)</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame when the switch to the</td></tr><tr><td></td><td></td><td></td><td></td><td>other foot begins. This parameter is only used by the ZMP generator.</td></tr><tr><td><code>rightZMPInitSwitchDelta</code></td><td>list of 2 doubles</td><td>(0.0 0.0)</td><td>(0.0 0.0)</td><td>Local ZMP reference: delta wrt center frame when the switch to the</td></tr><tr><td></td><td></td><td></td><td></td><td>other foot begins. This parameter is only used by the ZMP generator.</td></tr><tr><td><code>lastStepDCMOffset</code></td><td>double</td><td>0.5</td><td>-</td><td>Last Step DCM Offset. If 0, DCM coincides with stance foot ZMP</td></tr><tr><td><code>leftContactFrameName</code></td><td>string</td><td>-</td><td>&quot;l_sole&quot;</td><td>Name of the left foot contact frame</td></tr><tr><td><code>rightContactFrameName</code></td><td>string</td><td>-</td><td>&quot;r_sole&quot;</td><td>Name of the right foot contact frame</td></tr></tbody></table>
+          </div></section>
+          <section class="m-doc-details" id="a81ebb2cdd7dc371c4e4e19de615b55ba"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a81ebb2cdd7dc371c4e4e19de615b55ba" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition,
+              const manif::SE3d&amp; leftToRightTransform)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>initialBasePosition</td>
+                  <td>Initial position of the base.</td>
+                </tr>
+                <tr>
+                  <td>leftToRightTransform</td>
+                  <td>Transformation Matrix between the left and right foot.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="aed4799e93fab811bcaa7830f604fad7e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aed4799e93fab811bcaa7830f604fad7e" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const manif::SE3d&amp; leftToRightTransform)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>leftToRightTransform</td>
+                  <td>Transformation Matrix between the left and right foot.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a601708ae120e888d9deb69c4db1e1445"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />Planners::<wbr />UnicycleTrajectoryPlanner::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a601708ae120e888d9deb69c4db1e1445" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler,
+              const Eigen::Vector3d&amp; initialBasePosition)</span></span>
+            </h3>
+            <p>Initialize the planner.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">handler</td>
+                  <td>Pointer to the parameter handler.</td>
+                </tr>
+                <tr>
+                  <td>initialBasePosition</td>
+                  <td>Initial position of the base.</td>
+                </tr>
+              </tbody>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a91d2c7e5b034956159662a0ed7c8f0fd"><div>
             <h3>

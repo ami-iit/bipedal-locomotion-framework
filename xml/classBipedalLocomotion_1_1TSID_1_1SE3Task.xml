@@ -209,6 +209,21 @@
         </inbodydescription>
         <location file="BipedalLocomotion/TSID/SE3Task.h" line="85" column="10" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="85" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a61ec4a3e7834e98a5bfab92ad392d43b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::TSID::SE3Task::m_isSetPointSetAtLeastOnce</definition>
+        <argsstring></argsstring>
+        <name>m_isSetPointSetAtLeastOnce</name>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True if the set-point has been set at least once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="87" column="10" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-attrib">
       <memberdef kind="variable" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9f9f102be69d1f42dee154efda1b51a1" prot="private" static="yes" constexpr="yes" mutable="no">
@@ -338,7 +353,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="103" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="104" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a44e25ee03d0cdb402ed89aef18d2f94d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -369,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="110" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="111" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ae8d7bb9e44fe6a1dc30d4f721f7d398b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -402,7 +417,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="123" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="124" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -420,7 +435,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="129" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="130" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a919b042e697db5ed00e442a10e5fcb24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -474,7 +489,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="138" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="139" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa160bbc967e85bb412ff7ef6d8166e92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -492,7 +507,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="146" column="17"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="147" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad9ef25356e0e2b5ab19db56f46c06014" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" kindref="member">Type</ref></type>
@@ -510,7 +525,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="152" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="153" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ac6d22ed01a62f5b8809939d5d272c4a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -528,7 +543,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="158" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="159" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1af1d30051cc772c8ac734d11e8cfc882c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -557,7 +572,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="165" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="166" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a95920083d0e9566673a2dbe0fbd60243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1a596df9ff6f6a3efa2a7f27ce1422e050" kindref="member">Mode</ref></type>
@@ -575,7 +590,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="171" column="10"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="172" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a7730e223936cfdd3d2fdcc45d1201f51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
@@ -594,16 +609,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/TSID/SE3Task.h" line="178" column="16"/>
+        <location file="BipedalLocomotion/TSID/SE3Task.h" line="179" column="16"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kindref="compound">SE3Task</ref> is a concrete implementation of the OptimalControlElement. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="100">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="277">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="40">$J$</formula> is the robot jacobian and <formula id="278">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame will asymptotically converge to the desired trajectory. The linear component of <formula id="278">$\dot{\mathrm{v}} ^ *$</formula> is computed with a standard PD controller in <formula id="42">$R^3$</formula> while the angular acceleration is computed by a PD controller in <formula id="43">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
+<para>Please use this element if you want to control the position and the orientation of a given frame rigidly attached to the robot. The task assumes perfect control of the robot acceleration <formula id="155">$\dot{\nu}$</formula> that contains the base linear and angular acceleration expressed in mixed representation and the joints acceleration. The task represents the following equation <formula id="169">\[ J \dot{\nu} + \dot{J} \nu = \dot{\mathrm{v}} ^ * \]</formula> where <formula id="157">$J$</formula> is the robot jacobian and <formula id="170">$\dot{\mathrm{v}} ^ *$</formula> is the desired acceleration. The desired acceleration is chosen such that the frame will asymptotically converge to the desired trajectory. The linear component of <formula id="170">$\dot{\mathrm{v}} ^ *$</formula> is computed with a standard PD controller in <formula id="160">$R^3$</formula> while the angular acceleration is computed by a PD controller in <formula id="120">$SO(3)$</formula>. <simplesect kind="note"><para>Please refer to <ulink url="https://github.com/ami-iit/lie-group-controllers">https://github.com/ami-iit/lie-group-controllers</ulink> if you are interested in the implementation of the PD controllers. </para>
 </simplesect>
-<simplesect kind="note"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kindref="compound">SE3Task</ref> is technically not a <formula id="44">$SE(3)$</formula> space defined task, instead is a <formula id="45">$SO(3) \times \mathbb{R}^3$</formula> task. Theoretically, there are differences between the two due to the different definitions of exponential maps and logarithm maps. Please consider that here the MIXED representation is used to define the 6d-velocity. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
+<simplesect kind="note"><para>The <ref refid="classBipedalLocomotion_1_1TSID_1_1SE3Task" kindref="compound">SE3Task</ref> is technically not a <formula id="171">$SE(3)$</formula> space defined task, instead is a <formula id="172">$SO(3) \times \mathbb{R}^3$</formula> task. Theoretically, there are differences between the two due to the different definitions of exponential maps and logarithm maps. Please consider that here the MIXED representation is used to define the 6d-velocity. You can find further details in Section 2.3.4 of <ulink url="https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf">https://traversaro.github.io/phd-thesis/traversaro-phd-thesis.pdf</ulink>. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -666,7 +681,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/TSID/SE3Task.h" line="47" column="1" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="48" bodyend="180"/>
+    <location file="BipedalLocomotion/TSID/SE3Task.h" line="47" column="1" bodyfile="BipedalLocomotion/TSID/SE3Task.h" bodystart="48" bodyend="181"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad510fff46eb9cbbc65775b1a9490e297" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a8c65780b85d3927038c3320d3cfca730" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>getB</name></member>
@@ -685,6 +700,7 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aea2f84d0b02b6ee7ec23ca96ddc2c9e6" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_DoFs</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad832ede3ab9ab4e84192af08ca13f291" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_frameIndex</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a90e44b87e3a51c3b52d35e46e54124b4" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_isInitialized</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a61ec4a3e7834e98a5bfab92ad392d43b" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_isSetPointSetAtLeastOnce</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a9e5cc88c71d9d71be66905a80559ddb9" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_isValid</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a0b6660824c00701d11a1dc238e0efdeb" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_jacobian</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ade509401a17b44eca8f8c14a9388a747" prot="private" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>m_kinDyn</name></member>
@@ -703,8 +719,8 @@
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1aa160bbc967e85bb412ff7ef6d8166e92" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>size</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a06fab6bb77dd556a74c76b6e57dc0ba1" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>subA</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1ad6a0743b7902e539d634358b269741b4" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>subA</name></member>
-      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad9ef25356e0e2b5ab19db56f46c06014" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a2f9d37ec58342f227021c12a4a539748" prot="public" virt="non-virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>Type</name></member>
+      <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1ad9ef25356e0e2b5ab19db56f46c06014" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>type</name></member>
       <member refid="classBipedalLocomotion_1_1TSID_1_1SE3Task_1a611e03ff5be79f5f7f78668e26725f7d" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>update</name></member>
       <member refid="structBipedalLocomotion_1_1System_1_1ITaskControllerManager_1ab1d59ede7af6334a2cb058d499546434" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>~ITaskControllerManager</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1LinearTask_1a22edf322e7504d1a197b687d265445d7" prot="public" virt="virtual"><scope>BipedalLocomotion::TSID::SE3Task</scope><name>~LinearTask</name></member>

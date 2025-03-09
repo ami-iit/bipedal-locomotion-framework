@@ -10,9 +10,11 @@
     <includes local="no">CoMHeightTrajectoryGenerator.h</includes>
     <includes local="no">UnicycleGenerator.h</includes>
     <includes local="no">UnicyclePlanner.h</includes>
+    <includes local="no">ZMPTrajectoryGenerator.h</includes>
     <includes local="no">chrono</includes>
     <includes local="no">deque</includes>
     <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
     <includedby refid="UnicycleTrajectoryGenerator_8h" local="no">BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</includedby>
@@ -59,14 +61,20 @@
       <node id="12">
         <label>iDynTree/VectorDynSize.h</label>
       </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
       <node id="6">
         <label>vector</label>
+      </node>
+      <node id="16">
+        <label>ZMPTrajectoryGenerator.h</label>
       </node>
       <node id="10">
         <label>BipedalLocomotion/System/OutputPort.h</label>
         <link refid="OutputPort_8h"/>
       </node>
-      <node id="16">
+      <node id="17">
         <label>deque</label>
       </node>
       <node id="3">
@@ -89,11 +97,15 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -128,6 +140,7 @@
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1COMTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::COMTrajectory</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1DCMTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::DCMTrajectory</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::ZMPTrajectory</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ContactStatus" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::ContactStatus</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::Steps</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1FootTrajectory" prot="public">BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::FootTrajectory</innerclass>

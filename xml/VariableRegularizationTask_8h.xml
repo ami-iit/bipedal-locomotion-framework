@@ -129,6 +129,24 @@
     <innerclass refid="classBipedalLocomotion_1_1TSID_1_1VariableRegularizationTask" prot="public">BipedalLocomotion::TSID::VariableRegularizationTask</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1TSID">BipedalLocomotion::TSID</innernamespace>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="VariableRegularizationTask_8h_1a124bd212bed0fae278690179a09f0c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BipedalLocomotion::TSID::BLF_REGISTER_TSID_TASK</definition>
+        <argsstring>(VariableRegularizationTask)</argsstring>
+        <name>BLF_REGISTER_TSID_TASK</name>
+        <param>
+          <type>VariableRegularizationTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/TSID/VariableRegularizationTask.h" line="93" column="1" declfile="BipedalLocomotion/TSID/VariableRegularizationTask.h" declline="93" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
