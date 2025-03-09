@@ -48,9 +48,11 @@ bool YarpSensorBridge::initialize(std::weak_ptr<const IParametersHandler> handle
         log()->info("{} Joint accelerations will not be streamed.", logPrefix);
     }
 
-    if (!ptr->getParameter("stream_motor_temperature", m_pimpl->metaData.bridgeOptions.isMotorTemperatureSensorEnabled))
+    if (!ptr->getParameter("stream_motor_temperature",
+                           m_pimpl->metaData.bridgeOptions.isMotorTemperatureSensorEnabled))
     {
-        log()->info("{} Unable to get stream_motor_temperature. Set to false by default", logPrefix);
+        log()->info("{} Unable to get stream_motor_temperature. Set to false by default",
+                    logPrefix);
     }
     if (!m_pimpl->metaData.bridgeOptions.isMotorTemperatureSensorEnabled)
     {
@@ -449,8 +451,8 @@ bool YarpSensorBridge::getJointVelocities(Eigen::Ref<Eigen::VectorXd> jointVeloc
 
     if (jointVelocties.size() != m_pimpl->controlBoardRemapperMeasures.jointVelocities.size())
     {
-        log()->error("[YarpSensorBridge::getJointVelocities] Joint velocities and positions have "
-                     "different sizes.");
+        log()->error("[YarpSensorBridge::getJointVelocities] The size of the input vector does not "
+                     "match the number of joints.");
         return false;
     }
 
@@ -519,7 +521,8 @@ bool YarpSensorBridge::getJointAccelerations(Eigen::Ref<Eigen::VectorXd> jointAc
     if (jointAccelerations.size()
         != m_pimpl->controlBoardRemapperMeasures.jointAccelerations.size())
     {
-        log()->error("{} Joint accelerations and positions have different sizes.", logPrefix);
+        log()->error("{} The size of the input vector does not match the number of joints.",
+                     logPrefix);
         return false;
     }
 
