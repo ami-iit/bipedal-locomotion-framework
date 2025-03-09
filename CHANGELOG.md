@@ -10,7 +10,7 @@ All notable changes to this project are documented in this file.
 - Add the possibility to easily disable/enable the rt logging in `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/932)
 - Enable Programmatic Creation of `VariableRegularizationTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/934)
 - Check if the setpoint has been set at least once in TSID and IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
-- Add motor temperature sensor support to SensorBridge and `YarpSensorBridge` and `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/946)
+- Add motor temperature sensor support to `SensorBridge`, `YarpSensorBridge` and `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/946)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
