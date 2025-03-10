@@ -48,12 +48,14 @@ bool FloatingBaseSystemAccelerationKinematics::dynamics(const std::chrono::nanos
 
     // check the size of the joint vectors
     if (jointAcceleration.size() != jointPositionsState.size()
-        || jointVelocitiesState.size() != jointPositionsState.size()
-        || jointVelocitiesStateDerivative.size() != jointPositionsState.size()
-        || jointAccelerationsStateDerivative.size() != jointPositionsState.size())
+        || jointVelocitiesState.size() != jointPositionsState.size())
     {
         log()->error("[FloatingBaseSystemAccelerationKinematics::dynamics] Wrong size of the "
-                     "vectors.");
+                     "vectors. Joints size: {}. Joint velocities size: {}. Joint accelerations size: "
+                     "{}.",
+                     jointPositionsState.size(),
+                     jointVelocitiesState.size(),
+                     jointAcceleration.size());
         return false;
     }
 
