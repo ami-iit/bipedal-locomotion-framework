@@ -619,6 +619,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a6b43d2a4b9fa1ff85d283356be390f09" kind="variable"><name>currsensors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a9b121fc5e9dd4938879f1f35de3604de" kind="variable"><name>torques</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1ac5bdf95dd2782fa9579923b8a12e60bc" kind="variable"><name>motorEncoders</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1ade5253432d5f202665e7f223bb044807" kind="variable"><name>motor</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a038ab72099605364ce5aa474ddaa5770" kind="variable"><name>pids</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperInterfaces_1a6049afc295d0c40f20eb0de8482e8d4e" kind="variable"><name>amp</name></member>
   </compound>
@@ -636,6 +637,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1ab214a4ac5d67f8fbb98955b87ef087e0" kind="variable"><name>pidPositions</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a40807efec8b95df2511f29b22e737c03" kind="variable"><name>pidPositionErrors</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a743b729ea5c6ab636d6d13952775e6c4" kind="variable"><name>motorPWMs</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a6f028307d6be45520283700da9094e72" kind="variable"><name>motorTemperatures</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a14e629a72895b3c861a5541ca77e28e2" kind="variable"><name>jointPositionsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1adc8f7d04813dc4455eef40e44441812a" kind="variable"><name>jointVelocitiesUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a2780dda8c043f3bf79ff4997a4d32b19" kind="variable"><name>jointAccelerationsUnordered</name></member>
@@ -644,6 +646,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1af78144bcf245c4a92b67d1746a66dd58" kind="variable"><name>motorPositionsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a1ddc7db0514c379d6e4185aca234ef07" kind="variable"><name>motorVelocitiesUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1a9a0bc37cbc5ff438a35e94e8d125fce2" kind="variable"><name>motorAccelerationsUnordered</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1adca66ce5a74137f6359fe031d312ce9f" kind="variable"><name>motorTemperaturesUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1ab53823f4a8fc0e15311b3456587bf91a" kind="variable"><name>pidPositionsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1aebc9681cfed20e5513169551ece71ee6" kind="variable"><name>pidPositionErrorsUnordered</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1ControlBoardRemapperMeasures_1acae6ab3b921b5fc28c4ab0cae98463bc" kind="variable"><name>motorPWMsUnordered</name></member>
@@ -1389,6 +1392,8 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a20a3b9a547662ead8aa64438648fe170" kind="function"><name>getMotorVelocities</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1aeef893871d9e1f2e7fb87215acf804c6" kind="function"><name>getMotorAcceleration</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a371ce08830f823788cf4d9ca96c15dbe" kind="function"><name>getMotorAccelerations</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a27442cebc43a2d0e81e75103f82990b0" kind="function"><name>getMotorTemperatures</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a975c3d127759bf2a5a6a86eb17b54907" kind="function"><name>getMotorTemperature</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1a75a4cacac8252789fa054a20a548ba75" kind="function"><name>populateSensorBridgeOptionsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1ad81d1c091fa178daf1489060c3b4756c" kind="function"><name>populateSensorListsFromConfig</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge_1af951b34d0b4ff5dd51a23bf40dad488d" kind="function"><name>populateSensorBridgeMetaDataFromConfig</name></member>
@@ -2340,6 +2345,7 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af7cdf9dd94eb559201ee6a35f2427df8" kind="variable"><name>isPIDsEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a89a49fe4085abfec7529e5257e7191ef" kind="variable"><name>isMotorSensorsEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a0f81c5a2b2e5b264377357e1e0a79747" kind="variable"><name>isPWMControlEnabled</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af20503f7ea0c45d994adbc6720ae7531" kind="variable"><name>isMotorTemperatureSensorEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ac165eee2794add881f0773c3de59d96b" kind="variable"><name>isTemperatureSensorEnabled</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a4570c2a27e0c3288f690d35070ace64f" kind="variable"><name>nrJoints</name></member>
   </compound>
@@ -3386,6 +3392,8 @@
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2d34946341578f1f3bcad7c2bcd69586" kind="function"><name>getTemperature</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ac346d428d98a915c180eefa88e77c4f5" kind="function"><name>getMotorCurrent</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a06dde4e83342d5339914e775da676c73" kind="function"><name>getMotorCurrents</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1aa55286d675b00d207558190b5ce411dc" kind="function"><name>getMotorTemperatures</name></member>
+    <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a7794a3d6340378516d342d6c911f49b6" kind="function"><name>getMotorTemperature</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab68925085e877f4bfd364633fffa2078" kind="function"><name>getMotorPWM</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1a2e0b70850a3a51799b09d65fc3e94642" kind="function"><name>getMotorPWMs</name></member>
     <member refid="classBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1ab06d8ce409985c47e2bcf59b6267c1ae" kind="function"><name>getJointTorque</name></member>

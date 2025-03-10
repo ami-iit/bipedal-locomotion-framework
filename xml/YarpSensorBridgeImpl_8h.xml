@@ -13,6 +13,7 @@
     <includes local="no">yarp/dev/IAnalogSensor.h</includes>
     <includes local="no">yarp/dev/ICurrentControl.h</includes>
     <includes local="no">yarp/dev/IGenericSensor.h</includes>
+    <includes local="no">yarp/dev/IMotor.h</includes>
     <includes local="no">yarp/dev/IMotorEncoders.h</includes>
     <includes local="no">yarp/dev/IPidControl.h</includes>
     <includes local="no">yarp/dev/ITorqueControl.h</includes>
@@ -29,16 +30,16 @@
       <node id="20">
         <label>atomic</label>
       </node>
-      <node id="41">
+      <node id="42">
         <label>yarp/dev/IAxisInfo.h</label>
       </node>
-      <node id="35">
+      <node id="36">
         <label>yarp/dev/IMotorEncoders.h</label>
       </node>
       <node id="3">
         <label>functional</label>
       </node>
-      <node id="37">
+      <node id="38">
         <label>yarp/dev/ITorqueControl.h</label>
       </node>
       <node id="15">
@@ -56,7 +57,7 @@
       <node id="33">
         <label>yarp/dev/ICurrentControl.h</label>
       </node>
-      <node id="40">
+      <node id="41">
         <label>yarp/dev/IRGBDSensor.h</label>
       </node>
       <node id="7">
@@ -100,7 +101,7 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="45">
+      <node id="46">
         <label>cmath</label>
       </node>
       <node id="14">
@@ -109,11 +110,14 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="39">
         <label>yarp/dev/MultipleAnalogSensorsInterfaces.h</label>
       </node>
       <node id="8">
         <label>string</label>
+      </node>
+      <node id="35">
+        <label>yarp/dev/IMotor.h</label>
       </node>
       <node id="19">
         <label>BipedalLocomotion/System/Clock.h</label>
@@ -180,6 +184,8 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
       </node>
       <node id="21">
         <label>BipedalLocomotion/System/IClock.h</label>
@@ -193,7 +199,7 @@
       <node id="11">
         <label>Eigen/Dense</label>
       </node>
-      <node id="39">
+      <node id="40">
         <label>yarp/dev/FrameGrabberInterfaces.h</label>
       </node>
       <node id="23">
@@ -233,7 +239,7 @@
       <node id="31">
         <label>yarp/dev/IAmplifierControl.h</label>
       </node>
-      <node id="43">
+      <node id="44">
         <label>yarp/eigen/Eigen.h</label>
       </node>
       <node id="9">
@@ -273,19 +279,19 @@
       <node id="26">
         <label>type_traits</label>
       </node>
-      <node id="46">
+      <node id="47">
         <label>set</label>
       </node>
-      <node id="44">
+      <node id="45">
         <label>algorithm</label>
       </node>
-      <node id="36">
+      <node id="37">
         <label>yarp/dev/IPidControl.h</label>
       </node>
       <node id="4">
         <label>memory</label>
       </node>
-      <node id="42">
+      <node id="43">
         <label>yarp/dev/IEncodersTimed.h</label>
       </node>
     </incdepgraph>

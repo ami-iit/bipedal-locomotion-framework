@@ -345,6 +345,17 @@
               OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd>Get all motors&#x27; accelerations in rad/s^2.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a27442cebc43a2d0e81e75103f82990b0" class="m-doc">getMotorTemperatures</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTemperatures,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get motor temperature in degrees celsius.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a975c3d127759bf2a5a6a86eb17b54907" class="m-doc">getMotorTemperature</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorTemperature,
+              OptionalDoubleRef receiveTimeInSeconds = {}) -&gt; bool <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd>Get motor temperature in degrees celsius.</dd>
           </dl>
         </section>
         <section id="pro-methods">
@@ -1570,6 +1581,68 @@
               </tfoot>
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorAccelerations&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a27442cebc43a2d0e81e75103f82990b0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a27442cebc43a2d0e81e75103f82990b0" class="m-doc-self">getMotorTemperatures</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;Eigen::VectorXd&gt; motorTemperatures,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Get motor temperature in degrees celsius.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">motorTemperatures</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-note m-danger"><h4>Warning</h4><p>the size is decided at the configuration and remains fixed, and internal checks must be done at the implementation level by the Derived class. This means that the user must pass a resized argument &quot;motorTemperatures&quot; to this method</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a975c3d127759bf2a5a6a86eb17b54907"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />RobotInterface::<wbr />ISensorBridge::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a975c3d127759bf2a5a6a86eb17b54907" class="m-doc-self">getMotorTemperature</a>(</span><span class="m-doc-wrap">const std::string&amp; jointName,
+              double&amp; motorTemperature,
+              OptionalDoubleRef receiveTimeInSeconds = {}) <span class="m-label m-warning">virtual</span></span></span>
+            </h3>
+            <p>Get motor temperature in degrees celsius.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">jointName&nbsp;<span class="m-label m-flat m-info">in</span></td>
+                  <td>name of the joint</td>
+                </tr>
+                <tr>
+                  <td>motorTemperature&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>motor temperature in degrees celsius</td>
+                </tr>
+                <tr>
+                  <td>receiveTimeInSeconds&nbsp;<span class="m-label m-flat m-warning">out</span></td>
+                  <td>time at which the measurement was received</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true/false in case of success/failure</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a75a4cacac8252789fa054a20a548ba75"><div>
             <h3>

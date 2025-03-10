@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="79" column="51" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="79" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="81" column="51" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a1d314a6406b9db0cddc68f86cc235d8d" prot="public" static="no" mutable="no">
         <type>yarp::dev::IThreeAxisGyroscopes *</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="80" column="41" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="80" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="82" column="41" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a9f046eb1542cc37141de10bfc1561ce8" prot="public" static="no" mutable="no">
         <type>yarp::dev::IThreeAxisMagnetometers *</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="81" column="44" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="81" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="83" column="44" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a97647e52f6c4f26010773dfce912257b" prot="public" static="no" mutable="no">
         <type>yarp::dev::IOrientationSensors *</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="82" column="40" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="82" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="84" column="40" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -66,7 +66,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="77" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="78" bodyend="83"/>
+    <location file="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" line="79" column="5" bodyfile="BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h" bodystart="80" bodyend="85"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a1c7960700e4ddf32ca5fdddc0fb8cef2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASInertialsInterface</scope><name>accelerometers</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1_1MASInertialsInterface_1a1d314a6406b9db0cddc68f86cc235d8d" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::YarpSensorBridge::Impl::MASInertialsInterface</scope><name>gyroscopes</name></member>
