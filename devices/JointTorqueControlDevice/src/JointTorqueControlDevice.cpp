@@ -1180,6 +1180,12 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     // run the thread
     if (m_publishEstimationVectorsCollection)
     {
+        if (!m_vectorsCollectionServer.initialize(params))
+        {
+            log()->error("{} Unable to configure the server.", logPrefix);
+            return false;
+        }
+
         m_vectorsCollectionServer.populateMetadata("motor_currents::desired", joint_list);
         m_vectorsCollectionServer.populateMetadata("friction_torques::estimated", joint_list);
         m_vectorsCollectionServer.finalizeMetadata();
