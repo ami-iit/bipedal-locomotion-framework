@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file.
 - Enable Programmatic Creation of `VariableRegularizationTask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/934)
 - Check if the setpoint has been set at least once in TSID and IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 - Add motor temperature sensor support to `SensorBridge`, `YarpSensorBridge` and `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/946)
+- Add the support to the joint type (revolute/prismatic) in `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/949)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
