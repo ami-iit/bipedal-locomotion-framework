@@ -25,7 +25,7 @@
 #include <BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h>
 #include <BipedalLocomotion/IK/SE3Task.h>
 
-#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h>
 #include <BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h>
 
 #include <iDynTree/EigenHelpers.h>
@@ -56,8 +56,8 @@ struct DesiredSetPoints
 
 struct System
 {
-    std::shared_ptr<ForwardEuler<FloatingBaseSystemKinematics>> integrator;
-    std::shared_ptr<FloatingBaseSystemKinematics> dynamics;
+    std::shared_ptr<ForwardEuler<FloatingBaseSystemVelocityKinematics>> integrator;
+    std::shared_ptr<FloatingBaseSystemVelocityKinematics> dynamics;
 };
 
 std::shared_ptr<IParametersHandler> createParameterHandler()
@@ -200,12 +200,12 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
         jointPositions[i] += distribution(generator);
     }
 
-    out.dynamics = std::make_shared<FloatingBaseSystemKinematics>();
+    out.dynamics = std::make_shared<FloatingBaseSystemVelocityKinematics>();
     out.dynamics->setState({basePose.topRightCorner<3, 1>(),
                             toManifRot(basePose.topLeftCorner<3, 3>()),
                             jointPositions});
 
-    out.integrator = std::make_shared<ForwardEuler<FloatingBaseSystemKinematics>>();
+    out.integrator = std::make_shared<ForwardEuler<FloatingBaseSystemVelocityKinematics>>();
     REQUIRE(out.integrator->setIntegrationStep(dT));
     out.integrator->setDynamicalSystem(out.dynamics);
 
