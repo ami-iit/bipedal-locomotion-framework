@@ -44,8 +44,6 @@ TEST_CASE("Integrator - Linear system")
     Eigen::Vector3d position0;
     position0.setRandom();
 
-    std::cerr << "position0: " << position0.transpose() << std::endl;
-
     Eigen::Vector3d linearVelocity0;
     linearVelocity0.setRandom();
 
