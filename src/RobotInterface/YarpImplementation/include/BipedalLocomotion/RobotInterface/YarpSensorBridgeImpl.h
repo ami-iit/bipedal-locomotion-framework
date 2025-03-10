@@ -1180,6 +1180,15 @@ struct YarpSensorBridge::Impl
             controlBoardRemapperInterfaces.axis->getAxisName(DOF, joint);
             controlBoardRemapperInterfaces.axis->getJointType(DOF, jType);
             controlBoardJoints.push_back(joint);
+            if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
+                && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+            {
+                log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
+                             "supported.",
+                             logPrefix);
+                return false;
+            }
+
             controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
                                                  ? JointType::REVOLUTE
                                                  : JointType::PRISMATIC);
