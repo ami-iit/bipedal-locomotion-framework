@@ -52,7 +52,7 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 
-//clang-format off
+// clang-format off
 /**
  * FloatingBaseSystemVelocityKinematics describes a floating base system kinematics.
  * The FloatingBaseSystemVelocityKinematics inherits from a generic DynamicalSystem where the State
