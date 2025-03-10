@@ -56,15 +56,15 @@ namespace ContinuousDynamicalSystem
 /**
  * FloatingBaseSystemVelocityKinematics describes a floating base system kinematics.
  * The FloatingBaseSystemVelocityKinematics inherits from a generic DynamicalSystem where the State
- * is described by a BipedalLocomotion::GenericContainer::named_tuple 
- * |  Name |        Type      |                                                          Description                                                                         |
- * |:----:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
- * |  `p` | `Eigen::Vector3d` |                                                Position of the base w.r.t. the inertial frame                                                |
- * |  `R` |   `manif::SO3d`   | Rotation matrix \f${}^I R _ {b}\f$. Matrix that transform a vector whose coordinates are  expressed in the base frame in the inertial frame  |
- * |  `s` | `Eigen::VectorXd` |                                                      Joint positions [in rad]                                                                |
+ * is described by a BipedalLocomotion::GenericContainer::named_tuple
+ * |  Name |        Type       |                                                          Description                                                                         |
+ * |:-----:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
+ * |  `p`  | `Eigen::Vector3d` |                                                Position of the base w.r.t. the inertial frame                                                |
+ * |  `R`  |   `manif::SO3d`   | Rotation matrix \f${}^I R _ {b}\f$. Matrix that transform a vector whose coordinates are  expressed in the base frame in the inertial frame  |
+ * |  `s`  | `Eigen::VectorXd` |                                                      Joint positions [in rad]                                                                |
  *
  * The `StateDerivative` is described by a BipedalLocomotion::GenericContainer::named_tuple
- * |   Name  |          Type          |                                                   Description                                                               | 
+ * |   Name  |          Type          |                                                   Description                                                               |
  * |:-------:|:----------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
  * |  `dp`   |    `Eigen::Vector3d`   | Linear velocity of the origin of the base link whose coordinates are expressed in the Inertial frame (MIXED RERPESENTATION) |
  * | `omega` | `manif::SO3d::Tangent` |                base angular velocity whose coordinates are expressed in the inertial frame (Left trivialized)               |
