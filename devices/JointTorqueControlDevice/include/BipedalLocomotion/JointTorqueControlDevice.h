@@ -181,6 +181,7 @@ private:
     yarp::sig::Vector estimatedFrictionTorques;
     yarp::sig::Vector torqueIntegralErrors;
     std::string m_portPrefix{"/hijackingTrqCrl"}; /**< Default port prefix. */
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::vector<int> m_gearRatios;
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
@@ -206,6 +207,7 @@ private:
         std::vector<double> m_frictionLogging;
         std::vector<double> m_currentLogging;
     } m_status;
+    bool m_publishEstimationVectorsCollection{false}; /**< True if the estimation is published. */
 
     bool openCalledCorrectly{false};
 
@@ -235,6 +237,12 @@ private:
     void readStatus();
     // bool loadGains(yarp::os::Searchable& config);
     bool loadFrictionParams(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
+
+    /**
+     * Published the status.
+     * This is a separate thread.
+     */
+    void publishStatus();
 
     /**
      * Load the coupling matrices from the group whose name

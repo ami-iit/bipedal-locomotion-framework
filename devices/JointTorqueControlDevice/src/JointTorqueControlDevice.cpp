@@ -599,9 +599,12 @@ void JointTorqueControlDevice::computeDesiredCurrents()
                                                  -motorTorqueCurrentParameters[j].maxCurr);
 
             {
-                std::lock_guard<std::mutex> lockOutput(m_status.mutex);
-                m_status.m_frictionLogging[j] = estimatedFrictionTorques[j];
-                m_status.m_currentLogging[j] = desiredMotorCurrents[j];
+                if (m_publishEstimationVectorsCollection)
+                {
+                    std::lock_guard<std::mutex> lockOutput(m_status.mutex);
+                    m_status.m_frictionLogging[j] = estimatedFrictionTorques[j];
+                    m_status.m_currentLogging[j] = desiredMotorCurrents[j];
+                }
             }
         }
     }
@@ -1157,10 +1160,67 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!params->getParameter("publish_status", m_publishEstimationVectorsCollection))
+    {
+        log()->info("{} Parameter `publish_status` not found. Set to false as default.", logPrefix);
+    }
+
     // run the thread
+    if (m_publishEstimationVectorsCollection)
+    {
+        m_vectorsCollectionServer.populateMetadata("motor_currents::desired", joint_list);
+        m_vectorsCollectionServer.populateMetadata("friction_torques::estimated", joint_list);
+        m_vectorsCollectionServer.finalizeMetadata();
+        m_publishEstimationThread = std::thread([this] { this->publishStatus(); });
+    }
+
     m_torqueControlIsRunning = false;
 
     return ret;
+}
+
+void JointTorqueControlDevice::publishStatus()
+{
+    constexpr auto logPrefix = "[JointTorqueControlDevice::publishStatus]";
+
+    auto time = BipedalLocomotion::clock().now();
+    auto oldTime = time;
+    auto wakeUpTime = time;
+    const auto publishOutputPeriod = std::chrono::duration<double>(0.01);
+
+    m_torqueControlIsRunning = true;
+
+    while (m_torqueControlIsRunning)
+    {
+        m_vectorsCollectionServer.prepareData(); // required to prepare the data to be sent
+        m_vectorsCollectionServer.clearData(); // optional see the documentation
+
+        // detect if a clock has been reset
+        oldTime = time;
+        time = BipedalLocomotion::clock().now();
+        // if the current time is lower than old time, the timer has been reset.
+        if ((time - oldTime).count() < 1e-12)
+        {
+            wakeUpTime = time;
+        }
+        wakeUpTime = std::chrono::duration_cast<std::chrono::nanoseconds>(wakeUpTime
+                                                                          + publishOutputPeriod);
+
+        {
+            std::lock_guard<std::mutex> lockOutput(m_status.mutex);
+            m_vectorsCollectionServer.populateData("motor_currents::desired",
+                                                   m_status.m_currentLogging);
+            m_vectorsCollectionServer.populateData("friction_torques::estimated",
+                                                   m_status.m_frictionLogging);
+            m_vectorsCollectionServer.sendData();
+        }
+
+        // release the CPU
+        BipedalLocomotion::clock().yield();
+
+        // sleep
+        BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+    }
 }
 
 bool JointTorqueControlDevice::constructKalmanFilters(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
@@ -1394,10 +1454,10 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
 bool JointTorqueControlDevice::detachAll()
 {
     m_torqueControlIsRunning = false;
-    // if (m_publishEstimationThread.joinable())
-    // {
-    //     m_publishEstimationThread.join();
-    // }
+    if (m_publishEstimationThread.joinable())
+    {
+        m_publishEstimationThread.join();
+    }
 
     m_rpcPort.close();
     this->PeriodicThread::stop();
