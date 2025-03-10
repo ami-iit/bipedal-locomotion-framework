@@ -25,6 +25,15 @@ namespace RobotInterface
 {
 
 /**
+ * Enum class specifying the type of joint
+ */
+enum class JointType
+{
+    REVOLUTE, /**< Revolute joint */
+    PRISMATIC /**< Prismatic joint */
+};
+
+/**
  * Sensor bridge options
  */
 struct SensorBridgeOptions
@@ -59,6 +68,7 @@ struct SensorBridgeOptions
 struct SensorLists
 {
     std::vector<std::string> jointsList; /**< list of joints attached to the bridge */
+    std::vector<JointType> jointsTypeList; /**< list of joint types */
     std::vector<std::string> IMUsList; /**< list of IMUs attached to the bridge */
     std::vector<std::string> linearAccelerometersList; /**< list of linear accelerometers attached
                                                           to the bridge */

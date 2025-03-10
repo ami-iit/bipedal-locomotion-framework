@@ -187,6 +187,8 @@ struct YarpSensorBridge::Impl
                               */
     bool streamJointAccelerations{true}; /**< flag to enable reading joint accelerations from
                                             encoders */
+    bool allJointsAreRevolutes{false}; /**< flag to indicate if all the joints are revolute */
+    bool allJointsArePrismatics{false}; /**< flag to indicate if all the joints are prismatic */
 
     using SubConfigLoader = bool (YarpSensorBridge::Impl::*)(
         std::weak_ptr<const BipedalLocomotion::ParametersHandler::IParametersHandler>,
@@ -1167,14 +1169,20 @@ struct YarpSensorBridge::Impl
 
         // get the names of all the joints available in the attached remote control board remapper
         std::vector<std::string> controlBoardJoints;
+        std::vector<JointType> controlBoardJointTypes;
         int controlBoardDOFs;
         controlBoardRemapperInterfaces.encoders->getAxes(&controlBoardDOFs);
 
         std::string joint;
+        yarp::dev::JointTypeEnum jType;
         for (int DOF = 0; DOF < controlBoardDOFs; DOF++)
         {
             controlBoardRemapperInterfaces.axis->getAxisName(DOF, joint);
+            controlBoardRemapperInterfaces.axis->getJointType(DOF, jType);
             controlBoardJoints.push_back(joint);
+            controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
+                                                 ? JointType::REVOLUTE
+                                                 : JointType::PRISMATIC);
         }
 
         // if the joint list is empty means that the user did not pass a "joints_list" while the
@@ -1185,6 +1193,17 @@ struct YarpSensorBridge::Impl
             metaData.sensorsList.jointsList = controlBoardJoints;
             metaData.bridgeOptions.nrJoints = metaData.sensorsList.jointsList.size();
         }
+
+        metaData.sensorsList.jointsTypeList = controlBoardJointTypes;
+
+        this->allJointsArePrismatics
+            = std::all_of(metaData.sensorsList.jointsTypeList.begin(),
+                          metaData.sensorsList.jointsTypeList.end(), //
+                          [](const auto& jointType) { return jointType == JointType::PRISMATIC; });
+        this->allJointsAreRevolutes
+            = std::all_of(metaData.sensorsList.jointsTypeList.begin(),
+                          metaData.sensorsList.jointsTypeList.end(), //
+                          [](const auto& jointType) { return jointType == JointType::REVOLUTE; });
 
         // reset the control board buffers
         this->resetControlBoardBuffers();
@@ -1595,21 +1614,69 @@ struct YarpSensorBridge::Impl
                     }
                 }
 
-                // convert from degrees to radians - YARP convention is to store joint positions in
-                // degrees
-                controlBoardRemapperMeasures.jointPositions.noalias()
-                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.jointPositionsUnordered * M_PI / 180;
+                // Create aliases for clarity
+                auto& measures = controlBoardRemapperMeasures;
+                const auto& perm = measures.remappedJointPermutationMatrix;
 
-                controlBoardRemapperMeasures.jointVelocities.noalias()
-                    = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                      * controlBoardRemapperMeasures.jointVelocitiesUnordered * M_PI / 180;
+                // Helper lambda for uniform remapping and scaling.
+                auto remapAndScale = [&](auto& target,
+                                         const auto& source,
+                                         std::optional<double> scale = std::nullopt) {
+                    if (!scale.has_value())
+                    {
+                        target.noalias() = perm * source;
+                        return;
+                    }
+                    target.noalias() = perm * source * scale.value();
+                };
 
-                if (streamJointAccelerations)
+                // Helper lambda for mixed joints: remap then convert each revolute joint.
+                auto remapAndConvertMixed = [&](auto& target, const auto& source) {
+                    target.noalias() = perm * source;
+                    for (int i = 0; i < target.size(); ++i)
+                    {
+                        // Convert only revolute joints from degrees to radians.
+                        if (metaData.sensorsList.jointsTypeList[i] == JointType::REVOLUTE)
+                        {
+                            target(i) = deg2rad(target(i));
+                        }
+                    }
+                };
+
+                // Process joint measures based on joint type configuration.
+                if (this->allJointsAreRevolutes)
                 {
-                    controlBoardRemapperMeasures.jointAccelerations.noalias()
-                        = controlBoardRemapperMeasures.remappedJointPermutationMatrix
-                          * controlBoardRemapperMeasures.jointAccelerationsUnordered * M_PI / 180;
+                    remapAndScale(measures.jointPositions,
+                                  measures.jointPositionsUnordered,
+                                  M_PI / 180.0);
+                    remapAndScale(measures.jointVelocities,
+                                  measures.jointVelocitiesUnordered,
+                                  M_PI / 180.0);
+                    if (streamJointAccelerations)
+                    {
+                        remapAndScale(measures.jointAccelerations,
+                                      measures.jointAccelerationsUnordered,
+                                      M_PI / 180.0);
+                    }
+                } else if (this->allJointsArePrismatics)
+                {
+                    remapAndScale(measures.jointPositions, measures.jointPositionsUnordered);
+                    remapAndScale(measures.jointVelocities, measures.jointVelocitiesUnordered);
+                    if (streamJointAccelerations)
+                    {
+                        remapAndScale(measures.jointAccelerations,
+                                      measures.jointAccelerationsUnordered);
+                    }
+                } else // Mixed joints: some revolute and some prismatic.
+                {
+                    remapAndConvertMixed(measures.jointPositions, measures.jointPositionsUnordered);
+                    remapAndConvertMixed(measures.jointVelocities,
+                                         measures.jointVelocitiesUnordered);
+                    if (streamJointAccelerations)
+                    {
+                        remapAndConvertMixed(measures.jointAccelerations,
+                                             measures.jointAccelerationsUnordered);
+                    }
                 }
             } else
             {
