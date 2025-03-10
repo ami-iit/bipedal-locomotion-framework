@@ -181,7 +181,6 @@ private:
     yarp::sig::Vector estimatedFrictionTorques;
     yarp::sig::Vector torqueIntegralErrors;
     std::string m_portPrefix{"/hijackingTrqCrl"}; /**< Default port prefix. */
-    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::vector<int> m_gearRatios;
     std::vector<std::string> m_axisNames;
     LowPassFilterParameters m_lowPassFilterParameters;
@@ -238,12 +237,6 @@ private:
     bool loadFrictionParams(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
 
     /**
-     * Published the status.
-     * This is a separate thread.
-     */
-    void publishStatus();
-
-    /**
      * Load the coupling matrices from the group whose name
      *      is specified in group_name
      *
@@ -256,7 +249,6 @@ private:
     std::mutex globalMutex; ///< mutex protecting control variables & proxy interface methods
 
     // Method that actually executes one control loop
-    std::chrono::nanoseconds timeOfLastControlLoop{std::chrono::nanoseconds::zero()};
     void controlLoop();
 
 

@@ -50,6 +50,15 @@ template <class T> int findAndReturnIndex(std::vector<T>& v, T& x)
 }
 
 // INLINE OPERATIONS
+ /** Saturate the specified value between the specified bounds. */
+inline double saturation(const double x, const double jointVel, const double xMax, const double xMin)
+{
+if (jointVel > 10.0 || jointVel < -10.0)
+    return x > xMax ? xMax : (x < xMin ? xMin : x);
+else
+    return x;
+}
+
 /** Saturate the specified value between the specified bounds. */
 inline double saturation(const double x, const double xMax, const double xMin)
 {
@@ -522,6 +531,7 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
     }
 
     frictionTorque = saturation(frictionTorque,
+                                measuredJointVelocities[joint],
                                 motorTorqueCurrentParameters[joint].maxOutputFriction,
                                 -motorTorqueCurrentParameters[joint].maxOutputFriction);
 
@@ -530,8 +540,8 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
 
 void JointTorqueControlDevice::computeDesiredCurrents()
 {
-    yarp::eigen::toEigen(desiredJointTorques)
-        = couplingMatrices.fromJointTorquesToMotorTorques * yarp::eigen::toEigen(desiredJointTorques);
+    yarp::eigen::toEigen(desiredJointTorques) = couplingMatrices.fromJointTorquesToMotorTorques
+                                                * yarp::eigen::toEigen(desiredJointTorques);
 
     estimatedFrictionTorques.zero();
 
@@ -543,7 +553,8 @@ void JointTorqueControlDevice::computeDesiredCurrents()
         {
             if (motorTorqueCurrentParameters[j].kfc > 0.0)
             {
-                estimatedFrictionTorques[j] = computeFrictionTorque(j);
+                estimatedFrictionTorques[j]
+                    = motorTorqueCurrentParameters[j].kfc * computeFrictionTorque(j);
             }
         }
     }
@@ -578,7 +589,7 @@ void JointTorqueControlDevice::computeDesiredCurrents()
                    + motorTorqueCurrentParameters[j].kp
                          * (desiredJointTorques[j] - measuredJointTorques[j])
                    + motorTorqueCurrentParameters[j].ki * torqueIntegralErrors[j]
-                   + motorTorqueCurrentParameters[j].kfc * estimatedFrictionTorques[j])
+                   + estimatedFrictionTorques[j])
                   / motorTorqueCurrentParameters[j].kt;
 
             desiredMotorCurrents[j] = desiredMotorCurrents[j] / m_gearRatios[j];
@@ -650,8 +661,7 @@ void JointTorqueControlDevice::readStatus()
             m_KFJointList[i].kfGetStates(m_estimateKF);
             measuredJointVelocities[i] = m_estimateKF(1);
         }
-    }
-    else
+    } else
     {
         if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
         {
@@ -679,13 +689,12 @@ void JointTorqueControlDevice::readStatus()
             m_KFMotorList[i].kfGetStates(m_estimateKF);
             measuredMotorVelocities[i] = m_estimateKF(1);
         }
-    }
-    else
+    } else
     {
         if (!this->PassThroughControlBoard::getMotorEncoderSpeeds(measuredMotorVelocities.data()))
         {
-            // In case the motor speed can not be directly measured, it tries to estimate it from joint
-            // velocity if available
+            // In case the motor speed can not be directly measured, it tries to estimate it from
+            // joint velocity if available
             if (!this->PassThroughControlBoard::getEncoderSpeeds(measuredJointVelocities.data()))
             {
                 log()->error("{} Failed to get Motor encoders speed", logPrefix);
@@ -693,7 +702,7 @@ void JointTorqueControlDevice::readStatus()
             {
                 yarp::eigen::toEigen(measuredMotorVelocities)
                     = couplingMatrices.fromJointVelocitiesToMotorVelocities
-                    * yarp::eigen::toEigen(measuredJointVelocities);
+                      * yarp::eigen::toEigen(measuredJointVelocities);
             }
         }
     }
@@ -965,15 +974,13 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     if (kfJointGroup == nullptr)
     {
         log()->warn("{} Group `KF_JOINT` not found in configuration.", logPrefix);
-    }
-    else
+    } else
     {
         // Create KF for joint velocity estimation
         if (!constructKalmanFilters(kfJointGroup, m_KFJointList))
         {
             log()->warn("{} Failed to construct Kalman filter", logPrefix);
-        }
-        else
+        } else
         {
             log()->info("{} Kalman filter for joint velocity estimation created", logPrefix);
             m_estimateJointVelocity = true;
@@ -985,15 +992,13 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     if (kfMotorGroup == nullptr)
     {
         log()->warn("{} Group `KF_MOTOR` not found in configuration.", logPrefix);
-    }
-    else
+    } else
     {
         // Create KF for motor velocity estimation
         if (!constructKalmanFilters(kfMotorGroup, m_KFMotorList))
         {
             log()->warn("{} Failed to construct Kalman filter", logPrefix);
-        }
-        else
+        } else
         {
             log()->info("{} Kalman filter for motor velocity estimation created", logPrefix);
             m_estimateMotorVelocity = true;
@@ -1045,7 +1050,8 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    if (!torqueGroup->getParameter("bwfilter_cutoff_freq", m_lowPassFilterParameters.cutoffFrequency))
+    if (!torqueGroup->getParameter("bwfilter_cutoff_freq",
+                                   m_lowPassFilterParameters.cutoffFrequency))
     {
         log()->error("{} Parameter `bwfilter_cutoff_freq` not found", logPrefix);
         return false;
@@ -1094,10 +1100,18 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     filterParams->setParameter("sampling_time", m_lowPassFilterParameters.samplingTime);
     if (m_lowPassFilterParameters.enabled)
     {
-        lowPassFilter.initialize(filterParams);
+        if (!lowPassFilter.initialize(filterParams))
+        {
+            log()->error("{} Failed to initialize low pass filter", logPrefix);
+            return false;
+        }
         Eigen::VectorXd initialFrictionTorque(kt.size());
         initialFrictionTorque.setZero();
-        lowPassFilter.reset(initialFrictionTorque);
+        if (!lowPassFilter.reset(initialFrictionTorque))
+        {
+            log()->error("{} Failed to reset low pass filter", logPrefix);
+            return false;
+        }
     }
 
     if (!this->loadFrictionParams(params))
@@ -1122,12 +1136,6 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         }
     }
 
-    if (!m_vectorsCollectionServer.initialize(params))
-    {
-        log()->error("{} Unable to configure the server.", logPrefix);
-        return false;
-    }
-
     std::vector<std::string> joint_list;
     if (!params->getParameter("joint_list", joint_list))
     {
@@ -1149,60 +1157,10 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    m_vectorsCollectionServer.populateMetadata("motor_currents::desired", joint_list);
-    m_vectorsCollectionServer.populateMetadata("position_error::input_network", joint_list);
-    m_vectorsCollectionServer.populateMetadata("friction_torques::estimated", joint_list);
-    m_vectorsCollectionServer.finalizeMetadata();
-
     // run the thread
     m_torqueControlIsRunning = false;
-    // m_publishEstimationThread = std::thread([this] { this->publishStatus(); });
 
     return ret;
-}
-
-void JointTorqueControlDevice::publishStatus()
-{
-    constexpr auto logPrefix = "[JointTorqueControlDevice::publishStatus]";
-
-    auto time = BipedalLocomotion::clock().now();
-    auto oldTime = time;
-    auto wakeUpTime = time;
-    const auto publishOutputPeriod = std::chrono::duration<double>(0.01);
-
-    m_torqueControlIsRunning = true;
-
-    while (m_torqueControlIsRunning)
-    {
-        m_vectorsCollectionServer.prepareData(); // required to prepare the data to be sent
-        m_vectorsCollectionServer.clearData(); // optional see the documentation
-
-        // detect if a clock has been reset
-        oldTime = time;
-        time = BipedalLocomotion::clock().now();
-        // if the current time is lower than old time, the timer has been reset.
-        if ((time - oldTime).count() < 1e-12)
-        {
-            wakeUpTime = time;
-        }
-        wakeUpTime = std::chrono::duration_cast<std::chrono::nanoseconds>(wakeUpTime
-                                                                          + publishOutputPeriod);
-
-        {
-            std::lock_guard<std::mutex> lockOutput(m_status.mutex);
-            m_vectorsCollectionServer.populateData("motor_currents::desired",
-                                                   m_status.m_currentLogging);
-            m_vectorsCollectionServer.populateData("friction_torques::estimated",
-                                                   m_status.m_frictionLogging);
-            m_vectorsCollectionServer.sendData();
-        }
-
-        // release the CPU
-        BipedalLocomotion::clock().yield();
-
-        // sleep
-        BipedalLocomotion::clock().sleepUntil(wakeUpTime);
-    }
 }
 
 bool JointTorqueControlDevice::constructKalmanFilters(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler,
@@ -1675,13 +1633,7 @@ void JointTorqueControlDevice::threadRelease()
 
 void JointTorqueControlDevice::run()
 {
-    std::chrono::nanoseconds now = BipedalLocomotion::clock().now();
-
-    std::lock_guard<std::mutex> lock(globalMutex);
-    if (now.count() - timeOfLastControlLoop.count() >= this->getPeriod())
-    {
-        this->controlLoop();
-    }
+    this->controlLoop();
 }
 
 void JointTorqueControlDevice::controlLoop()
@@ -1705,7 +1657,5 @@ void JointTorqueControlDevice::controlLoop()
         this->setRefCurrents(hijackedMotors.size(),
                             hijackedMotors.data(),
                             desiredMotorCurrentsHijackedMotors.data());
-
-        timeOfLastControlLoop = BipedalLocomotion::clock().now();
     }
 }
