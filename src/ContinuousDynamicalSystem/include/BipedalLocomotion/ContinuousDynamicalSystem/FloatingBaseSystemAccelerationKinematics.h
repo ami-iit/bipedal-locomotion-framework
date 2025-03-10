@@ -58,33 +58,45 @@ namespace BipedalLocomotion
 namespace ContinuousDynamicalSystem
 {
 
+// clang-format off
 /**
- * FloatingBaseSystemAccelerationKinematics describes a floating base system kinematics.
- * The FloatingBaseSystemAccelerationKinematics inherits from a generic DynamicalSystem where the State
- * is described by a BipedalLocomotion::GenericContainer::named_tuple | Name |        Type       |
- * Description                                                                 |
- * |:----:|:-----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
- * |  `p` | `Eigen::Vector3d` |                                                Position of the base
- * w.r.t. the inertial frame                                                | |  `R` | `manif::SO3d`
- * | Rotation matrix \f${} ^ I R _ {b}\f$. Matrix that transform a vector whose coordinates are
- * expressed in the base frame in the inertial frame | |  `s` | `Eigen::VectorXd` | Joint positions
- * [in rad]                                                           |
+ * FloatingBaseSystemAccelerationKinematics describes the kinematics of a floating base system
+ * at the acceleration level. It inherits from a generic DynamicalSystem where:
  *
- * The `StateDerivative` is described by a BipedalLocomotion::GenericContainer::named_tuple
- * |   Name  |          Type          | Description |
- * |:-------:|:----------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
- * |  `dp`   |    `Eigen::Vector3d`   | Linear Acceleration of the origin of the base link whose
- * coordinates are expressed in the Inertial frame (MIXED RERPESENTATION) | | `omega` |
- * `manif::SO3d::Tangent` |                base angular Acceleration whose coordinates are expressed in
- * the inertial frame (Left trivialized)               | |   `ds`  |    `Eigen::VectorXd`   | Joint
- * velocities [in rad/s]                                                 |
+ * - The **State** is represented as a named tuple with the following parameters:
  *
- * The `Input` is described by a BipedalLocomotion::GenericContainer::named_tuple
- * |   Name  |              Type             |                  Description                 |
- * |:-------:|:-----------------------------:|:--------------------------------------------:|
- * | `twist` | `Eigen::Matrix<double, 6, 1>` | Base twist expressed in mixed representation |
- * |   `ds`  |       `Eigen::VectorXd`       |          Joint velocities [in rad/s]         |
+ *   | Name    | Type                      | Description                                                                                                                |
+ *   |:-------:|:-------------------------:|:--------------------------------------------------------------------------------------------------------------------------:|
+ *   | `p`     | `Eigen::Vector3d`         | Base position expressed in the inertial frame.                                                                             |
+ *   | `R`     | `manif::SO3d`             | Base orientation. The rotation matrix \( {}^I R_b \) transforms vectors expressed in the base frame to the inertial frame. |
+ *   | `s`     | `Eigen::VectorXd`         | Joint positions (in radians).                                                                                              |
+ *   | `dp`    | `Eigen::Vector3d`         | Base linear velocity (i.e., time derivative of `p`), expressed in the inertial frame. (mixed representation)               |
+ *   | `omega` | `manif::SO3d::Tangent`    | Base angular velocity, expressed in the inertial frame (using left trivialization).                                        |
+ *   | `ds`    | `Eigen::VectorXd`         | Joint velocities (in rad/s).                                                                                               |
+ *
+ * - The **StateDerivative** is represented as a named tuple with the following parameters:
+ *
+ *   | Name      | Type                      | Description                                                                                             |
+ *   |:---------:|:-------------------------:|:-------------------------------------------------------------------------------------------------------:|
+ *   | `dp`      | `Eigen::Vector3d`         | Time derivative of the base position (i.e., base linear velocity).                                      |
+ *   | `omega`   | `manif::SO3d::Tangent`    | Time derivative of the base orientation (related to angular velocity).                                  |
+ *   | `ds`      | `Eigen::VectorXd`         | Time derivative of the joint positions (i.e., joint velocities).                                        |
+ *   | `ddp`     | `Eigen::Vector3d`         | Base linear acceleration (second time derivative of `p`).                                               |
+ *   | `domega`  | `manif::SO3d::Tangent`    | Base angular acceleration (time derivative of `omega`).                                                 |
+ *   | `dds`     | `Eigen::VectorXd`         | Joint accelerations (in rad/s²).                                                                        |
+ *
+ * - The **Input** to the system is represented as a named tuple with the following parameters:
+ *
+ *   | Name      | Type                                        | Description                                                                                     |
+ *   |:---------:|:-------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+ *   | `dtwist`  | `Twist` (e.g., `Eigen::Matrix<double, 6, 1>`) | Base twist in mixed representation (typically combining both linear and angular components).  |
+ *   | `dds`     | `Eigen::VectorXd`                           | Joint accelerations (in rad/s²).                                                                |
+ *
+ * This formulation encapsulates both the instantaneous state (including positions and velocities)
+ * and their time derivatives (accelerations), while employing Lie group representations (i.e., \( SO(3) \))
+ * for handling rotations.
  */
+// clang-format on
 class FloatingBaseSystemAccelerationKinematics
     : public DynamicalSystem<FloatingBaseSystemAccelerationKinematics>
 {
