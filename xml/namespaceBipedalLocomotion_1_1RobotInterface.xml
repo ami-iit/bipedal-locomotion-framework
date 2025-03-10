@@ -18,6 +18,36 @@
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists" prot="public">BipedalLocomotion::RobotInterface::SensorLists</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeMetaData" prot="public">BipedalLocomotion::RobotInterface::SensorBridgeMetaData</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" prot="public">BipedalLocomotion::RobotInterface::ISensorBridge</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JointType</name>
+        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47fa06ec593fa63e118e8d2d0fd58c223acf" prot="public">
+          <name>REVOLUTE</name>
+          <briefdescription>
+<para>Revolute joint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47faace8e17dd1560c692929800de207e902" prot="public">
+          <name>PRISMATIC</name>
+          <briefdescription>
+<para>Prismatic joint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enum class specifying the type of joint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="31" bodyend="34"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="YarpHelper_8h_1a2c07f5099140671abde506a8a316e130" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structBipedalLocomotion_1_1RobotInterface_1_1PolyDriverDescriptor" kindref="compound">PolyDriverDescriptor</ref></type>

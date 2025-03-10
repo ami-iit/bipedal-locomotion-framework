@@ -93,6 +93,36 @@
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" prot="public">BipedalLocomotion::RobotInterface::ISensorBridge</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JointType</name>
+        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47fa06ec593fa63e118e8d2d0fd58c223acf" prot="public">
+          <name>REVOLUTE</name>
+          <briefdescription>
+<para>Revolute joint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47faace8e17dd1560c692929800de207e902" prot="public">
+          <name>PRISMATIC</name>
+          <briefdescription>
+<para>Prismatic joint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enum class specifying the type of joint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="31" bodyend="34"/>
+      </memberdef>
+      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

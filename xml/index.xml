@@ -1151,6 +1151,8 @@
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a202ee276fabf30890f4eacdc94e10aa5" kind="variable"><name>driversAttached</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a9792148229e6b49ad4b2d99b94a89f17" kind="variable"><name>checkForNAN</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae4d98a963dee32cda86cab29b6564ba7" kind="variable"><name>streamJointAccelerations</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a217847fe144ce52ecbc42410cef3586a" kind="variable"><name>allJointsAreRevolutes</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1adaaac2ca6ed3c992ddbb3f219aea99f3" kind="variable"><name>allJointsArePrismatics</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1ae40e9ebd2e149185271355e5ce76b24b" kind="function"><name>getIndexFromVector</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1a266435aaa791e3992a2f0b18535cabbd" kind="function"><name>nanExistsInVec</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl_1af68ef017244a7f0ff4758be6d2f85838" kind="function"><name>subConfigLoader</name></member>
@@ -2351,6 +2353,7 @@
   </compound>
   <compound refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists" kind="struct"><name>BipedalLocomotion::RobotInterface::SensorLists</name>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1ac3d8f6104a89d25a58824f21e93934df" kind="variable"><name>jointsList</name></member>
+    <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a064d9046d6c5aa890c42c6ad221d779e" kind="variable"><name>jointsTypeList</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1aa8ecb94abbbaeaeeded7aa6f2db02add" kind="variable"><name>IMUsList</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a5980391c929a8e2821eb911be1f2d58d" kind="variable"><name>linearAccelerometersList</name></member>
     <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorLists_1a2fc94f6d4973e65146c56833982ef8f3" kind="variable"><name>gyroscopesList</name></member>
@@ -3583,6 +3586,9 @@
   <compound refid="namespaceBipedalLocomotion_1_1ReducedModelControllers" kind="namespace"><name>BipedalLocomotion::ReducedModelControllers</name>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1RobotInterface" kind="namespace"><name>BipedalLocomotion::RobotInterface</name>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47f" kind="enum"><name>JointType</name></member>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47fa06ec593fa63e118e8d2d0fd58c223acf" kind="enumvalue"><name>REVOLUTE</name></member>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47faace8e17dd1560c692929800de207e902" kind="enumvalue"><name>PRISMATIC</name></member>
     <member refid="YarpHelper_8h_1a2c07f5099140671abde506a8a316e130" kind="function"><name>constructRemoteControlBoardRemapper</name></member>
     <member refid="YarpHelper_8h_1a63b15535972c13dedb0459a66321432b" kind="function"><name>constructGenericSensorClient</name></member>
     <member refid="YarpHelper_8h_1a4929526a47c0815e98b10ae7fbd44c2d" kind="function"><name>constructMultipleAnalogSensorsClient</name></member>
@@ -3981,6 +3987,9 @@
   <compound refid="IRobotControl_8h" kind="file"><name>IRobotControl.h</name>
   </compound>
   <compound refid="ISensorBridge_8h" kind="file"><name>ISensorBridge.h</name>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47f" kind="enum"><name>JointType</name></member>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47fa06ec593fa63e118e8d2d0fd58c223acf" kind="enumvalue"><name>REVOLUTE</name></member>
+    <member refid="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47faace8e17dd1560c692929800de207e902" kind="enumvalue"><name>PRISMATIC</name></member>
   </compound>
   <compound refid="YarpCameraBridge_8h" kind="file"><name>YarpCameraBridge.h</name>
   </compound>
