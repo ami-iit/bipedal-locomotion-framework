@@ -71,6 +71,7 @@ struct MotorTorqueCurrentParameters
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
     double maxOutputFriction; /**< maximum output of the friction model */
+    double jointVelThreshold{0.0}; /**< joint velocity saturation */
 
     /**
      * Reset the parameters

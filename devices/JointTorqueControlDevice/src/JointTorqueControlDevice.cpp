@@ -51,12 +51,16 @@ template <class T> int findAndReturnIndex(std::vector<T>& v, T& x)
 
 // INLINE OPERATIONS
  /** Saturate the specified value between the specified bounds. */
-inline double saturation(const double x, const double jointVel, const double xMax, const double xMin)
+inline double saturation(const double x,
+                         const double jointVel,
+                         const double jointVelThreshold,
+                         const double xMax,
+                         const double xMin)
 {
-if (jointVel > 10.0 || jointVel < -10.0)
-    return x > xMax ? xMax : (x < xMin ? xMin : x);
-else
-    return x;
+    if (jointVel > jointVelThreshold || jointVel < jointVelThreshold)
+        return x > xMax ? xMax : (x < xMin ? xMin : x);
+    else
+        return x;
 }
 
 /** Saturate the specified value between the specified bounds. */
@@ -532,6 +536,7 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
 
     frictionTorque = saturation(frictionTorque,
                                 measuredJointVelocities[joint],
+                                motorTorqueCurrentParameters[joint].jointVelThreshold,
                                 motorTorqueCurrentParameters[joint].maxOutputFriction,
                                 -motorTorqueCurrentParameters[joint].maxOutputFriction);
 
@@ -1081,6 +1086,12 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    std::vector<double> jointVelThreshold;
+    if (!torqueGroup->getParameter("joint_velocity_threshold", jointVelThreshold))
+    {
+        log()->info("{} Parameter `joint_velocity_threshold` not found. The default value will be found.", logPrefix);
+    }
+
     motorTorqueCurrentParameters.resize(kt.size());
     pinnParameters.resize(kt.size());
     coulombViscousParameters.resize(kt.size());
@@ -1095,6 +1106,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
         motorTorqueCurrentParameters[i].maxCurr = maxCurr[i];
         motorTorqueCurrentParameters[i].frictionModel = frictionModels[i];
         motorTorqueCurrentParameters[i].maxOutputFriction = maxOutputFriction[i];
+        motorTorqueCurrentParameters[i].jointVelThreshold = jointVelThreshold[i];
     }
 
     auto filterParams = std::make_shared<ParametersHandler::YarpImplementation>();
