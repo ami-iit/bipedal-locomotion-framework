@@ -17,6 +17,7 @@ All notable changes to this project are documented in this file.
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Remove the possibility of setting the desired gravity direction and desired forward velocity separately in the `IK::GravityTrask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
+- Improve `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/948)
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)

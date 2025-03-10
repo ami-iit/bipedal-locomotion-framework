@@ -71,6 +71,7 @@ struct MotorTorqueCurrentParameters
     double maxCurr; /**< maximum current */
     std::string frictionModel; ///< friction model
     double maxOutputFriction; /**< maximum output of the friction model */
+    double jointVelThreshold{0.0}; /**< joint velocity saturation */
 
     /**
      * Reset the parameters
@@ -207,6 +208,7 @@ private:
         std::vector<double> m_frictionLogging;
         std::vector<double> m_currentLogging;
     } m_status;
+    bool m_publishEstimationVectorsCollection{false}; /**< True if the estimation is published. */
 
     bool openCalledCorrectly{false};
 
@@ -256,7 +258,6 @@ private:
     std::mutex globalMutex; ///< mutex protecting control variables & proxy interface methods
 
     // Method that actually executes one control loop
-    std::chrono::nanoseconds timeOfLastControlLoop{std::chrono::nanoseconds::zero()};
     void controlLoop();
 
 
