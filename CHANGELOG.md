@@ -12,6 +12,7 @@ All notable changes to this project are documented in this file.
 - Check if the setpoint has been set at least once in TSID and IK (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 - Add motor temperature sensor support to `SensorBridge`, `YarpSensorBridge` and `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/946)
 - Add the support to the joint type (revolute/prismatic) in `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/949)
+- Implement `FloatingBaseSystemAccelerationKinematics` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/950)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
@@ -26,6 +27,9 @@ All notable changes to this project are documented in this file.
 - Fix typos in tsid balancing torque control config files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/926)
 - Add option `FRAMEWORK_COMPILE_MotorCurrentTrackingApplication` in cmake file to install correctly the application motor-current-tracking (https://github.com/ami-iit/bipedal-locomotion-framework/pull/937)
 - Fix resize vector in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/951)
+
+### Deprecated
+- Deprecate `FloatingBaseSystemKinematics` in favour of `FloatingBaseSystemVelocityKinematics` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/950)
 
 ## [0.20.0] - 2024-12-16
 ### Added

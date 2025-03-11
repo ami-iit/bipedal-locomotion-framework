@@ -1,19 +1,19 @@
 /**
- * @file FloatingBaseSystemKinematics.cpp
+ * @file FloatingBaseSystemVelocityKinematics.cpp
  * @authors Giulio Romualdi
  * @copyright 2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h>
+#include <BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
 using namespace BipedalLocomotion::ContinuousDynamicalSystem;
 using namespace BipedalLocomotion::ParametersHandler;
 
-bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<const IParametersHandler> handler)
+bool FloatingBaseSystemVelocityKinematics::initialize(std::weak_ptr<const IParametersHandler> handler)
 {
-    constexpr auto logPrefix = "[FloatingBaseSystemKinematics::initialize]";
+    constexpr auto logPrefix = "[FloatingBaseSystemVelocityKinematics::initialize]";
 
     auto ptr = handler.lock();
     if (ptr != nullptr)
@@ -30,7 +30,7 @@ bool FloatingBaseSystemKinematics::initialize(std::weak_ptr<const IParametersHan
     return true;
 }
 
-bool FloatingBaseSystemKinematics::dynamics(const std::chrono::nanoseconds& time,
+bool FloatingBaseSystemVelocityKinematics::dynamics(const std::chrono::nanoseconds& time,
                                             StateDerivative& stateDerivative)
 {
     using namespace BipedalLocomotion::GenericContainer::literals;
@@ -51,7 +51,7 @@ bool FloatingBaseSystemKinematics::dynamics(const std::chrono::nanoseconds& time
     // check the size of the vectors
     if (jointVelocity.size() != jointPositions.size())
     {
-        log()->error("[FloatingBaseSystemKinematics::dynamics] Wrong size of the vectors.");
+        log()->error("[FloatingBaseSystemVelocityKinematics::dynamics] Wrong size of the vectors.");
         return false;
     }
 
@@ -66,18 +66,18 @@ bool FloatingBaseSystemKinematics::dynamics(const std::chrono::nanoseconds& time
     return true;
 }
 
-bool FloatingBaseSystemKinematics::setState(const FloatingBaseSystemKinematics::State& state)
+bool FloatingBaseSystemVelocityKinematics::setState(const FloatingBaseSystemVelocityKinematics::State& state)
 {
     m_state = state;
     return true;
 }
 
-const FloatingBaseSystemKinematics::State& FloatingBaseSystemKinematics::getState() const
+const FloatingBaseSystemVelocityKinematics::State& FloatingBaseSystemVelocityKinematics::getState() const
 {
     return m_state;
 }
 
-bool FloatingBaseSystemKinematics::setControlInput(const Input& controlInput)
+bool FloatingBaseSystemVelocityKinematics::setControlInput(const Input& controlInput)
 {
     m_controlInput = controlInput;
     return true;
