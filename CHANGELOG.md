@@ -25,6 +25,7 @@ All notable changes to this project are documented in this file.
 - Avoid using ``iCubGazeboV3`` model in ``BaseEstimatorFromFootIMU`` test (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Fix typos in tsid balancing torque control config files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/926)
 - Add option `FRAMEWORK_COMPILE_MotorCurrentTrackingApplication` in cmake file to install correctly the application motor-current-tracking (https://github.com/ami-iit/bipedal-locomotion-framework/pull/937)
+- Fix resize vector in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/951)
 
 ## [0.20.0] - 2024-12-16
 ### Added

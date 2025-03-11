@@ -1090,6 +1090,7 @@ bool JointTorqueControlDevice::open(yarp::os::Searchable& config)
     if (!torqueGroup->getParameter("joint_velocity_threshold", jointVelThreshold))
     {
         log()->info("{} Parameter `joint_velocity_threshold` not found. The default value will be found.", logPrefix);
+        jointVelThreshold.resize(kt.size(), 0.0);
     }
 
     motorTorqueCurrentParameters.resize(kt.size());
