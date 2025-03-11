@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
-  <compounddef id="FloatingBaseSystemKinematics_8h" kind="file" language="C++">
-    <compoundname>FloatingBaseSystemKinematics.h</compoundname>
+  <compounddef id="FloatingBaseSystemAccelerationKinematics_8h" kind="file" language="C++">
+    <compoundname>FloatingBaseSystemAccelerationKinematics.h</compoundname>
     <includes local="no">memory</includes>
     <includes local="no">vector</includes>
     <includes refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includes>
@@ -41,24 +41,6 @@
       <node id="9">
         <label>cstdint</label>
       </node>
-      <node id="1">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</label>
-        <link refid="FloatingBaseSystemKinematics_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
       <node id="12">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
         <link refid="IParametersHandler_8h"/>
@@ -73,6 +55,24 @@
       </node>
       <node id="13">
         <label>string</label>
+      </node>
+      <node id="1">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemAccelerationKinematics.h</label>
+        <link refid="FloatingBaseSystemAccelerationKinematics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/impl/traits.h</label>
@@ -105,8 +105,8 @@
         <label>memory</label>
       </node>
     </incdepgraph>
-    <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemKinematics &gt;</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemAccelerationKinematics &gt;</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemAccelerationKinematics</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem">BipedalLocomotion::ContinuousDynamicalSystem</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal">BipedalLocomotion::ContinuousDynamicalSystem::internal</innernamespace>
@@ -119,6 +119,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h"/>
+    <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemAccelerationKinematics.h"/>
   </compounddef>
 </doxygen>

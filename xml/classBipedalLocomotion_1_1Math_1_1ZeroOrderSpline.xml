@@ -60,10 +60,10 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para><ref refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline" kindref="compound">ZeroOrderSpline</ref> implements a 0 order polynomial spline in <formula id="105">$\mathbb{R}^n$</formula>. </para>
+<para><ref refid="classBipedalLocomotion_1_1Math_1_1ZeroOrderSpline" kindref="compound">ZeroOrderSpline</ref> implements a 0 order polynomial spline in <formula id="106">$\mathbb{R}^n$</formula>. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 0 of the form <formula id="208">\[ s_i(t) = a_i \]</formula> where <formula id="194">$t \in [0, T_i]$</formula> and <formula id="195">$T_i$</formula> is the duration of the i-th polynomial. </para>
+<para><simplesect kind="note"><para>The spline is defined as a set of piecewise polynomial functions of degree 0 of the form <formula id="209">\[ s_i(t) = a_i \]</formula> where <formula id="195">$t \in [0, T_i]$</formula> and <formula id="196">$T_i$</formula> is the duration of the i-th polynomial. </para>
 </simplesect>
 </para>
     </detaileddescription>

@@ -11,7 +11,8 @@
     <innerfile refid="FixedBaseDynamics_8h">FixedBaseDynamics.h</innerfile>
     <innerfile refid="FixedStepIntegrator_8h">FixedStepIntegrator.h</innerfile>
     <innerfile refid="FloatingBaseDynamicsWithCompliantContacts_8h">FloatingBaseDynamicsWithCompliantContacts.h</innerfile>
-    <innerfile refid="FloatingBaseSystemKinematics_8h">FloatingBaseSystemKinematics.h</innerfile>
+    <innerfile refid="FloatingBaseSystemAccelerationKinematics_8h">FloatingBaseSystemAccelerationKinematics.h</innerfile>
+    <innerfile refid="FloatingBaseSystemVelocityKinematics_8h">FloatingBaseSystemVelocityKinematics.h</innerfile>
     <innerfile refid="ForwardEuler_8h">ForwardEuler.h</innerfile>
     <innerfile refid="Integrator_8h">Integrator.h</innerfile>
     <innerfile refid="LieGroupDynamics_8h">LieGroupDynamics.h</innerfile>

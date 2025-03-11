@@ -10,7 +10,8 @@
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedStepIntegrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FixedStepIntegrator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseDynamicsWithCompliantContacts" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseDynamicsWithCompliantContacts</innerclass>
-    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemAccelerationKinematics</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemVelocityKinematics</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::ForwardEuler</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1Integrator" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::Integrator</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::LieGroupDynamics</innerclass>
@@ -19,6 +20,19 @@
     <innerclass refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1RK4" prot="public">BipedalLocomotion::ContinuousDynamicalSystem::RK4</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal">BipedalLocomotion::ContinuousDynamicalSystem::internal</innernamespace>
       <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="FloatingBaseSystemVelocityKinematics_8h_1adaf7ba63ba7e801b631e4b2bf41ba1d4" prot="public" static="no">
+        <type><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics" kindref="compound">FloatingBaseSystemVelocityKinematics</ref></type>
+        <definition>using BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics = typedef FloatingBaseSystemVelocityKinematics</definition>
+        <argsstring></argsstring>
+        <name>FloatingBaseSystemKinematics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h" line="126" column="1" bodyfile="BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="SO3Dynamics_8h_1a2a95bad6633e51f39dea49b316f16b43" prot="public" static="no">
         <type><ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1LieGroupDynamics" kindref="compound">LieGroupDynamics</ref>&lt; manif::SO3d &gt;</type>
         <definition>using BipedalLocomotion::ContinuousDynamicalSystem::SO3Dynamics = typedef LieGroupDynamics&lt;manif::SO3d&gt;</definition>
@@ -28,7 +42,7 @@
 <para>SO3Dynamics describes the dynamics of a SO(3). </para>
         </briefdescription>
         <detaileddescription>
-<para>In details, given an element of SO(3) <formula id="115">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="116">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="117">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="118">$\dot{R} \in T_R SO(3)$</formula> with <formula id="119">$T_R SO(3)$</formula> is the Tangent space of <formula id="120">$SO(3)$</formula> at <formula id="121">$R$</formula>.</para>
+<para>In details, given an element of SO(3) <formula id="116">$R \in SO(3)$</formula> and a vector of its Lie Algebra <formula id="117">$ \omega^\wedge \in \mathrm{so}(3)$</formula>, SO3Dynamics implements <formula id="118">\[ \dot{R} = \omega^\wedge R \]</formula> where <formula id="119">$\dot{R} \in T_R SO(3)$</formula> with <formula id="120">$T_R SO(3)$</formula> is the Tangent space of <formula id="121">$SO(3)$</formula> at <formula id="122">$R$</formula>.</para>
 <para>The SO3Dynamics inherits from a generic <ref refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem" kindref="compound">DynamicalSystem</ref> where the State is described by a <ref refid="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple" kindref="compound">BipedalLocomotion::GenericContainer::named_tuple</ref> <table rows="2" cols="3"><row>
 <entry thead="yes" align='center'><para>Name   </para>
 </entry><entry thead="yes" align='center'><para>Type   </para>

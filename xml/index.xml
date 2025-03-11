@@ -948,14 +948,23 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1a14bb55c740bab8b15a8a89dd28c40d5d" kind="function"><name>setupModelParams</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1FloatingBaseEstimator_1ac59ec82239398f18c5fc5347bf8d979e" kind="function"><name>setupFixedVectorParamPrivate</name></member>
   </compound>
-  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</name>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1aa40da49ea837569d7d19423b8674fbbc" kind="variable"><name>m_state</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8efc2ecfd6577b8f024a97bba794a819" kind="variable"><name>m_controlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a492ab8f2ad62641d67bd0aed72ac76f7" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a8ead6c79af9d3473733179976ee59304" kind="function"><name>setState</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1ab94a2ca52a4c1ef7b69a94131b3a3629" kind="function"><name>getState</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a813ab32725b95f0e7680eb004bd6b554" kind="function"><name>setControlInput</name></member>
-    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics_1a508c5e981607993d35c474a45a91130b" kind="function"><name>dynamics</name></member>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemAccelerationKinematics</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1a463b6b85defb0e01d6c9b8ff70fcbbcd" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1aca376e2e07a465db336a3543e71bb28d" kind="variable"><name>m_controlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1acae2ed151e1d07750b4e1dd7df31bb1e" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1abe576b9e20d93b681da9d73c06a5fe63" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1abb74a7af06b6bbac80dd2cc5413537f7" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1a1cc869ad97f622befc08f92085cfd7ef" kind="function"><name>setControlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics_1a5686711228a6dc9a8ffc378f1e6daafa" kind="function"><name>dynamics</name></member>
+  </compound>
+  <compound refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics" kind="class"><name>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemVelocityKinematics</name>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1aa49d7746857df055c4e3893a81ca0f45" kind="variable"><name>m_state</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1a7d04c11a64d935496fed70ab9fbd96f1" kind="variable"><name>m_controlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1a519a6438653f1c69ebc60b5c1f50a807" kind="function"><name>initialize</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1a8d7edc02c5cadafcd49482ac265dec43" kind="function"><name>setState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1a9090f9314ea643b92d367e7ffb8ef5df" kind="function"><name>getState</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1af178d0f20f8c48d3b5faca10eaaf9afc" kind="function"><name>setControlInput</name></member>
+    <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics_1a1e4a874d74195cd564fe670e6816a5ac" kind="function"><name>dynamics</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1FootTrajectory" kind="struct"><name>BipedalLocomotion::Planners::UnicycleTrajectoryPlannerOutput::FootTrajectory</name>
     <member refid="structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1FootTrajectory_1ae952b6e1c5203bd044b85e401b1834e9" kind="variable"><name>transform</name></member>
@@ -2769,12 +2778,19 @@
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1af25dcec36cbc628365c770f4786df64c" kind="typedef"><name>Input</name></member>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FixedBaseDynamics_01_4_1a748ccba8596505afc224edbb20b3be2c" kind="typedef"><name>DynamicalSystem</name></member>
   </compound>
-  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemKinematics &gt;</name>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1aeb47d2c21f6e62b36e7f8b73ff6cc203" kind="typedef"><name>Twist</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1a1feead60eb59a1d51dd8feeb59cb7f75" kind="typedef"><name>State</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1adf3551f97661d6b6e447a50e48d5b491" kind="typedef"><name>StateDerivative</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1ab47c2652d605e278b438ef26ab81eb15" kind="typedef"><name>Input</name></member>
-    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4_1a16778e45b544ad400c5af343fd3b3318" kind="typedef"><name>DynamicalSystem</name></member>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemAccelerationKinematics &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4_1a9484ef36762437680518d8cea3845699" kind="typedef"><name>Twist</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4_1a2a37faeb1a29379889b843aed69adc33" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4_1a8794d847c6e3292e0c64ce6600bfec3f" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4_1a76f9251d84b1a537852a2f261bd8d99a" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemAccelerationKinematics_01_4_1a647a3937cde57848a8f882f3bbfa0152" kind="typedef"><name>DynamicalSystem</name></member>
+  </compound>
+  <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; FloatingBaseSystemVelocityKinematics &gt;</name>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4_1a4c74ccead575c5401ff13de44dce1127" kind="typedef"><name>Twist</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4_1a08d068a2681c632c1c9002fdfd13cce3" kind="typedef"><name>State</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4_1a8f6a48b965b8fc857cc9a07cf0eb4990" kind="typedef"><name>StateDerivative</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4_1a7ea185044b2a6177924e7eaa93c225be" kind="typedef"><name>Input</name></member>
+    <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemVelocityKinematics_01_4_1aeb72cf226fdb978ad64a1ee1cb222471" kind="typedef"><name>DynamicalSystem</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4" kind="struct"><name>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt; LinearTimeInvariantSystem &gt;</name>
     <member refid="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01LinearTimeInvariantSystem_01_4_1a2c28cb16cc6eeb8da878e1a80af735f7" kind="typedef"><name>State</name></member>
@@ -3464,6 +3480,7 @@
     <member refid="ContactListJsonParser_8h_1a9cdffabdd4841b37271e56376ba4d079" kind="function"><name>contactListMapToJson</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem" kind="namespace"><name>BipedalLocomotion::ContinuousDynamicalSystem</name>
+    <member refid="FloatingBaseSystemVelocityKinematics_8h_1adaf7ba63ba7e801b631e4b2bf41ba1d4" kind="typedef"><name>FloatingBaseSystemKinematics</name></member>
     <member refid="SO3Dynamics_8h_1a2a95bad6633e51f39dea49b316f16b43" kind="typedef"><name>SO3Dynamics</name></member>
     <member refid="MultiStateWeightProvider_8h_1af5356fe0bff8cead79cc13f72a7c7ab4" kind="function"><name>BLF_REGISTER_WEIGHT_PROVIDER</name></member>
   </compound>
@@ -3723,7 +3740,10 @@
   <compound refid="FloatingBaseDynamicsWithCompliantContacts_8h" kind="file"><name>FloatingBaseDynamicsWithCompliantContacts.h</name>
     <member refid="FloatingBaseDynamicsWithCompliantContacts_8h_1a323b0e91d1928b89317a3bafe45fe8ce" kind="function"><name>BLF_DEFINE_CONTINUOUS_DYNAMICAL_SYSTEM_INTERAL_STRUCTURE</name></member>
   </compound>
-  <compound refid="FloatingBaseSystemKinematics_8h" kind="file"><name>FloatingBaseSystemKinematics.h</name>
+  <compound refid="FloatingBaseSystemAccelerationKinematics_8h" kind="file"><name>FloatingBaseSystemAccelerationKinematics.h</name>
+  </compound>
+  <compound refid="FloatingBaseSystemVelocityKinematics_8h" kind="file"><name>FloatingBaseSystemVelocityKinematics.h</name>
+    <member refid="FloatingBaseSystemVelocityKinematics_8h_1adaf7ba63ba7e801b631e4b2bf41ba1d4" kind="typedef"><name>FloatingBaseSystemKinematics</name></member>
   </compound>
   <compound refid="ForwardEuler_8h" kind="file"><name>ForwardEuler.h</name>
   </compound>

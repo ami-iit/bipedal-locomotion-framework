@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics class | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemVelocityKinematics class | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,10 +61,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem.html">ContinuousDynamicalSystem</a>::<wbr/></span>FloatingBaseSystemKinematics <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="FloatingBaseSystemKinematics_8h.html">&lt;BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem.html">ContinuousDynamicalSystem</a>::<wbr/></span>FloatingBaseSystemVelocityKinematics <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="FloatingBaseSystemVelocityKinematics_8h.html">&lt;BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h&gt;</a></div>
         </h1>
-        <p><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">FloatingBaseSystemKinematics</a> describes a floating base system kinematics.</p>
+        <p><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics.html" class="m-doc">FloatingBaseSystemVelocityKinematics</a> describes a floating base system kinematics.</p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -77,9 +77,9 @@
             </li>
           </ul>
         </nav>
-<p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">FloatingBaseSystemKinematics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where the State is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>p</code></td><td><code>Eigen::Vector3d</code></td><td>Position of the base w.r.t. the inertial frame</td></tr><tr><td><code>R</code></td><td><code>manif::SO3d</code></td><td>Rotation matrix <svg class="m-math" style="width: 1.805em; height: 1.206em; vertical-align: -0.187em;" viewBox="0 -9.784673 17.324483 11.577936">
+<p>The <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics.html" class="m-doc">FloatingBaseSystemVelocityKinematics</a> inherits from a generic <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> where the State is described by a <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">BipedalLocomotion::<wbr />GenericContainer::<wbr />named_tuple</a></p><table class="m-table"><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>p</code></td><td><code>Eigen::Vector3d</code></td><td>Position of the base w.r.t. the inertial frame</td></tr><tr><td><code>R</code></td><td><code>manif::SO3d</code></td><td>Rotation matrix <svg class="m-math" style="width: 1.805em; height: 1.206em; vertical-align: -0.187em;" viewBox="0 -9.784673 17.324483 11.577936">
 <title>
-${} ^ I R _ {b}$
+${}^I R _ {b}$
 </title>
 <defs>
 <path id='eq1-g1-82' d='M4.399502-7.352428C4.507098-7.79477 4.554919-7.81868 5.021171-7.81868H5.881943C6.910087-7.81868 7.675218-7.507846 7.675218-6.575342C7.675218-5.965629 7.364384-4.208219 4.961395-4.208219H3.610461L4.399502-7.352428ZM6.06127-4.064757C7.543711-4.387547 8.703362-5.34396 8.703362-6.372105C8.703362-7.304608 7.758904-8.16538 6.097136-8.16538H2.857285C2.618182-8.16538 2.510585-8.16538 2.510585-7.938232C2.510585-7.81868 2.594271-7.81868 2.82142-7.81868C3.53873-7.81868 3.53873-7.723039 3.53873-7.591532C3.53873-7.567621 3.53873-7.49589 3.490909-7.316563L1.876961-.884682C1.769365-.466252 1.745455-.3467 .920548-.3467C.645579-.3467 .561893-.3467 .561893-.119552C.561893 0 .6934 0 .729265 0C.944458 0 1.195517-.02391 1.422665-.02391H2.833375C3.048568-.02391 3.299626 0 3.514819 0C3.610461 0 3.741968 0 3.741968-.227148C3.741968-.3467 3.634371-.3467 3.455044-.3467C2.725778-.3467 2.725778-.442341 2.725778-.561893C2.725778-.573848 2.725778-.657534 2.749689-.753176L3.550685-3.969116H4.985305C6.121046-3.969116 6.336239-3.251806 6.336239-2.857285C6.336239-2.677958 6.216687-2.211706 6.133001-1.900872C6.001494-1.350934 5.965629-1.219427 5.965629-.992279C5.965629-.143462 6.659029 .251059 7.460025 .251059C8.428394 .251059 8.846824-.932503 8.846824-1.099875C8.846824-1.183562 8.787049-1.219427 8.715318-1.219427C8.619676-1.219427 8.595766-1.147696 8.571856-1.052055C8.284932-.203238 7.79477 .011955 7.49589 .011955S7.005729-.119552 7.005729-.657534C7.005729-.944458 7.149191-2.032379 7.161146-2.092154C7.220922-2.534496 7.220922-2.582316 7.220922-2.677958C7.220922-3.550685 6.515567-3.921295 6.06127-4.064757Z'/>
@@ -97,7 +97,7 @@ ${} ^ I R _ {b}$
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;class _Derived&gt;</div>
-              class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem&lt;FloatingBaseSystemKinematics&gt;</a>
+              class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem&lt;FloatingBaseSystemVelocityKinematics&gt;</a>
             </dt>
             <dd><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html" class="m-doc">DynamicalSystem</a> defines a continuous time dynamical system, i.e.</dd>
           </dl>
@@ -106,23 +106,23 @@ ${} ^ I R _ {b}$
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a492ab8f2ad62641d67bd0aed72ac76f7" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a519a6438653f1c69ebc60b5c1f50a807" class="m-doc">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler) -&gt; bool</span>
             </dt>
             <dd>Initialize the Dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8ead6c79af9d3473733179976ee59304" class="m-doc">setState</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; state) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a8d7edc02c5cadafcd49482ac265dec43" class="m-doc">setState</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; state) -&gt; bool</span>
             </dt>
             <dd>Set the state of the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ab94a2ca52a4c1ef7b69a94131b3a3629" class="m-doc">getState</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9090f9314ea643b92d367e7ffb8ef5df" class="m-doc">getState</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp;</span>
             </dt>
             <dd>Get the state to the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a813ab32725b95f0e7680eb004bd6b554" class="m-doc">setControlInput</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">Input</a>&amp; controlInput) -&gt; bool</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#af178d0f20f8c48d3b5faca10eaaf9afc" class="m-doc">setControlInput</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">Input</a>&amp; controlInput) -&gt; bool</span>
             </dt>
             <dd>Set the control input to the dynamical system.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a508c5e981607993d35c474a45a91130b" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
+              <span class="m-doc-wrap-bumper">auto <a href="#a1e4a874d74195cd564fe670e6816a5ac" class="m-doc">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative) -&gt; bool</span>
             </dt>
             <dd>Computes the floating based system dynamics.</dd>
@@ -130,9 +130,9 @@ ${} ^ I R _ {b}$
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a492ab8f2ad62641d67bd0aed72ac76f7"><div>
+          <section class="m-doc-details" id="a519a6438653f1c69ebc60b5c1f50a807"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a492ab8f2ad62641d67bd0aed72ac76f7" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemVelocityKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a519a6438653f1c69ebc60b5c1f50a807" class="m-doc-self">initialize</a>(</span><span class="m-doc-wrap">std::weak_ptr&lt;const <a href="classBipedalLocomotion_1_1ParametersHandler_1_1IParametersHandler.html" class="m-doc">ParametersHandler::<wbr />IParametersHandler</a>&gt; handler)</span></span>
             </h3>
             <p>Initialize the Dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -154,9 +154,9 @@ ${} ^ I R _ {b}$
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>This function does nothing but it is required for CRTP.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a8ead6c79af9d3473733179976ee59304"><div>
+          <section class="m-doc-details" id="a8d7edc02c5cadafcd49482ac265dec43"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8ead6c79af9d3473733179976ee59304" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; state)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemVelocityKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8d7edc02c5cadafcd49482ac265dec43" class="m-doc-self">setState</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; state)</span></span>
             </h3>
             <p>Set the state of the dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -177,9 +177,9 @@ ${} ^ I R _ {b}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ab94a2ca52a4c1ef7b69a94131b3a3629"><div>
+          <section class="m-doc-details" id="a9090f9314ea643b92d367e7ffb8ef5df"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ab94a2ca52a4c1ef7b69a94131b3a3629" class="m-doc-self">getState</a>(</span><span class="m-doc-wrap">) const</span></span>
+              <span class="m-doc-wrap-bumper">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#abe9655801c0f0a1391619325e571cd57" class="m-doc">State</a>&amp; BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemVelocityKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9090f9314ea643b92d367e7ffb8ef5df" class="m-doc-self">getState</a>(</span><span class="m-doc-wrap">) const</span></span>
             </h3>
             <p>Get the state to the dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -191,9 +191,9 @@ ${} ^ I R _ {b}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a813ab32725b95f0e7680eb004bd6b554"><div>
+          <section class="m-doc-details" id="af178d0f20f8c48d3b5faca10eaaf9afc"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a813ab32725b95f0e7680eb004bd6b554" class="m-doc-self">setControlInput</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">Input</a>&amp; controlInput)</span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemVelocityKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af178d0f20f8c48d3b5faca10eaaf9afc" class="m-doc-self">setControlInput</a>(</span><span class="m-doc-wrap">const <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a4c2a4bbac36e26c14571f79bfd6e4fa7" class="m-doc">Input</a>&amp; controlInput)</span></span>
             </h3>
             <p>Set the control input to the dynamical system.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -214,9 +214,9 @@ ${} ^ I R _ {b}$
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a508c5e981607993d35c474a45a91130b"><div>
+          <section class="m-doc-details" id="a1e4a874d74195cd564fe670e6816a5ac"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a508c5e981607993d35c474a45a91130b" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />ContinuousDynamicalSystem::<wbr />FloatingBaseSystemVelocityKinematics::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1e4a874d74195cd564fe670e6816a5ac" class="m-doc-self">dynamics</a>(</span><span class="m-doc-wrap">const std::chrono::nanoseconds&amp; time,
               <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem.html#a664a4e9ae349c0b14f83d98a90e52022" class="m-doc">StateDerivative</a>&amp; stateDerivative)</span></span>
             </h3>
             <p>Computes the floating based system dynamics.</p>

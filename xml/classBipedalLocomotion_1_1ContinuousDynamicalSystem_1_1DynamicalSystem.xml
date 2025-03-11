@@ -274,16 +274,16 @@
 </programlisting> </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="13">
-        <label>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</label>
-        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics"/>
-        <childnode refid="12" relation="public-inheritance">
+      <node id="15">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemAccelerationKinematics</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemAccelerationKinematics"/>
+        <childnode refid="14" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::FixedBaseDynamics</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FixedBaseDynamics"/>
-        <childnode refid="10" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
       <node id="6">
@@ -303,11 +303,11 @@
         <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
-        <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseSystemKinematics &gt;</label>
+      <node id="10">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseSystemVelocityKinematics &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">
-          <edgelabel>&lt; FloatingBaseSystemKinematics &gt;</edgelabel>
+          <edgelabel>&lt; FloatingBaseSystemVelocityKinematics &gt;</edgelabel>
         </childnode>
       </node>
       <node id="7">
@@ -329,7 +329,7 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="12">
         <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FixedBaseDynamics &gt;</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
         <childnode refid="1" relation="template-instance">
@@ -347,6 +347,19 @@
         <label>BipedalLocomotion::ContinuousDynamicalSystem::CentroidalDynamics</label>
         <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1CentroidalDynamics"/>
         <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemVelocityKinematics</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>BipedalLocomotion::ContinuousDynamicalSystem::DynamicalSystem&lt; FloatingBaseSystemAccelerationKinematics &gt;</label>
+        <link refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1DynamicalSystem"/>
+        <childnode refid="1" relation="template-instance">
+          <edgelabel>&lt; FloatingBaseSystemAccelerationKinematics &gt;</edgelabel>
         </childnode>
       </node>
       <node id="8">

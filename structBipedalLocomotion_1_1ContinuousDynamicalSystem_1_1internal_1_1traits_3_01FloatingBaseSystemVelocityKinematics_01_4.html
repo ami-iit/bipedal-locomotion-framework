@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h file | bipedal locomotion framework master</title>
+  <title>BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt;FloatingBaseSystemVelocityKinematics&gt; struct | bipedal locomotion framework master</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -61,44 +61,45 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_eaf5314e05d734149789ca52ab6ca8f2.html">BipedalLocomotion</a>/</span><span class="m-breadcrumb"><a href="dir_c742c3754522739908222a171dc053d9.html">ContinuousDynamicalSystem</a>/</span>FloatingBaseSystemKinematics.h <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="FloatingBaseSystemVelocityKinematics_8h.html">&lt;BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;&gt;</div>
+          <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem.html">ContinuousDynamicalSystem</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal.html">internal</a>::<wbr/></span>traits&lt;FloatingBaseSystemVelocityKinematics&gt; <span class="m-thin">struct</span>
         </h1>
+        <p><span></span></p>
         <nav class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>Authors</h4><p>Giulio Romualdi</p></aside><aside class="m-note m-default"><h4>Copyright</h4><p>2021 Istituto Italiano di Tecnologia (IIT). This software may be modified and distributed under the terms of the BSD-3-Clause license.</p></aside>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespaceBipedalLocomotion.html" class="m-doc">BipedalLocomotion</a></dt>
-            <dd></dd>
-            <dt>namespace <a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem.html" class="m-doc">BipedalLocomotion::ContinuousDynamicalSystem</a></dt>
-            <dd><span></span></dd>
-            <dt>namespace <a href="namespaceBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal.html" class="m-doc">BipedalLocomotion::ContinuousDynamicalSystem::internal</a></dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;&gt;</div>
-              struct <a href="structBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1internal_1_1traits_3_01FloatingBaseSystemKinematics_01_4.html" class="m-doc">BipedalLocomotion::ContinuousDynamicalSystem::internal::traits&lt;FloatingBaseSystemKinematics&gt;</a>
+            <dt id="a4c74ccead575c5401ff13de44dce1127">
+              using <a href="#a4c74ccead575c5401ff13de44dce1127" class="m-doc-self">Twist</a> = Eigen::Matrix&lt;double, 6, 1&gt;
             </dt>
             <dd><span></span></dd>
-            <dt>
-              class <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">BipedalLocomotion::ContinuousDynamicalSystem::FloatingBaseSystemKinematics</a>
+            <dt id="a08d068a2681c632c1c9002fdfd13cce3">
+              using <a href="#a08d068a2681c632c1c9002fdfd13cce3" class="m-doc-self">State</a> = <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">GenericContainer::<wbr />named_tuple</a>&lt;<a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(p, Eigen::Vector3d), <a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(R, manif::SO3d), <a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(s, Eigen::VectorXd)&gt;
             </dt>
-            <dd><a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemKinematics.html" class="m-doc">FloatingBaseSystemKinematics</a> describes a floating base system kinematics.</dd>
+            <dd><span></span></dd>
+            <dt id="a8f6a48b965b8fc857cc9a07cf0eb4990">
+              using <a href="#a8f6a48b965b8fc857cc9a07cf0eb4990" class="m-doc-self">StateDerivative</a> = <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">GenericContainer::<wbr />named_tuple</a>&lt;<a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(dp, Eigen::Vector3d), <a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(omega, manif::SO3d::Tangent), <a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(ds, Eigen::VectorXd)&gt;
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7ea185044b2a6177924e7eaa93c225be">
+              using <a href="#a7ea185044b2a6177924e7eaa93c225be" class="m-doc-self">Input</a> = <a href="structBipedalLocomotion_1_1GenericContainer_1_1named__tuple.html" class="m-doc">GenericContainer::<wbr />named_tuple</a>&lt;<a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(twist, Twist), <a href="NamedTuple_8h.html#ada076b998fea094893fd04f260e52c83" class="m-doc">BLF_<wbr />NAMED_<wbr />PARAM</a>(ds, Eigen::VectorXd)&gt;
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aeb72cf226fdb978ad64a1ee1cb222471">
+              using <a href="#aeb72cf226fdb978ad64a1ee1cb222471" class="m-doc-self">DynamicalSystem</a> = <a href="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1FloatingBaseSystemVelocityKinematics.html" class="m-doc">FloatingBaseSystemVelocityKinematics</a>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

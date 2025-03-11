@@ -8,7 +8,8 @@
     <includes local="no">utility</includes>
     <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
     <includedby refid="DynamicalSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/DynamicalSystem.h</includedby>
-    <includedby refid="FloatingBaseSystemKinematics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</includedby>
+    <includedby refid="FloatingBaseSystemAccelerationKinematics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemAccelerationKinematics.h</includedby>
+    <includedby refid="FloatingBaseSystemVelocityKinematics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h</includedby>
     <includedby refid="ForwardEuler_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</includedby>
     <includedby refid="LieGroupDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/LieGroupDynamics.h</includedby>
     <includedby refid="LinearTimeInvariantSystem_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</includedby>
@@ -50,15 +51,17 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -74,11 +77,13 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -89,70 +94,74 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseDynamicsWithCompliantContacts.h</label>
         <link refid="FloatingBaseDynamicsWithCompliantContacts_8h"/>
       </node>
-      <node id="13">
+      <node id="7">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemVelocityKinematics.h</label>
+        <link refid="FloatingBaseSystemVelocityKinematics_8h"/>
+      </node>
+      <node id="14">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/RK4.h</label>
         <link refid="RK4_8h"/>
       </node>
-      <node id="6">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemKinematics.h</label>
-        <link refid="FloatingBaseSystemKinematics_8h"/>
-      </node>
-      <node id="15">
+      <node id="16">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/SO3Dynamics.h</label>
         <link refid="SO3Dynamics_8h"/>
       </node>
-      <node id="10">
+      <node id="6">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemAccelerationKinematics.h</label>
+        <link refid="FloatingBaseSystemAccelerationKinematics_8h"/>
+      </node>
+      <node id="11">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ButterworthLowPassFilter.h</label>
         <link refid="ButterworthLowPassFilter_8h"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/Integrator.h</label>
         <link refid="Integrator_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
-        <link refid="FirstOrderSmoother_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
-        <link refid="FixedStepIntegrator_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
+      </node>
+      <node id="12">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
+        <link refid="FirstOrderSmoother_8h"/>
         <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>BipedalLocomotion/ContinuousDynamicalSystem/FixedStepIntegrator.h</label>
+        <link refid="FixedStepIntegrator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="2">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</label>
         <link refid="CentroidalDynamics_8h"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="16">
+      <node id="17">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LinearTimeInvariantSystem.h</label>
         <link refid="LinearTimeInvariantSystem_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/ForwardEuler.h</label>
         <link refid="ForwardEuler_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/LieGroupDynamics.h</label>
         <link refid="LieGroupDynamics_8h"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
