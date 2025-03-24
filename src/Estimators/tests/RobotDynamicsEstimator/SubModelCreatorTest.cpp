@@ -10,7 +10,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 // YARP
-#include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
 // BLF
@@ -29,7 +28,6 @@ namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 TEST_CASE("SubModel Creation")
 {
-
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 

@@ -9,8 +9,8 @@
 #include <catch2/generators/catch_generators_all.hpp>
 #include <chrono>
 
-#include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
+#include <ConfigFolderPath.h>
 
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/FreeFloatingState.h>
@@ -35,8 +35,6 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
-
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
 
@@ -47,7 +45,7 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
 
-    REQUIRE(mdlLdr.loadReducedModelFromFile(modelPath, jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
 }
 
 void createSubModels(iDynTree::ModelLoader& mdlLdr,

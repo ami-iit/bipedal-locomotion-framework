@@ -11,7 +11,6 @@
 #include <BipedalLocomotion/Math/Wrench.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
-#include <BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>

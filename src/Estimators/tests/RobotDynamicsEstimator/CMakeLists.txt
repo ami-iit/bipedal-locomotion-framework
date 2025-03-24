@@ -4,6 +4,7 @@
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ConfigFolderPath.h.in" "${CMAKE_CURRENT_BINARY_DIR}/ConfigFolderPath.h" @ONLY)
+include(FetchContent)
 
 add_bipedal_test(NAME ZeroVelocityStateDynamics
                 SOURCES ZeroVelocityStateDynamicsTest.cpp
@@ -23,14 +24,29 @@ add_bipedal_test(NAME ConstantMeasurementModel
                 BipedalLocomotion::ParametersHandler
                 Eigen3::Eigen)
 
-if(BUILD_TESTING)
-    set(CUSTOM_MODEL_EXPECTED_MD5 c18dc5dafea6c968d0a3f2ecf20e0387)
-    if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
-    file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.urdf" CUSTOM_MODEL_CHECKSUM_VARIABLE)
-    string(COMPARE EQUAL ${CUSTOM_MODEL_CHECKSUM_VARIABLE} ${CUSTOM_MODEL_EXPECTED_MD5} CUSTOM_MODEL_UPDATED)
-    else()
-    set(CUSTOM_MODEL_UPDATED FALSE)
-    endif()
+# Get the urdf model of the robot
+set(ERGOCUB_MODEL_EXPECTED_MD5 7d24f42cb415e660abc4bbc8a52d355f)
+if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
+  file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.urdf" ERGOCUB_MODEL_CHECKSUM_VARIABLE)
+  string(COMPARE EQUAL ${ERGOCUB_MODEL_CHECKSUM_VARIABLE} ${ERGOCUB_MODEL_EXPECTED_MD5} ERGOCUB_MODEL_UPDATED)
+else()
+  set(ERGOCUB_MODEL_UPDATED FALSE)
+endif()
+
+if(NOT ${ERGOCUB_MODEL_UPDATED})
+  message(STATUS "Fetching ergoCubSN000 model from icub-tech-iit/ergocub-software...")
+  file(DOWNLOAD https://raw.githubusercontent.com/icub-tech-iit/ergocub-software/refs/heads/master/urdf/ergoCub/robots/ergoCubSN000/model.urdf
+    ${CMAKE_CURRENT_BINARY_DIR}/model.urdf
+    EXPECTED_MD5 ${ERGOCUB_MODEL_EXPECTED_MD5})
+endif()
+
+set(CUSTOM_MODEL_EXPECTED_MD5 c18dc5dafea6c968d0a3f2ecf20e0387)
+if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/four_joints_two_ft_three_imu.urdf")
+file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/four_joints_two_ft_three_imu.urdf" CUSTOM_MODEL_CHECKSUM_VARIABLE)
+string(COMPARE EQUAL ${CUSTOM_MODEL_CHECKSUM_VARIABLE} ${CUSTOM_MODEL_EXPECTED_MD5} CUSTOM_MODEL_UPDATED)
+else()
+set(CUSTOM_MODEL_UPDATED FALSE)
+endif()
 
     if(NOT ${CUSTOM_MODEL_UPDATED})
     message(STATUS "Fetching CUSTOM model from github.com/ami-iit/paper_sorrentino_2024_icra_robot-dynamics-estimation/...")
@@ -48,54 +64,46 @@ if(FRAMEWORK_COMPILE_YarpImplementation)
         BipedalLocomotion::ParametersHandlerYarpImplementation)
 endif()
 
-if(FRAMEWORK_USE_icub-models)
+if (FRAMEWORK_COMPILE_ManifConversions)
+    FetchContent_Declare(
+        ResolveRoboticsURICpp
+        GIT_REPOSITORY https://github.com/ami-iit/resolve-robotics-uri-cpp
+        GIT_TAG        v0.0.2 # Or change this to use another release or tag
+        )
+    FetchContent_MakeAvailable(ResolveRoboticsURICpp)
 
-    if (FRAMEWORK_COMPILE_ManifConversions)
-        add_bipedal_test(NAME KinDynWrapper
-            SOURCES KinDynWrapperTest.cpp
-            LINKS BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            BipedalLocomotion::ManifConversions)
+    add_bipedal_test(NAME KinDynWrapper
+        SOURCES KinDynWrapperTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        icub-models::icub-models
+        BipedalLocomotion::ManifConversions)
 
-        add_bipedal_test(NAME FrictionTorqueStateDynamics
-            SOURCES FrictionTorqueStateDynamicsTest.cpp
-            LINKS BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            Eigen3::Eigen
-            BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
+    add_bipedal_test(NAME GyroscopeMeasurementDynamics
+        SOURCES GyroscopeMeasurementDynamicsTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        Eigen3::Eigen
+        BipedalLocomotion::ManifConversions
+        iDynTree::idyntree-model)
 
-        add_bipedal_test(NAME GyroscopeMeasurementDynamics
-            SOURCES GyroscopeMeasurementDynamicsTest.cpp
-            LINKS BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            Eigen3::Eigen
-            BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
+    add_bipedal_test(NAME AccelerometerMeasurementDynamics
+        SOURCES AccelerometerMeasurementDynamicsTest.cpp
+        LINKS   BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        Eigen3::Eigen
+        MANIF::manif
+        BipedalLocomotion::ManifConversions
+        iDynTree::idyntree-model)
 
-        add_bipedal_test(NAME AccelerometerMeasurementDynamics
-            SOURCES AccelerometerMeasurementDynamicsTest.cpp
-            LINKS   BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            Eigen3::Eigen
-            MANIF::manif
-            BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
-
-        add_bipedal_test(NAME JointVelocityStateDynamics
-            SOURCES JointVelocityStateDynamicsTest.cpp
-            LINKS BipedalLocomotion::RobotDynamicsEstimator
-            BipedalLocomotion::ParametersHandler
-            icub-models::icub-models
-            Eigen3::Eigen
-            MANIF::manif
-            BipedalLocomotion::ManifConversions
-            iDynTree::idyntree-model)
-    endif()
+    add_bipedal_test(NAME JointVelocityStateDynamics
+        SOURCES JointVelocityStateDynamicsTest.cpp
+        LINKS BipedalLocomotion::RobotDynamicsEstimator
+        BipedalLocomotion::ParametersHandler
+        Eigen3::Eigen
+        MANIF::manif
+        BipedalLocomotion::ManifConversions
+        iDynTree::idyntree-model)
 endif()
 
 if(FRAMEWORK_COMPILE_YarpImplementation AND FRAMEWORK_COMPILE_ManifConversions AND FRAMEWORK_COMPILE_matioCppConversions)

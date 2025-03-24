@@ -56,12 +56,6 @@ bool RDE::JointVelocityStateDynamics::initialize(
         return false;
     }
 
-    // Set the list of elements if it exists
-    if (!ptr->getParameter("elements", m_elements))
-    {
-        log()->debug("{} Variable elements not found.", errorPrefix);
-    }
-
     if (!ptr->getParameter("sampling_time", m_dT))
     {
         log()->error("{} Error while retrieving the sampling_time variable.", errorPrefix);
