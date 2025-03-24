@@ -10,6 +10,7 @@
 
 #include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
+#include <ResolveRoboticsURICpp.h>
 
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/FreeFloatingState.h>
@@ -34,7 +35,11 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
+    std::optional<std::string> pathTemp = ResolveRoboticsURICpp::resolveRoboticsURI("package://ergoCub/robots/ergoCubSN000/model.urdf");
+    REQUIRE(pathTemp.has_value());
+
+    std::string modelPath = pathTemp.value();
+    BipedalLocomotion::log()->info("Model path {}", modelPath);
 
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
@@ -268,7 +273,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     covariance << 2.3e-3, 1.9e-3, 3.1e-3;
     const std::string model = "AccelerometerMeasurementDynamics";
     const bool useBias = true;
-    accHandler->setParameter("name", name);
+    accHandler->setParameter("variable_name", name);
     accHandler->setParameter("covariance", covariance);
     accHandler->setParameter("dynamic_model", model);
     accHandler->setParameter("use_bias", useBias);
