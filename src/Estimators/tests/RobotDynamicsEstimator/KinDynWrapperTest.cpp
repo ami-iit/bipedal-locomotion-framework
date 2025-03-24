@@ -10,6 +10,8 @@
 
 #include <yarp/os/ResourceFinder.h>
 
+#include <ConfigFolderPath.h>
+
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/FreeFloatingState.h>
 #include <iDynTree/Model.h>
@@ -24,6 +26,9 @@
 
 #include <BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h>
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 using namespace BipedalLocomotion::ParametersHandler;
 using namespace BipedalLocomotion::System;
@@ -34,11 +39,8 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    std::optional<std::string> pathTemp = ResolveRoboticsURICpp::resolveRoboticsURI("package://ergoCub/robots/ergoCubSN000/model.urdf");
-    REQUIRE(pathTemp.has_value());
-
-    std::string modelPath = pathTemp.value();
-    BipedalLocomotion::log()->info("Model path {}", modelPath);
+    std::string modelPath = getRobotModelPath();
+    BipedalLocomotion::log()->info("Model path {}", getRobotModelPath());
 
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
@@ -205,12 +207,12 @@ TEST_CASE("KinDynWrapper Test")
         kinDyn->getWorldTransform(kinDynWrapperList[0]->getFloatingBase()));
 
     // Set the sub-model state
-    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+    REQUIRE(kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
                                         jointPos,
                                         iDynTree::make_span(baseVel.data(),
                                                             manif::SE3d::Tangent::DoF),
                                         jointVel,
-                                        gravity);
+                                        gravity));
 
     // Forward dynamics
     Eigen::VectorXd jointAccFD(numJoints);
@@ -263,12 +265,12 @@ TEST_CASE("KinDynWrapper Test")
     jointTrq = iDynTree::toEigen(jointTorques.jointTorques());
 
     // Set the sub-model state
-    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+    REQUIRE(kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
                                         jointPos,
                                         iDynTree::make_span(baseVel.data(),
                                                             manif::SE3d::Tangent::DoF),
                                         jointVel,
-                                        gravity);
+                                        gravity));
 
     // Forward dynamics
     Eigen::VectorXd jointAccFD2(numJoints);
@@ -299,12 +301,12 @@ TEST_CASE("KinDynWrapper Test")
     jointTrq = iDynTree::toEigen(jointTorques.jointTorques());
 
     // Set the sub-model state
-    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+    REQUIRE(kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
                                         jointPos,
                                         iDynTree::make_span(baseVel.data(),
                                                             manif::SE3d::Tangent::DoF),
                                         jointVel,
-                                        gravity);
+                                        gravity));
 
     // Forward dynamics
     REQUIRE(kinDynWrapperList[0]->forwardDynamics(jointTrq,

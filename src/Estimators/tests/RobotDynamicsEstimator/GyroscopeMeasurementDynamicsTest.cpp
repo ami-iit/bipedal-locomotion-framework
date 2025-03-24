@@ -232,12 +232,12 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
     }
 
     // Set the sub-model state
-    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+    REQUIRE(kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
                     subModelJointPos[0],
                     iDynTree::make_span(input.robotBaseVelocity.data(),
                                         manif::SE3d::Tangent::DoF),
                     subModelJointVel[0],
-                    gravity);
+                    gravity));
 }
 
 TEST_CASE("Gyroscope Measurement Dynamics")

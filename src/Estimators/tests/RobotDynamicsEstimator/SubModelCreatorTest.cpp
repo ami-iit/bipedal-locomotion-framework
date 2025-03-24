@@ -66,7 +66,7 @@ TEST_CASE("SubModel Creation")
     jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
 
     iDynTree::ModelLoader mdlLdr;
-    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getCustomRobotModelPath(), jointsAndFTs));
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
@@ -86,7 +86,7 @@ TEST_CASE("SubModel Creation")
     jointsAndFTs.clear();
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
 
-    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getCustomRobotModelPath(), jointsAndFTs));
 
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
     RDE::SubModelCreator subModelCreatorWithoutFT;
