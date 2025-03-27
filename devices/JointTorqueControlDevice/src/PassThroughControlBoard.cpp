@@ -30,6 +30,7 @@ PassThroughControlBoard::PassThroughControlBoard()
     , proxyIControlCalibration(0)
     , proxyIControlLimits(0)
     , proxyIMotor(0)
+    , proxyIJointFault(0)
 {
 }
 
@@ -56,6 +57,7 @@ void PassThroughControlBoard::resetPointers()
     proxyIControlCalibration = nullptr;
     proxyIControlLimits = nullptr;
     proxyIMotor = nullptr;
+    proxyIJointFault = nullptr;
 }
 
 // DEVICE DRIVER
@@ -99,6 +101,7 @@ bool PassThroughControlBoard::attachAll(const PolyDriverList& p)
     proxyDevice->view(proxyIControlCalibration);
     proxyDevice->view(proxyIControlLimits);
     proxyDevice->view(proxyIMotor);
+    proxyDevice->view(proxyIJointFault);
 
     return true;
 }
@@ -107,6 +110,15 @@ bool PassThroughControlBoard::detachAll()
 {
     resetPointers();
     return true;
+}
+
+bool PassThroughControlBoard::getLastJointFault(int j, int& fault, std::string& message)
+{
+    if (!proxyIJointFault)
+    {
+        return false;
+    }
+    return proxyIJointFault->getLastJointFault(j, fault, message);
 }
 
 // ENCODERS

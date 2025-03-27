@@ -19,6 +19,7 @@ All notable changes to this project are documented in this file.
 - Removed ROS1 device publisher and the corresponding example (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
 - Remove the possibility of setting the desired gravity direction and desired forward velocity separately in the `IK::GravityTrask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 - Improve `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/948)
+- Add wrapping of IJointFault device in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/954)
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
