@@ -26,6 +26,7 @@
 #include <yarp/dev/ITorqueControl.h>
 #include <yarp/dev/IVelocityControl.h>
 #include <yarp/dev/PolyDriver.h>
+#include <yarp/dev/IJointFault.h>
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -56,7 +57,8 @@ class BipedalLocomotion::PassThroughControlBoard : public yarp::dev::DeviceDrive
                                                    public yarp::dev::IMultipleWrapper,
                                                    public yarp::dev::IAmplifierControl,
                                                    public yarp::dev::IControlCalibration,
-                                                   public yarp::dev::IControlLimits
+                                                   public yarp::dev::IControlLimits,
+                                                   public yarp::dev::IJointFault
 {
 protected:
     yarp::dev::IEncodersTimed* proxyIEncodersTimed;
@@ -75,6 +77,7 @@ protected:
     yarp::dev::IControlCalibration* proxyIControlCalibration;
     yarp::dev::IControlLimits* proxyIControlLimits;
     yarp::dev::IMotor* proxyIMotor;
+    yarp::dev::IJointFault* proxyIJointFault;
     void proxyIMotorEncoder(const double* vals);
     void resetPointers();
 
@@ -93,6 +96,9 @@ public:
 
     // GEARBOX RATIO
     virtual bool getGearboxRatio(int m, double* val);
+
+    // JOINT FAULT
+    virtual bool getLastJointFault(int j, int& fault, std::string& message);
 
     // ENCODERS
     virtual bool getAxes(int* ax);
