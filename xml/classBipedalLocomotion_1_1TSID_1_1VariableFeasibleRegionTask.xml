@@ -335,7 +335,7 @@
 <para><ref refid="classBipedalLocomotion_1_1TSID_1_1VariableFeasibleRegionTask" kindref="compound">VariableFeasibleRegionTask</ref> is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to create a inequality linear constraint on a subset of the optimization variable. The task represents the following equation: <formula id="174">\[ l \ne Cx \ne u \]</formula> where <formula id="142">$C$</formula> is a generic transformation matrix (m x n), <formula id="175">$l$</formula> is a vector of lower bounds (m x 1), <formula id="176">$u$</formula> is a vector of upper bounds (m x 1), and <formula id="52">$x$</formula> are the elements of the variable you want to consider (n x 1). <formula id="79">$m$</formula> is the number of constraints and <formula id="132">$n$</formula> is the number of variables. </para>
+<para>Please use this element if you want to create a inequality linear constraint on a subset of the optimization variable. The task represents the following equation: <formula id="205">\[ l \ne Cx \ne u \]</formula> where <formula id="153">$C$</formula> is a generic transformation matrix (m x n), <formula id="206">$l$</formula> is a vector of lower bounds (m x 1), <formula id="207">$u$</formula> is a vector of upper bounds (m x 1), and <formula id="62">$x$</formula> are the elements of the variable you want to consider (n x 1). <formula id="88">$m$</formula> is the number of constraints and <formula id="144">$n$</formula> is the number of variables. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
