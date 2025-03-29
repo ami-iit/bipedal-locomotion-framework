@@ -11,7 +11,7 @@ if(FRAMEWORK_COMPILE_YarpRobotLoggerDevice)
     include(FetchContent)
     FetchContent_Declare(tiny_process_library
       GIT_REPOSITORY https://gitlab.com/eidheim/tiny-process-library.git
-      GIT_TAG v2.0.4)
+      GIT_TAG 8bbb5a211c5c9df8ee69301da9d22fb977b27dc1)
 
     if(NOT tiny_process_library_POPULATED)
       FetchContent_Populate(tiny_process_library)
