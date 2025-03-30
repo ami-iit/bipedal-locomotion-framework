@@ -13,7 +13,7 @@ if (FRAMEWORK_COMPILE_Planners)
                    ${H_PREFIX}/Spline.h ${H_PREFIX}/CubicSpline.h ${H_PREFIX}/QuinticSpline.h
     SOURCES src/ConvexHullHelper.cpp src/DCMPlanner.cpp  src/TimeVaryingDCMPlanner.cpp src/SwingFootPlanner.cpp
     PUBLIC_LINK_LIBRARIES Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts BipedalLocomotion::Math
-    PRIVATE_LINK_LIBRARIES Qhull::qhull_r casadi iDynTree::idyntree-core BipedalLocomotion::Math BipedalLocomotion::TextLogging
+    PRIVATE_LINK_LIBRARIES Qhull::qhull_r casadi::casadi iDynTree::idyntree-core BipedalLocomotion::Math BipedalLocomotion::TextLogging
     INSTALLATION_FOLDER Planners)
 
   add_subdirectory(tests)

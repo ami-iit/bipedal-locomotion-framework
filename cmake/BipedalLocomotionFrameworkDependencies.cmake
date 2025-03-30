@@ -45,7 +45,14 @@ blf_optional_find_package(casadi QUIET)
 checkandset_dependency(casadi)
 dependency_classifier(casadi IS_USED ${FRAMEWORK_USE_casadi} PUBLIC)
 add_compile_definitions(casadi_VERSION=${casadi_VERSION})
-
+# Support for both casadi < and >= 3.7.0
+if(casadi_FOUND AND TARGET casadi AND NOT casadi::casadi)
+  # This is equivalent to add_library(casadi::casadi ALIAS casadi), but compatible with 3.16
+  # Once the cmake_minimum_required is at least 3.18 (see https://gitlab.kitware.com/cmake/cmake/-/merge_requests/4837),
+  # this can be changed to add_library(casadi::casadi ALIAS casadi)
+  add_library(casadi::casadi INTERFACE IMPORTED)
+  set_target_properties(casadi::casadi PROPERTIES INTERFACE_LINK_LIBRARIES casadi)
+endif()
 
 blf_optional_find_package(cppad QUIET)
 checkandset_dependency(cppad)

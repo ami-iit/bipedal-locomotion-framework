@@ -11,7 +11,7 @@ if(FRAMEWORK_COMPILE_ReducedModelControllers)
     PUBLIC_HEADERS         ${H_PREFIX}/CentroidalMPC.h
     SOURCES                src/CentroidalMPC.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System BipedalLocomotion::Contacts
-    PRIVATE_LINK_LIBRARIES casadi BipedalLocomotion::Math BipedalLocomotion::TextLogging BipedalLocomotion::CasadiConversions
+    PRIVATE_LINK_LIBRARIES casadi::casadi BipedalLocomotion::Math BipedalLocomotion::TextLogging BipedalLocomotion::CasadiConversions
     SUBDIRECTORIES         tests)
 
 endif()
