@@ -30,8 +30,9 @@ if(TARGET BipedalLocomotion::RobotInterface
     include(FetchContent)
     FetchContent_Declare(
       cvnp
-      GIT_REPOSITORY https://github.com/pthom/cvnp
-      GIT_TAG        6aeac770ccff122abf82573da1ae03e18e7a4707
+      # Temporary use a fork until https://github.com/pthom/cvnp/pull/20 is merged
+      GIT_REPOSITORY https://github.com/traversaro/cvnp
+      GIT_TAG        08af05fe536daa692c75c15a437be900d3b3bc0f
       )
     FetchContent_MakeAvailable(cvnp)
     set(cvnp_target_link cvnp)

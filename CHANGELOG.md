@@ -28,6 +28,7 @@ All notable changes to this project are documented in this file.
 - Fix typos in tsid balancing torque control config files (https://github.com/ami-iit/bipedal-locomotion-framework/pull/926)
 - Add option `FRAMEWORK_COMPILE_MotorCurrentTrackingApplication` in cmake file to install correctly the application motor-current-tracking (https://github.com/ami-iit/bipedal-locomotion-framework/pull/937)
 - Fix resize vector in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/951)
+- Fix build with CMake 4 and NumPy 2 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/955)
 
 ### Deprecated
 - Deprecate `FloatingBaseSystemKinematics` in favour of `FloatingBaseSystemVelocityKinematics` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/950)
