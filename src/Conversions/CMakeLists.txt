@@ -36,7 +36,7 @@ if (FRAMEWORK_COMPILE_CasadiConversions)
         NAME                   CasadiConversions
         IS_INTERFACE
         PUBLIC_HEADERS         include/BipedalLocomotion/Conversions/CasadiConversions.h
-        PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::CommonConversions casadi
+        PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::CommonConversions casadi::casadi
         INSTALLATION_FOLDER    Conversions
         )
 endif()

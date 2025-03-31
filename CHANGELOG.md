@@ -20,6 +20,7 @@ All notable changes to this project are documented in this file.
 - Remove the possibility of setting the desired gravity direction and desired forward velocity separately in the `IK::GravityTrask` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/939)
 - Improve `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/948)
 - Add wrapping of IJointFault device in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/954)
+- Increase minimum version of CMake supported to 3.18.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/956)
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
@@ -29,6 +30,7 @@ All notable changes to this project are documented in this file.
 - Add option `FRAMEWORK_COMPILE_MotorCurrentTrackingApplication` in cmake file to install correctly the application motor-current-tracking (https://github.com/ami-iit/bipedal-locomotion-framework/pull/937)
 - Fix resize vector in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/951)
 - Fix build with CMake 4 and NumPy 2 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/955)
+- Fix build with casadi >= 3.7.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/956)
 
 ### Deprecated
 - Deprecate `FloatingBaseSystemKinematics` in favour of `FloatingBaseSystemVelocityKinematics` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/950)
