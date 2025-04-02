@@ -33,6 +33,9 @@ env:
   # Default number of cores set to one
   NUM_CORES_FOR_CMAKE_BUILD: 1
 
+  # Compatibility with CMake 4.0.0 for older projects
+  CMAKE_POLICY_VERSION_MINIMUM: 3.5
+
 jobs:
   check-style:
     name: Find Trailing Whitespace
@@ -531,7 +534,11 @@ jobs:
       shell: bash
       run: |
         cd build
-        for missing_dep in YARP Qhull casadi cppad manif Python3 pybind11 pytest matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models BayesFilters; do
+        # We disable Python3 before hand, as the Python bindings are one big library, the bindings big library
+        # needs to be recompiled every time a dependency is enabled and disabled, so this check would take a long
+        # time if we do not disable Python bindings before the check
+        cmake -DFRAMEWORK_USE_Python3:BOOL=OFF -DFRAMEWORK_USE_pybind11:BOOL=OFF -DFRAMEWORK_USE_pytest:BOOL=OFF .
+        for missing_dep in YARP Qhull casadi cppad manif matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models BayesFilters; do
             echo "Testing ${missing_dep} as missing dependency."
             # Deselect missing dependencies and build
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
@@ -539,6 +546,8 @@ jobs:
             # Enable again dependency
             cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
         done
+        # Re-enabled Python bindings now
+        cmake -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON -DFRAMEWORK_USE_pytest:BOOL=ON .
 
     - name: Build
       shell: bash
