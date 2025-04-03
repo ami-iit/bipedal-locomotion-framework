@@ -67,7 +67,7 @@ BSD-3-Clause license. -->
              <param name="dynamics_list">
                  ("JOINT_VELOCITY", "MOTOR_TORQUE", "FRICTION_TORQUE", "RIGHT_LEG_FT", "RIGHT_FOOT_FRONT_FT", "RIGHT_FOOT_REAR_FT")
               </param>
-             <!-- Available models = ["ZeroVelocityStateDynamics", "JointVelocityStateDynamics", "FrictionTorqueStateDynamics"] -->
+             <!-- Available models = ["ZeroVelocityStateDynamics", "JointVelocityStateDynamics"] -->
              <group name="JOINT_VELOCITY">
                 <param name="name">ds</param>
                 <param name="elements">("r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
@@ -87,10 +87,7 @@ BSD-3-Clause license. -->
                 <param name="elements">("r_hip_pitch", "r_hip_roll", "r_hip_yaw", "r_knee", "r_ankle_pitch", "r_ankle_roll")</param>
                 <param name="covariance">(1e-1, 1e-1, 1e-1, 1e-1, 1e-1, 1e-1)</param>
                 <param name="initial_covariance">(0.01, 0.01, 0.01, 0.01, 0.01, 0.01)</param>
-                <param name="friction_k0">(0.001, 0.001, 0.001, 0.001, 0.001, 0.001)</param>
-                <param name="friction_k1">(0.01, 0.01, 0.01, 0.01, 0.01, 0.01)</param>
-                <param name="friction_k2">(0.01, 0.01, 0.01, 0.01, 0.01, 0.01)</param>
-                <param name="dynamic_model">FrictionTorqueStateDynamics</param>
+                <param name="dynamic_model">ZeroVelocityStateDynamics</param>
              </group>
              <group name="RIGHT_LEG_FT">
                 <param name="name">r_leg_ft</param>

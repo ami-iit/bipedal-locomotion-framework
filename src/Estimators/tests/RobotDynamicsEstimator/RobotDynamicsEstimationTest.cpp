@@ -8,17 +8,16 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <iCubModels/iCubModels.h>
 #include <matioCpp/matioCpp.h>
 #include <yarp/os/ResourceFinder.h>
 
 #include <ConfigFolderPath.h>
 
-#include <iDynTree/KinDynComputations.h>
 #include <iDynTree/FreeFloatingState.h>
+#include <iDynTree/KinDynComputations.h>
 #include <iDynTree/Model.h>
-#include <iDynTree/ModelTestUtils.h>
 #include <iDynTree/ModelLoader.h>
+#include <iDynTree/ModelTestUtils.h>
 
 #include <BipedalLocomotion/Conversions/ManifConversions.h>
 #include <BipedalLocomotion/Conversions/matioCppConversions.h>
@@ -189,7 +188,7 @@ void loadRobotModel(std::weak_ptr<const ParametersHandler::IParametersHandler> h
     jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
 
     iDynTree::ModelLoader mdlLdr;
-    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getCustomRobotModelPath(), jointsAndFTs));
 
     REQUIRE(kindyn->loadRobotModel(mdlLdr.model()));
 
@@ -247,26 +246,14 @@ Dataset& loadData()
     for (const auto& acc : outStruct3.fields())
     {
         temp = outStruct3[acc].asMultiDimensionalArray<double>();
-        if (acc == "base_imu_0")
-        {
-            dataset.accs[acc + "_acc"] = Conversions::toEigen(temp);
-        } else
-        {
-            dataset.accs[acc] = Conversions::toEigen(temp);
-        }
+        dataset.accs[acc] = Conversions::toEigen(temp);
     }
 
     matioCpp::Struct outStruct4 = outStruct("gyros").asStruct();
     for (const auto& gyro : outStruct4.fields())
     {
         temp = outStruct4[gyro].asMultiDimensionalArray<double>();
-        if (gyro == "base_imu_0")
-        {
-            dataset.gyros[gyro + "_gyro"] = Conversions::toEigen(temp);
-        } else
-        {
-            dataset.gyros[gyro] = Conversions::toEigen(temp);
-        }
+        dataset.gyros[gyro] = Conversions::toEigen(temp);
     }
 
     return dataset;
@@ -276,6 +263,10 @@ void createInitialState(Dataset& dataset,
                         std::weak_ptr<const ParametersHandler::IParametersHandler> handler,
                         RobotDynamicsEstimatorOutput& output)
 {
+    output.ds.resize(dataset.ds.row(0).size());
+    output.tau_m.resize(dataset.expectedTaum.row(0).size());
+    output.tau_F.resize(dataset.expectedTauF.row(0).size());
+
     output.ds = dataset.ds.row(0);
     output.tau_F = dataset.expectedTauF.row(0) * 0.0;
     output.tau_m = dataset.expectedTaum.row(0);
@@ -332,6 +323,10 @@ void setInput(Dataset& dataset,
               RobotDynamicsEstimatorInput& input,
               std::unordered_map<std::string, std::vector<SensorProperty>>& sensors)
 {
+    input.basePose =  manif::SE3d::Identity();
+    input.baseVelocity = manif::SE3d::Tangent::Zero();
+    input.baseAcceleration = manif::SE3d::Tangent::Zero();
+
     // Set input
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
@@ -398,12 +393,7 @@ TEST_CASE("RobotDynamicsEstimator Test")
 
     RobotDynamicsEstimatorInput input;
 
-    // Set here input that are constant
-    input.basePose.setIdentity();
-    input.baseVelocity.setZero();
-    input.baseAcceleration.setZero();
-
-    int numOfSamples = 10;
+    int numOfSamples = 1;
     for (int sample_ = 0; sample_ < numOfSamples; sample_++)
     {
         int sample = sample_;

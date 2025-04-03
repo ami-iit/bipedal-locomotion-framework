@@ -8,8 +8,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_all.hpp>
 
-#include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
+#include <ConfigFolderPath.h>
 
 #include <iDynTree/KinDynComputations.h>
 #include <iDynTree/FreeFloatingState.h>
@@ -34,8 +34,6 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     // List of joints and fts to load the model
     std::vector<SubModel> subModelList;
 
-    const std::string modelPath = iCubModels::getModelFile("iCubGenova09");
-
     std::vector<std::string> jointList;
     REQUIRE(group->getParameter("joint_list", jointList));
 
@@ -46,7 +44,7 @@ void createModelLoader(IParametersHandler::shared_ptr group, iDynTree::ModelLoad
     std::vector<std::string> jointsAndFTs;
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
 
-    REQUIRE(mdlLdr.loadReducedModelFromFile(modelPath, jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
 }
 
 void createSubModels(iDynTree::ModelLoader& mdlLdr,
@@ -104,19 +102,20 @@ IParametersHandler::shared_ptr createModelParameterHandler()
     std::vector<std::string> emptyVectorString;
     emptyGroupNamesFrames->setParameter("names", emptyVectorString);
     emptyGroupNamesFrames->setParameter("frames", emptyVectorString);
-    emptyGroupNamesFrames->setParameter("ukf_names", emptyVectorString);
-    emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
-    REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
+
     REQUIRE(modelParamHandler->setGroup("GYROSCOPE", emptyGroupNamesFrames));
     REQUIRE(modelParamHandler->setGroup("EXTERNAL_CONTACT", emptyGroupNamesFrames));
 
+    emptyGroupNamesFrames->setParameter("associated_joints", emptyVectorString);
+    REQUIRE(modelParamHandler->setGroup("FT", emptyGroupNamesFrames));
+
     auto accGroup = std::make_shared<StdImplementation>();
-    std::vector<std::string> accNameList = {"r_leg_ft_acc"};
-    std::vector<std::string> accFrameList = {"r_leg_ft"};
-    std::vector<std::string> accUkfNameList = {"r_leg_ft_acc"};
+    std::vector<std::string> accNameList = {"r_foot_rear_ft_imu"};
+    std::vector<std::string> accFrameList = {"r_foot_rear_ft_sensor"};
+
     accGroup->setParameter("names", accNameList);
     accGroup->setParameter("frames", accFrameList);
-    accGroup->setParameter("ukf_names", accUkfNameList);
+
     REQUIRE(modelParamHandler->setGroup("ACCELEROMETER", accGroup));
 
     modelParamHandler->setParameter("joint_list", jointList);
@@ -234,12 +233,12 @@ void setRandomKinDynState(std::vector<SubModel>& subModelList,
     }
 
     // Set the sub-model state
-    kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
+    REQUIRE(kinDynWrapperList[0]->setRobotState(worldTBase.transform(),
                                         subModelJointPos[0],
                                         iDynTree::make_span(input.robotBaseVelocity.data(),
                                                             manif::SE3d::Tangent::DoF),
                                         subModelJointVel[0],
-                                        gravity);
+                                        gravity));
 
     // Forward dynamics
     offset = stateVariableHandler.getVariable("MOTOR_TORQUES").offset;
@@ -263,15 +262,18 @@ TEST_CASE("Accelerometer Measurement Dynamics")
 {
     // Create accelerometer parameter handler
     auto accHandler = std::make_shared<StdImplementation>();
-    const std::string name = "r_leg_ft_acc";
+    const std::string name = "r_foot_rear_ft_imu";
+
     Eigen::VectorXd covariance(3);
     covariance << 2.3e-3, 1.9e-3, 3.1e-3;
+
     const std::string model = "AccelerometerMeasurementDynamics";
-    const bool useBias = true;
-    accHandler->setParameter("name", name);
+    const bool useBias = false;
+    accHandler->setParameter("variable_name", name);
     accHandler->setParameter("covariance", covariance);
     accHandler->setParameter("dynamic_model", model);
     accHandler->setParameter("use_bias", useBias);
+    accHandler->setParameter("sensor_type", "accelerometer");
 
     // Create state variable handler
     constexpr size_t sizeVariable = 6;
@@ -279,7 +281,6 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     REQUIRE(stateVariableHandler.addVariable("JOINT_VELOCITIES", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("MOTOR_TORQUES", sizeVariable));
     REQUIRE(stateVariableHandler.addVariable("FRICTION_TORQUES", sizeVariable));
-    REQUIRE(stateVariableHandler.addVariable("r_leg_ft_acc_bias", 3));
 
     // Create parameter handler to load the model
     auto modelParamHandler = createModelParameterHandler();
@@ -309,7 +310,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     // Create the dynamics
     AccelerometerMeasurementDynamics accDynamics;
     REQUIRE(accDynamics.setSubModels(subModelList, kinDynWrapperList));
-    REQUIRE(accDynamics.initialize(accHandler, "r_leg_ft_acc"));
+    REQUIRE(accDynamics.initialize(accHandler, "r_foot_rear_ft_imu"));
     REQUIRE(accDynamics.finalize(stateVariableHandler));
 
     // Create an input for the ukf state
@@ -337,7 +338,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     REQUIRE(accDynamics.update());
 
     manif::SE3Tangentd accelerometerFameAcceleration;
-    REQUIRE(kinDyn->getFrameAcc("r_leg_ft",
+    REQUIRE(kinDyn->getFrameAcc("r_foot_rear_ft_sensor",
                                 iDynTree::make_span(input.robotBaseAcceleration.data(),
                                                     manif::SE3d::Tangent::DoF),
                                 input.robotJointAccelerations,
@@ -345,7 +346,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
                                                     manif::SE3d::Tangent::DoF)));
 
     manif::SO3d imuRworld = BipedalLocomotion::Conversions::toManifRot(
-        kinDyn->getWorldTransform("r_leg_ft").getRotation().inverse());
+        kinDyn->getWorldTransform("r_foot_rear_ft_sensor").getRotation().inverse());
 
     Eigen::Vector3d gravity;
     gravity.setZero();
@@ -353,7 +354,7 @@ TEST_CASE("Accelerometer Measurement Dynamics")
     Eigen::Vector3d accRg = imuRworld.act(gravity);
 
     manif::SE3Tangentd accFrameVel
-        = BipedalLocomotion::Conversions::toManifTwist(kinDyn->getFrameVel("r_leg_ft"));
+        = BipedalLocomotion::Conversions::toManifTwist(kinDyn->getFrameVel("r_foot_rear_ft_sensor"));
 
     Eigen::VectorXd m_vCrossW = accFrameVel.lin().cross(accFrameVel.ang());
 

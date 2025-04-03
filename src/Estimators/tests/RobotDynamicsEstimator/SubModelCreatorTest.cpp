@@ -10,7 +10,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 // YARP
-#include <iCubModels/iCubModels.h>
 #include <yarp/os/ResourceFinder.h>
 
 // BLF
@@ -29,7 +28,6 @@ namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 TEST_CASE("SubModel Creation")
 {
-
     std::shared_ptr<YarpImplementation> originalHandler = std::make_shared<YarpImplementation>();
     IParametersHandler::shared_ptr parameterHandler = originalHandler;
 
@@ -68,7 +66,7 @@ TEST_CASE("SubModel Creation")
     jointsAndFTs.insert(jointsAndFTs.end(), ftFramesList.begin(), ftFramesList.end());
 
     iDynTree::ModelLoader mdlLdr;
-    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getCustomRobotModelPath(), jointsAndFTs));
 
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
@@ -88,7 +86,7 @@ TEST_CASE("SubModel Creation")
     jointsAndFTs.clear();
     jointsAndFTs.insert(jointsAndFTs.begin(), jointList.begin(), jointList.end());
 
-    REQUIRE(mdlLdr.loadReducedModelFromFile(getRobotModelPath(), jointsAndFTs));
+    REQUIRE(mdlLdr.loadReducedModelFromFile(getCustomRobotModelPath(), jointsAndFTs));
 
     REQUIRE(kinDyn->loadRobotModel(mdlLdr.model()));
     RDE::SubModelCreator subModelCreatorWithoutFT;

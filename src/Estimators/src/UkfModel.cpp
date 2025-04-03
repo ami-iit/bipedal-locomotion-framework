@@ -103,12 +103,16 @@ bool UkfModel::updateState()
     m_gravity.setZero();
 
     // Set the robot state of the kindyn of the full model using the sensor proper acceleration
-    m_kinDynFullModel->setRobotState(m_ukfInput.robotBasePose.transform(),
+    if (!m_kinDynFullModel->setRobotState(m_ukfInput.robotBasePose.transform(),
                                      m_ukfInput.robotJointPositions,
                                      iDynTree::make_span(m_baseVelocity.data(),
                                                          manif::SE3d::Tangent::DoF),
                                      m_jointVelocityState,
-                                     m_gravity);
+                                     m_gravity))
+    {
+        log()->error("{} Failed to set the robot state of the full model.", logPrefix);
+        return false;
+    }
 
     // Compute acceleration of the submodel bases from imu measurements
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
