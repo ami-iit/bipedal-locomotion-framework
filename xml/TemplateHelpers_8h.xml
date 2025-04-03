@@ -33,7 +33,7 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="105">
+      <node id="104">
         <label>BipedalLocomotion/IK/JointLimitsTask.h</label>
         <link refid="JointLimitsTask_8h"/>
       </node>
@@ -41,22 +41,22 @@
         <label>BipedalLocomotion/Math/QuadraticBezierCurve.h</label>
         <link refid="QuadraticBezierCurve_8h"/>
       </node>
-      <node id="112">
+      <node id="111">
         <label>BipedalLocomotion/RobotDynamicsEstimator/SubModel.h</label>
         <link refid="SubModel_8h"/>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
       <node id="22">
@@ -144,13 +144,13 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
         <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="87" relation="include">
-        </childnode>
-        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -158,7 +158,7 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
@@ -177,7 +177,7 @@
         <label>BipedalLocomotion/Math/CubicSpline.h</label>
         <link refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h"/>
       </node>
-      <node id="98">
+      <node id="97">
         <label>BipedalLocomotion/TSID/SO3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SO3Task_8h"/>
       </node>
@@ -203,7 +203,7 @@
         <label>BipedalLocomotion/Math/CARE.h</label>
         <link refid="CARE_8h"/>
       </node>
-      <node id="103">
+      <node id="102">
         <label>BipedalLocomotion/IK/CoMTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2CoMTask_8h"/>
       </node>
@@ -221,7 +221,7 @@
         <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="117">
         <label>BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h</label>
         <link refid="VectorsCollectionServer_8h"/>
       </node>
@@ -258,9 +258,9 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="110" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -290,15 +290,15 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="111" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
         </childnode>
         <childnode refid="116" relation="include">
         </childnode>
         <childnode refid="117" relation="include">
-        </childnode>
-        <childnode refid="118" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
@@ -308,17 +308,17 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
         <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
         <childnode refid="119" relation="include">
         </childnode>
         <childnode refid="120" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
-        </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -326,7 +326,7 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
@@ -379,36 +379,36 @@
         <childnode refid="50" relation="include">
         </childnode>
       </node>
-      <node id="79">
+      <node id="78">
         <label>BipedalLocomotion/RobotDynamicsEstimator/GyroscopeMeasurementDynamics.h</label>
         <link refid="GyroscopeMeasurementDynamics_8h"/>
       </node>
-      <node id="110">
+      <node id="109">
         <label>BipedalLocomotion/IK/SO3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SO3Task_8h"/>
       </node>
-      <node id="92">
+      <node id="91">
         <label>BipedalLocomotion/TSID/TSIDLinearTask.h</label>
         <link refid="TSIDLinearTask_8h"/>
+        <childnode refid="92" relation="include">
+        </childnode>
         <childnode refid="93" relation="include">
         </childnode>
         <childnode refid="94" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
-        </childnode>
         <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
-        </childnode>
         <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
       <node id="75">
@@ -423,11 +423,11 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/SO3Dynamics.h</label>
         <link refid="SO3Dynamics_8h"/>
       </node>
-      <node id="81">
+      <node id="80">
         <label>BipedalLocomotion/RobotDynamicsEstimator/MotorCurrentMeasurementDynamics.h</label>
         <link refid="MotorCurrentMeasurementDynamics_8h"/>
       </node>
-      <node id="108">
+      <node id="107">
         <label>BipedalLocomotion/IK/R3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2R3Task_8h"/>
       </node>
@@ -435,15 +435,15 @@
         <label>BipedalLocomotion/Math/LinearizedFrictionCone.h</label>
         <link refid="LinearizedFrictionCone_8h"/>
       </node>
-      <node id="91">
+      <node id="90">
         <label>BipedalLocomotion/System/ILinearTaskFactory.h</label>
         <link refid="ILinearTaskFactory_8h"/>
-        <childnode refid="92" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
-      <node id="104">
+      <node id="103">
         <label>BipedalLocomotion/IK/DistanceTask.h</label>
         <link refid="DistanceTask_8h"/>
       </node>
@@ -451,7 +451,7 @@
         <label>BipedalLocomotion/Math/LinearSpline.h</label>
         <link refid="LinearSpline_8h"/>
       </node>
-      <node id="109">
+      <node id="108">
         <label>BipedalLocomotion/IK/SE3Task.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2SE3Task_8h"/>
       </node>
@@ -463,11 +463,11 @@
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
-      <node id="94">
+      <node id="93">
         <label>BipedalLocomotion/TSID/BaseDynamicsTask.h</label>
         <link refid="BaseDynamicsTask_8h"/>
       </node>
-      <node id="88">
+      <node id="87">
         <label>BipedalLocomotion/ML/MANN.h</label>
         <link refid="MANN_8h"/>
         <childnode refid="33" relation="include">
@@ -498,47 +498,45 @@
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
         <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
-        </childnode>
       </node>
-      <node id="111">
+      <node id="110">
         <label>BipedalLocomotion/System/VariablesHandler.h</label>
         <link refid="VariablesHandler_8h"/>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
         <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
-        </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
@@ -547,11 +545,11 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="83">
         <label>BipedalLocomotion/RobotDynamicsEstimator/ZeroVelocityStateDynamics.h</label>
         <link refid="ZeroVelocityStateDynamics_8h"/>
       </node>
-      <node id="86">
+      <node id="85">
         <label>BipedalLocomotion/Planners/UnicycleTrajectoryGenerator.h</label>
         <link refid="UnicycleTrajectoryGenerator_8h"/>
       </node>
@@ -559,16 +557,16 @@
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FloatingBaseSystemAccelerationKinematics.h</label>
         <link refid="FloatingBaseSystemAccelerationKinematics_8h"/>
       </node>
-      <node id="90">
+      <node id="89">
         <label>BipedalLocomotion/System/LinearTask.h</label>
         <link refid="LinearTask_8h"/>
-        <childnode refid="91" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
       <node id="28">
@@ -591,19 +589,19 @@
         <label>BipedalLocomotion/Estimators/RecursiveLeastSquare.h</label>
         <link refid="RecursiveLeastSquare_8h"/>
       </node>
-      <node id="114">
+      <node id="113">
         <label>BipedalLocomotion/ContactModels/ContactModel.h</label>
         <link refid="ContactModel_8h"/>
-        <childnode refid="115" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
       </node>
       <node id="73">
         <label>BipedalLocomotion/FloatingBaseEstimators/BaseEstimatorFromFootIMU.h</label>
         <link refid="BaseEstimatorFromFootIMU_8h"/>
       </node>
-      <node id="117">
+      <node id="116">
         <label>BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h</label>
         <link refid="VectorsCollectionClient_8h"/>
       </node>
@@ -617,7 +615,7 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="120">
         <label>BipedalLocomotion/ParametersHandler/StdImplementation.h</label>
         <link refid="StdImplementation_8h"/>
       </node>
@@ -625,13 +623,9 @@
         <label>BipedalLocomotion/RobotInterface/YarpSensorBridgeImpl.h</label>
         <link refid="YarpSensorBridgeImpl_8h"/>
       </node>
-      <node id="119">
+      <node id="118">
         <label>BipedalLocomotion/ParametersHandler/TomlImplementation.h</label>
         <link refid="TomlImplementation_8h"/>
-      </node>
-      <node id="78">
-        <label>BipedalLocomotion/RobotDynamicsEstimator/FrictionTorqueStateDynamics.h</label>
-        <link refid="FrictionTorqueStateDynamics_8h"/>
       </node>
       <node id="13">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/FirstOrderSmoother.h</label>
@@ -645,12 +639,12 @@
         <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="82">
+      <node id="81">
         <label>BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h</label>
         <link refid="UkfModel_8h"/>
         <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
       <node id="31">
@@ -663,11 +657,11 @@
         <childnode refid="36" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="96">
         <label>BipedalLocomotion/TSID/SE3Task.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2SE3Task_8h"/>
       </node>
-      <node id="99">
+      <node id="98">
         <label>BipedalLocomotion/TSID/VariableFeasibleRegionTask.h</label>
         <link refid="VariableFeasibleRegionTask_8h"/>
       </node>
@@ -694,7 +688,7 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
       <node id="50">
@@ -709,7 +703,7 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="115">
+      <node id="114">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/CompliantContactWrench.h</label>
         <link refid="CompliantContactWrench_8h"/>
         <childnode refid="5" relation="include">
@@ -747,15 +741,15 @@
         <label>BipedalLocomotion/System/ConstantWeightProvider.h</label>
         <link refid="ConstantWeightProvider_8h"/>
       </node>
-      <node id="107">
+      <node id="106">
         <label>BipedalLocomotion/IK/JointVelocityLimitsTask.h</label>
         <link refid="JointVelocityLimitsTask_8h"/>
       </node>
-      <node id="95">
+      <node id="94">
         <label>BipedalLocomotion/TSID/CoMTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2CoMTask_8h"/>
       </node>
-      <node id="120">
+      <node id="119">
         <label>BipedalLocomotion/ParametersHandler/YarpImplementation.h</label>
         <link refid="YarpImplementation_8h"/>
       </node>
@@ -767,20 +761,20 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="113">
+      <node id="112">
         <label>BipedalLocomotion/RobotDynamicsEstimator/KinDynWrapper.h</label>
         <link refid="KinDynWrapper_8h"/>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
       <node id="69">
@@ -791,7 +785,7 @@
         <label>BipedalLocomotion/RobotDynamicsEstimator/ExternalContactStateDynamics.h</label>
         <link refid="ExternalContactStateDynamics_8h"/>
       </node>
-      <node id="116">
+      <node id="115">
         <label>BipedalLocomotion/ContactModels/ContinuousContactModel.h</label>
         <link refid="ContinuousContactModel_8h"/>
       </node>
@@ -817,7 +811,7 @@
         <childnode refid="54" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="88">
         <label>BipedalLocomotion/ML/VelMANN.h</label>
         <link refid="VelMANN_8h"/>
         <childnode refid="36" relation="include">
@@ -831,7 +825,7 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="92">
         <label>BipedalLocomotion/TSID/AngularMomentumTask.h</label>
         <link refid="TSID_2include_2BipedalLocomotion_2TSID_2AngularMomentumTask_8h"/>
       </node>
@@ -843,7 +837,7 @@
         <label>BipedalLocomotion/SimplifiedModelControllers/CoMZMPController.h</label>
         <link refid="CoMZMPController_8h"/>
       </node>
-      <node id="106">
+      <node id="105">
         <label>BipedalLocomotion/IK/JointTrackingTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2JointTrackingTask_8h"/>
       </node>
@@ -853,17 +847,17 @@
         <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="86">
         <label>BipedalLocomotion/Planners/UnicycleTrajectoryPlanner.h</label>
         <link refid="UnicycleTrajectoryPlanner_8h"/>
-        <childnode refid="86" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
       </node>
       <node id="14">
         <label>BipedalLocomotion/ContinuousDynamicalSystem/MultiStateWeightProvider.h</label>
         <link refid="MultiStateWeightProvider_8h"/>
       </node>
-      <node id="83">
+      <node id="82">
         <label>BipedalLocomotion/RobotDynamicsEstimator/UkfState.h</label>
         <link refid="UkfState_8h"/>
       </node>
@@ -875,19 +869,19 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="80">
+      <node id="79">
         <label>BipedalLocomotion/RobotDynamicsEstimator/JointVelocityStateDynamics.h</label>
         <link refid="JointVelocityStateDynamics_8h"/>
       </node>
-      <node id="102">
+      <node id="101">
         <label>BipedalLocomotion/IK/AngularMomentumTask.h</label>
         <link refid="IK_2include_2BipedalLocomotion_2IK_2AngularMomentumTask_8h"/>
       </node>
-      <node id="85">
+      <node id="84">
         <label>BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h</label>
         <link refid="RobotDynamicsEstimator_8h"/>
       </node>
-      <node id="96">
+      <node id="95">
         <label>BipedalLocomotion/TSID/JointDynamicsTask.h</label>
         <link refid="JointDynamicsTask_8h"/>
       </node>
@@ -929,16 +923,18 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="101">
+      <node id="100">
         <label>BipedalLocomotion/IK/IKLinearTask.h</label>
         <link refid="IKLinearTask_8h"/>
+        <childnode refid="101" relation="include">
+        </childnode>
         <childnode refid="102" relation="include">
         </childnode>
         <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
-        </childnode>
         <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
         </childnode>
         <childnode refid="105" relation="include">
         </childnode>
@@ -950,10 +946,8 @@
         </childnode>
         <childnode refid="109" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
-        </childnode>
       </node>
-      <node id="100">
+      <node id="99">
         <label>BipedalLocomotion/TSID/VariableRegularizationTask.h</label>
         <link refid="VariableRegularizationTask_8h"/>
       </node>

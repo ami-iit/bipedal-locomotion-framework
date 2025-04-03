@@ -788,7 +788,7 @@
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a9f2b6dcbdf8a0e123c43daf2090180d3" kind="variable"><name>m_elements</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1ada6fc5311d325e9c8dbef050b38f0869" kind="variable"><name>m_stateVariableHandler</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1ab94d2ec08846df591da097edb6a8b961" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a547003cbaa46eb393bba25df4dd2be95" kind="variable"><name>m_k</name></member>
+    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a8155046db9c0d908d70497430482b8d7" kind="variable"><name>m_k</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1ab0bd9bfecae746a10be55b1325843acb" kind="function"><name>checkStateVariableHandler</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a2c418da67c204ae19df94b78618bf7f3" kind="function"><name>initialize</name></member>
     <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a829781b060eb4ce2f0128f5eaf44f029" kind="function"><name>finalize</name></member>
@@ -980,31 +980,6 @@
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1ad1da96262f79ea761b2150abd93e0a13" kind="function"><name>addArea</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a74718ab81961704a7d07228fc7d7ed36" kind="function"><name>addArea</name></member>
     <member refid="classBipedalLocomotion_1_1ContinuousDynamicalSystem_1_1ForwardEuler_1a327ae91a49792ef50315363408e74053" kind="function"><name>oneStepIntegration</name></member>
-  </compound>
-  <compound refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" kind="class"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</name>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a446c189e5143bbc98c43f04af4151901" kind="variable"><name>m_jointVelocityFullModel</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01c5852e4eb5bfde90f55cd7933fc32e" kind="variable"><name>m_Fc</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a01409c82508b6bced9c2131079c8b726" kind="variable"><name>m_Fs</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3a61a7d47644a4877c2313c7189ad2d7" kind="variable"><name>m_Fv</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a0f3dd591e0d9dda25f247b789c2c66e6" kind="variable"><name>m_dT</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1afa1454f5b15bf6fb1e4eba84c21f03d7" kind="variable"><name>m_frictionTorqueFullModel</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1aa9a01a5c86f03b39f18436f745eef4b0" kind="variable"><name>m_ukfInput</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abf57420ff35525ab2f24a49763a3522e" kind="variable"><name>m_name</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a51aeff70fb6384048587c413424d7403" kind="variable"><name>m_elements</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abeadd6870aad54b7c896ef4a88913548" kind="variable"><name>m_stateVariableHandler</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1aba3a87cd6980760ad6d66231416a5875" kind="variable"><name>m_coshArgument</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a014dfcbfadb02a00b4e755da4a5921fd" kind="variable"><name>m_coshsquared</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a52424c570d88dccc11c12bfd5c4653ed" kind="variable"><name>m_FcFs</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a533d49ef981e6e0b2239ce6ad81ff41a" kind="variable"><name>m_dotTauF</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a76d04e267f75da91d23d7fc12898faaa" kind="function"><name>FrictionTorqueStateDynamics</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a9becb803b4f357fe1d2d882c02392cb9" kind="function"><name>~FrictionTorqueStateDynamics</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1aca3628af1afa24b85dd310b3f175e0d4" kind="function"><name>initialize</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a12b37694033bef08397b09c0ffaeaafe" kind="function"><name>finalize</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a02740370d48335e0907feab599cb65fa" kind="function"><name>setSubModels</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abfe26f954120387f1689673e7f5e65b3" kind="function"><name>checkStateVariableHandler</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a9e1171fa33e155e5701f15f647ebb838" kind="function"><name>update</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a8cb61f5f0955f05aea2499eb49cc64c5" kind="function"><name>setState</name></member>
-    <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3264f63d1907b0264c9dfcdc76afb8d5" kind="function"><name>setInput</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor" kind="struct"><name>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FTSensor</name>
     <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FTSensor_1a5f0f2c2b2cac5accb1b58339f5d86d6c" kind="enum"><name>Direction</name></member>
@@ -3524,7 +3499,6 @@
     <member refid="AccelerometerMeasurementDynamics_8h_1a62e617307f5d2e0eb07512d5687a14dd" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="ConstantMeasurementModel_8h_1a82beb6c6ca12465d2025f1cb319228e5" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="ExternalContactStateDynamics_8h_1adeed86be1bfb9ec1dfc4d4060070e34b" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
-    <member refid="FrictionTorqueStateDynamics_8h_1a043b5beb867b1c060b57f1a80667cb97" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="GyroscopeMeasurementDynamics_8h_1a37d41a0f0bee6be633b6f47474397a54" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="JointVelocityStateDynamics_8h_1a9584d9be0e3725660eb5ccc31e8a4544" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
     <member refid="MotorCurrentMeasurementDynamics_8h_1af7cc9c5cef59c598ef0113192f71d62b" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
@@ -3829,9 +3803,6 @@
   </compound>
   <compound refid="ExternalContactStateDynamics_8h" kind="file"><name>ExternalContactStateDynamics.h</name>
     <member refid="ExternalContactStateDynamics_8h_1adeed86be1bfb9ec1dfc4d4060070e34b" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
-  </compound>
-  <compound refid="FrictionTorqueStateDynamics_8h" kind="file"><name>FrictionTorqueStateDynamics.h</name>
-    <member refid="FrictionTorqueStateDynamics_8h_1a043b5beb867b1c060b57f1a80667cb97" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>
   </compound>
   <compound refid="GyroscopeMeasurementDynamics_8h" kind="file"><name>GyroscopeMeasurementDynamics.h</name>
     <member refid="GyroscopeMeasurementDynamics_8h_1a37d41a0f0bee6be633b6f47474397a54" kind="function"><name>BLF_REGISTER_UKF_DYNAMICS</name></member>

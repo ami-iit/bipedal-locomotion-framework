@@ -5,7 +5,6 @@
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::AccelerometerMeasurementDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ConstantMeasurementModel</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::ExternalContactStateDynamics</derivedcompoundref>
-    <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</derivedcompoundref>
     <derivedcompoundref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics" prot="public" virt="non-virtual">BipedalLocomotion::Estimators::RobotDynamicsEstimator::MotorCurrentMeasurementDynamics</derivedcompoundref>
@@ -108,7 +107,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a101828f13c55b3a7a55ce17f172bc8fb">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1add89f10c855f38efc715043a435cfe29">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1ab0bd9bfecae746a10be55b1325843acb">checkStateVariableHandler</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1abfe26f954120387f1689673e7f5e65b3">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ac94fa671ce2b4fcbb999fe448027f2a3">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a7adeeb799406f961fe0726f95de452fb">checkStateVariableHandler</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a08598584accdb194d3739ccc491901e8">checkStateVariableHandler</reimplementedby>
@@ -135,7 +133,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1ad962443fe4ccbee6e0d9f92eeb371185">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aee2d7c0b10a99cfd28ac877234f55972">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a2c418da67c204ae19df94b78618bf7f3">initialize</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1aca3628af1afa24b85dd310b3f175e0d4">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a3a0dc00a846702c36fd358788d1f9ecd">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aaf2fd96d48d133218dea475d5ccc3bc7">initialize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a338230b5fe216786bbd35ffbaf54e45f">initialize</reimplementedby>
@@ -186,7 +183,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aef3f707d1e8fd37079c8fa506012e84c">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a09c5d1883e2a7bd6642c002eaedbcc4a">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a829781b060eb4ce2f0128f5eaf44f029">finalize</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a12b37694033bef08397b09c0ffaeaafe">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1ae6eb978878989961b83885831d2e6648">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1af6bbc581aba2ab3508ffd47b24becd78">finalize</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics_1ad5544ce145a444d8c0871869d52a33e0">finalize</reimplementedby>
@@ -225,7 +221,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a59ee50a8a1cac780673603b5aee1f294">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a553453efa7e0372872ff475029c7921f">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a16c9b8d1335e42c37c458f7cc5b00418">setSubModels</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a02740370d48335e0907feab599cb65fa">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a868e63b7edb2c3416613f722ca8d2f12">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1ab264380260105b177da374166e925075">setSubModels</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a80dca8690f6c780adcc692ad81b05df1">setSubModels</reimplementedby>
@@ -275,7 +270,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1aac83a55f7a01a6620da30a479894a4a6">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1aa98d3a777997261624ad92ddd0496f64">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1a5daeecd8f62fe0abdc77ad1f1b86e4d2">update</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a9e1171fa33e155e5701f15f647ebb838">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a11ea2b1a7f5e305afea1cced7dd225c9">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a42904d91c55d3d0ddf0e00389d632485">update</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a964849eb4bbfafcf83dc08871de91539">update</reimplementedby>
@@ -334,7 +328,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a9ea35db69e1605d40708c6dd3368f2bf">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1adcbe625ea8d64fe7ea12618198d5bf8a">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1aa8130761711d04d1e16ad904cfe06479">setState</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a8cb61f5f0955f05aea2499eb49cc64c5">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a46d021b5133041f9a29575969ad91e17">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1aee5a3dcff4b4921548853b4e80b9fe86">setState</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1ab03a2760cdbe7fd5f2095f4415f90b6f">setState</reimplementedby>
@@ -370,7 +363,6 @@
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1AccelerometerMeasurementDynamics_1a6a6b5287ed77a89885d16e0e792b7267">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ConstantMeasurementModel_1a347786970c88d82054d1dbeda24e8050">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ExternalContactStateDynamics_1adf6f98b5ed873a0c00ed8ff37787a623">setInput</reimplementedby>
-        <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics_1a3264f63d1907b0264c9dfcdc76afb8d5">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics_1a607541a61a5a73d8c0cd6f49c43b2dbd">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics_1a6d7158ab61702c3c21d7d9079c6c4712">setInput</reimplementedby>
         <reimplementedby refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics_1a109527c76a5981586b375067fd47d168">setInput</reimplementedby>
@@ -454,7 +446,7 @@
 <para>The <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> object is created from a parameter handler which specifies the name of the variable described by the dynamics object, the covariances associated to the variable, the initial covariance, the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> model which specifies which implementation of this class will be used. The model of the <ref refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1Dynamics" kindref="compound">Dynamics</ref> object depends on the current state and an input object which need to be set before calling the update method. </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="8">
+      <node id="7">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::MotorCurrentMeasurementDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1MotorCurrentMeasurementDynamics"/>
         <childnode refid="1" relation="public-inheritance">
@@ -466,15 +458,9 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="6">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::JointVelocityStateDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1JointVelocityStateDynamics"/>
-        <childnode refid="1" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::FrictionTorqueStateDynamics</label>
-        <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1FrictionTorqueStateDynamics"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
@@ -494,13 +480,13 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="8">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::ZeroVelocityStateDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1ZeroVelocityStateDynamics"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::GyroscopeMeasurementDynamics</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1GyroscopeMeasurementDynamics"/>
         <childnode refid="1" relation="public-inheritance">
