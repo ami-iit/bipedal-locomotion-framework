@@ -52,6 +52,22 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
                     m_baseLink);
     }
 
+    if (!ptr->getParameter("contact_frame", m_contactFrame))
+    {
+        log()->info("{} The parameter 'contact_frame' is not provided. The default one "
+                    "will be used {}.",
+                    logPrefix,
+                    m_contactFrame);
+    }
+
+    if (!ptr->getParameter("base_imu", m_baseIMU))
+    {
+        log()->info("{} The parameter 'base_imu' is not provided. The default one "
+                    "will be used {}.",
+                    logPrefix,
+                    m_baseIMU);
+    }
+
     if (!ptr->getParameter("model_file", modelFileName))
     {
         log()->error("{} Could not find parameter `model_file`.", logPrefix);
@@ -68,6 +84,49 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
     {
         log()->error("{} Could not find parameter `gear_ratio`", logPrefix);
         return false;
+    }
+
+    std::vector<std::string> fixedJointsList;
+    if (!ptr->getParameter("fixed_joint_list_names", fixedJointsList))
+    {
+        BipedalLocomotion::log()->debug("{} Unable to find the joint list.", logPrefix);
+    }
+
+    // check that none of the fixed joints is in the controlled joints
+    for (const auto& fixedJoint : fixedJointsList)
+    {
+        if (std::find(m_jointNameList.begin(), m_jointNameList.end(), fixedJoint)
+            != m_jointNameList.end())
+        {
+            // If found, throw an error
+            BipedalLocomotion::log()->error("{} Fixed joint {} is also in the controlled joints "
+                                            "list.",
+                                            logPrefix,
+                                            fixedJoint);
+            return false;
+        }
+    }
+
+    Eigen::VectorXd fixedJointPositions;
+    if (!ptr->getParameter("fixed_joint_list_values", fixedJointPositions))
+    {
+        BipedalLocomotion::log()->debug("{} Unable to find the initial joint position.", logPrefix);
+    }
+
+    if (fixedJointPositions.size() != fixedJointsList.size())
+    {
+        BipedalLocomotion::log()->error("{} The size of the initial joint position is different "
+                                        "from the size of the joint list.",
+                                        logPrefix);
+        return false;
+    }
+
+    // create the map of the fixed joints with the corresponding position
+    std::unordered_map<std::string, double> fixedJointsMap;
+
+    for (size_t i{}; i < fixedJointsList.size(); i++)
+    {
+        fixedJointsMap[fixedJointsList[i]] = fixedJointPositions[i] * M_PI / 180.0;
     }
 
     if (!ptr->getParameter("torque_constant", m_torqueConstant))
@@ -96,7 +155,7 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
     jointsAndFTs.insert(jointsAndFTs.begin(), m_jointNameList.begin(), m_jointNameList.end());
     jointsAndFTs.insert(jointsAndFTs.end(), ftJointList.begin(), ftJointList.end());
 
-    if (!mdlLdr.loadReducedModelFromFile(modelFilePath, jointsAndFTs))
+    if (!mdlLdr.loadReducedModelFromFile(modelFilePath, jointsAndFTs, fixedJointsMap))
     {
         log()->error("{} Could not load robot model", logPrefix);
         return false;
@@ -129,6 +188,11 @@ bool RobotDynamicsEstimatorDevice::createSubModels(
         return false;
     }
     subModelList = subModelCreator.getSubModelList();
+
+    for (const auto& subModel : subModelList)
+    {
+        log()->info("{} Submodel {}.", logPrefix, subModel.getModel().toString());
+    }
 
     for (int idx = 0; idx < subModelList.size(); idx++)
     {
@@ -195,7 +259,7 @@ bool RobotDynamicsEstimatorDevice::resizeEstimatorInitialState(
 
     std::vector<std::string> contactList;
     auto contactGroup = modelHandler.lock()->getGroup("EXTERNAL_CONTACT").lock();
-    if (!contactGroup->getParameter("frames", contactList))
+    if (!contactGroup->getParameter("names", contactList))
     {
         return false;
     }
@@ -212,6 +276,10 @@ bool RobotDynamicsEstimatorDevice::resizeEstimatorInitialState(
     }
     for (auto acc : accList)
     {
+        m_estimatorOutput.output.linearAccelerations[acc] = Eigen::VectorXd::Zero(3); // ACC
+    }
+    for (auto acc : accList)
+    {
         std::string accBias = acc + "_bias";
         m_estimatorOutput.output.accelerometerBiases[accBias] = Eigen::VectorXd::Zero(3); // ACC
                                                                                           // BIAS
@@ -225,6 +293,10 @@ bool RobotDynamicsEstimatorDevice::resizeEstimatorInitialState(
     }
     for (auto gyro : gyroList)
     {
+        m_estimatorOutput.output.angularVelocities[gyro] = Eigen::VectorXd(3).setZero(); // GYRO
+    }
+    for (auto gyro : gyroList)
+    {
         std::string gyroBias = gyro + "_bias";
         m_estimatorOutput.output.gyroscopeBiases[gyroBias] = Eigen::VectorXd(3).setZero(); // GYRO
                                                                                            // BIAS
@@ -235,6 +307,16 @@ bool RobotDynamicsEstimatorDevice::resizeEstimatorInitialState(
 
 bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
 {
+    // Set logPrefix
+    const std::string logPrefix = "[RobotDynamicsEstimatorDevice::setEstimatorInitialState]";
+
+    iDynTree::Model model = m_kinDyn->model();
+    // if (!model.isValid())
+    // {
+    //     log()->error("{} The model is not valid.", logPrefix);
+    //     return false;
+    // }
+
     Eigen::VectorXd s(m_kinDyn->model().getNrOfDOFs());
     Eigen::VectorXd dds(m_kinDyn->model().getNrOfDOFs());
 
@@ -254,10 +336,11 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     m_estimatorOutput.output.tau_F.setZero();
 
     // Set contact information and specify the unknown wrench on the base link
-    auto fixedFrameIdx = m_iDynEstimator.model().getFrameIndex(m_baseLink);
+    auto baseFrameIdx = m_iDynEstimator.model().getFrameIndex(m_baseLink);
     auto fullBodyUnknowns = iDynTree::LinkUnknownWrenchContacts(m_iDynEstimator.model());
     fullBodyUnknowns.clear();
-    fullBodyUnknowns.addNewUnknownFullWrenchInFrameOrigin(m_iDynEstimator.model(), fixedFrameIdx);
+    auto contactLinkIdx = m_iDynEstimator.model().getFrameIndex(m_contactFrame);
+    fullBodyUnknowns.addNewUnknownFullWrenchInFrameOrigin(m_iDynEstimator.model(), contactLinkIdx);
 
     // Initialize variables for estimation
     auto expectedFT = iDynTree::SensorsMeasurements(m_iDynEstimator.sensors());
@@ -279,9 +362,50 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
         ddsidyn.setVal(index, dds[index]);
     }
 
-    if (!m_iDynEstimator
-             .updateKinematicsFromFixedBase(sidyn, dsidyn, ddsidyn, fixedFrameIdx, gravity))
+    Eigen::Vector3d baseIMUAcceleration;
+    if (!m_robotSensorBridge->getLinearAccelerometerMeasurement(m_baseIMU, baseIMUAcceleration))
     {
+        log()->error("{} Could not get the accelerometer measurement for `{}`.",
+                     logPrefix,
+                     m_baseLink);
+        return false;
+    }
+    Eigen::Vector3d baseIMUVelocity;
+    if (!m_robotSensorBridge->getGyroscopeMeasure(m_baseIMU, baseIMUVelocity))
+    {
+        log()->error("{} Could not get the gyroscope measurement for `{}`.", logPrefix, m_baseLink);
+        return false;
+    }
+
+    manif::SE3d baseHimu; // Transform from the base frame to the imu frame.
+    // Get transform matrix from imu to base
+    auto imuIdx = model.getFrameIndex(m_baseIMU);
+    baseHimu = Conversions::toManifPose(model.getFrameTransform(imuIdx));
+
+    manif::SE3Tangentd baseVelocity;
+    baseVelocity.setZero();
+    baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * baseIMUVelocity;
+
+    Eigen::Vector3d bOmegaIB;
+    bOmegaIB = baseVelocity.coeffs().tail(3);
+
+    const Eigen::Vector3d baseProperAcceleration
+        = baseHimu.rotation() * baseIMUAcceleration
+          - bOmegaIB.cross(bOmegaIB.cross(baseHimu.translation()));
+
+    const Eigen::Vector3d baseLinearVelocity = baseVelocity.coeffs().head(3);
+    const Eigen::Vector3d baseAngularVelocity = baseVelocity.coeffs().tail(3);
+
+    if (!m_iDynEstimator.updateKinematicsFromFloatingBase(sidyn,
+                                                          dsidyn,
+                                                          ddsidyn,
+                                                          baseFrameIdx,
+                                                          iDynTree::make_span(
+                                                              baseProperAcceleration),
+                                                          iDynTree::make_span(baseLinearVelocity),
+                                                          iDynTree::make_span(baseAngularVelocity)))
+    {
+        log()->error("{} Failed while updating the kinematics from the floating base.", logPrefix);
         return false;
     }
 
@@ -290,6 +414,7 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
                                                               estimatedContacts,
                                                               estimatedTau))
     {
+        log()->error("{} Failed while computing the expected FT sensor measurements.", logPrefix);
         return false;
     }
 
@@ -331,6 +456,34 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     temp = m_gearboxRatio.array() * m_torqueConstant.array();
     m_estimatorOutput.output.tau_m = m_estimatorOutput.output.tau_m.array() * temp.array();
 
+    // set estimator initial state for accelerometers
+    for (auto& [key, value] : m_estimatorOutput.output.linearAccelerations)
+    {
+        if (!m_robotSensorBridge->getLinearAccelerometerMeasurement(key, value))
+        {
+            return false;
+        }
+        std::string accBias = key + "_bias";
+        m_estimatorOutput.output.accelerometerBiases[accBias].setZero(); // ACC BIAS
+    }
+
+    // set estimator initial state for gyroscopes
+    for (auto& [key, value] : m_estimatorOutput.output.angularVelocities)
+    {
+        if (!m_robotSensorBridge->getGyroscopeMeasure(key, value))
+        {
+            return false;
+        }
+        std::string gyroBias = key + "_bias";
+        m_estimatorOutput.output.gyroscopeBiases[gyroBias].setZero(); // GYRO BIAS
+    }
+
+    // set estimator initial state for contact wrenches
+    for (auto& [key, value] : m_estimatorOutput.output.contactWrenches)
+    {
+        m_estimatorOutput.output.contactWrenches[key].setZero();
+    }
+
     if (!m_estimator->setInitialState(m_estimatorOutput.output))
     {
         return false;
@@ -345,6 +498,7 @@ bool RobotDynamicsEstimatorDevice::resizeEstimatorMeasurement(
     m_estimatorInput.input.jointPositions.resize(m_kinDyn->model().getNrOfDOFs());
     m_estimatorInput.input.jointVelocities.resize(m_kinDyn->model().getNrOfDOFs());
     m_estimatorInput.input.motorCurrents.resize(m_kinDyn->model().getNrOfDOFs());
+    m_estimatorInput.input.frictionTorques.resize(m_kinDyn->model().getNrOfDOFs());
 
     std::vector<std::string> ftList;
     auto ftGroup = modelHandler.lock()->getGroup("FT").lock();
@@ -402,6 +556,7 @@ bool RobotDynamicsEstimatorDevice::setupRobotDynamicsEstimator(
         return false;
     }
 
+    // Create kindyn computation object
     m_kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     if (!m_kinDyn->loadRobotModel(modelLoader.model()))
     {
@@ -441,6 +596,54 @@ bool RobotDynamicsEstimatorDevice::setupRobotDynamicsEstimator(
     return true;
 }
 
+bool RobotDynamicsEstimatorDevice::configureVectorsCollectionServer()
+{
+    bool ok = true;
+    ok = ok && m_vectorsCollectionServer.populateMetadata("ds::estimated", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("ds::measured", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("tau_m::estimated", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("tau_F::estimated", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("tau_F::measured", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("tau_j::estimated", m_jointNameList);
+    ok = ok && m_vectorsCollectionServer.populateMetadata("tau_j::measured", m_jointNameList);
+    for (auto& [key, value] : m_estimatorOutput.output.ftWrenches)
+    {
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("fts::" + key + "::estimated",
+                                                           ftElementNames);
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("fts::" + key + "::measured",
+                                                           ftElementNames);
+    }
+    for (auto& [key, value] : m_estimatorOutput.output.contactWrenches)
+    {
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("contacts::" + key + "::estimated",
+                                                           ftElementNames);
+    }
+    for (auto& [key, value] : m_estimatorOutput.output.linearAccelerations)
+    {
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("accelerometers::" + key + "::estimated",
+                                                           accelerometerElementNames);
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("accelerometers::" + key + "::measured",
+                                                           accelerometerElementNames);
+    }
+    for (auto& [key, value] : m_estimatorOutput.output.angularVelocities)
+    {
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("gyroscopes::" + key + "::estimated",
+                                                           gyroElementNames);
+        ok = ok
+             && m_vectorsCollectionServer.populateMetadata("gyroscopes::" + key + "::measured",
+                                                           gyroElementNames);
+    }
+    ok = ok && m_vectorsCollectionServer.finalizeMetadata();
+
+    return ok;
+}
+
 bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimatorDevice::open]";
@@ -472,14 +675,6 @@ bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
                     "will be used {}.",
                     logPrefix,
                     m_robot);
-    }
-
-    if (!generalGroupHandler->getParameter("port_prefix", m_portPrefix))
-    {
-        log()->info("{} The parameter 'port_prefix' is not provided. The default one "
-                    "will be used {}.",
-                    logPrefix,
-                    m_portPrefix);
     }
 
     if (!setupRobotSensorBridge(params))
@@ -517,16 +712,23 @@ bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!m_vectorsCollectionServer.initialize(generalGroupHandler))
+    {
+        log()->error("{} Unable to configure the server.", logPrefix);
+        return false;
+    }
+
+    if (!configureVectorsCollectionServer())
+    {
+        log()->error("{} Unable to configure the server.", logPrefix);
+        return false;
+    }
+
     return true;
 }
 
 bool RobotDynamicsEstimatorDevice::openCommunications()
 {
-    if (!m_loggerPort.open(m_portPrefix + "/data:o"))
-    {
-        return false;
-    }
-
     return true;
 }
 
@@ -598,30 +800,40 @@ bool RobotDynamicsEstimatorDevice::attachAll(const yarp::dev::PolyDriverList& po
 
 bool RobotDynamicsEstimatorDevice::updateMeasurements()
 {
-    m_estimatorInput.input.basePose.setIdentity();
-    m_estimatorInput.input.baseVelocity.setZero();
-    m_estimatorInput.input.baseAcceleration.setZero();
+    // Create log prefix
+    constexpr auto logPrefix = "[RobotDynamicsEstimatorDevice::updateMeasurements]";
 
     if (!m_robotSensorBridge->getJointPositions(m_estimatorInput.input.jointPositions))
     {
+        log()->error("{} Could not get joint positions.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getJointVelocities(m_estimatorInput.input.jointVelocities))
     {
+        log()->error("{} Could not get joint velocities.", logPrefix);
         return false;
     }
 
     if (!m_robotSensorBridge->getMotorCurrents(m_estimatorInput.input.motorCurrents))
     {
+        log()->error("{} Could not get motor currents.", logPrefix);
         return false;
     }
+
+    if (!m_robotSensorBridge->getMotorAccelerations(m_estimatorInput.input.frictionTorques))
+    {
+        log()->error("{} Could not get motor accelerations.", logPrefix);
+        return false;
+    }
+    m_estimatorInput.input.frictionTorques = m_estimatorInput.input.frictionTorques.array();
 
     for (auto& [key, value] : m_estimatorInput.input.ftWrenches)
     {
         if (!m_robotSensorBridge
                  ->getSixAxisForceTorqueMeasurement(key, m_estimatorInput.input.ftWrenches[key]))
         {
+            log()->error("{} Could not get the FT measurement for `{}`.", logPrefix, key);
             return false;
         }
         m_estimatorInput.input.ftWrenches[key] -= m_ftOffset[key];
@@ -633,6 +845,9 @@ bool RobotDynamicsEstimatorDevice::updateMeasurements()
                                                                     m_estimatorInput.input
                                                                         .linearAccelerations[key]))
         {
+            log()->error("{} Could not get the accelerometer measurement for `{}`.",
+                         logPrefix,
+                         key);
             return false;
         }
     }
@@ -642,11 +857,10 @@ bool RobotDynamicsEstimatorDevice::updateMeasurements()
         if (!m_robotSensorBridge->getGyroscopeMeasure(key,
                                                       m_estimatorInput.input.angularVelocities[key]))
         {
+            log()->error("{} Could not get the gyroscope measurement for `{}`.", logPrefix, key);
             return false;
         }
     }
-
-    m_robotSensorBridge->getJointTorques(m_measuredTauj);
 
     return true;
 }
@@ -664,8 +878,8 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
 
     while (m_estimatorIsRunning)
     {
-        auto& data = m_loggerPort.prepare();
-        data.vectors.clear();
+        m_vectorsCollectionServer.prepareData(); // required to prepare the data to be sent
+        m_vectorsCollectionServer.clearData(); // optional see the documentation
 
         // detect if a clock has been reset
         oldTime = time;
@@ -679,83 +893,51 @@ void RobotDynamicsEstimatorDevice::publishEstimatorOutput()
                                                                           + publishOutputPeriod);
 
         {
-
             std::lock_guard<std::mutex> lockOutput(m_estimatorOutput.mutex);
 
-            data.vectors["ds::estimated"].assign(m_estimatorOutput.output.ds.data(),
-                                                 m_estimatorOutput.output.ds.data()
-                                                     + m_estimatorOutput.output.ds.size());
-            data.vectors["tau_m::estimated"].assign(m_estimatorOutput.output.tau_m.data(),
-                                                    m_estimatorOutput.output.tau_m.data()
-                                                        + m_estimatorOutput.output.tau_m.size());
-            data.vectors["tau_F::estimated"].assign(m_estimatorOutput.output.tau_F.data(),
-                                                    m_estimatorOutput.output.tau_F.data()
-                                                        + m_estimatorOutput.output.tau_F.size());
+            m_vectorsCollectionServer.populateData("ds::estimated", m_estimatorOutput.output.ds);
+
+            m_vectorsCollectionServer.populateData("tau_m::estimated",
+                                                   m_estimatorOutput.output.tau_m);
+
+            m_vectorsCollectionServer.populateData("tau_F::estimated",
+                                                   m_estimatorOutput.output.tau_F);
 
             m_estimatedTauj = m_estimatorOutput.output.tau_m - m_estimatorOutput.output.tau_F;
-            data.vectors["tau_j::estimated"].assign(m_estimatedTauj.data(),
-                                                    m_estimatedTauj.data()
-                                                        + m_estimatedTauj.size());
-            data.vectors["tau_j::measured"].assign(m_measuredTauj.data(),
-                                                   m_measuredTauj.data() + m_measuredTauj.size());
+            m_vectorsCollectionServer.populateData("tau_j::estimated", m_estimatedTauj);
 
             for (auto& [key, value] : m_estimatorOutput.output.ftWrenches)
             {
-                data.vectors["fts::" + key + "::estimated"].assign(value.data(),
-                                                                   value.data() + value.size());
+                m_vectorsCollectionServer.populateData("fts::" + key + "::estimated", value);
             }
+
             for (auto& [key, value] : m_estimatorOutput.output.contactWrenches)
             {
-                data.vectors["contacts::" + key + "::estimated"].assign(value.data(),
-                                                                        value.data()
-                                                                            + value.size());
+                m_vectorsCollectionServer.populateData("contacts::" + key + "::estimated", value);
             }
-            for (auto& [key, value] : m_estimatorOutput.output.ftWrenchesBiases)
-            {
-                data.vectors["fts_biases::" + key + "::estimated"].assign(value.data(),
-                                                                          value.data()
-                                                                              + value.size());
-            }
-            for (auto& [key, value] : m_estimatorOutput.output.accelerometerBiases)
-            {
-                data.vectors["accelerometer_biases::" + key + "::estimated"]
-                    .assign(value.data(), value.data() + value.size());
-            }
-        }
 
-        {
-            std::lock_guard<std::mutex> lockInput(m_estimatorInput.mutex);
+            for (auto& [key, value] : m_estimatorOutput.output.linearAccelerations)
+            {
+                m_vectorsCollectionServer.populateData("accelerometers::" + key + "::estimated",
+                                                       value);
+            }
 
-            data.vectors["im::measured"].assign(m_estimatorInput.input.motorCurrents.data(),
-                                                m_estimatorInput.input.motorCurrents.data()
-                                                    + m_estimatorInput.input.motorCurrents.size());
-            data.vectors["ds::measured"].assign(m_estimatorInput.input.jointVelocities.data(),
-                                                m_estimatorInput.input.jointVelocities.data()
-                                                    + m_estimatorInput.input.jointVelocities.size());
-            for (auto& [key, value] : m_estimatorInput.input.ftWrenches)
+            for (auto& [key, value] : m_estimatorOutput.output.angularVelocities)
             {
-                data.vectors["fts::" + key + "::measured"].assign(value.data(),
-                                                                  value.data() + value.size());
+                m_vectorsCollectionServer.populateData("gyroscopes::" + key + "::estimated", value);
             }
-            for (auto& [key, value] : m_estimatorInput.input.linearAccelerations)
-            {
-                data.vectors["accelerometers::" + key + "::measured"].assign(value.data(),
-                                                                             value.data()
-                                                                                 + value.size());
-            }
-            for (auto& [key, value] : m_estimatorInput.input.angularVelocities)
-            {
-                data.vectors["gyroscopes::" + key + "::measured"].assign(value.data(),
-                                                                         value.data()
-                                                                             + value.size());
-            }
+
+            m_vectorsCollectionServer.sendData();
         }
-        m_loggerPort.write();
 
         // Publish on WBD ports
         yarp::eigen::toEigen(m_estimatedJointTorquesYARP) = m_estimatedTauj;
-        m_remappedVirtualAnalogSensorsInterfaces.ivirtsens->updateVirtualAnalogSensorMeasure(
-            m_estimatedJointTorquesYARP);
+
+        if (!m_remappedVirtualAnalogSensorsInterfaces.ivirtsens->updateVirtualAnalogSensorMeasure(
+                m_estimatedJointTorquesYARP))
+        {
+            log()->error("{} Could not update the virtual analog sensor measure.", logPrefix);
+        }
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -785,7 +967,6 @@ void RobotDynamicsEstimatorDevice::run()
             close();
             return;
         }
-
         m_isFirstRun = false;
     }
 
