@@ -32,9 +32,6 @@ namespace RobotDynamicsEstimator
  */
 struct RobotDynamicsEstimatorInput
 {
-    manif::SE3d basePose; /**< Pose describing the robot base position and orientation. */
-    manif::SE3d::Tangent baseVelocity; /**< Velocity of the robot base. */
-    manif::SE3d::Tangent baseAcceleration; /**< Mixed acceleration of the robot base. */
     Eigen::VectorXd jointPositions; /**< Joints positions in rad. */
     Eigen::VectorXd jointVelocities; /**< Joints velocities in rad per sec. */
     Eigen::VectorXd motorCurrents; /**< Motor currents in Ampere. */
