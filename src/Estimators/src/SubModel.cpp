@@ -6,10 +6,10 @@
  */
 
 // iDyn
-#include <iDynTree/SubModel.h>
-#include <iDynTree/Traversal.h>
 #include <iDynTree/ModelTransformers.h>
 #include <iDynTree/SixAxisForceTorqueSensor.h>
+#include <iDynTree/SubModel.h>
+#include <iDynTree/Traversal.h>
 
 // BLF
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -44,8 +44,8 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
     if (!subModelDecomp.splitModelAlongJoints(this->m_model, fullModelTraversal, ftFrameList))
     {
         log()->error("{} Unable to split the full model traversal in submodels along the ft "
-                          "sensors.",
-                          logPrefix);
+                     "sensors.",
+                     logPrefix);
         return false;
     }
 
@@ -58,8 +58,8 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
         if (!iDynTree::extractSubModel(this->m_model, subModelTraversal, subModel))
         {
             log()->error("{} Unable to get the Model object associated to the subModel {}.",
-                              logPrefix,
-                              idx);
+                         logPrefix,
+                         idx);
             return false;
         }
 
@@ -266,7 +266,7 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
     // The first IMU found in the model is used as base
     int frameIdx = 0;
     bool frameFound = false;
-    while(!frameFound && frameIdx < idynSubModel.getNrOfFrames())
+    while (!frameFound && frameIdx < idynSubModel.getNrOfFrames())
     {
         std::string frameName = idynSubModel.getFrameName(frameIdx);
 
@@ -281,6 +281,16 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
             }
         }
         frameIdx++;
+    }
+
+    if (!frameFound)
+    {
+        log()->error("[SubModelCreator::populateSubModel] Unable to find an IMU for the submodel.");
+    } else
+    {
+        log()->info("[SubModelCreator::populateSubModel] The IMU frame {} is the base frame of the "
+                    "submodel.",
+                    subModel.m_imuBaseFrameName);
     }
 
     return subModel;
@@ -339,8 +349,8 @@ bool RDE::SubModelCreator::createSubModels(
     if (ptr == nullptr)
     {
         log()->error("{} The handler has to point to an already initialized "
-                          "IParametershandler.",
-                          logPrefix);
+                     "IParametershandler.",
+                     logPrefix);
         return false;
     }
 
@@ -357,18 +367,18 @@ bool RDE::SubModelCreator::createSubModels(
         if (!group->getParameter("names", names))
         {
             log()->error("{} The parameter handler could not find 'names' in the "
-                              "configuration file for the group {}.",
-                              logPrefix,
-                              groupName);
+                         "configuration file for the group {}.",
+                         logPrefix,
+                         groupName);
             return false;
         }
 
         if (!group->getParameter("frames", frames))
         {
             log()->error("{} The parameter handler could not find 'frames' in the "
-                              "configuration file for the group {}.",
-                              logPrefix,
-                              groupName);
+                         "configuration file for the group {}.",
+                         logPrefix,
+                         groupName);
             return false;
         }
 
@@ -421,10 +431,7 @@ bool RDE::SubModelCreator::createSubModels(
     }
 
     std::vector<std::string> contactNames, contactFrames;
-    ok = ok
-         && populateSensorParameters("EXTERNAL_CONTACT",
-                                     contactNames,
-                                     contactFrames);
+    ok = ok && populateSensorParameters("EXTERNAL_CONTACT", contactNames, contactFrames);
 
     std::vector<RDE::Sensor> contactList;
     for (auto idx = 0; idx < contactNames.size(); idx++)

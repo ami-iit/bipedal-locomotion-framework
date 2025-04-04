@@ -40,6 +40,12 @@ bool RDE::AccelerometerMeasurementDynamics::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("variable_name", m_accName))
+    {
+        log()->error("{} Error while retrieving the variable_name variable.", errorPrefix);
+        return false;
+    }
+
     // Set the bias related variables if use_bias is true
     if (!ptr->getParameter("use_bias", m_useBias))
     {
@@ -97,10 +103,11 @@ bool RDE::AccelerometerMeasurementDynamics::finalize(
     // Search and save all the submodels containing the sensor
     for (int submodelIndex = 0; submodelIndex < m_subModelList.size(); submodelIndex++)
     {
-        if (m_subModelList[submodelIndex].hasAccelerometer(m_name))
+        if (m_subModelList[submodelIndex].hasAccelerometer(m_accName))
         {
             m_subModelsWithAccelerometer.push_back(submodelIndex);
-            m_accelerometerFrameName = m_subModelList[submodelIndex].getAccelerometer(m_name).frame;
+            m_accelerometerFrameName
+                = m_subModelList[submodelIndex].getAccelerometer(m_accName).frame;
         }
     }
 
