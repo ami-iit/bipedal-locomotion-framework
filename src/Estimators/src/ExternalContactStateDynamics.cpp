@@ -53,7 +53,7 @@ bool RDE::ExternalContactStateDynamics::initialize(
 
     if (!ptr->getParameter("k", m_k))
     {
-        log()->error("{} Error while retrieving the `k` variable.", errorPrefix);
+        log()->error("{} Error while retrieving the k variable.", errorPrefix);
         return false;
     }
 

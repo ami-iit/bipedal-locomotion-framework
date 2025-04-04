@@ -218,7 +218,7 @@ UkfMeasurement::build(std::weak_ptr<const ParametersHandler::IParametersHandler>
         std::string variableName;
         if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
-            BipedalLocomotion::log()->error("{} Unable to find the parameter 'input_name'.",
+            BipedalLocomotion::log()->error("{} Unable to find the parameter 'variable_name'.",
                                             logPrefix);
             return nullptr;
         }
