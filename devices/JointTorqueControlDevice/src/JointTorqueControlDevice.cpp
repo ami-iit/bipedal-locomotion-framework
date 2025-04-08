@@ -526,9 +526,10 @@ double JointTorqueControlDevice::computeFrictionTorque(int joint)
         frictionTorque = tauCoulomb + tauViscous + tauStribeck;
     } else if (motorTorqueCurrentParameters[joint].frictionModel == "FRICTION_PINN")
     {
-        // Test network with inputs position error motor side, joint velocity
+        // Test network with inputs position error motor side, joint velocity and motor temperature
         if (!frictionEstimators[joint]->estimate(measuredMotorVelocities[joint] * M_PI / 180.0,
                                                  measuredJointVelocities[joint] * M_PI / 180.0,
+                                                 measuredMotorTemperatures[joint],
                                                  frictionTorque))
         {
             frictionTorque = 0.0;
@@ -649,7 +650,10 @@ void JointTorqueControlDevice::readStatus()
     {
         log()->error("{} Failed to get motor position", logPrefix);
     }
-
+    if (!this->PassThroughControlBoard::getTemperatures(measuredMotorTemperatures.data()))
+    {
+        log()->error("{} Failed to get motor temperature", logPrefix);
+    }
     if (m_estimateJointVelocity)
     {
         for (size_t i = 0; i < measuredJointPositions.size(); ++i)
@@ -1400,6 +1404,7 @@ bool JointTorqueControlDevice::attachAll(const PolyDriverList& p)
         desiredJointTorques.resize(axes);
         measuredJointVelocities.resize(axes, 0.0);
         measuredMotorVelocities.resize(axes, 0.0);
+        measuredMotorTemperatures.resize(axes, 0.0);
         measuredJointTorques.resize(axes, 0.0);
         torqueIntegralErrors.resize(axes, 0.0);
         measuredJointPositions.resize(axes, 0.0);

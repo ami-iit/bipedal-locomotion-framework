@@ -49,11 +49,13 @@ public:
      * Estimate the joint friction starting from raw data
      * @param[in] inputMotorVelocity a double representing the motor velocity (rad/sec)
      * @param[in] inputJointVelocity a double representing the joint velocity (rad/sec)
+     * @param[in] inputMotorTemperature a double representing the motor temperature (Celsius)
      * @param[out] output a double representing the joint friction torque
      * @return true if the estimation is successful, false otherwise
      */
     bool estimate(double inputMotorVelocity,
                   double inputJointVelocity,
+                  double inputMotorTemperature,
                   double& output);
 
 
