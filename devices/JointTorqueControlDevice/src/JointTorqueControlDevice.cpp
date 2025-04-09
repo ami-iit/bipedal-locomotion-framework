@@ -22,6 +22,7 @@
 #include <yarp/os/Property.h>
 #include <yarp/sig/Vector.h>
 #include <yarp/eigen/Eigen.h>
+#include <yarp/os/ResourceFinder.h>
 
 #include <Eigen/Core>
 #include <Eigen/LU>
@@ -922,6 +923,8 @@ bool JointTorqueControlDevice::loadFrictionParams(
         }
     }
 
+    yarp::os::ResourceFinder& rf = yarp::os::ResourceFinder::getResourceFinderSingleton();
+
     frictionGroup = ptr->getGroup("FRICTION_PINN").lock();
     if (frictionGroup == nullptr)
     {
@@ -944,7 +947,8 @@ bool JointTorqueControlDevice::loadFrictionParams(
 
         for (int i = 0; i < models.size(); i++)
         {
-            pinnParameters[i].modelPath = models[i];
+            std::string modelFilePath{rf.findFileByName(models[i])};
+            pinnParameters[i].modelPath = modelFilePath;
             pinnParameters[i].threadNumber = threads;
         }
     }
