@@ -7,7 +7,7 @@ if(FRAMEWORK_COMPILE_RealSenseTestApplication)
     NAME realsense-test
     SOURCES src/Main.cpp src/Module.cpp
     HEADERS include/BipedalLocomotion/RealSenseTest//Module.h
-    LINK_LIBRARIES   YARP::YARP_os BipedalLocomotion::PerceptionCapture BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::YarpUtilities)
+    LINK_LIBRARIES   YARP::YARP_os BipedalLocomotion::PerceptionCapture BipedalLocomotion::ParametersHandlerYarpImplementation BipedalLocomotion::YarpUtilities ${PCL_LIBRARIES})
 
   install_ini_files(${CMAKE_CURRENT_SOURCE_DIR}/config)
 endif()
