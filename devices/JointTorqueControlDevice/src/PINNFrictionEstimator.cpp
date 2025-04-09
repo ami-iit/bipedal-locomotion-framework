@@ -31,7 +31,7 @@ struct PINNFrictionEstimator::Impl
     std::deque<float> jointVelocityBuffer;
     std::deque<float> motorVelocityBuffer;
     double inputMotorTemperature;
-    bool alsoMotorTemperature = false;
+    bool includeMotorTemperatureAsInput = false;
 
     size_t historyLength;
 
@@ -108,7 +108,7 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
     }else
     {
         // If not divisible by 2, remove one element (assumed to be motor temperature) and calculate historyLength
-        m_pimpl->alsoMotorTemperature = true;
+        m_pimpl->includeMotorTemperatureAsInput = true;
         m_pimpl->historyLength = (inputCount - 1) / numberOfInputs;
     }
 
@@ -190,7 +190,7 @@ bool PINNFrictionEstimator::estimate(double inputMotorVelocity,
               m_pimpl->jointVelocityBuffer.cend(),
               m_pimpl->structuredInput.rawData.begin() + index);
     index += m_pimpl->historyLength;
-    if (m_pimpl->alsoMotorTemperature)
+    if (m_pimpl->includeMotorTemperatureAsInput)
     {
         m_pimpl->structuredInput.rawData[index] = static_cast<float>(m_pimpl->inputMotorTemperature);
         index += 1;
