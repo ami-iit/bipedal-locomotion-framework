@@ -23,6 +23,7 @@ All notable changes to this project are documented in this file.
 - Increase minimum version of CMake supported to 3.18.0 (https://github.com/ami-iit/bipedal-locomotion-framework/pull/956)
 - Use resource finder to load friction models in `JointTorqueControlDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/961)
 - Modify `JointTorqueControlDevice` to use motor temperature as additional input for PINN (friction estimation) (https://github.com/ami-iit/bipedal-locomotion-framework/pull/960)
+- Only link pcl_common to PerceptionInterface instead of the full PCL_LIBRARIES (https://github.com/ami-iit/bipedal-locomotion-framework/pull/962)
 
 ### Fixed
 - Fix outputs of `UnicycleTrajectoryGenerator` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/916)
