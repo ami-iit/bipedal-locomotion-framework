@@ -323,10 +323,6 @@ void setInput(Dataset& dataset,
               RobotDynamicsEstimatorInput& input,
               std::unordered_map<std::string, std::vector<SensorProperty>>& sensors)
 {
-    input.basePose =  manif::SE3d::Identity();
-    input.baseVelocity = manif::SE3d::Tangent::Zero();
-    input.baseAcceleration = manif::SE3d::Tangent::Zero();
-
     // Set input
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
