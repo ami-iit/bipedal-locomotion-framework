@@ -10,8 +10,8 @@
     <includes local="no">vector</includes>
     <includes local="no">opencv2/opencv.hpp</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
-    <includedby refid="YarpCameraBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpCameraBridge.h</includedby>
     <includedby refid="RealSense_8h" local="no">BipedalLocomotion/Perception/Capture/RealSense.h</includedby>
+    <includedby refid="YarpCameraBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpCameraBridge.h</includedby>
     <incdepgraph>
       <node id="2">
         <label>functional</label>
