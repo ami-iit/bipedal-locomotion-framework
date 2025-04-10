@@ -358,6 +358,41 @@ bool PassThroughControlBoard::getMotorEncoderSpeeds(double* spds)
     return proxyIMotorEncoders->getMotorEncoderSpeeds(spds);
 }
 
+bool PassThroughControlBoard::getTemperatures(double *vals)
+{
+    if (!proxyIMotor)
+    {
+        return false;
+    }
+    return proxyIMotor->getTemperatures(vals);
+}
+
+bool PassThroughControlBoard::getTemperature(int m, double* val)
+{
+    if (!proxyIMotor)
+    {
+        return false;
+    }
+    return proxyIMotor->getTemperature(m, val);
+}
+
+bool PassThroughControlBoard::getTemperatureLimit(int m, double* temp)
+{
+    if (!proxyIMotor)
+    {
+        return false;
+    }
+    return proxyIMotor->getTemperatureLimit(m, temp);
+}
+
+bool PassThroughControlBoard::setTemperatureLimit(int m, const double temp)
+{
+    if (!proxyIMotor)
+    {
+        return false;
+    }
+    return proxyIMotor->setTemperatureLimit(m, temp);
+}
 bool PassThroughControlBoard::getMotorEncoderAcceleration(int m, double* acc)
 {
     if (!proxyIMotorEncoders)

@@ -21,6 +21,6 @@ add_bipedal_locomotion_library(
     NAME                   PerceptionInterface
     IS_INTERFACE
     PUBLIC_HEADERS         ${H_PREFIX}/ICameraBridge.h ${H_PREFIX}/IPointCloudBridge.h
-    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System ${OpenCV_LIBS} ${PCL_LIBRARIES}
+    PUBLIC_LINK_LIBRARIES  BipedalLocomotion::ParametersHandler BipedalLocomotion::System ${OpenCV_LIBS} pcl_common
     INSTALLATION_FOLDER    RobotInterface)
 endif()
