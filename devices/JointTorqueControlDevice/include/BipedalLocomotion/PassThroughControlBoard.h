@@ -27,6 +27,7 @@
 #include <yarp/dev/IVelocityControl.h>
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/dev/IJointFault.h>
+#include <yarp/dev/IMotor.h>
 
 #include <BipedalLocomotion/TextLogging/Logger.h>
 
@@ -58,7 +59,8 @@ class BipedalLocomotion::PassThroughControlBoard : public yarp::dev::DeviceDrive
                                                    public yarp::dev::IAmplifierControl,
                                                    public yarp::dev::IControlCalibration,
                                                    public yarp::dev::IControlLimits,
-                                                   public yarp::dev::IJointFault
+                                                   public yarp::dev::IJointFault,
+                                                   public yarp::dev::IMotor
 {
 protected:
     yarp::dev::IEncodersTimed* proxyIEncodersTimed;
@@ -133,6 +135,10 @@ public:
     virtual bool getMotorEncoderSpeeds(double* spds);
     virtual bool getMotorEncoderAcceleration(int m, double* acc);
     virtual bool getMotorEncoderAccelerations(double* accs);
+    virtual bool getTemperatures(double *vals);
+    virtual bool getTemperature(int m, double* val);
+    virtual bool getTemperatureLimit(int m, double* temp);
+    virtual bool setTemperatureLimit(int m, const double temp);
 
     // POSITION CONTROL
     virtual bool positionMove(int j, double ref);

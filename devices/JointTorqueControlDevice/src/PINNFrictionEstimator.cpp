@@ -30,6 +30,8 @@ struct PINNFrictionEstimator::Impl
 
     std::deque<float> jointVelocityBuffer;
     std::deque<float> motorVelocityBuffer;
+    double inputMotorTemperature;
+    bool includeMotorTemperatureAsInput = false;
 
     size_t historyLength;
 
@@ -89,11 +91,26 @@ bool PINNFrictionEstimator::initialize(const std::string& networkModelPath,
     // Get model input size
     std::vector<int64_t> inputShape = m_pimpl->session->GetInputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
 
+    // We need to understand if the model takes as input also the motor temperature
+    // To do this, since the model eventually takes only one sample of motor temperature
+    // we can check if the size of the input is divisible by 2:
+    // if it is divisible by 2, the model does not takes as input the motor temperature
+    // instead, if it is not divisible by 2, the model takes as input the motor temperature
+    // and we need to remove the last element of the input to compute the historyLength correctly
     const std::size_t inputCount = inputShape[1];
 
     int numberOfInputs = 2;
 
-    m_pimpl->historyLength = inputCount / numberOfInputs;
+    if (inputCount % numberOfInputs == 0)
+    {
+        // No need to remove any element, so historyLength is just inputCount / 2
+        m_pimpl->historyLength = inputCount / numberOfInputs;
+    }else
+    {
+        // If not divisible by 2, remove one element (assumed to be motor temperature) and calculate historyLength
+        m_pimpl->includeMotorTemperatureAsInput = true;
+        m_pimpl->historyLength = (inputCount - 1) / numberOfInputs;
+    }
 
     // format the input
     m_pimpl->structuredInput.rawData.resize(inputCount);
@@ -134,10 +151,12 @@ void PINNFrictionEstimator::resetEstimator()
 {
     m_pimpl->motorVelocityBuffer.clear();
     m_pimpl->jointVelocityBuffer.clear();
+    m_pimpl->inputMotorTemperature = 0.0;
 }
 
 bool PINNFrictionEstimator::estimate(double inputMotorVelocity,
                                      double inputJointVelocity,
+                                     double inputMotorTemperature,
                                      double& output)
 {
     if (m_pimpl->motorVelocityBuffer.size() == m_pimpl->historyLength)
@@ -162,12 +181,21 @@ bool PINNFrictionEstimator::estimate(double inputMotorVelocity,
     // Copy the joint positions and then the motor positions in the
     // structured input without emptying the buffer
     // Use iterators to copy the data to the vector
+    std::size_t index = 0;
     std::copy(m_pimpl->motorVelocityBuffer.cbegin(),
               m_pimpl->motorVelocityBuffer.cend(),
-              m_pimpl->structuredInput.rawData.begin());
-        std::copy(m_pimpl->jointVelocityBuffer.cbegin(),
+              m_pimpl->structuredInput.rawData.begin() + index);
+    index += m_pimpl->historyLength;
+    std::copy(m_pimpl->jointVelocityBuffer.cbegin(),
               m_pimpl->jointVelocityBuffer.cend(),
-              m_pimpl->structuredInput.rawData.begin() + m_pimpl->historyLength);
+              m_pimpl->structuredInput.rawData.begin() + index);
+    index += m_pimpl->historyLength;
+    if (m_pimpl->includeMotorTemperatureAsInput)
+    {
+        m_pimpl->structuredInput.rawData[index] = static_cast<float>(m_pimpl->inputMotorTemperature);
+        index += 1;
+
+    }
 
     // perform the inference
     const char* inputNames[] = {"input"};
