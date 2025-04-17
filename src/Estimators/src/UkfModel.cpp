@@ -44,33 +44,47 @@ void UkfModel::unpackState()
         for (auto& [key, value] : m_subModelList[subModelIdx].getFTList())
         {
             m_FTMap[key]
-                = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                = m_currentState.segment(m_stateVariableHandler
+                                             .getVariable(m_variableNameToUkfState[{key, "ft"}])
+                                             .offset,
+                                         m_stateVariableHandler
+                                             .getVariable(m_variableNameToUkfState[{key, "ft"}])
+                                             .size);
         }
 
         for (auto& [key, value] : m_subModelList[subModelIdx].getExternalContactList())
         {
             m_extContactMap[key]
-                = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                = m_currentState.segment(m_stateVariableHandler
+                                             .getVariable(m_variableNameToUkfState[{key, "none"}])
+                                             .offset,
+                                         m_stateVariableHandler
+                                             .getVariable(m_variableNameToUkfState[{key, "none"}])
+                                             .size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getAccelerometerList())
         {
             m_accMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler
+                                   .getVariable(m_variableNameToUkfState[{key, "accelerometer"}])
+                                   .offset,
+                               m_stateVariableHandler
+                                   .getVariable(m_variableNameToUkfState[{key, "accelerometer"}])
+                                   .size);
         }
 
         for (const auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
         {
             m_gyroMap[key]
                 = m_currentState
-                      .segment(m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).offset,
-                               m_stateVariableHandler.getVariable(m_stateToUkfNames[key]).size);
+                      .segment(m_stateVariableHandler
+                                   .getVariable(m_variableNameToUkfState[{key, "gyroscope"}])
+                                   .offset,
+                               m_stateVariableHandler
+                                   .getVariable(m_variableNameToUkfState[{key, "gyroscope"}])
+                                   .size);
         }
     }
 }
@@ -98,26 +112,24 @@ bool UkfModel::updateState()
         m_kinDynFullModel->getRelativeTransform(m_kinDynFullModel->getFloatingBase(),
                                                 m_subModelList[0].getImuBaseFrameName()));
 
-    m_baseVelocity.coeffs().tail(3).noalias() = baseHimu.rotation() * m_baseVelocity.coeffs().tail(3);
+    m_baseVelocity.coeffs().tail(3).noalias()
+        = baseHimu.rotation() * m_baseVelocity.coeffs().tail(3);
 
     m_gravity.setZero();
 
     // Set the robot state of the kindyn of the full model using the sensor proper acceleration
-    if (!m_kinDynFullModel->setRobotState(m_ukfInput.robotBasePose.transform(),
+    m_kinDynFullModel->setRobotState(m_ukfInput.robotBasePose.transform(),
                                      m_ukfInput.robotJointPositions,
                                      iDynTree::make_span(m_baseVelocity.data(),
                                                          manif::SE3d::Tangent::DoF),
                                      m_jointVelocityState,
-                                     m_gravity))
-    {
-        log()->error("{} Failed to set the robot state of the full model.", logPrefix);
-        return false;
-    }
+                                     m_gravity);
 
     // Compute acceleration of the submodel bases from imu measurements
     for (int subModelIdx = 0; subModelIdx < m_subModelList.size(); subModelIdx++)
     {
-        // Get sub-model base pose expressed in the world frame that is used to set the kindyn state of the submodel
+        // Get sub-model base pose expressed in the world frame that is used to set the kindyn state
+        // of the submodel
         m_worldTBase = Conversions::toManifPose(m_kinDynFullModel->getWorldTransform(
             m_kinDynWrapperList[subModelIdx]->getFloatingBase()));
 
@@ -136,7 +148,8 @@ bool UkfModel::updateState()
                 ->getRelativeTransform(m_kinDynWrapperList[subModelIdx]->getFloatingBase(),
                                        m_subModelList[subModelIdx].getImuBaseFrameName()));
 
-        // Set the base velocity of the submodel from the gyroscope measurement rotating it in the base frame
+        // Set the base velocity of the submodel from the gyroscope measurement rotating it in the
+        // base frame
         for (const auto& [key, value] : m_subModelList[subModelIdx].getGyroscopeList())
         {
             if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
@@ -152,10 +165,10 @@ bool UkfModel::updateState()
             if (m_subModelList[subModelIdx].getImuBaseFrameName() == value.frame)
             {
                 m_tempAccelerometerVelocity = Conversions::toManifTwist(
-                    m_kinDynWrapperList[subModelIdx]->getFrameVel(
-                    value.frame));
+                    m_kinDynWrapperList[subModelIdx]->getFrameVel(value.frame));
 
-                // See reference: https://traversaro.github.io/traversaro-phd-thesis/traversaro-phd-thesis.pdf
+                // See reference:
+                // https://traversaro.github.io/traversaro-phd-thesis/traversaro-phd-thesis.pdf
                 // Paragraph 4.4.2
                 m_baseAcceleration.coeffs().head(3).noalias()
                     = baseHimu.rotation() * m_accMap[key]
@@ -164,12 +177,12 @@ bool UkfModel::updateState()
         }
 
         // Set robot state
-        m_kinDynWrapperList[subModelIdx]->setRobotState(m_worldTBase.transform(),
-                                                        m_subModelJointPos[subModelIdx],
-                                                        iDynTree::make_span(m_baseVelocity.data(),
-                                                        manif::SE3d::Tangent::DoF),
-                                                        m_subModelJointVel[subModelIdx],
-                                                        m_gravity);
+        m_kinDynWrapperList[subModelIdx]
+            ->setRobotState(m_worldTBase.transform(),
+                            m_subModelJointPos[subModelIdx],
+                            iDynTree::make_span(m_baseVelocity.data(), manif::SE3d::Tangent::DoF),
+                            m_subModelJointVel[subModelIdx],
+                            m_gravity);
 
         m_totalTorqueFromContacts[subModelIdx].setZero();
 
