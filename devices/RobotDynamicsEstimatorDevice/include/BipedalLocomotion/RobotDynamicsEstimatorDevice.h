@@ -100,9 +100,9 @@ private:
     /// class members
     BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::string m_robot{"ergocubSim"}; /**< Robot name. Default is ergocubSim. */
-     std::string m_baseLink{"root_link"}; /**< Base link name. Default is root_link. */
-     std::string m_contactFrame{"chest"}; /**< Base link name. Default is root_link. */
-     std::string m_baseIMU{"waist_imu_0"}; /**< Base IMU name. Default is imu_link. */
+     std::string m_baseLink; /**< Base link name. Default is root_link. */
+     std::string m_contactFrame; /**< Base link name. Default is root_link. */
+     std::string m_baseIMU; /**< Base IMU name. Default is imu_link. */
      std::vector<std::string> m_jointNameList{}; /**< Joint name list. */
      Eigen::VectorXd m_gearboxRatio; /**< Gearbox ratio list. */
      Eigen::VectorXd m_torqueConstant; /**< Torque constant list. */
@@ -206,12 +206,6 @@ private:
      */
     bool
     setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
-
-    /**
-     * Open the communication ports.
-     * @return true/false on success/failure.
-     */
-    bool openCommunications();
 
     /**
      * Update the measurements used by the estimator.

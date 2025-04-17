@@ -46,26 +46,20 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
 
     if (!ptr->getParameter("base_link", m_baseLink))
     {
-        log()->info("{} The parameter 'base_link' is not provided. The default one "
-                    "will be used {}.",
-                    logPrefix,
-                    m_baseLink);
+        log()->info("{} The parameter 'base_link' is not provided.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("contact_frame", m_contactFrame))
     {
-        log()->info("{} The parameter 'contact_frame' is not provided. The default one "
-                    "will be used {}.",
-                    logPrefix,
-                    m_contactFrame);
+        log()->info("{} The parameter 'contact_frame' is not provided.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("base_imu", m_baseIMU))
     {
-        log()->info("{} The parameter 'base_imu' is not provided. The default one "
-                    "will be used {}.",
-                    logPrefix,
-                    m_baseIMU);
+        log()->info("{} The parameter 'base_imu' is not provided.",
+                    logPrefix);
     }
 
     if (!ptr->getParameter("model_file", modelFileName))
@@ -110,7 +104,7 @@ bool RobotDynamicsEstimatorDevice::setupRobotModel(
     Eigen::VectorXd fixedJointPositions;
     if (!ptr->getParameter("fixed_joint_list_values", fixedJointPositions))
     {
-        BipedalLocomotion::log()->debug("{} Unable to find the initial joint position.", logPrefix);
+        BipedalLocomotion::log()->debug("{} Unable to find the list of position values for the fixed joints.", logPrefix);
     }
 
     if (fixedJointPositions.size() != fixedJointsList.size())
@@ -727,11 +721,6 @@ bool RobotDynamicsEstimatorDevice::open(yarp::os::Searchable& config)
     return true;
 }
 
-bool RobotDynamicsEstimatorDevice::openCommunications()
-{
-    return true;
-}
-
 bool RobotDynamicsEstimatorDevice::openRemapperVirtualSensors()
 {
     constexpr auto logPrefix = "[RobotDynamicsEstimatorDevice::openRemapperVirtualSensors]";
@@ -781,12 +770,6 @@ bool RobotDynamicsEstimatorDevice::attachAll(const yarp::dev::PolyDriverList& po
     if (!m_remappedVirtualAnalogSensorsInterfaces.multwrap->attachAll(poly))
     {
         log()->error("{} Could not attach virtual sensors.", logPrefix);
-        return false;
-    }
-
-    if (!openCommunications())
-    {
-        log()->error("{} Could not open ports for publishing outputs.", logPrefix);
         return false;
     }
 
