@@ -22,7 +22,12 @@ namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 bool RDE::SubModel::isValid() const
 {
-    return (m_model.getNrOfLinks() > 0);
+    if (!m_model.isValid())
+    {
+        log()->error("[SubModel::isValid] The model is not valid.");
+        return false;
+    }
+    return true;
 }
 
 bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameList,

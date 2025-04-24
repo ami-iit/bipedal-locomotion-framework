@@ -160,6 +160,10 @@ TEST_CASE("KinDynWrapper Test")
     for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
     {
         kinDynWrapperList.emplace_back(std::make_shared<KinDynWrapper>());
+
+        // Check if the sub-model is valid
+        REQUIRE(subModelList[idx].isValid());
+
         REQUIRE(kinDynWrapperList[idx]->setModel(subModelList[idx]));
     }
 

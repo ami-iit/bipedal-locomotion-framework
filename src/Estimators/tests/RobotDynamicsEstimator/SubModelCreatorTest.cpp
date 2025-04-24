@@ -80,6 +80,11 @@ TEST_CASE("SubModel Creation")
 
     REQUIRE(subModelCreatorWithFT.getNrOfSubModels() == (1 + mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE)));
 
+    for (const auto& subModel : subModelCreatorWithFT.getSubModelList())
+    {
+        REQUIRE(subModel.isValid());
+    }
+
     // Case without FT, the model is not splitted and the only sub-model is the full model
     BipedalLocomotion::log()->info("Case without FT");
 
@@ -101,6 +106,11 @@ TEST_CASE("SubModel Creation")
     groupFT->setParameter("associated_joints", emptyVector);
     groupModel->setGroup("FT", groupFT);
     REQUIRE(subModelCreatorWithoutFT.createSubModels(groupModel));
+
+    for (const auto& subModel : subModelCreatorWithoutFT.getSubModelList())
+    {
+        REQUIRE(subModel.isValid());
+    }
 
     REQUIRE(subModelCreatorWithoutFT.getNrOfSubModels() == 1);
 }
