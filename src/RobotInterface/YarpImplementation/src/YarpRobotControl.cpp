@@ -281,7 +281,7 @@ struct YarpRobotControl::Impl
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -562,7 +562,7 @@ struct YarpRobotControl::Impl
                         this->positionDirectMaxAdmissibleError,
                         worstError.second);
                 }
-                
+
                 return false;
             }
         }
@@ -642,7 +642,7 @@ struct YarpRobotControl::Impl
                     // Yarp wants the quantities in degrees
                     scaling = 180 / M_PI;
                 }
-                
+
                 for (int i = 0; i < indices.size(); i++)
                 {
                     this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
