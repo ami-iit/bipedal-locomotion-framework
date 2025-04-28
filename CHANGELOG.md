@@ -13,6 +13,7 @@ All notable changes to this project are documented in this file.
 - Add motor temperature sensor support to `SensorBridge`, `YarpSensorBridge` and `YarpRobotLoggerDevice` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/946)
 - Add the support to the joint type (revolute/prismatic) in `SensorBridge` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/949)
 - Implement `FloatingBaseSystemAccelerationKinematics` class in `ContinuousDynamicalSystem` component (https://github.com/ami-iit/bipedal-locomotion-framework/pull/950)
+- Add the support to the joint type (revolute/prismatic) in `YarpRobotControl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/964)
 
 ### Changed
 - Some improvements on the YarpRobotLoggerDevice (https://github.com/ami-iit/bipedal-locomotion-framework/pull/910)
