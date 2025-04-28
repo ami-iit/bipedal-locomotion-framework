@@ -25,6 +25,7 @@
 #include <BipedalLocomotion/RobotInterface/YarpRobotControl.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
+#include <BipedalLocomotion/RobotInterface/JointType.h>
 
 using namespace BipedalLocomotion::RobotInterface;
 
@@ -58,6 +59,11 @@ struct YarpRobotControl::Impl
     yarp::dev::IControlMode* controlModeInterface{nullptr}; /**< Control mode interface. */
     yarp::dev::IAxisInfo* axisInfoInterface{nullptr}; /**< Axis info interface. */
     yarp::dev::IControlLimits* controlLimitsInterface{nullptr}; /**< Control limits interface. */
+
+    std::vector<JointType> jointsTypeList; /**< list of joint types */
+    bool allJointsAreRevolutes{false}; /**< flag to indicate if all the joints are revolute */
+    bool allJointsArePrismatics{false}; /**< flag to indicate if all the joints are prismatic */
+
 
     std::size_t actuatedDOFs; /**< Number of the actuated DoFs. */
 
@@ -259,9 +265,23 @@ struct YarpRobotControl::Impl
             std::this_thread::sleep_for(std::chrono::microseconds(this->readingTimeout));
         }
 
-        // convert the joint position in radians
-        this->positionFeedback *= M_PI / 180.0;
-
+        // Check if all joints are revolute
+        if (this->allJointsAreRevolutes)
+        {
+            // convert the joint position in radians
+            this->positionFeedback *= M_PI / 180.0;
+        }
+        else if (!this->allJointsArePrismatics)
+        {
+            for (std::size_t i = 0; i < this->positionFeedback.size(); i++)
+            {
+                if (this->jointsTypeList[i] == JointType::REVOLUTE)
+                {
+                    this->positionFeedback[i] *= M_PI / 180.0;
+                }
+            }
+        }
+        
         return true;
     }
 
@@ -522,13 +542,27 @@ struct YarpRobotControl::Impl
 
             if (worstError.second > this->positionDirectMaxAdmissibleError)
             {
-                log()->error("{} The worst error between the current and the desired position of "
-                             "the "
-                             "joint named '{}' is greater than {} deg. Error = {} deg.",
-                             errorPrefix,
-                             this->axesName[worstError.first],
-                             180 / M_PI * this->positionDirectMaxAdmissibleError,
-                             180 / M_PI * worstError.second);
+                if (this->jointsTypeList[worstError.first] == JointType::REVOLUTE)
+                {
+                    log()->error("{} The worst error between the current and the desired position of "
+                        "the "
+                        "joint named '{}' is greater than {} deg. Error = {} deg.",
+                        errorPrefix,
+                        this->axesName[worstError.first],
+                        180 / M_PI * this->positionDirectMaxAdmissibleError,
+                        180 / M_PI * worstError.second);
+                }
+                else
+                {
+                    log()->error("{} The worst error between the current and the desired position of "
+                        "the "
+                        "joint named '{}' is greater than {} deg. Error = {} deg.",
+                        errorPrefix,
+                        this->axesName[worstError.first],
+                        this->positionDirectMaxAdmissibleError,
+                        worstError.second);
+                }
+                
                 return false;
             }
         }
@@ -569,10 +603,19 @@ struct YarpRobotControl::Impl
                     const auto jointError
                         = std::abs(jointValues[indices[i]] - this->positionFeedback[indices[i]]);
 
-                    constexpr double scaling = 180 / M_PI;
-                    constexpr double minVelocityInDegPerSeconds = 3.0;
+                    double scaling;
+                    double minVelocity;
+                    if (this->jointsTypeList[i] == JointType::REVOLUTE)
+                    {
+                        scaling = 180 / M_PI;
+                        minVelocity = 3.0; // Degrees/sec
+                    }
+                    else {
+                        scaling = 1;
+                        minVelocity = 10; // mm/sec
+                    }
                     this->positionControlRefSpeeds[i]
-                        = std::max(minVelocityInDegPerSeconds,
+                        = std::max(minVelocity,
                                    scaling * (jointError / positioningDurationSeconds));
                 }
 
@@ -589,20 +632,34 @@ struct YarpRobotControl::Impl
                 this->startPositionControlInstant = BipedalLocomotion::clock().now();
             }
 
-            // Yarp wants the quantities in degrees
-            double scaling = 180 / M_PI;
-            // if the control mode is torque or PWM current it is not required to change the unit of
-            // measurement
-            if (mode == ControlMode::Torque //
-                || mode == ControlMode::PWM //
-                || mode == ControlMode::Current)
+            double scaling;
+            if (this->allJointsAreRevolutes || this->allJointsArePrismatics)
             {
                 scaling = 1;
-            }
 
-            for (int i = 0; i < indices.size(); i++)
+                if (this->allJointsAreRevolutes)
+                {
+                    // Yarp wants the quantities in degrees
+                    scaling = 180 / M_PI;
+                }
+                
+                for (int i = 0; i < indices.size(); i++)
+                {
+                    this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
+                }
+            }
+            else
             {
-                this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
+                scaling = 1;
+                for (int i = 0; i < indices.size(); i++)
+                {
+                    scaling = 1;
+                    if (this->jointsTypeList[i] == JointType::REVOLUTE)
+                    {
+                        scaling = 180 / M_PI;
+                    }
+                    this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
+                }
             }
 
             if (!this->control(mode)(indices.size(),
@@ -692,6 +749,41 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
          && ptr->getParameter("position_direct_max_admissible_error",
                               m_pimpl->positionDirectMaxAdmissibleError)
          && (m_pimpl->positionDirectMaxAdmissibleError > 0);
+
+    // get the names of all the joints available in the attached remote control board remapper
+    std::vector<std::string> controlBoardJoints;
+    std::vector<JointType> controlBoardJointTypes;
+    yarp::dev::JointTypeEnum jType;
+    std::string joint;
+    for (int DOF = 0; DOF < m_pimpl->axesName.size(); DOF++)
+    {
+        m_pimpl->axisInfoInterface->getAxisName(DOF, joint);
+        m_pimpl->axisInfoInterface->getJointType(DOF, jType);
+        controlBoardJoints.push_back(joint);
+        if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
+            && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+        {
+            log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
+                         "supported.",
+                         errorPrefix);
+            return false;
+        }
+
+        controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
+                                             ? JointType::REVOLUTE
+                                             : JointType::PRISMATIC);
+    }
+
+    m_pimpl->jointsTypeList = controlBoardJointTypes;
+
+    m_pimpl->allJointsArePrismatics
+        = std::all_of(controlBoardJointTypes.begin(),
+                      controlBoardJointTypes.end(), //
+                      [](const auto& jointType) { return jointType == JointType::PRISMATIC; });
+    m_pimpl->allJointsAreRevolutes
+        = std::all_of(controlBoardJointTypes.begin(),
+                      controlBoardJointTypes.end(), //
+                      [](const auto& jointType) { return jointType == JointType::REVOLUTE; });
 
     return ok;
 }
