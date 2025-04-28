@@ -6,10 +6,10 @@
  */
 
 // iDyn
-#include <iDynTree/ModelTransformers.h>
-#include <iDynTree/SixAxisForceTorqueSensor.h>
 #include <iDynTree/SubModel.h>
 #include <iDynTree/Traversal.h>
+#include <iDynTree/ModelTransformers.h>
+#include <iDynTree/SixAxisForceTorqueSensor.h>
 
 // BLF
 #include <BipedalLocomotion/TextLogging/Logger.h>
@@ -22,12 +22,7 @@ namespace RDE = BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
 bool RDE::SubModel::isValid() const
 {
-    if (!m_model.isValid())
-    {
-        log()->error("[SubModel::isValid] The model is not valid.");
-        return false;
-    }
-    return true;
+    return (m_model.getNrOfLinks() > 0);
 }
 
 bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameList,
@@ -49,8 +44,8 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
     if (!subModelDecomp.splitModelAlongJoints(this->m_model, fullModelTraversal, ftFrameList))
     {
         log()->error("{} Unable to split the full model traversal in submodels along the ft "
-                     "sensors.",
-                     logPrefix);
+                          "sensors.",
+                          logPrefix);
         return false;
     }
 
@@ -63,8 +58,8 @@ bool RDE::SubModelCreator::splitModel(const std::vector<std::string>& ftFrameLis
         if (!iDynTree::extractSubModel(this->m_model, subModelTraversal, subModel))
         {
             log()->error("{} Unable to get the Model object associated to the subModel {}.",
-                         logPrefix,
-                         idx);
+                              logPrefix,
+                              idx);
             return false;
         }
 
@@ -89,7 +84,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
         // information on force directiona and parent link
 
         auto ftIdx = this->m_sensorList.getSensorIndex(iDynTree::SIX_AXIS_FORCE_TORQUE,
-                                                       ftFromConfig.frame);
+                                                       ftFromConfig.associatedJoint);
 
         iDynTree::SixAxisForceTorqueSensor* sensorFTFromModel
             = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
@@ -127,6 +122,9 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
             {
                 if (idynSubModel.isLinkNameUsed(firstLink))
                 {
+                    log()->info("Adding frame {} to link {}.",
+                                ftFromConfig.frame,
+                                firstLink);
                     idynSubModel.addAdditionalFrameToLink(
                         firstLink,
                         ftFromConfig.frame,
@@ -136,6 +134,9 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                                                                  ftFromConfig.frame)));
                 } else
                 {
+                    log()->info("Adding frame {} to link {}.",
+                                ftFromConfig.frame,
+                                secondLink);
                     idynSubModel.addAdditionalFrameToLink(
                         secondLink,
                         ftFromConfig.frame,
@@ -149,6 +150,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
                 ft.name = ftFromConfig.name;
                 ft.frame = ftFromConfig.frame;
 
+                log()->info("Frame {} added to the model.", ft.frame);
                 ft.frameIndex = idynSubModel.getFrameIndex(ft.frame);
 
                 if (idynSubModel.isLinkNameUsed(linkAppliedWrenchName))
@@ -271,7 +273,7 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
     // The first IMU found in the model is used as base
     int frameIdx = 0;
     bool frameFound = false;
-    while (!frameFound && frameIdx < idynSubModel.getNrOfFrames())
+    while(!frameFound && frameIdx < idynSubModel.getNrOfFrames())
     {
         std::string frameName = idynSubModel.getFrameName(frameIdx);
 
@@ -291,11 +293,10 @@ RDE::SubModelCreator::populateSubModel(iDynTree::Model& idynSubModel,
     if (!frameFound)
     {
         log()->error("[SubModelCreator::populateSubModel] Unable to find an IMU for the submodel.");
-    } else
+    }
+    else
     {
-        log()->info("[SubModelCreator::populateSubModel] The IMU frame {} is the base frame of the "
-                    "submodel.",
-                    subModel.m_imuBaseFrameName);
+        log()->info("[SubModelCreator::populateSubModel] The IMU frame {} is the base frame of the submodel.", subModel.m_imuBaseFrameName);
     }
 
     return subModel;
@@ -354,8 +355,8 @@ bool RDE::SubModelCreator::createSubModels(
     if (ptr == nullptr)
     {
         log()->error("{} The handler has to point to an already initialized "
-                     "IParametershandler.",
-                     logPrefix);
+                          "IParametershandler.",
+                          logPrefix);
         return false;
     }
 
@@ -372,18 +373,18 @@ bool RDE::SubModelCreator::createSubModels(
         if (!group->getParameter("names", names))
         {
             log()->error("{} The parameter handler could not find 'names' in the "
-                         "configuration file for the group {}.",
-                         logPrefix,
-                         groupName);
+                              "configuration file for the group {}.",
+                              logPrefix,
+                              groupName);
             return false;
         }
 
         if (!group->getParameter("frames", frames))
         {
             log()->error("{} The parameter handler could not find 'frames' in the "
-                         "configuration file for the group {}.",
-                         logPrefix,
-                         groupName);
+                              "configuration file for the group {}.",
+                              logPrefix,
+                              groupName);
             return false;
         }
 
@@ -436,7 +437,10 @@ bool RDE::SubModelCreator::createSubModels(
     }
 
     std::vector<std::string> contactNames, contactFrames;
-    ok = ok && populateSensorParameters("EXTERNAL_CONTACT", contactNames, contactFrames);
+    ok = ok
+         && populateSensorParameters("EXTERNAL_CONTACT",
+                                     contactNames,
+                                     contactFrames);
 
     std::vector<RDE::Sensor> contactList;
     for (auto idx = 0; idx < contactNames.size(); idx++)

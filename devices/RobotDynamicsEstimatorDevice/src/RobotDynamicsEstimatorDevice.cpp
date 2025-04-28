@@ -305,11 +305,11 @@ bool RobotDynamicsEstimatorDevice::setEstimatorInitialState()
     const std::string logPrefix = "[RobotDynamicsEstimatorDevice::setEstimatorInitialState]";
 
     iDynTree::Model model = m_kinDyn->model();
-    // if (!model.isValid())
-    // {
-    //     log()->error("{} The model is not valid.", logPrefix);
-    //     return false;
-    // }
+    if (!model.isValid())
+    {
+        log()->error("{} The model is not valid.", logPrefix);
+        return false;
+    }
 
     Eigen::VectorXd s(m_kinDyn->model().getNrOfDOFs());
     Eigen::VectorXd dds(m_kinDyn->model().getNrOfDOFs());

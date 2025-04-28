@@ -194,7 +194,12 @@ void loadRobotModel(std::weak_ptr<const ParametersHandler::IParametersHandler> h
 
     REQUIRE(kindyn->setFrameVelocityRepresentation(iDynTree::BODY_FIXED_REPRESENTATION));
 
-    subModelCreator.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
+    for (int i =0; i < mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE); i++)
+    {
+        log()->debug(mdlLdr.sensors().getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, i)->getName());
+    }
+
+    subModelCreator.setModelAndSensors(kindyn->model(), mdlLdr.sensors());
     REQUIRE(subModelCreator.setKinDyn(kindyn));
 
     // Split model
