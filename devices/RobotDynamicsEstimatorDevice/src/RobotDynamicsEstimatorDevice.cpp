@@ -558,6 +558,14 @@ bool RobotDynamicsEstimatorDevice::setupRobotDynamicsEstimator(
                      logPrefix);
         return false;
     }
+
+    auto model = m_kinDyn->model();
+    if (!model.isValid())
+    {
+        log()->error("{} The model is not valid.", logPrefix);
+        return false;
+    }
+
     if (!m_kinDyn->setFrameVelocityRepresentation(iDynTree::BODY_FIXED_REPRESENTATION))
     {
         log()->error("{} Failed while setting the frame velocity representation.", logPrefix);

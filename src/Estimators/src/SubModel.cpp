@@ -84,7 +84,7 @@ RDE::SubModelCreator::attachFTsToSubModel(const std::vector<RDE::FTSensor>& ftLi
         // information on force directiona and parent link
 
         auto ftIdx = this->m_sensorList.getSensorIndex(iDynTree::SIX_AXIS_FORCE_TORQUE,
-                                                       ftFromConfig.associatedJoint);
+                                                       ftFromConfig.frame);
 
         iDynTree::SixAxisForceTorqueSensor* sensorFTFromModel
             = static_cast<iDynTree::SixAxisForceTorqueSensor*>(
