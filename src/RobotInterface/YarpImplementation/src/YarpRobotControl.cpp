@@ -751,6 +751,7 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
          && (m_pimpl->positionDirectMaxAdmissibleError > 0);
 
     // get the names of all the joints available in the attached remote control board remapper
+    log()->error("-------------------------------------------------------------------------------");
     std::vector<std::string> controlBoardJoints;
     std::vector<JointType> controlBoardJointTypes;
     yarp::dev::JointTypeEnum jType;
@@ -769,10 +770,27 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
             return false;
         }
 
+        if (jType == yarp::dev::VOCAB_JOINTTYPE_REVOLUTE)
+        {
+           log()->error("{} £££££££££££££££££££££££££ Joint type is revolute.", errorPrefix);
+        } else if (jType == yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+        {
+            log()->error("{} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Joint type is prismatic.", errorPrefix);
+        }
+        else
+        {
+            log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
+                         "supported.",
+                         errorPrefix);
+            return false;
+        }
+
         controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
                                              ? JointType::REVOLUTE
                                              : JointType::PRISMATIC);
     }
+
+    log()->error("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     m_pimpl->jointsTypeList = controlBoardJointTypes;
 
