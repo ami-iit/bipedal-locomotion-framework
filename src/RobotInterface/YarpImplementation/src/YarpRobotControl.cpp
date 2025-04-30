@@ -412,6 +412,42 @@ struct YarpRobotControl::Impl
         this->positionControlRefSpeeds.resize(
             this->desiredJointValuesAndMode.index[IRobotControl::ControlMode::Position].size());
 
+        // get the names of all the joints available in the attached remote control board remapper
+        std::vector<std::string> controlBoardJoints;
+        std::vector<JointType> controlBoardJointTypes;
+        yarp::dev::JointTypeEnum jType;
+        std::string joint;
+
+        for (int DOF = 0; DOF < this->axesName.size(); DOF++)
+        {
+            this->axisInfoInterface->getAxisName(DOF, joint);
+            this->axisInfoInterface->getJointType(DOF, jType);
+            controlBoardJoints.push_back(joint);
+            if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
+                && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
+            {
+                log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
+                             "supported.",
+                             errorPrefix);
+                return false;
+            }
+
+            controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
+                                                 ? JointType::REVOLUTE
+                                                 : JointType::PRISMATIC);
+        }
+
+        this->jointsTypeList = controlBoardJointTypes;
+
+        this->allJointsArePrismatics
+            = std::all_of(controlBoardJointTypes.begin(),
+                          controlBoardJointTypes.end(), //
+                          [](const auto& jointType) { return jointType == JointType::PRISMATIC; });
+        this->allJointsAreRevolutes
+            = std::all_of(controlBoardJointTypes.begin(),
+                          controlBoardJointTypes.end(), //
+                          [](const auto& jointType) { return jointType == JointType::REVOLUTE; });
+
         return true;
     }
 
@@ -749,59 +785,6 @@ bool YarpRobotControl::initialize(std::weak_ptr<ParametersHandler::IParametersHa
          && ptr->getParameter("position_direct_max_admissible_error",
                               m_pimpl->positionDirectMaxAdmissibleError)
          && (m_pimpl->positionDirectMaxAdmissibleError > 0);
-
-    // get the names of all the joints available in the attached remote control board remapper
-    log()->error("-------------------------------------------------------------------------------");
-    std::vector<std::string> controlBoardJoints;
-    std::vector<JointType> controlBoardJointTypes;
-    yarp::dev::JointTypeEnum jType;
-    std::string joint;
-    for (int DOF = 0; DOF < m_pimpl->axesName.size(); DOF++)
-    {
-        m_pimpl->axisInfoInterface->getAxisName(DOF, joint);
-        m_pimpl->axisInfoInterface->getJointType(DOF, jType);
-        controlBoardJoints.push_back(joint);
-        if (jType != yarp::dev::VOCAB_JOINTTYPE_REVOLUTE
-            && jType != yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
-        {
-            log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
-                         "supported.",
-                         errorPrefix);
-            return false;
-        }
-
-        if (jType == yarp::dev::VOCAB_JOINTTYPE_REVOLUTE)
-        {
-           log()->error("{} £££££££££££££££££££££££££ Joint type is revolute.", errorPrefix);
-        } else if (jType == yarp::dev::VOCAB_JOINTTYPE_PRISMATIC)
-        {
-            log()->error("{} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Joint type is prismatic.", errorPrefix);
-        }
-        else
-        {
-            log()->error("{} Joint type not supported. Only revolute and prismatic joints are "
-                         "supported.",
-                         errorPrefix);
-            return false;
-        }
-
-        controlBoardJointTypes.push_back(yarp::dev::VOCAB_JOINTTYPE_REVOLUTE == jType
-                                             ? JointType::REVOLUTE
-                                             : JointType::PRISMATIC);
-    }
-
-    log()->error("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-    m_pimpl->jointsTypeList = controlBoardJointTypes;
-
-    m_pimpl->allJointsArePrismatics
-        = std::all_of(controlBoardJointTypes.begin(),
-                      controlBoardJointTypes.end(), //
-                      [](const auto& jointType) { return jointType == JointType::PRISMATIC; });
-    m_pimpl->allJointsAreRevolutes
-        = std::all_of(controlBoardJointTypes.begin(),
-                      controlBoardJointTypes.end(), //
-                      [](const auto& jointType) { return jointType == JointType::REVOLUTE; });
 
     return ok;
 }
