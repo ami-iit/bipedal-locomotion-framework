@@ -58,7 +58,7 @@ inline double saturation(const double x,
                          const double xMax,
                          const double xMin)
 {
-    if (jointVel > jointVelThreshold || jointVel < jointVelThreshold)
+    if (jointVel > jointVelThreshold || jointVel < -jointVelThreshold)
         return x > xMax ? xMax : (x < xMin ? xMin : x);
     else
         return x;
