@@ -61,7 +61,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug]
-        os: [ubuntu-20.04, windows-2019]
+        os: [ubuntu-22.04, ubuntu-24.04, windows-2019]
       fail-fast: false
 
     steps:
