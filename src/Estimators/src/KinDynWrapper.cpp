@@ -18,7 +18,7 @@
 
 using namespace BipedalLocomotion::Estimators::RobotDynamicsEstimator;
 
-bool KinDynWrapper::setModel(const SubModel & model)
+bool KinDynWrapper::setModel(const SubModel& model)
 {
     constexpr auto errorPrefix = "[KinDynWrapper::setModel]";
 
@@ -83,15 +83,17 @@ bool KinDynWrapper::forwardDynamics(Eigen::Ref<const Eigen::VectorXd> motorTorqu
         return false;
     }
 
-    m_FTvBaseDot = m_massMatrix.bottomLeftCorner(this->getNrOfDegreesOfFreedom(), 6) * baseAcceleration.coeffs();
+    m_FTvBaseDot = m_massMatrix.bottomLeftCorner(this->getNrOfDegreesOfFreedom(), 6)
+                   * baseAcceleration.coeffs();
 
     m_totalJointTorques = motorTorqueAfterGearbox - frictionTorques + tauExt
                           - m_generalizedBiasForces.tail(this->getNrOfDegreesOfFreedom())
                           - m_FTvBaseDot;
 
-    jointAcceleration = m_massMatrix.block(6, 6, this->getNrOfDegreesOfFreedom(), this->getNrOfDegreesOfFreedom())
-                            .llt()
-                            .solve(m_totalJointTorques);
+    jointAcceleration
+        = m_massMatrix.block(6, 6, this->getNrOfDegreesOfFreedom(), this->getNrOfDegreesOfFreedom())
+              .llt()
+              .solve(m_totalJointTorques);
 
     m_nuDot.head(6) = baseAcceleration.coeffs();
     m_nuDot.tail(this->getNrOfDegreesOfFreedom()) = jointAcceleration;
@@ -143,7 +145,8 @@ bool KinDynWrapper::forwardDynamics(Eigen::Ref<const Eigen::VectorXd> motorTorqu
 
     m_totalBaseJointTorques.setZero();
 
-    m_totalBaseJointTorques.tail(this->getNrOfDegreesOfFreedom()) = motorTorqueAfterGearbox - frictionTorques;
+    m_totalBaseJointTorques.tail(this->getNrOfDegreesOfFreedom())
+        = motorTorqueAfterGearbox - frictionTorques;
 
     m_totalBaseJointTorques += tauExt - m_generalizedBiasForces;
 

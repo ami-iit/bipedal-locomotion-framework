@@ -48,14 +48,15 @@ class AccelerometerMeasurementDynamics : public Dynamics
                                                         sub-model. */
     Eigen::Vector3d m_gravity; /**< Gravitational acceleration. */
     std::vector<std::size_t> m_subModelsWithAccelerometer; /**< List of indeces saying which
-                                                              sub-model in the m_subDynamics list
-                                                              containa the accelerometer. */
+                                                            sub-model in the m_subDynamics list
+                                                            containa the accelerometer. */
     UKFInput m_ukfInput; /**< Input of the UKF used to update the dynamics. */
     std::string m_name; /**< Name of dynamics. */
+    std::string m_accName; /**< Name of the accelerometer variable in the state vector. */
     System::VariablesHandler m_stateVariableHandler; /**< Variable handler describing the variables
                                                         and the sizes in the ukf state vector. */
     Eigen::VectorXd m_covSingleVar; /**< Covariance of the accelerometer measurement from
-                                       configuration. */
+                                    configuration. */
     manif::SE3d::Tangent m_subModelBaseAcceleration; /**< Base acceleration of the sub-model. */
     manif::SE3d::Tangent m_accelerometerFameVelocity; /** Velocity of the accelerometer given by the forward dynamics. */
     manif::SE3d::Tangent m_accelerometerFameAcceleration; /** Acceleration of the accelerometer given by the forward dynamics. */

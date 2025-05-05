@@ -40,6 +40,7 @@ class GyroscopeMeasurementDynamics : public Dynamics
     std::vector<std::shared_ptr<KinDynWrapper>> m_subModelKinDynList; /**< Vector of
                                                                                  KinDynWrapper
                                                                                  objects. */
+    std::string m_gyroName; /**< Name of the gyroscope variable in the state vector. */
     std::vector<SubModel> m_subModelList; /**< Vector of SubModel objects. */
     std::vector<Eigen::VectorXd> m_subModelJointVel; /**< Updated joint velocities of each
                                                         sub-model. */

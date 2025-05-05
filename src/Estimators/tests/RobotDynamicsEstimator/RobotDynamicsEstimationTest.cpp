@@ -194,7 +194,12 @@ void loadRobotModel(std::weak_ptr<const ParametersHandler::IParametersHandler> h
 
     REQUIRE(kindyn->setFrameVelocityRepresentation(iDynTree::BODY_FIXED_REPRESENTATION));
 
-    subModelCreator.setModelAndSensors(mdlLdr.model(), mdlLdr.sensors());
+    for (int i =0; i < mdlLdr.sensors().getNrOfSensors(iDynTree::SIX_AXIS_FORCE_TORQUE); i++)
+    {
+        log()->debug(mdlLdr.sensors().getSensor(iDynTree::SIX_AXIS_FORCE_TORQUE, i)->getName());
+    }
+
+    subModelCreator.setModelAndSensors(kindyn->model(), mdlLdr.sensors());
     REQUIRE(subModelCreator.setKinDyn(kindyn));
 
     // Split model
@@ -323,10 +328,6 @@ void setInput(Dataset& dataset,
               RobotDynamicsEstimatorInput& input,
               std::unordered_map<std::string, std::vector<SensorProperty>>& sensors)
 {
-    input.basePose =  manif::SE3d::Identity();
-    input.baseVelocity = manif::SE3d::Tangent::Zero();
-    input.baseAcceleration = manif::SE3d::Tangent::Zero();
-
     // Set input
     input.jointPositions = dataset.s.row(sample);
     input.jointVelocities = dataset.ds.row(sample);
@@ -373,6 +374,8 @@ TEST_CASE("RobotDynamicsEstimator Test")
     for (int idx = 0; idx < subModelCreator.getSubModelList().size(); idx++)
     {
         kinDynWrapperList.emplace_back(std::make_shared<KinDynWrapper>());
+        // Check if the sub-model is valid
+        REQUIRE(subModelList[idx].isValid());
         REQUIRE(kinDynWrapperList[idx]->setModel(subModelList[idx]));
     }
 

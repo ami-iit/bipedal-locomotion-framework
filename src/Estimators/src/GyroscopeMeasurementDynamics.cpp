@@ -39,6 +39,12 @@ bool RDE::GyroscopeMeasurementDynamics::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("variable_name", m_gyroName))
+    {
+        log()->error("{} Error while retrieving the variable_name variable.", errorPrefix);
+        return false;
+    }
+
     // Set the bias related variables if use_bias is true
     if (!ptr->getParameter("use_bias", m_useBias))
     {
@@ -83,7 +89,7 @@ bool RDE::GyroscopeMeasurementDynamics::finalize(
     // Search and save all the submodels containing the sensor
     for (int submodelIndex = 0; submodelIndex < m_nrOfSubDynamics; submodelIndex++)
     {
-        if (m_subModelList[submodelIndex].hasGyroscope(m_name))
+        if (m_subModelList[submodelIndex].hasGyroscope(m_gyroName))
         {
             m_subModelWithGyro.push_back(submodelIndex);
         }
@@ -147,7 +153,8 @@ bool RDE::GyroscopeMeasurementDynamics::checkStateVariableHandler()
 
     if (!m_stateVariableHandler.getVariable("JOINT_VELOCITIES").isValid())
     {
-        log()->error("{} The variable handler does not contain the expected state with name `JOINT_VELOCITIES`.",
+        log()->error("{} The variable handler does not contain the expected state with name "
+                     "`JOINT_VELOCITIES`.",
                      errorPrefix);
         return false;
     }
@@ -173,7 +180,7 @@ bool RDE::GyroscopeMeasurementDynamics::update()
     {
         m_accelerometerVelocity = Conversions::toManifTwist(
             m_subModelKinDynList[m_subModelWithGyro[index]]->getFrameVel(
-                m_subModelList[m_subModelWithGyro[index]].getGyroscope(m_name).frameIndex));
+                m_subModelList[m_subModelWithGyro[index]].getGyroscope(m_gyroName).frameIndex));
 
         m_updatedVariable.segment(index * m_covSingleVar.size(), m_covSingleVar.size())
             = m_accelerometerVelocity.ang();
@@ -190,8 +197,9 @@ bool RDE::GyroscopeMeasurementDynamics::update()
 
 void RDE::GyroscopeMeasurementDynamics::setState(const Eigen::Ref<const Eigen::VectorXd> ukfState)
 {
-    m_jointVelocityFullModel = ukfState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
-                                                m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
+    m_jointVelocityFullModel
+        = ukfState.segment(m_stateVariableHandler.getVariable("JOINT_VELOCITIES").offset,
+                           m_stateVariableHandler.getVariable("JOINT_VELOCITIES").size);
 
     for (int smIndex = 0; smIndex < m_subModelList.size(); smIndex++)
     {

@@ -15,6 +15,7 @@
 #include <BipedalLocomotion/RobotDynamicsEstimator/SubModel.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
+#include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <iDynTree/ContactStateMachine.h>
 #include <iDynTree/ExtWrenchesAndJointTorquesEstimator.h>
@@ -96,31 +97,33 @@ public:
     virtual void run() final;
 
 private:
-    // class members
-    std::string m_portPrefix{"/rde"}; /**< Default port prefix. */
+    /// class members
+    BipedalLocomotion::YarpUtilities::VectorsCollectionServer m_vectorsCollectionServer; /**< Logger server. */
     std::string m_robot{"ergocubSim"}; /**< Robot name. Default is ergocubSim. */
-    std::string m_baseLink{"root_link"}; /**< Base link name. Default is root_link. */
-    std::vector<std::string> m_jointNameList{}; /**< Joint name list. */
-    Eigen::VectorXd m_gearboxRatio; /**< Gearbox ratio list. */
-    Eigen::VectorXd m_torqueConstant; /**< Torque constant list. */
-    std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDynComputations object. */
-    std::unique_ptr<BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator>
-        m_estimator; /**< RobotDynamicsEstimator object. */
-    std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge>
-        m_robotSensorBridge; /**<
-                             YarpSensorBridge
-                             object.
-                           */
-    yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>
-        m_loggerPort; /**<
-                         Logger
-                         port.
-                       */
-    std::unordered_map<std::string, Eigen::VectorXd> m_ftOffset; /**<
-                                                                    Map containing the offset for
-                                                                    the force torque sensors.
-                                                                  */
-    bool m_isFirstRun{true}; /**< Flag to check if it is the first run. */
+     std::string m_baseLink; /**< Base link name. Default is root_link. */
+     std::string m_contactFrame; /**< Base link name. Default is root_link. */
+     std::string m_baseIMU; /**< Base IMU name. Default is imu_link. */
+     std::vector<std::string> m_jointNameList{}; /**< Joint name list. */
+     Eigen::VectorXd m_gearboxRatio; /**< Gearbox ratio list. */
+     Eigen::VectorXd m_torqueConstant; /**< Torque constant list. */
+     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< KinDynComputations object. */
+     std::unique_ptr<BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimator>
+         m_estimator; /**< RobotDynamicsEstimator object. */
+     std::unique_ptr<BipedalLocomotion::RobotInterface::YarpSensorBridge>
+         m_robotSensorBridge; /**<
+                              YarpSensorBridge
+                              object.
+                            */
+     yarp::os::BufferedPort<BipedalLocomotion::YarpUtilities::VectorsCollection>
+         m_loggerPort; /**<
+                          Logger
+                          port.
+                        */
+     std::unordered_map<std::string, Eigen::VectorXd> m_ftOffset; /**<
+                                                                     Map containing the offset for
+                                                                     the force torque sensors.
+                                                                   */
+     bool m_isFirstRun{true}; /**< Flag to check if it is the first run. */
     iDynTree::ExtWrenchesAndJointTorquesEstimator
         m_iDynEstimator; /**<
                            iDynTree
@@ -151,6 +154,11 @@ private:
     } m_remappedVirtualAnalogSensorsInterfaces; /**< Remapped virtual analog sensor interfaces. */
     yarp::sig::Vector m_estimatedJointTorquesYARP; /**< Estimated joint torques in YARP format. */
     Eigen::Vector3d m_temp3DMeasurement; /**< Temporary 3D measurement. */
+    const std::vector<std::string> ftElementNames = {"f_x", "f_y", "f_z", "mu_x", "mu_y", "mu_z"};
+    const std::string gyrosName = "gyros";
+    const std::vector<std::string> gyroElementNames = {"omega_x", "omega_y", "omega_z"};
+    const std::string accelerometersName = "accelerometers";
+    const std::vector<std::string> accelerometerElementNames = {"a_x", "a_y", "a_z"};
 
     // class methods
     /**
@@ -186,18 +194,18 @@ private:
         std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
 
     /**
+      * Setup the vectors collection server.
+      * @return true/false on success/failure.
+      */
+     bool configureVectorsCollectionServer();
+
+    /**
      * Setup the robot sensor bridge.
      * @param paramHandler is a pointer to the parameter handler.
      * @return true/false on success/failure.
      */
     bool
     setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler);
-
-    /**
-     * Open the communication ports.
-     * @return true/false on success/failure.
-     */
-    bool openCommunications();
 
     /**
      * Update the measurements used by the estimator.

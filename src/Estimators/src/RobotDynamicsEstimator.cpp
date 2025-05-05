@@ -34,11 +34,11 @@ struct RobotDynamicsEstimator::Impl
                                                                         correction phase of the
                                                                         estimation. */
 
-    std::map<std::string, std::string> inputNameToUkfState; /**< Map used to retrieve the state name
-                                                               from the input name. */
-    std::map<std::string, std::vector<std::string>> inputNameToUkfMeasurement; /**< Map used to
-                                                                     retrieve the measurement name
-                                                                     from the input name. */
+    std::map<std::pair<std::string, std::string>, std::string> variableNameToUkfState; /**< Map used to retrieve the state name
+                                                                                        from the input name. */
+    std::map<std::pair<std::string, std::string>, std::vector<std::string>> variableNameToUkfMeasurement; /**< Map used to
+                                                                                            retrieve the measurement name
+                                                                                            from the input name. */
 
     bfl::Gaussian predictedState; /**< Predicted state computed by the `predict` method. */
     bfl::Gaussian correctedState; /**< Corrected state computed by the `correct` method. */
@@ -143,9 +143,6 @@ bool RobotDynamicsEstimator::finalize(const System::VariablesHandler& stateVaria
     m_pimpl->correctedState.covariance() = m_pimpl->initialStateCovariance;
 
     // Set the provider initial state
-    m_pimpl->ukfInput.robotBasePose.setIdentity();
-    m_pimpl->ukfInput.robotBaseVelocity.setZero();
-    m_pimpl->ukfInput.robotBaseAcceleration.setZero();
     m_pimpl->ukfInput.robotJointPositions.resize(kinDynFullModel->model().getNrOfDOFs());
     m_pimpl->ukfInput.robotJointAccelerations.resize(kinDynFullModel->model().getNrOfDOFs());
     m_pimpl->inputProvider->setInput(m_pimpl->ukfInput);
@@ -250,13 +247,20 @@ RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParameters
             log()->error("{} Unable to find the group '{}'.", logPrefix, dynamicsName);
             return nullptr;
         }
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
-            log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
+            log()->error("{} Unable to find the parameter 'variable_name'.", logPrefix);
             return nullptr;
         }
-        estimator->m_pimpl->inputNameToUkfState[inputName] = dynamicsName;
+        std::string sensorType;
+        if (!dynamicsGroup->getParameter("sensor_type", sensorType))
+        {
+            sensorType = "none";
+        }
+
+        std::pair<std::string, std::string> key = std::make_pair(variableName, sensorType);
+        estimator->m_pimpl->variableNameToUkfState[key] = dynamicsName;
     }
 
     // Step 3
@@ -279,7 +283,7 @@ RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParameters
                                                                  kinDynWrapperList);
 
     estimator->m_pimpl->measurementModel->setStateNameMapping(
-        estimator->m_pimpl->inputNameToUkfState);
+        estimator->m_pimpl->variableNameToUkfState);
 
     if (estimator->m_pimpl->measurementModel == nullptr)
     {
@@ -318,13 +322,30 @@ RobotDynamicsEstimator::build(std::weak_ptr<const ParametersHandler::IParameters
             log()->error("{} Unable to find the group '{}'.", logPrefix, dynamicsName);
             return nullptr;
         }
-        std::string inputName;
-        if (!dynamicsGroup->getParameter("input_name", inputName))
+        std::string variableName;
+        if (!dynamicsGroup->getParameter("variable_name", variableName))
         {
-            log()->error("{} Unable to find the parameter 'covariance'.", logPrefix);
+            log()->error("{} Unable to find the parameter 'variable_name'.", logPrefix);
             return nullptr;
         }
-        estimator->m_pimpl->inputNameToUkfMeasurement[inputName].push_back(dynamicsName);
+        std::string sensorType;
+        if (!dynamicsGroup->getParameter("sensor_type", sensorType))
+        {
+            sensorType = "none";
+        }
+
+        std::pair<std::string, std::string> key = std::make_pair(variableName, sensorType);
+        estimator->m_pimpl->variableNameToUkfMeasurement[key].push_back(dynamicsName);
+
+        // print the map[key] size and values
+        log()->info("{} key: {}, size: {}",
+                    logPrefix,
+                    key.first,
+                    estimator->m_pimpl->variableNameToUkfMeasurement[key].size());
+        for (auto const& value : estimator->m_pimpl->variableNameToUkfMeasurement[key])
+        {
+            log()->info("{} key: {}, value: {}", logPrefix, key.first, value);
+        }
     }
 
     // Finalize the estimator
@@ -388,7 +409,8 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.ftWrenches)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "ft"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -400,12 +422,17 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        } else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
         }
     }
 
     for (auto const& [key, val] : initialState.ftWrenchesBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "ft"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -417,12 +444,16 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        } else
+        {
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
     for (auto const& [key, val] : initialState.gyroscopeBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -434,12 +465,16 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        } else
+        {
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
     for (auto const& [key, val] : initialState.accelerometerBiases)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -451,12 +486,16 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        } else
+        {
+            log()->debug("{} Variable `{}` not found.", logPrefix, key);
         }
     }
 
     for (auto const& [key, val] : initialState.contactWrenches)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -468,12 +507,17 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
                 return false;
             }
             m_pimpl->correctedState.mean().segment(variable.offset, variable.size) = val;
+        } else
+        {
+            log()->error("{} Variable `{}` not found.", logPrefix, key);
+            return false;
         }
     }
 
     for (auto const& [key, val] : initialState.linearAccelerations)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler
+                .getVariable(m_pimpl->variableNameToUkfState[{key, "accelerometer"}], variable))
         {
             if (val.size() != variable.size)
             {
@@ -490,7 +534,8 @@ bool RobotDynamicsEstimator::setInitialState(const RobotDynamicsEstimatorOutput&
 
     for (auto const& [key, val] : initialState.angularVelocities)
     {
-        if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key], variable))
+        if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "gyroscope"}],
+                                              variable))
         {
             if (val.size() != variable.size)
             {
@@ -565,9 +610,6 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
     constexpr auto logPrefix = "[RobotDynamicsEstimator::setInput]";
 
     // Set the input provider state
-    m_pimpl->ukfInput.robotBasePose = input.basePose;
-    m_pimpl->ukfInput.robotBaseVelocity = input.baseVelocity;
-    m_pimpl->ukfInput.robotBaseAcceleration = input.baseAcceleration;
     m_pimpl->ukfInput.robotJointPositions = input.jointPositions;
     m_pimpl->ukfInput.robotJointAccelerations.setZero();
 
@@ -581,25 +623,39 @@ bool RobotDynamicsEstimator::setInput(const RobotDynamicsEstimatorInput& input)
     // for the freeze method of the UkfCorrection
     m_pimpl->ukfMeasurementFromSensors["JOINT_VELOCITIES"] = input.jointVelocities;
     m_pimpl->ukfMeasurementFromSensors["MOTOR_CURRENTS"] = input.motorCurrents;
+
     for (const auto& [key, value] : input.ftWrenches)
     {
-        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        for (int index = 0; index < m_pimpl->variableNameToUkfMeasurement[{key, "ft"}].size();
+             index++)
         {
-            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->variableNameToUkfMeasurement[{key, "ft"}]
+                                                                                    [index]]
+                = value;
         }
     }
+
     for (auto& [key, value] : input.linearAccelerations)
     {
-        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        for (int index = 0;
+             index < m_pimpl->variableNameToUkfMeasurement[{key, "accelerometer"}].size();
+             index++)
         {
-            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+            m_pimpl->ukfMeasurementFromSensors[m_pimpl->variableNameToUkfMeasurement[{key,
+                                                                                    "accelerometer"}][index]]
+                = value;
         }
     }
+
     for (auto& [key, value] : input.angularVelocities)
     {
-        for (int index = 0; index < m_pimpl->inputNameToUkfMeasurement[key].size(); index++)
+        for (int index = 0;
+             index < m_pimpl->variableNameToUkfMeasurement[{key, "gyroscope"}].size();
+             index++)
         {
-            m_pimpl->ukfMeasurementFromSensors[m_pimpl->inputNameToUkfMeasurement[key][index]] = value;
+            m_pimpl->ukfMeasurementFromSensors
+                [m_pimpl->variableNameToUkfMeasurement[{key, "gyroscope"}][index]]
+                = value;
         }
     }
     m_pimpl->ukfMeasurementFromSensors["FRICTION_TORQUES"] = input.frictionTorques;
@@ -630,99 +686,145 @@ const RobotDynamicsEstimatorOutput& RobotDynamicsEstimator::getOutput() const
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.ftWrenches)
         {
-            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "ft"}]).size
+                > 0)
             {
                 m_pimpl->estimatorOutput.ftWrenches[key]
                     = m_pimpl->correctedState.mean()
                           .segment(m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "ft"}])
                                        .offset,
                                    m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "ft"}])
                                        .size);
             } else
             {
-                log()->debug("{} Variable {} not found in the state vector.", logPrefix, key);
+                log()->debug("{} Variable {} associated to key {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->variableNameToUkfState[{key, "none"}],
+                             key);
             }
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.ftWrenchesBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}]).size
+                > 0)
             {
                 m_pimpl->estimatorOutput.ftWrenchesBiases[key]
                     = m_pimpl->correctedState.mean()
                           .segment(m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .offset,
                                    m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
+                                       .size);
+            }
+        }
+
+        for (auto& [key, value] : m_pimpl->estimatorOutput.linearAccelerations)
+        {
+            if (m_pimpl->stateHandler
+                    .getVariable(m_pimpl->variableNameToUkfState[{key, "accelerometer"}])
+                    .size
+                > 0)
+            {
+                m_pimpl->estimatorOutput.linearAccelerations[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(
+                                           m_pimpl->variableNameToUkfState[{key, "accelerometer"}])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(
+                                           m_pimpl->variableNameToUkfState[{key, "accelerometer"}])
                                        .size);
             } else
             {
-                log()->debug("{} Variable {} not found in the state vector.",
+                log()->debug("{} Variable {} associated to key {} not found in the state vector.",
                              logPrefix,
-                             m_pimpl->inputNameToUkfState[key]);
+                             m_pimpl->variableNameToUkfState[{key, "none"}],
+                             key);
+            }
+        }
+
+        for (auto& [key, value] : m_pimpl->estimatorOutput.angularVelocities)
+        {
+            if (m_pimpl->stateHandler
+                    .getVariable(m_pimpl->variableNameToUkfState[{key, "gyroscope"}])
+                    .size
+                > 0)
+            {
+                m_pimpl->estimatorOutput.angularVelocities[key]
+                    = m_pimpl->correctedState.mean()
+                          .segment(m_pimpl->stateHandler
+                                       .getVariable(
+                                           m_pimpl->variableNameToUkfState[{key, "gyroscope"}])
+                                       .offset,
+                                   m_pimpl->stateHandler
+                                       .getVariable(
+                                           m_pimpl->variableNameToUkfState[{key, "gyroscope"}])
+                                       .size);
+            } else
+            {
+                log()->debug("{} Variable {} associated to key {} not found in the state vector.",
+                             logPrefix,
+                             m_pimpl->variableNameToUkfState[{key, "none"}],
+                             key);
             }
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.accelerometerBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}]).size
+                > 0)
             {
                 m_pimpl->estimatorOutput.accelerometerBiases[key]
                     = m_pimpl->correctedState.mean()
                           .segment(m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .offset,
                                    m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .size);
-            } else
-            {
-                log()->debug("{} Variable {} not found in the state vector.",
-                             logPrefix,
-                             m_pimpl->inputNameToUkfState[key]);
             }
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.gyroscopeBiases)
         {
-            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}]).size
+                > 0)
             {
                 m_pimpl->estimatorOutput.gyroscopeBiases[key]
                     = m_pimpl->correctedState.mean()
                           .segment(m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .offset,
                                    m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .size);
-            } else
-            {
-                log()->debug("{} Variable {} not found in the state vector.",
-                             logPrefix,
-                             m_pimpl->inputNameToUkfState[key]);
             }
         }
 
         for (auto& [key, value] : m_pimpl->estimatorOutput.contactWrenches)
         {
-            if (m_pimpl->stateHandler.getVariable(m_pimpl->inputNameToUkfState[key]).size > 0)
+            if (m_pimpl->stateHandler.getVariable(m_pimpl->variableNameToUkfState[{key, "none"}]).size
+                > 0)
             {
                 m_pimpl->estimatorOutput.contactWrenches[key]
                     = m_pimpl->correctedState.mean()
                           .segment(m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .offset,
                                    m_pimpl->stateHandler
-                                       .getVariable(m_pimpl->inputNameToUkfState[key])
+                                       .getVariable(m_pimpl->variableNameToUkfState[{key, "none"}])
                                        .size);
             } else
             {
-                log()->debug("{} Variable {} not found in the state vector.",
+                log()->debug("{} Variable {} associated to key {} not found in the state vector.",
                              logPrefix,
-                             m_pimpl->inputNameToUkfState[key]);
+                             m_pimpl->variableNameToUkfState[{key, "none"}],
+                             key);
             }
         }
     }
