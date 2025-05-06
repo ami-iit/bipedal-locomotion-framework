@@ -10,11 +10,11 @@
 
 namespace BipedalLocomotion::RobotInterface
 {
-    enum class JointType
-    {
-        REVOLUTE, /**< Revolute joint */
-        PRISMATIC /**< Prismatic joint */
-    };
+enum class JointType
+{
+    REVOLUTE, /**< Revolute joint */
+    PRISMATIC /**< Prismatic joint */
+};
 }
 
 #endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_JOINT_TYPES_H
