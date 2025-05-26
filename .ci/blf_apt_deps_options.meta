@@ -13,7 +13,7 @@
             "cmake-args": [
                 "-DWITH_IPOPT=BOOL:ON",
                 "-DWITH_OSQP:BOOL=ON",
-                "-DUSE_SYSTEM_WISE_OSQP=BOOL:ON"
+                "-DWITH_BUILD_OSQP=OFF"
             ],
             "dependencies": [
                 "osqp"
@@ -28,8 +28,9 @@
         "manif":
         {
             "cmake-args": [
-                "-DBUILD_PYTHON_BINDINGS:BOOL=ON"
+                "-DBUILD_PYTHON_BINDINGS:BOOL=ON",
+                "-DMANIFPY_PKGDIR=${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages"
             ]
-        },
+        }
     }
 }
