@@ -5,7 +5,8 @@
 repositories:
   cppad:
     type: git
-    url: https://github.com/coin-or/CppAD.git         # no tag in CI, use default branch
+    url: https://github.com/coin-or/CppAD.git
+    version: 20250000.2
   tomlplusplus:
     type: git
     url: https://github.com/marzer/tomlplusplus.git
@@ -54,7 +55,6 @@ repositories:
     type: git
     url: https://github.com/robotology/icub-models.git
     version: v2.4.0
-
   robometry:
     type: git
     url: https://github.com/robotology/robometry.git
