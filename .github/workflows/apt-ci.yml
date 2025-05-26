@@ -1,0 +1,181 @@
+name: apt C++ CI Workflow
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+  schedule:
+  # * is a special character in YAML so you have to quote this string
+  # Execute a "nightly" build at 2 AM UTC
+  - cron:  '0 2 * * *'
+
+env:
+  vcpkg_robotology_TAG: v0.11.0
+  YCM_TAG: v0.15.3
+  YARP_TAG: v3.10.1
+  iDynTree_TAG: v12.3.3
+  CasADi_TAG: 3.5.5.2
+  manif_TAG: 0.0.5
+  matioCpp_TAG: v0.2.5
+  LieGroupControllers_TAG: v0.2.0
+  osqp_TAG: v0.6.3
+  OsqpEigen_TAG: v0.7.0
+  tomlplusplus_TAG: v3.0.1
+  icub_models_TAG: v2.4.0
+  UnicyclePlanner_TAG: v0.7.0
+  telemetry_TAG: v1.2.0
+  bayes_filters_TAG: 53124b1d85fc00c8cd44d572a1e482d7e58c0f50
+
+  # Default number of cores set to one
+  NUM_CORES_FOR_CMAKE_BUILD: 1
+
+  # Compatibility with CMake 4.0.0 for older projects
+  CMAKE_POLICY_VERSION_MINIMUM: 3.5
+
+jobs:
+  check-style:
+    name: Find Trailing Whitespace
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find Trailing Whitespace
+        run: |
+          set +e
+          lines=$(git grep --cached -In '[[:blank:]]$')
+          if [ ! -z "$lines" ]; then
+             echo -e "\n The following lines contain trailing whitespace: \n"
+             echo -e "${lines}"
+             echo -e "\nFailed.\n"
+             exit 1
+          fi
+          exit 0
+
+  build:
+    needs: check-style
+    name: '[${{ matrix.os }}@${{ matrix.build_type }}]'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build_type: [Release, Debug]
+        os: [ubuntu-24-04, ubuntu-24.04-arm]
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Print environment variables to simplify development and debugging
+    - name: Environment Variables
+      shell: bash
+      run: env
+
+    # ============
+    # DEPENDENCIES
+    # ============
+
+
+    - name: apt Dependencies [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get update
+        sudo apt-get install git build-essential cmake libace-dev coinor-libipopt-dev \
+                             libboost-system-dev libboost-filesystem-dev libboost-thread-dev \
+                             libeigen3-dev swig qtbase5-dev qtdeclarative5-dev \
+                             qtmultimedia5-dev libxml2-dev liburdfdom-dev libtinyxml-dev \
+                             liburdfdom-dev python3-dev valgrind coinor-libipopt-dev \
+                             libmatio-dev python3-pytest python3-numpy python3-scipy \
+                             python3-setuptools  libspdlog-dev libopencv-dev libpcl-dev \
+                             python3-pybind11 nlohmann-json3-dev libassimp-dev libqhull-dev \
+                             python3-colcon-common-extensions vcstool
+
+
+    - name: Get number of cores to speed up cmake build and test to suppress [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+           echo "NUM_CORES_FOR_CMAKE_BUILD=`nproc --all`" >> $GITHUB_ENV
+           echo "BLF_TEST_TO_SKIP=" >> $env:GITHUB_ENV
+
+    - name: Cache Source-based Dependencies
+      id: cache-source-deps
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/install/deps/install
+        key: source-deps-${{ runner.os }}-os-${{ matrix.os }}-build-type-${{ matrix.build_type }}-${{ hashFiles('.ci/blf_apt_deps.yaml', '.ci/blf_apt_deps_options.meta') }}
+
+    - name: Source-based Dependencies [Ubuntu]
+      if: steps.cache-source-deps.outputs.cache-hit != 'true' && startsWith(matrix.os, 'ubuntu')
+      shell: bash
+      run: |
+        echo "Installing source-based dependencies"
+        mkdir -p install/deps
+        cd install/deps
+        mkdir src
+        cd src
+        # Clone dependencies
+        vcs import < $GITHUB_WORKSPACE/.ci/blf_apt_deps.yaml --recursive
+        # Build dependencies
+        cd ..
+        colcon build --merge-install --metas ../../.ci/blf_apt_deps_options.meta
+
+    - name: Check Python setup
+      shell: bash
+      run: |
+        echo "Default interpreter: $(which python)"
+        python3 -c 'import sys; print(sys.prefix)'
+
+    - name: Extend the pythonpath and LD_LIBRARY_PATH [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        echo "PYTHONPATH=${GITHUB_WORKSPACE}/install/deps/install/lib/python3/dist-packages" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${GITHUB_WORKSPACE}/install/deps/install/lib" >> $GITHUB_ENV
+
+    # ===================
+    # CMAKE-BASED PROJECT
+    # ===================
+
+    - name: Configure [Ubuntu]
+      if: startsWith(matrix.os, 'ubuntu')
+      shell: bash
+      run: |
+        mkdir -p build
+        cd build
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install/deps/install \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install \
+              -DBUILD_TESTING:BOOL=ON \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+              -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON \
+              -DPython3_ROOT_DIR=$(python -c "import sys; print(sys.prefix)") -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON \
+              -DENABLE_YarpRobotLoggerDevice:BOOL=ON \
+              -DFRAMEWORK_RUN_Valgrind_tests:BOOL=ON ..
+
+    - name: Check build if some dependencies are not enabled [Ubuntu]
+      if: github.event_name != 'push' && github.event_name != 'release' && matrix.os == 'ubuntu-20.04'
+      shell: bash
+      run: |
+        cd build
+        # We disable Python3 before hand, as the Python bindings are one big library, the bindings big library
+        # needs to be recompiled every time a dependency is enabled and disabled, so this check would take a long
+        # time if we do not disable Python bindings before the check
+        cmake -DFRAMEWORK_USE_Python3:BOOL=OFF -DFRAMEWORK_USE_pybind11:BOOL=OFF -DFRAMEWORK_USE_pytest:BOOL=OFF .
+        for missing_dep in YARP Qhull casadi cppad manif matioCpp LieGroupControllers nlohmann_json UnicyclePlanner icub-models BayesFilters; do
+            echo "Testing ${missing_dep} as missing dependency."
+            # Deselect missing dependencies and build
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=OFF .
+            cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+            # Enable again dependency
+            cmake -DFRAMEWORK_USE_${missing_dep}:BOOL=ON .
+        done
+        # Re-enabled Python bindings now
+        cmake -DFRAMEWORK_USE_Python3:BOOL=ON -DFRAMEWORK_USE_pybind11:BOOL=ON -DFRAMEWORK_USE_pytest:BOOL=ON .
+
+    - name: Build
+      shell: bash
+      run: |
+        cd build
+        cmake --build . --config ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}}
+
+    - name: Test
+      shell: bash
+      run: |
+        cd build
+        ctest -E "${BLF_TEST_TO_SKIP}" --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
