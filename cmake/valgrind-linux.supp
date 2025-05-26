@@ -433,3 +433,87 @@
    fun:_dl_catch_error
    fun:_dlerror_run
 }
+
+{
+   <ubuntu-24-04-apt-packages-glx>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libGLdispatch.so.0.0.0
+   fun:__glDispatchInit
+   obj:/usr/lib/x86_64-linux-gnu/libGLX.so.0.0.0
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+}
+
+{
+   <ubuntu-24-04-apt-packages-yarp-thread>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.34
+   fun:_ZNSt6thread15_M_start_threadESt10unique_ptrINS_6_StateESt14default_deleteIS1_EEPFvvE
+   fun:_ZN4yarp2os4impl10ThreadImpl5startEv
+   fun:_ZN17FakeMotionControl4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver4openERNS_2os10SearchableE
+   fun:_ZN4yarp14robotinterface6Device4openEv
+   fun:_ZN4yarp14robotinterface5Robot7Private11openDevicesEv
+   fun:_ZN4yarp14robotinterface5Robot10enterPhaseENS0_11ActionPhaseE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+}
+
+{
+   <ubuntu-24-04-apt-packages-yarp-thread2>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.34
+   fun:_ZNSt6thread15_M_start_threadESt10unique_ptrINS_6_StateESt14default_deleteIS1_EEPFvvE
+   fun:_ZN4yarp2os4impl10ThreadImpl5startEv
+   fun:_ZN7FakeIMU4openERN4yarp2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver8coreOpenERNS_2os10SearchableE
+   fun:_ZN4yarp3dev10PolyDriver4openERNS_2os10SearchableE
+   fun:_ZN4yarp14robotinterface6Device4openEv
+   fun:_ZN4yarp14robotinterface5Robot7Private11openDevicesEv
+   fun:_ZN4yarp14robotinterface5Robot10enterPhaseENS0_11ActionPhaseE
+   fun:_ZL22CATCH2_INTERNAL_TEST_0v
+}
+
+{
+   <ubuntu-24-04-apt-packages-dlopen>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:malloc
+   fun:_dlfo_mappings_segment_allocate
+   fun:_dl_find_object_update_1
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
