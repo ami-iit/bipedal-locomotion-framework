@@ -24,7 +24,7 @@ add_bipedal_test(NAME ConstantMeasurementModel
                 Eigen3::Eigen)
 
 # Get the urdf model of the robot
-set(ERGOCUB_MODEL_EXPECTED_MD5 7d24f42cb415e660abc4bbc8a52d355f)
+set(ERGOCUB_MODEL_EXPECTED_MD5 25b880cec7cbb48f4f67033c6b24e5f2)
 if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/model.urdf")
   file(MD5 "${CMAKE_CURRENT_BINARY_DIR}/model.urdf" ERGOCUB_MODEL_CHECKSUM_VARIABLE)
   string(COMPARE EQUAL ${ERGOCUB_MODEL_CHECKSUM_VARIABLE} ${ERGOCUB_MODEL_EXPECTED_MD5} ERGOCUB_MODEL_UPDATED)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT ${ERGOCUB_MODEL_UPDATED})
   message(STATUS "Fetching ergoCubSN001 model from icub-tech-iit/ergocub-software...")
-  file(DOWNLOAD https://raw.githubusercontent.com/icub-tech-iit/ergocub-software/f28733afcbbfcc99cbac13be530a6a072f832746/urdf/ergoCub/robots/ergoCubSN001/model.urdf
+  file(DOWNLOAD https://raw.githubusercontent.com/icub-tech-iit/ergocub-software/v0.7.8/urdf/ergoCub/robots/ergoCubSN001/model.urdf
     ${CMAKE_CURRENT_BINARY_DIR}/model.urdf
     EXPECTED_MD5 ${ERGOCUB_MODEL_EXPECTED_MD5})
 endif()
