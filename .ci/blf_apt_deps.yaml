@@ -1,0 +1,65 @@
+# blf_apt_deps.yaml  – repositories needed by the Bipedal-Locomotion-Framework
+# import them with:  vcs import < blf_apt_deps.yaml
+# Note that for consistency with colcon, the keys of the repos are their CMake name
+# (i.e. the one passed to `find_package`), not the repository name.
+repositories:
+  cppad:
+    type: git
+    url: https://github.com/coin-or/CppAD.git         # no tag in CI, use default branch
+  tomlplusplus:
+    type: git
+    url: https://github.com/marzer/tomlplusplus.git
+    version: v3.0.1
+  ycm:
+    type: git
+    url: https://github.com/robotology/ycm.git
+    version: v0.18.2
+  yarp:
+    type: git
+    url: https://github.com/robotology/yarp.git
+    version: v3.10.1
+  idyntree:
+    type: git
+    url: https://github.com/robotology/iDynTree.git
+    version: v12.3.3
+  osqp:
+    type: git
+    url: https://github.com/oxfordcontrol/osqp.git
+    version: v0.6.3
+  OsqpEigen:
+    type: git
+    url: https://github.com/robotology/osqp-eigen.git
+    version: v0.7.0
+  casadi:
+    type: git
+    url: https://github.com/casadi/casadi.git
+    version: 3.6.7
+  manif:
+    type: git
+    url: https://github.com/artivis/manif.git
+    version: 0.0.5
+  matio-cpp:
+    type: git
+    url: https://github.com/ami-iit/matio-cpp.git
+    version: v0.2.5
+  lie-group-controllers:
+    type: git
+    url: https://github.com/ami-iit/lie-group-controllers.git
+    version: v0.2.0
+  unicycle-footstep-planner:
+    type: git
+    url: https://github.com/robotology/unicycle-footstep-planner.git
+    version: v0.8.1
+  icub-models:
+    type: git
+    url: https://github.com/robotology/icub-models.git
+    version: v2.4.0
+
+  robometry:
+    type: git
+    url: https://github.com/robotology/robometry.git
+    version: v1.2.6
+  bayes-filters-lib:
+    type: git
+    url: https://github.com/robotology/bayes-filters-lib.git
+    version: 53124b1d85fc00c8cd44d572a1e482d7e58c0f50   # locked commit

@@ -92,7 +92,10 @@ TEST_CASE("MemoryAllocationMonitor test")
         }
         MemoryAllocationMonitor::endMonitor();
         REQUIRE(!MemoryAllocationMonitor::checkNoMemoryAllocationInLastMonitor());
-        REQUIRE(MemoryAllocationMonitor::getNumberOfDynamicMemoryOperationsInLastMonitor() == 2);
+        // Depending on the environment this allocation can be either 2 or 3, according to our experiments
+        REQUIRE(MemoryAllocationMonitor::getNumberOfDynamicMemoryOperationsInLastMonitor() >= 2);
+        REQUIRE(MemoryAllocationMonitor::getNumberOfDynamicMemoryOperationsInLastMonitor() <= 3);
+
     }
 
 }
