@@ -32,7 +32,6 @@
 #include <yarp/dev/MultipleAnalogSensorsInterfaces.h>
 
 // YARP Camera Interfaces
-#include <yarp/dev/FrameGrabberInterfaces.h>
 #include <yarp/dev/IRGBDSensor.h>
 
 // YARP Control Board Interfaces

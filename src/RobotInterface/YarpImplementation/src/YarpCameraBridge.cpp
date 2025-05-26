@@ -12,7 +12,7 @@
 
 // YARP Camera Interfaces
 #include <yarp/cv/Cv.h>
-#include <yarp/dev/FrameGrabberInterfaces.h>
+#include <yarp/dev/IFrameGrabberImage.h>
 #include <yarp/dev/IRGBDSensor.h>
 
 // std
