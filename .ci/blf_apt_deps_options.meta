@@ -31,6 +31,14 @@
                 "-DBUILD_PYTHON_BINDINGS:BOOL=ON",
                 "-DMANIFPY_PKGDIR=lib/python3/dist-packages"
             ]
-        }
+        },
+        "iDynTree":
+        {
+            "cmake-args": [
+                "-DIDYNTREE_PYTHON_INSTALL_DIR=lib/python3/dist-packages",
+                "-DIDYNTREE_USES_PYTHON:BOOL=ON",
+                "-DIDYNTREE_USES_ASSIMP:BOOL=ON"
+            ]
+        },
     }
 }
