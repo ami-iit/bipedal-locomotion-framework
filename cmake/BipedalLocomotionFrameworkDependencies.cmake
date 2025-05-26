@@ -165,14 +165,6 @@ framework_dependent_option(FRAMEWORK_COMPILE_Contact
   "Compile Contact libraries?" ON
   "FRAMEWORK_USE_manif;FRAMEWORK_USE_nlohmann_json" OFF)
 
-framework_dependent_option(FRAMEWORK_COMPILE_Planners
-  "Compile Planners libraries?" ON
-  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_Contact" OFF)
-
-framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
-  "Compile ContactModels library?" ON
-  "" OFF)
-
 framework_dependent_option(FRAMEWORK_COMPILE_System
   "Compile System library?" ON
   "" OFF)
@@ -180,6 +172,14 @@ framework_dependent_option(FRAMEWORK_COMPILE_System
 framework_dependent_option(FRAMEWORK_COMPILE_Math
   "Compile Math library?" ON
   "FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_System" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_Planners
+  "Compile Planners libraries?" ON
+  "FRAMEWORK_USE_Qhull;FRAMEWORK_USE_casadi;FRAMEWORK_USE_manif;FRAMEWORK_COMPILE_Math;FRAMEWORK_COMPILE_Contact" OFF)
+
+framework_dependent_option(FRAMEWORK_COMPILE_ContactModels
+  "Compile ContactModels library?" ON
+  "" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_Unicycle
     "Compile the Unicycle Planner library?" ON
