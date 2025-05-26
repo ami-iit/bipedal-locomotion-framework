@@ -48,7 +48,7 @@ function(add_bipedal_test)
 
     if(BUILD_TESTING)
 
-      set(options )
+      set(options DISABLE_VALGRIND_TEST)
       set(oneValueArgs NAME)
       set(multiValueArgs SOURCES LINKS)
 
@@ -88,7 +88,7 @@ function(add_bipedal_test)
         endif()
       endif()
 
-      if(FRAMEWORK_RUN_Valgrind_tests)
+      if(FRAMEWORK_RUN_Valgrind_tests AND NOT ${${prefix}_DISABLE_VALGRIND_TEST})
         add_test(NAME memcheck_${targetname} COMMAND ${MEMCHECK_COMMAND_COMPLETE} $<TARGET_FILE:${targetname}>)
 
         if(FRAMEWORK_RUN_MemoryAllocationMonitor_tests)
