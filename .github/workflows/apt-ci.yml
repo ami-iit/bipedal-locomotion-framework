@@ -86,7 +86,7 @@ jobs:
                              libmatio-dev python3-pytest python3-numpy python3-scipy \
                              python3-setuptools  libspdlog-dev libopencv-dev libpcl-dev \
                              python3-pybind11 nlohmann-json3-dev libassimp-dev libqhull-dev \
-                             python3-colcon-common-extensions vcstool
+                             colcon python3-colcon-cmake  python3-colcon-metadata python3-colcon-output python3-colcon-package-information python3-colcon-package-selection vcstool
 
 
     - name: Get number of cores to speed up cmake build and test to suppress [Ubuntu]
