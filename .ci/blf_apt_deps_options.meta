@@ -23,6 +23,7 @@
         {
             "cmake-args": [
                 "-DICUB_MODELS_USES_PYTHON:BOOL=ON",
+                "-DICUB_MODELS_PYTHON_INSTALL_DIR=lib/python3/dist-packages"
             ]
         },
         "manif":
