@@ -413,3 +413,23 @@
    fun:_ZN5Catch7Session3runEv
    fun:_ZN5Catch7Session3runIcEEiiPKPKT_
 }
+
+{
+   <ubuntu-24-04-apt-packages-yarp>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:malloc
+   fun:_dl_resize_dtv
+   fun:_dl_update_slotinfo
+   fun:update_tls_slotinfo
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+}

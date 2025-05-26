@@ -29,7 +29,7 @@
         {
             "cmake-args": [
                 "-DBUILD_PYTHON_BINDINGS:BOOL=ON",
-                "-DMANIFPY_PKGDIR=${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages"
+                "-DMANIFPY_PKGDIR=lib/python3/dist-packages"
             ]
         }
     }

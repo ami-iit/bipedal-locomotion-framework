@@ -11,22 +11,6 @@ on:
   - cron:  '0 2 * * *'
 
 env:
-  vcpkg_robotology_TAG: v0.11.0
-  YCM_TAG: v0.15.3
-  YARP_TAG: v3.10.1
-  iDynTree_TAG: v12.3.3
-  CasADi_TAG: 3.5.5.2
-  manif_TAG: 0.0.5
-  matioCpp_TAG: v0.2.5
-  LieGroupControllers_TAG: v0.2.0
-  osqp_TAG: v0.6.3
-  OsqpEigen_TAG: v0.7.0
-  tomlplusplus_TAG: v3.0.1
-  icub_models_TAG: v2.4.0
-  UnicyclePlanner_TAG: v0.7.0
-  telemetry_TAG: v1.2.0
-  bayes_filters_TAG: 53124b1d85fc00c8cd44d572a1e482d7e58c0f50
-
   # Default number of cores set to one
   NUM_CORES_FOR_CMAKE_BUILD: 1
 
