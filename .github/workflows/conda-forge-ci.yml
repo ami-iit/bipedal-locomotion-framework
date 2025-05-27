@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release]
-        os: [ubuntu-latest, windows-2019, macos-latest]
+        os: [ubuntu-latest, windows-2022, macos-latest]
       fail-fast: false
 
     steps:
@@ -52,13 +52,14 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       shell: bash -l {0}
       run: |
-        conda install manifpy mesa-libgl-devel-cos7-x86_64
+        conda install manifpy libgl-devel
 
     - name: Windows-only Dependencies [Windows]
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
-        conda install vs2019_win-64
+        # pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
+        conda install vs2022_win-64 "pybind11<2.12.0"
 
     - name: Windows-workarounds [Windows]
       if: contains(matrix.os, 'windows')
@@ -67,12 +68,6 @@ jobs:
         :: We delete all the Python executables installed by GitHub Actions as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/910#issuecomment-2589862552
         :: once that is not necessary anymore, remove this
         rmdir /s /q C:\hostedtoolcache\windows\Python
-        :: Due to this https://github.com/conda-forge/icub-models-feedstock/issues/18
-        :: pcl is removed as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/pull/695#issuecomment-1632208836
-        :: pcl can be re-added once we have a ros humble build compatible with PCL 1.13.0
-        :: pybind11 constrained as workaround for https://github.com/conda-forge/pybind11-feedstock/issues/95
-        conda install "pybind11<2.12.0"
-        conda remove icub-models pcl
 
     - name: Print used environment
       shell: bash -l {0}
