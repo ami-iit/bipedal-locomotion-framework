@@ -1,6 +1,6 @@
 # Changelog
 
-The release 0.21.0 is the latest release of the Bipedal Locomotion Framework where the changelog is maintained in this file. 
+The release 0.21.0 is the latest release of the Bipedal Locomotion Framework where the changelog is maintained in this file.
 From the release 0.22.0, the changelog is maintained in the [GitHub releases](https://github.com/ami-iit/bipedal-locomotion-framework/releases).
 
 All notable changes to this project are documented in this file.
