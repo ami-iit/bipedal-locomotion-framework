@@ -4,48 +4,6 @@
     <compoundname>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</compoundname>
     <includes local="no">BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1afe146dae5d65bb208332c71b026c51ef" prot="public" static="no" mutable="no">
-        <type>manif::SE3d</type>
-        <definition>manif::SE3d BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::basePose</definition>
-        <argsstring></argsstring>
-        <name>basePose</name>
-        <briefdescription>
-<para>Pose describing the robot base position and orientation. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="35" column="17" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="35" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aa0d39ba2713d5d3e4d96cb7b0f817aba" prot="public" static="no" mutable="no">
-        <type>manif::SE3d::Tangent</type>
-        <definition>manif::SE3d::Tangent BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::baseVelocity</definition>
-        <argsstring></argsstring>
-        <name>baseVelocity</name>
-        <briefdescription>
-<para>Velocity of the robot base. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="36" column="26" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="36" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aab8cd644a43fbe1fc4a58ea7f75e3fb0" prot="public" static="no" mutable="no">
-        <type>manif::SE3d::Tangent</type>
-        <definition>manif::SE3d::Tangent BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::baseAcceleration</definition>
-        <argsstring></argsstring>
-        <name>baseAcceleration</name>
-        <briefdescription>
-<para>Mixed acceleration of the robot base. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="37" column="26" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="37" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a0e2239e49217500a2ac8442cfc87a9e2" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
         <definition>Eigen::VectorXd BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput::jointPositions</definition>
@@ -58,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="38" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="38" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="35" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1afba0c469441b1d70e778bb0750b033ae" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -72,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="39" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="39" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="36" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a0c75bf72d5ef0d821639821d49726b2c" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -86,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="40" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="40" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="37" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a194b9f34d10cd7dcb837d718719a4abb" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, Eigen::VectorXd &gt;</type>
@@ -100,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="41" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="38" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a56ebfbe30c0f22846c65781a7200eed4" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, Eigen::VectorXd &gt;</type>
@@ -114,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="42" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="39" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a2323ee3f94977aedc66d4c2597ff30ea" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, Eigen::VectorXd &gt;</type>
@@ -128,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="43" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="40" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1ae135f61b6291fd45c6551bca12c9eb38" prot="public" static="no" mutable="no">
         <type>Eigen::VectorXd</type>
@@ -142,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="44" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="44" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="41" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="41" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -193,12 +151,9 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="34" bodyend="45"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" line="33" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/RobotDynamicsEstimator.h" bodystart="34" bodyend="42"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a2323ee3f94977aedc66d4c2597ff30ea" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>angularVelocities</name></member>
-      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aab8cd644a43fbe1fc4a58ea7f75e3fb0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>baseAcceleration</name></member>
-      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1afe146dae5d65bb208332c71b026c51ef" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>basePose</name></member>
-      <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1aa0d39ba2713d5d3e4d96cb7b0f817aba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>baseVelocity</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1ae135f61b6291fd45c6551bca12c9eb38" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>frictionTorques</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a194b9f34d10cd7dcb837d718719a4abb" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>ftWrenches</name></member>
       <member refid="structBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1RobotDynamicsEstimatorInput_1a0e2239e49217500a2ac8442cfc87a9e2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::RobotDynamicsEstimatorInput</scope><name>jointPositions</name></member>

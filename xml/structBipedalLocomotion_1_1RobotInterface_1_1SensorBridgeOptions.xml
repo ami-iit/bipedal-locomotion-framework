@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="41" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="41" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="33" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="33" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a134cabfa0368ee67c66b756f6291decc" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="42" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="42" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="34" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="34" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ae645e483cc3b133f0f39f99194aa81f3" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="43" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="43" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="35" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af22b711670afb72717101620e85f5f63" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="45" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="45" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="37" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a93e169c01db0aab8bf6bb77bc6d07f07" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="46" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="46" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="38" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a1abe9e5376d4534c4f8414cc08ae19a7" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="47" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="47" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="39" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="39" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a8b1d17ce5827f5ec298c3ab402bfe64d" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="48" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="48" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="40" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a76bc51592890b64494bb4ceb8acd9905" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="50" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="50" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="42" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a888e76e7d573ea9a55e06d1c18999780" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="52" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="52" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="44" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af7cdf9dd94eb559201ee6a35f2427df8" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -151,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="54" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="54" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="46" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a89a49fe4085abfec7529e5257e7191ef" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="55" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="55" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="47" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a0f81c5a2b2e5b264377357e1e0a79747" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -181,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="56" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="56" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="48" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af20503f7ea0c45d994adbc6720ae7531" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="57" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="57" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="49" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1ac165eee2794add881f0773c3de59d96b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -211,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="59" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="59" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="51" column="10" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a4570c2a27e0c3288f690d35070ace64f" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="61" column="12" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="61" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="53" column="12" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -235,7 +235,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="39" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="40" bodyend="63"/>
+    <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="31" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="32" bodyend="55"/>
     <listofallmembers>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1a888e76e7d573ea9a55e06d1c18999780" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isCartesianWrenchEnabled</name></member>
       <member refid="structBipedalLocomotion_1_1RobotInterface_1_1SensorBridgeOptions_1af22b711670afb72717101620e85f5f63" prot="public" virt="non-virtual"><scope>BipedalLocomotion::RobotInterface::SensorBridgeOptions</scope><name>isGyroscopeEnabled</name></member>

@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
+                <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
               </ol>
             </li>
             <li>
@@ -222,8 +222,8 @@
               int <a href="#a48f5c45d6b0cfd0c7f83d034b54619d8" class="m-doc-self">m_offsetMeasurement</a>
             </dt>
             <dd>Offset used to fill the measurement vector.</dd>
-            <dt id="a151531f9bdfdd38e306f898391b0d3c3">
-              std::map&lt;std::string, std::string&gt; <a href="#a151531f9bdfdd38e306f898391b0d3c3" class="m-doc-self">m_stateToUkfNames</a>
+            <dt>
+              std::map&lt;std::pair&lt;std::string, std::string&gt;, std::string&gt; <a href="#ab87f160dd2789b29686d00b36b1b1eb2" class="m-doc">m_variableNameToUkfState</a>
             </dt>
             <dd>Map used to retrieve the name of the variable passed as state and the ukf name.</dd>
             <dt id="a8361cca08f493ee9490a2a2d9d23cd77">
@@ -267,6 +267,16 @@
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="ab87f160dd2789b29686d00b36b1b1eb2"><div>
+            <h3>
+              std::map&lt;std::pair&lt;std::string, std::string&gt;, std::string&gt; BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />UkfModel::<wbr /><a href="#ab87f160dd2789b29686d00b36b1b1eb2" class="m-doc-self">m_variableNameToUkfState</a> <span class="m-label m-warning">protected</span>
+            </h3>
+            <p>Map used to retrieve the name of the variable passed as state and the ukf name.</p>
+<p>The key is a pair of &lt;name of the variable in the state vector, sensor type (ft, accelerometer, gyroscope)&gt; and the value is the dynamics group name that is the name used in the configuration file to define the group associated to the dynamics.</p>
           </div></section>
         </section>
       </div>

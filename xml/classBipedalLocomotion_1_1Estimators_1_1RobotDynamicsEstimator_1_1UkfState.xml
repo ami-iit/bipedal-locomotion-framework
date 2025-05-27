@@ -557,6 +557,9 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>m_measurementMap</edgelabel>
         </childnode>
         <childnode refid="20" relation="usage">
+          <edgelabel>m_variableNameToUkfState</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
           <edgelabel>m_subModelFrictionTorque</edgelabel>
           <edgelabel>m_subModelJointAcc</edgelabel>
           <edgelabel>m_subModelJointMotorTorque</edgelabel>
@@ -565,21 +568,20 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>m_subModelNuDot</edgelabel>
           <edgelabel>m_totalTorqueFromContacts</edgelabel>
         </childnode>
-        <childnode refid="21" relation="usage">
-          <edgelabel>m_stateToUkfNames</edgelabel>
+        <childnode refid="22" relation="usage">
           <edgelabel>m_ukfNamesToMeasures</edgelabel>
         </childnode>
-        <childnode refid="22" relation="usage">
+        <childnode refid="23" relation="usage">
           <edgelabel>m_FTMap</edgelabel>
           <edgelabel>m_extContactMap</edgelabel>
         </childnode>
-        <childnode refid="25" relation="usage">
+        <childnode refid="26" relation="usage">
           <edgelabel>m_tempJacobianList</edgelabel>
         </childnode>
-        <childnode refid="26" relation="usage">
+        <childnode refid="27" relation="usage">
           <edgelabel>m_stateVariableHandler</edgelabel>
         </childnode>
-        <childnode refid="27" relation="usage">
+        <childnode refid="28" relation="usage">
           <edgelabel>m_ukfInputProvider</edgelabel>
         </childnode>
       </node>
@@ -611,9 +613,9 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
       <node id="2">
         <label>bfl::AdditiveStateModel</label>
       </node>
-      <node id="22">
+      <node id="23">
         <label>std::map&lt; std::string, BipedalLocomotion::Math::Wrench &gt;</label>
-        <childnode refid="23" relation="usage">
+        <childnode refid="24" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
         <childnode refid="13" relation="usage">
@@ -634,6 +636,15 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
       </node>
       <node id="14">
         <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="20">
+        <label>std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</label>
+        <childnode refid="13" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="template-instance">
+          <edgelabel>&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</edgelabel>
+        </childnode>
       </node>
       <node id="5">
         <label>std::shared_ptr&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::KinDynWrapper &gt;</label>
@@ -660,7 +671,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>std::vector&lt; Eigen::MatrixXd &gt;</label>
         <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; Eigen::MatrixXd &gt;</edgelabel>
@@ -675,7 +686,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>std::map&lt; std::string, std::string &gt;</label>
         <childnode refid="13" relation="usage">
           <edgelabel>elements</edgelabel>
@@ -685,7 +696,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; std::string, std::string &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="20">
+      <node id="21">
         <label>std::vector&lt; Eigen::VectorXd &gt;</label>
         <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd &gt;</edgelabel>
@@ -699,10 +710,10 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         <childnode refid="3" relation="private-inheritance">
         </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>BipedalLocomotion::Math::Wrench&lt; Scalar &gt;</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1Wrench"/>
-        <childnode refid="24" relation="public-inheritance">
+        <childnode refid="25" relation="public-inheritance">
         </childnode>
       </node>
       <node id="19">
@@ -714,16 +725,16 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; std::string, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>Eigen::Matrix&lt; Scalar, 6, 1 &gt;</label>
       </node>
-      <node id="27">
+      <node id="28">
         <label>std::shared_ptr&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</label>
         <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>BipedalLocomotion::System::VariablesHandler</label>
         <link refid="classBipedalLocomotion_1_1System_1_1VariablesHandler"/>
       </node>

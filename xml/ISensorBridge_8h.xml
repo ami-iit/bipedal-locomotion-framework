@@ -10,6 +10,7 @@
     <includes local="no">vector</includes>
     <includes local="no">Eigen/Dense</includes>
     <includes refid="IParametersHandler_8h" local="no">BipedalLocomotion/ParametersHandler/IParametersHandler.h</includes>
+    <includes refid="JointType_8h" local="no">BipedalLocomotion/RobotInterface/JointType.h</includes>
     <includedby refid="YarpSensorBridge_8h" local="no">BipedalLocomotion/RobotInterface/YarpSensorBridge.h</includedby>
     <incdepgraph>
       <node id="2">
@@ -34,6 +35,8 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>BipedalLocomotion/ParametersHandler/IParametersHandler.h</label>
@@ -49,6 +52,10 @@
       </node>
       <node id="5">
         <label>string</label>
+      </node>
+      <node id="11">
+        <label>BipedalLocomotion/RobotInterface/JointType.h</label>
+        <link refid="JointType_8h"/>
       </node>
       <node id="8">
         <label>Eigen/Dense</label>
@@ -93,36 +100,6 @@
     <innerclass refid="classBipedalLocomotion_1_1RobotInterface_1_1ISensorBridge" prot="public">BipedalLocomotion::RobotInterface::ISensorBridge</innerclass>
     <innernamespace refid="namespaceBipedalLocomotion">BipedalLocomotion</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1RobotInterface">BipedalLocomotion::RobotInterface</innernamespace>
-      <sectiondef kind="enum">
-      <memberdef kind="enum" id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47f" prot="public" static="no" strong="yes">
-        <type></type>
-        <name>JointType</name>
-        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47fa06ec593fa63e118e8d2d0fd58c223acf" prot="public">
-          <name>REVOLUTE</name>
-          <briefdescription>
-<para>Revolute joint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="ISensorBridge_8h_1a8f819ea6be000a2661aed417ea33e47faace8e17dd1560c692929800de207e902" prot="public">
-          <name>PRISMATIC</name>
-          <briefdescription>
-<para>Prismatic joint. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <briefdescription>
-<para>Enum class specifying the type of joint. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="BipedalLocomotion/RobotInterface/ISensorBridge.h" line="30" column="1" bodyfile="BipedalLocomotion/RobotInterface/ISensorBridge.h" bodystart="31" bodyend="34"/>
-      </memberdef>
-      </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

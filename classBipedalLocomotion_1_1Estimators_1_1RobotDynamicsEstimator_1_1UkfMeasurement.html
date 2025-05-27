@@ -35,9 +35,9 @@
               <a href="pages.html">Versions</a>
               <ol>
                 <li><a href="./index.html">Master</a></li>
-                <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
                 <li><a href="./v0.18.0/index.html">v0.18.0</a></li>
                 <li><a href="./v0.17.0/index.html">v0.17.0</a></li>
+                <li><a href="./v0.19.0/index.html">v0.19.0</a></li>
               </ol>
             </li>
             <li>
@@ -152,7 +152,7 @@
             </dt>
             <dd>freeze update the measurement using data from sensors.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#a742f75b23efe037cb4d73613e2338461" class="m-doc">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::string, std::string&gt;&amp; stateToUkfNames)</span>
+              <span class="m-doc-wrap-bumper">void <a href="#a2d2a3ab3d11437f69fe65a72f7aa6ef0" class="m-doc">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::pair&lt;std::string, std::string&gt;, std::string&gt;&amp; variableNameToUkfState)</span>
             </dt>
             <dd>setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.</dd>
           </dl>
@@ -497,11 +497,22 @@
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>data in this case must be a <code>std::map&lt;std::string, Eigen::VectorXd&gt;</code> where the first element represents the name of each measurement dynamics and the second element is the vector containing the measurement of the sensor associated to that variable.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a742f75b23efe037cb4d73613e2338461"><div>
+          <section class="m-doc-details" id="a2d2a3ab3d11437f69fe65a72f7aa6ef0"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />UkfMeasurement::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a742f75b23efe037cb4d73613e2338461" class="m-doc-self">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::string, std::string&gt;&amp; stateToUkfNames)</span></span>
+              <span class="m-doc-wrap-bumper">void BipedalLocomotion::<wbr />Estimators::<wbr />RobotDynamicsEstimator::<wbr />UkfMeasurement::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2d2a3ab3d11437f69fe65a72f7aa6ef0" class="m-doc-self">setStateNameMapping</a>(</span><span class="m-doc-wrap">const std::map&lt;std::pair&lt;std::string, std::string&gt;, std::string&gt;&amp; variableNameToUkfState)</span></span>
             </h3>
             <p>setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">variableNameToUkfState</td>
+                  <td>is a map containing the mapping between the name of state variable and the name of the ukf state.</td>
+                </tr>
+              </tbody>
+            </table>
 <aside class="m-note m-info"><h4>Note</h4><p>the map should contain only the name of the state dynamics.</p></aside>
           </div></section>
         </section>

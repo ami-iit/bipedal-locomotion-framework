@@ -455,15 +455,16 @@
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="91" column="9" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="91" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a151531f9bdfdd38e306f898391b0d3c3" prot="protected" static="no" mutable="no">
-        <type>std::map&lt; std::string, std::string &gt;</type>
-        <definition>std::map&lt;std::string, std::string&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel::m_stateToUkfNames</definition>
+      <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1ab87f160dd2789b29686d00b36b1b1eb2" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</type>
+        <definition>std::map&lt;std::pair&lt;std::string, std::string&gt;, std::string&gt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel::m_variableNameToUkfState</definition>
         <argsstring></argsstring>
-        <name>m_stateToUkfNames</name>
+        <name>m_variableNameToUkfState</name>
         <briefdescription>
 <para>Map used to retrieve the name of the variable passed as state and the ukf name. </para>
         </briefdescription>
         <detaileddescription>
+<para>The key is a pair of &lt;name of the variable in the state vector, sensor type (ft, accelerometer, gyroscope)&gt; and the value is the dynamics group name that is the name used in the configuration file to define the group associated to the dynamics. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -481,7 +482,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="93" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="93" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="97" column="14" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a6cb70819f2e2d3edfcc83be41939c0c6" prot="protected" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -495,7 +496,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="94" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="94" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="98" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="98" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1ae07e71d87519e23aefa80c37a8c2cdd3" prot="protected" static="no" mutable="no">
         <type>Eigen::Vector3d</type>
@@ -509,7 +510,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="95" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="95" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="99" column="21" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a0df0965e3843bf895fbfd621130d3c2d" prot="protected" static="no" mutable="no">
         <type>manif::SE3Tangentd</type>
@@ -523,7 +524,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="96" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="96" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="100" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="100" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a22844d91c253a93e173d616147678d5e" prot="protected" static="no" mutable="no">
         <type>manif::SE3Tangentd</type>
@@ -537,7 +538,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="97" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="97" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="101" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a0dea9c04c3631eb8d8d7ddb0435ccead" prot="protected" static="no" mutable="no">
         <type>manif::SE3Tangentd</type>
@@ -551,7 +552,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="98" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="98" bodyend="-1"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="102" column="24" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="102" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -567,7 +568,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="104" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="108" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1afc428e73466214e61584cf3e21b7edf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -584,7 +585,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="111" column="10"/>
+        <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="115" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -650,6 +651,9 @@
           <edgelabel>m_measurementMap</edgelabel>
         </childnode>
         <childnode refid="18" relation="usage">
+          <edgelabel>m_variableNameToUkfState</edgelabel>
+        </childnode>
+        <childnode refid="19" relation="usage">
           <edgelabel>m_subModelFrictionTorque</edgelabel>
           <edgelabel>m_subModelJointAcc</edgelabel>
           <edgelabel>m_subModelJointMotorTorque</edgelabel>
@@ -658,21 +662,20 @@
           <edgelabel>m_subModelNuDot</edgelabel>
           <edgelabel>m_totalTorqueFromContacts</edgelabel>
         </childnode>
-        <childnode refid="19" relation="usage">
-          <edgelabel>m_stateToUkfNames</edgelabel>
+        <childnode refid="20" relation="usage">
           <edgelabel>m_ukfNamesToMeasures</edgelabel>
         </childnode>
-        <childnode refid="20" relation="usage">
+        <childnode refid="21" relation="usage">
           <edgelabel>m_FTMap</edgelabel>
           <edgelabel>m_extContactMap</edgelabel>
         </childnode>
-        <childnode refid="23" relation="usage">
+        <childnode refid="24" relation="usage">
           <edgelabel>m_tempJacobianList</edgelabel>
         </childnode>
-        <childnode refid="24" relation="usage">
+        <childnode refid="25" relation="usage">
           <edgelabel>m_stateVariableHandler</edgelabel>
         </childnode>
-        <childnode refid="25" relation="usage">
+        <childnode refid="26" relation="usage">
           <edgelabel>m_ukfInputProvider</edgelabel>
         </childnode>
       </node>
@@ -701,9 +704,9 @@
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="20">
+      <node id="21">
         <label>std::map&lt; std::string, BipedalLocomotion::Math::Wrench &gt;</label>
-        <childnode refid="21" relation="usage">
+        <childnode refid="22" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
         <childnode refid="11" relation="usage">
@@ -724,6 +727,15 @@
       </node>
       <node id="12">
         <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="18">
+        <label>std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</label>
+        <childnode refid="11" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="13" relation="template-instance">
+          <edgelabel>&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</edgelabel>
+        </childnode>
       </node>
       <node id="3">
         <label>std::shared_ptr&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::KinDynWrapper &gt;</label>
@@ -750,7 +762,7 @@
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel"/>
       </node>
-      <node id="23">
+      <node id="24">
         <label>std::vector&lt; Eigen::MatrixXd &gt;</label>
         <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; Eigen::MatrixXd &gt;</edgelabel>
@@ -765,7 +777,7 @@
           <edgelabel>&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="19">
+      <node id="20">
         <label>std::map&lt; std::string, std::string &gt;</label>
         <childnode refid="11" relation="usage">
           <edgelabel>elements</edgelabel>
@@ -775,16 +787,16 @@
           <edgelabel>&lt; std::string, std::string &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="18">
+      <node id="19">
         <label>std::vector&lt; Eigen::VectorXd &gt;</label>
         <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>BipedalLocomotion::Math::Wrench&lt; Scalar &gt;</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1Wrench"/>
-        <childnode refid="22" relation="public-inheritance">
+        <childnode refid="23" relation="public-inheritance">
         </childnode>
       </node>
       <node id="17">
@@ -796,16 +808,16 @@
           <edgelabel>&lt; std::string, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>Eigen::Matrix&lt; Scalar, 6, 1 &gt;</label>
       </node>
-      <node id="25">
+      <node id="26">
         <label>std::shared_ptr&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</label>
         <childnode refid="4" relation="template-instance">
           <edgelabel>&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>BipedalLocomotion::System::VariablesHandler</label>
         <link refid="classBipedalLocomotion_1_1System_1_1VariablesHandler"/>
       </node>
@@ -815,7 +827,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="34" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="35" bodyend="112"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" line="34" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfModel.h" bodystart="35" bodyend="116"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a0d043df9cef91d596f529cac429e9051" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_accMap</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a0dea9c04c3631eb8d8d7ddb0435ccead" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_baseAcceleration</name></member>
@@ -838,7 +850,6 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1ad2a1312207b97c964b84ff3f6061fb98" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_measurementMap</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a48f5c45d6b0cfd0c7f83d034b54619d8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_offsetMeasurement</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a6cb70819f2e2d3edfcc83be41939c0c6" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_sensorLinearAcceleration</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a151531f9bdfdd38e306f898391b0d3c3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_stateToUkfNames</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a0ff8eb8672d372351c3979544bdec1a8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_stateVariableHandler</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a8c2be15bfa1ead6529435ffc90e1a6ef" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_subModelBaseVelTemp</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a8e3e40bd72c08c44e5ee4eb159813ca8" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_subModelFrictionTorque</name></member>
@@ -854,6 +865,7 @@
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1aef7b58002ae81a58fd13160d6596e95f" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_ukfInput</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a065686ec840aaf7ca6bff44cbe6936b3" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_ukfInputProvider</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a8361cca08f493ee9490a2a2d9d23cd77" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_ukfNamesToMeasures</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1ab87f160dd2789b29686d00b36b1b1eb2" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_variableNameToUkfState</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1aedc2b305a7e3f8fba97935c30d1caea4" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_worldTBase</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1ae3f63994e6a20f5a3e6e662f45172514" prot="protected" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>m_wrench</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfModel_1a5d5f499ca1371198882f5d183d357a61" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfModel</scope><name>unpackState</name></member>

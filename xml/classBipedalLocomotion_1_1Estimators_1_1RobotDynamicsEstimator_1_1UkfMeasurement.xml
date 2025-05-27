@@ -672,14 +672,14 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         </inbodydescription>
         <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h" line="230" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a742f75b23efe037cb4d73613e2338461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a2d2a3ab3d11437f69fe65a72f7aa6ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement::setStateNameMapping</definition>
-        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;stateToUkfNames)</argsstring>
+        <argsstring>(const std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt; &amp;variableNameToUkfState)</argsstring>
         <name>setStateNameMapping</name>
         <param>
-          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
-          <declname>stateToUkfNames</declname>
+          <type>const std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt; &amp;</type>
+          <declname>variableNameToUkfState</declname>
         </param>
         <briefdescription>
 <para>setMeasurementNameMapping set the mapping between the name of the measurement and the name of the variable in the ukf. </para>
@@ -687,10 +687,10 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>measurementToUkfNames</parametername>
+<parametername>variableNameToUkfState</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>is a map containing the mapping between the name of the measurement and the name of the variable in the ukf. </para>
+<para>is a map containing the mapping between the name of state variable and the name of the ukf state. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -765,6 +765,9 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>m_measurementMap</edgelabel>
         </childnode>
         <childnode refid="20" relation="usage">
+          <edgelabel>m_variableNameToUkfState</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
           <edgelabel>m_subModelFrictionTorque</edgelabel>
           <edgelabel>m_subModelJointAcc</edgelabel>
           <edgelabel>m_subModelJointMotorTorque</edgelabel>
@@ -773,21 +776,20 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>m_subModelNuDot</edgelabel>
           <edgelabel>m_totalTorqueFromContacts</edgelabel>
         </childnode>
-        <childnode refid="21" relation="usage">
-          <edgelabel>m_stateToUkfNames</edgelabel>
+        <childnode refid="22" relation="usage">
           <edgelabel>m_ukfNamesToMeasures</edgelabel>
         </childnode>
-        <childnode refid="22" relation="usage">
+        <childnode refid="23" relation="usage">
           <edgelabel>m_FTMap</edgelabel>
           <edgelabel>m_extContactMap</edgelabel>
         </childnode>
-        <childnode refid="25" relation="usage">
+        <childnode refid="26" relation="usage">
           <edgelabel>m_tempJacobianList</edgelabel>
         </childnode>
-        <childnode refid="26" relation="usage">
+        <childnode refid="27" relation="usage">
           <edgelabel>m_stateVariableHandler</edgelabel>
         </childnode>
-        <childnode refid="27" relation="usage">
+        <childnode refid="28" relation="usage">
           <edgelabel>m_ukfInputProvider</edgelabel>
         </childnode>
       </node>
@@ -819,9 +821,9 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>std::map&lt; std::string, BipedalLocomotion::Math::Wrench &gt;</label>
-        <childnode refid="23" relation="usage">
+        <childnode refid="24" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
         <childnode refid="13" relation="usage">
@@ -851,6 +853,15 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
       <node id="14">
         <label>std::basic_string&lt; Char &gt;</label>
       </node>
+      <node id="20">
+        <label>std::map&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</label>
+        <childnode refid="13" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="template-instance">
+          <edgelabel>&lt; std::pair&lt; std::string, std::string &gt;, std::string &gt;</edgelabel>
+        </childnode>
+      </node>
       <node id="5">
         <label>std::shared_ptr&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::KinDynWrapper &gt;</label>
         <childnode refid="6" relation="template-instance">
@@ -876,7 +887,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         <label>BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel</label>
         <link refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1SubModel"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>std::vector&lt; Eigen::MatrixXd &gt;</label>
         <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; Eigen::MatrixXd &gt;</edgelabel>
@@ -891,7 +902,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; BipedalLocomotion::Estimators::RobotDynamicsEstimator::SubModel &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="21">
+      <node id="22">
         <label>std::map&lt; std::string, std::string &gt;</label>
         <childnode refid="13" relation="usage">
           <edgelabel>elements</edgelabel>
@@ -901,16 +912,16 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; std::string, std::string &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="20">
+      <node id="21">
         <label>std::vector&lt; Eigen::VectorXd &gt;</label>
         <childnode refid="8" relation="template-instance">
           <edgelabel>&lt; Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>BipedalLocomotion::Math::Wrench&lt; Scalar &gt;</label>
         <link refid="classBipedalLocomotion_1_1Math_1_1Wrench"/>
-        <childnode refid="24" relation="public-inheritance">
+        <childnode refid="25" relation="public-inheritance">
         </childnode>
       </node>
       <node id="19">
@@ -922,16 +933,16 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
           <edgelabel>&lt; std::string, Eigen::VectorXd &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="24">
+      <node id="25">
         <label>Eigen::Matrix&lt; Scalar, 6, 1 &gt;</label>
       </node>
-      <node id="27">
+      <node id="28">
         <label>std::shared_ptr&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</label>
         <childnode refid="6" relation="template-instance">
           <edgelabel>&lt; const BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfInputProvider &gt;</edgelabel>
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>BipedalLocomotion::System::VariablesHandler</label>
         <link refid="classBipedalLocomotion_1_1System_1_1VariablesHandler"/>
       </node>
@@ -941,7 +952,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h" line="42" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h" bodystart="43" bodyend="239"/>
+    <location file="BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h" line="42" column="1" bodyfile="BipedalLocomotion/RobotDynamicsEstimator/UkfMeasurement.h" bodystart="43" bodyend="240"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a81f077ee9742da066185196d99de5445" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>build</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a0bf938a7c212bd3f23f65d4acdb287f1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>finalize</name></member>
@@ -963,7 +974,7 @@ For <bold>each</bold> dynamics listed in the parameter <computeroutput>dynamics_
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1ab3fa98a920c94461233987a23b544fa2" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>measure</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a0abc9014ca9d64c17d589077b1a8638a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>predictedMeasure</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a66c317ef0deac940789962933b66a2c6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>setProperty</name></member>
-      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a742f75b23efe037cb4d73613e2338461" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>setStateNameMapping</name></member>
+      <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a2d2a3ab3d11437f69fe65a72f7aa6ef0" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>setStateNameMapping</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1a1a25144147de896f09cd97792b23d6ff" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>setStateVariableHandler</name></member>
       <member refid="classBipedalLocomotion_1_1Estimators_1_1RobotDynamicsEstimator_1_1UkfMeasurement_1af3a294d8de87e63fd5ddb28416454ae6" prot="public" virt="non-virtual"><scope>BipedalLocomotion::Estimators::RobotDynamicsEstimator::UkfMeasurement</scope><name>setUkfInputProvider</name></member>
     </listofallmembers>
