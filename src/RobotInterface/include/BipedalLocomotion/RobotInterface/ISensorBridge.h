@@ -18,12 +18,20 @@
 #include <Eigen/Dense>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
-#include <BipedalLocomotion/RobotInterface/JointType.h>
 
 namespace BipedalLocomotion
 {
 namespace RobotInterface
 {
+
+/**
+ * Enum class specifying the type of joint
+ */
+enum class JointType
+{
+    REVOLUTE, /**< Revolute joint */
+    PRISMATIC /**< Prismatic joint */
+};
 
 /**
  * Sensor bridge options
