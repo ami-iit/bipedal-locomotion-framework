@@ -669,7 +669,8 @@ struct YarpRobotControl::Impl
             }
 
             // Define an helper to check if the control mode is torque, pwm or current
-            auto isUnitaryMode = [](ControlMode mode) {
+            // This is in general valide for each kind of joint
+            auto isScalingNotRequired = [](ControlMode mode) -> bool {
                 return mode == ControlMode::Torque
                     || mode == ControlMode::PWM
                     || mode == ControlMode::Current;
@@ -684,7 +685,7 @@ struct YarpRobotControl::Impl
                 // and the control mode is not torque, pwm or current, then the scaling factor
                 // is 180/M_PI to convert from radians to degrees. Otherwise, the scaling
                 // factor is 1.
-                if (jt == JointType::REVOLUTE && !isUnitaryMode(mode))
+                if (jt == JointType::REVOLUTE && !isScalingNotRequired(mode))
                 {
                     scaling = 180.0 / M_PI;
                 }
