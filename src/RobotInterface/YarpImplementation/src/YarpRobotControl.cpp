@@ -677,8 +677,8 @@ struct YarpRobotControl::Impl
 
             for (size_t i = 0; i < indices.size(); ++i) {
                 const auto jointIdx = indices[i];
-                const auto jt       = this->jointsTypeList[i];
-                double scaling      = 1.0;
+                const auto jt = this->jointsTypeList[i];
+                double scaling = 1.0;
 
                 // If the joint is prismatic, the scaling factor is 1. If the joint is revolute,
                 // and the control mode is not torque, pwm or current, then the scaling factor
