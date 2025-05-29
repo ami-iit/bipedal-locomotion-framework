@@ -668,34 +668,30 @@ struct YarpRobotControl::Impl
                 this->startPositionControlInstant = BipedalLocomotion::clock().now();
             }
 
-            double scaling;
-            if (this->allJointsAreRevolutes || this->allJointsArePrismatics)
-            {
-                scaling = 1;
+            // Define an helper to check if the control mode is torque, pwm or current
+            // This is in general valide for each kind of joint
+            auto isScalingNotRequired = [](ControlMode mode) -> bool {
+                return mode == ControlMode::Torque
+                    || mode == ControlMode::PWM
+                    || mode == ControlMode::Current;
+            };
 
-                if (this->allJointsAreRevolutes)
+            for (size_t i = 0; i < indices.size(); ++i) {
+                const auto jointIdx = indices[i];
+                const auto jt = this->jointsTypeList[i];
+                double scaling = 1.0;
+
+                // If the joint is prismatic, the scaling factor is 1. If the joint is revolute,
+                // and the control mode is not torque, pwm or current, then the scaling factor
+                // is 180/M_PI to convert from radians to degrees. Otherwise, the scaling
+                // factor is 1.
+                if (jt == JointType::REVOLUTE && !isScalingNotRequired(mode))
                 {
-                    // Yarp wants the quantities in degrees
-                    scaling = 180 / M_PI;
+                    scaling = 180.0 / M_PI;
                 }
 
-                for (int i = 0; i < indices.size(); i++)
-                {
-                    this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
-                }
-            }
-            else
-            {
-                scaling = 1;
-                for (int i = 0; i < indices.size(); i++)
-                {
-                    scaling = 1;
-                    if (this->jointsTypeList[i] == JointType::REVOLUTE)
-                    {
-                        scaling = 180 / M_PI;
-                    }
-                    this->desiredJointValuesAndMode.value[mode][i] = scaling * jointValues[indices[i]];
-                }
+                this->desiredJointValuesAndMode.value[mode][i]
+                    = scaling * jointValues[jointIdx];
             }
 
             if (!this->control(mode)(indices.size(),
