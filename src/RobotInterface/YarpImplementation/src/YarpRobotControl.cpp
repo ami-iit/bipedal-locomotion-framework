@@ -684,7 +684,8 @@ struct YarpRobotControl::Impl
                 // and the control mode is not torque, pwm or current, then the scaling factor
                 // is 180/M_PI to convert from radians to degrees. Otherwise, the scaling
                 // factor is 1.
-                if (jt == JointType::REVOLUTE && !isUnitaryMode(mode)) {
+                if (jt == JointType::REVOLUTE && !isUnitaryMode(mode))
+                {
                     scaling = 180.0 / M_PI;
                 }
 
