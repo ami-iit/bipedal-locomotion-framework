@@ -5,8 +5,6 @@ From the release 0.22.0, the changelog is maintained in the [GitHub releases](ht
 
 All notable changes to this project are documented in this file.
 
-### Fixed
-- Fix bug in `YarpRobotControl` (https://github.com/ami-iit/bipedal-locomotion-framework/pull/979)
 
 ## [0.21.0] - 2025-05-27
 ### Added
