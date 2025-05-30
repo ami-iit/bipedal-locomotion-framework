@@ -21,7 +21,7 @@
   </device>
 
 
-  <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_imu_client" type="multipleanalogsensorsclient">
+  <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_arm_imu_client" type="multipleanalogsensorsclient">
     <param name="remote">/ergocub/left_arm/imu</param>
     <param name="local">/yarp_robot_logger/left_arm/imu</param>
     <param name="timeout">0.5</param>
@@ -33,7 +33,7 @@
     <param name="local">/yarp_robot_logger/right_arm/imu</param>
     <param name="timeout">0.5</param>
     <param name="carrier">fast_tcp</param>
-  </device>
+  </device> -->
 
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_foot_imu_client" type="multipleanalogsensorsclient">
     <param name="remote">/ergocub/left_foot_heel_tiptoe/imu</param>
