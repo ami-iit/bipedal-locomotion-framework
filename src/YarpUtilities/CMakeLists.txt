@@ -29,4 +29,21 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
                            BipedalLocomotion::TextLogging
     INSTALLATION_FOLDER    YarpUtilities)
 
+    add_bipedal_locomotion_yarp_thrift(
+      NAME TimeSeriesCollectionMsg
+      THRIFT thrifts/BipedalLocomotion/YarpUtilities/TimeSeriesCollection.thrift
+      INSTALLATION_FOLDER YarpUtilities)
+
+  add_bipedal_locomotion_library(
+    NAME                   TimeSeries
+    SOURCES                src/TimeSeriesCollectionServer.cpp src/TimeSeriesCollectionClient.cpp
+    PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/TimeSeriesCollectionServer.h include/BipedalLocomotion/YarpUtilities/TimeSeriesCollectionClient.h
+    PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES}
+                           ${iDynTree_LIBRARIES}
+                           BipedalLocomotion::TimeSeriesCollectionMsg
+                           BipedalLocomotion::GenericContainer
+                           BipedalLocomotion::ParametersHandler
+                           BipedalLocomotion::TextLogging
+    INSTALLATION_FOLDER    YarpUtilities)
+
 endif()
