@@ -3,20 +3,20 @@ namespace yarp BipedalLocomotion.YarpUtilities
 struct TimeSeriesCollection
 {
     1: map<string, list<list<double>>> timeseries;
-    2: map<string, list<i64>> relativeTimestampsInNanoSeconds;
+    2: map<string, list<double>> relativeTimestampsInSeconds;
 }
 
-struct TimeSeriesMetadata
+struct TimeSeriesCollectionMetadata
 {
     1: map<string, list<string>> vectors;
 }
 
-service TimeSeriesMetadataService
+service TimeSeriesCollectionMetadataService
 {
     /**
      * Read the sensor metadata necessary to interpret the data.
      */
-    TimeSeriesMetadata getMetadata();
+    TimeSeriesCollectionMetadata getMetadata();
 
     /**
      * Check if the metadata is ready.

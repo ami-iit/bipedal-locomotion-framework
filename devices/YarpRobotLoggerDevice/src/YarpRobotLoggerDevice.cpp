@@ -87,10 +87,27 @@ bool YarpRobotLoggerDevice::VectorsCollectionSignal::connect()
 
 void YarpRobotLoggerDevice::VectorsCollectionSignal::disconnect()
 {
-    if (connected)
+    if (!connected)
     {
-        client.disconnect();
+        return;
     }
+
+    client.disconnect();
+}
+
+bool YarpRobotLoggerDevice::TimeSeriesCollectionSignal::connect()
+{
+    return client.connect();
+}
+
+void YarpRobotLoggerDevice::TimeSeriesCollectionSignal::disconnect()
+{
+    if (!connected)
+    {
+        return;
+    }
+
+    client.disconnect();
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
@@ -443,6 +460,53 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupExogenousInputs]";
 
+    auto setupCollectionSignals
+        = [logPrefix](auto& params, auto& signals, const std::string& parameterName) -> bool {
+        std::vector<std::string> inputs;
+        if (!params->getParameter(parameterName, inputs))
+        {
+            log()->error("{} Unable to get the exogenous inputs for {}.", logPrefix, parameterName);
+            return false;
+        }
+        for (const auto& input : inputs)
+        {
+            auto group = params->getGroup(input).lock();
+            std::string signalFullName, remote;
+            if (group == nullptr)
+            {
+                log()->error("{} Unable to get the group named {}.", logPrefix, input);
+                return false;
+            }
+
+            if (!group->getParameter("remote", remote))
+            {
+                log()->error("{} Unable to get the remote parameter for the group named {}.",
+                             logPrefix,
+                             input);
+                return false;
+            }
+
+            if (!group->getParameter("signal_name", signalFullName))
+            {
+                log()->error("{} Unable to get the signal_name parameter for the group named {}.",
+                             logPrefix,
+                             input);
+                return false;
+            }
+
+            signals[remote].signalName = signalFullName;
+            if (!signals[remote].client.initialize(group))
+            {
+                log()->error("{} Unable to initialize the collection signal for the group "
+                             "named {}.",
+                             logPrefix,
+                             signalFullName);
+                return false;
+            }
+        }
+        return true;
+    };
+
     auto ptr = params.lock();
     if (ptr == nullptr)
     {
@@ -450,50 +514,23 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         return true;
     }
 
-    std::vector<std::string> inputs;
-    if (!ptr->getParameter("vectors_collection_exogenous_inputs", inputs))
+    if (!setupCollectionSignals(ptr,
+                                m_vectorsCollectionSignals,
+                                "vectors_collection_exogenous_inputs"))
     {
-        log()->error("{} Unable to get the exogenous inputs.", logPrefix);
+        log()->error("{} Unable to set up the vectors collection exogenous inputs.", logPrefix);
         return false;
     }
 
-    for (const auto& input : inputs)
+    if (!setupCollectionSignals(ptr,
+                                m_timeSeriesCollectionSignals,
+                                "time_series_collection_exogenous_inputs"))
     {
-        auto group = ptr->getGroup(input).lock();
-        std::string signalFullName, remote;
-        if (group == nullptr)
-        {
-            log()->error("{} Unable to get the group named {}.", logPrefix, input);
-            return false;
-        }
-
-        if (!group->getParameter("remote", remote))
-        {
-            log()->error("{} Unable to get the remote parameter for the group named {}.",
-                         logPrefix,
-                         input);
-            return false;
-        }
-
-        if (!group->getParameter("signal_name", signalFullName))
-        {
-            log()->error("{} Unable to get the signal_name parameter for the group named {}.",
-                         logPrefix,
-                         input);
-            return false;
-        }
-
-        m_vectorsCollectionSignals[remote].signalName = signalFullName;
-        if (!m_vectorsCollectionSignals[remote].client.initialize(group))
-        {
-            log()->error("{} Unable to initialize the vectors collection signal for the group "
-                         "named {}.",
-                         logPrefix,
-                         signalFullName);
-            return false;
-        }
+        log()->error("{} Unable to set up the time series collection exogenous inputs.", logPrefix);
+        return false;
     }
 
+    std::vector<std::string> inputs;
     if (!ptr->getParameter("vectors_exogenous_inputs", inputs))
     {
         log()->error("{} Unable to get the exogenous inputs.", logPrefix);
@@ -1243,10 +1280,13 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                 // try to connect to the signal
 
                 // if the connection is successful, get the metadata
-                // this is required only for the vectors collection signal
+                // this is required only for the vectors or time series collection signals
                 if constexpr (std::is_same_v<
                                   std::decay_t<decltype(signal)>,
-                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
+                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>
+                              || std::is_same_v<
+                                  std::decay_t<decltype(signal)>,
+                                  typename decltype(this->m_timeSeriesCollectionSignals)::mapped_type>)
                 {
                     if (!connectionDone)
                     {
@@ -1254,17 +1294,14 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                     }
 
                     log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get "
-                                "the "
-                                "metadata for the vectors collection signal named: {}",
+                                "the metadata for the vectors collection signal named: {}",
                                 name);
 
                     if (!signal.client.getMetadata(signal.metadata))
                     {
                         log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to "
-                                    "get "
-                                    "the metadata for the signal named: {}. The exogenous signal "
-                                    "will "
-                                    "not contain the metadata.",
+                                    "get the metadata for the signal named: {}. The exogenous "
+                                    "signal will not contain the metadata.",
                                     name);
                     }
                 }
@@ -1289,6 +1326,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
 
         // try to connect to the exogenous signals
         connectToExogeneous(m_vectorsCollectionSignals);
+        connectToExogeneous(m_timeSeriesCollectionSignals);
         connectToExogeneous(m_vectorSignals);
 
         // release the CPU
@@ -1507,14 +1545,15 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
 
 void YarpRobotLoggerDevice::run()
 {
-    auto logData = [this](const std::string& name, const auto& data, const double time) {
-        m_bufferManager.push_back(data, time, name);
-        std::string rtName = robotRtRootName + treeDelim + name;
-        if (m_sendDataRT)
-        {
-            m_vectorCollectionRTDataServer.populateData(rtName, data);
-        }
-    };
+    auto logData =
+        [this](const std::string& name, const auto& data, const double time, bool avoidRT = false) {
+            m_bufferManager.push_back(data, time, name);
+            std::string rtName = robotRtRootName + treeDelim + name;
+            if (m_sendDataRT && !avoidRT)
+            {
+                m_vectorCollectionRTDataServer.populateData(rtName, data);
+            }
+        };
 
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::run]";
     const std::chrono::nanoseconds t = BipedalLocomotion::clock().now();
@@ -1767,6 +1806,63 @@ void YarpRobotLoggerDevice::run()
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     logData(signalFullName, vector, time);
+                }
+            }
+        }
+    }
+
+    for (auto& [name, signal] : m_timeSeriesCollectionSignals)
+    {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        const BipedalLocomotion::YarpUtilities::TimeSeriesCollection* collection
+            = signal.client.readData(false);
+
+        if (collection != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                bool channelAdded = false;
+                for (const auto& [key, vector] : collection->timeseries)
+                {
+                    signalFullName = signal.signalName + treeDelim + key;
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalFullName);
+                        channelAdded = addChannel(signalFullName, vector.size());
+
+                    } else
+                    {
+                        channelAdded = addChannel(signalFullName, //
+                                                  vector.size(),
+                                                  {metadata->second});
+                    }
+                }
+                signal.dataArrived = channelAdded;
+            } else
+            {
+                for (const auto& [key, timeseries] : collection->timeseries)
+                {
+                    constexpr bool avoidRT = true;
+                    signalFullName = signal.signalName + treeDelim + key;
+                    const auto& relativeTimestamps
+                        = collection->relativeTimestampsInSeconds.at(key);
+                    for (size_t i = 0; i < timeseries.size(); ++i)
+                    {
+                        // log the data
+                        logData(signalFullName,
+                                timeseries[i],
+                                time + relativeTimestamps[i],
+                                avoidRT);
+                    }
                 }
             }
         }

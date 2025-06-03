@@ -35,7 +35,7 @@ if(FRAMEWORK_COMPILE_YarpUtilities)
       INSTALLATION_FOLDER YarpUtilities)
 
   add_bipedal_locomotion_library(
-    NAME                   TimeSeries
+    NAME                   TimeSeriesCollection
     SOURCES                src/TimeSeriesCollectionServer.cpp src/TimeSeriesCollectionClient.cpp
     PUBLIC_HEADERS         include/BipedalLocomotion/YarpUtilities/TimeSeriesCollectionServer.h include/BipedalLocomotion/YarpUtilities/TimeSeriesCollectionClient.h
     PUBLIC_LINK_LIBRARIES  ${YARP_LIBRARIES}

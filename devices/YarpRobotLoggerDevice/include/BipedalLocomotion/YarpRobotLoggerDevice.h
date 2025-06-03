@@ -28,6 +28,8 @@
 
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
+#include <BipedalLocomotion/YarpUtilities/TimeSeriesCollectionClient.h>
+#include <BipedalLocomotion/YarpUtilities/TimeSeriesCollectionServer.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
@@ -102,7 +104,20 @@ private:
     {
         std::mutex mutex;
         BipedalLocomotion::YarpUtilities::VectorsCollectionClient client;
-        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+        typename BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+        std::string signalName;
+        bool dataArrived{false};
+        std::atomic<bool> connected{false};
+
+        bool connect();
+        void disconnect();
+    };
+
+    struct TimeSeriesCollectionSignal
+    {
+        std::mutex mutex;
+        BipedalLocomotion::YarpUtilities::TimeSeriesCollectionClient client;
+        typename BipedalLocomotion::YarpUtilities::TimeSeriesCollectionMetadata metadata;
         std::string signalName;
         bool dataArrived{false};
         std::atomic<bool> connected{false};
@@ -112,6 +127,7 @@ private:
     };
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
+    std::unordered_map<std::string, TimeSeriesCollectionSignal> m_timeSeriesCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;

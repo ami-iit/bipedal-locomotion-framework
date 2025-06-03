@@ -72,7 +72,7 @@ public:
      * @param metadata metadata of the vectors collection.
      * @return true if the metadata has been retrieved successfully, false otherwise.
      */
-    bool getMetadata(BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
+    bool getMetadata(BipedalLocomotion::YarpUtilities::TimeSeriesCollectionMetadata& metadata);
 
     /**
      * Read the data from the port.

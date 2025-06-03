@@ -13,8 +13,8 @@
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/YarpUtilities/TimeSeriesCollection.h>
-#include <BipedalLocomotion/YarpUtilities/TimeSeriesMetadata.h>
-#include <BipedalLocomotion/YarpUtilities/TimeSeriesMetadataService.h>
+#include <BipedalLocomotion/YarpUtilities/TimeSeriesCollectionMetadata.h>
+#include <BipedalLocomotion/YarpUtilities/TimeSeriesCollectionMetadataService.h>
 
 #include <iDynTree/Span.h>
 
@@ -57,7 +57,7 @@ namespace YarpUtilities
  * server.sendData();
  * @endcode
  */
-class TimeSeriesCollectionServer : public TimeSeriesMetadataService
+class TimeSeriesCollectionServer : public TimeSeriesCollectionMetadataService
 {
 public:
     /**
@@ -115,9 +115,9 @@ public:
     /**
      * Get the metadata.
      * @return the metadata.
-     * @note if the metadata is not ready, an empty TimeSeriesMetadata is returned.
+     * @note if the metadata is not ready, an empty TimeSeriesCollectionMetadata is returned.
      */
-    TimeSeriesMetadata getMetadata() override;
+    TimeSeriesCollectionMetadata getMetadata() override;
 
     /**
      * Check if the metadata is ready.

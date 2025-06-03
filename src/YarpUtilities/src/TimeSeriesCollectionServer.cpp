@@ -23,7 +23,7 @@ struct TimeSeriesCollectionServer::Impl
                                                             the client. */
     yarp::os::Port rpcPort; /**< RPC port used to communicate with the client. */
 
-    TimeSeriesMetadata metadata; /**< Metadata of the vectors collection. */
+    TimeSeriesCollectionMetadata metadata; /**< Metadata of the vectors collection. */
 
     std::atomic<bool> isMetadataFinalized{false}; /**< True if the metadata has been finalized. */
     std::unordered_set<std::string> setOfKeys; /**< Set of keys. */
@@ -84,7 +84,7 @@ bool TimeSeriesCollectionServer::initialize(
         return false;
     }
 
-    if (!TimeSeriesMetadataService::yarp().attachAsServer(m_pimpl->rpcPort))
+    if (!TimeSeriesCollectionMetadataService::yarp().attachAsServer(m_pimpl->rpcPort))
     {
         log()->error("{} Unable to attach the metadata port.", logPrefix);
         return false;
@@ -178,8 +178,9 @@ bool TimeSeriesCollectionServer::populateData(const std::string& key,
         return false;
     }
 
-    m_pimpl->collection.value().get().relativeTimestampsInNanoSeconds[key].push_back(
-        relativeTime.count());
+    const double relativeTimeInSeconds = std::chrono::duration<double>(relativeTime).count();
+    m_pimpl->collection.value().get().relativeTimestampsInSeconds[key].push_back(
+        relativeTimeInSeconds);
     m_pimpl->collection.value().get().timeseries[key].push_back(
         std::vector<double>(data.begin(), data.end()));
 
@@ -202,7 +203,7 @@ bool TimeSeriesCollectionServer::clearData()
     }
 
     m_pimpl->collection.value().get().timeseries.clear();
-    m_pimpl->collection.value().get().relativeTimestampsInNanoSeconds.clear();
+    m_pimpl->collection.value().get().relativeTimestampsInSeconds.clear();
     return true;
 }
 
@@ -211,11 +212,11 @@ bool TimeSeriesCollectionServer::areMetadataReady()
     return m_pimpl->isMetadataFinalized;
 }
 
-TimeSeriesMetadata TimeSeriesCollectionServer::getMetadata()
+TimeSeriesCollectionMetadata TimeSeriesCollectionServer::getMetadata()
 {
     if (!m_pimpl->isMetadataFinalized)
     {
-        return TimeSeriesMetadata();
+        return TimeSeriesCollectionMetadata();
     }
 
     return m_pimpl->metadata;
