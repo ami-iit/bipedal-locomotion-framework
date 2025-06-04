@@ -780,6 +780,10 @@ TEST_CASE("QP-IK [With builder]")
 
 TEST_CASE("QP-IK [Distance and Gravity tasks]")
 {
+    // iDynTree test helpers are used in customGetRandomModelWithNoPrismaticJoints, so as
+    // iDynTree uses the C RNG facilities, so we use a reproducible seed for the test
+    srand(42);
+
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
