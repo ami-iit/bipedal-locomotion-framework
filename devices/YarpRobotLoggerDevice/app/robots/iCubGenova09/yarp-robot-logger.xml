@@ -35,8 +35,6 @@ BSD-3-Clause license. -->
   </group>
 
 
-  </group>
-
   <group name="RobotCameraBridge">
       <param name="stream_cameras">true</param>
       <group name="Cameras">
