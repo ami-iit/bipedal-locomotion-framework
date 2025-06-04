@@ -4,7 +4,6 @@ BSD-3-Clause license. -->
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <device  xmlns:xi="http://www.w3.org/2001/XInclude" name="yarp-robot-logger" type="YarpRobotLoggerDevice">
-  <param name="robot">icub</param>
   <param name="sampling_period_in_s">0.01</param>
   <param name="rgb_cameras_fps">(30)</param>
   <param name="video_codec_code">mp4v</param>
