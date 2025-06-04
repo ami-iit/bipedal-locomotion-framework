@@ -182,11 +182,23 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         }
     }
 
-    if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+    if (!params->getParameter("log_code_status", m_logCodeStatus))
     {
-        log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will be "
-                    "added to commands.",
-                    logPrefix);
+        log()->info("{} Unable to get the 'log_code_status' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logCodeStatus);
+    }
+
+    if (m_logCodeStatus)
+    {
+        if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+        {
+            log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will "
+                        "be "
+                        "added to commands.",
+                        logPrefix);
+        }
     }
 
     if (!params->getParameter("maximum_admissible_time_step", m_acceptableStep))
@@ -1507,6 +1519,70 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     }
 }
 
+void BipedalLocomotion::YarpRobotLoggerDevice::saveCodeStatus(const std::string& logPrefix,
+                                                              const std::string& fileName) const
+{
+    if (!m_logCodeStatus)
+    {
+        // Do nothing
+        return;
+    }
+
+    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
+        std::stringstream processStream, stream;
+
+        // run the process
+        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
+            processStream << std::string(bytes, n);
+        });
+
+        // if the process status is ok we can save the output
+        auto exitStatus = process.get_exit_status();
+        if (exitStatus == 0)
+        {
+            stream << "### " << head << std::endl;
+            stream << "```" << std::endl;
+            stream << processStream.str() << std::endl;
+            stream << "```" << std::endl;
+        }
+        return stream.str();
+    };
+
+    log()->info("{} Saving the status of the code...", logPrefix);
+    auto start = BipedalLocomotion::clock().now();
+
+    std::ofstream file(fileName + ".md");
+    file << "# " << fileName << std::endl;
+    file << "File containing all the installed software required to replicate the experiment.  "
+         << std::endl;
+
+    if (m_codeStatusCmdPrefixes.empty())
+    {
+        file << codeStatus("bash "
+                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                           "ROBOTOLOGY");
+        file << codeStatus("apt list --installed", "APT");
+    } else
+    {
+        for (const auto& prefix : m_codeStatusCmdPrefixes)
+        {
+            file << "## `" << prefix << "`" << std::endl;
+            file << codeStatus(prefix
+                                   + " \"bash "
+                                     "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
+                                     "robotologyGitStatus.sh\"",
+                               "ROBOTOLOGY");
+            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
+        }
+    }
+
+    file.close();
+    log()->info("{} Status of the code saved to file {} in {}.",
+                logPrefix,
+                fileName + ".md",
+                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+}
+
 void YarpRobotLoggerDevice::run()
 {
     auto logData = [this](const std::string& name, const auto& data, const double time) {
@@ -1849,26 +1925,6 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveCallback]";
 
-    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
-        std::stringstream processStream, stream;
-
-        // run the process
-        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
-            processStream << std::string(bytes, n);
-        });
-
-        // if the process status is ok we can save the output
-        auto exitStatus = process.get_exit_status();
-        if (exitStatus == 0)
-        {
-            stream << "### " << head << std::endl;
-            stream << "```" << std::endl;
-            stream << processStream.str() << std::endl;
-            stream << "```" << std::endl;
-        }
-        return stream.str();
-    };
-
     auto saveVideo = [&fileName, logPrefix](std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                                             const std::string& camera,
                                             const std::string& videoTypePostfix) -> bool {
@@ -2045,39 +2101,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     }
 
     // save the status of the code
-    log()->info("{} Saving the status of the code...", logPrefix);
-    auto start = BipedalLocomotion::clock().now();
-
-    std::ofstream file(fileName + ".md");
-    file << "# " << fileName << std::endl;
-    file << "File containing all the installed software required to replicate the experiment.  "
-         << std::endl;
-
-    if (m_codeStatusCmdPrefixes.empty())
-    {
-        file << codeStatus("bash "
-                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
-                           "ROBOTOLOGY");
-        file << codeStatus("apt list --installed", "APT");
-    } else
-    {
-        for (const auto& prefix : m_codeStatusCmdPrefixes)
-        {
-            file << "## `" << prefix << "`" << std::endl;
-            file << codeStatus(prefix
-                                   + " \"bash "
-                                     "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
-                                     "robotologyGitStatus.sh\"",
-                               "ROBOTOLOGY");
-            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
-        }
-    }
-
-    file.close();
-    log()->info("{} Status of the code saved to file {} in {}.",
-                logPrefix,
-                fileName + ".md",
-                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+    this->saveCodeStatus(logPrefix, fileName);
 
     return true;
 }
