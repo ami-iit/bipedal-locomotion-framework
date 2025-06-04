@@ -176,6 +176,7 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
     bool m_logText{true};
+    bool m_logCodeStatus{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
@@ -195,6 +196,7 @@ private:
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
+    void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
