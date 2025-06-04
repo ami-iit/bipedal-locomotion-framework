@@ -272,7 +272,6 @@ System getSystem(std::shared_ptr<iDynTree::KinDynComputations> kinDyn)
 
     // random noise in the joints position
     std::default_random_engine generator;
-    generator.seed(42);
     std::normal_distribution<double> distribution(0.0, 0.1);
 
     // create the System
@@ -780,6 +779,10 @@ TEST_CASE("QP-IK [With builder]")
 
 TEST_CASE("QP-IK [Distance and Gravity tasks]")
 {
+    for(size_t seed=0; seed < 1000; seed++)
+    {
+    std::cerr << "Running QP-IK [Distance and Gravity tasks] with seed " << seed << std::endl;
+    srand(seed);
     auto kinDyn = std::make_shared<iDynTree::KinDynComputations>();
     auto parameterHandler = createParameterHandler();
 
@@ -904,6 +907,7 @@ TEST_CASE("QP-IK [Distance and Gravity tasks]")
                        .transpose()
                    - desiredSetPoints.desiredBodyGravity;
     REQUIRE(gravityError.isZero(tolerance));
+    }
 }
 
 TEST_CASE("QP-IK [Distance and Gravity tasks Unconstrained]")
