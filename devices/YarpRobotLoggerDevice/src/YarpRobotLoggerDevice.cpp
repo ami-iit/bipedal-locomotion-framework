@@ -457,6 +457,8 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    log()->info("{} Logger configuration completed.", logPrefix);
+
     return true;
 }
 
@@ -1173,6 +1175,7 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
     if (ok)
     {
+        log()->info("{} Attach completed. Starting logger.", logPrefix);
         return start();
     }
 
@@ -1955,6 +1958,8 @@ void YarpRobotLoggerDevice::run()
 
     m_previousTimestamp = t;
     m_firstRun = false;
+
+    yInfoThrottle(5) << "Logging data..";
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
