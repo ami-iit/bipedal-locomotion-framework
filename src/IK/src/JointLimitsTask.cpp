@@ -6,7 +6,6 @@
  */
 
 #include <chrono>
-#include <types.h>
 #include <vector>
 
 #include <OsqpEigen/Constants.hpp>
