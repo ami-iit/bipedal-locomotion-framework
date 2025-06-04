@@ -209,6 +209,14 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                     m_acceptableStep);
     }
 
+    if (!params->getParameter("log_robot_data", m_logRobot))
+    {
+        log()->info("{} Unable to get the 'log_robot_data' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logRobot);
+    }
+
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
     {
         return false;
@@ -590,6 +598,25 @@ bool YarpRobotLoggerDevice::setupTelemetry(
 bool YarpRobotLoggerDevice::setupRobotSensorBridge(
     std::weak_ptr<const ParametersHandler::IParametersHandler> params)
 {
+    if (!m_logRobot)
+    {
+        log()->info("[YarpRobotLoggerDevice::setupRobotSensorBridge] The robot data will not be "
+                    "logged.");
+        m_robotSensorBridge = nullptr;
+        m_streamJointStates = false;
+        m_streamJointAccelerations = false;
+        m_streamMotorTemperature = false;
+        m_streamMotorStates = false;
+        m_streamMotorPWM = false;
+        m_streamPIDs = false;
+        m_streamInertials = false;
+        m_streamCartesianWrenches = false;
+        m_streamFTSensors = false;
+        m_streamTemperatureSensors = false;
+
+        return true;
+    }
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotSensorBridge]";
 
     auto ptr = params.lock();
@@ -787,10 +814,13 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
     // run the thread for reading the exogenous signals
     m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
 
-    if (!m_robotSensorBridge->setDriversList(poly))
+    if (m_robotSensorBridge != nullptr)
     {
-        log()->error("{} Could not attach drivers list to sensor bridge.", logPrefix);
-        return false;
+        if (!m_robotSensorBridge->setDriversList(poly))
+        {
+            log()->error("{} Could not attach drivers list to sensor bridge.", logPrefix);
+            return false;
+        }
     }
 
     // The user can avoid to record the camera
@@ -803,31 +833,38 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    // TODO this should be removed
-    // this sleep is required since the sensor bridge could be not ready
-    using namespace std::chrono_literals;
-    BipedalLocomotion::clock().sleepFor(2000ms);
-
     std::vector<std::string> joints;
-    if (!m_robotSensorBridge->getJointsList(joints))
+    if (m_robotSensorBridge != nullptr)
     {
-        log()->error("{} Could not get the joints list.", logPrefix);
-        return false;
+        // this sleep is required since the sensor bridge could be not ready
+        using namespace std::chrono_literals;
+        BipedalLocomotion::clock().sleepFor(2000ms);
+
+        if (!m_robotSensorBridge->getJointsList(joints))
+        {
+            log()->error("{} Could not get the joints list.", logPrefix);
+            return false;
+        }
+
+        // resize the temporary vectors
+        m_jointSensorBuffer.resize(joints.size());
+
+        m_bufferManager.setDescriptionList(joints);
+        if (m_sendDataRT)
+        {
+            char* tmp = std::getenv("YARP_ROBOT_NAME");
+            std::string metadataName = robotRtRootName + treeDelim + robotName;
+            m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
+
+            std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
+            m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
+        }
     }
 
-    const unsigned dofs = joints.size();
-    m_bufferManager.setDescriptionList(joints);
     if (m_sendDataRT)
     {
-        char* tmp = std::getenv("YARP_ROBOT_NAME");
-        std::string metadataName = robotRtRootName + treeDelim + robotName;
-        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
-
-        metadataName = robotRtRootName + treeDelim + timestampsName;
+        std::string metadataName = robotRtRootName + treeDelim + timestampsName;
         m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
-
-        std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
     }
 
     // prepare the telemetry
@@ -1006,9 +1043,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 
         m_vectorCollectionRTDataServer.finalizeMetadata();
     }
-
-    // resize the temporary vectors
-    m_jointSensorBuffer.resize(dofs);
 
     // The user can avoid to record the camera
     if (m_cameraBridge != nullptr)
@@ -1626,10 +1660,13 @@ void YarpRobotLoggerDevice::run()
         m_vectorCollectionRTDataServer.populateData(rtSignalFullName, timeData);
     }
 
-    // get the data
-    if (!m_robotSensorBridge->advance())
+    if (m_robotSensorBridge != nullptr)
     {
-        log()->error("{} Could not advance sensor bridge.", logPrefix);
+        // get the data
+        if (!m_robotSensorBridge->advance())
+        {
+            log()->error("{} Could not advance sensor bridge.", logPrefix);
+        }
     }
 
     if (m_streamJointStates)
@@ -1767,27 +1804,27 @@ void YarpRobotLoggerDevice::run()
                 logData(signalFullName, m_magnemetometerBuffer, time);
             }
         }
-    }
 
-    // an IMU contains a gyro accelerometer and an orientation sensor
-    for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
-    {
-        if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
+        // an IMU contains a gyro accelerometer and an orientation sensor
+        for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
         {
-            // it will return a tuple containing the Accelerometer, the gyro and the orientation
-            this->unpackIMU(m_analogSensorBuffer,
-                            m_acceloremeterBuffer,
-                            m_gyroBuffer,
-                            m_orientationBuffer);
+            if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
+            {
+                // it will return a tuple containing the Accelerometer, the gyro and the orientation
+                this->unpackIMU(m_analogSensorBuffer,
+                                m_acceloremeterBuffer,
+                                m_gyroBuffer,
+                                m_orientationBuffer);
 
-            signalFullName = accelerometersName + treeDelim + sensorName;
-            logData(signalFullName, m_acceloremeterBuffer, time);
+                signalFullName = accelerometersName + treeDelim + sensorName;
+                logData(signalFullName, m_acceloremeterBuffer, time);
 
-            signalFullName = gyrosName + treeDelim + sensorName;
-            logData(signalFullName, m_gyroBuffer, time);
+                signalFullName = gyrosName + treeDelim + sensorName;
+                logData(signalFullName, m_gyroBuffer, time);
 
-            signalFullName = orientationsName + treeDelim + sensorName;
-            logData(signalFullName, m_orientationBuffer, time);
+                signalFullName = orientationsName + treeDelim + sensorName;
+                logData(signalFullName, m_orientationBuffer, time);
+            }
         }
     }
 
