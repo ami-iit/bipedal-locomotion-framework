@@ -224,163 +224,12 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 
     if (this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
     {
-        auto populateCamerasData
-            = [logPrefix, params, this](const std::string& fpsParamName,
-                                        const std::vector<std::string>& cameraNames) -> bool {
-            std::vector<int> fps, depthScale;
-            std::vector<std::string> rgbSaveMode, depthSaveMode;
-            if (!params->getParameter(fpsParamName, fps))
-            {
-                log()->error("{} Unable to find the parameter named: {}.", logPrefix, fpsParamName);
-                return false;
-            }
-
-            // if the camera is an rgbd camera then user should provide the depth scale
-            if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
-            {
-                if (!params->getParameter("rgbd_cameras_depth_scale", depthScale))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgbd_cameras_depth_scale'.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (!params->getParameter("rgbd_cameras_rgb_save_mode", rgbSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgb_cameras_rgb_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (!params->getParameter("rgbd_cameras_depth_save_mode", depthSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgbd_cameras_depth_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (fps.size() != depthScale.size() || (fps.size() != rgbSaveMode.size())
-                    || (fps.size() != depthSaveMode.size()))
-                {
-                    log()->error("{} Mismatch between the vector containing the size of the vector "
-                                 "provided from configuration"
-                                 "Number of cameras: {}. Size of the FPS vector {}. Size of the "
-                                 "depth scale vector {}."
-                                 "Size of 'rgb_cameras_rgb_save_mode' {}. Size of "
-                                 "'rgb_cameras_depth_save_mode': {}",
-                                 logPrefix,
-                                 cameraNames.size(),
-                                 fps.size(),
-                                 depthScale.size(),
-                                 rgbSaveMode.size(),
-                                 depthSaveMode.size());
-                    return false;
-                }
-            } else
-            {
-                if (!params->getParameter("rgb_cameras_rgb_save_mode", rgbSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgb_cameras_rgb_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-            }
-
-            if ((fps.size() != rgbSaveMode.size()))
-            {
-                log()->error("{} Mismatch between the vector containing the size of the vector "
-                             "provided from configuration"
-                             "Number of cameras: {}. Size of the FPS vector {}."
-                             "Size of 'rgb_cameras_rgb_save_mode' {}.",
-                             logPrefix,
-                             cameraNames.size(),
-                             fps.size(),
-                             rgbSaveMode.size());
-                return false;
-            }
-
-            if (fps.size() != cameraNames.size())
-            {
-                log()->error("{} Mismatch between the number of cameras and the vector containing "
-                             "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
-                             logPrefix,
-                             cameraNames.size(),
-                             fps.size());
-                return false;
-            }
-
-            auto createImageSaver
-                = [logPrefix](
-                      const std::string& saveMode) -> std::shared_ptr<VideoWriter::ImageSaver> {
-                auto saver = std::make_shared<VideoWriter::ImageSaver>();
-                if (saveMode == "frame")
-                {
-                    saver->saveMode = VideoWriter::SaveMode::Frame;
-                } else if (saveMode == "video")
-                {
-                    saver->saveMode = VideoWriter::SaveMode::Video;
-                } else
-                {
-                    log()->error("{} The save mode associated to the one of the camera is neither "
-                                 "'frame' nor 'video'. Provided: {}",
-                                 logPrefix,
-                                 saveMode);
-                    return nullptr;
-                }
-                return saver;
-            };
-
-            bool ok = true;
-            for (unsigned int i = 0; i < fps.size(); i++)
-            {
-                if (fps[i] <= 0)
-                {
-                    log()->error("{} The FPS associated to the camera {} is negative or equal to "
-                                 "zero.",
-                                 logPrefix,
-                                 i);
-                    return false;
-                }
-
-                // get the desired fps for each camera
-                m_videoWriters[cameraNames[i]].fps = fps[i];
-
-                // this means that the list of cameras are rgb camera
-                if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
-                {
-                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
-                }
-                // this means that the list of cameras are rgbd camera
-                else
-                {
-                    if (depthSaveMode[i] == "video")
-                    {
-                        log()->warn("{} The depth stream of the rgbd camera {} will be saved as a "
-                                    "grayscale 8bit video. We suggest to save it as a set of "
-                                    "frames.",
-                                    logPrefix,
-                                    i);
-                    }
-                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
-                    m_videoWriters[cameraNames[i]].depth = createImageSaver(depthSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].depth != nullptr;
-                    m_videoWriters[cameraNames[i]].depthScale = depthScale[i];
-                }
-            }
-
-            return ok;
-        };
-
         // get the metadata for rgb camera
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
         {
-            if (!populateCamerasData("rgb_cameras_fps",
+            if (!populateCamerasData(logPrefix,
+                                     params,
+                                     "rgb_cameras_fps",
                                      m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
             {
                 log()->error("{} Unable to populate the camera fps for RGB cameras.", logPrefix);
@@ -391,7 +240,9 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         // Currently the logger supports only rgb cameras
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
         {
-            if (!populateCamerasData("rgbd_cameras_fps",
+            if (!populateCamerasData(logPrefix,
+                                     params,
+                                     "rgbd_cameras_fps",
                                      m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
             {
                 log()->error("{} Unable to populate the camera fps for RGBD cameras.", logPrefix);
@@ -797,6 +648,161 @@ bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
         }
     }
     return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::populateCamerasData(
+    const std::string& logPrefix,
+    std::shared_ptr<const ParametersHandler::IParametersHandler> params,
+    const std::string& fpsParamName,
+    const std::vector<std::string>& cameraNames)
+{
+    std::vector<int> fps, depthScale;
+    std::vector<std::string> rgbSaveMode, depthSaveMode;
+    if (!params->getParameter(fpsParamName, fps))
+    {
+        log()->error("{} Unable to find the parameter named: {}.", logPrefix, fpsParamName);
+        return false;
+    }
+
+    // if the camera is an rgbd camera then user should provide the depth scale
+    if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
+    {
+        if (!params->getParameter("rgbd_cameras_depth_scale", depthScale))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgbd_cameras_depth_scale'.",
+                         logPrefix);
+            return false;
+        }
+
+        if (!params->getParameter("rgbd_cameras_rgb_save_mode", rgbSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgb_cameras_rgb_save_mode.",
+                         logPrefix);
+            return false;
+        }
+
+        if (!params->getParameter("rgbd_cameras_depth_save_mode", depthSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgbd_cameras_depth_save_mode.",
+                         logPrefix);
+            return false;
+        }
+
+        if (fps.size() != depthScale.size() || (fps.size() != rgbSaveMode.size())
+            || (fps.size() != depthSaveMode.size()))
+        {
+            log()->error("{} Mismatch between the vector containing the size of the vector "
+                         "provided from configuration"
+                         "Number of cameras: {}. Size of the FPS vector {}. Size of the "
+                         "depth scale vector {}."
+                         "Size of 'rgb_cameras_rgb_save_mode' {}. Size of "
+                         "'rgb_cameras_depth_save_mode': {}",
+                         logPrefix,
+                         cameraNames.size(),
+                         fps.size(),
+                         depthScale.size(),
+                         rgbSaveMode.size(),
+                         depthSaveMode.size());
+            return false;
+        }
+    } else
+    {
+        if (!params->getParameter("rgb_cameras_rgb_save_mode", rgbSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgb_cameras_rgb_save_mode.",
+                         logPrefix);
+            return false;
+        }
+    }
+
+    if ((fps.size() != rgbSaveMode.size()))
+    {
+        log()->error("{} Mismatch between the vector containing the size of the vector "
+                     "provided from configuration"
+                     "Number of cameras: {}. Size of the FPS vector {}."
+                     "Size of 'rgb_cameras_rgb_save_mode' {}.",
+                     logPrefix,
+                     cameraNames.size(),
+                     fps.size(),
+                     rgbSaveMode.size());
+        return false;
+    }
+
+    if (fps.size() != cameraNames.size())
+    {
+        log()->error("{} Mismatch between the number of cameras and the vector containing "
+                     "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
+                     logPrefix,
+                     cameraNames.size(),
+                     fps.size());
+        return false;
+    }
+
+    auto createImageSaver
+        = [logPrefix](const std::string& saveMode) -> std::shared_ptr<VideoWriter::ImageSaver> {
+        auto saver = std::make_shared<VideoWriter::ImageSaver>();
+        if (saveMode == "frame")
+        {
+            saver->saveMode = VideoWriter::SaveMode::Frame;
+        } else if (saveMode == "video")
+        {
+            saver->saveMode = VideoWriter::SaveMode::Video;
+        } else
+        {
+            log()->error("{} The save mode associated to the one of the camera is neither "
+                         "'frame' nor 'video'. Provided: {}",
+                         logPrefix,
+                         saveMode);
+            return nullptr;
+        }
+        return saver;
+    };
+
+    bool ok = true;
+    for (unsigned int i = 0; i < fps.size(); i++)
+    {
+        if (fps[i] <= 0)
+        {
+            log()->error("{} The FPS associated to the camera {} is negative or equal to "
+                         "zero.",
+                         logPrefix,
+                         i);
+            return false;
+        }
+
+        // get the desired fps for each camera
+        m_videoWriters[cameraNames[i]].fps = fps[i];
+
+        // this means that the list of cameras are rgb camera
+        if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
+        {
+            m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+        }
+        // this means that the list of cameras are rgbd camera
+        else
+        {
+            if (depthSaveMode[i] == "video")
+            {
+                log()->warn("{} The depth stream of the rgbd camera {} will be saved as a "
+                            "grayscale 8bit video. We suggest to save it as a set of "
+                            "frames.",
+                            logPrefix,
+                            i);
+            }
+            m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+            m_videoWriters[cameraNames[i]].depth = createImageSaver(depthSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].depth != nullptr;
+            m_videoWriters[cameraNames[i]].depthScale = depthScale[i];
+        }
+    }
+
+    return ok;
 }
 
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
