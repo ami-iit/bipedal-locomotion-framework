@@ -222,7 +222,8 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
-    if (this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
+    auto cameraBridgeGroup = params->getGroup("RobotCameraBridge").lock();
+    if (cameraBridgeGroup && this->setupRobotCameraBridge(cameraBridgeGroup))
     {
         // get the metadata for rgb camera
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
@@ -571,19 +572,18 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
 }
 
 bool YarpRobotLoggerDevice::setupRobotCameraBridge(
-    std::weak_ptr<const ParametersHandler::IParametersHandler> params)
+    std::shared_ptr<const ParametersHandler::IParametersHandler> params)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotCameraBridge]";
 
-    auto ptr = params.lock();
-    if (ptr == nullptr)
+    if (params == nullptr)
     {
         log()->error("{} The parameters handler is not valid.", logPrefix);
         return false;
     }
 
     m_cameraBridge = std::make_unique<YarpCameraBridge>();
-    if (!m_cameraBridge->initialize(ptr))
+    if (!m_cameraBridge->initialize(params))
     {
         log()->error("{} Unable to configure the 'Camera bridge'", logPrefix);
         return false;
@@ -809,19 +809,6 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
 
-    bool ok = true;
-
-    if (m_logText)
-    {
-        // open the TextLogging port
-        ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
-        // run the thread
-        m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
-    }
-
-    // run the thread for reading the exogenous signals
-    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
-
     if (m_robotSensorBridge != nullptr)
     {
         if (!m_robotSensorBridge->setDriversList(poly))
@@ -841,71 +828,143 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    std::vector<std::string> joints;
-    if (m_robotSensorBridge != nullptr)
+    log()->info("{} Attach completed. Starting logger.", logPrefix);
+    if (!this->isRunning())
     {
-        // this sleep is required since the sensor bridge could be not ready
-        using namespace std::chrono_literals;
-        BipedalLocomotion::clock().sleepFor(2000ms);
+        return startLogging();
+    }
 
-        if (!m_robotSensorBridge->getJointsList(joints))
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::startLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::startLogging]";
+
+    if (this->isRunning())
+    {
+        log()->error("{} The logger has already started. This should not have happened.",
+                     logPrefix);
+        return false;
+    }
+
+    if (m_logText)
+    {
+        // open the TextLogging port
+        bool ok = m_textLoggingPort.open(m_textLoggingPortName);
+        if (!ok)
         {
-            log()->error("{} Could not get the joints list.", logPrefix);
+            log()->error("{} Unable to open the text logging port named {}.",
+                         logPrefix,
+                         m_textLoggingPortName);
             return false;
         }
-
-        // resize the temporary vectors
-        m_jointSensorBuffer.resize(joints.size());
-
-        m_bufferManager.setDescriptionList(joints);
-        if (m_sendDataRT)
-        {
-            char* tmp = std::getenv("YARP_ROBOT_NAME");
-            std::string metadataName = robotRtRootName + treeDelim + robotName;
-            m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
-
-            std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
-            m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-        }
+        // run the thread
+        m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
     }
 
-    if (m_sendDataRT)
+    // run the thread for reading the exogenous signals
+    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
+
+    bool ok = m_bufferManager.setSaveCallback(
+        [this](const std::string& filePrefix,
+               const robometry::SaveCallbackSaveMethod& method) -> bool {
+            return this->saveCallback(filePrefix, method);
+        });
+
+    if (!ok)
     {
-        std::string metadataName = robotRtRootName + treeDelim + timestampsName;
-        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
+        log()->error("{} Unable to set the save callback for the telemetry.", logPrefix);
+        return false;
     }
+
+    if (!this->prepareRobotLogging())
+    {
+        log()->error("{} Unable to prepare the robot logging.", logPrefix);
+        return false;
+    }
+
+    // prepare the camera logging
+    if (!this->prepareCameraLogging())
+    {
+        log()->error("{} Unable to prepare the camera logging.", logPrefix);
+        return false;
+    }
+
+    // prepare real time streaming
+    if (!this->prepareRTStreaming())
+    {
+        log()->error("{} Unable to prepare the real time streaming.", logPrefix);
+        return false;
+    }
+
+    // start the thread
+    if (!this->start())
+    {
+        log()->error("{} Unable to start the device.", logPrefix);
+        return false;
+    }
+
+    log()->info("{} The logger has started.", logPrefix);
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRobotLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRobotLogging]";
+    if (m_robotSensorBridge == nullptr)
+    {
+        return true;
+    }
+
+    // this sleep is required since the sensor bridge could be not ready
+    using namespace std::chrono_literals;
+    BipedalLocomotion::clock().sleepFor(2000ms);
+
+    if (!m_robotSensorBridge->getJointsList(m_jointList))
+    {
+        log()->error("{} Could not get the joints list.", logPrefix);
+        return false;
+    }
+
+    // resize the temporary vectors
+    m_jointSensorBuffer.resize(m_jointList.size());
+
+    m_bufferManager.setDescriptionList(m_jointList);
+
+    bool ok = true;
 
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && addChannel(jointStatePositionsName, joints.size(), joints);
-        ok = ok && addChannel(jointStateVelocitiesName, joints.size(), joints);
+        ok = ok && addChannel(jointStatePositionsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(jointStateVelocitiesName, m_jointList.size(), m_jointList);
         if (m_streamJointAccelerations)
         {
-            ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+            ok = ok && addChannel(jointStateAccelerationsName, m_jointList.size(), m_jointList);
         }
-        ok = ok && addChannel(jointStateTorquesName, joints.size(), joints);
+        ok = ok && addChannel(jointStateTorquesName, m_jointList.size(), m_jointList);
     }
     if (m_streamMotorStates)
     {
-        ok = ok && addChannel(motorStatePositionsName, joints.size(), joints);
-        ok = ok && addChannel(motorStateVelocitiesName, joints.size(), joints);
-        ok = ok && addChannel(motorStateAccelerationsName, joints.size(), joints);
-        ok = ok && addChannel(motorStateCurrentsName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePositionsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateVelocitiesName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateAccelerationsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateCurrentsName, m_jointList.size(), m_jointList);
         if (m_streamMotorTemperature)
         {
-            ok = ok && addChannel(motorStateTemperaturesName, joints.size(), joints);
+            ok = ok && addChannel(motorStateTemperaturesName, m_jointList.size(), m_jointList);
         }
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && addChannel(motorStatePwmName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePwmName, m_jointList.size(), m_jointList);
     }
 
     if (m_streamPIDs)
     {
-        ok = ok && addChannel(motorStatePidsName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePidsName, m_jointList.size(), m_jointList);
     }
 
     if (m_streamFTSensors)
@@ -995,197 +1054,237 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    // this is required only if the realtime is enabled
-    if (m_sendDataRT)
+    if (!ok)
     {
-        std::string signalFullName = "";
-
-        for (auto& [name, signal] : m_vectorsCollectionSignals)
-        {
-            std::lock_guard<std::mutex> lock(signal.mutex);
-            BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
-                = signal.client.readData(false);
-            if (externalSignalCollection != nullptr)
-            {
-                if (!signal.dataArrived)
-                {
-                    bool channelAdded = false;
-                    for (const auto& [key, vector] : externalSignalCollection->vectors)
-                    {
-                        signalFullName = signal.signalName + treeDelim + key;
-                        const auto& metadata = signal.metadata.vectors.find(key);
-                        if (metadata == signal.metadata.vectors.cend())
-                        {
-                            log()->warn("{} Unable to find the metadata for the signal named {}. "
-                                        "The "
-                                        "default one will be used.",
-                                        logPrefix,
-                                        signalFullName);
-                            channelAdded = addChannel(signalFullName, vector.size());
-
-                        } else
-                        {
-                            channelAdded = addChannel(signalFullName, //
-                                                      vector.size(),
-                                                      {metadata->second});
-                        }
-                    }
-                    signal.dataArrived = channelAdded;
-                }
-            }
-        }
-
-        for (auto& [name, signal] : m_vectorSignals)
-        {
-            std::lock_guard<std::mutex> lock(signal.mutex);
-            yarp::sig::Vector* vector = signal.port.read(false);
-            if (vector != nullptr)
-            {
-                if (!signal.dataArrived)
-                {
-                    signalFullName = signal.signalName;
-                    signal.dataArrived = addChannel(signalFullName, vector->size());
-                }
-            }
-        }
-
-        m_vectorCollectionRTDataServer.finalizeMetadata();
+        log()->error("{} Unable to add the channels for the robot sensors.", logPrefix);
+        return false;
     }
 
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareCameraLogging]";
     // The user can avoid to record the camera
-    if (m_cameraBridge != nullptr)
+    if (m_cameraBridge == nullptr)
     {
-        ok = ok && m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
-        for (const auto& camera : m_rgbCamerasList)
+        return true;
+    }
+
+    bool ok = m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
+    if (!ok)
+    {
+        log()->error("{} Unable to get the list of RGB cameras.", logPrefix);
+        return false;
+    }
+    for (const auto& camera : m_rgbCamerasList)
+    {
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
         {
-            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                        camera,
+                                        "rgb",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbImgDimensions))
             {
-                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                           camera,
-                                           "rgb",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
+                log()->error("{} Unable open the video writer for the camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
             }
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                                {1, 1}, //
-                                                {"timestamp"}});
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+        ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                        {1, 1}, //
+                                        {"timestamp"}});
+        if (!ok)
+        {
+            log()->error("{} Unable to add the channel for the camera named {}.",
+                         logPrefix,
+                         camera);
+            return false;
+        }
+    }
+
+    ok = m_cameraBridge->getRGBDCamerasList(m_rgbdCamerasList);
+    if (!ok)
+    {
+        log()->error("{} Unable to get the list of RGBD cameras.", logPrefix);
+        return false;
+    }
+    for (const auto& camera : m_rgbdCamerasList)
+    {
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                        camera,
+                                        "rgb",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+        if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].depth,
+                                        camera,
+                                        "depth",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                                "camera named {}.",
+                                logPrefix,
+                                camera);
+                return false;
+            }
         }
 
-        ok = ok && m_cameraBridge->getRGBDCamerasList(m_rgbdCamerasList);
-        for (const auto& camera : m_rgbdCamerasList)
+        ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                              {1, 1}, //
+                                              {"timestamp"}});
+
+        ok = ok && m_bufferManager.addChannel({"camera::" + camera + "::depth",
+                                              {1, 1}, //
+                                              {"timestamp"}});
+
+        if (!ok)
         {
-            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
-            {
-                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                           camera,
-                                           "rgb",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbdImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            }
-            if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
-            {
-                if (!this->openVideoWriter(m_videoWriters[camera].depth,
-                                           camera,
-                                           "depth",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbdImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            }
-
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                                {1, 1}, //
-                                                {"timestamp"}});
-
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::depth",
-                                                {1, 1}, //
-                                                {"timestamp"}});
+            log()->error("{} Unable to add the channels for the rgbd camera named {}.",
+                         logPrefix,
+                         camera);
+            return false;
         }
+    }
 
-        if (ok)
+    // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
+    // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
+    // declared from structured binding.
+    // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
+    // If a lambda-expression [...] captures a structured binding (explicitly or
+    // implicitly), the program is ill-formed.
+    // you can find further information here:
+    // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
+    // Note if one day we will support c++20 we can use structured binding see
+    // https://en.cppreference.com/w/cpp/language/structured_binding
+    for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
+    {
+        // start a separate the thread for each camera
+        iter->second.videoThread
+            = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
+    }
+
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRTStreaming]";
+    if (!m_sendDataRT)
+    {
+        return true;
+    }
+
+    char* tmp = std::getenv("YARP_ROBOT_NAME");
+    std::string metadataName = robotRtRootName + treeDelim + robotName;
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
+
+    if (m_jointList.size() > 0)
+    {
+        std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, m_jointList);
+    }
+
+    metadataName = robotRtRootName + treeDelim + timestampsName;
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
+
+    std::string signalFullName = "";
+
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+            = signal.client.readData(false);
+        if (externalSignalCollection != nullptr)
         {
-            // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
-            // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
-            // declared from structured binding.
-            // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
-            // If a lambda-expression [...] captures a structured binding (explicitly or
-            // implicitly), the program is ill-formed.
-            // you can find further information here:
-            // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
-            // Note if one day we will support c++20 we can use structured binding see
-            // https://en.cppreference.com/w/cpp/language/structured_binding
-            for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
+            if (!signal.dataArrived)
             {
-                // start a separate the thread for each camera
-                iter->second.videoThread
-                    = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
+                bool channelAdded = false;
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                {
+                    signalFullName = signal.signalName + treeDelim + key;
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. "
+                                    "The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalFullName);
+                        channelAdded = addChannel(signalFullName, vector.size());
+
+                    } else
+                    {
+                        channelAdded = addChannel(signalFullName, //
+                                                  vector.size(),
+                                                  {metadata->second});
+                    }
+                }
+                signal.dataArrived = channelAdded;
             }
         }
     }
 
-    ok = ok
-         && m_bufferManager.setSaveCallback(
-             [this](const std::string& filePrefix,
-                    const robometry::SaveCallbackSaveMethod& method) -> bool {
-                 return this->saveCallback(filePrefix, method);
-             });
-
-    if (ok)
+    for (auto& [name, signal] : m_vectorSignals)
     {
-        log()->info("{} Attach completed. Starting logger.", logPrefix);
-        return start();
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::sig::Vector* vector = signal.port.read(false);
+        if (vector != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                signalFullName = signal.signalName;
+                signal.dataArrived = addChannel(signalFullName, vector->size());
+            }
+        }
     }
 
-    return ok;
+    m_vectorCollectionRTDataServer.finalizeMetadata();
+
+    return true;
 }
 
 bool YarpRobotLoggerDevice::openVideoWriter(
