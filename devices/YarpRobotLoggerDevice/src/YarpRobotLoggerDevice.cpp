@@ -95,7 +95,7 @@ void YarpRobotLoggerDevice::VectorsCollectionSignal::disconnect()
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
                                              yarp::os::ShouldUseSystemClock useSystemClock)
-    : yarp::os::PeriodicThread(period, useSystemClock)
+    : yarp::os::PeriodicThread(period, useSystemClock, yarp::os::PeriodicThreadClock::Absolute)
 {
     // Use the yarp clock in blf
     BipedalLocomotion::System::ClockBuilder::setFactory(
@@ -109,7 +109,9 @@ YarpRobotLoggerDevice::YarpRobotLoggerDevice(double period,
 }
 
 YarpRobotLoggerDevice::YarpRobotLoggerDevice()
-    : yarp::os::PeriodicThread(0.01, yarp::os::ShouldUseSystemClock::No)
+    : yarp::os::PeriodicThread(0.01,
+                               yarp::os::ShouldUseSystemClock::No,
+                               yarp::os::PeriodicThreadClock::Absolute)
 {
     // Use the yarp clock in blf
     BipedalLocomotion::System::ClockBuilder::setFactory(
