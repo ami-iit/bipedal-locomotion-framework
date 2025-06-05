@@ -168,6 +168,21 @@ void CreateYarpSensorBridge(pybind11::module& module)
                  return std::make_tuple(ok, joints, receiveTimeInSeconds);
              })
         .def(
+            "get_joint_acceleration",
+            [](YarpSensorBridge& impl, const std::string& name) {
+                double joint, receiveTimeInSeconds;
+                bool ok = impl.getJointAcceleration(name, joint, receiveTimeInSeconds);
+                return std::make_tuple(ok, joint, receiveTimeInSeconds);
+            },
+            py::arg("joint_name"))
+        .def("get_joint_accelerations",
+             [](YarpSensorBridge& impl) {
+                 Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
+                 double receiveTimeInSeconds;
+                 bool ok = impl.getJointAccelerations(joints, receiveTimeInSeconds);
+                 return std::make_tuple(ok, joints, receiveTimeInSeconds);
+             })
+        .def(
             "get_imu_measurement",
             [](YarpSensorBridge& impl, const std::string& name) {
                 Eigen::Matrix<double, 12, 1> measurement;
@@ -254,12 +269,13 @@ void CreateYarpSensorBridge(pybind11::module& module)
                 return std::make_tuple(ok, joint, receiveTimeInSeconds);
             },
             py::arg("motor_name"))
-        .def("get_motor_currents", [](YarpSensorBridge& impl) {
-            Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
-            double receiveTimeInSeconds;
-            bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
-            return std::make_tuple(ok, joints, receiveTimeInSeconds);
-        })
+        .def("get_motor_currents",
+             [](YarpSensorBridge& impl) {
+                 Eigen::VectorXd joints(impl.getOutput().bridgeOptions.nrJoints);
+                 double receiveTimeInSeconds;
+                 bool ok = impl.getMotorCurrents(joints, receiveTimeInSeconds);
+                 return std::make_tuple(ok, joints, receiveTimeInSeconds);
+             })
         .def(
             "get_joint_torque",
             [](YarpSensorBridge& impl, const std::string& jointName) {
