@@ -129,6 +129,8 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
 
+    bool needsAttach = false;
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
 
@@ -217,6 +219,11 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                     m_logRobot);
     }
 
+    if (m_logRobot)
+    {
+        needsAttach = true;
+    }
+
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
     {
         return false;
@@ -273,6 +280,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                              fourccCodecUrl);
                 return false;
             }
+            needsAttach = true;
         }
     } else
     {
@@ -310,6 +318,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     }
 
     log()->info("{} Logger configuration completed.", logPrefix);
+    if (needsAttach)
+    {
+        log()->info("{} Waiting for the attach phases before starting the logging.", logPrefix);
+    } else
+    {
+        return startLogging();
+    }
 
     return true;
 }
