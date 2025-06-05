@@ -195,6 +195,11 @@ private:
                     std::size_t vectorSize,
                     const std::vector<std::string>& metadata = {});
 
+    bool populateCamerasData(const std::string& logPrefix,
+                             std::shared_ptr<const ParametersHandler::IParametersHandler> params,
+                             const std::string& fpsParamName,
+                             const std::vector<std::string>& cameraNames);
+
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
     void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
