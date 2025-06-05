@@ -81,7 +81,7 @@ jobs:
       run: |
         mkdir -p build
         cd build
-        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DFRAMEWORK_COMPILE_IK:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+        cmake -GNinja -DBUILD_TESTING:BOOL=ON -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
               -DFRAMEWORK_COMPILE_PYTHON_BINDINGS:BOOL=ON -DUSE_SYSTEM_Catch2:BOOL=ON -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
     - name: Build [Linux&macOS]
