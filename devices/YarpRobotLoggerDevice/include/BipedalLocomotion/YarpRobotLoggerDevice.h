@@ -156,6 +156,7 @@ private:
     std::unordered_set<std::string> m_textLogsStoredInManager;
     std::thread m_lookForNewLogsThread;
 
+    std::vector<std::string> m_jointList;
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
     gyro_t m_gyroBuffer;
@@ -208,7 +209,7 @@ private:
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
     bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
-    bool setupRobotCameraBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupRobotCameraBridge(std::shared_ptr<const ParametersHandler::IParametersHandler> params);
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
@@ -221,6 +222,10 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+    bool startLogging();
+    bool prepareRobotLogging();
+    bool prepareCameraLogging();
+    bool prepareRTStreaming();
 
     const std::string treeDelim = "::";
 
