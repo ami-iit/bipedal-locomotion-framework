@@ -178,6 +178,7 @@ private:
     bool m_streamTemperatureSensors{false};
     bool m_logText{true};
     bool m_logCodeStatus{true};
+    bool m_logCameras{true};
     bool m_logRobot{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
