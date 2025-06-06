@@ -16,7 +16,6 @@
 #include <string>
 #include <tuple>
 
-#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/ParametersHandler/YarpImplementation.h>
 #include <BipedalLocomotion/System/Clock.h>
 #include <BipedalLocomotion/System/YarpClock.h>
@@ -314,6 +313,28 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!params->getParameter("log_frames", m_logFrames))
+    {
+        log()->info("{} Unable to get the 'log_frames' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logFrames);
+    }
+
+    auto tf_options = config.findGroup("Transforms");
+    if (m_logFrames && setupTransformInputs(tf_options))
+    {
+        log()->info("{} The transforms will be logged.", logPrefix);
+    } else if (m_logFrames)
+    {
+        log()->error("{} Failed to configure the frames logging. No frame will be logged.",
+                     logPrefix);
+        m_logFrames = false;
+    } else
+    {
+        log()->info("{} The frames will not be logged.", logPrefix);
+    }
+
     // open rpc port for YarpRobotLoggerDevice commands
     std::string portPrefix{"/yarp-robot-logger"};
 
@@ -436,6 +457,134 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         }
     }
 
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::setupTransformInputs(const yarp::os::Bottle& config)
+{
+    // For this method we use directly the bottle and not the ParametersHandler since
+    // we need to get the subgroup "TransformClientDevice" as a yarp bottle to be
+    // passed directly to the PolyDriver
+
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupTransformInputs]";
+    if (config.isNull())
+    {
+        log()->error("{} The input config is not valid.", logPrefix);
+        return false;
+    }
+
+    auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
+
+    std::vector<std::string> parents;
+
+    if (!params->getParameter("parent_frames", parents))
+    {
+        log()->error("{} Unable to get the 'parent_frames' parameter.", logPrefix);
+        return false;
+    }
+
+    for (const auto& parent : parents)
+    {
+        m_tfRootFrames.insert(parent);
+    }
+
+    if (m_tfRootFrames.empty())
+    {
+        log()->info("{} The 'parent_frames' parameter is empty. No frame will be logged.", logPrefix);
+        return false;
+    }
+
+    std::string rotationParametrization;
+
+    yarp::os::Bottle& device_group = config.findGroup("TransformClientDevice");
+
+    if (device_group.isNull())
+    {
+        log()->error("{} The 'TransformClientDevice' group is not provided.", logPrefix);
+        return false;
+    }
+
+    if (!m_tfDevice.open(device_group))
+    {
+        log()->error("{} Unable to open the TransformClientDevice.", logPrefix);
+        return false;
+    }
+
+    if (!m_tfDevice.view(m_tf) || !m_tf)
+    {
+        log()->error("{} Unable to view the TransformClient interface.", logPrefix);
+        return false;
+    }
+
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::updateChildTransformList()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::updateChildTransforms]";
+
+    if (!m_tf)
+    {
+        log()->error("{} The TransformClient interface is not available.", logPrefix);
+        return false;
+    }
+
+    for (auto& childFrame : m_tfChildFrames)
+    {
+        childFrame.second.active = false;
+    }
+
+    m_allFrames.clear(); // When getting the ids, it seems that the input vector is not
+                         // cleared. Passing a clean one every time.
+    if (m_tf->getAllFrameIds(m_allFrames))
+    {
+        for (std::string& id : m_allFrames)
+        {
+            if (m_tfChildFrames.find(id) == m_tfChildFrames.end()
+                && m_tfRootFrames.find(id) == m_tfRootFrames.end())
+            {
+                bool canTransform = false;
+                for (const auto& rootFrame : m_tfRootFrames)
+                {
+#if YARP_VERSION_MAJOR == 3 && YARP_VERSION_MINOR < 11
+                    canTransform = m_tf->canTransform(id, rootFrame);
+#else
+                    bool canTranformOk = false;
+                    bool canTransformRetValue
+                        = m_tf->canTransform(id, rootFrame, canTranformOk);
+                    canTransform = canTranformOk && canTransformRetValue;
+#endif
+                    if (canTransform)
+                    {
+                        FrameDescriptor frameDesc;
+                        frameDesc.parent = rootFrame;
+                        frameDesc.positionChannelName = "frames::" + rootFrame + "::" + id + "::position";
+                        frameDesc.orientationChannelName
+                            = "frames::" + rootFrame + "::" + id + "::orientation";
+                        m_tfChildFrames[id] = frameDesc;
+                        bool ok = addChannel(frameDesc.positionChannelName,
+                                   3,
+                                   {"x", "y", "z"});
+                        ok = ok
+                             && addChannel(frameDesc.orientationChannelName,
+                                   4,
+                                   {"qx", "qy", "qz", "qw"});
+                        if (!ok)
+                        {
+                            log()->error("{} Unable to add the channels for the frame: {}.",
+                                         logPrefix,
+                                         id);
+                            return false;
+                        }
+                        break;
+                    }
+                }
+            } else if (m_tfChildFrames.find(id) != m_tfChildFrames.end())
+            {
+                m_tfChildFrames[id].active = true;
+            }
+        }
+    }
     return true;
 }
 
@@ -2086,6 +2235,30 @@ void YarpRobotLoggerDevice::run()
             } else
             {
                 break;
+            }
+        }
+    }
+
+    if (m_logFrames)
+    {
+        if (updateChildTransformList())
+        {
+            for (const auto& frame : m_tfChildFrames)
+            {
+                if (!frame.second.active)
+                {
+                    continue;
+                }
+                if (m_tf->getTransform(frame.first, frame.second.parent, m_tfMatrix))
+                {
+                    Eigen::Matrix4d eigenMatrix = yarp::eigen::toEigen(m_tfMatrix);
+                    Eigen::Vector3d position = eigenMatrix.block<3, 1>(0, 3);
+                    Eigen::Quaterniond orientation(eigenMatrix.block<3, 3>(0, 0));
+                    Eigen::Vector4d orientationVec;
+                    orientationVec << orientation.x(), orientation.y(), orientation.z(), orientation.w();
+                    logData(frame.second.positionChannelName, position, time);
+                    logData(frame.second.orientationChannelName, orientationVec, time);
+                }
             }
         }
     }
