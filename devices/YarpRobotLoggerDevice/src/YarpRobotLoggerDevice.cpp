@@ -229,8 +229,25 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    if (!params->getParameter("log_cameras", m_logCameras))
+    {
+        log()->info("{} Unable to get the 'log_cameras' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logCameras);
+    }
+
     auto cameraBridgeGroup = params->getGroup("RobotCameraBridge").lock();
-    if (cameraBridgeGroup && this->setupRobotCameraBridge(cameraBridgeGroup))
+
+    if (m_logCameras && cameraBridgeGroup == nullptr)
+    {
+        log()->error("{} The 'RobotCameraBridge' group is not provided. The cameras will not be "
+                     "logged.",
+                     logPrefix);
+        m_logCameras = false;
+    }
+
+    if (m_logCameras && this->setupRobotCameraBridge(cameraBridgeGroup))
     {
         // get the metadata for rgb camera
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
@@ -284,7 +301,17 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         }
     } else
     {
-        log()->info("{} The video will not be recorded", logPrefix);
+        if (m_logCameras)
+        {
+            m_logCameras = false;
+            log()->error("{} The 'RobotCameraBridge' group is not provided. The cameras will not "
+                         "be logged.",
+                         logPrefix);
+        } else
+        {
+            log()->info("{} The video will not be recorded", logPrefix);
+        }
+
     }
 
     if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
