@@ -7,8 +7,8 @@ if(TARGET BipedalLocomotion::RobotInterface)
 
   add_bipedal_locomotion_python_module(
     NAME RobotInterfaceBindings
-    SOURCES src/PositionToCurrentController.cpp src/IRobotControl.cpp src/ISensorBridge.cpp src/Module.cpp
-    HEADERS ${H_PREFIX}/PositionToCurrentController.h ${H_PREFIX}/IRobotControl.h ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/Module.h
+    SOURCES src/IRobotControl.cpp src/ISensorBridge.cpp src/Module.cpp
+    HEADERS ${H_PREFIX}/IRobotControl.h ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::RobotInterface
     )
 endif()

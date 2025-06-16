@@ -10,7 +10,6 @@
 #include <BipedalLocomotion/bindings/RobotInterface/IRobotControl.h>
 #include <BipedalLocomotion/bindings/RobotInterface/ISensorBridge.h>
 #include <BipedalLocomotion/bindings/RobotInterface/Module.h>
-#include <BipedalLocomotion/bindings/RobotInterface/PositionToCurrentController.h>
 
 namespace BipedalLocomotion
 {
@@ -22,7 +21,6 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "Robot interface module can be used to communicate with the robot";
 
-    CreatePositionToCurrentController(module);
     CreateIRobotControl(module);
     CreateISensorBridge(module);
 }

@@ -101,6 +101,11 @@
 #include<BipedalLocomotion/bindings/SimplifiedModelControllers/Module.h>
 @endcmakeiftarget BipedalLocomotion::SimplifiedModelControllers
 
+@cmakeiftarget BipedalLocomotion::JointLevelControllers
+#include<BipedalLocomotion/bindings/JointLevelControllers/Module.h>
+@endcmakeiftarget BipedalLocomotion::JointLevelControllers
+
+
 @cmakeiftarget BipedalLocomotion::RobotDynamicsEstimator
 #include<BipedalLocomotion/bindings/RobotDynamicsEstimator/Module.h>
 @endcmakeiftarget BipedalLocomotion::RobotDynamicsEstimator
@@ -226,6 +231,11 @@ PYBIND11_MODULE(bindings, m)
     py::module simplifiedModelControllersModule = m.def_submodule("simplified_model_controllers");
     bindings::SimplifiedModelControllers::CreateModule(simplifiedModelControllersModule);
     @endcmakeiftarget BipedalLocomotion::SimplifiedModelControllers
+
+    @cmakeiftarget BipedalLocomotion::JointLevelControllers
+    py::module jointLevelControllersModule = m.def_submodule("joint_level_controllers");
+    bindings::JointLevelControllers::CreateModule(jointLevelControllersModule);
+    @endcmakeiftarget BipedalLocomotion::JointLevelControllers
 
     @cmakeiftarget BipedalLocomotion::RobotDynamicsEstimator
     py::module robotDynamicsEstimatorModule = m.def_submodule("robot_dynamics_estimator");

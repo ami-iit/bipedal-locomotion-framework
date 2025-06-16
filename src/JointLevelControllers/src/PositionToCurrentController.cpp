@@ -5,11 +5,11 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/RobotInterface/PositionToCurrentController.h>
+#include <BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h>
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <limits>
 
-using namespace BipedalLocomotion::RobotInterface;
+using namespace BipedalLocomotion::JointLevelControllers;
 
 struct PositionToCurrentController::Impl
 {

@@ -9,22 +9,22 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <BipedalLocomotion/RobotInterface/PositionToCurrentController.h>
+#include <BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
-#include <BipedalLocomotion/bindings/RobotInterface/PositionToCurrentController.h>
+#include <BipedalLocomotion/bindings/JointLevelControllers/PositionToCurrentController.h>
 #include <BipedalLocomotion/bindings/System/Advanceable.h>
 
 namespace BipedalLocomotion
 {
 namespace bindings
 {
-namespace RobotInterface
+namespace JointLevelControllers
 {
 
 void CreatePositionToCurrentController(pybind11::module& module)
 {
-    using namespace ::BipedalLocomotion::RobotInterface;
+    using namespace ::BipedalLocomotion::JointLevelControllers;
     using namespace ::BipedalLocomotion::System;
     namespace py = ::pybind11;
 
@@ -39,11 +39,11 @@ void CreatePositionToCurrentController(pybind11::module& module)
         module,
         "PositionToCurrentController");
 
-    py::class_<::BipedalLocomotion::RobotInterface::PositionToCurrentController,
+    py::class_<::BipedalLocomotion::JointLevelControllers::PositionToCurrentController,
                ::BipedalLocomotion::System::Advanceable<PositionToCurrentControllerInput,
                                                         ::Eigen::VectorXd>> //
         (module, "PositionToCurrentController").def(py::init());
 }
-} // namespace RobotInterface
+} // namespace JointLevelControllers
 } // namespace bindings
 } // namespace BipedalLocomotion
