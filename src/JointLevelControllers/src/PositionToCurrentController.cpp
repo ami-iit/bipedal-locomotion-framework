@@ -96,6 +96,12 @@ static bool loadGroupVector(
     auto g = ptr->getGroup(name).lock();
     if (g == nullptr)
     {
+        if (isRequired)
+        {
+            BipedalLocomotion::log()->error("[loadGroupVector] Unable to find the parameter named "
+                                            "{}",
+                                            name);
+        }
         return !isRequired; // if the group is not found and it's not required, return true
     }
 
@@ -152,8 +158,20 @@ bool PositionToCurrentController::initialize(
     loadGroupVector(ptr, "coulomb_friction", joints, m_pimpl->coulombFriction, optional, 0.0);
 
     /* TN knee & zero-current speed -------------------------------- */
-    loadGroupVector(ptr, "rated_speed", joints, m_pimpl->ratedSpeed, optional, -1.0);
-    loadGroupVector(ptr, "no_load_speed", joints, m_pimpl->noLoadSpeed, optional, -1.0);
+    loadGroupVector(ptr, "rated_speed", joints, m_pimpl->ratedSpeed, optional, inf);
+    loadGroupVector(ptr, "no_load_speed", joints, m_pimpl->noLoadSpeed, optional, inf);
+
+    if (m_pimpl->noLoadSpeed.minCoeff() < 0.0)
+    {
+        log()->error("{} Invalid 'no_load_speed'. All values must be non-negative.", logPrefix);
+        return false;
+    }
+
+    if (m_pimpl->ratedSpeed.minCoeff() < 0.0)
+    {
+        log()->error("{} Invalid 'rated_speed'. All values must be non-negative.", logPrefix);
+        return false;
+    }
 
     /* compute slope/intercept (or disable) ------------------------ */
     m_pimpl->satSlope.resize(joints.size());
@@ -162,7 +180,9 @@ bool PositionToCurrentController::initialize(
     for (std::size_t i = 0; i < joints.size(); ++i)
     {
         const bool finiteImax = std::isfinite(m_pimpl->currentLimit[i]);
-        const bool validTN = finiteImax && (m_pimpl->ratedSpeed[i] > 0.0)
+        const bool finiteNoLoadSpeed = std::isfinite(m_pimpl->noLoadSpeed[i]);
+        const bool finiteRatedSpead = std::isfinite(m_pimpl->ratedSpeed[i]);
+        const bool validTN = finiteImax && finiteNoLoadSpeed && finiteRatedSpead
                              && (m_pimpl->noLoadSpeed[i] > m_pimpl->ratedSpeed[i]);
 
         if (validTN)
@@ -180,6 +200,9 @@ bool PositionToCurrentController::initialize(
             m_pimpl->satSlope[i] = 0.0;
             m_pimpl->satIntercept[i] = m_pimpl->currentLimit[i];
             m_pimpl->ratedSpeed[i] = inf;
+            m_pimpl->noLoadSpeed[i] = inf;
+
+            log()->debug("{} Invalid TN curve for joint {}.", logPrefix, joints[i]);
         }
     }
 
