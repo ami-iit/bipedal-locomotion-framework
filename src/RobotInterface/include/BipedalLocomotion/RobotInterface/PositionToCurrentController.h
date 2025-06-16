@@ -16,42 +16,81 @@
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
-namespace BipedalLocomotion::RobotInterface
+namespace BipedalLocomotion
+{
+namespace RobotInterface
 {
 
 /**
- * Input structure for the PositionToCurrentController.
- * It contains the reference position, feedback position, and feedback velocity
- * for the controller.
+ * @brief Input data structure for the PositionToCurrentController
+ *
+ * This structure contains all the feedback and reference signals required by the controller
+ * to compute the appropriate motor current commands. All vectors must have the same size
+ * corresponding to the number of controlled joints.
  */
 struct PositionToCurrentControllerInput
 {
-    Eigen::VectorXd referencePosition; /**< Reference position for the controller */
-    Eigen::VectorXd feedbackPosition; /**< Feedback position for the controller */
-    Eigen::VectorXd feedbackVelocity; /**< Feedback velocity for the controller */
+    Eigen::VectorXd referencePosition; /**< Desired joint positions [rad] */
+    Eigen::VectorXd feedbackPosition; /**< Current joint positions from encoders [rad] */
+    Eigen::VectorXd feedbackVelocity; /**< Current joint velocities from encoders [rad/s] */
 };
 
 // clang-format off
 /**
- * Output structure for the PositionToCurrentController.
- * The controller computes the output current based on the input
- * reference position, feedback position, and feedback velocity.
- * It implements a proportional controller with feedforward terms
- * for torque and friction compensation.
- * The output is the current in Amperes for each joint.
- * The output is computed as:
+ * @brief Position-to-Current Controller with Friction Compensation and TN-Curve Limiting
+ * 
+ * The PositionToCurrentController implements a position control strategy that directly
+ * computes motor current commands from position errors. This approach is particularly useful for
+ * robots where direct current control provides better performance than traditional position control
+ * cascades, especially in applications requiring precise force/torque control or friction compensation.
+ * 
+ * @note Controller Architecture
+ * 
+ * The controller implements a proportional position control law with Coulomb friction feedforward
+ * compensation and dynamic current limiting based on motor torque-speed (TN) characteristics:
+ * 
  * \f[
- *     I = \frac{K_p \cdot (q_{ref} - q_{fb}) + k_{coulomb} \cdot \text{sign}(v_{fb})}{\text{gearRatio} \cdot k_{\tau}}
+ *     I = \text{clamp}\left(\frac{K_p \cdot (q_{ref} - q_{fb}) + \tau_{coulomb}}{\text{gearRatio} \cdot k_{\tau}}, I_{limit}(\omega)\right)
  * \f]
+ * 
  * where:
- * - \(I\) is the output current
- * - \(K_p\) is the proportional gain
- * - \(q_{ref}\) is the reference position
- * - \(q_{fb}\) is the feedback position
- * - \(v_{fb}\) is the feedback velocity
- * - \(k_{coulomb}\) is the Coulomb friction
- * - \(\text{gearRatio}\) is the gear ratio for the controller
- * - \(k_{\tau}\) is the torque constant for the controller
+ * - \(I\) is the output current [A]
+ * - \(K_p\) is the proportional gain [Nm/rad]
+ * - \(q_{ref}\) is the reference position [rad]
+ * - \(q_{fb}\) is the feedback position [rad]
+ * - \(\tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb})\) is the Coulomb friction compensation [Nm]
+ * - \(\dot{q}_{fb}\) is the feedback velocity [rad/s]
+ * - \(\text{gearRatio}\) is the gear reduction ratio (motor-to-joint)
+ * - \(k_{\tau}\) is the motor torque constant [Nm/A]
+ * - \(I_{limit}(\omega)\) is the velocity-dependent current limit [A]
+ * 
+ * ## Friction Compensation
+ * 
+ * The controller includes feedforward Coulomb friction compensation that adds a constant torque
+ * in the direction of motion to counteract static and kinetic friction effects:
+ * 
+ * \f[
+ *     \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb})
+ * \f]
+ * 
+ * This helps improve tracking accuracy, especially at low velocities where friction effects
+ * are dominant.
+ * 
+ * ## Dynamic Current Limiting (TN-Curve)
+ * 
+ * The controller implements velocity-dependent current limiting based on motor torque-speed
+ * characteristics to prevent motor overheating and ensure safe operation:
+ * 
+ * - **Constant Region** (\(|\omega| \leq \omega_{rated}\)): \(I_{limit} = I_{max}\)
+ * - **Linear Falloff** (\(\omega_{rated} < |\omega| < \omega_{0}\)): \(I_{limit} = m \cdot |\omega| + b\)
+ * - **No-Load Speed** (\(|\omega| \geq \omega_{0}\)): \(I_{limit} = 0\)
+ * 
+ * where:
+ * - \(\omega_{rated}\) is the rated speed at which current limiting begins [rad/s]
+ * - \(\omega_{0}\) is the no-load speed where current becomes zero [rad/s]
+ * - \(m = -I_{max} / (\omega_{0} - \omega_{rated})\) is the slope of the linear region
+ * - \(b = I_{max} - m \cdot \omega_{rated}\) is the intercept
+ * 
  */
 class PositionToCurrentController
     : public BipedalLocomotion::System::Advanceable<PositionToCurrentControllerInput,
@@ -126,6 +165,7 @@ private:
     std::unique_ptr<Impl> m_pimpl; /**< Pointer to the implementation details */
 };
 
-} // namespace BipedalLocomotion::RobotInterface
+} // namespace RobotInterface
+} // namespace BipedalLocomotion
 
 #endif // BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_POSITION_TO_CURRENT_CONTROLLER_H
