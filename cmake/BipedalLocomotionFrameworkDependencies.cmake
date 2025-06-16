@@ -295,7 +295,7 @@ framework_dependent_option(FRAMEWORK_COMPILE_ReducedModelControllers
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointLevelControllers
   "Do you want to generate and compile the JointLevelControllers?" ON
-  "FRAMEWORK_COMPILE_System" OFF)  
+  "FRAMEWORK_COMPILE_System" OFF)
 
 framework_dependent_option(FRAMEWORK_COMPILE_JointsGridPositionTrackingApplication
   "Compile joints-grid-position-tracking application?" ON
