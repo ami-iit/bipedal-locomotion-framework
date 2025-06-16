@@ -38,21 +38,21 @@ struct PositionToCurrentControllerInput
 // clang-format off
 /**
  * @brief Position-to-Current Controller with Friction Compensation and TN-Curve Limiting
- * 
+ *
  * The PositionToCurrentController implements a position control strategy that directly
  * computes motor current commands from position errors. This approach is particularly useful for
  * robots where direct current control provides better performance than traditional position control
  * cascades, especially in applications requiring precise force/torque control or friction compensation.
- * 
+ *
  * @note Controller Architecture
- * 
+ *
  * The controller implements a proportional position control law with Coulomb friction feedforward
  * compensation and dynamic current limiting based on motor torque-speed (TN) characteristics:
- * 
+ *
  * \f[
  *     I = \text{clamp}\left(\frac{K_p \cdot (q_{ref} - q_{fb}) + \tau_{coulomb}}{\text{gearRatio} \cdot k_{\tau}}, I_{limit}(\omega)\right)
  * \f]
- * 
+ *
  * where:
  * - \(I\) is the output current [A]
  * - \(K_p\) is the proportional gain [Nm/rad]
@@ -63,34 +63,34 @@ struct PositionToCurrentControllerInput
  * - \(\text{gearRatio}\) is the gear reduction ratio (motor-to-joint)
  * - \(k_{\tau}\) is the motor torque constant [Nm/A]
  * - \(I_{limit}(\omega)\) is the velocity-dependent current limit [A]
- * 
+ *
  * ## Friction Compensation
- * 
+ *
  * The controller includes feedforward Coulomb friction compensation that adds a constant torque
  * in the direction of motion to counteract static and kinetic friction effects:
- * 
+ *
  * \f[
  *     \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb})
  * \f]
- * 
+ *
  * This helps improve tracking accuracy, especially at low velocities where friction effects
  * are dominant.
- * 
+ *
  * ## Dynamic Current Limiting (TN-Curve)
- * 
+ *
  * The controller implements velocity-dependent current limiting based on motor torque-speed
  * characteristics to prevent motor overheating and ensure safe operation:
- * 
+ *
  * - **Constant Region** (\(|\omega| \leq \omega_{rated}\)): \(I_{limit} = I_{max}\)
  * - **Linear Falloff** (\(\omega_{rated} < |\omega| < \omega_{0}\)): \(I_{limit} = m \cdot |\omega| + b\)
  * - **No-Load Speed** (\(|\omega| \geq \omega_{0}\)): \(I_{limit} = 0\)
- * 
+ *
  * where:
  * - \(\omega_{rated}\) is the rated speed at which current limiting begins [rad/s]
  * - \(\omega_{0}\) is the no-load speed where current becomes zero [rad/s]
  * - \(m = -I_{max} / (\omega_{0} - \omega_{rated})\) is the slope of the linear region
  * - \(b = I_{max} - m \cdot \omega_{rated}\) is the intercept
- * 
+ *
  */
 class PositionToCurrentController
     : public BipedalLocomotion::System::Advanceable<PositionToCurrentControllerInput,
