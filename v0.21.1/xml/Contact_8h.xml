@@ -17,10 +17,10 @@
     <includedby refid="ContactPhaseList_8h" local="no">BipedalLocomotion/Contacts/ContactPhaseList.h</includedby>
     <includedby refid="GlobalCoPEvaluator_8h" local="no">BipedalLocomotion/Contacts/GlobalCoPEvaluator.h</includedby>
     <includedby refid="CentroidalDynamics_8h" local="no">BipedalLocomotion/ContinuousDynamicalSystem/CentroidalDynamics.h</includedby>
-    <includedby refid="CentroidalMPC_8h" local="no">BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</includedby>
     <includedby refid="MANNAutoregressive_8h" local="no">BipedalLocomotion/ML/MANNAutoregressive.h</includedby>
     <includedby refid="VelMANNAutoregressive_8h" local="no">BipedalLocomotion/ML/VelMANNAutoregressive.h</includedby>
     <includedby refid="FloatingBaseEstimatorIO_8h" local="no">BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</includedby>
+    <includedby refid="CentroidalMPC_8h" local="no">BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</includedby>
     <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
     <incdepgraph>
       <node id="1">
@@ -79,16 +79,16 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="15">
+      <node id="14">
         <label>BipedalLocomotion/ML/MANNTrajectoryGenerator.h</label>
         <link refid="MANNTrajectoryGenerator_8h"/>
       </node>
-      <node id="13">
+      <node id="12">
         <label>BipedalLocomotion/ML/MANNAutoregressive.h</label>
         <link refid="MANNAutoregressive_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -112,19 +112,19 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="18">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimatorIO.h</label>
         <link refid="FloatingBaseEstimatorIO_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -139,23 +139,23 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="21">
         <label>BipedalLocomotion/FloatingBaseEstimators/LeggedOdometry.h</label>
         <link refid="LeggedOdometry_8h"/>
       </node>
-      <node id="16">
+      <node id="15">
         <label>BipedalLocomotion/ML/VelMANNAutoregressive.h</label>
         <link refid="VelMANNAutoregressive_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
       </node>
-      <node id="12">
+      <node id="22">
         <label>BipedalLocomotion/ReducedModelControllers/CentroidalMPC.h</label>
         <link refid="CentroidalMPC_8h"/>
       </node>
-      <node id="21">
+      <node id="20">
         <label>BipedalLocomotion/FloatingBaseEstimators/InvariantEKFBaseEstimator.h</label>
         <link refid="InvariantEKFBaseEstimator_8h"/>
       </node>
@@ -169,12 +169,12 @@
         <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="20">
+      <node id="19">
         <label>BipedalLocomotion/FloatingBaseEstimators/FloatingBaseEstimator.h</label>
         <link refid="FloatingBaseEstimator_8h"/>
-        <childnode refid="21" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -205,7 +205,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="13">
         <label>BipedalLocomotion/ML/MANNAutoregressiveInputBuilder.h</label>
         <link refid="MANNAutoregressiveInputBuilder_8h"/>
       </node>
@@ -213,7 +213,7 @@
         <label>BipedalLocomotion/Planners/SwingFootPlanner.h</label>
         <link refid="SwingFootPlanner_8h"/>
       </node>
-      <node id="17">
+      <node id="16">
         <label>BipedalLocomotion/ML/VelMANNAutoregressiveInputBuilder.h</label>
         <link refid="VelMANNAutoregressiveInputBuilder_8h"/>
       </node>
@@ -227,7 +227,7 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="17">
         <label>BipedalLocomotion/ML/VelMANNTrajectoryGenerator.h</label>
         <link refid="VelMANNTrajectoryGenerator_8h"/>
       </node>

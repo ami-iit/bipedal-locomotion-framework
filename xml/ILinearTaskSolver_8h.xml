@@ -12,9 +12,9 @@
     <includes refid="OutputPort_8h" local="no">BipedalLocomotion/System/OutputPort.h</includes>
     <includes refid="Source_8h" local="no">BipedalLocomotion/System/Source.h</includes>
     <includes refid="VariablesHandler_8h" local="no">BipedalLocomotion/System/VariablesHandler.h</includes>
+    <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
     <includedby refid="IntegrationBasedIK_8h" local="no">BipedalLocomotion/IK/IntegrationBasedIK.h</includedby>
     <includedby refid="QPInverseKinematics_8h" local="no">BipedalLocomotion/IK/QPInverseKinematics.h</includedby>
-    <includedby refid="TaskSpaceInverseDynamics_8h" local="no">BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</includedby>
     <incdepgraph>
       <node id="17">
         <label>BipedalLocomotion/System/Advanceable.h</label>
@@ -143,17 +143,17 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="6">
         <label>BipedalLocomotion/IK/QPFixedBaseInverseKinematics.h</label>
         <link refid="QPFixedBaseInverseKinematics_8h"/>
       </node>
-      <node id="4">
+      <node id="7">
         <label>BipedalLocomotion/IK/QPInverseKinematics.h</label>
         <link refid="QPInverseKinematics_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="4">
         <label>BipedalLocomotion/TSID/QPFixedBaseTSID.h</label>
         <link refid="QPFixedBaseTSID_8h"/>
       </node>
@@ -162,29 +162,29 @@
         <link refid="ILinearTaskSolver_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
-        <link refid="TaskSpaceInverseDynamics_8h"/>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="2">
-        <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
-        <link refid="IntegrationBasedIK_8h"/>
+        <label>BipedalLocomotion/TSID/TaskSpaceInverseDynamics.h</label>
+        <link refid="TaskSpaceInverseDynamics_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+      </node>
+      <node id="5">
+        <label>BipedalLocomotion/IK/IntegrationBasedIK.h</label>
+        <link refid="IntegrationBasedIK_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="3">
         <label>BipedalLocomotion/TSID/QPTSID.h</label>
         <link refid="QPTSID_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
