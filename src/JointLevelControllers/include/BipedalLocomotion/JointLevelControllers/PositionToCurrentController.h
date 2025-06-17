@@ -122,20 +122,22 @@ public:
      * @note The parameters handler should contain the following parameters:
      * |   Parameter Name     |        Type                |         Description         | Mandatory |
      * |:--------------------:|:--------------------------:|:---------------------------:|:---------:|
-     * | joints_list          | `std::vector<std::string>` | List of joints to control   |    Yes    |
+     * | `joints_list`        | `std::vector<std::string>` | List of joints to control   |    Yes    |
      * Moreover the following group parameters are required:
      * |  Group Name    |                                                        Description                                           | Mandatory |
      * |:--------------:|:------------------------------------------------------------------------------------------------------------:|:---------:|
-     * |      kp        |     An element for each joint contained in the `joints_list` parameter. Proportional gain for each joint     |    Yes    |
-     * |   gearbox      | An element for each joint contained in the `joints_list` parameter. Gear ratio for each joint (motor->joint) |    Yes    |
-     * |    k_tau       |   An element for each joint contained in the `joints_list` parameter. Torque constant for each joint [Nm/A]  |    Yes    |
+     * |      `kp`      |     An element for each joint contained in the `joints_list` parameter. Proportional gain for each joint     |    Yes    |
+     * |   `gearbox`    | An element for each joint contained in the `joints_list` parameter. Gear ratio for each joint (motor->joint) |    Yes    |
+     * |    `k_tau`     |   An element for each joint contained in the `joints_list` parameter. Torque constant for each joint [Nm/A]  |    Yes    |
+     *
      * Furthermore, the following optional parameters are supported:
-     * |    Group Name    |                                                        Description                                        | Mandatory |
-     * |:----------------:|:---------------------------------------------------------------------------------------------------------:|:---------:|
-     * |   current_limit  | An element for each joint contained in the `joints_list` parameter. Current limit for each joint [A]      |    No     |
-     * | coulomb_friction | An element for each joint contained in the `joints_list` parameter. Coulomb friction for each joint [Nm]  |    No     |
-     * |   rated_speed    | An element for each joint contained in the `joints_list` parameter. Rated speed for each joint [rad/s]    |    No     |
-     * |   no_load_speed  | An element for each joint contained in the `joints_list` parameter. No-load speed for each joint [rad/s]  |    No     |
+     * |       Group Name      |                                                        Description                                        | Mandatory |
+     * |:---------------------:|:---------------------------------------------------------------------------------------------------------:|:---------:|
+     * |     `current_limit`   | An element for each joint contained in the `joints_list` parameter. Current limit for each joint [A]      |    No     |
+     * |   `coulomb_friction`  | An element for each joint contained in the `joints_list` parameter. Coulomb friction for each joint [Nm]  |    No     |
+     * | `activation_velocity` | An element for each joint contained in the `joints_list` parameter. Friction activation velocity [rad/s]  |    No     |
+     * |    `rated_speed`      | An element for each joint contained in the `joints_list` parameter. Rated speed for each joint [rad/s]    |    No     |
+     * |    `no_load_speed`    | An element for each joint contained in the `joints_list` parameter. No-load speed for each joint [rad/s]  |    No     |
      * @return True if the initialization is successful.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> handler) override;

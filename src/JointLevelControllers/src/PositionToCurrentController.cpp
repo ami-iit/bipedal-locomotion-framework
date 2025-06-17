@@ -21,9 +21,12 @@ struct PositionToCurrentController::Impl
     Eigen::VectorXd gearRatio; /**< Gear ratio for each joint */
     Eigen::VectorXd kTau; /**< Torque constant for each joint */
 
+    Eigen::VectorXd torqueToCurrentFactor; /**< Precomputed 1/(gearRatio * kTau) */
+
     /* optional parameters ------------------------------------------ */
     Eigen::VectorXd currentLimit; /**< Current limit for each joint */
     Eigen::VectorXd coulombFriction; /**< Coulomb friction for each joint */
+    Eigen::VectorXd activationVelocity; /**< Friction activation velocity [rad/s] */
 
     /* TN-curve coefficients & knee -------------------------------- */
     Eigen::VectorXd ratedSpeed; /**< ω_rated */
@@ -32,6 +35,8 @@ struct PositionToCurrentController::Impl
     Eigen::VectorXd satIntercept; /**< b */
 
     Eigen::VectorXd dynamicLimit; /**< Dynamic limit for each joint */
+
+    Eigen::VectorXd positionError; /**< Position error vector */
 };
 
 PositionToCurrentController::PositionToCurrentController()
@@ -45,14 +50,22 @@ bool PositionToCurrentController::advance()
 {
     m_pimpl->outputValid = false;
 
-    // raw proportional + friction term
-    m_pimpl->output
-        = m_pimpl->kp.cwiseProduct(m_pimpl->input.referencePosition
-                                   - m_pimpl->input.feedbackPosition)
-          + m_pimpl->coulombFriction.cwiseProduct(m_pimpl->input.feedbackVelocity.cwiseSign());
+    // Compute position error once and reuse
+    m_pimpl->positionError = m_pimpl->input.referencePosition - m_pimpl->input.feedbackPosition;
 
-    // torque -> current
-    m_pimpl->output = m_pimpl->output.cwiseQuotient(m_pimpl->gearRatio.cwiseProduct(m_pimpl->kTau));
+    // Compute proportional term
+    m_pimpl->output = m_pimpl->kp.cwiseProduct(m_pimpl->positionError);
+
+    // Add friction term efficiently: tau_friction = coulomb_friction * tanh(activation_velocity *
+    // feedback_velocity) Compute friction contribution directly to avoid intermediate temporaries
+    for (std::size_t j = 0; j < m_pimpl->output.size(); ++j)
+    {
+        const double tanhArg = m_pimpl->input.feedbackVelocity[j] / m_pimpl->activationVelocity[j];
+        m_pimpl->output[j] += m_pimpl->coulombFriction[j] * std::tanh(tanhArg);
+    }
+
+    // Convert torque to current efficiently using precomputed factor
+    m_pimpl->output = m_pimpl->output.cwiseProduct(m_pimpl->torqueToCurrentFactor);
 
     for (std::size_t j = 0; j < m_pimpl->dynamicLimit.size(); ++j)
     {
@@ -145,6 +158,10 @@ bool PositionToCurrentController::initialize(
         return false;
     }
 
+    // Precompute torque-to-current conversion factor for efficiency
+    m_pimpl->torqueToCurrentFactor
+        = (m_pimpl->gearRatio.cwiseProduct(m_pimpl->kTau)).cwiseInverse();
+
     // optional (flat) current limit & friction
     constexpr auto optional = false;
     const double inf = std::numeric_limits<double>::infinity();
@@ -156,6 +173,7 @@ bool PositionToCurrentController::initialize(
     }
 
     loadGroupVector(ptr, "coulomb_friction", joints, m_pimpl->coulombFriction, optional, 0.0);
+    loadGroupVector(ptr, "activation_velocity", joints, m_pimpl->activationVelocity, optional, 1e-5);
 
     /* TN knee & zero-current speed -------------------------------- */
     loadGroupVector(ptr, "rated_speed", joints, m_pimpl->ratedSpeed, optional, inf);
@@ -176,6 +194,7 @@ bool PositionToCurrentController::initialize(
     /* compute slope/intercept (or disable) ------------------------ */
     m_pimpl->satSlope.resize(joints.size());
     m_pimpl->satIntercept.resize(joints.size());
+    m_pimpl->positionError.resize(joints.size());
 
     for (std::size_t i = 0; i < joints.size(); ++i)
     {
