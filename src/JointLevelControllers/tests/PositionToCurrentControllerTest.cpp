@@ -137,17 +137,200 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
     }
 }
 
-TEST_CASE("PositionToCurrentController - Friction Compensation")
+TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 {
     constexpr double kp = 10.0;
     constexpr double gearRatio = 100.0;
     constexpr double kTau = 0.111;
     constexpr double coulombFriction = 2.0; // Nm
+    constexpr double activationVelocity = 1.0; // rad/s
     std::vector<std::string> joints{"joint_1"};
 
     auto ptr = createBasicParameterHandler(joints, kp, gearRatio, kTau);
 
-    // Add friction compensation
+    // Add friction compensation with activation velocity
+    auto ptrFriction = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+    auto ptrActivation
+        = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+    ptrFriction->setParameter("joint_1", coulombFriction);
+    ptrActivation->setParameter("joint_1", activationVelocity);
+    ptr->setGroup("coulomb_friction", ptrFriction);
+    ptr->setGroup("activation_velocity", ptrActivation);
+
+    PositionToCurrentController controller;
+    REQUIRE(controller.initialize(ptr));
+
+    SECTION("High positive velocity saturates friction compensation")
+    {
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 5.0; // High positive velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Expected: coulombFriction * tanh(5.0/1.0) / (gearRatio * kTau)
+        // tanh(5.0) ≈ 0.9999, so ≈ 2.0 / (100.0 * 0.111) = 0.1802
+        REQUIRE(output(0) == Approx(0.1802).epsilon(1e-2));
+    }
+
+    SECTION("High negative velocity saturates friction compensation")
+    {
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * -5.0; // High negative velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Expected: coulombFriction * tanh(-5.0/1.0) / (gearRatio * kTau)
+        // tanh(-5.0) ≈ -0.9999, so ≈ -2.0 / (100.0 * 0.111) = -0.1802
+        REQUIRE(output(0) == Approx(-0.1802).epsilon(1e-2));
+    }
+
+    SECTION("Low velocity provides proportional friction compensation")
+    {
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.1; // Low velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Expected: coulombFriction * tanh(0.1/1.0) / (gearRatio * kTau)
+        // tanh(0.1) ≈ 0.0997, so ≈ 2.0 * 0.0997 / (100.0 * 0.111) = 0.0180
+        double expectedTanh = std::tanh(0.1);
+        double expected = coulombFriction * expectedTanh / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-4));
+    }
+
+    SECTION("Zero velocity produces zero friction")
+    {
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Zero(1); // Zero velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Expected: coulombFriction * tanh(0.0/1.0) / (gearRatio * kTau) = 0.0
+        REQUIRE(output(0) == Approx(0.0).margin(1e-10));
+    }
+
+    SECTION("Combined position error and tanh friction compensation")
+    {
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Ones(1) * 1.0;
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.0; // Velocity = activation velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Expected: (kp * 1.0 + coulombFriction * tanh(1.0)) / (gearRatio * kTau)
+        // tanh(1.0) ≈ 0.7616
+        double tanhValue = std::tanh(1.0);
+        double expected = (kp + coulombFriction * tanhValue) / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-3));
+    }
+}
+
+TEST_CASE("PositionToCurrentController - Different Activation Velocities")
+{
+    constexpr double kp = 10.0;
+    constexpr double gearRatio = 100.0;
+    constexpr double kTau = 0.111;
+    constexpr double coulombFriction = 2.0;
+    std::vector<std::string> joints{"joint_1"};
+
+    SECTION("High activation velocity (sharp transition)")
+    {
+        constexpr double activationVelocity = 10.0; // High activation velocity
+
+        auto ptr = createBasicParameterHandler(joints, kp, gearRatio, kTau);
+        auto ptrFriction
+            = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+        auto ptrActivation
+            = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+        ptrFriction->setParameter("joint_1", coulombFriction);
+        ptrActivation->setParameter("joint_1", activationVelocity);
+        ptr->setGroup("coulomb_friction", ptrFriction);
+        ptr->setGroup("activation_velocity", ptrActivation);
+
+        PositionToCurrentController controller;
+        REQUIRE(controller.initialize(ptr));
+
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.5; // Small velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // With high activation velocity, even small feedbackVelocity should produce small tanh
+        // tanh(0.5/10.0) = tanh(0.05) ≈ 0.05
+        double tanhValue = std::tanh(0.5 / activationVelocity);
+        double expected = coulombFriction * tanhValue / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-4));
+    }
+
+    SECTION("Low activation velocity (smooth transition)")
+    {
+        constexpr double activationVelocity = 0.1; // Low activation velocity
+
+        auto ptr = createBasicParameterHandler(joints, kp, gearRatio, kTau);
+        auto ptrFriction
+            = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+        auto ptrActivation
+            = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+        ptrFriction->setParameter("joint_1", coulombFriction);
+        ptrActivation->setParameter("joint_1", activationVelocity);
+        ptr->setGroup("coulomb_friction", ptrFriction);
+        ptr->setGroup("activation_velocity", ptrActivation);
+
+        PositionToCurrentController controller;
+        REQUIRE(controller.initialize(ptr));
+
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1);
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.05; // Small velocity
+
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // With low activation velocity, small feedbackVelocity should produce larger tanh
+        // tanh(0.05/0.1) = tanh(0.5) ≈ 0.4621
+        double tanhValue = std::tanh(0.05 / activationVelocity);
+        double expected = coulombFriction * tanhValue / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-4));
+    }
+}
+
+TEST_CASE("PositionToCurrentController - Default Activation Velocity")
+{
+    constexpr double kp = 10.0;
+    constexpr double gearRatio = 100.0;
+    constexpr double kTau = 0.111;
+    constexpr double coulombFriction = 2.0;
+    constexpr double defaultActivationVelocity = 1e-5; // Default value from implementation
+    std::vector<std::string> joints{"joint_1"};
+
+    auto ptr = createBasicParameterHandler(joints, kp, gearRatio, kTau);
+
+    // Add only friction compensation (activation_velocity will use default)
     auto ptrFriction = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     ptrFriction->setParameter("joint_1", coulombFriction);
     ptr->setGroup("coulomb_friction", ptrFriction);
@@ -155,50 +338,25 @@ TEST_CASE("PositionToCurrentController - Friction Compensation")
     PositionToCurrentController controller;
     REQUIRE(controller.initialize(ptr));
 
-    SECTION("Positive velocity adds friction compensation")
+    SECTION("Small velocity with default activation velocity")
     {
         PositionToCurrentControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
-        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.0; // Positive velocity
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.001; // Small velocity
 
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
         const auto& output = controller.getOutput();
-        // Expected: coulombFriction / (gearRatio * kTau) = 2.0 / (100.0 * 0.111) = 0.1802
-        REQUIRE(output(0) == Approx(0.1802).epsilon(1e-3));
-    }
+        // With very small activation velocity, tanh should saturate quickly
+        // tanh(0.001/1e-5) = tanh(100) ≈ 1.0
+        double tanhValue = std::tanh(0.001 / defaultActivationVelocity);
+        double expected = coulombFriction * tanhValue / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-3));
 
-    SECTION("Negative velocity subtracts friction compensation")
-    {
-        PositionToCurrentControllerInput input;
-        input.referencePosition = Eigen::VectorXd::Zero(1);
-        input.feedbackPosition = Eigen::VectorXd::Zero(1);
-        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * -1.0; // Negative velocity
-
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-
-        const auto& output = controller.getOutput();
-        // Expected: -coulombFriction / (gearRatio * kTau) = -2.0 / (100.0 * 0.111) = -0.1802
-        REQUIRE(output(0) == Approx(-0.1802).epsilon(1e-3));
-    }
-
-    SECTION("Combined position error and friction compensation")
-    {
-        PositionToCurrentControllerInput input;
-        input.referencePosition = Eigen::VectorXd::Ones(1) * 1.0;
-        input.feedbackPosition = Eigen::VectorXd::Zero(1);
-        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.0;
-
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-
-        const auto& output = controller.getOutput();
-        // Expected: (kp * 1.0 + coulombFriction) / (gearRatio * kTau)
-        //         = (10.0 + 2.0) / (100.0 * 0.111) = 1.0811
-        REQUIRE(output(0) == Approx(1.0811).epsilon(1e-3));
+        // Should be close to full friction compensation
+        REQUIRE(std::abs(tanhValue) > 0.99); // tanh should be nearly saturated
     }
 }
 
