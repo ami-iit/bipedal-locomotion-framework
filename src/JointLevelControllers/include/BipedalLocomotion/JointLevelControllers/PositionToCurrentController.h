@@ -54,15 +54,15 @@ struct PositionToCurrentControllerInput
  * \f]
  *
  * where:
- * - \(I\) is the output current [A]
- * - \(K_p\) is the proportional gain [Nm/rad]
- * - \(q_{ref}\) is the reference position [rad]
- * - \(q_{fb}\) is the feedback position [rad]
- * - \(\tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb})\) is the Coulomb friction compensation [Nm]
- * - \(\dot{q}_{fb}\) is the feedback velocity [rad/s]
- * - \(\text{gearRatio}\) is the gear reduction ratio (motor-to-joint)
- * - \(k_{\tau}\) is the motor torque constant [Nm/A]
- * - \(I_{limit}(\omega)\) is the velocity-dependent current limit [A]
+ * - \f$ I \f$ is the output current [A]
+ * - \f$ K_p \f$ is the proportional gain [Nm/rad]
+ * - \f$ q_{ref} \f$ is the reference position [rad]
+ * - \f$ q_{fb} \f$ is the feedback position [rad]
+ * - \f$ \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb}) \f$ is the Coulomb friction compensation [Nm]
+ * - \f$ \dot{q}_{fb} \f$ is the feedback velocity [rad/s]
+ * - \f$ \text{gearRatio} \f$ is the gear reduction ratio (motor-to-joint)
+ * - \f$ k_{\tau} \f$ is the motor torque constant [Nm/A]
+ * - \f$ I_{limit}(\omega) \f$ is the velocity-dependent current limit [A]
  *
  * ## Friction Compensation
  *
@@ -81,15 +81,15 @@ struct PositionToCurrentControllerInput
  * The controller implements velocity-dependent current limiting based on motor torque-speed
  * characteristics to prevent motor overheating and ensure safe operation:
  *
- * - **Constant Region** (\(|\omega| \leq \omega_{rated}\)): \(I_{limit} = I_{max}\)
- * - **Linear Falloff** (\(\omega_{rated} < |\omega| < \omega_{0}\)): \(I_{limit} = m \cdot |\omega| + b\)
- * - **No-Load Speed** (\(|\omega| \geq \omega_{0}\)): \(I_{limit} = 0\)
+ * - **Constant Region** (\f$ |\omega| \leq \omega_{rated} \f$): \f$ I_{limit} = I_{max} \f$
+ * - **Linear Falloff** (\f$ \omega_{rated} < |\omega| < \omega_{0} \f$): \f$ I_{limit} = m \cdot |\omega| + b \f$
+ * - **No-Load Speed** (\f$ |\omega| \geq \omega_{0} \f$): \f$ I_{limit} = 0 \f$
  *
  * where:
- * - \(\omega_{rated}\) is the rated speed at which current limiting begins [rad/s]
- * - \(\omega_{0}\) is the no-load speed where current becomes zero [rad/s]
- * - \(m = -I_{max} / (\omega_{0} - \omega_{rated})\) is the slope of the linear region
- * - \(b = I_{max} - m \cdot \omega_{rated}\) is the intercept
+ * - \f$ \omega_{rated} \f$ is the rated speed at which current limiting begins [rad/s]
+ * - \f$ \omega_{0} \f$ is the no-load speed where current becomes zero [rad/s]
+ * - \f$ m = -I_{max} / (\omega_{0} - \omega_{rated}) \f$ is the slope of the linear region
+ * - \f$ b = I_{max} - m \cdot \omega_{rated} \f$ is the intercept
  *
  */
 class PositionToCurrentController
