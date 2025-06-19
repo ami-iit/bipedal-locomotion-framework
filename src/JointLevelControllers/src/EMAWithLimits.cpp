@@ -120,9 +120,9 @@ bool EMAWithLimits::initialize(
         return false;
     }
 
-    if (m_pimpl->alpha <= 0.0 || m_pimpl->alpha >= 1.0)
+    if (m_pimpl->alpha < 0.0 || m_pimpl->alpha > 1.0)
     {
-        log()->error("{} The alpha must be in the range (0, 1).", logPrefix);
+        log()->error("{} The alpha must be in the range [0, 1].", logPrefix);
         return false;
     }
 
