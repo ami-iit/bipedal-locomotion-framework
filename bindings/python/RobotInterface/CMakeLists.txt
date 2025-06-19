@@ -2,14 +2,25 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license.
 
+if(TARGET BipedalLocomotion::RobotInterface)
+  set(H_PREFIX include/BipedalLocomotion/bindings/RobotInterface)
+
+  add_bipedal_locomotion_python_module(
+    NAME RobotInterfaceBindings
+    SOURCES src/IRobotControl.cpp src/ISensorBridge.cpp src/Module.cpp
+    HEADERS ${H_PREFIX}/IRobotControl.h ${H_PREFIX}/ISensorBridge.h ${H_PREFIX}/Module.h
+    LINK_LIBRARIES BipedalLocomotion::RobotInterface
+    )
+endif()
+
 if(TARGET BipedalLocomotion::RobotInterface AND TARGET BipedalLocomotion::RobotInterfaceYarpImplementation)
 
   set(H_PREFIX include/BipedalLocomotion/bindings/RobotInterface)
 
   add_bipedal_locomotion_python_module(
-    NAME RobotInterfaceBindings
-    SOURCES src/Polydriver.cpp src/RobotControl.cpp src/SensorBridge.cpp src/Module.cpp
-    HEADERS ${H_PREFIX}/Polydriver.h ${H_PREFIX}/RobotControl.h ${H_PREFIX}/SensorBridge.h ${H_PREFIX}/Module.h
+    NAME RobotInterfaceYarpImplementationBindings
+    SOURCES src/Polydriver.cpp src/YarpRobotControl.cpp src/YarpSensorBridge.cpp src/YarpModule.cpp
+    HEADERS ${H_PREFIX}/Polydriver.h ${H_PREFIX}/YarpRobotControl.h ${H_PREFIX}/YarpSensorBridge.h ${H_PREFIX}/YarpModule.h
     LINK_LIBRARIES BipedalLocomotion::RobotInterface BipedalLocomotion::RobotInterfaceYarpImplementation
     )
 

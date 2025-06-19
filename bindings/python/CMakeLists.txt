@@ -20,6 +20,7 @@ add_subdirectory(ReducedModelControllers)
 add_subdirectory(ML)
 add_subdirectory(SimplifiedModelControllers)
 add_subdirectory(RobotDynamicsEstimator)
+add_subdirectory(JointLevelControllers)
 
 include(ConfigureFileWithCMakeIfTarget)
 

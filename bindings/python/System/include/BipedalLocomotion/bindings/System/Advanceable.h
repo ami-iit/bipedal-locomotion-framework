@@ -92,7 +92,7 @@ void CreateAdvanceable(pybind11::module& module, const std::string& pythonClassN
     }
 
     if constexpr (!std::is_same<Input, ::Eigen::VectorXd>()
-                  && !std::is_same<Output, ::Eigen::VectorXd>())
+                  || !std::is_same<Output, ::Eigen::VectorXd>())
     {
         ::BipedalLocomotion::bindings::System::CreateAdvanceableImpl<Input, //
                                                                      Output>(module,
