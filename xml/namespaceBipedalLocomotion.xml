@@ -10,6 +10,7 @@
     <innernamespace refid="namespaceBipedalLocomotion_1_1Estimators">BipedalLocomotion::Estimators</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1GenericContainer">BipedalLocomotion::GenericContainer</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1IK">BipedalLocomotion::IK</innernamespace>
+    <innernamespace refid="namespaceBipedalLocomotion_1_1JointLevelControllers">BipedalLocomotion::JointLevelControllers</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1Math">BipedalLocomotion::Math</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ML">BipedalLocomotion::ML</innernamespace>
     <innernamespace refid="namespaceBipedalLocomotion_1_1ParametersHandler">BipedalLocomotion::ParametersHandler</innernamespace>
