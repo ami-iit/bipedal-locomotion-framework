@@ -72,7 +72,7 @@ struct PositionToCurrentControllerInput
  * \f[
  *     \tau_{coulomb} = k_{coulomb} \cdot \text{tanh}(\dot{q}_{fb} / v_{activation})
  * \f]
- * 
+ *
  * where:
  * - \f$ k_{coulomb} \f$ is the Coulomb friction constant [Nm]
  * - \f$ v_{activation} \f$ is the velocity threshold for friction activation [rad/s]
