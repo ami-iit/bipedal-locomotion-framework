@@ -66,12 +66,16 @@ struct PositionToCurrentControllerInput
  *
  * ## Friction Compensation
  *
- * The controller includes feedforward Coulomb friction compensation that adds a constant torque
- * in the direction of motion to counteract static and kinetic friction effects:
+ * The controller includes feedforward Coulomb friction compensation that adds a torque
+ * in the direction of motion to counteract coulomb friction effects:
  *
  * \f[
- *     \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb})
+ *     \tau_{coulomb} = k_{coulomb} \cdot \text{tanh}(\dot{q}_{fb} / v_{activation})
  * \f]
+ * 
+ * where:
+ * - \f$ k_{coulomb} \f$ is the Coulomb friction constant [Nm]
+ * - \f$ v_{activation} \f$ is the velocity threshold for friction activation [rad/s]
  *
  * This helps improve tracking accuracy, especially at low velocities where friction effects
  * are dominant.
