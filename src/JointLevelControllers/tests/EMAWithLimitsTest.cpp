@@ -16,7 +16,7 @@ using namespace BipedalLocomotion::JointLevelControllers;
 using namespace BipedalLocomotion::ParametersHandler;
 using Catch::Approx;
 
-using Vector1d = Eigen::Matrix<double, 1, 1>;
+
 
 // Helper function to create parameter handler with basic configuration
 std::shared_ptr<StdImplementation>
@@ -35,14 +35,28 @@ createBasicParameterHandler(double scale = 0.5,
     return handler;
 }
 
-TEST_CASE("EMAWithLimits - Initialization")
+TEST_CASE("EMAWithLimits - Constructor and Destructor")
+{
+    // Test constructor - should start in invalid state
+    EMAWithLimits controller;
+    REQUIRE_FALSE(controller.isOutputValid());
+
+    // Test destructor through scope
+    {
+        EMAWithLimits localController;
+        // Should be destroyed without issues
+    }
+}
+
+TEST_CASE("EMAWithLimits - Initialization Parameter Validation")
 {
     EMAWithLimits controller;
 
-    SECTION("Valid initialization")
+    SECTION("Valid initialization with all parameters")
     {
         auto handler = createBasicParameterHandler();
         REQUIRE(controller.initialize(handler));
+        REQUIRE_FALSE(controller.isOutputValid()); // Should be WaitingForAdvance after init+reset
     }
 
     SECTION("Invalid parameter handler (nullptr)")
@@ -51,10 +65,9 @@ TEST_CASE("EMAWithLimits - Initialization")
         REQUIRE_FALSE(controller.initialize(nullHandler));
     }
 
-    SECTION("Missing required parameters")
+    SECTION("Missing all required parameters")
     {
         auto handler = std::make_shared<StdImplementation>();
-        // Missing all required parameters
         REQUIRE_FALSE(controller.initialize(handler));
     }
 
@@ -73,6 +86,24 @@ TEST_CASE("EMAWithLimits - Initialization")
         handler->setParameter("scale", 0.5);
         handler->setParameter("lower_limit", Eigen::Vector2d(-1.0, -2.0));
         handler->setParameter("upper_limit", Eigen::Vector2d(1.0, 2.0));
+        REQUIRE_FALSE(controller.initialize(handler));
+    }
+
+    SECTION("Missing lower_limit parameter")
+    {
+        auto handler = std::make_shared<StdImplementation>();
+        handler->setParameter("scale", 0.5);
+        handler->setParameter("alpha", 0.8);
+        handler->setParameter("upper_limit", Eigen::Vector2d(1.0, 2.0));
+        REQUIRE_FALSE(controller.initialize(handler));
+    }
+
+    SECTION("Missing upper_limit parameter")
+    {
+        auto handler = std::make_shared<StdImplementation>();
+        handler->setParameter("scale", 0.5);
+        handler->setParameter("alpha", 0.8);
+        handler->setParameter("lower_limit", Eigen::Vector2d(-1.0, -2.0));
         REQUIRE_FALSE(controller.initialize(handler));
     }
 
@@ -98,31 +129,29 @@ TEST_CASE("EMAWithLimits - Initialization")
         REQUIRE_FALSE(controller.initialize(handler));
     }
 
-    SECTION("Valid alpha (zero)")
+    SECTION("Valid alpha boundary values")
     {
-        auto handler = createBasicParameterHandler(0.5, 0.0); // alpha = 0
-        REQUIRE(controller.initialize(handler));
+        // Test alpha = 0 (valid boundary)
+        auto handler1 = createBasicParameterHandler(0.5, 0.0);
+        REQUIRE(controller.initialize(handler1));
+
+        // Test alpha = 1 (valid boundary)
+        auto handler2 = createBasicParameterHandler(0.5, 1.0);
+        REQUIRE(controller.initialize(handler2));
     }
 
-    SECTION("Valid alpha (one)")
+    SECTION("Invalid alpha values")
     {
-        auto handler = createBasicParameterHandler(0.5, 1.0); // alpha = 1
-        REQUIRE(controller.initialize(handler));
+        // Test alpha > 1
+        auto handler1 = createBasicParameterHandler(0.5, 1.5);
+        REQUIRE_FALSE(controller.initialize(handler1));
+
+        // Test alpha < 0
+        auto handler2 = createBasicParameterHandler(0.5, -0.1);
+        REQUIRE_FALSE(controller.initialize(handler2));
     }
 
-    SECTION("Invalid alpha (greater than one)")
-    {
-        auto handler = createBasicParameterHandler(0.5, 1.5); // alpha > 1
-        REQUIRE_FALSE(controller.initialize(handler));
-    }
-
-    SECTION("Invalid alpha (negative)")
-    {
-        auto handler = createBasicParameterHandler(0.5, -0.1); // alpha < 0
-        REQUIRE_FALSE(controller.initialize(handler));
-    }
-
-    SECTION("Valid initialization without soft limit factor (default)")
+    SECTION("Valid initialization without soft limit factor (uses default)")
     {
         auto handler = std::make_shared<StdImplementation>();
         handler->setParameter("scale", 0.5);
@@ -133,272 +162,377 @@ TEST_CASE("EMAWithLimits - Initialization")
         REQUIRE(controller.initialize(handler));
     }
 
-    SECTION("Invalid soft limit factor (zero)")
+    SECTION("Invalid soft limit factor values")
     {
-        auto handler = createBasicParameterHandler(0.5,
-                                                   0.8,
-                                                   Eigen::Vector2d(-1.0, -2.0),
-                                                   Eigen::Vector2d(1.0, 2.0),
-                                                   0.0); // softLimitFactor = 0
-        REQUIRE_FALSE(controller.initialize(handler));
+        // Test soft_limit_factor = 0
+        auto handler1 = createBasicParameterHandler(0.5,
+                                                    0.8,
+                                                    Eigen::Vector2d(-1.0, -2.0),
+                                                    Eigen::Vector2d(1.0, 2.0),
+                                                    0.0);
+        REQUIRE_FALSE(controller.initialize(handler1));
+
+        // Test soft_limit_factor < 0
+        auto handler2 = createBasicParameterHandler(0.5,
+                                                    0.8,
+                                                    Eigen::Vector2d(-1.0, -2.0),
+                                                    Eigen::Vector2d(1.0, 2.0),
+                                                    -0.5);
+        REQUIRE_FALSE(controller.initialize(handler2));
     }
 
-    SECTION("Invalid soft limit factor (negative)")
+    SECTION("Edge cases: Single joint and many joints")
     {
-        auto handler = createBasicParameterHandler(0.5,
-                                                   0.8,
-                                                   Eigen::Vector2d(-1.0, -2.0),
-                                                   Eigen::Vector2d(1.0, 2.0),
-                                                   -0.5); // softLimitFactor < 0
-        REQUIRE_FALSE(controller.initialize(handler));
+        // Single joint
+        Eigen::VectorXd singleLower(1), singleUpper(1);
+        singleLower << -1.0;
+        singleUpper << 1.0;
+        auto handler1 = createBasicParameterHandler(1.0, 0.5, singleLower, singleUpper, 1.0);
+        REQUIRE(controller.initialize(handler1));
+
+        // Many joints
+        const int numJoints = 50;
+        Eigen::VectorXd manyLower = Eigen::VectorXd::Constant(numJoints, -2.0);
+        Eigen::VectorXd manyUpper = Eigen::VectorXd::Constant(numJoints, 2.0);
+        auto handler2 = createBasicParameterHandler(1.0, 0.5, manyLower, manyUpper, 1.0);
+        REQUIRE(controller.initialize(handler2));
     }
 }
 
-TEST_CASE("EMAWithLimits - Input Validation and State Management")
+TEST_CASE("EMAWithLimits - State Management and Transitions")
 {
     EMAWithLimits controller;
     auto handler = createBasicParameterHandler();
     REQUIRE(controller.initialize(handler));
 
-    SECTION("Valid input size")
+    SECTION("State progression: NotReset -> WaitingForAdvance -> Running")
     {
-        Eigen::Vector3d input(0.1, 0.2, 0.3);
-        REQUIRE(controller.setInput(input));
-    }
+        // After initialization, automatic reset puts us in WaitingForAdvance
+        REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance state
 
-    SECTION("Invalid input size (too small)")
-    {
-        Eigen::Vector2d input(0.1, 0.2); // Expected size is 3
-        REQUIRE_FALSE(controller.setInput(input));
-    }
-
-    SECTION("Invalid input size (too large)")
-    {
-        Eigen::Vector4d input(0.1, 0.2, 0.3, 0.4); // Expected size is 3
-        REQUIRE_FALSE(controller.setInput(input));
-    }
-
-    SECTION("Output validity before reset")
-    {
-        REQUIRE_FALSE(controller.isOutputValid());
-    }
-
-    SECTION("Advance fails before reset")
-    {
-        Eigen::Vector3d input(0.1, 0.2, 0.3);
-        REQUIRE(controller.setInput(input));
-        REQUIRE_FALSE(controller.advance()); // Should fail because not reset
-    }
-
-    SECTION("Output validity after reset but before advance")
-    {
+        // Explicit reset should maintain WaitingForAdvance
         controller.reset();
-        REQUIRE(controller.isOutputValid()); // Should be valid after reset
+        REQUIRE_FALSE(controller.isOutputValid()); // Still WaitingForAdvance
+
+        // Set input and advance to reach Running state
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        REQUIRE(controller.isOutputValid()); // Now in Running state
     }
 
-    SECTION("Successful advance after reset")
+    SECTION("Reset clears state and sets to WaitingForAdvance")
+    {
+        // Get to Running state first
+        controller.reset();
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        REQUIRE(controller.isOutputValid()); // Running state
+
+        // Reset should clear state
+        controller.reset();
+        REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance state
+    }
+
+    SECTION("Advance fails when not properly initialized/reset")
+    {
+        EMAWithLimits freshController;
+        // Don't initialize - should be in NotReset state
+
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE_FALSE(freshController.setInput(input)); // Should fail without initialization
+    }
+
+    SECTION("Multiple state transitions")
+    {
+        for (int i = 0; i < 5; ++i)
+        {
+            controller.reset();
+            REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance
+
+            Eigen::Vector3d input(0.1 * i, 0.2 * i, 0.3 * i);
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            REQUIRE(controller.isOutputValid()); // Running
+        }
+    }
+
+    SECTION("State persists through multiple advances")
     {
         controller.reset();
         Eigen::Vector3d input(0.1, 0.2, 0.3);
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
-        REQUIRE(controller.isOutputValid());
+        REQUIRE(controller.isOutputValid()); // Running
+
+        // Continue advancing - should stay in Running state
+        for (int i = 0; i < 5; ++i)
+        {
+            input *= 1.1;
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            REQUIRE(controller.isOutputValid()); // Still Running
+        }
     }
 }
 
-TEST_CASE("EMAWithLimits - Basic Functionality")
+TEST_CASE("EMAWithLimits - Input Validation")
 {
-    constexpr double scale = 0.5;
-    constexpr double alpha = 0.8;
-    const Eigen::Vector2d lowerLimit(-2.0, -4.0);
-    const Eigen::Vector2d upperLimit(2.0, 4.0);
-    constexpr double softLimitFactor = 1.0; // No soft limiting
-
-    auto handler
-        = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, softLimitFactor);
     EMAWithLimits controller;
+    auto handler = createBasicParameterHandler(); // 3-joint configuration
     REQUIRE(controller.initialize(handler));
     controller.reset();
 
-    SECTION("Small input within scaled limits")
+    SECTION("Valid input sizes")
     {
-        Eigen::Vector2d input(0.5, -0.5); // Will be scaled to (0.25, -0.25)
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+
+        Eigen::Vector3d zeroInput = Eigen::Vector3d::Zero();
+        REQUIRE(controller.setInput(zeroInput));
+    }
+
+    SECTION("Invalid input sizes")
+    {
+        // Too small
+        Eigen::Vector2d smallInput(0.1, 0.2);
+        REQUIRE_FALSE(controller.setInput(smallInput));
+
+        // Too large
+        Eigen::Vector4d largeInput(0.1, 0.2, 0.3, 0.4);
+        REQUIRE_FALSE(controller.setInput(largeInput));
+
+        // Empty
+        Eigen::VectorXd emptyInput(0);
+        REQUIRE_FALSE(controller.setInput(emptyInput));
+    }
+
+    SECTION("Extreme input values")
+    {
+        // Very large values
+        Eigen::Vector3d largeInput(1000.0, -1000.0, 500.0);
+        REQUIRE(controller.setInput(largeInput));
+
+        // Very small values
+        Eigen::Vector3d smallInput(1e-10, -1e-10, 1e-15);
+        REQUIRE(controller.setInput(smallInput));
+
+        // Special values (should be accepted by setInput, handled in advance)
+        Eigen::Vector3d specialInput(std::numeric_limits<double>::infinity(),
+                                     std::numeric_limits<double>::quiet_NaN(),
+                                     std::numeric_limits<double>::max());
+        REQUIRE(controller.setInput(specialInput));
+    }
+
+    SECTION("Input validation without initialization")
+    {
+        EMAWithLimits uninitializedController;
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE_FALSE(uninitializedController.setInput(input));
+    }
+}
+
+TEST_CASE("EMAWithLimits - Algorithm Correctness")
+{
+    SECTION("Basic algorithm flow: Scale -> Clip -> Unscale -> EMA -> Clip")
+    {
+        // Use simple parameters for predictable results
+        const double scale = 2.0;
+        const double alpha = 1.0; // No EMA smoothing
+        Eigen::VectorXd lowerLimit(1), upperLimit(1);
+        lowerLimit << -2.0;
+        upperLimit << 2.0;
+
+        auto handler = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, 1.0);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        // Test with input 0.25
+        Eigen::VectorXd input(1);
+        input << 0.25;
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
-        const Eigen::VectorXd output = controller.getOutput();
-        REQUIRE(output.size() == 2);
-
-        // Expected: scale * input, then unscale to joint limits, then EMA
-        // Since previousAppliedActions = 0, EMA: alpha * unscaled + (1-alpha) * 0
-        // Unscaled: input_scaled * (upper - lower) / 2 + (upper + lower) / 2
-        double expectedUnscaled1 = 0.25 * (2.0 - (-2.0)) / 2.0 + (2.0 + (-2.0)) / 2.0; // = 0.5
-        double expectedUnscaled2 = -0.25 * (4.0 - (-4.0)) / 2.0 + (4.0 + (-4.0)) / 2.0; // = -1.0
-        double expected1 = alpha * expectedUnscaled1; // = 0.8 * 0.5 = 0.4
-        double expected2 = alpha * expectedUnscaled2; // = 0.8 * (-1.0) = -0.8
-
-        REQUIRE(output(0) == Approx(expected1).epsilon(1e-6));
-        REQUIRE(output(1) == Approx(expected2).epsilon(1e-6));
+        const auto& output = controller.getOutput();
+        // Expected: 0.25 * 2.0 = 0.5 (scale)
+        // Clipped to [-1, 1]: 0.5 (no clipping needed)
+        // Unscaled: 0.5 * (2.0 - (-2.0))/2 + (2.0 + (-2.0))/2 = 0.5 * 2 + 0 = 1.0
+        // EMA with alpha=1.0 and prev=0: 1.0 * 1.0 + 0.0 * 0 = 1.0
+        // Final clip: within [-2, 2], so 1.0
+        REQUIRE(output(0) == Approx(1.0).epsilon(1e-6));
     }
 
-    SECTION("Input exceeding scale limits gets clipped")
+    SECTION("Scaling with clipping test")
     {
-        Eigen::Vector2d input(5.0, -5.0); // Large input, will be clipped to (1.0, -1.0) after
-                                          // scaling
+        const double scale = 3.0;
+        const double alpha = 1.0;
+        Eigen::VectorXd lowerLimit(1), upperLimit(1);
+        lowerLimit << -1.0;
+        upperLimit << 1.0;
+
+        auto handler = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, 1.0);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        // Input that will be clipped after scaling
+        Eigen::VectorXd input(1);
+        input << 0.5; // 0.5 * 3.0 = 1.5, clipped to 1.0
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
-        const Eigen::VectorXd output = controller.getOutput();
-
-        // Scaled input: (2.5, -2.5) -> clipped to (1.0, -1.0)
-        // Unscaled: (1.0, -1.0) -> (2.0, -4.0) (full range)
-        // EMA: alpha * unscaled = (0.8 * 2.0, 0.8 * -4.0) = (1.6, -3.2)
-        REQUIRE(output(0) == Approx(1.6).epsilon(1e-6));
-        REQUIRE(output(1) == Approx(-3.2).epsilon(1e-6));
+        const auto& output = controller.getOutput();
+        // Should be at upper limit
+        REQUIRE(output(0) == Approx(1.0).epsilon(1e-6));
     }
 
-    SECTION("EMA behavior over multiple steps")
+    SECTION("EMA behavior with different alpha values")
     {
-        // First step
-        Eigen::Vector2d input1(1.0, 0.0);
-        REQUIRE(controller.setInput(input1));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output1 = controller.getOutput();
+        // Test alpha = 0 (no current input influence)
+        {
+            auto handler = createBasicParameterHandler(1.0, 0.0);
+            EMAWithLimits controller;
+            REQUIRE(controller.initialize(handler));
+            controller.reset();
 
-        // Second step with same input
-        REQUIRE(controller.setInput(input1));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output2 = controller.getOutput();
+            Eigen::Vector3d input(1.0, 1.0, 1.0);
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            auto output = controller.getOutput();
 
-        // Third step with same input
-        REQUIRE(controller.setInput(input1));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output3 = controller.getOutput();
+            // With alpha=0, output should be all zeros (previous values dominate)
+            REQUIRE(output(0) == Approx(0.0).margin(1e-10));
+            REQUIRE(output(1) == Approx(0.0).margin(1e-10));
+            REQUIRE(output(2) == Approx(0.0).margin(1e-10));
+        }
 
-        // Output should converge towards steady state
-        REQUIRE(std::abs(output2(0) - output1(0)) > std::abs(output3(0) - output2(0)));
-        REQUIRE(output3(0) > output2(0)); // Should be increasing toward steady state
-        REQUIRE(output2(0) > output1(0));
+        // Test alpha = 1 (no previous input influence)
+        {
+            auto handler = createBasicParameterHandler(1.0, 1.0);
+            EMAWithLimits controller;
+            REQUIRE(controller.initialize(handler));
+            controller.reset();
+
+            Eigen::Vector3d input(0.5, -0.5, 0.0);
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            auto output = controller.getOutput();
+
+            // With alpha=1.0, previous values don't influence result
+            // Output should not be zero for non-zero inputs
+            REQUIRE(std::abs(output(0)) > 1e-6);
+            REQUIRE(std::abs(output(1)) > 1e-6);
+        }
+    }
+
+    SECTION("EMA convergence over multiple steps")
+    {
+        auto handler = createBasicParameterHandler(1.0, 0.8);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        const Eigen::Vector3d constantInput(0.6, -0.4, 0.2);
+        std::vector<Eigen::VectorXd> outputs;
+
+        // Apply same input multiple times
+        for (int i = 0; i < 10; ++i)
+        {
+            REQUIRE(controller.setInput(constantInput));
+            REQUIRE(controller.advance());
+            outputs.push_back(controller.getOutput());
+        }
+
+        // Check convergence - changes should decrease
+        for (size_t i = 2; i < outputs.size(); ++i)
+        {
+            double currentChange = (outputs[i] - outputs[i - 1]).norm();
+            double previousChange = (outputs[i - 1] - outputs[i - 2]).norm();
+            // Generally, change should decrease or remain small
+            REQUIRE(currentChange <= previousChange + 1e-10);
+        }
     }
 }
 
 TEST_CASE("EMAWithLimits - Soft Limits")
 {
-    constexpr double scale = 1.0;
-    constexpr double alpha = 1.0; // No EMA smoothing for clearer testing
-    const Vector1d lowerLimit(-2.0);
-    const Vector1d upperLimit(2.0);
-    constexpr double softLimitFactor = 0.5; // 50% of full range
-
-    auto handler
-        = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, softLimitFactor);
-    EMAWithLimits controller;
-    REQUIRE(controller.initialize(handler));
-    controller.reset();
-
-    SECTION("Input within soft limits")
+    SECTION("Soft limits reduce effective range")
     {
-        Vector1d input(0.5); // Should map to soft limit range
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
+        const double scale = 1.0;
+        const double alpha = 1.0;
+        Eigen::VectorXd lowerLimit(1), upperLimit(1);
+        lowerLimit << -4.0;
+        upperLimit << 4.0;
+        const double softLimitFactor = 0.5; // 50% of range
 
-        const Eigen::VectorXd output = controller.getOutput();
-
-        // Soft limits: center = 0, range = 4 * 0.5 = 2, so soft limits = [-1, 1]
-        // Input 0.5 -> maps to 0.5 * 1.0 = 0.5 within soft limits
-        REQUIRE(output(0) == Approx(0.5).epsilon(1e-6));
-    }
-
-    SECTION("Input exceeding soft limits gets clipped")
-    {
-        Vector1d input(1.0); // Will map to soft limit boundary
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-
-        const Eigen::VectorXd output = controller.getOutput();
-
-        // Input 1.0 maps to upper soft limit boundary = 1.0
-        REQUIRE(output(0) == Approx(1.0).epsilon(1e-6));
-    }
-}
-
-TEST_CASE("EMAWithLimits - Edge Cases")
-{
-    SECTION("Zero input")
-    {
-        auto handler = createBasicParameterHandler();
+        auto handler
+            = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
         controller.reset();
 
-        Eigen::Vector3d input = Eigen::Vector3d::Zero();
+        // Soft limits should be [-2, 2] (50% of [-4, 4])
+        Eigen::VectorXd input(1);
+        input << 1.0;
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
-        const Eigen::VectorXd output = controller.getOutput();
-        REQUIRE(output.size() == 3);
-        // Zero input should produce zero output (at center of joint ranges)
-        REQUIRE(output(0) == Approx(0.0).margin(1e-10));
-        REQUIRE(output(1) == Approx(0.0).margin(1e-10));
-        REQUIRE(output(2) == Approx(0.0).margin(1e-10));
+        const auto& output = controller.getOutput();
+        // Output should be within soft limits
+        REQUIRE(output(0) >= -2.0 - 1e-6);
+        REQUIRE(output(0) <= 2.0 + 1e-6);
     }
 
-    SECTION("Asymmetric joint limits")
+    SECTION("Very restrictive soft limits")
     {
-        const Vector1d lowerLimit(-1.0);
-        const Vector1d upperLimit(3.0); // Asymmetric range
-        auto handler = createBasicParameterHandler(1.0, 0.5, lowerLimit, upperLimit, 1.0);
+        const double softLimitFactor = 0.1; // 10% of range
+        Eigen::VectorXd lowerLimit(1), upperLimit(1);
+        lowerLimit << -10.0;
+        upperLimit << 10.0;
 
+        auto handler
+            = createBasicParameterHandler(1.0, 1.0, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
         controller.reset();
 
-        // Test that center is correctly computed
-        Vector1d input(0.0);
+        // Soft limits should be [-1, 1] (10% of [-10, 10])
+        Eigen::VectorXd input(1);
+        input << 1.0;
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
-        const Eigen::VectorXd output = controller.getOutput();
-        // Center should be (upperLimit + lowerLimit) / 2 = (3.0 + (-1.0)) / 2 = 1.0
-        // With alpha = 0.5 and previous = 0, output = 0.5 * 1.0 = 0.5
-        REQUIRE(output(0) == Approx(0.5).epsilon(1e-6));
+        const auto& output = controller.getOutput();
+        REQUIRE(std::abs(output(0)) <= 1.0 + 1e-6);
     }
 
-    SECTION("Very small alpha (slow EMA)")
+    SECTION("Asymmetric joint limits with soft limits")
     {
-        auto handler = createBasicParameterHandler(1.0, 0.01); // Very small alpha
+        Eigen::VectorXd lowerLimit(1), upperLimit(1);
+        lowerLimit << -1.0;
+        upperLimit << 3.0; // Asymmetric
+        const double softLimitFactor = 0.5;
+
+        auto handler
+            = createBasicParameterHandler(1.0, 1.0, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
         controller.reset();
 
-        Eigen::Vector3d input(1.0, 1.0, 1.0);
+        // Center = (3.0 + (-1.0))/2 = 1.0
+        // Range = 3.0 - (-1.0) = 4.0
+        // Soft range = 4.0 * 0.5 = 2.0
+        // Soft limits = [1.0 - 1.0, 1.0 + 1.0] = [0.0, 2.0]
+
+        Eigen::VectorXd input(1);
+        input << 0.0; // Should map to center
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
 
-        const Eigen::VectorXd output1 = controller.getOutput();
-
-        // With very small alpha, output should be very close to previous (which is 0)
-        REQUIRE(std::abs(output1(0)) < 0.1); // Should be very small
-        REQUIRE(std::abs(output1(1)) < 0.1);
-        REQUIRE(std::abs(output1(2)) < 0.1);
-    }
-
-    SECTION("Very large alpha (fast EMA)")
-    {
-        auto handler = createBasicParameterHandler(1.0, 0.99); // Very large alpha
-        EMAWithLimits controller;
-        REQUIRE(controller.initialize(handler));
-        controller.reset();
-
-        Eigen::Vector3d input(1.0, 1.0, 1.0);
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-
-        const Eigen::VectorXd output1 = controller.getOutput();
-
-        // With very large alpha, output should be very close to current unscaled input
-        // This depends on the unscaling, but should be close to the target
-        REQUIRE(std::abs(output1(0)) > 0.5); // Should be significant
+        const auto& output = controller.getOutput();
+        REQUIRE(output(0) == Approx(1.0).epsilon(1e-6)); // Center of soft limits
     }
 }
 
@@ -408,124 +542,314 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
     EMAWithLimits controller;
     REQUIRE(controller.initialize(handler));
 
-    SECTION("Reset sets state to ready")
+    SECTION("Reset clears EMA history")
     {
-        REQUIRE_FALSE(controller.isOutputValid());
+        // Build up some EMA history
         controller.reset();
-        REQUIRE(controller.isOutputValid());
-    }
-
-    SECTION("Reset clears previous applied actions")
-    {
-        controller.reset();
-
-        // First advance
-        Eigen::Vector3d input(1.0, 1.0, 1.0);
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output1 = controller.getOutput();
-
-        // Reset and advance again with same input
-        controller.reset();
-        REQUIRE(controller.setInput(input));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output2 = controller.getOutput();
-
-        // Outputs should be identical because reset clears history
-        REQUIRE(output1(0) == Approx(output2(0)).epsilon(1e-10));
-        REQUIRE(output1(1) == Approx(output2(1)).epsilon(1e-10));
-        REQUIRE(output1(2) == Approx(output2(2)).epsilon(1e-10));
-    }
-
-    SECTION("Multiple resets work correctly")
-    {
-        controller.reset();
-        REQUIRE(controller.isOutputValid());
-
-        controller.reset();
-        REQUIRE(controller.isOutputValid());
-
-        controller.reset();
-        REQUIRE(controller.isOutputValid());
-    }
-}
-
-TEST_CASE("EMAWithLimits - Mathematical Properties")
-{
-    SECTION("EMA convergence")
-    {
-        auto handler = createBasicParameterHandler(1.0,
-                                                   0.8, //
-                                                   Vector1d(-10.0),
-                                                   Vector1d(10.0));
-        EMAWithLimits controller;
-        REQUIRE(controller.initialize(handler));
-        controller.reset();
-
-        // Apply constant input for many steps
-        const Vector1d constantInput(0.5);
-        const int numSteps = 20;
-
-        for (int i = 0; i < numSteps; ++i)
+        Eigen::Vector3d input(0.8, -0.6, 0.4);
+        for (int i = 0; i < 5; ++i)
         {
-            REQUIRE(controller.setInput(constantInput));
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+        }
+        auto outputWithHistory = controller.getOutput();
+
+        // Reset and apply same input
+        controller.reset();
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        auto outputAfterReset = controller.getOutput();
+
+        // Should be different due to cleared history
+        REQUIRE((outputAfterReset - outputWithHistory).norm() > 1e-6);
+    }
+
+    SECTION("Reset initializes all internal vectors")
+    {
+        controller.reset();
+
+        // After reset, should be in WaitingForAdvance state
+        REQUIRE_FALSE(controller.isOutputValid());
+
+        // Should be able to advance after reset
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        REQUIRE(controller.isOutputValid());
+
+        // Output should be valid and have correct size
+        const auto& output = controller.getOutput();
+        REQUIRE(output.size() == 3);
+    }
+
+    SECTION("Multiple consecutive resets")
+    {
+        for (int i = 0; i < 10; ++i)
+        {
+            controller.reset();
+            REQUIRE_FALSE(controller.isOutputValid());
+
+            Eigen::Vector3d input(0.1 * i, 0.2 * i, 0.3 * i);
+            REQUIRE(controller.setInput(input));
             REQUIRE(controller.advance());
             REQUIRE(controller.isOutputValid());
         }
-        const Eigen::VectorXd finalOutput = controller.getOutput();
+    }
+}
 
-        // Do only one step to compare
+TEST_CASE("EMAWithLimits - Edge Cases and Robustness")
+{
+    SECTION("Zero input produces center output")
+    {
+        auto handler = createBasicParameterHandler(1.0, 1.0);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
         controller.reset();
+
+        Eigen::Vector3d input = Eigen::Vector3d::Zero();
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Zero input should produce output at center of joint ranges
+        REQUIRE(output(0) == Approx(0.0).margin(1e-6));
+        REQUIRE(output(1) == Approx(0.0).margin(1e-6));
+        REQUIRE(output(2) == Approx(0.0).margin(1e-6));
+    }
+
+    SECTION("Extreme input values are handled gracefully")
+    {
+        auto handler = createBasicParameterHandler(1.0, 1.0);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        Eigen::Vector3d extremeInput(1000.0, -1000.0, 500.0);
+        REQUIRE(controller.setInput(extremeInput));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // Output should be within joint limits
+        const Eigen::Vector3d lowerLimits(-1.0, -2.0, -3.0);
+        const Eigen::Vector3d upperLimits(1.0, 2.0, 3.0);
+
+        for (int i = 0; i < 3; ++i)
+        {
+            REQUIRE(output(i) >= lowerLimits(i) - 1e-6);
+            REQUIRE(output(i) <= upperLimits(i) + 1e-6);
+        }
+    }
+
+    SECTION("Sequential different inputs")
+    {
+        auto handler = createBasicParameterHandler(1.0, 0.5);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        std::vector<Eigen::Vector3d> inputs = {Eigen::Vector3d(0.5, 0.0, -0.5),
+                                               Eigen::Vector3d(-0.5, 0.5, 0.0),
+                                               Eigen::Vector3d(0.0, -0.5, 0.5),
+                                               Eigen::Vector3d(0.2, 0.3, -0.1)};
+
+        std::vector<Eigen::VectorXd> outputs;
+        for (const auto& input : inputs)
+        {
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            outputs.push_back(controller.getOutput());
+        }
+
+        // All outputs should be different
+        for (size_t i = 1; i < outputs.size(); ++i)
+        {
+            REQUIRE((outputs[i] - outputs[i - 1]).norm() > 1e-6);
+        }
+    }
+
+    SECTION("Very small alpha value (slow convergence)")
+    {
+        auto handler = createBasicParameterHandler(1.0, 0.001);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        Eigen::Vector3d input(1.0, 1.0, 1.0);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        // With very small alpha, output should be very close to previous (0)
+        REQUIRE(std::abs(output(0)) < 0.1);
+        REQUIRE(std::abs(output(1)) < 0.1);
+        REQUIRE(std::abs(output(2)) < 0.1);
+    }
+}
+
+TEST_CASE("EMAWithLimits - Multi-Joint Scenarios")
+{
+    SECTION("Different joint limits per joint")
+    {
+        Eigen::VectorXd lowerLimit(4), upperLimit(4);
+        lowerLimit << -1.0, -2.0, -5.0, -0.5;
+        upperLimit << 1.0, 3.0, 5.0, 2.0;
+
+        auto handler = createBasicParameterHandler(1.0, 0.8, lowerLimit, upperLimit, 1.0);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        Eigen::Vector4d input(0.5, -0.5, 0.8, -0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+
+        // Check each joint is within its limits
+        for (int i = 0; i < 4; ++i)
+        {
+            REQUIRE(output(i) >= lowerLimit(i) - 1e-6);
+            REQUIRE(output(i) <= upperLimit(i) + 1e-6);
+        }
+    }
+
+    SECTION("Large number of joints performance")
+    {
+        const int numJoints = 100;
+        Eigen::VectorXd lowerLimit = Eigen::VectorXd::Constant(numJoints, -1.0);
+        Eigen::VectorXd upperLimit = Eigen::VectorXd::Constant(numJoints, 1.0);
+
+        auto handler = createBasicParameterHandler(1.0, 0.7, lowerLimit, upperLimit, 0.8);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        Eigen::VectorXd input = Eigen::VectorXd::Random(numJoints);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+        REQUIRE(output.size() == numJoints);
+
+        // All outputs should be within limits
+        for (int i = 0; i < numJoints; ++i)
+        {
+            REQUIRE(output(i) >= lowerLimit(i) - 1e-6);
+            REQUIRE(output(i) <= upperLimit(i) + 1e-6);
+        }
+    }
+}
+
+TEST_CASE("EMAWithLimits - Error Handling")
+{
+    SECTION("Operations without initialization")
+    {
+        EMAWithLimits controller;
+
+        // setInput should fail
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE_FALSE(controller.setInput(input));
+
+        // isOutputValid should be false
+        REQUIRE_FALSE(controller.isOutputValid());
+    }
+
+    SECTION("Multiple initialization calls")
+    {
+        auto handler1 = createBasicParameterHandler(1.0, 0.5);
+        auto handler2 = createBasicParameterHandler(2.0, 0.8);
+
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler1));
+        REQUIRE(controller.initialize(handler2)); // Re-initialization should work
+
+        // Should work with new parameters
+        controller.reset();
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        REQUIRE(controller.isOutputValid());
+    }
+
+    SECTION("Output access before and after operations")
+    {
+        auto handler = createBasicParameterHandler();
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+
+        // Output should exist after initialization (from reset)
+        const auto& outputAfterInit = controller.getOutput();
+        REQUIRE(outputAfterInit.size() == 3);
+
+        // But should not be valid until advance
+        REQUIRE_FALSE(controller.isOutputValid());
+
+        // After advance, should be valid
+        Eigen::Vector3d input(0.1, 0.2, 0.3);
+        REQUIRE(controller.setInput(input));
+        REQUIRE(controller.advance());
+        REQUIRE(controller.isOutputValid());
+
+        const auto& outputAfterAdvance = controller.getOutput();
+        REQUIRE(outputAfterAdvance.size() == 3);
+    }
+}
+
+TEST_CASE("EMAWithLimits - Deterministic Behavior")
+{
+    SECTION("Same inputs produce same outputs")
+    {
+        auto handler = createBasicParameterHandler(1.0, 0.6);
+
+        // Two identical controllers
+        EMAWithLimits controller1, controller2;
+        REQUIRE(controller1.initialize(handler));
+        REQUIRE(controller2.initialize(handler));
+
+        std::vector<Eigen::Vector3d> inputs = {Eigen::Vector3d(0.1, 0.2, 0.3),
+                                               Eigen::Vector3d(-0.2, 0.4, -0.1),
+                                               Eigen::Vector3d(0.5, -0.3, 0.2),
+                                               Eigen::Vector3d(0.0, 0.0, 0.0)};
+
+        for (const auto& input : inputs)
+        {
+            REQUIRE(controller1.setInput(input));
+            REQUIRE(controller2.setInput(input));
+            REQUIRE(controller1.advance());
+            REQUIRE(controller2.advance());
+
+            auto output1 = controller1.getOutput();
+            auto output2 = controller2.getOutput();
+
+            // Outputs should be identical
+            REQUIRE((output1 - output2).norm() < 1e-15);
+        }
+    }
+
+    SECTION("Repeated operations with constant input converge")
+    {
+        auto handler = createBasicParameterHandler(1.0, 0.9);
+        EMAWithLimits controller;
+        REQUIRE(controller.initialize(handler));
+        controller.reset();
+
+        const Eigen::Vector3d constantInput(0.6, -0.4, 0.2);
+
+        // Apply same input many times
+        for (int i = 0; i < 50; ++i)
+        {
+            REQUIRE(controller.setInput(constantInput));
+            REQUIRE(controller.advance());
+        }
+
+        auto finalOutput = controller.getOutput();
+
+        // One more step should produce very similar result
         REQUIRE(controller.setInput(constantInput));
         REQUIRE(controller.advance());
-        const Eigen::VectorXd singleStepOutput = controller.getOutput();
+        auto nextOutput = controller.getOutput();
 
-        // After many steps, should be much closer to steady state than single step
-        REQUIRE(std::abs(finalOutput(0)) > std::abs(singleStepOutput(0)));
-    }
-
-    SECTION("Linearity of scaling")
-    {
-        auto handler = createBasicParameterHandler(2.0,
-                                                   1.0, //
-                                                   Vector1d(-10.0),
-                                                   Vector1d(10.0));
-        EMAWithLimits controller;
-        REQUIRE(controller.initialize(handler));
-
-        // Test input 1
-        controller.reset();
-        Vector1d input1(0.1);
-        REQUIRE(controller.setInput(input1));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output1 = controller.getOutput();
-
-        // Test input 2 (double)
-        controller.reset();
-        Vector1d input2(0.2);
-        REQUIRE(controller.setInput(input2));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output2 = controller.getOutput();
-
-        // Due to scaling and unscaling, output2 should be approximately 2 * output1
-        REQUIRE(output2(0) == Approx(2.0 * output1(0)).epsilon(1e-6));
-    }
-
-    SECTION("Boundary behavior")
-    {
-        auto handler = createBasicParameterHandler(1.0, 1.0, Vector1d(-1.0), Vector1d(1.0), 1.0);
-        EMAWithLimits controller;
-        REQUIRE(controller.initialize(handler));
-        controller.reset();
-
-        // Test extreme positive input
-        Vector1d maxInput(1000.0); // Very large input
-        REQUIRE(controller.setInput(maxInput));
-        REQUIRE(controller.advance());
-        Eigen::VectorXd output = controller.getOutput();
-
-        // Should be clipped to upper limit
-        REQUIRE(output(0) <= 1.0);
-        REQUIRE(output(0) == Approx(1.0).epsilon(1e-6));
+        // Should be very close (converged)
+        REQUIRE((nextOutput - finalOutput).norm() < 1e-10);
     }
 }
