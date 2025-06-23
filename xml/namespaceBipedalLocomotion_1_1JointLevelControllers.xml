@@ -2,12 +2,13 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespaceBipedalLocomotion_1_1JointLevelControllers" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::JointLevelControllers</compoundname>
+    <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits" prot="public">BipedalLocomotion::JointLevelControllers::EMAWithLimits</innerclass>
     <innerclass refid="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentControllerInput" prot="public">BipedalLocomotion::JointLevelControllers::PositionToCurrentControllerInput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentController" prot="public">BipedalLocomotion::JointLevelControllers::PositionToCurrentController</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h" line="21" column="1"/>
+    <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="22" column="1"/>
   </compounddef>
 </doxygen>
