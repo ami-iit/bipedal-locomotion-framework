@@ -28,8 +28,8 @@ struct EMAWithLimits::Impl
     enum class State
     {
         NotReset,
-        Ready
-
+        WaitingForAdvance,
+        Running,
     };
     State state{State::NotReset}; /**< Current state of the object */
 
@@ -176,7 +176,7 @@ bool EMAWithLimits::advance()
     // store the processed actions
     m_pimpl->previousAppliedActions = m_pimpl->processedActions;
 
-    m_pimpl->state = Impl::State::Ready;
+    m_pimpl->state = Impl::State::Running;
 
     return true;
 }
@@ -189,7 +189,9 @@ const EMAWithLimits::Output& EMAWithLimits::getOutput() const
 void EMAWithLimits::reset()
 {
     m_pimpl->previousAppliedActions = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
-    m_pimpl->state = Impl::State::Ready;
+    m_pimpl->input = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
+    m_pimpl->processedActions = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
+    m_pimpl->state = Impl::State::WaitingForAdvance;
 }
 
 bool EMAWithLimits::setInput(const EMAWithLimits::Input& input)
@@ -209,5 +211,5 @@ bool EMAWithLimits::setInput(const EMAWithLimits::Input& input)
 
 bool EMAWithLimits::isOutputValid() const
 {
-    return m_pimpl->state == Impl::State::Ready;
+    return m_pimpl->state == Impl::State::Running;
 }
