@@ -135,6 +135,9 @@ bool EMAWithLimits::initialize(
     m_pimpl->computeSoftLimits(softLimitFactor);
     m_pimpl->state = Impl::State::NotReset;
 
+    // reset the system state
+    this->reset();
+
     log()->info("{} EMAWithLimits successfully initialized.", logPrefix);
     return true;
 }
