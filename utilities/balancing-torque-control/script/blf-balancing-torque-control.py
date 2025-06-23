@@ -81,6 +81,14 @@ class Application:
             self.poly_drivers["REMOTE_CONTROL_BOARD"].poly
         ):
             raise ValueError("Impossible to set the polydriver in the robot control.")
+        
+        self.joint_torque_lower_limits = param_handler.get_group("ROBOT_CONTROL").get_parameter_vector_float(
+            "joint_torque_lower_limits"
+        )
+
+        self.joint_torque_upper_limits = param_handler.get_group("ROBOT_CONTROL").get_parameter_vector_float(
+            "joint_torque_upper_limits"
+        )
 
         # Create the sensor bridge
         self.sensor_bridge = blf.robot_interface.YarpSensorBridge()
@@ -97,6 +105,8 @@ class Application:
         are_joint_ok, self.joint_positions, _ = self.sensor_bridge.get_joint_positions()
         if not are_joint_ok:
             raise ValueError("Impossible to get the joint position.")
+        
+        self.initial_joint_positions = self.joint_positions.copy()
 
         base_frame = param_handler.get_parameter_string("base_frame")
         base_link, self.frame_T_link = self.get_base_frame(
@@ -174,16 +184,22 @@ class Application:
             raise ValueError("Impossible to set the set point for the left foot task.")
 
         if not self.tsid.tasks["joint_regularization_task"].set_set_point(
-            self.joint_positions
+            self.initial_joint_positions
         ):
             raise ValueError(
                 "Impossible to set the set point for the joint regularization task."
             )
 
-        if not self.tsid.tasks["torso_task"].set_set_point(
-            manif.SO3.Identity(), manif.SO3Tangent.Zero(), manif.SO3Tangent.Zero()
-        ):
-            raise ValueError("Impossible to set the set point for the torso task.")
+        # torso_initial_orientation = self.kindyn_with_measured.getWorldTransform("chest")
+
+        # if not self.tsid.tasks["torso_task"].set_set_point(
+        #      blf.conversions.to_manif_rot(
+        #         torso_initial_orientation.getRotation().toNumPy()
+        #     ),
+        #     manif.SO3Tangent.Zero(),
+        #     manif.SO3Tangent.Zero()
+        # ):
+        #     raise ValueError("Impossible to set the set point for the torso task.")
 
         self.desired_joint_positions = self.joint_positions.copy()
         self.desired_joint_velocities = self.joint_velocities.copy()
@@ -244,10 +260,19 @@ class Application:
             "com_from_desired", ["x", "y", "z"]
         )
         self.vectors_collection_server.populate_metadata(
+            "com_reference", ["x", "y", "z"]
+        )
+        self.vectors_collection_server.populate_metadata(
             "com_from_measured", ["x", "y", "z"]
         )
         self.vectors_collection_server.populate_metadata(
             "desired_torque", self.robot_control.get_joint_list()
+        )
+        self.vectors_collection_server.populate_metadata(
+            "desired_left_contact_wrench", ["Fx", "Fy", "Fz", "Tx", "Ty", "Tz"]
+        )
+        self.vectors_collection_server.populate_metadata(
+            "desired_right_contact_wrench", ["Fx", "Fy", "Fz", "Tx", "Ty", "Tz"]
         )
         self.vectors_collection_server.finalize_metadata()
 
@@ -443,9 +468,18 @@ class Application:
 
             self.first_iteration = False
 
+        tsid_torques = self.tsid.solver.get_output().joint_torques
+
+        # thresholding the torques
+        tsid_torques = np.clip(
+            tsid_torques,
+            self.joint_torque_lower_limits,
+            self.joint_torque_upper_limits,
+        )
+
         # send the joint torques
         if not self.robot_control.set_references(
-            self.tsid.solver.get_output().joint_torques,
+            tsid_torques,
             blf.robot_interface.YarpRobotControl.Torque,
         ):
             blf.log().error("Impossible to set the joint torques.")
@@ -511,11 +545,22 @@ class Application:
         self.vectors_collection_server.populate_data(
             "com_from_desired", com_from_desired
         )
+
+        self.vectors_collection_server.populate_data(
+            "com_reference", com_spline_output.position
+        )
+
         self.vectors_collection_server.populate_data(
             "com_from_measured", com_from_measured
         )
         self.vectors_collection_server.populate_data(
-            "desired_torque", self.tsid.solver.get_output().joint_torques
+            "desired_left_contact_wrench", self.tsid.solver.get_output().contact_wrenches["lf_wrench"].wrench
+        )
+        self.vectors_collection_server.populate_data(
+            "desired_right_contact_wrench", self.tsid.solver.get_output().contact_wrenches["rf_wrench"].wrench
+        )
+        self.vectors_collection_server.populate_data(
+            "desired_torque", tsid_torques
         )
         self.vectors_collection_server.populate_data("com_desired", com_spline_output.position)
 
