@@ -124,9 +124,10 @@ public:
      * @brief Initialize the advanceable
      * @param handler A weak pointer to the parameters handler
      * @note The parameters handler should contain the following parameters:
-     * |   Parameter Name     |        Type                |         Description         | Mandatory |
-     * |:--------------------:|:--------------------------:|:---------------------------:|:---------:|
-     * | `joints_list`        | `std::vector<std::string>` | List of joints to control   |    Yes    |
+     * |     Parameter Name      |      Type        |                             Description                           | Mandatory |
+     * |:-----------------------:|:----------------:|:-----------------------------------------------------------------:|:---------:|
+     * |    `joints_list`        | `vector<string>` |                             List of joints to control             |    Yes    |
+     * | `current_safety_factor` |     `double`     | Value used to scale the current limits (0, 1] (Default value 1.0) |    No     |
      * Moreover the following group parameters are required:
      * |  Group Name    |                                                        Description                                           | Mandatory |
      * |:--------------:|:------------------------------------------------------------------------------------------------------------:|:---------:|

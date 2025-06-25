@@ -37,6 +37,8 @@ struct PositionToCurrentController::Impl
     Eigen::VectorXd dynamicLimit; /**< Dynamic limit for each joint */
 
     Eigen::VectorXd positionError; /**< Position error vector */
+
+    double currentSafetyFactor{1.0}; /**< Safety factor for current limits */
 };
 
 PositionToCurrentController::PositionToCurrentController()
@@ -81,6 +83,8 @@ bool PositionToCurrentController::advance()
         { /* linear fall-off */
             m_pimpl->dynamicLimit[j] = m_pimpl->satSlope[j] * absVel + m_pimpl->satIntercept[j];
         }
+        // Apply safety factor to dynamic limit
+        m_pimpl->dynamicLimit[j] *= m_pimpl->currentSafetyFactor;
     }
 
     // Clamp
@@ -195,6 +199,20 @@ bool PositionToCurrentController::initialize(
     m_pimpl->satSlope.resize(joints.size());
     m_pimpl->satIntercept.resize(joints.size());
     m_pimpl->positionError.resize(joints.size());
+
+    if (!ptr->getParameter("current_safety_factor", m_pimpl->currentSafetyFactor))
+    {
+        log()->warn("{} Parameter 'current_safety_factor' not found. Using default value 1.0.",
+                    logPrefix);
+        m_pimpl->currentSafetyFactor = 1.0;
+    }
+
+    // check if the safety factor is valid
+    if (m_pimpl->currentSafetyFactor <= 0.0 || m_pimpl->currentSafetyFactor > 1.0)
+    {
+        log()->error("{} Invalid 'current_safety_factor'. Must be in the range (0, 1].", logPrefix);
+        return false;
+    }
 
     for (std::size_t i = 0; i < joints.size(); ++i)
     {
