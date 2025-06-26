@@ -32,6 +32,7 @@
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
+#include <yarp/conf/version.h>
 
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
@@ -546,7 +547,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::updateChildTransformList()
                 bool canTransform = false;
                 for (const auto& rootFrame : m_tfRootFrames)
                 {
-#if YARP_VERSION_MAJOR == 3 && YARP_VERSION_MINOR < 11
+#if YARP_VERSION_COMPARE(<, 3, 11, 0)
                     canTransform = m_tf->canTransform(id, rootFrame);
 #else
                     bool canTranformOk = false;
