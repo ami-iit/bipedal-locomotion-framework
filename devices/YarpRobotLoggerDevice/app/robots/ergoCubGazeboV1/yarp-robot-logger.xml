@@ -14,6 +14,7 @@ BSD-3-Clause license. -->
   <param name="maximum_admissible_time_step">1.0</param>
   <param name="log_code_status">true</param>
   <param name="log_cameras">true</param>
+  <param name="log_frames">false</param>
   <param name="log_robot_data">true</param>
 
   <param name="enable_real_time_logging" extern-name="enable_real_time_logging">false</param>
@@ -23,6 +24,11 @@ BSD-3-Clause license. -->
 
   <group name="Telemetry">
     <param name="save_period">600.0</param>
+  </group>
+
+  <group name="Transforms">
+    <xi:include href="blf-yarp-robot-logger-interfaces/transform_client.xml"/>
+    <param name="parent_frames">("world")</param>
   </group>
 
   <group name="ExogenousSignals">
