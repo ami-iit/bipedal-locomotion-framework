@@ -23,9 +23,12 @@
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/dev/PolyDriver.h>
+#include <yarp/dev/IFrameTransform.h>
 
 #include <robometry/BufferManager.h>
 
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
@@ -156,6 +159,22 @@ private:
     std::unordered_set<std::string> m_textLogsStoredInManager;
     std::thread m_lookForNewLogsThread;
 
+    struct FrameDescriptor
+    {
+        std::string parent; /**< name of the parent frame */
+        std::string positionChannelName; /**< name of the channel associated to the frame */
+        std::string orientationChannelName; /**< name of the channel associated to the frame */
+        bool active{true}; /**< is the frame active? */
+    };
+
+    yarp::dev::PolyDriver m_tfDevice;
+    yarp::dev::IFrameTransform* m_tf{nullptr};
+    std::unordered_set<std::string> m_tfRootFrames;
+    std::vector<std::string> m_allFrames;
+    std::unordered_map<std::string, FrameDescriptor> m_tfChildFrames;
+    yarp::sig::Matrix m_tfMatrix;
+
+    std::vector<std::string> m_jointList;
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
     gyro_t m_gyroBuffer;
@@ -176,6 +195,10 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
     bool m_logText{true};
+    bool m_logCodeStatus{true};
+    bool m_logCameras{true};
+    bool m_logFrames{false};
+    bool m_logRobot{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
@@ -193,17 +216,25 @@ private:
                     std::size_t vectorSize,
                     const std::vector<std::string>& metadata = {});
 
+    bool populateCamerasData(const std::string& logPrefix,
+                             std::shared_ptr<const ParametersHandler::IParametersHandler> params,
+                             const std::string& fpsParamName,
+                             const std::vector<std::string>& cameraNames);
+
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
+    void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
     bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
-    bool setupRobotCameraBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupRobotCameraBridge(std::shared_ptr<const ParametersHandler::IParametersHandler> params);
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupTransformInputs(const yarp::os::Bottle& config);
+    bool updateChildTransformList();
     bool saveCallback(const std::string& fileName, const robometry::SaveCallbackSaveMethod& method);
     bool openVideoWriter(
         std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
@@ -213,6 +244,10 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+    bool startLogging();
+    bool prepareRobotLogging();
+    bool prepareCameraLogging();
+    bool prepareRTStreaming();
 
     const std::string treeDelim = "::";
 
