@@ -34,10 +34,6 @@ BSD-3-Clause license. -->
     <param name="stream_motor_PWM">false</param>
     <param name="stream_temperatures">false</param>
 
-    <group name="RemoteControlBoardRemapper">
-      <param name="joints_list">("sim_joint_1","sim_joint_2","sim_joint_3","sim_joint_4")</param>
-    </group>
-
     <group name="InertialSensors">
       <param name="accelerometers_list">(sim_imu_sensor)</param>
       <param name="gyroscopes_list">(sim_imu_sensor)</param>
