@@ -129,6 +129,8 @@ YarpRobotLoggerDevice::~YarpRobotLoggerDevice() = default;
 bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
 {
 
+    bool needsAttach = false;
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::open]";
     auto params = std::make_shared<ParametersHandler::YarpImplementation>(config);
 
@@ -182,11 +184,23 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         }
     }
 
-    if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+    if (!params->getParameter("log_code_status", m_logCodeStatus))
     {
-        log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will be "
-                    "added to commands.",
-                    logPrefix);
+        log()->info("{} Unable to get the 'log_code_status' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logCodeStatus);
+    }
+
+    if (m_logCodeStatus)
+    {
+        if (!params->getParameter("code_status_cmd_prefixes", m_codeStatusCmdPrefixes))
+        {
+            log()->info("{} Unable to get the 'code_status_cmd_prefixes' parameter. No prefix will "
+                        "be "
+                        "added to commands.",
+                        logPrefix);
+        }
     }
 
     if (!params->getParameter("maximum_admissible_time_step", m_acceptableStep))
@@ -197,170 +211,40 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                     m_acceptableStep);
     }
 
+    if (!params->getParameter("log_robot_data", m_logRobot))
+    {
+        log()->info("{} Unable to get the 'log_robot_data' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logRobot);
+    }
+
+    if (m_logRobot)
+    {
+        needsAttach = true;
+    }
+
     if (!this->setupRobotSensorBridge(params->getGroup("RobotSensorBridge")))
     {
         return false;
     }
 
-    if (this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
+    if (!params->getParameter("log_cameras", m_logCameras))
     {
-        auto populateCamerasData
-            = [logPrefix, params, this](const std::string& fpsParamName,
-                                        const std::vector<std::string>& cameraNames) -> bool {
-            std::vector<int> fps, depthScale;
-            std::vector<std::string> rgbSaveMode, depthSaveMode;
-            if (!params->getParameter(fpsParamName, fps))
-            {
-                log()->error("{} Unable to find the parameter named: {}.", logPrefix, fpsParamName);
-                return false;
-            }
+        log()->info("{} Unable to get the 'log_cameras' parameter for the telemetry. Default "
+                    "value: {}.",
+                    logPrefix,
+                    m_logCameras);
+    }
 
-            // if the camera is an rgbd camera then user should provide the depth scale
-            if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
-            {
-                if (!params->getParameter("rgbd_cameras_depth_scale", depthScale))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgbd_cameras_depth_scale'.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (!params->getParameter("rgbd_cameras_rgb_save_mode", rgbSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgb_cameras_rgb_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (!params->getParameter("rgbd_cameras_depth_save_mode", depthSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgbd_cameras_depth_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-
-                if (fps.size() != depthScale.size() || (fps.size() != rgbSaveMode.size())
-                    || (fps.size() != depthSaveMode.size()))
-                {
-                    log()->error("{} Mismatch between the vector containing the size of the vector "
-                                 "provided from configuration"
-                                 "Number of cameras: {}. Size of the FPS vector {}. Size of the "
-                                 "depth scale vector {}."
-                                 "Size of 'rgb_cameras_rgb_save_mode' {}. Size of "
-                                 "'rgb_cameras_depth_save_mode': {}",
-                                 logPrefix,
-                                 cameraNames.size(),
-                                 fps.size(),
-                                 depthScale.size(),
-                                 rgbSaveMode.size(),
-                                 depthSaveMode.size());
-                    return false;
-                }
-            } else
-            {
-                if (!params->getParameter("rgb_cameras_rgb_save_mode", rgbSaveMode))
-                {
-                    log()->error("{} Unable to find the parameter named: "
-                                 "'rgb_cameras_rgb_save_mode.",
-                                 logPrefix);
-                    return false;
-                }
-            }
-
-            if ((fps.size() != rgbSaveMode.size()))
-            {
-                log()->error("{} Mismatch between the vector containing the size of the vector "
-                             "provided from configuration"
-                             "Number of cameras: {}. Size of the FPS vector {}."
-                             "Size of 'rgb_cameras_rgb_save_mode' {}.",
-                             logPrefix,
-                             cameraNames.size(),
-                             fps.size(),
-                             rgbSaveMode.size());
-                return false;
-            }
-
-            if (fps.size() != cameraNames.size())
-            {
-                log()->error("{} Mismatch between the number of cameras and the vector containing "
-                             "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
-                             logPrefix,
-                             cameraNames.size(),
-                             fps.size());
-                return false;
-            }
-
-            auto createImageSaver
-                = [logPrefix](
-                      const std::string& saveMode) -> std::shared_ptr<VideoWriter::ImageSaver> {
-                auto saver = std::make_shared<VideoWriter::ImageSaver>();
-                if (saveMode == "frame")
-                {
-                    saver->saveMode = VideoWriter::SaveMode::Frame;
-                } else if (saveMode == "video")
-                {
-                    saver->saveMode = VideoWriter::SaveMode::Video;
-                } else
-                {
-                    log()->error("{} The save mode associated to the one of the camera is neither "
-                                 "'frame' nor 'video'. Provided: {}",
-                                 logPrefix,
-                                 saveMode);
-                    return nullptr;
-                }
-                return saver;
-            };
-
-            bool ok = true;
-            for (unsigned int i = 0; i < fps.size(); i++)
-            {
-                if (fps[i] <= 0)
-                {
-                    log()->error("{} The FPS associated to the camera {} is negative or equal to "
-                                 "zero.",
-                                 logPrefix,
-                                 i);
-                    return false;
-                }
-
-                // get the desired fps for each camera
-                m_videoWriters[cameraNames[i]].fps = fps[i];
-
-                // this means that the list of cameras are rgb camera
-                if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
-                {
-                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
-                }
-                // this means that the list of cameras are rgbd camera
-                else
-                {
-                    if (depthSaveMode[i] == "video")
-                    {
-                        log()->warn("{} The depth stream of the rgbd camera {} will be saved as a "
-                                    "grayscale 8bit video. We suggest to save it as a set of "
-                                    "frames.",
-                                    logPrefix,
-                                    i);
-                    }
-                    m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
-                    m_videoWriters[cameraNames[i]].depth = createImageSaver(depthSaveMode[i]);
-                    ok = ok && m_videoWriters[cameraNames[i]].depth != nullptr;
-                    m_videoWriters[cameraNames[i]].depthScale = depthScale[i];
-                }
-            }
-
-            return ok;
-        };
-
+    if (m_logCameras && this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
+    {
         // get the metadata for rgb camera
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
         {
-            if (!populateCamerasData("rgb_cameras_fps",
+            if (!populateCamerasData(logPrefix,
+                                     params,
+                                     "rgb_cameras_fps",
                                      m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
             {
                 log()->error("{} Unable to populate the camera fps for RGB cameras.", logPrefix);
@@ -371,7 +255,9 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         // Currently the logger supports only rgb cameras
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBDCameraEnabled)
         {
-            if (!populateCamerasData("rgbd_cameras_fps",
+            if (!populateCamerasData(logPrefix,
+                                     params,
+                                     "rgbd_cameras_fps",
                                      m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
             {
                 log()->error("{} Unable to populate the camera fps for RGBD cameras.", logPrefix);
@@ -401,10 +287,21 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                              fourccCodecUrl);
                 return false;
             }
+            needsAttach = true;
         }
     } else
     {
-        log()->info("{} The video will not be recorded", logPrefix);
+        if (m_logCameras)
+        {
+            m_logCameras = false;
+            log()->error("{} Failed to setup the camera bridge. The cameras will not "
+                         "be logged.",
+                         logPrefix);
+        } else
+        {
+            log()->info("{} The video will not be recorded", logPrefix);
+        }
+
     }
 
     if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
@@ -435,6 +332,15 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     {
         log()->error("{} Could not open", logPrefix);
         return false;
+    }
+
+    log()->info("{} Logger configuration completed.", logPrefix);
+    if (needsAttach)
+    {
+        log()->info("{} Waiting for the attach phases before starting the logging.", logPrefix);
+    } else
+    {
+        return startLogging();
     }
 
     return true;
@@ -578,6 +484,25 @@ bool YarpRobotLoggerDevice::setupTelemetry(
 bool YarpRobotLoggerDevice::setupRobotSensorBridge(
     std::weak_ptr<const ParametersHandler::IParametersHandler> params)
 {
+    if (!m_logRobot)
+    {
+        log()->info("[YarpRobotLoggerDevice::setupRobotSensorBridge] The robot data will not be "
+                    "logged.");
+        m_robotSensorBridge = nullptr;
+        m_streamJointStates = false;
+        m_streamJointAccelerations = false;
+        m_streamMotorTemperature = false;
+        m_streamMotorStates = false;
+        m_streamMotorPWM = false;
+        m_streamPIDs = false;
+        m_streamInertials = false;
+        m_streamCartesianWrenches = false;
+        m_streamFTSensors = false;
+        m_streamTemperatureSensors = false;
+
+        return true;
+    }
+
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotSensorBridge]";
 
     auto ptr = params.lock();
@@ -684,9 +609,10 @@ bool YarpRobotLoggerDevice::setupRobotCameraBridge(
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotCameraBridge]";
 
     auto ptr = params.lock();
+
     if (ptr == nullptr)
     {
-        log()->error("{} The parameters handler is not valid.", logPrefix);
+        log()->error("{} The 'RobotCameraBridge' group is not provided.", logPrefix);
         return false;
     }
 
@@ -758,27 +684,172 @@ bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
     return true;
 }
 
+bool BipedalLocomotion::YarpRobotLoggerDevice::populateCamerasData(
+    const std::string& logPrefix,
+    std::shared_ptr<const ParametersHandler::IParametersHandler> params,
+    const std::string& fpsParamName,
+    const std::vector<std::string>& cameraNames)
+{
+    std::vector<int> fps, depthScale;
+    std::vector<std::string> rgbSaveMode, depthSaveMode;
+    if (!params->getParameter(fpsParamName, fps))
+    {
+        log()->error("{} Unable to find the parameter named: {}.", logPrefix, fpsParamName);
+        return false;
+    }
+
+    // if the camera is an rgbd camera then user should provide the depth scale
+    if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbdCamerasList))
+    {
+        if (!params->getParameter("rgbd_cameras_depth_scale", depthScale))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgbd_cameras_depth_scale'.",
+                         logPrefix);
+            return false;
+        }
+
+        if (!params->getParameter("rgbd_cameras_rgb_save_mode", rgbSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgb_cameras_rgb_save_mode.",
+                         logPrefix);
+            return false;
+        }
+
+        if (!params->getParameter("rgbd_cameras_depth_save_mode", depthSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgbd_cameras_depth_save_mode.",
+                         logPrefix);
+            return false;
+        }
+
+        if (fps.size() != depthScale.size() || (fps.size() != rgbSaveMode.size())
+            || (fps.size() != depthSaveMode.size()))
+        {
+            log()->error("{} Mismatch between the vector containing the size of the vector "
+                         "provided from configuration"
+                         "Number of cameras: {}. Size of the FPS vector {}. Size of the "
+                         "depth scale vector {}."
+                         "Size of 'rgb_cameras_rgb_save_mode' {}. Size of "
+                         "'rgb_cameras_depth_save_mode': {}",
+                         logPrefix,
+                         cameraNames.size(),
+                         fps.size(),
+                         depthScale.size(),
+                         rgbSaveMode.size(),
+                         depthSaveMode.size());
+            return false;
+        }
+    } else
+    {
+        if (!params->getParameter("rgb_cameras_rgb_save_mode", rgbSaveMode))
+        {
+            log()->error("{} Unable to find the parameter named: "
+                         "'rgb_cameras_rgb_save_mode.",
+                         logPrefix);
+            return false;
+        }
+    }
+
+    if ((fps.size() != rgbSaveMode.size()))
+    {
+        log()->error("{} Mismatch between the vector containing the size of the vector "
+                     "provided from configuration"
+                     "Number of cameras: {}. Size of the FPS vector {}."
+                     "Size of 'rgb_cameras_rgb_save_mode' {}.",
+                     logPrefix,
+                     cameraNames.size(),
+                     fps.size(),
+                     rgbSaveMode.size());
+        return false;
+    }
+
+    if (fps.size() != cameraNames.size())
+    {
+        log()->error("{} Mismatch between the number of cameras and the vector containing "
+                     "the FPS. Number of cameras: {}. Size of the FPS vector {}.",
+                     logPrefix,
+                     cameraNames.size(),
+                     fps.size());
+        return false;
+    }
+
+    auto createImageSaver
+        = [logPrefix](const std::string& saveMode) -> std::shared_ptr<VideoWriter::ImageSaver> {
+        auto saver = std::make_shared<VideoWriter::ImageSaver>();
+        if (saveMode == "frame")
+        {
+            saver->saveMode = VideoWriter::SaveMode::Frame;
+        } else if (saveMode == "video")
+        {
+            saver->saveMode = VideoWriter::SaveMode::Video;
+        } else
+        {
+            log()->error("{} The save mode associated to the one of the camera is neither "
+                         "'frame' nor 'video'. Provided: {}",
+                         logPrefix,
+                         saveMode);
+            return nullptr;
+        }
+        return saver;
+    };
+
+    bool ok = true;
+    for (unsigned int i = 0; i < fps.size(); i++)
+    {
+        if (fps[i] <= 0)
+        {
+            log()->error("{} The FPS associated to the camera {} is negative or equal to "
+                         "zero.",
+                         logPrefix,
+                         i);
+            return false;
+        }
+
+        // get the desired fps for each camera
+        m_videoWriters[cameraNames[i]].fps = fps[i];
+
+        // this means that the list of cameras are rgb camera
+        if ((&cameraNames) == (&m_cameraBridge->getMetaData().sensorsList.rgbCamerasList))
+        {
+            m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+        }
+        // this means that the list of cameras are rgbd camera
+        else
+        {
+            if (depthSaveMode[i] == "video")
+            {
+                log()->warn("{} The depth stream of the rgbd camera {} will be saved as a "
+                            "grayscale 8bit video. We suggest to save it as a set of "
+                            "frames.",
+                            logPrefix,
+                            i);
+            }
+            m_videoWriters[cameraNames[i]].rgb = createImageSaver(rgbSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].rgb != nullptr;
+            m_videoWriters[cameraNames[i]].depth = createImageSaver(depthSaveMode[i]);
+            ok = ok && m_videoWriters[cameraNames[i]].depth != nullptr;
+            m_videoWriters[cameraNames[i]].depthScale = depthScale[i];
+        }
+    }
+
+    return ok;
+}
+
 bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::attachAll]";
 
-    bool ok = true;
-
-    if (m_logText)
+    if (m_robotSensorBridge != nullptr)
     {
-        // open the TextLogging port
-        ok = ok && m_textLoggingPort.open(m_textLoggingPortName);
-        // run the thread
-        m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
-    }
-
-    // run the thread for reading the exogenous signals
-    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
-
-    if (!m_robotSensorBridge->setDriversList(poly))
-    {
-        log()->error("{} Could not attach drivers list to sensor bridge.", logPrefix);
-        return false;
+        if (!m_robotSensorBridge->setDriversList(poly))
+        {
+            log()->error("{} Could not attach drivers list to sensor bridge.", logPrefix);
+            return false;
+        }
     }
 
     // The user can avoid to record the camera
@@ -791,64 +862,143 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    // TODO this should be removed
+    log()->info("{} Attach completed. Starting logger.", logPrefix);
+    if (!this->isRunning())
+    {
+        return startLogging();
+    }
+
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::startLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::startLogging]";
+
+    if (this->isRunning())
+    {
+        log()->error("{} The logger has already started. This should not have happened.",
+                     logPrefix);
+        return false;
+    }
+
+    if (m_logText)
+    {
+        // open the TextLogging port
+        bool ok = m_textLoggingPort.open(m_textLoggingPortName);
+        if (!ok)
+        {
+            log()->error("{} Unable to open the text logging port named {}.",
+                         logPrefix,
+                         m_textLoggingPortName);
+            return false;
+        }
+        // run the thread
+        m_lookForNewLogsThread = std::thread([this] { this->lookForNewLogs(); });
+    }
+
+    // run the thread for reading the exogenous signals
+    m_lookForNewExogenousSignalThread = std::thread([this] { this->lookForExogenousSignals(); });
+
+    bool ok = m_bufferManager.setSaveCallback(
+        [this](const std::string& filePrefix,
+               const robometry::SaveCallbackSaveMethod& method) -> bool {
+            return this->saveCallback(filePrefix, method);
+        });
+
+    if (!ok)
+    {
+        log()->error("{} Unable to set the save callback for the telemetry.", logPrefix);
+        return false;
+    }
+
+    if (!this->prepareRobotLogging())
+    {
+        log()->error("{} Unable to prepare the robot logging.", logPrefix);
+        return false;
+    }
+
+    // prepare the camera logging
+    if (!this->prepareCameraLogging())
+    {
+        log()->error("{} Unable to prepare the camera logging.", logPrefix);
+        return false;
+    }
+
+    // prepare real time streaming
+    if (!this->prepareRTStreaming())
+    {
+        log()->error("{} Unable to prepare the real time streaming.", logPrefix);
+        return false;
+    }
+
+    // start the thread
+    if (!this->start())
+    {
+        log()->error("{} Unable to start the device.", logPrefix);
+        return false;
+    }
+
+    log()->info("{} The logger has started.", logPrefix);
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRobotLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRobotLogging]";
+    if (m_robotSensorBridge == nullptr)
+    {
+        return true;
+    }
+
     // this sleep is required since the sensor bridge could be not ready
     using namespace std::chrono_literals;
     BipedalLocomotion::clock().sleepFor(2000ms);
 
-    std::vector<std::string> joints;
-    if (!m_robotSensorBridge->getJointsList(joints))
+    if (!m_robotSensorBridge->getJointsList(m_jointList))
     {
         log()->error("{} Could not get the joints list.", logPrefix);
         return false;
     }
 
-    const unsigned dofs = joints.size();
-    m_bufferManager.setDescriptionList(joints);
-    if (m_sendDataRT)
-    {
-        char* tmp = std::getenv("YARP_ROBOT_NAME");
-        std::string metadataName = robotRtRootName + treeDelim + robotName;
-        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
+    // resize the temporary vectors
+    m_jointSensorBuffer.resize(m_jointList.size());
 
-        metadataName = robotRtRootName + treeDelim + timestampsName;
-        m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
+    m_bufferManager.setDescriptionList(m_jointList);
 
-        std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
-        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, joints);
-    }
+    bool ok = true;
 
     // prepare the telemetry
     if (m_streamJointStates)
     {
-        ok = ok && addChannel(jointStatePositionsName, joints.size(), joints);
-        ok = ok && addChannel(jointStateVelocitiesName, joints.size(), joints);
+        ok = ok && addChannel(jointStatePositionsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(jointStateVelocitiesName, m_jointList.size(), m_jointList);
         if (m_streamJointAccelerations)
         {
-            ok = ok && addChannel(jointStateAccelerationsName, joints.size(), joints);
+            ok = ok && addChannel(jointStateAccelerationsName, m_jointList.size(), m_jointList);
         }
-        ok = ok && addChannel(jointStateTorquesName, joints.size(), joints);
+        ok = ok && addChannel(jointStateTorquesName, m_jointList.size(), m_jointList);
     }
     if (m_streamMotorStates)
     {
-        ok = ok && addChannel(motorStatePositionsName, joints.size(), joints);
-        ok = ok && addChannel(motorStateVelocitiesName, joints.size(), joints);
-        ok = ok && addChannel(motorStateAccelerationsName, joints.size(), joints);
-        ok = ok && addChannel(motorStateCurrentsName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePositionsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateVelocitiesName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateAccelerationsName, m_jointList.size(), m_jointList);
+        ok = ok && addChannel(motorStateCurrentsName, m_jointList.size(), m_jointList);
         if (m_streamMotorTemperature)
         {
-            ok = ok && addChannel(motorStateTemperaturesName, joints.size(), joints);
+            ok = ok && addChannel(motorStateTemperaturesName, m_jointList.size(), m_jointList);
         }
     }
 
     if (m_streamMotorPWM)
     {
-        ok = ok && addChannel(motorStatePwmName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePwmName, m_jointList.size(), m_jointList);
     }
 
     if (m_streamPIDs)
     {
-        ok = ok && addChannel(motorStatePidsName, joints.size(), joints);
+        ok = ok && addChannel(motorStatePidsName, m_jointList.size(), m_jointList);
     }
 
     if (m_streamFTSensors)
@@ -938,199 +1088,237 @@ bool YarpRobotLoggerDevice::attachAll(const yarp::dev::PolyDriverList& poly)
         }
     }
 
-    // this is required only if the realtime is enabled
-    if (m_sendDataRT)
+    if (!ok)
     {
-        std::string signalFullName = "";
-
-        for (auto& [name, signal] : m_vectorsCollectionSignals)
-        {
-            std::lock_guard<std::mutex> lock(signal.mutex);
-            BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
-                = signal.client.readData(false);
-            if (externalSignalCollection != nullptr)
-            {
-                if (!signal.dataArrived)
-                {
-                    bool channelAdded = false;
-                    for (const auto& [key, vector] : externalSignalCollection->vectors)
-                    {
-                        signalFullName = signal.signalName + treeDelim + key;
-                        const auto& metadata = signal.metadata.vectors.find(key);
-                        if (metadata == signal.metadata.vectors.cend())
-                        {
-                            log()->warn("{} Unable to find the metadata for the signal named {}. "
-                                        "The "
-                                        "default one will be used.",
-                                        logPrefix,
-                                        signalFullName);
-                            channelAdded = addChannel(signalFullName, vector.size());
-
-                        } else
-                        {
-                            channelAdded = addChannel(signalFullName, //
-                                                      vector.size(),
-                                                      {metadata->second});
-                        }
-                    }
-                    signal.dataArrived = channelAdded;
-                }
-            }
-        }
-
-        for (auto& [name, signal] : m_vectorSignals)
-        {
-            std::lock_guard<std::mutex> lock(signal.mutex);
-            yarp::sig::Vector* vector = signal.port.read(false);
-            if (vector != nullptr)
-            {
-                if (!signal.dataArrived)
-                {
-                    signalFullName = signal.signalName;
-                    signal.dataArrived = addChannel(signalFullName, vector->size());
-                }
-            }
-        }
-
-        m_vectorCollectionRTDataServer.finalizeMetadata();
+        log()->error("{} Unable to add the channels for the robot sensors.", logPrefix);
+        return false;
     }
 
-    // resize the temporary vectors
-    m_jointSensorBuffer.resize(dofs);
+    return true;
+}
 
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareCameraLogging]";
     // The user can avoid to record the camera
-    if (m_cameraBridge != nullptr)
+    if (m_cameraBridge == nullptr)
     {
-        ok = ok && m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
-        for (const auto& camera : m_rgbCamerasList)
+        return true;
+    }
+
+    bool ok = m_cameraBridge->getRGBCamerasList(m_rgbCamerasList);
+    if (!ok)
+    {
+        log()->error("{} Unable to get the list of RGB cameras.", logPrefix);
+        return false;
+    }
+    for (const auto& camera : m_rgbCamerasList)
+    {
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
         {
-            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                        camera,
+                                        "rgb",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbImgDimensions))
             {
-                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                           camera,
-                                           "rgb",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
+                log()->error("{} Unable open the video writer for the camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
             }
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                                {1, 1}, //
-                                                {"timestamp"}});
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+        ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                        {1, 1}, //
+                                        {"timestamp"}});
+        if (!ok)
+        {
+            log()->error("{} Unable to add the channel for the camera named {}.",
+                         logPrefix,
+                         camera);
+            return false;
+        }
+    }
+
+    ok = m_cameraBridge->getRGBDCamerasList(m_rgbdCamerasList);
+    if (!ok)
+    {
+        log()->error("{} Unable to get the list of RGBD cameras.", logPrefix);
+        return false;
+    }
+    for (const auto& camera : m_rgbdCamerasList)
+    {
+        if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].rgb,
+                                        camera,
+                                        "rgb",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        }
+        if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
+        {
+            if (!this->openVideoWriter(m_videoWriters[camera].depth,
+                                        camera,
+                                        "depth",
+                                        m_cameraBridge->getMetaData()
+                                            .bridgeOptions.rgbdImgDimensions))
+            {
+                log()->error("{} Unable open the video writer for the rgbd camera named {}.",
+                             logPrefix,
+                             camera);
+                return false;
+            }
+        } else
+        {
+            if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
+            {
+                log()->error("{} Unable to create the folder to store the frames for the "
+                                "camera named {}.",
+                                logPrefix,
+                                camera);
+                return false;
+            }
         }
 
-        ok = ok && m_cameraBridge->getRGBDCamerasList(m_rgbdCamerasList);
-        for (const auto& camera : m_rgbdCamerasList)
+        ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
+                                              {1, 1}, //
+                                              {"timestamp"}});
+
+        ok = ok && m_bufferManager.addChannel({"camera::" + camera + "::depth",
+                                              {1, 1}, //
+                                              {"timestamp"}});
+
+        if (!ok)
         {
-            if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
-            {
-                if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                           camera,
-                                           "rgb",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbdImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            }
-            if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
-            {
-                if (!this->openVideoWriter(m_videoWriters[camera].depth,
-                                           camera,
-                                           "depth",
-                                           m_cameraBridge->getMetaData()
-                                               .bridgeOptions.rgbdImgDimensions))
-                {
-                    log()->error("{} Unable open the video writer for the rgbd camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            } else
-            {
-                if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
-                {
-                    log()->error("{} Unable to create the folder to store the frames for the "
-                                 "camera named {}.",
-                                 logPrefix,
-                                 camera);
-                    return false;
-                }
-            }
-
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                                {1, 1}, //
-                                                {"timestamp"}});
-
-            ok = ok
-                 && m_bufferManager.addChannel({"camera::" + camera + "::depth",
-                                                {1, 1}, //
-                                                {"timestamp"}});
+            log()->error("{} Unable to add the channels for the rgbd camera named {}.",
+                         logPrefix,
+                         camera);
+            return false;
         }
+    }
 
-        if (ok)
+    // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
+    // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
+    // declared from structured binding.
+    // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
+    // If a lambda-expression [...] captures a structured binding (explicitly or
+    // implicitly), the program is ill-formed.
+    // you can find further information here:
+    // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
+    // Note if one day we will support c++20 we can use structured binding see
+    // https://en.cppreference.com/w/cpp/language/structured_binding
+    for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
+    {
+        // start a separate the thread for each camera
+        iter->second.videoThread
+            = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
+    }
+
+    return true;
+}
+
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRTStreaming]";
+    if (!m_sendDataRT)
+    {
+        return true;
+    }
+
+    char* tmp = std::getenv("YARP_ROBOT_NAME");
+    std::string metadataName = robotRtRootName + treeDelim + robotName;
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {std::string(tmp)});
+
+    if (m_jointList.size() > 0)
+    {
+        std::string rtMetadataName = robotRtRootName + treeDelim + robotDescriptionList;
+        m_vectorCollectionRTDataServer.populateMetadata(rtMetadataName, m_jointList);
+    }
+
+    metadataName = robotRtRootName + treeDelim + timestampsName;
+    m_vectorCollectionRTDataServer.populateMetadata(metadataName, {timestampsName});
+
+    std::string signalFullName = "";
+
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    {
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
+            = signal.client.readData(false);
+        if (externalSignalCollection != nullptr)
         {
-            // using C++17 it is not possible to use a structured binding in the for loop, i.e. for
-            // (auto& [key, val] : m_videoWriters) since Lambda implicit capture fails with variable
-            // declared from structured binding.
-            // As explained in http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0588r1.html
-            // If a lambda-expression [...] captures a structured binding (explicitly or
-            // implicitly), the program is ill-formed.
-            // you can find further information here:
-            // https://stackoverflow.com/questions/46114214/lambda-implicit-capture-fails-with-variable-declared-from-structured-binding
-            // Note if one day we will support c++20 we can use structured binding see
-            // https://en.cppreference.com/w/cpp/language/structured_binding
-            for (auto iter = m_videoWriters.begin(); iter != m_videoWriters.end(); ++iter)
+            if (!signal.dataArrived)
             {
-                // start a separate the thread for each camera
-                iter->second.videoThread
-                    = std::thread([this, iter] { this->recordVideo(iter->first, iter->second); });
+                bool channelAdded = false;
+                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                {
+                    signalFullName = signal.signalName + treeDelim + key;
+                    const auto& metadata = signal.metadata.vectors.find(key);
+                    if (metadata == signal.metadata.vectors.cend())
+                    {
+                        log()->warn("{} Unable to find the metadata for the signal named {}. "
+                                    "The "
+                                    "default one will be used.",
+                                    logPrefix,
+                                    signalFullName);
+                        channelAdded = addChannel(signalFullName, vector.size());
+
+                    } else
+                    {
+                        channelAdded = addChannel(signalFullName, //
+                                                  vector.size(),
+                                                  {metadata->second});
+                    }
+                }
+                signal.dataArrived = channelAdded;
             }
         }
     }
 
-    ok = ok
-         && m_bufferManager.setSaveCallback(
-             [this](const std::string& filePrefix,
-                    const robometry::SaveCallbackSaveMethod& method) -> bool {
-                 return this->saveCallback(filePrefix, method);
-             });
-
-    if (ok)
+    for (auto& [name, signal] : m_vectorSignals)
     {
-        return start();
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::sig::Vector* vector = signal.port.read(false);
+        if (vector != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                signalFullName = signal.signalName;
+                signal.dataArrived = addChannel(signalFullName, vector->size());
+            }
+        }
     }
 
-    return ok;
+    m_vectorCollectionRTDataServer.finalizeMetadata();
+
+    return true;
 }
 
 bool YarpRobotLoggerDevice::openVideoWriter(
@@ -1507,6 +1695,70 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     }
 }
 
+void BipedalLocomotion::YarpRobotLoggerDevice::saveCodeStatus(const std::string& logPrefix,
+                                                              const std::string& fileName) const
+{
+    if (!m_logCodeStatus)
+    {
+        // Do nothing
+        return;
+    }
+
+    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
+        std::stringstream processStream, stream;
+
+        // run the process
+        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
+            processStream << std::string(bytes, n);
+        });
+
+        // if the process status is ok we can save the output
+        auto exitStatus = process.get_exit_status();
+        if (exitStatus == 0)
+        {
+            stream << "### " << head << std::endl;
+            stream << "```" << std::endl;
+            stream << processStream.str() << std::endl;
+            stream << "```" << std::endl;
+        }
+        return stream.str();
+    };
+
+    log()->info("{} Saving the status of the code...", logPrefix);
+    auto start = BipedalLocomotion::clock().now();
+
+    std::ofstream file(fileName + ".md");
+    file << "# " << fileName << std::endl;
+    file << "File containing all the installed software required to replicate the experiment.  "
+         << std::endl;
+
+    if (m_codeStatusCmdPrefixes.empty())
+    {
+        file << codeStatus("bash "
+                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                           "ROBOTOLOGY");
+        file << codeStatus("apt list --installed", "APT");
+    } else
+    {
+        for (const auto& prefix : m_codeStatusCmdPrefixes)
+        {
+            file << "## `" << prefix << "`" << std::endl;
+            file << codeStatus(prefix
+                                   + " \"bash "
+                                     "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
+                                     "robotologyGitStatus.sh\"",
+                               "ROBOTOLOGY");
+            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
+        }
+    }
+
+    file.close();
+    log()->info("{} Status of the code saved to file {} in {}.",
+                logPrefix,
+                fileName + ".md",
+                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+}
+
 void YarpRobotLoggerDevice::run()
 {
     auto logData = [this](const std::string& name, const auto& data, const double time) {
@@ -1550,10 +1802,13 @@ void YarpRobotLoggerDevice::run()
         m_vectorCollectionRTDataServer.populateData(rtSignalFullName, timeData);
     }
 
-    // get the data
-    if (!m_robotSensorBridge->advance())
+    if (m_robotSensorBridge != nullptr)
     {
-        log()->error("{} Could not advance sensor bridge.", logPrefix);
+        // get the data
+        if (!m_robotSensorBridge->advance())
+        {
+            log()->error("{} Could not advance sensor bridge.", logPrefix);
+        }
     }
 
     if (m_streamJointStates)
@@ -1691,27 +1946,27 @@ void YarpRobotLoggerDevice::run()
                 logData(signalFullName, m_magnemetometerBuffer, time);
             }
         }
-    }
 
-    // an IMU contains a gyro accelerometer and an orientation sensor
-    for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
-    {
-        if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
+        // an IMU contains a gyro accelerometer and an orientation sensor
+        for (const auto& sensorName : m_robotSensorBridge->getIMUsList())
         {
-            // it will return a tuple containing the Accelerometer, the gyro and the orientation
-            this->unpackIMU(m_analogSensorBuffer,
-                            m_acceloremeterBuffer,
-                            m_gyroBuffer,
-                            m_orientationBuffer);
+            if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
+            {
+                // it will return a tuple containing the Accelerometer, the gyro and the orientation
+                this->unpackIMU(m_analogSensorBuffer,
+                                m_acceloremeterBuffer,
+                                m_gyroBuffer,
+                                m_orientationBuffer);
 
-            signalFullName = accelerometersName + treeDelim + sensorName;
-            logData(signalFullName, m_acceloremeterBuffer, time);
+                signalFullName = accelerometersName + treeDelim + sensorName;
+                logData(signalFullName, m_acceloremeterBuffer, time);
 
-            signalFullName = gyrosName + treeDelim + sensorName;
-            logData(signalFullName, m_gyroBuffer, time);
+                signalFullName = gyrosName + treeDelim + sensorName;
+                logData(signalFullName, m_gyroBuffer, time);
 
-            signalFullName = orientationsName + treeDelim + sensorName;
-            logData(signalFullName, m_orientationBuffer, time);
+                signalFullName = orientationsName + treeDelim + sensorName;
+                logData(signalFullName, m_orientationBuffer, time);
+            }
         }
     }
 
@@ -1842,32 +2097,14 @@ void YarpRobotLoggerDevice::run()
 
     m_previousTimestamp = t;
     m_firstRun = false;
+
+    yInfoThrottle(5) << "Logging data..";
 }
 
 bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                                          const robometry::SaveCallbackSaveMethod& method)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveCallback]";
-
-    auto codeStatus = [](const std::string& cmd, const std::string& head) -> std::string {
-        std::stringstream processStream, stream;
-
-        // run the process
-        TinyProcessLib::Process process(cmd, "", [&](const char* bytes, size_t n) -> void {
-            processStream << std::string(bytes, n);
-        });
-
-        // if the process status is ok we can save the output
-        auto exitStatus = process.get_exit_status();
-        if (exitStatus == 0)
-        {
-            stream << "### " << head << std::endl;
-            stream << "```" << std::endl;
-            stream << processStream.str() << std::endl;
-            stream << "```" << std::endl;
-        }
-        return stream.str();
-    };
 
     auto saveVideo = [&fileName, logPrefix](std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                                             const std::string& camera,
@@ -2045,39 +2282,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
     }
 
     // save the status of the code
-    log()->info("{} Saving the status of the code...", logPrefix);
-    auto start = BipedalLocomotion::clock().now();
-
-    std::ofstream file(fileName + ".md");
-    file << "# " << fileName << std::endl;
-    file << "File containing all the installed software required to replicate the experiment.  "
-         << std::endl;
-
-    if (m_codeStatusCmdPrefixes.empty())
-    {
-        file << codeStatus("bash "
-                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
-                           "ROBOTOLOGY");
-        file << codeStatus("apt list --installed", "APT");
-    } else
-    {
-        for (const auto& prefix : m_codeStatusCmdPrefixes)
-        {
-            file << "## `" << prefix << "`" << std::endl;
-            file << codeStatus(prefix
-                                   + " \"bash "
-                                     "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
-                                     "robotologyGitStatus.sh\"",
-                               "ROBOTOLOGY");
-            file << codeStatus(prefix + " \"apt list --installed\"", "APT");
-        }
-    }
-
-    file.close();
-    log()->info("{} Status of the code saved to file {} in {}.",
-                logPrefix,
-                fileName + ".md",
-                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+    this->saveCodeStatus(logPrefix, fileName);
 
     return true;
 }

@@ -156,6 +156,7 @@ private:
     std::unordered_set<std::string> m_textLogsStoredInManager;
     std::thread m_lookForNewLogsThread;
 
+    std::vector<std::string> m_jointList;
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
     gyro_t m_gyroBuffer;
@@ -176,6 +177,9 @@ private:
     bool m_streamFTSensors{false};
     bool m_streamTemperatureSensors{false};
     bool m_logText{true};
+    bool m_logCodeStatus{true};
+    bool m_logCameras{true};
+    bool m_logRobot{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
 
@@ -193,8 +197,14 @@ private:
                     std::size_t vectorSize,
                     const std::vector<std::string>& metadata = {});
 
+    bool populateCamerasData(const std::string& logPrefix,
+                             std::shared_ptr<const ParametersHandler::IParametersHandler> params,
+                             const std::string& fpsParamName,
+                             const std::vector<std::string>& cameraNames);
+
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
+    void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
                    Eigen::Ref<gyro_t> gyro,
@@ -213,6 +223,10 @@ private:
     bool createFramesFolder(std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
                             const std::string& camera,
                             const std::string& imageType);
+    bool startLogging();
+    bool prepareRobotLogging();
+    bool prepareCameraLogging();
+    bool prepareRTStreaming();
 
     const std::string treeDelim = "::";
 
