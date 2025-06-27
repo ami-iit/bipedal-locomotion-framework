@@ -210,7 +210,7 @@ private:
                    Eigen::Ref<gyro_t> gyro,
                    Eigen::Ref<orientation_t> orientation);
     bool setupRobotSensorBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
-    bool setupRobotCameraBridge(std::shared_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupRobotCameraBridge(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);

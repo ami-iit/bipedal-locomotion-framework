@@ -237,17 +237,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
                     m_logCameras);
     }
 
-    auto cameraBridgeGroup = params->getGroup("RobotCameraBridge").lock();
-
-    if (m_logCameras && cameraBridgeGroup == nullptr)
-    {
-        log()->error("{} The 'RobotCameraBridge' group is not provided. The cameras will not be "
-                     "logged.",
-                     logPrefix);
-        m_logCameras = false;
-    }
-
-    if (m_logCameras && this->setupRobotCameraBridge(cameraBridgeGroup))
+    if (m_logCameras && this->setupRobotCameraBridge(params->getGroup("RobotCameraBridge")))
     {
         // get the metadata for rgb camera
         if (m_cameraBridge->getMetaData().bridgeOptions.isRGBCameraEnabled)
@@ -304,7 +294,7 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         if (m_logCameras)
         {
             m_logCameras = false;
-            log()->error("{} The 'RobotCameraBridge' group is not provided. The cameras will not "
+            log()->error("{} Failed to setup the camera bridge. The cameras will not "
                          "be logged.",
                          logPrefix);
         } else
@@ -614,18 +604,20 @@ bool YarpRobotLoggerDevice::setupRobotSensorBridge(
 }
 
 bool YarpRobotLoggerDevice::setupRobotCameraBridge(
-    std::shared_ptr<const ParametersHandler::IParametersHandler> params)
+    std::weak_ptr<const ParametersHandler::IParametersHandler> params)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::setupRobotCameraBridge]";
 
-    if (params == nullptr)
+    auto ptr = params.lock();
+
+    if (ptr == nullptr)
     {
-        log()->error("{} The parameters handler is not valid.", logPrefix);
+        log()->error("{} The 'RobotCameraBridge' group is not provided.", logPrefix);
         return false;
     }
 
     m_cameraBridge = std::make_unique<YarpCameraBridge>();
-    if (!m_cameraBridge->initialize(params))
+    if (!m_cameraBridge->initialize(ptr))
     {
         log()->error("{} Unable to configure the 'Camera bridge'", logPrefix);
         return false;
