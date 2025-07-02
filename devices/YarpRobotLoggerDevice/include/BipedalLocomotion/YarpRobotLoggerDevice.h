@@ -23,9 +23,12 @@
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/dev/PolyDriver.h>
+#include <yarp/dev/IFrameTransform.h>
 
 #include <robometry/BufferManager.h>
 
+#include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollection.h>
@@ -156,6 +159,21 @@ private:
     std::unordered_set<std::string> m_textLogsStoredInManager;
     std::thread m_lookForNewLogsThread;
 
+    struct FrameDescriptor
+    {
+        std::string parent; /**< name of the parent frame */
+        std::string positionChannelName; /**< name of the channel associated to the frame */
+        std::string orientationChannelName; /**< name of the channel associated to the frame */
+        bool active{true}; /**< is the frame active? */
+    };
+
+    yarp::dev::PolyDriver m_tfDevice;
+    yarp::dev::IFrameTransform* m_tf{nullptr};
+    std::unordered_set<std::string> m_tfRootFrames;
+    std::vector<std::string> m_allFrames;
+    std::unordered_map<std::string, FrameDescriptor> m_tfChildFrames;
+    yarp::sig::Matrix m_tfMatrix;
+
     std::vector<std::string> m_jointList;
     Eigen::VectorXd m_jointSensorBuffer;
     ft_t m_ftBuffer;
@@ -179,6 +197,7 @@ private:
     bool m_logText{true};
     bool m_logCodeStatus{true};
     bool m_logCameras{true};
+    bool m_logFrames{false};
     bool m_logRobot{true};
     std::vector<std::string> m_textLoggingSubnames;
     std::vector<std::string> m_codeStatusCmdPrefixes;
@@ -214,6 +233,8 @@ private:
     bool setupTelemetry(std::weak_ptr<const ParametersHandler::IParametersHandler> params,
                         const double& devicePeriod);
     bool setupExogenousInputs(std::weak_ptr<const ParametersHandler::IParametersHandler> params);
+    bool setupTransformInputs(const yarp::os::Bottle& config);
+    bool updateChildTransformList();
     bool saveCallback(const std::string& fileName, const robometry::SaveCallbackSaveMethod& method);
     bool openVideoWriter(
         std::shared_ptr<VideoWriter::ImageSaver> imageSaver,
