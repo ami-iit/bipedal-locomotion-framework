@@ -48,7 +48,9 @@ void CreateOutputPort(pybind11::module& module, const std::string& pythonClassNa
     const std::string outputPortName = "_" + pythonClassName + "OutputPort";
     py::class_<::BipedalLocomotion::System::OutputPort<Output>> //
         (module, outputPortName.c_str())
-            .def("get_output", &::BipedalLocomotion::System::OutputPort<Output>::getOutput)
+            .def("get_output",
+                 &::BipedalLocomotion::System::OutputPort<Output>::getOutput,
+                 py::return_value_policy::reference)
             .def("is_output_valid",
                  &::BipedalLocomotion::System::OutputPort<Output>::isOutputValid);
 }
