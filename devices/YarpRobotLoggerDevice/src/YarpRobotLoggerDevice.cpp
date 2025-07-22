@@ -424,72 +424,60 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         }
     }
 
+    auto openExogenousSignals = [logPrefix](auto ptr,
+                                            const std::vector<std::string>& inputs,
+                                            auto& signals_vector) -> bool
+    {
+        for (const auto& input : inputs)
+        {
+            auto group = ptr->getGroup(input).lock();
+            std::string local, signalFullName, remote, carrier;
+            if (group == nullptr || !group->getParameter("local", local)
+                || !group->getParameter("remote", remote)
+                || !group->getParameter("carrier", carrier)
+                || !group->getParameter("signal_name", signalFullName))
+            {
+                log()->error("{} Unable to get the parameters related to the input: {}.",
+                             logPrefix,
+                             input);
+                return false;
+            }
+            signals_vector[remote].signalName = signalFullName;
+            signals_vector[remote].remote = remote;
+            signals_vector[remote].local = local;
+            signals_vector[remote].carrier = carrier;
+            if (!signals_vector[remote].port.open(signals_vector[remote].local))
+            {
+                log()->error("{} Unable to open the port named: {}.",
+                             logPrefix,
+                             signals_vector[remote].local);
+                return false;
+            }
+        }
+        return true;
+    };
+
+    inputs.clear();
     if (!ptr->getParameter("vectors_exogenous_inputs", inputs))
     {
         log()->error("{} Unable to get the exogenous inputs.", logPrefix);
         return false;
     }
 
-    for (const auto& input : inputs)
+    if (!openExogenousSignals(ptr, inputs, m_vectorSignals))
     {
-        auto group = ptr->getGroup(input).lock();
-        std::string local, signalFullName, remote, carrier;
-        if (group == nullptr || !group->getParameter("local", local)
-            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
-            || !group->getParameter("signal_name", signalFullName))
-        {
-            log()->error("{} Unable to get the parameters related to the input: {}.",
-                         logPrefix,
-                         input);
-            return false;
-        }
-
-        m_vectorSignals[remote].signalName = signalFullName;
-        m_vectorSignals[remote].remote = remote;
-        m_vectorSignals[remote].local = local;
-        m_vectorSignals[remote].carrier = carrier;
-
-        if (!m_vectorSignals[remote].port.open(m_vectorSignals[remote].local))
-        {
-            log()->error("{} Unable to open the port named: {}.",
-                         logPrefix,
-                         m_vectorSignals[remote].local);
-            return false;
-        }
+        return false;
     }
 
+    inputs.clear();
     if (!ptr->getParameter("string_exogenous_inputs", inputs))
     {
         log()->warn("{} Unable to get the string exogenous inputs. Assuming none.", logPrefix);
-        inputs.clear();
     }
 
-    for (const auto& input : inputs)
+    if (!openExogenousSignals(ptr, inputs, m_stringSignals))
     {
-        auto group = ptr->getGroup(input).lock();
-        std::string local, signalFullName, remote, carrier;
-        if (group == nullptr || !group->getParameter("local", local)
-            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
-            || !group->getParameter("signal_name", signalFullName))
-        {
-            log()->error("{} Unable to get the parameters related to the input: {}.",
-                         logPrefix,
-                         input);
-            return false;
-        }
-
-        m_stringSignals[remote].signalName = signalFullName;
-        m_stringSignals[remote].remote = remote;
-        m_stringSignals[remote].local = local;
-        m_stringSignals[remote].carrier = carrier;
-
-        if (!m_stringSignals[remote].port.open(m_stringSignals[remote].local))
-        {
-            log()->error("{} Unable to open the port named: {}.",
-                         logPrefix,
-                         m_stringSignals[remote].local);
-            return false;
-        }
+        return false;
     }
 
     return true;
