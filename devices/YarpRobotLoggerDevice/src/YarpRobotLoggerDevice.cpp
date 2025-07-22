@@ -458,6 +458,40 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         }
     }
 
+    if (!ptr->getParameter("string_exogenous_inputs", inputs))
+    {
+        log()->warn("{} Unable to get the string exogenous inputs. Assuming none.", logPrefix);
+        inputs.clear();
+    }
+
+    for (const auto& input : inputs)
+    {
+        auto group = ptr->getGroup(input).lock();
+        std::string local, signalFullName, remote, carrier;
+        if (group == nullptr || !group->getParameter("local", local)
+            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
+            || !group->getParameter("signal_name", signalFullName))
+        {
+            log()->error("{} Unable to get the parameters related to the input: {}.",
+                         logPrefix,
+                         input);
+            return false;
+        }
+
+        m_stringSignals[remote].signalName = signalFullName;
+        m_stringSignals[remote].remote = remote;
+        m_stringSignals[remote].local = local;
+        m_stringSignals[remote].carrier = carrier;
+
+        if (!m_stringSignals[remote].port.open(m_stringSignals[remote].local))
+        {
+            log()->error("{} Unable to open the port named: {}.",
+                         logPrefix,
+                         m_stringSignals[remote].local);
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -1630,6 +1664,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         // try to connect to the exogenous signals
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
+        connectToExogeneous(m_stringSignals);
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -2198,6 +2233,36 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = addChannel(signalFullName, vector->size());
             }
             logData(signalFullName, *vector, time);
+        }
+    }
+
+    // String signals are not streamed in RT
+    for (auto& [name, signal] : m_stringSignals)
+    {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::os::Bottle* bottle = signal.port.read(false);
+
+        signalFullName = signal.signalName;
+
+        if (bottle != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                if (!m_bufferManager.addChannel({signalFullName, {1}}))
+                {
+                    log()->error("Failed to add the channel in buffer manager named: {}",
+                                 signalFullName);
+                    signal.dataArrived = false;
+                    continue;
+                }
+                signal.dataArrived = true;
+            }
+            m_bufferManager.push_back(bottle->toString(), time, signalFullName);
         }
     }
 
