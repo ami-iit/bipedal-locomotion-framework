@@ -336,8 +336,8 @@ def test_variable_feasible_region_task():
 
     # Test infinite bounds (correct case)
     C = np.array([[1, 2], [0, 1]])
-    l = np.array([-np.infty, 0])
-    u = np.array([1, np.infty])
+    l = np.array([-np.inf, 0])
+    u = np.array([1, np.inf])
     assert task_2.set_feasible_region(C, l, u)
 
     # Test inconsistency with the variable size = 2 (incorrect case)
