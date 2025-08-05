@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2019-2021 Istituto Italiano di Tecnologia (IIT). All rights reserved.
+<!-- Copyright (C) 2019-2025 Istituto Italiano di Tecnologia (IIT). All rights reserved.
 This software may be modified and distributed under the terms of the
 BSD-3-Clause license. -->
 
@@ -58,7 +58,7 @@ BSD-3-Clause license. -->
       <param name="carrier">"udp"</param>
     </group>
 
-    
+
     <group name="current_commands">
       <param name="local">"/yarp-robot-logger/exogenous_signals/current_commands"</param>
       <param name="remote">"/joint_motion/logger"</param>
@@ -66,7 +66,7 @@ BSD-3-Clause license. -->
       <param name="carrier">"udp"</param>
     </group>
 
-    
+
     <group name="amp">
       <param name="local">"/yarp-robot-logger/exogenous_signals/amp_walking"</param>
       <param name="remote">"/amp_walking/logger"</param>
@@ -87,7 +87,7 @@ BSD-3-Clause license. -->
       <param name="signal_name">"torque_control_tracking"</param>
       <param name="carrier">"udp"</param>
     </group>
-    
+
   </group>
 
   <group name="RobotCameraBridge">
@@ -149,7 +149,7 @@ BSD-3-Clause license. -->
       <elem name="left_arm_wrench_client">left_arm_wrench_client</elem> -->
       <elem name="mas-remapper">mas-remapper</elem>
       <!-- <elem name="jabra">jabra</elem> -->
-      <elem name="logitech">logitech</elem>      
+      <elem name="logitech">logitech</elem>
     </paramlist>
   </action>
 

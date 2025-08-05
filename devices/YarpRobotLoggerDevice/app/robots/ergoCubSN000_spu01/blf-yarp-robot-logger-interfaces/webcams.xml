@@ -17,7 +17,7 @@ BSD-3-Clause license. -->
     <param name="height">720</param>
   </device>
 
-  
+
   <!-- Enable the following block if you want to collect retrieve the cameras of the robot -->
 
   <!-- <device xmlns:xi="http://www.w3.org/2001/XInclude" name="realsense" type="RGBDSensorClient"> -->

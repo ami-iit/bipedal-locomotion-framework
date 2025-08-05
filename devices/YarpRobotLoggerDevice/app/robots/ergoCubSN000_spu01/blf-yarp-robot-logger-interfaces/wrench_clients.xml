@@ -22,7 +22,7 @@
     <param name="local">/yarp_robot_logger/left_front_wrench</param>
     <param name="carrier">udp</param>
   </device> -->
-<!-- 
+<!--
   <device xmlns:xi="http://www.w3.org/2001/XInclude" name="left_rear_wrench_client" type="genericSensorClient">
     <param name="remote">/wholeBodyDynamics/left_foot_rear/cartesianEndEffectorWrench:o</param>
     <param name="local">/yarp_robot_logger/left_rear_wrench</param>
