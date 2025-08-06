@@ -435,7 +435,7 @@
 <para>Compute the residual of the task. </para>
         </briefdescription>
         <detaileddescription>
-<para>The residual is defined as <formula id="275">\[ r = A x - b \]</formula> where <formula id="62">$x$</formula> is the solution of the <ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kindref="compound">ILinearTaskSolver</ref> <simplesect kind="return"><para>the residual associated to the task </para>
+<para>The residual is defined as <formula id="168">\[ r = A x - b \]</formula> where <formula id="116">$x$</formula> is the solution of the <ref refid="classBipedalLocomotion_1_1System_1_1ILinearTaskSolver" kindref="compound">ILinearTaskSolver</ref> <simplesect kind="return"><para>the residual associated to the task </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -462,7 +462,7 @@
 <para><ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> describes a Linear Task element. </para>
     </briefdescription>
     <detaileddescription>
-<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="57">$A$</formula> and a vector <formula id="61">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="271">$ A $</formula> and <formula id="272">$ b $</formula> represents: <formula id="273">$ Ax = b$</formula> In case of inequality constraint <formula id="271">$ A $</formula> and <formula id="272">$ b $</formula> represents: <formula id="274">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
+<para>The <ref refid="classBipedalLocomotion_1_1System_1_1LinearTask" kindref="compound">LinearTask</ref> is described by a matrix <formula id="114">$A$</formula> and a vector <formula id="112">$b$</formula>. This class describes both a linear equality constraint and a linear inequality constraint. In case of equality constraint <formula id="164">$ A $</formula> and <formula id="165">$ b $</formula> represents: <formula id="166">$ Ax = b$</formula> In case of inequality constraint <formula id="164">$ A $</formula> and <formula id="165">$ b $</formula> represents: <formula id="167">$ Ax \le b $</formula> <simplesect kind="note"><para>Please inherit this class if you want to build your own optimal control problem. </para>
 </simplesect>
 </para>
     </detaileddescription>
