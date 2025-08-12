@@ -14,6 +14,8 @@
 #include <Eigen/Dense>
 #include <opencv2/core.hpp>
 #include <opencv2/aruco.hpp> // Include for Board definition
+#include <opencv2/aruco/charuco.hpp>
+
 
 #include <memory>
 #include <unordered_map>

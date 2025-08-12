@@ -244,11 +244,16 @@ bool ArucoDetector::initialize(std::weak_ptr<const IParametersHandler> handler)
             markerIds.push_back(i); // Sequential IDs
         }
         // Define the board using the layout and the dictionary
-        m_pimpl->board = cv::aruco::GridBoard::create(boardSize.width,
-                                                      boardSize.height,
-                                                      markerLength,
-                                                      markerDistance,
-                                                      m_pimpl->dictionary);
+        // m_pimpl->board = cv::aruco::GridBoard::create(boardSize.width,
+        //                                               boardSize.height,
+        //                                               markerLength,
+        //                                               markerDistance,
+        //                                               m_pimpl->dictionary);
+        m_pimpl->board = cv::makePtr<cv::aruco::GridBoard>(
+                                                        cv::Size(boardSize.width, boardSize.height),
+                                                        markerLength,
+                                                        markerDistance,
+                                                        *m_pimpl->dictionary); 
     }
     else
     {
