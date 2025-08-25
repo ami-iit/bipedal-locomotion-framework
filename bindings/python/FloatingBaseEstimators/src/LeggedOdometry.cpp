@@ -70,7 +70,6 @@ void CreateLeggedOdometry(pybind11::module& module)
              &LeggedOdometry::setKinematics,
              py::arg("encoders"),
              py::arg("encoder_speeds"))
-        .def("advance", &LeggedOdometry::advance)
         .def("reset_estimator",
              py::overload_cast<const InternalState&>(&FloatingBaseEstimator::resetEstimator),
              py::arg("new_state"))
@@ -89,22 +88,25 @@ void CreateLeggedOdometry(pybind11::module& module)
         .def("change_fixed_frame",
              py::overload_cast<const std::ptrdiff_t&>(&LeggedOdometry::changeFixedFrame),
              py::arg("frame_index"))
-        .def("change_fixed_frame", [](LeggedOdometry& impl,
+        .def(
+            "change_fixed_frame",
+            [](LeggedOdometry& impl,
                const std::ptrdiff_t& frameIndex,
                const Eigen::Vector4d& frameOrientationInWorld,
                const Eigen::Vector3d& framePositionInWorld) -> bool {
-                    Eigen::Quaterniond frameOrientationInWorldQ = Eigen::Quaterniond(frameOrientationInWorld[0],
-                                                                                     frameOrientationInWorld[1],
-                                                                                     frameOrientationInWorld[2],
-                                                                                     frameOrientationInWorld[3]);
-             return impl.changeFixedFrame(frameIndex, frameOrientationInWorldQ, framePositionInWorld);
-             },
-             py::arg("frame_index"),
-             py::arg("frame_orientation_in_world"),
-             py::arg("frame_position_in_world"))
-        .def("get_fixed_frame_index", &LeggedOdometry::getFixedFrameIdx)
-        .def("get_output", &LeggedOdometry::getOutput)
-        .def("is_output_valid", &LeggedOdometry::isOutputValid);
+                Eigen::Quaterniond frameOrientationInWorldQ
+                    = Eigen::Quaterniond(frameOrientationInWorld[0],
+                                         frameOrientationInWorld[1],
+                                         frameOrientationInWorld[2],
+                                         frameOrientationInWorld[3]);
+                return impl.changeFixedFrame(frameIndex,
+                                             frameOrientationInWorldQ,
+                                             framePositionInWorld);
+            },
+            py::arg("frame_index"),
+            py::arg("frame_orientation_in_world"),
+            py::arg("frame_position_in_world"))
+        .def("get_fixed_frame_index", &LeggedOdometry::getFixedFrameIdx);
 }
 
 } // namespace FloatingBaseEstimators
