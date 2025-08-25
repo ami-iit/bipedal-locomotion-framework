@@ -424,38 +424,60 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         }
     }
 
+    auto openExogenousSignals = [logPrefix](auto ptr,
+                                            const std::vector<std::string>& inputs,
+                                            auto& signals_vector) -> bool
+    {
+        for (const auto& input : inputs)
+        {
+            auto group = ptr->getGroup(input).lock();
+            std::string local, signalFullName, remote, carrier;
+            if (group == nullptr || !group->getParameter("local", local)
+                || !group->getParameter("remote", remote)
+                || !group->getParameter("carrier", carrier)
+                || !group->getParameter("signal_name", signalFullName))
+            {
+                log()->error("{} Unable to get the parameters related to the input: {}.",
+                             logPrefix,
+                             input);
+                return false;
+            }
+            signals_vector[remote].signalName = signalFullName;
+            signals_vector[remote].remote = remote;
+            signals_vector[remote].local = local;
+            signals_vector[remote].carrier = carrier;
+            if (!signals_vector[remote].port.open(signals_vector[remote].local))
+            {
+                log()->error("{} Unable to open the port named: {}.",
+                             logPrefix,
+                             signals_vector[remote].local);
+                return false;
+            }
+        }
+        return true;
+    };
+
+    inputs.clear();
     if (!ptr->getParameter("vectors_exogenous_inputs", inputs))
     {
         log()->error("{} Unable to get the exogenous inputs.", logPrefix);
         return false;
     }
 
-    for (const auto& input : inputs)
+    if (!openExogenousSignals(ptr, inputs, m_vectorSignals))
     {
-        auto group = ptr->getGroup(input).lock();
-        std::string local, signalFullName, remote, carrier;
-        if (group == nullptr || !group->getParameter("local", local)
-            || !group->getParameter("remote", remote) || !group->getParameter("carrier", carrier)
-            || !group->getParameter("signal_name", signalFullName))
-        {
-            log()->error("{} Unable to get the parameters related to the input: {}.",
-                         logPrefix,
-                         input);
-            return false;
-        }
+        return false;
+    }
 
-        m_vectorSignals[remote].signalName = signalFullName;
-        m_vectorSignals[remote].remote = remote;
-        m_vectorSignals[remote].local = local;
-        m_vectorSignals[remote].carrier = carrier;
+    inputs.clear();
+    if (!ptr->getParameter("string_exogenous_inputs", inputs))
+    {
+        log()->warn("{} Unable to get the string exogenous inputs. Assuming none.", logPrefix);
+    }
 
-        if (!m_vectorSignals[remote].port.open(m_vectorSignals[remote].local))
-        {
-            log()->error("{} Unable to open the port named: {}.",
-                         logPrefix,
-                         m_vectorSignals[remote].local);
-            return false;
-        }
+    if (!openExogenousSignals(ptr, inputs, m_stringSignals))
+    {
+        return false;
     }
 
     return true;
@@ -1630,6 +1652,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         // try to connect to the exogenous signals
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
+        connectToExogeneous(m_stringSignals);
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -2198,6 +2221,36 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = addChannel(signalFullName, vector->size());
             }
             logData(signalFullName, *vector, time);
+        }
+    }
+
+    // String signals are not streamed in RT
+    for (auto& [name, signal] : m_stringSignals)
+    {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::os::Bottle* bottle = signal.port.read(false);
+
+        signalFullName = signal.signalName;
+
+        if (bottle != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                if (!m_bufferManager.addChannel({signalFullName, {1}}))
+                {
+                    log()->error("Failed to add the channel in buffer manager named: {}",
+                                 signalFullName);
+                    signal.dataArrived = false;
+                    continue;
+                }
+                signal.dataArrived = true;
+            }
+            m_bufferManager.push_back(bottle->toString(), time, signalFullName);
         }
     }
 

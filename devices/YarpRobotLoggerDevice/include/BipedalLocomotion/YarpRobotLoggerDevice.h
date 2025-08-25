@@ -116,6 +116,7 @@ private:
 
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
+    std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
