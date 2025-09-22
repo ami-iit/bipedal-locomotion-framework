@@ -20,23 +20,27 @@ std::shared_ptr<BipedalLocomotion::ParametersHandler::StdImplementation>
 createBasicParameterHandler(const std::vector<std::string>& joints,
                             double kp = 10.0,
                             double gearRatio = 100.0,
-                            double kTau = 0.111)
+                            double kTau = 0.111,
+                            double kd = 0.0)
 {
     auto ptr = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     ptr->setParameter("joints_list", joints);
 
     auto ptrKp = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+    auto ptrKd = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     auto ptrGear = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     auto ptrKTau = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
 
     for (const auto& joint : joints)
     {
         ptrKp->setParameter(joint, kp);
+        ptrKd->setParameter(joint, kd);
         ptrGear->setParameter(joint, gearRatio);
         ptrKTau->setParameter(joint, kTau);
     }
 
     ptr->setGroup("kp", ptrKp);
+    ptr->setGroup("kd", ptrKd);
     ptr->setGroup("gearbox", ptrGear);
     ptr->setGroup("k_tau", ptrKTau);
 
@@ -134,6 +138,28 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
         const auto& output = controller.getOutput();
         // Expected: kp * (0.0 - 1.0) / (gearRatio * kTau) = -10.0 / (100.0 * 0.111) = -0.9009
         REQUIRE(output(0) == Approx(-0.9009).epsilon(1e-3));
+    }
+
+    SECTION("Derivative term reduces current with positive velocity")
+    {
+        // Re-initialize controller with non-zero kd and zero kp to isolate D action
+        constexpr double kd = 2.0;
+        auto ptrD = createBasicParameterHandler(joints, /*kp*/ 0.0, gearRatio, kTau, kd);
+        PositionToCurrentController ctrlD;
+        REQUIRE(ctrlD.initialize(ptrD));
+
+        PositionToCurrentControllerInput input;
+        input.referencePosition = Eigen::VectorXd::Zero(1); // zero position error
+        input.feedbackPosition = Eigen::VectorXd::Zero(1);
+        input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.5; // rad/s
+
+        REQUIRE(ctrlD.setInput(input));
+        REQUIRE(ctrlD.advance());
+
+        const auto& output = ctrlD.getOutput();
+        // Expected: (-kd * vel) / (gearRatio * kTau) = (-2.0 * 1.5) / (100 * 0.111)
+        const double expected = (-kd * 1.5) / (gearRatio * kTau);
+        REQUIRE(output(0) == Approx(expected).epsilon(1e-6));
     }
 }
 
@@ -549,6 +575,7 @@ TEST_CASE("PositionToCurrentController - Multi-Joint Configuration")
 {
     std::vector<std::string> joints{"joint_1", "joint_2", "joint_3"};
     constexpr double kp1 = 10.0, kp2 = 20.0, kp3 = 30.0;
+    constexpr double kd1 = 1.0, kd2 = 2.0, kd3 = 3.0;
     constexpr double gear1 = 100.0, gear2 = 150.0, gear3 = 200.0;
     constexpr double kTau1 = 0.1, kTau2 = 0.2, kTau3 = 0.3;
 
@@ -556,12 +583,17 @@ TEST_CASE("PositionToCurrentController - Multi-Joint Configuration")
     ptr->setParameter("joints_list", joints);
 
     auto ptrKp = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
+    auto ptrKd = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     auto ptrGear = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
     auto ptrKTau = std::make_shared<BipedalLocomotion::ParametersHandler::StdImplementation>();
 
     ptrKp->setParameter("joint_1", kp1);
     ptrKp->setParameter("joint_2", kp2);
     ptrKp->setParameter("joint_3", kp3);
+
+    ptrKd->setParameter("joint_1", kd1);
+    ptrKd->setParameter("joint_2", kd2);
+    ptrKd->setParameter("joint_3", kd3);
 
     ptrGear->setParameter("joint_1", gear1);
     ptrGear->setParameter("joint_2", gear2);
@@ -572,6 +604,7 @@ TEST_CASE("PositionToCurrentController - Multi-Joint Configuration")
     ptrKTau->setParameter("joint_3", kTau3);
 
     ptr->setGroup("kp", ptrKp);
+    ptr->setGroup("kd", ptrKd);
     ptr->setGroup("gearbox", ptrGear);
     ptr->setGroup("k_tau", ptrKTau);
 
