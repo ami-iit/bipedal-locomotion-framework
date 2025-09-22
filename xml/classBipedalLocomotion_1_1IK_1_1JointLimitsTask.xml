@@ -203,13 +203,13 @@
 <row>
 <entry thead="no" align='center'><para><computeroutput>upper_limits</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector containing <formula id="295">$s_{+}$</formula> such that <formula id="296">$ s \le s_{+} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
+</entry><entry thead="no" align='center'><para>Vector containing <formula id="245">$s_{+}$</formula> such that <formula id="246">$ s \le s_{+} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
 </entry><entry thead="no" align='center'><para>No    </para>
 </entry></row>
 <row>
 <entry thead="no" align='center'><para><computeroutput>lower_limits</computeroutput>   </para>
 </entry><entry thead="no" align='center'><para><computeroutput>vector</computeroutput>   </para>
-</entry><entry thead="no" align='center'><para>Vector containing <formula id="297">$s_{-}$</formula> such that <formula id="298">$ s \ge s_{-} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
+</entry><entry thead="no" align='center'><para>Vector containing <formula id="247">$s_{-}$</formula> such that <formula id="248">$ s \ge s_{-} $</formula>. Required <computeroutput>use_model_limits</computeroutput> is set to false.   </para>
 </entry><entry thead="no" align='center'><para>No   </para>
 </entry></row>
 </table>
@@ -366,7 +366,7 @@
 <para><ref refid="classBipedalLocomotion_1_1IK_1_1JointLimitsTask" kindref="compound">JointLimitsTask</ref> is a concrete implementation of the Task. </para>
     </briefdescription>
     <detaileddescription>
-<para>Please use this element if you want to ensure that the generated joint velocity will consider the joints position limits. The task represents the following equation <formula id="286">\[ \dot{s}_{-} \preceq \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu \preceq \dot{s}_{+} \]</formula> where <formula id="53">$0_6$</formula> and <formula id="54">$I_n$</formula> are the zero and the identity matrix. <formula id="287">$\dot{s} _{-}$</formula> and <formula id="288">$\dot{s} _{+}$</formula> are chosen such that robot stays within its mechanical range of motion. Following <ulink url="https://ieeexplore.ieee.org/document/6301071">(Kanoun, 2011)</ulink>, we set <formula id="289">$\dot{s}_{-}$</formula> and <formula id="290">$\dot{s}_{+}$</formula> as follows <formula id="291">\[ \dot{s}_{-} = k_{\text{lim}} \frac{s_{-} - s}{dt} \quad \dot{s}_{+} = k_{\text{lim}} \frac{s_{+} - s}{dt} \]</formula> where <formula id="292">${s}_{-}$</formula> and <formula id="293">${s} _{+}$</formula> are the joints mechanical limits, and <formula id="294">$k_{\text{lim}}$</formula> is a proportional postive gain lower than 1. <formula id="294">$k_{\text{lim}}$</formula>, for instance, denotes that a joint angle update will not increase by more than half the distance between the current joint value and its boundaries. </para>
+<para>Please use this element if you want to ensure that the generated joint velocity will consider the joints position limits. The task represents the following equation <formula id="236">\[ \dot{s}_{-} \preceq \begin{bmatrix} 0_6 &amp; I_n \end{bmatrix} \nu \preceq \dot{s}_{+} \]</formula> where <formula id="53">$0_6$</formula> and <formula id="54">$I_n$</formula> are the zero and the identity matrix. <formula id="237">$\dot{s} _{-}$</formula> and <formula id="238">$\dot{s} _{+}$</formula> are chosen such that robot stays within its mechanical range of motion. Following <ulink url="https://ieeexplore.ieee.org/document/6301071">(Kanoun, 2011)</ulink>, we set <formula id="239">$\dot{s}_{-}$</formula> and <formula id="240">$\dot{s}_{+}$</formula> as follows <formula id="241">\[ \dot{s}_{-} = k_{\text{lim}} \frac{s_{-} - s}{dt} \quad \dot{s}_{+} = k_{\text{lim}} \frac{s_{+} - s}{dt} \]</formula> where <formula id="242">${s}_{-}$</formula> and <formula id="243">${s} _{+}$</formula> are the joints mechanical limits, and <formula id="244">$k_{\text{lim}}$</formula> is a proportional postive gain lower than 1. <formula id="244">$k_{\text{lim}}$</formula>, for instance, denotes that a joint angle update will not increase by more than half the distance between the current joint value and its boundaries. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
