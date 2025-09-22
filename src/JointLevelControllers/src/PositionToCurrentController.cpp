@@ -18,6 +18,7 @@ struct PositionToCurrentController::Impl
     bool outputValid{false}; /**< Flag indicating if the output is valid */
 
     Eigen::VectorXd kp; /**< Proportional gain for each joint */
+    Eigen::VectorXd kd; /**< Derivative gain for each joint */
     Eigen::VectorXd gearRatio; /**< Gear ratio for each joint */
     Eigen::VectorXd kTau; /**< Torque constant for each joint */
 
@@ -57,6 +58,8 @@ bool PositionToCurrentController::advance()
 
     // Compute proportional term
     m_pimpl->output = m_pimpl->kp.cwiseProduct(m_pimpl->positionError);
+    // Add derivative term
+    m_pimpl->output -= m_pimpl->kd.cwiseProduct(m_pimpl->input.feedbackVelocity);
 
     // Add friction term efficiently: tau_friction = coulomb_friction * tanh(activation_velocity *
     // feedback_velocity) Compute friction contribution directly to avoid intermediate temporaries
@@ -155,10 +158,27 @@ bool PositionToCurrentController::initialize(
     // required parameters
     constexpr auto required = true;
     if (!loadGroupVector(ptr, "kp", joints, m_pimpl->kp, required)
+        || !loadGroupVector(ptr, "kd", joints, m_pimpl->kd, required)
         || !loadGroupVector(ptr, "gearbox", joints, m_pimpl->gearRatio, required)
         || !loadGroupVector(ptr, "k_tau", joints, m_pimpl->kTau, required))
     {
         log()->error("{} Missing required parameters.", logPrefix);
+        return false;
+    }
+
+    // check the size of the required parameters
+    if (m_pimpl->kp.size() != joints.size() || m_pimpl->kd.size() != joints.size()
+        || m_pimpl->gearRatio.size() != joints.size() || m_pimpl->kTau.size() != joints.size())
+    {
+        log()->error("{} Invalid size of the required parameters. All the required parameters "
+                     "must have the same size of 'joints_list' (={}). Kp size = {}, Kd size = {}, "
+                     "GearRatio size = {}, KTau size = {}",
+                     logPrefix,
+                     joints.size(),
+                     m_pimpl->kp.size(),
+                     m_pimpl->kd.size(),
+                     m_pimpl->gearRatio.size(),
+                     m_pimpl->kTau.size());
         return false;
     }
 

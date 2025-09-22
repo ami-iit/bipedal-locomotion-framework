@@ -132,6 +132,7 @@ public:
      * |  Group Name    |                                                        Description                                           | Mandatory |
      * |:--------------:|:------------------------------------------------------------------------------------------------------------:|:---------:|
      * |      `kp`      |     An element for each joint contained in the `joints_list` parameter. Proportional gain for each joint     |    Yes    |
+     * |      `kd`      |   An element for each joint contained in the `joints_list` parameter. Derivative gain for each joint         |    Yes    |
      * |   `gearbox`    | An element for each joint contained in the `joints_list` parameter. Gear ratio for each joint (motor->joint) |    Yes    |
      * |    `k_tau`     |   An element for each joint contained in the `joints_list` parameter. Torque constant for each joint [Nm/A]  |    Yes    |
      *
