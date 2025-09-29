@@ -213,6 +213,10 @@ private:
                                                                             Procedure Call port. */
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
+    std::string m_statusPortName{"/status:o"};
+    yarp::os::BufferedPort<yarp::os::Bottle> m_statusPort; /**< Port used to send the status of the
+                                                              device. */
+
     void lookForNewLogs();
     void lookForExogenousSignals();
 

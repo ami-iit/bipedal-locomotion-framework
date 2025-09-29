@@ -355,6 +355,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         return false;
     }
 
+    std::string statusPortFullName = portPrefix + m_statusPortName;
+    if (!m_statusPort.open(statusPortFullName))
+    {
+        log()->error("{} Unable to open the status port named: {}.", logPrefix, statusPortFullName);
+        return false;
+    }
+
     log()->info("{} Logger configuration completed.", logPrefix);
     if (needsAttach)
     {
@@ -2342,6 +2349,12 @@ void YarpRobotLoggerDevice::run()
         m_vectorCollectionRTDataServer.sendData();
     }
 
+    // We send the current timestamp in the status port
+    yarp::os::Bottle& status = m_statusPort.prepare();
+    status.clear();
+    status.addFloat64(time);
+    m_statusPort.write();
+
     m_previousTimestamp = t;
     m_firstRun = false;
 
@@ -2565,6 +2578,8 @@ bool YarpRobotLoggerDevice::detachAll()
 bool YarpRobotLoggerDevice::close()
 {
     m_rpcPort.close();
+    m_statusPort.close();
+
     // stop all the video thread
     for (auto & [ cameraName, writer ] : m_videoWriters)
     {
