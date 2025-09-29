@@ -1763,6 +1763,19 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             wakeUpTime = time + recordVideoPeriod;
         }
 
+        if (writer.paused)
+        {
+            // if the recording is paused we just wait for the next iteration
+            BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+            continue;
+        }
+
+        if (writer.resetIndex)
+        {
+            imageIndex = 0;
+            writer.resetIndex = false;
+        }
+
         // get the frame from the camera
         if (writer.rgb != nullptr)
         {
@@ -2372,6 +2385,9 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 
         auto start = BipedalLocomotion::clock().now();
 
+        // Pausing video recording to avoid storing frames while we rename the folders
+        m_videoWriters[camera].paused = true;
+
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
             log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
@@ -2413,6 +2429,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                 return false;
             }
         }
+        m_videoWriters[camera].resetIndex = true;
+        m_videoWriters[camera].paused = false;
     }
 
     for (const auto& camera : m_rgbdCamerasList)
@@ -2421,6 +2439,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 
         auto start = BipedalLocomotion::clock().now();
 
+        // Pausing video recording to avoid storing frames while we rename the folders
+        m_videoWriters[camera].paused = true;
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
             log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
@@ -2506,6 +2526,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                 return false;
             }
         }
+        m_videoWriters[camera].resetIndex = true;
+        m_videoWriters[camera].paused = false;
     }
 
     // save the status of the code
@@ -2574,5 +2596,6 @@ bool YarpRobotLoggerDevice::saveData()
                 logPrefix,
                 fileName,
                 std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+    // Calling callback manually since it is called only when the saving is automatic
     return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
 }
