@@ -8,5 +8,5 @@
 
 service YarpRobotLoggerDeviceCommands
 {
-    bool saveData();
+    bool saveData(1: string tag = "");
 }

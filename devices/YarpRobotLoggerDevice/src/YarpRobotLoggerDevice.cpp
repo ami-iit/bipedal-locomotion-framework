@@ -630,7 +630,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     {
         config.yarp_robot_name = tmp;
     }
-    config.filename = "robot_logger_device";
+    config.filename = defaultFilePrefix;
     config.auto_save = true;
     config.save_periodically = true;
     config.file_indexing = "%Y_%m_%d_%H_%M_%S";
@@ -1788,10 +1788,11 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                             cameraName);
             }
 
+            std::lock_guard<std::mutex> lock(writer.rgb->mutex);
+
             // save the frame in the video writer
             if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
             {
-                std::lock_guard<std::mutex> lock(writer.rgb->mutex);
                 writer.rgb->writer->write(writer.rgb->frame);
             } else
             {
@@ -1828,6 +1829,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 writer.depth->frame = writer.depth->frame * writer.depthScale;
             }
 
+            std::lock_guard<std::mutex> lock(writer.depth->mutex);
+
             if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
             {
                 // we need to convert the image to 8bit this is required by the video writer
@@ -1835,7 +1838,6 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 writer.depth->frame.convertTo(image8Bit, CV_8UC1);
 
                 // save the frame in the video writer
-                std::lock_guard<std::mutex> lock(writer.depth->mutex);
                 writer.depth->writer->write(image8Bit);
             } else
             {
@@ -2582,20 +2584,28 @@ bool YarpRobotLoggerDevice::close()
     return true;
 }
 
-bool YarpRobotLoggerDevice::saveData()
+bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
 {
+    std::lock_guard<std::mutex> lock(m_bufferManagerMutex);
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveData]";
 
-    std::string fileName;
+    std::string actualFileName;
     log()->info("{} Saving data to .mat file...", logPrefix);
     auto start = BipedalLocomotion::clock().now();
-
-    m_bufferManager.saveToFile(fileName);
+    std::string inputFileName = defaultFilePrefix;
+    if (!tag.empty())
+    {
+        inputFileName = defaultFilePrefix + "_" + tag;
+    }
+    m_bufferManager.setFileName(inputFileName);
+    m_bufferManager.saveToFile(actualFileName);
+    // Restore the file name
+    m_bufferManager.setFileName(defaultFilePrefix);
 
     log()->info("{} Data saved to file {}.mat in {}.",
                 logPrefix,
-                fileName,
+                actualFileName,
                 std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
     // Calling callback manually since it is called only when the saving is automatic
-    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
+    return this->saveCallback(actualFileName, robometry::SaveCallbackSaveMethod::periodic);
 }

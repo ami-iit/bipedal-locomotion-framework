@@ -252,6 +252,7 @@ private:
     bool prepareCameraLogging();
     bool prepareRTStreaming();
 
+    const std::string defaultFilePrefix = "robot_logger_device";
     const std::string treeDelim = "::";
 
     const std::string robotRtRootName = "robot_realtime";
@@ -303,7 +304,7 @@ private:
 
     const std::string timestampsName = "timestamps";
 
-    virtual bool saveData();
+    virtual bool saveData(const std::string& tag = "") override;
 };
 
 } // namespace BipedalLocomotion
