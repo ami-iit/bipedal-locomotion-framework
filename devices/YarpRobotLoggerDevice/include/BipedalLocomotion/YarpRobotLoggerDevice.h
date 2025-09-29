@@ -154,6 +154,7 @@ private:
 
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
+    std::mutex m_videoWritersMutex;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
     std::unordered_set<std::string> m_textLoggingPortNames;

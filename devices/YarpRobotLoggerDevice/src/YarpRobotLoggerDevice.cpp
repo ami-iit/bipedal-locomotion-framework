@@ -1776,93 +1776,101 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             writer.resetIndex = false;
         }
 
-        // get the frame from the camera
-        if (writer.rgb != nullptr)
         {
-            if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
+            // make a new scope for lock guarding the image saving
+            // this is to make sure that we save videos only when all
+            // the writers are done with a given frame
+            std::lock_guard<std::mutex> lock(m_videoWritersMutex);
+
+            // get the frame from the camera
+            if (writer.rgb != nullptr)
             {
-                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
-                            "frame "
-                            "will be used.",
-                            logPrefix,
-                            cameraName);
-            }
+                if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
+                {
+                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                                "frame "
+                                "will be used.",
+                                logPrefix,
+                                cameraName);
+                }
 
-            std::lock_guard<std::mutex> lock(writer.rgb->mutex);
-
-            // save the frame in the video writer
-            if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
-            {
-                writer.rgb->writer->write(writer.rgb->frame);
-            } else
-            {
-                assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
-
-                const std::filesystem::path imgPath
-                    = writer.rgb->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
-
-                cv::imwrite(imgPath.string(), writer.rgb->frame);
-
-                // lock the the buffered manager mutex
-                std::lock_guard lock(m_bufferManagerMutex);
-
-                // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
-                                          std::chrono::duration<double>(time).count(),
-                                          "camera::" + cameraName + "::rgb");
-            }
-        }
-
-        if (writer.depth != nullptr)
-        {
-            if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
-            {
-                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
-                            "frame "
-                            "will be used.",
-                            logPrefix,
-                            cameraName);
-
-            } else
-            {
-                // If a new frame arrived the we should scale it
-                writer.depth->frame = writer.depth->frame * writer.depthScale;
-            }
-
-            std::lock_guard<std::mutex> lock(writer.depth->mutex);
-
-            if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
-            {
-                // we need to convert the image to 8bit this is required by the video writer
-                cv::Mat image8Bit;
-                writer.depth->frame.convertTo(image8Bit, CV_8UC1);
+                std::lock_guard<std::mutex> lock(writer.rgb->mutex);
 
                 // save the frame in the video writer
-                writer.depth->writer->write(image8Bit);
-            } else
-            {
-                assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
+                if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
+                {
+                    writer.rgb->writer->write(writer.rgb->frame);
+                } else
+                {
+                    assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
 
-                const std::filesystem::path imgPath
-                    = writer.depth->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+                    const std::filesystem::path imgPath
+                        = writer.rgb->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
 
-                // convert the image into 16bit grayscale image
-                cv::Mat image16Bit;
-                writer.depth->frame.convertTo(image16Bit, CV_16UC1);
-                cv::imwrite(imgPath.string(), image16Bit);
+                    cv::imwrite(imgPath.string(), writer.rgb->frame);
 
-                // lock the the buffered manager mutex
-                std::lock_guard lock(m_bufferManagerMutex);
+                    // lock the the buffered manager mutex
+                    std::lock_guard lock(m_bufferManagerMutex);
 
-                // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
-                                          std::chrono::duration<double>(time).count(),
-                                          "camera::" + cameraName + "::depth");
+                    // TODO here we may save the frame itself
+                    m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                              std::chrono::duration<double>(time).count(),
+                                              "camera::" + cameraName + "::rgb");
+                }
             }
-        }
 
-        // increase the index
-        imageIndex++;
+            if (writer.depth != nullptr)
+            {
+                if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
+                {
+                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                                "frame "
+                                "will be used.",
+                                logPrefix,
+                                cameraName);
+
+                } else
+                {
+                    // If a new frame arrived the we should scale it
+                    writer.depth->frame = writer.depth->frame * writer.depthScale;
+                }
+
+                std::lock_guard<std::mutex> lock(writer.depth->mutex);
+
+                if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
+                {
+                    // we need to convert the image to 8bit this is required by the video writer
+                    cv::Mat image8Bit;
+                    writer.depth->frame.convertTo(image8Bit, CV_8UC1);
+
+                    // save the frame in the video writer
+                    writer.depth->writer->write(image8Bit);
+                } else
+                {
+                    assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
+
+                    const std::filesystem::path imgPath
+                        = writer.depth->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+
+                    // convert the image into 16bit grayscale image
+                    cv::Mat image16Bit;
+                    writer.depth->frame.convertTo(image16Bit, CV_16UC1);
+                    cv::imwrite(imgPath.string(), image16Bit);
+
+                    // lock the the buffered manager mutex
+                    std::lock_guard lock(m_bufferManagerMutex);
+
+                    // TODO here we may save the frame itself
+                    m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                              std::chrono::duration<double>(time).count(),
+                                              "camera::" + cameraName + "::depth");
+                }
+            }
+
+            // increase the index
+            imageIndex++;
+
+        } // end of scope for the lock guarding the image saving
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -2374,6 +2382,15 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
             imageSaver->writer->release();
         }
 
+        // check if temp folder already exists
+        if (std::filesystem::exists(temp))
+        {
+            log()->error("{} The folder {} already exists. Please choose a different name.",
+                         logPrefix,
+                         temp);
+            return false;
+        }
+
         // rename the file associated to the camera
         std::filesystem::rename(oldName, temp);
 
@@ -2550,6 +2567,7 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
+    m_rpcPort.close();
     // stop all the video thread
     for (auto& [cameraName, writer] : m_videoWriters)
     {
@@ -2586,26 +2604,54 @@ bool YarpRobotLoggerDevice::close()
 
 bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
 {
-    std::lock_guard<std::mutex> lock(m_bufferManagerMutex);
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveData]";
 
     std::string actualFileName;
     log()->info("{} Saving data to .mat file...", logPrefix);
     auto start = BipedalLocomotion::clock().now();
     std::string inputFileName = defaultFilePrefix;
+    bool output = false;
+    std::chrono::nanoseconds duration;
+    auto startTime = BipedalLocomotion::clock().now();
+
     if (!tag.empty())
     {
         inputFileName = defaultFilePrefix + "_" + tag;
     }
-    m_bufferManager.setFileName(inputFileName);
-    m_bufferManager.saveToFile(actualFileName);
-    // Restore the file name
-    m_bufferManager.setFileName(defaultFilePrefix);
 
-    log()->info("{} Data saved to file {}.mat in {}.",
-                logPrefix,
-                actualFileName,
-                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
-    // Calling callback manually since it is called only when the saving is automatic
-    return this->saveCallback(actualFileName, robometry::SaveCallbackSaveMethod::periodic);
+    {
+        // The order of this locks is important. It is important
+        // to first lock the video writers mutex and then the buffer manager mutex
+        // since the video recording thread may lock them in this order
+        std::lock_guard<std::mutex> lockVideo(m_videoWritersMutex);
+        std::lock_guard<std::mutex> lockBuffer(m_bufferManagerMutex);
+
+        m_bufferManager.setFileName(inputFileName);
+
+        // save current time
+        m_bufferManager.saveToFile(actualFileName);
+        // Restore the file name
+        m_bufferManager.setFileName(defaultFilePrefix);
+
+        log()->info("{} Data saved to file {}.mat in {}.",
+                    logPrefix,
+                    actualFileName,
+                    std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+        // Calling callback manually since it is called only when the saving is automatic
+        output = this->saveCallback(actualFileName, robometry::SaveCallbackSaveMethod::periodic);
+
+    }
+
+    // If it lasted less than 1 second we wait a bit to avoid that
+    // we save files with the same name
+    duration = BipedalLocomotion::clock().now() - startTime;
+    using namespace std::chrono_literals;
+    if (duration < 1s)
+    {
+        BipedalLocomotion::clock().sleepFor(1s - duration);
+    }
+
+    log()->info("{} Saving data took {}.", logPrefix, std::chrono::duration<double>(duration));
+
+    return output;
 }
