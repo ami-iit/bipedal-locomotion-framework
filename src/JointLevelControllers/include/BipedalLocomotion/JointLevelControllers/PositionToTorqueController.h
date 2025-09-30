@@ -28,7 +28,7 @@ namespace JointLevelControllers
  *
  * The PositionToTorqueController implements a position control strategy that directly
  * computes joint torque commands from position errors.
- * 
+ *
  * The controller implements a proportional-derivative position control law:
  * \f[
  *    \tau = K_p \cdot (q_{ref} - q_{fb}) + K_d \cdot (0 - \dot{q}_{fb})
@@ -40,7 +40,7 @@ namespace JointLevelControllers
  * - \f$ q_{ref} \f$ is the reference position [rad]
  * - \f$ q_{fb} \f$ is the feedback position [rad]
  * - \f$ \dot{q}_{fb} \f$ is the feedback velocity [rad/s]
- * 
+ *
  */
 class PositionToTorqueController: public PositionToJointController
 {
