@@ -129,7 +129,6 @@ bool PositionToTorqueController::initialize(
         return false;
     }
 
-    // optional (flat) current limit & friction
     constexpr auto optional = false;
     const double inf = std::numeric_limits<double>::infinity();
     loadGroupVector(ptr, "torque_limit", joints, m_pimpl->torqueLimit, optional, inf);
