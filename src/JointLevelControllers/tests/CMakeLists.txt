@@ -8,6 +8,11 @@ if(FRAMEWORK_COMPILE_JointLevelControllers)
     LINKS BipedalLocomotion::JointLevelControllers)
 
   add_bipedal_test(
+    NAME PositionToTorqueController
+    SOURCES PositionToTorqueControllerTest.cpp
+    LINKS BipedalLocomotion::JointLevelControllers)
+
+  add_bipedal_test(
     NAME EMAWithLimits
     SOURCES EMAWithLimitsTest.cpp
     LINKS BipedalLocomotion::JointLevelControllers)

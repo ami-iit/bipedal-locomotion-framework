@@ -17,7 +17,9 @@ namespace bindings
 namespace JointLevelControllers
 {
 
+void CreatePositionToTorqueController(pybind11::module& module);
 void CreatePositionToCurrentController(pybind11::module& module);
+void CreatePositionToJointController(pybind11::module& module);
 
 } // namespace JointLevelControllers
 } // namespace bindings

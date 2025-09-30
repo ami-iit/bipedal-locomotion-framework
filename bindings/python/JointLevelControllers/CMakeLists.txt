@@ -7,8 +7,8 @@ if(TARGET BipedalLocomotion::JointLevelControllers)
 
   add_bipedal_locomotion_python_module(
     NAME JointLevelControllersBindings
-    SOURCES src/PositionToCurrentController.cpp src/EMAWithLimits.cpp src/Module.cpp
-    HEADERS ${H_PREFIX}/PositionToCurrentController.h ${H_PREFIX}/EMAWithLimits.h ${H_PREFIX}/Module.h
+    SOURCES src/PositionToJointController.cpp src/EMAWithLimits.cpp src/Module.cpp
+    HEADERS ${H_PREFIX}/PositionToJointController.h ${H_PREFIX}/EMAWithLimits.h ${H_PREFIX}/Module.h
     LINK_LIBRARIES BipedalLocomotion::JointLevelControllers
     )
 endif()

@@ -10,6 +10,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h>
+#include <BipedalLocomotion/JointLevelControllers/PositionToJointController.h>
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 
 using namespace BipedalLocomotion::JointLevelControllers;
@@ -95,7 +96,7 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
 
     SECTION("Zero position error produces zero current")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 0.5;
         input.feedbackPosition = Eigen::VectorXd::Ones(1) * 0.5;
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -111,7 +112,7 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
 
     SECTION("Positive position error produces positive current")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 1.0;
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -127,7 +128,7 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
 
     SECTION("Negative position error produces negative current")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Ones(1) * 1.0;
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -148,7 +149,7 @@ TEST_CASE("PositionToCurrentController - Basic Position Control")
         PositionToCurrentController ctrlD;
         REQUIRE(ctrlD.initialize(ptrD));
 
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1); // zero position error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.5; // rad/s
@@ -188,7 +189,7 @@ TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 
     SECTION("High positive velocity saturates friction compensation")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 5.0; // High positive velocity
@@ -204,7 +205,7 @@ TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 
     SECTION("High negative velocity saturates friction compensation")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * -5.0; // High negative velocity
@@ -220,7 +221,7 @@ TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 
     SECTION("Low velocity provides proportional friction compensation")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.1; // Low velocity
@@ -238,7 +239,7 @@ TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 
     SECTION("Zero velocity produces zero friction")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1); // Zero velocity
@@ -253,7 +254,7 @@ TEST_CASE("PositionToCurrentController - Tanh-based Friction Compensation")
 
     SECTION("Combined position error and tanh friction compensation")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 1.0;
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 1.0; // Velocity = activation velocity
@@ -295,7 +296,7 @@ TEST_CASE("PositionToCurrentController - Different Activation Velocities")
         PositionToCurrentController controller;
         REQUIRE(controller.initialize(ptr));
 
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.5; // Small velocity
@@ -328,7 +329,7 @@ TEST_CASE("PositionToCurrentController - Different Activation Velocities")
         PositionToCurrentController controller;
         REQUIRE(controller.initialize(ptr));
 
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.05; // Small velocity
@@ -366,7 +367,7 @@ TEST_CASE("PositionToCurrentController - Default Activation Velocity")
 
     SECTION("Small velocity with default activation velocity")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 0.001; // Small velocity
@@ -406,7 +407,7 @@ TEST_CASE("PositionToCurrentController - Current Limiting")
 
     SECTION("Current is limited to maximum value")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 10.0; // Large error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -420,7 +421,7 @@ TEST_CASE("PositionToCurrentController - Current Limiting")
 
     SECTION("Current is limited to minimum value")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Ones(1) * 10.0; // Large negative error
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -463,7 +464,7 @@ TEST_CASE("PositionToCurrentController - TN Curve Limiting")
 
     SECTION("Flat region - low velocity")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 10.0; // Large error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 2.0; // Below rated speed
@@ -477,7 +478,7 @@ TEST_CASE("PositionToCurrentController - TN Curve Limiting")
 
     SECTION("Linear falloff region - medium velocity")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 10.0; // Large error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 10.0; // Between rated and no-load
@@ -494,7 +495,7 @@ TEST_CASE("PositionToCurrentController - TN Curve Limiting")
 
     SECTION("No-load region - high velocity")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 10.0; // Large error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * 20.0; // Above no-load speed
@@ -508,7 +509,7 @@ TEST_CASE("PositionToCurrentController - TN Curve Limiting")
 
     SECTION("Negative velocity uses absolute value")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(1) * 10.0; // Large error
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Ones(1) * -10.0; // Negative velocity
@@ -532,7 +533,7 @@ TEST_CASE("PositionToCurrentController - Input Validation")
 
     SECTION("Correct input size")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(2);
         input.feedbackPosition = Eigen::VectorXd::Zero(2);
         input.feedbackVelocity = Eigen::VectorXd::Zero(2);
@@ -542,7 +543,7 @@ TEST_CASE("PositionToCurrentController - Input Validation")
 
     SECTION("Incorrect reference position size")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1); // Wrong size
         input.feedbackPosition = Eigen::VectorXd::Zero(2);
         input.feedbackVelocity = Eigen::VectorXd::Zero(2);
@@ -552,7 +553,7 @@ TEST_CASE("PositionToCurrentController - Input Validation")
 
     SECTION("Incorrect feedback position size")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(2);
         input.feedbackPosition = Eigen::VectorXd::Zero(3); // Wrong size
         input.feedbackVelocity = Eigen::VectorXd::Zero(2);
@@ -562,7 +563,7 @@ TEST_CASE("PositionToCurrentController - Input Validation")
 
     SECTION("Incorrect feedback velocity size")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(2);
         input.feedbackPosition = Eigen::VectorXd::Zero(2);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1); // Wrong size
@@ -613,7 +614,7 @@ TEST_CASE("PositionToCurrentController - Multi-Joint Configuration")
 
     SECTION("Different gains produce different outputs")
     {
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Ones(3);
         input.feedbackPosition = Eigen::VectorXd::Zero(3);
         input.feedbackVelocity = Eigen::VectorXd::Zero(3);
@@ -659,7 +660,7 @@ TEST_CASE("PositionToCurrentController - Edge Cases")
         // Output should be invalid before advance
         REQUIRE_FALSE(controller.isOutputValid());
 
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1);
@@ -682,7 +683,7 @@ TEST_CASE("PositionToCurrentController - Edge Cases")
         PositionToCurrentController controller;
         REQUIRE(controller.initialize(ptr));
 
-        PositionToCurrentControllerInput input;
+        PositionToJointControllerInput input;
         input.referencePosition = Eigen::VectorXd::Zero(1);
         input.feedbackPosition = Eigen::VectorXd::Zero(1);
         input.feedbackVelocity = Eigen::VectorXd::Zero(1); // Zero velocity

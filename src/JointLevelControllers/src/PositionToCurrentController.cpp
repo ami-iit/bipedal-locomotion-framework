@@ -14,7 +14,7 @@ using namespace BipedalLocomotion::JointLevelControllers;
 struct PositionToCurrentController::Impl
 {
     Eigen::VectorXd output; /**< Output current for each joint */
-    PositionToCurrentControllerInput input; /**< Input data for the controller */
+    PositionToJointControllerInput input; /**< Input data for the controller */
     bool outputValid{false}; /**< Flag indicating if the output is valid */
 
     Eigen::VectorXd kp; /**< Proportional gain for each joint */
@@ -266,7 +266,7 @@ bool PositionToCurrentController::initialize(
     return true;
 }
 
-bool PositionToCurrentController::setInput(const PositionToCurrentControllerInput& input)
+bool PositionToCurrentController::setInput(const PositionToJointControllerInput& input)
 {
     constexpr auto logPrefix = "[PositionToCurrentController::setInput] ";
     const auto sz = m_pimpl->kp.size();
