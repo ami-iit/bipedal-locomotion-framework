@@ -18,13 +18,13 @@
 #include <opencv2/videoio.hpp>
 
 #include <yarp/dev/DeviceDriver.h>
+#include <yarp/dev/IFrameTransform.h>
 #include <yarp/dev/IMultipleWrapper.h>
+#include <yarp/dev/PolyDriver.h>
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/sig/Vector.h>
-#include <yarp/dev/PolyDriver.h>
-#include <yarp/dev/IFrameTransform.h>
 
 #include <robometry/BufferManager.h>
 
@@ -148,10 +148,13 @@ private:
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
+        std::atomic<bool> resetIndex{false};
+        std::atomic<bool> paused{false};
     };
 
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
+    std::mutex m_videoWritersMutex;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
     std::unordered_set<std::string> m_textLoggingPortNames;
@@ -210,6 +213,10 @@ private:
                                                                             Procedure Call port. */
     yarp::os::Port m_rpcPort; /**< Remote Procedure Call port. */
 
+    std::string m_statusPortName{"/status:o"};
+    yarp::os::BufferedPort<yarp::os::Bottle> m_statusPort; /**< Port used to send the status of the
+                                                              device. */
+
     void lookForNewLogs();
     void lookForExogenousSignals();
 
@@ -250,6 +257,7 @@ private:
     bool prepareCameraLogging();
     bool prepareRTStreaming();
 
+    const std::string defaultFilePrefix = "robot_logger_device";
     const std::string treeDelim = "::";
 
     const std::string robotRtRootName = "robot_realtime";
@@ -301,7 +309,7 @@ private:
 
     const std::string timestampsName = "timestamps";
 
-    virtual bool saveData();
+    virtual bool saveData(const std::string& tag = "") override;
 };
 
 } // namespace BipedalLocomotion

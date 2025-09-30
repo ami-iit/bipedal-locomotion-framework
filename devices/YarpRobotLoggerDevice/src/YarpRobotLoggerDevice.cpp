@@ -29,10 +29,10 @@
 
 #include <Eigen/Core>
 
+#include <yarp/conf/version.h>
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
-#include <yarp/conf/version.h>
 
 #include <robometry/BufferConfig.h>
 #include <robometry/BufferManager.h>
@@ -301,7 +301,6 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
         {
             log()->info("{} The video will not be recorded", logPrefix);
         }
-
     }
 
     if (!this->setupTelemetry(params->getGroup("Telemetry"), devicePeriod))
@@ -353,6 +352,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     if (!m_rpcPort.open(rpcPortFullName))
     {
         log()->error("{} Could not open", logPrefix);
+        return false;
+    }
+
+    std::string statusPortFullName = portPrefix + m_statusPortName;
+    if (!m_statusPort.open(statusPortFullName))
+    {
+        log()->error("{} Unable to open the status port named: {}.", logPrefix, statusPortFullName);
         return false;
     }
 
@@ -426,8 +432,7 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
 
     auto openExogenousSignals = [logPrefix](auto ptr,
                                             const std::vector<std::string>& inputs,
-                                            auto& signals_vector) -> bool
-    {
+                                            auto& signals_vector) -> bool {
         for (const auto& input : inputs)
         {
             auto group = ptr->getGroup(input).lock();
@@ -513,7 +518,8 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::setupTransformInputs(const yarp::
 
     if (m_tfRootFrames.empty())
     {
-        log()->info("{} The 'parent_frames' parameter is empty. No frame will be logged.", logPrefix);
+        log()->info("{} The 'parent_frames' parameter is empty. No frame will be logged.",
+                    logPrefix);
         return false;
     }
 
@@ -573,25 +579,23 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::updateChildTransformList()
                     canTransform = m_tf->canTransform(id, rootFrame);
 #else
                     bool canTranformOk = false;
-                    bool canTransformRetValue
-                        = m_tf->canTransform(id, rootFrame, canTranformOk);
+                    bool canTransformRetValue = m_tf->canTransform(id, rootFrame, canTranformOk);
                     canTransform = canTranformOk && canTransformRetValue;
 #endif
                     if (canTransform)
                     {
                         FrameDescriptor frameDesc;
                         frameDesc.parent = rootFrame;
-                        frameDesc.positionChannelName = "frames::" + rootFrame + "::" + id + "::position";
+                        frameDesc.positionChannelName
+                            = "frames::" + rootFrame + "::" + id + "::position";
                         frameDesc.orientationChannelName
                             = "frames::" + rootFrame + "::" + id + "::orientation";
                         m_tfChildFrames[id] = frameDesc;
-                        bool ok = addChannel(frameDesc.positionChannelName,
-                                   3,
-                                   {"x", "y", "z"});
+                        bool ok = addChannel(frameDesc.positionChannelName, 3, {"x", "y", "z"});
                         ok = ok
                              && addChannel(frameDesc.orientationChannelName,
-                                   4,
-                                   {"qx", "qy", "qz", "qw"});
+                                           4,
+                                           {"qx", "qy", "qz", "qw"});
                         if (!ok)
                         {
                             log()->error("{} Unable to add the channels for the frame: {}.",
@@ -630,7 +634,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     {
         config.yarp_robot_name = tmp;
     }
-    config.filename = "robot_logger_device";
+    config.filename = defaultFilePrefix;
     config.auto_save = true;
     config.save_periodically = true;
     config.file_indexing = "%Y_%m_%d_%H_%M_%S";
@@ -1289,10 +1293,9 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
         if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
         {
             if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                        camera,
-                                        "rgb",
-                                        m_cameraBridge->getMetaData()
-                                            .bridgeOptions.rgbImgDimensions))
+                                       camera,
+                                       "rgb",
+                                       m_cameraBridge->getMetaData().bridgeOptions.rgbImgDimensions))
             {
                 log()->error("{} Unable open the video writer for the camera named {}.",
                              logPrefix,
@@ -1311,8 +1314,8 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
             }
         }
         ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                        {1, 1}, //
-                                        {"timestamp"}});
+                                         {1, 1}, //
+                                         {"timestamp"}});
         if (!ok)
         {
             log()->error("{} Unable to add the channel for the camera named {}.",
@@ -1333,10 +1336,10 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
         if (m_videoWriters[camera].rgb->saveMode == VideoWriter::SaveMode::Video)
         {
             if (!this->openVideoWriter(m_videoWriters[camera].rgb,
-                                        camera,
-                                        "rgb",
-                                        m_cameraBridge->getMetaData()
-                                            .bridgeOptions.rgbdImgDimensions))
+                                       camera,
+                                       "rgb",
+                                       m_cameraBridge->getMetaData()
+                                           .bridgeOptions.rgbdImgDimensions))
             {
                 log()->error("{} Unable open the video writer for the rgbd camera named {}.",
                              logPrefix,
@@ -1357,10 +1360,10 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
         if (m_videoWriters[camera].depth->saveMode == VideoWriter::SaveMode::Video)
         {
             if (!this->openVideoWriter(m_videoWriters[camera].depth,
-                                        camera,
-                                        "depth",
-                                        m_cameraBridge->getMetaData()
-                                            .bridgeOptions.rgbdImgDimensions))
+                                       camera,
+                                       "depth",
+                                       m_cameraBridge->getMetaData()
+                                           .bridgeOptions.rgbdImgDimensions))
             {
                 log()->error("{} Unable open the video writer for the rgbd camera named {}.",
                              logPrefix,
@@ -1372,20 +1375,21 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
             if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
             {
                 log()->error("{} Unable to create the folder to store the frames for the "
-                                "camera named {}.",
-                                logPrefix,
-                                camera);
+                             "camera named {}.",
+                             logPrefix,
+                             camera);
                 return false;
             }
         }
 
         ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
-                                              {1, 1}, //
-                                              {"timestamp"}});
+                                         {1, 1}, //
+                                         {"timestamp"}});
 
-        ok = ok && m_bufferManager.addChannel({"camera::" + camera + "::depth",
-                                              {1, 1}, //
-                                              {"timestamp"}});
+        ok = ok
+             && m_bufferManager.addChannel({"camera::" + camera + "::depth",
+                                            {1, 1}, //
+                                            {"timestamp"}});
 
         if (!ok)
         {
@@ -1439,7 +1443,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
 
     std::string signalFullName = "";
 
-    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    for (auto & [ name, signal ] : m_vectorsCollectionSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         BipedalLocomotion::YarpUtilities::VectorsCollection* externalSignalCollection
@@ -1449,7 +1453,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
             if (!signal.dataArrived)
             {
                 bool channelAdded = false;
-                for (const auto& [key, vector] : externalSignalCollection->vectors)
+                for (const auto & [ key, vector ] : externalSignalCollection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
@@ -1474,7 +1478,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
         }
     }
 
-    for (auto& [name, signal] : m_vectorSignals)
+    for (auto & [ name, signal ] : m_vectorSignals)
     {
         std::lock_guard<std::mutex> lock(signal.mutex);
         yarp::sig::Vector* vector = signal.port.read(false);
@@ -1588,7 +1592,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     m_lookForNewExogenousSignalIsRunning = true;
 
     auto connectToExogeneous = [this](auto& signals) -> void {
-        for (auto& [name, signal] : signals)
+        for (auto & [ name, signal ] : signals)
         {
             if (signal.connected)
             {
@@ -1606,9 +1610,9 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
 
                 // if the connection is successful, get the metadata
                 // this is required only for the vectors collection signal
-                if constexpr (std::is_same_v<
-                                  std::decay_t<decltype(signal)>,
-                                  typename decltype(this->m_vectorsCollectionSignals)::mapped_type>)
+                if constexpr (std::is_same_v<std::decay_t<decltype(signal)>,
+                                             typename decltype(
+                                                 this->m_vectorsCollectionSignals)::mapped_type>)
                 {
                     if (!connectionDone)
                     {
@@ -1763,91 +1767,114 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             wakeUpTime = time + recordVideoPeriod;
         }
 
-        // get the frame from the camera
-        if (writer.rgb != nullptr)
+        if (writer.paused)
         {
-            if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
-            {
-                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
-                            "frame "
-                            "will be used.",
-                            logPrefix,
-                            cameraName);
-            }
-
-            // save the frame in the video writer
-            if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
-            {
-                std::lock_guard<std::mutex> lock(writer.rgb->mutex);
-                writer.rgb->writer->write(writer.rgb->frame);
-            } else
-            {
-                assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
-
-                const std::filesystem::path imgPath
-                    = writer.rgb->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
-
-                cv::imwrite(imgPath.string(), writer.rgb->frame);
-
-                // lock the the buffered manager mutex
-                std::lock_guard lock(m_bufferManagerMutex);
-
-                // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
-                                          std::chrono::duration<double>(time).count(),
-                                          "camera::" + cameraName + "::rgb");
-            }
+            // if the recording is paused we just wait for the next iteration
+            BipedalLocomotion::clock().sleepUntil(wakeUpTime);
+            continue;
         }
 
-        if (writer.depth != nullptr)
+        if (writer.resetIndex)
         {
-            if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
-            {
-                log()->info("{} Unable to get the frame of the camera named: {}. The previous "
-                            "frame "
-                            "will be used.",
-                            logPrefix,
-                            cameraName);
+            imageIndex = 0;
+            writer.resetIndex = false;
+        }
 
-            } else
-            {
-                // If a new frame arrived the we should scale it
-                writer.depth->frame = writer.depth->frame * writer.depthScale;
-            }
+        {
+            // make a new scope for lock guarding the image saving
+            // this is to make sure that we save videos only when all
+            // the writers are done with a given frame
+            std::lock_guard<std::mutex> lock(m_videoWritersMutex);
 
-            if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
+            // get the frame from the camera
+            if (writer.rgb != nullptr)
             {
-                // we need to convert the image to 8bit this is required by the video writer
-                cv::Mat image8Bit;
-                writer.depth->frame.convertTo(image8Bit, CV_8UC1);
+                if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
+                {
+                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                                "frame "
+                                "will be used.",
+                                logPrefix,
+                                cameraName);
+                }
+
+                std::lock_guard<std::mutex> lock(writer.rgb->mutex);
 
                 // save the frame in the video writer
-                std::lock_guard<std::mutex> lock(writer.depth->mutex);
-                writer.depth->writer->write(image8Bit);
-            } else
-            {
-                assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
+                if (writer.rgb->saveMode == VideoWriter::SaveMode::Video)
+                {
+                    writer.rgb->writer->write(writer.rgb->frame);
+                } else
+                {
+                    assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
 
-                const std::filesystem::path imgPath
-                    = writer.depth->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+                    const std::filesystem::path imgPath
+                        = writer.rgb->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
 
-                // convert the image into 16bit grayscale image
-                cv::Mat image16Bit;
-                writer.depth->frame.convertTo(image16Bit, CV_16UC1);
-                cv::imwrite(imgPath.string(), image16Bit);
+                    cv::imwrite(imgPath.string(), writer.rgb->frame);
 
-                // lock the the buffered manager mutex
-                std::lock_guard lock(m_bufferManagerMutex);
+                    // lock the the buffered manager mutex
+                    std::lock_guard lock(m_bufferManagerMutex);
 
-                // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
-                                          std::chrono::duration<double>(time).count(),
-                                          "camera::" + cameraName + "::depth");
+                    // TODO here we may save the frame itself
+                    m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                              std::chrono::duration<double>(time).count(),
+                                              "camera::" + cameraName + "::rgb");
+                }
             }
-        }
 
-        // increase the index
-        imageIndex++;
+            if (writer.depth != nullptr)
+            {
+                if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
+                {
+                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                                "frame "
+                                "will be used.",
+                                logPrefix,
+                                cameraName);
+
+                } else
+                {
+                    // If a new frame arrived the we should scale it
+                    writer.depth->frame = writer.depth->frame * writer.depthScale;
+                }
+
+                std::lock_guard<std::mutex> lock(writer.depth->mutex);
+
+                if (writer.depth->saveMode == VideoWriter::SaveMode::Video)
+                {
+                    // we need to convert the image to 8bit this is required by the video writer
+                    cv::Mat image8Bit;
+                    writer.depth->frame.convertTo(image8Bit, CV_8UC1);
+
+                    // save the frame in the video writer
+                    writer.depth->writer->write(image8Bit);
+                } else
+                {
+                    assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
+
+                    const std::filesystem::path imgPath
+                        = writer.depth->framesPath / ("img_" + std::to_string(imageIndex) + ".png");
+
+                    // convert the image into 16bit grayscale image
+                    cv::Mat image16Bit;
+                    writer.depth->frame.convertTo(image16Bit, CV_16UC1);
+                    cv::imwrite(imgPath.string(), image16Bit);
+
+                    // lock the the buffered manager mutex
+                    std::lock_guard lock(m_bufferManagerMutex);
+
+                    // TODO here we may save the frame itself
+                    m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                              std::chrono::duration<double>(time).count(),
+                                              "camera::" + cameraName + "::depth");
+                }
+            }
+
+            // increase the index
+            imageIndex++;
+
+        } // end of scope for the lock guarding the image saving
 
         // release the CPU
         BipedalLocomotion::clock().yield();
@@ -2155,7 +2182,7 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    for (auto& [name, signal] : m_vectorsCollectionSignals)
+    for (auto & [ name, signal ] : m_vectorsCollectionSignals)
     {
         if (!signal.connected)
         {
@@ -2171,7 +2198,7 @@ void YarpRobotLoggerDevice::run()
             if (!signal.dataArrived)
             {
                 bool channelAdded = false;
-                for (const auto& [key, vector] : collection->vectors)
+                for (const auto & [ key, vector ] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
@@ -2193,7 +2220,7 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = channelAdded;
             } else
             {
-                for (const auto& [key, vector] : collection->vectors)
+                for (const auto & [ key, vector ] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     logData(signalFullName, vector, time);
@@ -2202,7 +2229,7 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    for (auto& [name, signal] : m_vectorSignals)
+    for (auto & [ name, signal ] : m_vectorSignals)
     {
         if (!signal.connected)
         {
@@ -2225,7 +2252,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     // String signals are not streamed in RT
-    for (auto& [name, signal] : m_stringSignals)
+    for (auto & [ name, signal ] : m_stringSignals)
     {
         if (!signal.connected)
         {
@@ -2307,9 +2334,9 @@ void YarpRobotLoggerDevice::run()
                 {
                     Eigen::Matrix4d eigenMatrix = yarp::eigen::toEigen(m_tfMatrix);
                     Eigen::Vector3d position = eigenMatrix.block<3, 1>(0, 3);
-                    Eigen::Quaterniond orientation(eigenMatrix.block<3, 3>(0, 0));
+                    Eigen::Quaterniond quat(eigenMatrix.block<3, 3>(0, 0));
                     Eigen::Vector4d orientationVec;
-                    orientationVec << orientation.x(), orientation.y(), orientation.z(), orientation.w();
+                    orientationVec << quat.x(), quat.y(), quat.z(), quat.w();
                     logData(frame.second.positionChannelName, position, time);
                     logData(frame.second.orientationChannelName, orientationVec, time);
                 }
@@ -2321,6 +2348,12 @@ void YarpRobotLoggerDevice::run()
     {
         m_vectorCollectionRTDataServer.sendData();
     }
+
+    // We send the current timestamp in the status port
+    yarp::os::Bottle& status = m_statusPort.prepare();
+    status.clear();
+    status.addFloat64(time);
+    m_statusPort.write();
 
     m_previousTimestamp = t;
     m_firstRun = false;
@@ -2359,6 +2392,15 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
             imageSaver->writer->release();
         }
 
+        // check if temp folder already exists
+        if (std::filesystem::exists(temp))
+        {
+            log()->error("{} The folder {} already exists. Please choose a different name.",
+                         logPrefix,
+                         temp);
+            return false;
+        }
+
         // rename the file associated to the camera
         std::filesystem::rename(oldName, temp);
 
@@ -2371,6 +2413,9 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         log()->info("{} Saving the rgb camera named {}.", logPrefix, camera);
 
         auto start = BipedalLocomotion::clock().now();
+
+        // Pausing video recording to avoid storing frames while we rename the folders
+        m_videoWriters[camera].paused = true;
 
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
@@ -2413,6 +2458,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                 return false;
             }
         }
+        m_videoWriters[camera].resetIndex = true;
+        m_videoWriters[camera].paused = false;
     }
 
     for (const auto& camera : m_rgbdCamerasList)
@@ -2421,6 +2468,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
 
         auto start = BipedalLocomotion::clock().now();
 
+        // Pausing video recording to avoid storing frames while we rename the folders
+        m_videoWriters[camera].paused = true;
         if (!saveVideo(m_videoWriters[camera].rgb, camera, "rgb"))
         {
             log()->error("{} Unable to save the rgb for the camera named {}", logPrefix, camera);
@@ -2506,6 +2555,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                 return false;
             }
         }
+        m_videoWriters[camera].resetIndex = true;
+        m_videoWriters[camera].paused = false;
     }
 
     // save the status of the code
@@ -2526,14 +2577,17 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
+    m_rpcPort.close();
+    m_statusPort.close();
+
     // stop all the video thread
-    for (auto& [cameraName, writer] : m_videoWriters)
+    for (auto & [ cameraName, writer ] : m_videoWriters)
     {
         writer.recordVideoIsRunning = false;
     }
 
     // close all the thread associated to the video logging
-    for (auto& [cameraName, writer] : m_videoWriters)
+    for (auto & [ cameraName, writer ] : m_videoWriters)
     {
         if (writer.videoThread.joinable())
         {
@@ -2560,19 +2614,55 @@ bool YarpRobotLoggerDevice::close()
     return true;
 }
 
-bool YarpRobotLoggerDevice::saveData()
+bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveData]";
 
-    std::string fileName;
+    std::string actualFileName;
     log()->info("{} Saving data to .mat file...", logPrefix);
     auto start = BipedalLocomotion::clock().now();
+    std::string inputFileName = defaultFilePrefix;
+    bool output = false;
+    std::chrono::nanoseconds duration;
+    auto startTime = BipedalLocomotion::clock().now();
 
-    m_bufferManager.saveToFile(fileName);
+    if (!tag.empty())
+    {
+        inputFileName = defaultFilePrefix + "_" + tag;
+    }
 
-    log()->info("{} Data saved to file {}.mat in {}.",
-                logPrefix,
-                fileName,
-                std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
-    return this->saveCallback(fileName, robometry::SaveCallbackSaveMethod::periodic);
+    {
+        // The order of this locks is important. It is important
+        // to first lock the video writers mutex and then the buffer manager mutex
+        // since the video recording thread may lock them in this order
+        std::lock_guard<std::mutex> lockVideo(m_videoWritersMutex);
+        std::lock_guard<std::mutex> lockBuffer(m_bufferManagerMutex);
+
+        m_bufferManager.setFileName(inputFileName);
+
+        // save current time
+        m_bufferManager.saveToFile(actualFileName);
+        // Restore the file name
+        m_bufferManager.setFileName(defaultFilePrefix);
+
+        log()->info("{} Data saved to file {}.mat in {}.",
+                    logPrefix,
+                    actualFileName,
+                    std::chrono::duration<double>(BipedalLocomotion::clock().now() - start));
+        // Calling callback manually since it is called only when the saving is automatic
+        output = this->saveCallback(actualFileName, robometry::SaveCallbackSaveMethod::periodic);
+    }
+
+    // If it lasted less than 1 second we wait a bit to avoid that
+    // we save files with the same name
+    duration = BipedalLocomotion::clock().now() - startTime;
+    using namespace std::chrono_literals;
+    if (duration < 1s)
+    {
+        BipedalLocomotion::clock().sleepFor(1s - duration);
+    }
+
+    log()->info("{} Saving data took {}.", logPrefix, std::chrono::duration<double>(duration));
+
+    return output;
 }
