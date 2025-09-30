@@ -261,26 +261,26 @@ Furthermore, the following optional parameters are supported: <table rows="6" co
 <para><simplesect kind="note"><para>Controller Architecture</para>
 </simplesect>
 The controller implements a proportional position control law with Coulomb friction feedforward compensation and dynamic current limiting based on motor torque-speed (TN) characteristics:</para>
-<para><formula id="71">\[ I = \text{clamp}\left(\frac{K_p \cdot (q_{ref} - q_{fb}) + \tau_{coulomb}}{\text{gearRatio} \cdot k_{\tau}}, I_{limit}(\omega)\right) \]</formula></para>
+<para><formula id="102">\[ I = \text{clamp}\left(\frac{K_p \cdot (q_{ref} - q_{fb}) + \tau_{coulomb}}{\text{gearRatio} \cdot k_{\tau}}, I_{limit}(\omega)\right) \]</formula></para>
 <para>where:<itemizedlist>
-<listitem><para><formula id="72">$ I $</formula> is the output current [A]</para>
-</listitem><listitem><para><formula id="73">$ K_p $</formula> is the proportional gain [Nm/rad]</para>
-</listitem><listitem><para><formula id="74">$ q_{ref} $</formula> is the reference position [rad]</para>
-</listitem><listitem><para><formula id="75">$ q_{fb} $</formula> is the feedback position [rad]</para>
-</listitem><listitem><para><formula id="76">$ \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb}) $</formula> is the Coulomb friction compensation [Nm]</para>
-</listitem><listitem><para><formula id="77">$ \dot{q}_{fb} $</formula> is the feedback velocity [rad/s]</para>
-</listitem><listitem><para><formula id="78">$ \text{gearRatio} $</formula> is the gear reduction ratio (motor-to-joint)</para>
-</listitem><listitem><para><formula id="79">$ k_{\tau} $</formula> is the motor torque constant [Nm/A]</para>
-</listitem><listitem><para><formula id="80">$ I_{limit}(\omega) $</formula> is the velocity-dependent current limit [A]</para>
+<listitem><para><formula id="103">$ I $</formula> is the output current [A]</para>
+</listitem><listitem><para><formula id="104">$ K_p $</formula> is the proportional gain [Nm/rad]</para>
+</listitem><listitem><para><formula id="105">$ q_{ref} $</formula> is the reference position [rad]</para>
+</listitem><listitem><para><formula id="106">$ q_{fb} $</formula> is the feedback position [rad]</para>
+</listitem><listitem><para><formula id="107">$ \tau_{coulomb} = k_{coulomb} \cdot \text{sign}(\dot{q}_{fb}) $</formula> is the Coulomb friction compensation [Nm]</para>
+</listitem><listitem><para><formula id="108">$ \dot{q}_{fb} $</formula> is the feedback velocity [rad/s]</para>
+</listitem><listitem><para><formula id="109">$ \text{gearRatio} $</formula> is the gear reduction ratio (motor-to-joint)</para>
+</listitem><listitem><para><formula id="110">$ k_{\tau} $</formula> is the motor torque constant [Nm/A]</para>
+</listitem><listitem><para><formula id="111">$ I_{limit}(\omega) $</formula> is the velocity-dependent current limit [A]</para>
 </listitem></itemizedlist>
 </para>
 <sect2 id="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentController_1autotoc_md8">
 <title>Friction Compensation</title>
 <para>The controller includes feedforward Coulomb friction compensation that adds a torque in the direction of motion to counteract coulomb friction effects:</para>
-<para><formula id="81">\[ \tau_{coulomb} = k_{coulomb} \cdot \text{tanh}(\dot{q}_{fb} / v_{activation}) \]</formula></para>
+<para><formula id="112">\[ \tau_{coulomb} = k_{coulomb} \cdot \text{tanh}(\dot{q}_{fb} / v_{activation}) \]</formula></para>
 <para>where:<itemizedlist>
-<listitem><para><formula id="82">$ k_{coulomb} $</formula> is the Coulomb friction constant [Nm]</para>
-</listitem><listitem><para><formula id="83">$ v_{activation} $</formula> is the velocity threshold for friction activation [rad/s]</para>
+<listitem><para><formula id="113">$ k_{coulomb} $</formula> is the Coulomb friction constant [Nm]</para>
+</listitem><listitem><para><formula id="114">$ v_{activation} $</formula> is the velocity threshold for friction activation [rad/s]</para>
 </listitem></itemizedlist>
 </para>
 <para>This helps improve tracking accuracy, especially at low velocities where friction effects are dominant.</para>
@@ -289,16 +289,16 @@ The controller implements a proportional position control law with Coulomb frict
 <title>Dynamic Current Limiting (TN-Curve)</title>
 <para>The controller implements velocity-dependent current limiting based on motor torque-speed characteristics to prevent motor overheating and ensure safe operation:</para>
 <para><itemizedlist>
-<listitem><para><bold>Constant Region</bold> ( <formula id="84">$ |\omega| \leq \omega_{rated} $</formula>): <formula id="85">$ I_{limit} = I_{max} $</formula></para>
-</listitem><listitem><para><bold>Linear Falloff</bold> ( <formula id="86">$ \omega_{rated} &lt; |\omega| &lt; \omega_{0} $</formula>): <formula id="87">$ I_{limit} = m \cdot |\omega| + b $</formula></para>
-</listitem><listitem><para><bold>No-Load Speed</bold> ( <formula id="88">$ |\omega| \geq \omega_{0} $</formula>): <formula id="89">$ I_{limit} = 0 $</formula></para>
+<listitem><para><bold>Constant Region</bold> ( <formula id="115">$ |\omega| \leq \omega_{rated} $</formula>): <formula id="116">$ I_{limit} = I_{max} $</formula></para>
+</listitem><listitem><para><bold>Linear Falloff</bold> ( <formula id="117">$ \omega_{rated} &lt; |\omega| &lt; \omega_{0} $</formula>): <formula id="118">$ I_{limit} = m \cdot |\omega| + b $</formula></para>
+</listitem><listitem><para><bold>No-Load Speed</bold> ( <formula id="119">$ |\omega| \geq \omega_{0} $</formula>): <formula id="120">$ I_{limit} = 0 $</formula></para>
 </listitem></itemizedlist>
 </para>
 <para>where:<itemizedlist>
-<listitem><para><formula id="90">$ \omega_{rated} $</formula> is the rated speed at which current limiting begins [rad/s]</para>
-</listitem><listitem><para><formula id="91">$ \omega_{0} $</formula> is the no-load speed where current becomes zero [rad/s]</para>
-</listitem><listitem><para><formula id="92">$ m = -I_{max} / (\omega_{0} - \omega_{rated}) $</formula> is the slope of the linear region</para>
-</listitem><listitem><para><formula id="93">$ b = I_{max} - m \cdot \omega_{rated} $</formula> is the intercept </para>
+<listitem><para><formula id="121">$ \omega_{rated} $</formula> is the rated speed at which current limiting begins [rad/s]</para>
+</listitem><listitem><para><formula id="122">$ \omega_{0} $</formula> is the no-load speed where current becomes zero [rad/s]</para>
+</listitem><listitem><para><formula id="123">$ m = -I_{max} / (\omega_{0} - \omega_{rated}) $</formula> is the slope of the linear region</para>
+</listitem><listitem><para><formula id="124">$ b = I_{max} - m \cdot \omega_{rated} $</formula> is the intercept </para>
 </listitem></itemizedlist>
 </para>
 </sect2>

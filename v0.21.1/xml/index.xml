@@ -3611,8 +3611,8 @@
     <member refid="Logger_8h_1a406bf88f75c83c5558bf8f078a42acba" kind="function"><name>setVerbosity</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TextLogging_1_1sinks" kind="namespace"><name>BipedalLocomotion::TextLogging::sinks</name>
-    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
     <member refid="YarpLogger_8h_1a3ab6a214502439cdbcf396895ff2c036" kind="typedef"><name>YarpSink_mt</name></member>
+    <member refid="RosLogger_8h_1ae4d6831e3d9bc8c496a381b54f91da8d" kind="typedef"><name>RosSink_mt</name></member>
   </compound>
   <compound refid="namespaceBipedalLocomotion_1_1TSID" kind="namespace"><name>BipedalLocomotion::TSID</name>
     <member refid="TSIDLinearTask_8h_1a8c786538e67769422c9f848db4bc3959" kind="typedef"><name>TSIDLinearTaskFactory</name></member>
@@ -3874,13 +3874,29 @@
   </compound>
   <compound refid="ContactWrenchCone_8h" kind="file"><name>ContactWrenchCone.h</name>
   </compound>
+  <compound refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h" kind="file"><name>CubicSpline.h</name>
+  </compound>
+  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2CubicSpline_8h" kind="file"><name>CubicSpline.h</name>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2CubicSpline_8h_1abdb0552600c58524e10774cadeb5caa6" kind="typedef"><name>CubicSpline</name></member>
+  </compound>
   <compound refid="LinearizedFrictionCone_8h" kind="file"><name>LinearizedFrictionCone.h</name>
   </compound>
   <compound refid="LinearSpline_8h" kind="file"><name>LinearSpline.h</name>
   </compound>
   <compound refid="QuadraticBezierCurve_8h" kind="file"><name>QuadraticBezierCurve.h</name>
   </compound>
+  <compound refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
+  </compound>
+  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h_1abaac51c4b50447fd41d2cc9937f54568" kind="typedef"><name>QuinticSpline</name></member>
+  </compound>
   <compound refid="SchmittTrigger_8h" kind="file"><name>SchmittTrigger.h</name>
+  </compound>
+  <compound refid="Math_2include_2BipedalLocomotion_2Math_2Spline_8h" kind="file"><name>Spline.h</name>
+  </compound>
+  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h" kind="file"><name>Spline.h</name>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a1774a14eb0a70955db321cd14b526687" kind="typedef"><name>SplineState</name></member>
+    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a6062d1bba100bc5e427d23ce99673e54" kind="typedef"><name>Spline</name></member>
   </compound>
   <compound refid="Wrench_8h" kind="file"><name>Wrench.h</name>
     <member refid="Wrench_8h_1a45559f66740448bbc8253a9816dbef05" kind="typedef"><name>Wrenchd</name></member>
@@ -3923,17 +3939,7 @@
   </compound>
   <compound refid="ConvexHullHelper_8h" kind="file"><name>ConvexHullHelper.h</name>
   </compound>
-  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2CubicSpline_8h" kind="file"><name>CubicSpline.h</name>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2CubicSpline_8h_1abdb0552600c58524e10774cadeb5caa6" kind="typedef"><name>CubicSpline</name></member>
-  </compound>
-  <compound refid="Math_2include_2BipedalLocomotion_2Math_2CubicSpline_8h" kind="file"><name>CubicSpline.h</name>
-  </compound>
   <compound refid="DCMPlanner_8h" kind="file"><name>DCMPlanner.h</name>
-  </compound>
-  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2QuinticSpline_8h_1abaac51c4b50447fd41d2cc9937f54568" kind="typedef"><name>QuinticSpline</name></member>
-  </compound>
-  <compound refid="Math_2include_2BipedalLocomotion_2Math_2QuinticSpline_8h" kind="file"><name>QuinticSpline.h</name>
   </compound>
   <compound refid="SO3Planner_8h" kind="file"><name>SO3Planner.h</name>
     <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7" kind="enum"><name>LieGroupTrivialization</name></member>
@@ -3941,12 +3947,6 @@
     <member refid="SO3Planner_8h_1ae114d1c1f94f336e09b0a6b8f9d4ffe7a92b09c7c48c520c3c55e497875da437c" kind="enumvalue"><name>Right</name></member>
     <member refid="SO3Planner_8h_1ae8bb8f4783a1e0e0c231333334c9675f" kind="typedef"><name>SO3PlannerInertial</name></member>
     <member refid="SO3Planner_8h_1a89d591b2acb67115a659156984eef104" kind="typedef"><name>SO3PlannerBody</name></member>
-  </compound>
-  <compound refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h" kind="file"><name>Spline.h</name>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a1774a14eb0a70955db321cd14b526687" kind="typedef"><name>SplineState</name></member>
-    <member refid="Planners_2include_2BipedalLocomotion_2Planners_2Spline_8h_1a6062d1bba100bc5e427d23ce99673e54" kind="typedef"><name>Spline</name></member>
-  </compound>
-  <compound refid="Math_2include_2BipedalLocomotion_2Math_2Spline_8h" kind="file"><name>Spline.h</name>
   </compound>
   <compound refid="SwingFootPlanner_8h" kind="file"><name>SwingFootPlanner.h</name>
   </compound>
@@ -4166,23 +4166,23 @@
   </compound>
   <compound refid="dir_a2c4f6fdc3b455e1047562c625a24501" kind="dir"><name>BipedalLocomotion/AutoDiff</name>
   </compound>
+  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
   <compound refid="dir_ca39150e121c2f7552b8919c494e6981" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_f023f07df396e0234cd53f917fe52555" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_05f693661f9807153a92dfb985f790c3" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_cad7f247e84b7a43650490550f84fc11" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_4912aa10243f4c87373511870dc68706" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_12d0c4fe72272e5adf8cc31dc3727019" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
-  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_d68a77e678e6958b217adba6f7ad1024" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_971a6c12d223bcc68795a08dd8fd8cb2" kind="dir"><name>BipedalLocomotion</name>
+  <compound refid="dir_07a2b64e573b6e689d7d67e42a30668b" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_06d013c9f740af559ba8ebc1d644f7f7" kind="dir"><name>BipedalLocomotion</name>
   </compound>
@@ -4210,11 +4210,11 @@
   </compound>
   <compound refid="dir_86a6fb4a23674c2e92f7295caaccc427" kind="dir"><name>BipedalLocomotion</name>
   </compound>
-  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
-  </compound>
   <compound refid="dir_78bbb1ebc0babf2ffd4a860c6c33146c" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_e64420540d8a40b091ba5d77d13addeb" kind="dir"><name>BipedalLocomotion</name>
+  </compound>
+  <compound refid="dir_3f05e5bb63a57bd72eccc7af5274c138" kind="dir"><name>BipedalLocomotion</name>
   </compound>
   <compound refid="dir_76b3c42c31613a4250722fde83b07506" kind="dir"><name>BipedalLocomotion</name>
   </compound>

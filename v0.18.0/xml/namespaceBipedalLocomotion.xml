@@ -59,6 +59,6 @@
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="BipedalLocomotion/TSID/AngularMomentumTask.h" line="24" column="1"/>
+    <location file="BipedalLocomotion/Conversions/CasadiConversions.h" line="15" column="1"/>
   </compounddef>
 </doxygen>
