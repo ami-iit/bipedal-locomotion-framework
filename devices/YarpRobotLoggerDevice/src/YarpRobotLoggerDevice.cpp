@@ -2628,7 +2628,38 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
 
     if (!tag.empty())
     {
-        inputFileName = defaultFilePrefix + "_" + tag;
+        std::string edited_tag = tag;
+
+        // Check if the tag is valid
+        for (size_t i = 1; i < edited_tag.size(); ++i)
+        {
+            if (!isalnum(edited_tag[i]) && (edited_tag[i] != '_') && (edited_tag[i] != ' '))
+            {
+                log()->error("{} The tag can contain only alphanumeric characters or "
+                             "underscores (tag = \"{}\").",
+                             logPrefix,
+                             inputFileName);
+                return false;
+            }
+        }
+
+        // Check if the tag contains spaces. Trigger a warning if this is the case
+        // and replace the spaces with underscores
+        if (edited_tag.find(' ') != std::string::npos)
+        {
+            log()->warn("{} The tag \"{}\" contains spaces."
+                        "They will be replaced with underscores.",
+                        logPrefix,
+                        edited_tag);
+            size_t start_pos = 0;
+            while ((start_pos = edited_tag.find(" ", start_pos)) != std::string::npos)
+            {
+                edited_tag.replace(start_pos, std::string(" ").length(), "_");
+                start_pos += std::string("_").length();
+            }
+        }
+
+        inputFileName = defaultFilePrefix + "_" + edited_tag;
     }
 
     {
