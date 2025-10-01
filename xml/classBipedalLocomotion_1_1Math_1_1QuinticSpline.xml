@@ -256,7 +256,7 @@
 <para>Quintic spline implements a 5-th order polynomial spline in <formula id="55">$\mathbb{R}^n$</formula>. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="note"><para>The spline is defined as a set piecewise polynomial functions of degree 5 of the form <formula id="147">\[ s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3 + e_i t^4 + f_i t^5 \]</formula> where <formula id="140">$t \in [0, T_i]$</formula> and <formula id="141">$T_i$</formula> is the duration of the i-th polynomial. </para>
+<para><simplesect kind="note"><para>The spline is defined as a set piecewise polynomial functions of degree 5 of the form <formula id="150">\[ s_i(t) = a_i + b_i t + c_i t^2 + d_i t^3 + e_i t^4 + f_i t^5 \]</formula> where <formula id="143">$t \in [0, T_i]$</formula> and <formula id="144">$T_i$</formula> is the duration of the i-th polynomial. </para>
 </simplesect>
 </para>
     </detaileddescription>

@@ -62,7 +62,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespaceBipedalLocomotion.html">BipedalLocomotion</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceBipedalLocomotion_1_1JointLevelControllers.html">JointLevelControllers</a>::<wbr/></span>PositionToCurrentController <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="JointLevelControllers_2include_2BipedalLocomotion_2JointLevelControllers_2PositionToCurrentController_8h.html">&lt;BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="PositionToCurrentController_8h.html">&lt;BipedalLocomotion/JointLevelControllers/PositionToCurrentController.h&gt;</a></div>
         </h1>
         <p>Position-to-Current Controller with Friction Compensation and TN-Curve Limiting.</p>
         <nav class="m-block m-default">
@@ -766,10 +766,9 @@ $ b = I_{max} - m \cdot \omega_{rated} $
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;class _Input, class _Output&gt;</div>
-              class <a href="classBipedalLocomotion_1_1System_1_1Advanceable.html" class="m-doc">BipedalLocomotion::System::Advanceable&lt;PositionToCurrentControllerInput, Eigen::VectorXd&gt;</a>
+              class <a href="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToJointController.html" class="m-doc">PositionToJointController</a>
             </dt>
-            <dd>Basic class that represents a discrete system.</dd>
+            <dd>Base class for Position-to-Joint Controllers.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -797,7 +796,7 @@ $ b = I_{max} - m \cdot \omega_{rated} $
             </dt>
             <dd>Initialize the advanceable.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a28b2ccecd516cf6062b4a454df15c4dd" class="m-doc">setInput</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentControllerInput.html" class="m-doc">PositionToCurrentControllerInput</a>&amp; input) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0a64cb7f58a06ba7fad938070bb7d8e4" class="m-doc">setInput</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToJointControllerInput.html" class="m-doc">PositionToJointControllerInput</a>&amp; input) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Set the input of the port.</dd>
             <dt>
@@ -850,9 +849,9 @@ $ b = I_{max} - m \cdot \omega_{rated} $
             </table>
 <aside class="m-note m-info"><h4>Note</h4><p>The parameters handler should contain the following parameters:</p><table class="m-table"><thead><tr><th>Parameter Name</th><th>Type</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>joints_list</code></td><td><code>vector&lt;string&gt;</code></td><td>List of joints to control</td><td>Yes</td></tr><tr><td><code>current_safety_factor</code></td><td><code>double</code></td><td>Value used to scale the current limits (0, 1] (Default value 1.0)</td><td>No</td></tr></tbody></table><p>Moreover the following group parameters are required:</p><table class="m-table"><thead><tr><th>Group Name</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>kp</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Proportional gain for each joint</td><td>Yes</td></tr><tr><td><code>kd</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Derivative gain for each joint</td><td>Yes</td></tr><tr><td><code>gearbox</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Gear ratio for each joint (motor-&gt;joint)</td><td>Yes</td></tr><tr><td><code>k_tau</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Torque constant for each joint [Nm/A]</td><td>Yes</td></tr></tbody></table></aside><p>Furthermore, the following optional parameters are supported:</p><table class="m-table"><thead><tr><th>Group Name</th><th>Description</th><th>Mandatory</th></tr></thead><tbody><tr><td><code>current_limit</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Current limit for each joint [A]</td><td>No</td></tr><tr><td><code>coulomb_friction</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Coulomb friction for each joint [Nm]</td><td>No</td></tr><tr><td><code>activation_velocity</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Friction activation velocity [rad/s]</td><td>No</td></tr><tr><td><code>rated_speed</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. Rated speed for each joint [rad/s]</td><td>No</td></tr><tr><td><code>no_load_speed</code></td><td>An element for each joint contained in the <code>joints_list</code> parameter. No-load speed for each joint [rad/s]</td><td>No</td></tr></tbody></table>
           </div></section>
-          <section class="m-doc-details" id="a28b2ccecd516cf6062b4a454df15c4dd"><div>
+          <section class="m-doc-details" id="a0a64cb7f58a06ba7fad938070bb7d8e4"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />JointLevelControllers::<wbr />PositionToCurrentController::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a28b2ccecd516cf6062b4a454df15c4dd" class="m-doc-self">setInput</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentControllerInput.html" class="m-doc">PositionToCurrentControllerInput</a>&amp; input) <span class="m-label m-warning">override</span></span></span>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />JointLevelControllers::<wbr />PositionToCurrentController::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0a64cb7f58a06ba7fad938070bb7d8e4" class="m-doc-self">setInput</a>(</span><span class="m-doc-wrap">const <a href="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToJointControllerInput.html" class="m-doc">PositionToJointControllerInput</a>&amp; input) <span class="m-label m-warning">override</span></span></span>
             </h3>
             <p>Set the input of the port.</p>
             <table class="m-table m-fullwidth m-flat">

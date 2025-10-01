@@ -7,7 +7,6 @@
     <innerfile refid="IRobotControl_8h">IRobotControl.h</innerfile>
     <innerfile refid="ISensorBridge_8h">ISensorBridge.h</innerfile>
     <innerfile refid="JointType_8h">JointType.h</innerfile>
-    <innerfile refid="RobotInterface_2include_2BipedalLocomotion_2RobotInterface_2PositionToCurrentController_8h">PositionToCurrentController.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

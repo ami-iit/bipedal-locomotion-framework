@@ -3,8 +3,10 @@
   <compounddef id="namespaceBipedalLocomotion_1_1JointLevelControllers" kind="namespace" language="C++">
     <compoundname>BipedalLocomotion::JointLevelControllers</compoundname>
     <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits" prot="public">BipedalLocomotion::JointLevelControllers::EMAWithLimits</innerclass>
-    <innerclass refid="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentControllerInput" prot="public">BipedalLocomotion::JointLevelControllers::PositionToCurrentControllerInput</innerclass>
     <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToCurrentController" prot="public">BipedalLocomotion::JointLevelControllers::PositionToCurrentController</innerclass>
+    <innerclass refid="structBipedalLocomotion_1_1JointLevelControllers_1_1PositionToJointControllerInput" prot="public">BipedalLocomotion::JointLevelControllers::PositionToJointControllerInput</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToJointController" prot="public">BipedalLocomotion::JointLevelControllers::PositionToJointController</innerclass>
+    <innerclass refid="classBipedalLocomotion_1_1JointLevelControllers_1_1PositionToTorqueController" prot="public">BipedalLocomotion::JointLevelControllers::PositionToTorqueController</innerclass>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
