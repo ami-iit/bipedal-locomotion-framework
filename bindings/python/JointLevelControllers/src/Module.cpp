@@ -9,7 +9,7 @@
 
 #include <BipedalLocomotion/bindings/JointLevelControllers/EMAWithLimits.h>
 #include <BipedalLocomotion/bindings/JointLevelControllers/Module.h>
-#include <BipedalLocomotion/bindings/JointLevelControllers/PositionToCurrentController.h>
+#include <BipedalLocomotion/bindings/JointLevelControllers/PositionToJointController.h>
 
 namespace BipedalLocomotion
 {
@@ -21,7 +21,9 @@ void CreateModule(pybind11::module& module)
 {
     module.doc() = "Controllers for robot joints";
 
+    CreatePositionToJointController(module);
     CreatePositionToCurrentController(module);
+    CreatePositionToTorqueController(module);
     CreateEMAWithLimits(module);
 }
 } // namespace JointLevelControllers

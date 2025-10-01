@@ -8,8 +8,8 @@ if(FRAMEWORK_COMPILE_JointLevelControllers)
 
   add_bipedal_locomotion_library(
     NAME                   JointLevelControllers
-    PUBLIC_HEADERS         ${H_PREFIX}/PositionToCurrentController.h ${H_PREFIX}/EMAWithLimits.h
-    SOURCES                src/PositionToCurrentController.cpp src/EMAWithLimits.cpp
+    PUBLIC_HEADERS          ${H_PREFIX}/PositionToJointController.h ${H_PREFIX}/PositionToCurrentController.h ${H_PREFIX}/PositionToTorqueController.h ${H_PREFIX}/EMAWithLimits.h
+    SOURCES                src/PositionToCurrentController.cpp src/PositionToTorqueController.cpp src/EMAWithLimits.cpp
     PUBLIC_LINK_LIBRARIES  Eigen3::Eigen BipedalLocomotion::ParametersHandler BipedalLocomotion::System
     SUBDIRECTORIES         tests)
 

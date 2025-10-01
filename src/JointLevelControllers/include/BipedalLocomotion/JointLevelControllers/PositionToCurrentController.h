@@ -13,6 +13,7 @@
 
 #include <Eigen/Dense>
 
+#include <BipedalLocomotion/JointLevelControllers/PositionToJointController.h>
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/System/Advanceable.h>
 
@@ -20,20 +21,6 @@ namespace BipedalLocomotion
 {
 namespace JointLevelControllers
 {
-
-/**
- * @brief Input data structure for the PositionToCurrentController
- *
- * This structure contains all the feedback and reference signals required by the controller
- * to compute the appropriate motor current commands. All vectors must have the same size
- * corresponding to the number of controlled joints.
- */
-struct PositionToCurrentControllerInput
-{
-    Eigen::VectorXd referencePosition; /**< Desired joint positions [rad] */
-    Eigen::VectorXd feedbackPosition; /**< Current joint positions from encoders [rad] */
-    Eigen::VectorXd feedbackVelocity; /**< Current joint velocities from encoders [rad/s] */
-};
 
 // clang-format off
 /**
@@ -96,9 +83,7 @@ struct PositionToCurrentControllerInput
  * - \f$ b = I_{max} - m \cdot \omega_{rated} \f$ is the intercept
  *
  */
-class PositionToCurrentController
-    : public BipedalLocomotion::System::Advanceable<PositionToCurrentControllerInput,
-                                                    Eigen::VectorXd>
+class PositionToCurrentController: public PositionToJointController
 {
     // clang-format on
 public:
@@ -154,7 +139,7 @@ public:
      * @param input the input of the controller
      * @return True in case of success and false otherwise
      */
-    bool setInput(const PositionToCurrentControllerInput& input) override;
+    bool setInput(const PositionToJointControllerInput& input) override;
 
     /**
      * Get the output of the controller
