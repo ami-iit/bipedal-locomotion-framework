@@ -90,7 +90,7 @@ public:
      * Reset the EMAWithLimits with a new input.
      * @param input the new input to reset the EMAWithLimits.
      */
-    void reset();
+    void reset(Eigen::Ref<const Eigen::VectorXd> input);
 
 private:
     /** Private implementation */
