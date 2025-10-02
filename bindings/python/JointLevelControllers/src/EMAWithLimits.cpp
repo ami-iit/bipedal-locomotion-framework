@@ -36,7 +36,9 @@ void CreateEMAWithLimits(pybind11::module& module)
                                                         ::Eigen::VectorXd>> //
         (module, "EMAWithLimits")
             .def(py::init())
-            .def("reset", &::BipedalLocomotion::JointLevelControllers::EMAWithLimits::reset);
+            .def("reset",
+                 &::BipedalLocomotion::JointLevelControllers::EMAWithLimits::reset,
+                 py::arg("initial_condition"));
 }
 } // namespace JointLevelControllers
 } // namespace bindings
