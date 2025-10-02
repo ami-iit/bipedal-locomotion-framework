@@ -785,7 +785,7 @@
     <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1aa2dbae1697ea7abba0f2130d4e869919" kind="function"><name>advance</name></member>
     <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1a7d339350cfc05e6ae4ca566dbba82538" kind="function"><name>getOutput</name></member>
     <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1afb97797df35b4faa9d38b6ac0584c935" kind="function"><name>isOutputValid</name></member>
-    <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1ac51e1e309180d24b270082de314e84a3" kind="function"><name>reset</name></member>
+    <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1a768bc331a13d8d900c2f5bf79c8a8c07" kind="function"><name>reset</name></member>
   </compound>
   <compound refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact" kind="struct"><name>BipedalLocomotion::Contacts::EstimatedContact</name>
     <member refid="structBipedalLocomotion_1_1Contacts_1_1EstimatedContact_1afe72997e9101e4f602330ba825b7a46e" kind="variable"><name>switchTime</name></member>

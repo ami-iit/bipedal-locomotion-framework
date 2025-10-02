@@ -125,8 +125,8 @@
               <span class="m-doc-wrap-bumper">auto <a href="#afb97797df35b4faa9d38b6ac0584c935" class="m-doc">isOutputValid</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Check if the output of the <a href="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits.html" class="m-doc">EMAWithLimits</a> is valid.</dd>
-            <dt id="ac51e1e309180d24b270082de314e84a3">
-              <span class="m-doc-wrap-bumper">void <a href="#ac51e1e309180d24b270082de314e84a3" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a768bc331a13d8d900c2f5bf79c8a8c07" class="m-doc">reset</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; input) -&gt; bool</span>
             </dt>
             <dd>Reset the <a href="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits.html" class="m-doc">EMAWithLimits</a> with a new input.</dd>
           </dl>
@@ -225,6 +225,29 @@
                 <tr>
                   <th style="width: 1%">Returns</th>
                   <td>true if it is valid, false otherwise.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a768bc331a13d8d900c2f5bf79c8a8c07"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool BipedalLocomotion::<wbr />JointLevelControllers::<wbr />EMAWithLimits::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a768bc331a13d8d900c2f5bf79c8a8c07" class="m-doc-self">reset</a>(</span><span class="m-doc-wrap">Eigen::Ref&lt;const Eigen::VectorXd&gt; input)</span></span>
+            </h3>
+            <p>Reset the <a href="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits.html" class="m-doc">EMAWithLimits</a> with a new input.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">input</td>
+                  <td>the new input to reset the <a href="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits.html" class="m-doc">EMAWithLimits</a>.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>true if the reset was successful, false otherwise.</td>
                 </tr>
               </tfoot>
             </table>

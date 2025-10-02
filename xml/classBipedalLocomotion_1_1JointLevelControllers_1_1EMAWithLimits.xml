@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="98" column="21" bodyfile="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" bodystart="97" bodyend="-1"/>
+        <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="99" column="21" bodyfile="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" bodystart="98" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -204,11 +204,15 @@
         </inbodydescription>
         <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="87" column="10"/>
       </memberdef>
-      <memberdef kind="function" id="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1ac51e1e309180d24b270082de314e84a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void BipedalLocomotion::JointLevelControllers::EMAWithLimits::reset</definition>
-        <argsstring>()</argsstring>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1a768bc331a13d8d900c2f5bf79c8a8c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::JointLevelControllers::EMAWithLimits::reset</definition>
+        <argsstring>(Eigen::Ref&lt; const Eigen::VectorXd &gt; input)</argsstring>
         <name>reset</name>
+        <param>
+          <type>Eigen::Ref&lt; const Eigen::VectorXd &gt;</type>
+          <declname>input</declname>
+        </param>
         <briefdescription>
 <para>Reset the <ref refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits" kindref="compound">EMAWithLimits</ref> with a new input. </para>
         </briefdescription>
@@ -222,11 +226,13 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>true if the reset was successful, false otherwise. </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="93" column="10"/>
+        <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="94" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -305,7 +311,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="33" column="1" bodyfile="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" bodystart="35" bodyend="99"/>
+    <location file="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" line="33" column="1" bodyfile="BipedalLocomotion/JointLevelControllers/EMAWithLimits.h" bodystart="35" bodyend="100"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1aa2dbae1697ea7abba0f2130d4e869919" prot="public" virt="virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>advance</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1a09ee5b41c77c6b626f4d5cb775065325" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>Advanceable</name></member>
@@ -331,7 +337,7 @@
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a7c0d15e677a1935918fc747ba4c25ec1" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a0a39b891749961d34507b4b591886741" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>OutputPort</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1OutputPort_1a581340f280eca1890a8a7b2331761b57" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>OutputPort</name></member>
-      <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1ac51e1e309180d24b270082de314e84a3" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>reset</name></member>
+      <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1a768bc331a13d8d900c2f5bf79c8a8c07" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>reset</name></member>
       <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1add07d3de481da1ba8f8a82939a824177" prot="public" virt="virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>setInput</name></member>
       <member refid="classBipedalLocomotion_1_1System_1_1Advanceable_1afae1137cba829874bab4a1d25d559896" prot="public" virt="virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>~Advanceable</name></member>
       <member refid="classBipedalLocomotion_1_1JointLevelControllers_1_1EMAWithLimits_1a72bf40051f57088bdd00109fb6575679" prot="public" virt="non-virtual"><scope>BipedalLocomotion::JointLevelControllers::EMAWithLimits</scope><name>~EMAWithLimits</name></member>
