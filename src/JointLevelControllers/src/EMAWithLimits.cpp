@@ -136,7 +136,7 @@ bool EMAWithLimits::initialize(
     m_pimpl->state = Impl::State::NotReset;
 
     // reset the system state
-    this->reset();
+    this->reset(Eigen::VectorXd::Zero(m_pimpl->lowerLimit.size()));
 
     log()->info("{} EMAWithLimits successfully initialized.", logPrefix);
     return true;
@@ -186,12 +186,36 @@ const EMAWithLimits::Output& EMAWithLimits::getOutput() const
     return m_pimpl->processedActions;
 }
 
-void EMAWithLimits::reset()
+bool EMAWithLimits::reset(Eigen::Ref<const Eigen::VectorXd> initialCondition)
 {
-    m_pimpl->previousAppliedActions = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
+    if (initialCondition.size() != m_pimpl->softLowerLimit.size())
+    {
+        log()->error("[EMAWithLimits::reset] Initial condition size mismatch. Provided "
+                     "initial condition has size {} while the expected size is {}.",
+                     initialCondition.size(),
+                     m_pimpl->softLowerLimit.size());
+        return false;
+    }
+
+    // check if the initial condition is within the limits. If not warn and clip it
+    if ((initialCondition.array() < m_pimpl->lowerLimit.array()).any()
+        || (initialCondition.array() > m_pimpl->upperLimit.array()).any())
+    {
+        log()->warn("[EMAWithLimits::reset] The provided initial condition is not within the "
+                    "joint limits. Clipping it to be within the joint limits. Provided initial {}, "
+                    "Min {}, Max {}",
+                    initialCondition.transpose(),
+                    m_pimpl->lowerLimit.transpose(),
+                    m_pimpl->upperLimit.transpose());
+    }
+
+    m_pimpl->previousAppliedActions
+        = m_pimpl->clip(initialCondition, m_pimpl->lowerLimit, m_pimpl->upperLimit);
+
     m_pimpl->input = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
-    m_pimpl->processedActions = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
+    m_pimpl->processedActions = m_pimpl->previousAppliedActions;
     m_pimpl->state = Impl::State::WaitingForAdvance;
+    return true;
 }
 
 bool EMAWithLimits::setInput(const EMAWithLimits::Input& input)

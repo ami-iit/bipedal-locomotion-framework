@@ -16,8 +16,6 @@ using namespace BipedalLocomotion::JointLevelControllers;
 using namespace BipedalLocomotion::ParametersHandler;
 using Catch::Approx;
 
-
-
 // Helper function to create parameter handler with basic configuration
 std::shared_ptr<StdImplementation>
 createBasicParameterHandler(double scale = 0.5,
@@ -211,7 +209,7 @@ TEST_CASE("EMAWithLimits - State Management and Transitions")
         REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance state
 
         // Explicit reset should maintain WaitingForAdvance
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         REQUIRE_FALSE(controller.isOutputValid()); // Still WaitingForAdvance
 
         // Set input and advance to reach Running state
@@ -224,14 +222,14 @@ TEST_CASE("EMAWithLimits - State Management and Transitions")
     SECTION("Reset clears state and sets to WaitingForAdvance")
     {
         // Get to Running state first
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         Eigen::Vector3d input(0.1, 0.2, 0.3);
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
         REQUIRE(controller.isOutputValid()); // Running state
 
         // Reset should clear state
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance state
     }
 
@@ -248,7 +246,7 @@ TEST_CASE("EMAWithLimits - State Management and Transitions")
     {
         for (int i = 0; i < 5; ++i)
         {
-            controller.reset();
+            REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
             REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance
 
             Eigen::Vector3d input(0.1 * i, 0.2 * i, 0.3 * i);
@@ -260,7 +258,7 @@ TEST_CASE("EMAWithLimits - State Management and Transitions")
 
     SECTION("State persists through multiple advances")
     {
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         Eigen::Vector3d input(0.1, 0.2, 0.3);
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
@@ -282,7 +280,7 @@ TEST_CASE("EMAWithLimits - Input Validation")
     EMAWithLimits controller;
     auto handler = createBasicParameterHandler(); // 3-joint configuration
     REQUIRE(controller.initialize(handler));
-    controller.reset();
+    REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
     SECTION("Valid input sizes")
     {
@@ -347,7 +345,7 @@ TEST_CASE("EMAWithLimits - Algorithm Correctness")
         auto handler = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, 1.0);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(1)));
 
         // Test with input 0.25
         Eigen::VectorXd input(1);
@@ -375,7 +373,7 @@ TEST_CASE("EMAWithLimits - Algorithm Correctness")
         auto handler = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, 1.0);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(1)));
 
         // Input that will be clipped after scaling
         Eigen::VectorXd input(1);
@@ -395,7 +393,7 @@ TEST_CASE("EMAWithLimits - Algorithm Correctness")
             auto handler = createBasicParameterHandler(1.0, 0.0);
             EMAWithLimits controller;
             REQUIRE(controller.initialize(handler));
-            controller.reset();
+            REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
             Eigen::Vector3d input(1.0, 1.0, 1.0);
             REQUIRE(controller.setInput(input));
@@ -413,7 +411,7 @@ TEST_CASE("EMAWithLimits - Algorithm Correctness")
             auto handler = createBasicParameterHandler(1.0, 1.0);
             EMAWithLimits controller;
             REQUIRE(controller.initialize(handler));
-            controller.reset();
+            REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
             Eigen::Vector3d input(0.5, -0.5, 0.0);
             REQUIRE(controller.setInput(input));
@@ -432,7 +430,7 @@ TEST_CASE("EMAWithLimits - Algorithm Correctness")
         auto handler = createBasicParameterHandler(1.0, 0.8);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         const Eigen::Vector3d constantInput(0.6, -0.4, 0.2);
         std::vector<Eigen::VectorXd> outputs;
@@ -471,7 +469,7 @@ TEST_CASE("EMAWithLimits - Soft Limits")
             = createBasicParameterHandler(scale, alpha, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(1)));
 
         // Soft limits should be [-2, 2] (50% of [-4, 4])
         Eigen::VectorXd input(1);
@@ -496,7 +494,7 @@ TEST_CASE("EMAWithLimits - Soft Limits")
             = createBasicParameterHandler(1.0, 1.0, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(1)));
 
         // Soft limits should be [-1, 1] (10% of [-10, 10])
         Eigen::VectorXd input(1);
@@ -519,7 +517,7 @@ TEST_CASE("EMAWithLimits - Soft Limits")
             = createBasicParameterHandler(1.0, 1.0, lowerLimit, upperLimit, softLimitFactor);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(1)));
 
         // Center = (3.0 + (-1.0))/2 = 1.0
         // Range = 3.0 - (-1.0) = 4.0
@@ -545,7 +543,7 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
     SECTION("Reset clears EMA history")
     {
         // Build up some EMA history
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         Eigen::Vector3d input(0.8, -0.6, 0.4);
         for (int i = 0; i < 5; ++i)
         {
@@ -555,7 +553,7 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
         auto outputWithHistory = controller.getOutput();
 
         // Reset and apply same input
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
         auto outputAfterReset = controller.getOutput();
@@ -566,7 +564,7 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
 
     SECTION("Reset initializes all internal vectors")
     {
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         // After reset, should be in WaitingForAdvance state
         REQUIRE_FALSE(controller.isOutputValid());
@@ -586,7 +584,7 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
     {
         for (int i = 0; i < 10; ++i)
         {
-            controller.reset();
+            REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
             REQUIRE_FALSE(controller.isOutputValid());
 
             Eigen::Vector3d input(0.1 * i, 0.2 * i, 0.3 * i);
@@ -594,6 +592,23 @@ TEST_CASE("EMAWithLimits - Reset Functionality")
             REQUIRE(controller.advance());
             REQUIRE(controller.isOutputValid());
         }
+    }
+
+    SECTION("Reset with custom initial condition")
+    {
+        Eigen::Vector3d initialCondition(0.5, -0.3, 0.2);
+        REQUIRE(controller.reset(initialCondition));
+
+        // After reset, output should match initial condition
+        const auto& output = controller.getOutput();
+        REQUIRE((output - initialCondition).norm() < 1e-10);
+        REQUIRE_FALSE(controller.isOutputValid()); // WaitingForAdvance state
+    }
+
+    SECTION("Reset with invalid initial condition size")
+    {
+        Eigen::Vector2d invalidInitialCondition(0.5, -0.3);
+        REQUIRE_FALSE(controller.reset(invalidInitialCondition)); // Should fail
     }
 }
 
@@ -604,7 +619,7 @@ TEST_CASE("EMAWithLimits - Edge Cases and Robustness")
         auto handler = createBasicParameterHandler(1.0, 1.0);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         Eigen::Vector3d input = Eigen::Vector3d::Zero();
         REQUIRE(controller.setInput(input));
@@ -622,7 +637,7 @@ TEST_CASE("EMAWithLimits - Edge Cases and Robustness")
         auto handler = createBasicParameterHandler(1.0, 1.0);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         Eigen::Vector3d extremeInput(1000.0, -1000.0, 500.0);
         REQUIRE(controller.setInput(extremeInput));
@@ -645,7 +660,7 @@ TEST_CASE("EMAWithLimits - Edge Cases and Robustness")
         auto handler = createBasicParameterHandler(1.0, 0.5);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         std::vector<Eigen::Vector3d> inputs = {Eigen::Vector3d(0.5, 0.0, -0.5),
                                                Eigen::Vector3d(-0.5, 0.5, 0.0),
@@ -672,7 +687,7 @@ TEST_CASE("EMAWithLimits - Edge Cases and Robustness")
         auto handler = createBasicParameterHandler(1.0, 0.001);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         Eigen::Vector3d input(1.0, 1.0, 1.0);
         REQUIRE(controller.setInput(input));
@@ -697,7 +712,7 @@ TEST_CASE("EMAWithLimits - Multi-Joint Scenarios")
         auto handler = createBasicParameterHandler(1.0, 0.8, lowerLimit, upperLimit, 1.0);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector4d::Zero()));
 
         Eigen::Vector4d input(0.5, -0.5, 0.8, -0.3);
         REQUIRE(controller.setInput(input));
@@ -722,7 +737,7 @@ TEST_CASE("EMAWithLimits - Multi-Joint Scenarios")
         auto handler = createBasicParameterHandler(1.0, 0.7, lowerLimit, upperLimit, 0.8);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::VectorXd::Zero(numJoints)));
 
         Eigen::VectorXd input = Eigen::VectorXd::Random(numJoints);
         REQUIRE(controller.setInput(input));
@@ -764,7 +779,7 @@ TEST_CASE("EMAWithLimits - Error Handling")
         REQUIRE(controller.initialize(handler2)); // Re-initialization should work
 
         // Should work with new parameters
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
         Eigen::Vector3d input(0.1, 0.2, 0.3);
         REQUIRE(controller.setInput(input));
         REQUIRE(controller.advance());
@@ -831,7 +846,7 @@ TEST_CASE("EMAWithLimits - Deterministic Behavior")
         auto handler = createBasicParameterHandler(1.0, 0.9);
         EMAWithLimits controller;
         REQUIRE(controller.initialize(handler));
-        controller.reset();
+        REQUIRE(controller.reset(Eigen::Vector3d::Zero()));
 
         const Eigen::Vector3d constantInput(0.6, -0.4, 0.2);
 
@@ -851,5 +866,187 @@ TEST_CASE("EMAWithLimits - Deterministic Behavior")
 
         // Should be very close (converged)
         REQUIRE((nextOutput - finalOutput).norm() < 1e-10);
+    }
+}
+
+TEST_CASE("EMAWithLimits - Non-Zero Reset Values")
+{
+    // Create controller with known limits
+    // Lower limits: [-1.0, -2.0, -3.0]
+    // Upper limits: [1.0, 2.0, 3.0]
+    auto handler = createBasicParameterHandler(1.0, 0.8);
+    EMAWithLimits controller;
+    REQUIRE(controller.initialize(handler));
+
+    SECTION("Reset with valid non-zero initial condition")
+    {
+        Eigen::Vector3d initialCondition(0.5, -1.0, 2.5);
+        REQUIRE(controller.reset(initialCondition));
+
+        // Output should match the initial condition after reset
+        const auto& output = controller.getOutput();
+        REQUIRE(output(0) == Approx(0.5).epsilon(1e-10));
+        REQUIRE(output(1) == Approx(-1.0).epsilon(1e-10));
+        REQUIRE(output(2) == Approx(2.5).epsilon(1e-10));
+
+        // Should be in WaitingForAdvance state
+        REQUIRE_FALSE(controller.isOutputValid());
+    }
+
+    SECTION("Reset with random values within limits")
+    {
+        // Test multiple random reset values
+        for (int trial = 0; trial < 10; ++trial)
+        {
+            // Generate random values within limits
+            Eigen::Vector3d randomInitial;
+            randomInitial << -1.0 + 2.0 * static_cast<double>(rand()) / RAND_MAX, // [-1.0, 1.0]
+                -2.0 + 4.0 * static_cast<double>(rand()) / RAND_MAX, // [-2.0, 2.0]
+                -3.0 + 6.0 * static_cast<double>(rand()) / RAND_MAX; // [-3.0, 3.0]
+
+            REQUIRE(controller.reset(randomInitial));
+
+            const auto& output = controller.getOutput();
+            REQUIRE(output(0) == Approx(randomInitial(0)).epsilon(1e-10));
+            REQUIRE(output(1) == Approx(randomInitial(1)).epsilon(1e-10));
+            REQUIRE(output(2) == Approx(randomInitial(2)).epsilon(1e-10));
+
+            // Verify output is within limits
+            REQUIRE(output(0) >= -1.0);
+            REQUIRE(output(0) <= 1.0);
+            REQUIRE(output(1) >= -2.0);
+            REQUIRE(output(1) <= 2.0);
+            REQUIRE(output(2) >= -3.0);
+            REQUIRE(output(2) <= 3.0);
+        }
+    }
+
+    SECTION("Reset with values outside limits - clipping lower bound")
+    {
+        // Values below lower limits should be clipped
+        Eigen::Vector3d belowLimits(-5.0, -10.0, -15.0);
+        REQUIRE(controller.reset(belowLimits));
+
+        const auto& output = controller.getOutput();
+        // Should be clipped to lower limits
+        REQUIRE(output(0) == Approx(-1.0).epsilon(1e-10));
+        REQUIRE(output(1) == Approx(-2.0).epsilon(1e-10));
+        REQUIRE(output(2) == Approx(-3.0).epsilon(1e-10));
+    }
+
+    SECTION("Reset with values outside limits - clipping upper bound")
+    {
+        // Values above upper limits should be clipped
+        Eigen::Vector3d aboveLimits(5.0, 10.0, 15.0);
+        REQUIRE(controller.reset(aboveLimits));
+
+        const auto& output = controller.getOutput();
+        // Should be clipped to upper limits
+        REQUIRE(output(0) == Approx(1.0).epsilon(1e-10));
+        REQUIRE(output(1) == Approx(2.0).epsilon(1e-10));
+        REQUIRE(output(2) == Approx(3.0).epsilon(1e-10));
+    }
+
+    SECTION("Reset with mixed in/out of bounds values")
+    {
+        // Some values within limits, some outside
+        Eigen::Vector3d mixedValues(-5.0, 0.5, 10.0);
+        REQUIRE(controller.reset(mixedValues));
+
+        const auto& output = controller.getOutput();
+        // First value clipped to lower limit
+        REQUIRE(output(0) == Approx(-1.0).epsilon(1e-10));
+        // Second value unchanged (within limits)
+        REQUIRE(output(1) == Approx(0.5).epsilon(1e-10));
+        // Third value clipped to upper limit
+        REQUIRE(output(2) == Approx(3.0).epsilon(1e-10));
+    }
+
+    SECTION("Reset at exact limit boundaries")
+    {
+        // Test at lower boundaries
+        Eigen::Vector3d atLowerLimits(-1.0, -2.0, -3.0);
+        REQUIRE(controller.reset(atLowerLimits));
+        const auto& outputLower = controller.getOutput();
+        REQUIRE(outputLower(0) == Approx(-1.0).epsilon(1e-10));
+        REQUIRE(outputLower(1) == Approx(-2.0).epsilon(1e-10));
+        REQUIRE(outputLower(2) == Approx(-3.0).epsilon(1e-10));
+
+        // Test at upper boundaries
+        Eigen::Vector3d atUpperLimits(1.0, 2.0, 3.0);
+        REQUIRE(controller.reset(atUpperLimits));
+        const auto& outputUpper = controller.getOutput();
+        REQUIRE(outputUpper(0) == Approx(1.0).epsilon(1e-10));
+        REQUIRE(outputUpper(1) == Approx(2.0).epsilon(1e-10));
+        REQUIRE(outputUpper(2) == Approx(3.0).epsilon(1e-10));
+    }
+
+    SECTION("EMA behavior starts from non-zero reset value")
+    {
+        // Reset to a specific non-zero value
+        Eigen::Vector3d initialCondition(0.5, 1.5, -2.5);
+        REQUIRE(controller.reset(initialCondition));
+
+        // Apply zero input - EMA should move towards center
+        Eigen::Vector3d zeroInput = Eigen::Vector3d::Zero();
+        REQUIRE(controller.setInput(zeroInput));
+        REQUIRE(controller.advance());
+
+        const auto& output = controller.getOutput();
+
+        // With alpha=0.8 and zero input, output should be between initial and center
+        // The exact value depends on scaling and soft limits, but should be within hard limits
+        REQUIRE(output(0) >= -1.0);
+        REQUIRE(output(0) <= 1.0);
+        REQUIRE(output(1) >= -2.0);
+        REQUIRE(output(1) <= 2.0);
+        REQUIRE(output(2) >= -3.0);
+        REQUIRE(output(2) <= 3.0);
+    }
+
+    SECTION("Multiple resets with random values")
+    {
+        for (int trial = 0; trial < 20; ++trial)
+        {
+            // Generate random values (potentially outside limits)
+            Eigen::Vector3d randomInitial;
+            randomInitial << -5.0 + 10.0 * static_cast<double>(rand()) / RAND_MAX, // [-5.0, 5.0]
+                -10.0 + 20.0 * static_cast<double>(rand()) / RAND_MAX, // [-10.0, 10.0]
+                -15.0 + 30.0 * static_cast<double>(rand()) / RAND_MAX; // [-15.0, 15.0]
+
+            REQUIRE(controller.reset(randomInitial));
+
+            const auto& output = controller.getOutput();
+
+            // Verify output is always within hard limits (clipped)
+            REQUIRE(output(0) >= -1.0);
+            REQUIRE(output(0) <= 1.0);
+            REQUIRE(output(1) >= -2.0);
+            REQUIRE(output(1) <= 2.0);
+            REQUIRE(output(2) >= -3.0);
+            REQUIRE(output(2) <= 3.0);
+
+            // Controller should be in WaitingForAdvance state after reset
+            REQUIRE_FALSE(controller.isOutputValid());
+
+            // Should be able to advance after reset
+            Eigen::Vector3d input = Eigen::Vector3d::Random() * 0.5;
+            REQUIRE(controller.setInput(input));
+            REQUIRE(controller.advance());
+            REQUIRE(controller.isOutputValid());
+        }
+    }
+
+    SECTION("Reset with extreme values")
+    {
+        // Test with very large values
+        Eigen::Vector3d extremeValues(1e6, -1e6, 1e10);
+        REQUIRE(controller.reset(extremeValues));
+
+        const auto& output = controller.getOutput();
+        // Should be clipped to limits
+        REQUIRE(output(0) == Approx(1.0).epsilon(1e-10));
+        REQUIRE(output(1) == Approx(-2.0).epsilon(1e-10));
+        REQUIRE(output(2) == Approx(3.0).epsilon(1e-10));
     }
 }
