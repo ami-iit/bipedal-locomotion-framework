@@ -186,21 +186,22 @@ const EMAWithLimits::Output& EMAWithLimits::getOutput() const
     return m_pimpl->processedActions;
 }
 
-void EMAWithLimits::reset(Eigen::Ref<const Eigen::VectorXd> initialCondition)
+bool EMAWithLimits::reset(Eigen::Ref<const Eigen::VectorXd> initialCondition)
 {
     if (initialCondition.size() != m_pimpl->softLowerLimit.size())
     {
-        throw std::runtime_error(
-            "[EMAWithLimits::reset] Initial condition size mismatch. Provided "
-            "initial condition has size "
-            + std::to_string(initialCondition.size()) + " while the expected size is "
-            + std::to_string(m_pimpl->softLowerLimit.size()));
+        log()->error("[EMAWithLimits::reset] Initial condition size mismatch. Provided "
+                     "initial condition has size {} while the expected size is {}.",
+                     initialCondition.size(),
+                     m_pimpl->softLowerLimit.size());
+        return false;
     }
 
     m_pimpl->previousAppliedActions = initialCondition;
     m_pimpl->input = Eigen::VectorXd::Zero(m_pimpl->softLowerLimit.size());
     m_pimpl->processedActions = m_pimpl->previousAppliedActions;
     m_pimpl->state = Impl::State::WaitingForAdvance;
+    return true;
 }
 
 bool EMAWithLimits::setInput(const EMAWithLimits::Input& input)
