@@ -7,3 +7,9 @@ add_bipedal_test(
     SOURCES YarpUtilitiesTest.cpp
     LINKS BipedalLocomotion::YarpUtilities
     )
+
+add_bipedal_test(
+    NAME VectorsCollectionTest
+    SOURCES VectorsCollectionTest.cpp
+    LINKS BipedalLocomotion::YarpUtilities BipedalLocomotion::VectorsCollection
+    )
