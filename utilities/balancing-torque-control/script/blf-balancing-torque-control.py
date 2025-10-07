@@ -167,6 +167,46 @@ class Application:
                 "Impossible to set the set point for the joint regularization task."
             )
 
+        robot_mass = self.kindyn.model.getTotalMass()
+        # assuming the same force of the two feet equal to [0 0 mg/2] we need to compute the
+        # moment on the two feet to balance the robot. Since we are in double support we have infinite
+        # solutions. So we compute the two moments using the pseudo inverse
+        com_position = self.kindyn.getCenterOfMassPosition().toNumPy()
+        right_foot_position = I_H_r_sole.getPosition().toNumPy()
+        left_foot_position = I_H_l_sole.getPosition().toNumPy()
+        g = blf.math.StandardAccelerationOfGravitation
+        moment_right_foot = -0.5 * (
+            np.cross(
+                right_foot_position - com_position,
+                np.array([0, 0, robot_mass * g / 2]),
+            )
+            + np.cross(
+                left_foot_position - com_position, np.array([0, 0, robot_mass * g / 2])
+            )
+        )
+
+        moment_left_foot = moment_right_foot.copy()
+
+        wrench_right_foot = np.hstack(
+            (np.array([0, 0, robot_mass * g / 2]), moment_right_foot)
+        )
+        wrench_left_foot = np.hstack(
+            (np.array([0, 0, robot_mass * g / 2]), moment_left_foot)
+        )
+
+        if not self.tsid.tasks["lf_wrench_regularization_task"].set_set_point(
+            wrench_left_foot
+        ):
+            raise ValueError(
+                "Impossible to set the set point for the left foot wrench task."
+            )
+        if not self.tsid.tasks["rf_wrench_regularization_task"].set_set_point(
+            wrench_right_foot
+        ):
+            raise ValueError(
+                "Impossible to set the set point for the right foot wrench task."
+            )
+
         if not self.tsid.tasks["torso_task"].set_set_point(
             manif.SO3.Identity(), manif.SO3Tangent.Zero(), manif.SO3Tangent.Zero()
         ):
