@@ -27,14 +27,15 @@ void CreateButterworthLowPassFilter(pybind11::module& module)
     namespace py = ::pybind11;
 
     BipedalLocomotion::bindings::System::CreateAdvanceable<Eigen::VectorXd, //
-                                                           Eigen::VectorXd>(module,
-                                                                            "ButterworthLowPassFilter");
+                                                           Eigen::VectorXd> //
+        (module, "ButterworthLowPassFilter");
 
     py::class_<ButterworthLowPassFilter, //
                ::BipedalLocomotion::System::Advanceable<Eigen::VectorXd, //
-                                                        Eigen::VectorXd>>(module,
-                                                                          "ButterworthLowPassFilter")
-        .def(py::init());
+                                                        Eigen::VectorXd>> //
+        (module, "ButterworthLowPassFilter")
+            .def(py::init())
+            .def("reset", &ButterworthLowPassFilter::reset, py::arg("initial_state"));
 }
 
 } // namespace ContinuousDynamicalSystem
