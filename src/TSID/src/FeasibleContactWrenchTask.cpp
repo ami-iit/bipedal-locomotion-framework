@@ -75,14 +75,13 @@ bool FeasibleContactWrenchTask::setVariablesHandler(const System::VariablesHandl
     // max_normal_force is equal to 0
     m_b.head(rowsOfConeMatrix) = m_cone.getB();
     m_b.tail<2>()(0) = 0;
-    m_b.tail<2>()(1) = std::numeric_limits<double>::max();
+    m_b.tail<2>()(1) = m_maxAdmissibleNormalForce;
 
     // the matrix A in body coordinate is fixed
     m_AinBodyCoordinate.resize(normalForceFeasibilityConstraints + rowsOfConeMatrix,
                                BipedalLocomotion::Math::Wrenchd::SizeAtCompileTime);
     m_AinBodyCoordinate.topRows(rowsOfConeMatrix) = m_cone.getA();
-    m_AinBodyCoordinate.bottomRows<2>() << 0, 0, -1, 0, 0, 0,
-                                           0, 0,  1, 0, 0, 0;
+    m_AinBodyCoordinate.bottomRows<2>() << 0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0;
 
     return true;
 }
@@ -135,6 +134,13 @@ bool FeasibleContactWrenchTask::initialize(std::weak_ptr<const IParametersHandle
     {
         log()->error("{} Unable to initialize the cone.", errorPrefix);
         return false;
+    }
+
+    if (!ptr->getParameter("max_admissible_normal_force", m_maxAdmissibleNormalForce))
+    {
+        log()->warn("{} max_admissible_normal_force not found. Defaulting to max double value.",
+                    errorPrefix);
+        m_maxAdmissibleNormalForce = std::numeric_limits<double>::max();
     }
 
     // set the description
@@ -193,7 +199,7 @@ void FeasibleContactWrenchTask::setContactActive(bool isActive)
     if (isActive)
     {
         // the last element of the vector b can be used to disable / enable the task
-        m_b.tail<1>()(0) = std::numeric_limits<double>::max();
+        m_b.tail<1>()(0) = m_maxAdmissibleNormalForce;
     } else
     {
         // the last element of the vector b can be used to disable / enable the task

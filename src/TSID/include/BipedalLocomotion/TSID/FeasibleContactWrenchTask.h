@@ -12,12 +12,10 @@
 
 #include <manif/manif.h>
 
-#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/Math/ContactWrenchCone.h>
-
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
-
 
 namespace BipedalLocomotion
 {
@@ -48,12 +46,15 @@ class FeasibleContactWrenchTask : public TSIDLinearTask
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
 
+    /** Maximum admissible normal force (expressed in local frame) */
+    double m_maxAdmissibleNormalForce{std::numeric_limits<double>::max()};
+
     Eigen::MatrixXd m_AinBodyCoordinate; /**< Matrix A written in body frame */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 public:
-
+    // clang-format off
     /**
      * Initialize the task.
      * @param handler pointer to the parameter handler.
@@ -66,9 +67,11 @@ public:
      * | `static_friction_coefficient` |      `double`    |                          Static friction coefficient.                         |    Yes    |
      * |        `foot_limits_x`        | `vector<double>` |     x coordinate of the foot limits w.r.t the frame attached to the surface   |    Yes    |
      * |        `foot_limits_y`        | `vector<double>` |     y coordinate of the foot limits w.r.t the frame attached to the surface   |    Yes    |
+     * | `max_admissible_normal_force` |      `double`    |    Maximum admissible normal force (expressed in local frame), defaulting max double value |    No    |
      * @return true in case of success/false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the kinDynComputations object.
