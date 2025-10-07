@@ -213,6 +213,15 @@ class Application:
         self.index = 0
         self.knot_index = 1
 
+        self.joint_velocity_filter = blf.continuous_dynamical_system.ButterworthFilter()
+        if not self.joint_velocity_filter.initialize(
+            param_handler.get_group("JOINT_VELOCITY_FILTER")
+        ):
+            raise RuntimeError("Unable to initialize the joint velocity filter.")
+
+        # reset the filter with zero velocity
+        self.joint_velocity_filter.reset(np.zeros(len(self.joint_positions)))
+
         self.vectors_collection_server = blf.yarp_utilities.VectorsCollectionServer()
         if not self.vectors_collection_server.initialize(
             param_handler.get_group("DATA_LOGGING")
@@ -319,6 +328,17 @@ class Application:
         if not are_joint_ok:
             blf.log().error("Impossible to get the joint velocities.")
             return False
+
+        # filter the joint velocities
+        if not self.joint_velocity_filter.set_input(self.joint_velocities):
+            blf.log().error("Impossible to set the input of the joint velocity filter.")
+            return False
+
+        if not self.joint_velocity_filter.advance():
+            blf.log().error("Impossible to advance the joint velocity filter.")
+            return False
+
+        self.joint_velocities = self.joint_velocity_filter.get_output()
 
         if not self.kindyn.setRobotState(
             self.frame_T_link,
@@ -469,11 +489,22 @@ def main():
 
     application = Application(config_file="blf-balancing-torque-control-options.ini")
 
+    profiler = blf.system.TimeProfiler()
+    profiler.set_period(10 / application.dt.total_seconds())
+    profiler.add_timer("Loop")
+
+    blf.log().info("Press enter to start the balancing torque control.")
+    input()
+
     while True:
         tic = blf.clock().now()
 
+        profiler.setInitTime("Loop")
         if not application.advance():
             return False
+        profiler.setFinalTime("Loop")
+
+        profiler.profile()
 
         toc = blf.clock().now()
         delta_time = toc - tic
