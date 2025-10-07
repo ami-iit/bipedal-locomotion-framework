@@ -37,7 +37,8 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
         return false;
     }
 
-    if (!variablesHandler.getVariable(m_robotAccelerationVariable.name, m_robotAccelerationVariable))
+    if (!variablesHandler.getVariable(m_robotAccelerationVariable.name,
+                                      m_robotAccelerationVariable))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
         return false;
@@ -54,7 +55,7 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
         return false;
     }
 
-    for(auto& contact : m_contactWrenches)
+    for (auto& contact : m_contactWrenches)
     {
         if (!variablesHandler.getVariable(contact.variable.name, contact.variable))
         {
@@ -83,14 +84,14 @@ bool BaseDynamicsTask::setVariablesHandler(const System::VariablesHandler& varia
     return true;
 }
 
-bool BaseDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
+bool BaseDynamicsTask::initialize(
+    std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler)
 {
     constexpr auto errorPrefix = "[BaseDynamicsTask::initialize]";
 
     if (m_kinDyn == nullptr || !m_kinDyn->isValid())
     {
-        log()->error("{} KinDynComputations object is not valid.",
-                     errorPrefix);
+        log()->error("{} KinDynComputations object is not valid.", errorPrefix);
         return false;
     }
 
@@ -111,11 +112,17 @@ bool BaseDynamicsTask::initialize(std::weak_ptr<const ParametersHandler::IParame
         return false;
     }
 
-
-        if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariable.name))
+    if (!ptr->getParameter("robot_acceleration_variable_name", m_robotAccelerationVariable.name))
     {
         log()->error("{} Error while retrieving the robot acceleration variable.", errorPrefix);
         return false;
+    }
+
+    if (!ptr->getParameter("consider_only_gravitational_term", m_considerOnlyGravitationalTerm))
+    {
+        log()->warn("{} consider_only_gravitational_term not found. Defaulting to false.",
+                    errorPrefix);
+        m_considerOnlyGravitationalTerm = false;
     }
 
     int numberOfContacts = 0;
@@ -175,10 +182,22 @@ bool BaseDynamicsTask::update()
 
     m_isValid = false;
 
-    if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
+    if (!m_considerOnlyGravitationalTerm)
     {
-        log()->error("{} Unable to get the bias forces.", errorPrefix);
-        return false;
+        // get the full bias forces (i.e. coriolis + centrifugal + gravitational)
+        if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
+        {
+            log()->error("{} Unable to get the bias forces.", errorPrefix);
+            return false;
+        }
+    } else
+    {
+        // get only the gravitational term
+        if (!m_kinDyn->generalizedGravityForces(m_generalizedBiasForces))
+        {
+            log()->error("{} Unable to get the gravity forces.", errorPrefix);
+            return false;
+        }
     }
 
     if (!m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix))
@@ -195,7 +214,7 @@ bool BaseDynamicsTask::update()
     {
         if (!m_kinDyn->getFrameFreeFloatingJacobian(contactWrench.frameIndex, m_jacobian))
         {
-              log()->error("{} Unable to get contact wrench associated to frame named {}.",
+            log()->error("{} Unable to get contact wrench associated to frame named {}.",
                          errorPrefix,
                          m_kinDyn->model().getFrameName(contactWrench.frameIndex));
             return false;

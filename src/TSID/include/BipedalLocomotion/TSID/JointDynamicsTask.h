@@ -8,13 +8,13 @@
 #ifndef BIPEDAL_LOCOMOTION_TSID_JOINT_DYNAMICS_TASK_H
 #define BIPEDAL_LOCOMOTION_TSID_JOINT_DYNAMICS_TASK_H
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include <Eigen/Dense>
 
-#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 #include <BipedalLocomotion/System/VariablesHandler.h>
+#include <BipedalLocomotion/TSID/TSIDLinearTask.h>
 
 #include <iDynTree/KinDynComputations.h>
 
@@ -46,8 +46,10 @@ class JointDynamicsTask : public TSIDLinearTask
     System::VariablesHandler::VariableDescription m_jointsTorqueVariable; /**< Variable
                                                                              describing the joint
                                                                              torques */
-    bool m_useMassMatrixRegularizationTerm{false}; /**< True if the mass matrix regularization is used*/
-    Eigen::MatrixXd m_massMatrixRegularizationTerm; /**< Variable storing mass matrix regularization term*/
+    bool m_useMassMatrixRegularizationTerm{false}; /**< True if the mass matrix regularization is
+                                                      used*/
+    Eigen::MatrixXd m_massMatrixRegularizationTerm; /**< Variable storing mass matrix regularization
+                                                       term*/
     struct ContactWrench
     {
         iDynTree::FrameIndex frameIndex; /**< Frame used to express the contact wrench */
@@ -67,11 +69,14 @@ class JointDynamicsTask : public TSIDLinearTask
 
     bool m_isInitialized{false}; /**< True if the task has been initialized. */
     bool m_isValid{false}; /**< True if the task is valid. */
+    bool m_considerOnlyGravitationalTerm{false}; /**< True if only the gravitational term has to be
+                                                  considered. */
 
     std::shared_ptr<iDynTree::KinDynComputations> m_kinDyn; /**< Pointer to a KinDynComputations
                                                                object */
 
 public:
+    // clang-format off
     /**
      * Initialize the planner.
      * @param paramHandler pointer to the parameters handler.
@@ -84,9 +89,11 @@ public:
      * |            `CONTACT_<i>`           |  `group` | `i` is an `int` between `0` and `max_number_of_contacts` The group must contain `variable_name` and `frame_name` |    Yes    |
      * |           `variable_name`          | `string` |                    Name of the variable contained in `VariablesHandler` describing the contact                   |    Yes    |
      * |            `frame_name`            | `string` |                                    Name of the frame associated to the contact                                   |    Yes    |
+     * | `consider_only_gravitational_term` |  `bool`  | If true only the gravitational term is considered. Otherwise, both gravitational and coriolis are considered. Default false. |     No    |
      * @return True in case of success, false otherwise.
      */
     bool initialize(std::weak_ptr<const ParametersHandler::IParametersHandler> paramHandler) override;
+    // clang-format on
 
     /**
      * Set the kinDynComputations object.

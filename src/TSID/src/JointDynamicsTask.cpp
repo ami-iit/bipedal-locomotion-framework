@@ -173,6 +173,13 @@ bool JointDynamicsTask::initialize(
         return false;
     }
 
+    if (!ptr->getParameter("consider_only_gravitational_term", m_considerOnlyGravitationalTerm))
+    {
+        log()->warn("{} consider_only_gravitational_term not found. Defaulting to false.",
+                    errorPrefix);
+        m_considerOnlyGravitationalTerm = false;
+    }
+
     int numberOfContacts = 0;
     ptr->getParameter("max_number_of_contacts", numberOfContacts);
 
@@ -230,10 +237,22 @@ bool JointDynamicsTask::update()
 
     m_isValid = false;
 
-    if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
+    if (!m_considerOnlyGravitationalTerm)
     {
-        log()->error("{} Unable to get the bias forces.", errorPrefix);
-        return false;
+        // get the full bias forces (i.e. coriolis + centrifugal + gravitational)
+        if (!m_kinDyn->generalizedBiasForces(m_generalizedBiasForces))
+        {
+            log()->error("{} Unable to get the bias forces.", errorPrefix);
+            return false;
+        }
+    } else
+    {
+        // get only the gravitational term
+        if (!m_kinDyn->generalizedGravityForces(m_generalizedBiasForces))
+        {
+            log()->error("{} Unable to get the gravity forces.", errorPrefix);
+            return false;
+        }
     }
 
     if (!m_kinDyn->getFreeFloatingMassMatrix(m_massMatrix))
