@@ -13,6 +13,7 @@
 #include <BipedalLocomotion/bindings/System/ITaskControllerManager.h>
 #include <BipedalLocomotion/bindings/System/LinearTask.h>
 #include <BipedalLocomotion/bindings/System/Module.h>
+#include <BipedalLocomotion/bindings/System/TimeProfiler.h>
 #include <BipedalLocomotion/bindings/System/VariablesHandler.h>
 #include <BipedalLocomotion/bindings/System/WeightProvider.h>
 
@@ -37,6 +38,8 @@ void CreateModule(pybind11::module& module)
 
     CreateWeightProvider(module);
     CreateConstantWeightProvider(module);
+
+    CreateTimeProfiler(module);
 }
 } // namespace System
 } // namespace bindings
