@@ -2,7 +2,6 @@
 
 # This software may be modified and distributed under the terms of the BSD-3-Clause license.
 
-import time
 import numpy as np
 import datetime
 
@@ -29,8 +28,6 @@ sys.path.extend(
 )
 
 from balancing_torque_control.wbc import WBC
-from balancing_torque_control.zmp import evaluate_local_zmp, evaluate_global_zmp
-
 from datetime import timedelta
 
 
@@ -42,28 +39,18 @@ class Application:
         if not param_handler.set_from_filename(config_file):
             raise ValueError("Unable to set the parameter handler from the file.")
 
-        self.contact_force_threshold = param_handler.get_parameter_float(
-            "contact_force_threshold"
-        )
-
         self.dt = param_handler.get_parameter_datetime("dt")
         self.kindyn = self.build_kin_dyn(param_handler=param_handler)
         self.kindyn_with_measured = self.build_kin_dyn(param_handler=param_handler)
 
         # Create the polydrivers
-        (
-            self.poly_drivers,
-            self.contact_wrenches_names,
-        ) = self.build_contact_wrenches_driver(
-            params_contact_wrenches=param_handler.get_group("CONTACT_WRENCHES"),
-            local_prefix="balancing_torque_controller",
-        )
+        self.poly_drivers = dict()
 
-        self.poly_drivers[
-            "REMOTE_CONTROL_BOARD"
-        ] = self.build_remote_control_board_driver(
-            param_handler=param_handler.get_group("ROBOT_CONTROL"),
-            local_prefix="balancing_torque_controller",
+        self.poly_drivers["REMOTE_CONTROL_BOARD"] = (
+            self.build_remote_control_board_driver(
+                param_handler=param_handler.get_group("ROBOT_CONTROL"),
+                local_prefix="balancing_torque_controller",
+            )
         )
 
         if not self.poly_drivers["REMOTE_CONTROL_BOARD"].is_valid():
@@ -234,12 +221,6 @@ class Application:
 
         # populate the metadata
         self.vectors_collection_server.populate_metadata("com_desired", ["x", "y", "z"])
-        self.vectors_collection_server.populate_metadata("global_zmp", ["x", "y"])
-        self.vectors_collection_server.populate_metadata(
-            "global_zmp_from_measured", ["x", "y"]
-        )
-        self.vectors_collection_server.populate_metadata("local_zmp_left", ["x", "y"])
-        self.vectors_collection_server.populate_metadata("local_zmp_right", ["x", "y"])
         self.vectors_collection_server.populate_metadata(
             "com_from_desired", ["x", "y", "z"]
         )
@@ -260,53 +241,6 @@ class Application:
         return blf.robot_interface.construct_remote_control_board_remapper(
             param_handler
         )
-
-    def build_contact_wrench_driver(
-        self,
-        param_handler: blf.parameters_handler.IParametersHandler,
-        local_prefix: str,
-    ):
-        param_handler.set_parameter_string("local_prefix", local_prefix)
-        return blf.robot_interface.construct_generic_sensor_client(param_handler)
-
-    def build_contact_wrenches_driver(
-        self,
-        params_contact_wrenches: blf.parameters_handler.IParametersHandler,
-        local_prefix: str,
-    ):
-        # build contact wrenches polydrivers
-        contact_wrenches_drivers = dict()
-        contact_wrenches_names = dict()
-        contact_wrenches_names["left_foot"] = []
-        contact_wrenches_names["right_foot"] = []
-
-        for wrench_name in params_contact_wrenches.get_parameter_vector_string(
-            "left_contact_wrenches_group"
-        ):
-            contact_wrenches_drivers[wrench_name] = self.build_contact_wrench_driver(
-                params_contact_wrenches.get_group(wrench_name), local_prefix
-            )
-            assert contact_wrenches_drivers[wrench_name].is_valid()
-            contact_wrenches_names["left_foot"].append(
-                params_contact_wrenches.get_group(wrench_name).get_parameter_string(
-                    "description"
-                )
-            )
-
-        for wrench_name in params_contact_wrenches.get_parameter_vector_string(
-            "right_contact_wrenches_group"
-        ):
-            contact_wrenches_drivers[wrench_name] = self.build_contact_wrench_driver(
-                params_contact_wrenches.get_group(wrench_name), local_prefix
-            )
-            assert contact_wrenches_drivers[wrench_name].is_valid()
-            contact_wrenches_names["right_foot"].append(
-                params_contact_wrenches.get_group(wrench_name).get_parameter_string(
-                    "description"
-                )
-            )
-
-        return contact_wrenches_drivers, contact_wrenches_names
 
     def build_kin_dyn(self, param_handler):
         rf = yarp.ResourceFinder()
@@ -452,48 +386,6 @@ class Application:
             return False
 
         # send the data
-        left_wrench = np.zeros(6)
-        for cartesian_wrench_name in self.contact_wrenches_names["left_foot"]:
-            is_ok, wrench, _ = self.sensor_bridge.get_cartesian_wrench(
-                cartesian_wrench_name
-            )
-            if not is_ok:
-                blf.log().error("Impossible to get the left wrench.")
-                return False
-            left_wrench += wrench
-
-        right_wrench = np.zeros(6)
-        for cartesian_wrench_name in self.contact_wrenches_names["right_foot"]:
-            is_ok, wrench, _ = self.sensor_bridge.get_cartesian_wrench(
-                cartesian_wrench_name
-            )
-            if not is_ok:
-                blf.log().error("Impossible to get the right wrench.")
-                return False
-            right_wrench += wrench
-
-        global_zmp = evaluate_global_zmp(
-            left_wrench=left_wrench,
-            right_wrench=right_wrench,
-            l_sole_frame=self.left_contact_frame,
-            r_sole_frame=self.right_contact_frame,
-            contact_force_threshold=self.contact_force_threshold,
-            kindyn=self.kindyn,
-        )
-        global_zmp_from_measured = evaluate_global_zmp(
-            left_wrench=left_wrench,
-            right_wrench=right_wrench,
-            l_sole_frame=self.left_contact_frame,
-            r_sole_frame=self.right_contact_frame,
-            contact_force_threshold=self.contact_force_threshold,
-            kindyn=self.kindyn_with_measured,
-        )
-        local_zmp_left, _ = evaluate_local_zmp(
-            wrench=left_wrench, contact_force_threshold=self.contact_force_threshold
-        )
-        local_zmp_right, _ = evaluate_local_zmp(
-            wrench=right_wrench, contact_force_threshold=self.contact_force_threshold
-        )
         com_from_desired = self.kindyn.getCenterOfMassPosition().toNumPy()
         com_from_measured = (
             self.kindyn_with_measured.getCenterOfMassPosition().toNumPy()
@@ -502,12 +394,6 @@ class Application:
         self.vectors_collection_server.prepare_data()
         self.vectors_collection_server.clear_data()
 
-        self.vectors_collection_server.populate_data("global_zmp", global_zmp)
-        self.vectors_collection_server.populate_data(
-            "global_zmp_from_measured", global_zmp_from_measured
-        )
-        self.vectors_collection_server.populate_data("local_zmp_left", local_zmp_left)
-        self.vectors_collection_server.populate_data("local_zmp_right", local_zmp_right)
         self.vectors_collection_server.populate_data(
             "com_from_desired", com_from_desired
         )
@@ -517,7 +403,9 @@ class Application:
         self.vectors_collection_server.populate_data(
             "desired_torque", self.tsid.solver.get_output().joint_torques
         )
-        self.vectors_collection_server.populate_data("com_desired", com_spline_output.position)
+        self.vectors_collection_server.populate_data(
+            "com_desired", com_spline_output.position
+        )
 
         self.vectors_collection_server.send_data()
 
