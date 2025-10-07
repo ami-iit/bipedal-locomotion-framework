@@ -8,8 +8,8 @@ if(TARGET BipedalLocomotion::System)
 
   add_bipedal_locomotion_python_module(
     NAME SystemBindings
-    SOURCES src/Advanceable.cpp src/VariablesHandler.cpp src/LinearTask.cpp src/Module.cpp src/ITaskControllerManager.cpp src/IClock.cpp src/Clock.cpp src/WeightProvider.cpp
-    HEADERS ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/LinearTask.h ${H_PREFIX}/ITaskControllerManager.h ${H_PREFIX}/ILinearTaskSolver.h ${H_PREFIX}/IClock.h ${H_PREFIX}/Clock.h ${H_PREFIX}/WeightProvider.h
+    SOURCES src/Advanceable.cpp src/VariablesHandler.cpp src/LinearTask.cpp src/Module.cpp src/ITaskControllerManager.cpp src/IClock.cpp src/Clock.cpp src/WeightProvider.cpp src/TimeProfiler.cpp
+    HEADERS ${H_PREFIX}/VariablesHandler.h ${H_PREFIX}/LinearTask.h ${H_PREFIX}/ITaskControllerManager.h ${H_PREFIX}/ILinearTaskSolver.h ${H_PREFIX}/IClock.h ${H_PREFIX}/Clock.h ${H_PREFIX}/WeightProvider.h ${H_PREFIX}/TimeProfiler.h
     LINK_LIBRARIES BipedalLocomotion::System
     TESTS tests/test_variables_handler.py
     )
