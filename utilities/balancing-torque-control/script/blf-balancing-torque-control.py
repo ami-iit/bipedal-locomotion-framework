@@ -167,7 +167,7 @@ class Application:
                 "Impossible to set the set point for the joint regularization task."
             )
 
-        robot_mass = self.kindyn.model.getTotalMass()
+        robot_mass = self.kindyn.model().getTotalMass()
         # assuming the same force of the two feet equal to [0 0 mg/2] we need to compute the
         # moment on the two feet to balance the robot. Since we are in double support we have infinite
         # solutions. So we compute the two moments using the pseudo inverse
@@ -194,6 +194,9 @@ class Application:
             (np.array([0, 0, robot_mass * g / 2]), moment_left_foot)
         )
 
+        print("Wrench right foot: ", wrench_right_foot)
+        print("Wrench left foot: ", wrench_left_foot)
+
         if not self.tsid.tasks["lf_wrench_regularization_task"].set_set_point(
             wrench_left_foot
         ):
@@ -207,10 +210,10 @@ class Application:
                 "Impossible to set the set point for the right foot wrench task."
             )
 
-        if not self.tsid.tasks["torso_task"].set_set_point(
-            manif.SO3.Identity(), manif.SO3Tangent.Zero(), manif.SO3Tangent.Zero()
-        ):
-            raise ValueError("Impossible to set the set point for the torso task.")
+        # if not self.tsid.tasks["torso_task"].set_set_point(
+        #     manif.SO3.Identity(), manif.SO3Tangent.Zero(), manif.SO3Tangent.Zero()
+        # ):
+        #     raise ValueError("Impossible to set the set point for the torso task.")
 
         self.desired_joint_positions = self.joint_positions.copy()
         self.desired_joint_velocities = self.joint_velocities.copy()
@@ -253,7 +256,7 @@ class Application:
         self.index = 0
         self.knot_index = 1
 
-        self.joint_velocity_filter = blf.continuous_dynamical_system.ButterworthFilter()
+        self.joint_velocity_filter = blf.continuous_dynamical_system.ButterworthLowPassFilter()
         if not self.joint_velocity_filter.initialize(
             param_handler.get_group("JOINT_VELOCITY_FILTER")
         ):
@@ -530,7 +533,7 @@ def main():
     application = Application(config_file="blf-balancing-torque-control-options.ini")
 
     profiler = blf.system.TimeProfiler()
-    profiler.set_period(10 / application.dt.total_seconds())
+    profiler.set_period(int(10 / 1e-3))  # print every 10 s
     profiler.add_timer("Loop")
 
     blf.log().info("Press enter to start the balancing torque control.")
@@ -539,12 +542,12 @@ def main():
     while True:
         tic = blf.clock().now()
 
-        profiler.setInitTime("Loop")
+        profiler.set_init_time("Loop")
         if not application.advance():
             return False
-        profiler.setFinalTime("Loop")
+        profiler.set_end_time("Loop")
 
-        profiler.profile()
+        profiler.profiling()
 
         toc = blf.clock().now()
         delta_time = toc - tic

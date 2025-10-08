@@ -1,0 +1,520 @@
+<?xml version="1.0"?>
+<robot name="qdd">
+  <link name="root_link">
+    <inertial>
+      <mass value="7.128287758"/>
+      <origin xyz="-4.2620034918922447e-4 -2.2363591859723123e-5 0.16838059668487362" rpy="0 -0 0"/>
+      <inertia ixx="0.1296001207324587" ixy="-1.5262882987112343e-4" ixz="0.0011014960366521461" iyy="0.0928580692484709" iyz="1.2567000488932601e-5" izz="0.06380702929965382"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_torso.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_torso.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_hip_pitch" type="revolute">
+    <origin xyz="-9.999999999983136e-5 0.043100000000000055 -1.1750071031665032e-13" rpy="-1.8245408094758404e-24 -1.174961361878754e-9 -1.1248312614516695e-16"/>
+    <axis xyz="-1.6167119926322758e-15 -1 -3.356670065246509e-15"/>
+    <parent link="root_link"/>
+    <child link="l_hip_1"/>
+    <limit lower="-0.767944870877505" upper="1.9198621771937625" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_hip_1">
+    <inertial>
+      <mass value="5.362536608"/>
+      <origin xyz="-0.04912311754335421 0.038150310690959505 3.2292655935501057e-4" rpy="0 -0 0"/>
+      <inertia ixx="0.011212248306046758" ixy="0.005808331573124222" ixz="-5.450241684127133e-5" iyy="0.0284237268649394" iyz="-8.466410376917206e-5" izz="0.028940963546730935"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_hip.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_hip.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_hip_pitch" type="revolute">
+    <origin xyz="-1e-23 -0.043100000000000055 1e-23" rpy="0 -0 0"/>
+    <axis xyz="1.9428900701906156e-16 -1 1.6258824170955145e-16"/>
+    <parent link="root_link"/>
+    <child link="r_hip_1"/>
+    <limit lower="-0.767944870877505" upper="1.9198621771937625" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_hip_1">
+    <inertial>
+      <mass value="5.362536608"/>
+      <origin xyz="-0.04931961675168819 -0.03815973247494871 1.9759121055845956e-4" rpy="0 -0 0"/>
+      <inertia ixx="0.011209109658203362" ixy="-0.005816653241187152" ixz="-5.594039024180154e-5" iyy="0.028376010865547748" iyz="4.0744534740074095e-5" izz="0.028896465500490433"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_hip.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_hip.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_hip_roll" type="revolute">
+    <origin xyz="-0.09099999999999994 -0.06299999999999989 -4.85987981716127e-17" rpy="0 4.4408920985006257e-16 -0"/>
+    <axis xyz="-1 0 -4.564699783753086e-16"/>
+    <parent link="r_hip_1"/>
+    <child link="r_hip_2"/>
+    <limit lower="-0.3490658503988659" upper="1.9373154697137058" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_hip_2">
+    <inertial>
+      <mass value="0.991982097"/>
+      <origin xyz="0.08244556699822385 -0.005434263467105044 -0.058179577300780265" rpy="0 -0 0"/>
+      <inertia ixx="0.002415691877006674" ixy="7.629507985653088e-5" ixz="4.971490456899532e-4" iyy="0.005209437617931077" iyz="7.874070421644866e-5" izz="0.004037490233789776"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_hip_adduction.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_hip_adduction.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_hip_yaw" type="revolute">
+    <origin xyz="0.0804999961923064 8.726535520586776e-7 -0.126" rpy="-1.0150020298918492e-18 5.74497725356971e-16 0.008726646282196795"/>
+    <axis xyz="6.908054375445399e-16 1.575410694508759e-31 -1"/>
+    <parent link="r_hip_2"/>
+    <child link="r_upper_leg"/>
+    <limit lower="-1.413716694115407" upper="1.413716694115407" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_upper_leg">
+    <inertial>
+      <mass value="4.954642652"/>
+      <origin xyz="0.00505196013439333 -0.01361547481610545 -0.14068291386564685" rpy="0 -0 0"/>
+      <inertia ixx="0.05339150210727005" ixy="3.117266204077315e-4" ixz="0.002347381559652712" iyy="0.05334669648207331" iyz="-0.005641239940539352" izz="0.009798877697697361"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_upperleg.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_upperleg.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_knee" type="revolute">
+    <origin xyz="0.01050000000000008 -2.466082893448629e-13 -0.22509999999999988" rpy="-9.841808575149009e-18 5.007222239543518e-16 -2.3271882684805518e-11"/>
+    <axis xyz="2.32719308322326e-11 -0.9999999999999997 -9.84180856349624e-18"/>
+    <parent link="r_upper_leg"/>
+    <child link="r_lower_leg"/>
+    <limit lower="-1.8325957145940461" upper="0.12217304763960307" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_lower_leg">
+    <inertial>
+      <mass value="2.97521276"/>
+      <origin xyz="8.643874043139641e-5 -0.01043001811494329 -0.21119202234323792" rpy="0 -0 0"/>
+      <inertia ixx="0.05806732463129605" ixy="3.4924584846556756e-5" ixz="6.0172306434718006e-5" iyy="0.05618168049215605" iyz="9.102830818763759e-4" izz="0.005382975346315246"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_lowerleg_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_lowerleg_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_ankle_pitch" type="revolute">
+    <origin xyz="-9.82287168271867e-17 -8.326672684688674e-17 -0.32099999999999984" rpy="5.623837744097102e-17 5.622424258586414e-17 1.647987302177967e-16"/>
+    <axis xyz="-3.903127820947815e-16 0.9999999999999998 -5.623837744097103e-17"/>
+    <parent link="r_lower_leg"/>
+    <child link="r_ankle"/>
+    <limit lower="-1.3089969389957472" upper="0.7853981633974483" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_ankle">
+    <inertial>
+      <mass value="0.4667651244928378"/>
+      <origin xyz="0.011153145225400925 0.01192453987126077 -0.025200335039064492" rpy="0 -0 0"/>
+      <inertia ixx="4.145969554555063e-4" ixy="9.038587148782637e-5" ixz="4.4624904333906206e-5" iyy="0.0014398034547161776" iyz="-5.5158925596610075e-5" izz="0.0014090385898216904"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_ankle_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_ankle_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_ankle_roll" type="revolute">
+    <origin xyz="0.07950000000000003 -2.7755575615628914e-17 -0.03499999999999792" rpy="4.426784454538423e-13 1.1476376544022267e-19 -3.469446951953615e-18"/>
+    <axis xyz="-0.9999999999999999 -3.469446951953614e-18 -1.1476376543963103e-19"/>
+    <parent link="r_ankle"/>
+    <child link="r_foot_roll"/>
+    <limit lower="-0.4363323129985824" upper="0.4363323129985824" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="r_foot_roll">
+    <inertial>
+      <mass value="1.115327764"/>
+      <origin xyz="-0.014061544446638041 -0.004671280191690622 -0.01288401508514092" rpy="0 -0 0"/>
+      <inertia ixx="0.0014311858909974527" ixy="-8.019018108836471e-6" ixz="-8.162367829421273e-4" iyy="0.005524027357189333" iyz="-2.876698357169515e-6" izz="0.005026189762511331"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_foot_roll.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_foot_roll.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="r_foot_fixed_joint" type="fixed">
+    <origin xyz="-0.04346999999999954 -0.00480000000000004 -0.06520000000000037" rpy="-3.827207985486315e-30 -4.4219899073410306e-16 4.166805789296291e-15"/>
+    <parent link="r_foot_roll"/>
+    <child link="r_foot"/>
+  </joint>
+  <link name="r_foot">
+    <inertial>
+      <mass value="0.26865295390525434"/>
+      <origin xyz="-0.013620476837468476 -8.726810760140147e-9 -0.0024091749325245715" rpy="0 -0 0"/>
+      <inertia ixx="1.5630924396343199e-4" ixy="3.826676156895788e-18" ixz="7.801758937726129e-7" iyy="0.0010745429348656093" iyz="-3.251329525074142e-21" izz="0.0012294846961677134"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_r_foot.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.01125 0 -0.0025" rpy="0 -0 0"/>
+      <geometry>
+        <box size="0.22 0.085 0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="l_hip_roll" type="revolute">
+    <origin xyz="-0.09090000000000015 0.0629999999999999 1.0692155952286629e-10" rpy="2.2175979679602913e-24 1.1749617063880387e-9 3.345277310701994e-16"/>
+    <axis xyz="1 -3.913408640840657e-24 1.1749624280330047e-9"/>
+    <parent link="l_hip_1"/>
+    <child link="l_hip_2"/>
+    <limit lower="-0.3490658503988659" upper="1.9373154697137058" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_hip_2">
+    <inertial>
+      <mass value="0.991982097"/>
+      <origin xyz="0.08207861485150715 0.005274632906156401 -0.057900966261410766" rpy="0 -0 0"/>
+      <inertia ixx="0.002423687890810985" ixy="-7.612780973221888e-5" ixz="5.164936326585001e-4" iyy="0.0052448003777984704" iyz="-7.530318626038118e-5" izz="0.004049275104363554"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_hip_adduction.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_hip_adduction.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_hip_yaw" type="revolute">
+    <origin xyz="0.09090000000000041 3.191891195797325e-16 -0.3511" rpy="8.881784197001238e-16 -8.881784197001234e-16 -3.345277271567919e-16"/>
+    <axis xyz="1.875043330478038e-15 1.6776703483224556e-15 1"/>
+    <parent link="l_hip_2"/>
+    <child link="l_upper_leg"/>
+    <limit lower="-1.413716694115407" upper="1.413716694115407" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_upper_leg">
+    <inertial>
+      <mass value="4.954642652"/>
+      <origin xyz="-0.005256018494129418 0.013721592068771243 0.08441708613556692" rpy="0 -0 0"/>
+      <inertia ixx="0.05337695343047068" ixy="-3.5622976586357347e-4" ixz="0.0023819995319090416" iyy="0.053351503473202895" iyz="0.005608572951099575" izz="0.009789136011061012"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_upperleg.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_upperleg.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_knee" type="revolute">
+    <origin xyz="-9.095100974437775e-17 5.551115123125783e-17 3.3306690738754696e-16" rpy="-1.5402677990395288e-30 9.860761315262648e-32 2.9582283945787943e-31"/>
+    <axis xyz="7.304098846218047e-18 -1 -1.360616245551212e-31"/>
+    <parent link="l_upper_leg"/>
+    <child link="l_lower_leg"/>
+    <limit lower="-1.8325957145940461" upper="0.12217304763960307" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_lower_leg">
+    <inertial>
+      <mass value="2.97521276"/>
+      <origin xyz="-3.4905846349685967e-4 0.010418960781264641 -0.2111906603392631" rpy="0 -0 0"/>
+      <inertia ixx="0.058070037444163475" ixy="1.5313590967429856e-5" ixz="-8.998467788567547e-5" iyy="0.05618310647881611" iyz="-9.039486444167273e-4" izz="0.005383812776678351"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_lowerleg_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_lowerleg_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_ankle_pitch" type="revolute">
+    <origin xyz="1.6169520149905692e-16 -1.8041124150158794e-16 -0.3209999999999996" rpy="1.3606162455512138e-31 1.9721522630525295e-31 4.930380657631324e-32"/>
+    <axis xyz="-2.487185048336632e-16 1 -1.5402677990395288e-30"/>
+    <parent link="l_lower_leg"/>
+    <child link="l_ankle"/>
+    <limit lower="-1.3089969389957472" upper="0.7853981633974483" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_ankle">
+    <inertial>
+      <mass value="0.46823745611942197"/>
+      <origin xyz="0.010977079100825902 -0.011966906785098777 -0.025215384036073374" rpy="0 -0 0"/>
+      <inertia ixx="4.1495847132183155e-4" ixy="-9.177184814679852e-5" ixz="4.407669227409131e-5" iyy="0.001447444220339306" iyz="5.506334379905822e-5" izz="0.0014168654660155198"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_ankle_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_ankle_jd10.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_ankle_roll" type="revolute">
+    <origin xyz="0.07959999999999967 4.3021142204224816e-16 -0.03500000000000014" rpy="8.049116928532373e-16 1.4791141972893971e-30 -4.3362658177302886e-16"/>
+    <axis xyz="1 4.608925853578918e-15 -2.1774558472066554e-30"/>
+    <parent link="l_ankle"/>
+    <child link="l_foot_roll"/>
+    <limit lower="-0.4363323129985824" upper="0.4363323129985824" effort="1e+9" velocity="1e+9"/>
+    <dynamics damping="2" friction="0"/>
+  </joint>
+  <link name="l_foot_roll">
+    <inertial>
+      <mass value="1.115327764"/>
+      <origin xyz="-0.002992882147203682 0.004835828965849692 -0.013273948386273493" rpy="0 -0 0"/>
+      <inertia ixx="0.0017731209552632374" ixy="-4.759804896733841e-6" ixz="-7.918128915145062e-4" iyy="0.005823198577050815" iyz="-5.242236147852969e-6" izz="0.005313484983212284"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_foot_roll.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_foot_roll.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="l_foot_fixed_joint" type="fixed">
+    <origin xyz="-0.043470000000000016 0.004799999999999138 -0.06520000000000026" rpy="-7.494005416219805e-16 4.2027327545523203e-16 4.567447759847951e-15"/>
+    <parent link="l_foot_roll"/>
+    <child link="l_foot"/>
+  </joint>
+  <link name="l_foot">
+    <inertial>
+      <mass value="0.26865295390525434"/>
+      <origin xyz="-0.013620476837468459 -8.726810760140147e-9 -0.0024091749325246825" rpy="0 -0 0"/>
+      <inertia ixx="1.5630924396338653e-4" ixy="4.193399747371194e-18" ixz="7.801758937725977e-7" iyy="0.0010745429348655567" iyz="-1.1967685210789647e-19" izz="0.0012294846961677316"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://qdd/meshes/sim_qdd_l_foot.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.01125 0 -0.0025" rpy="0 -0 0"/>
+      <geometry>
+        <box size="0.22 0.085 0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="l_sole"/>
+  <joint name="l_sole_fixed_joint" type="fixed">
+    <origin xyz="0 0 -0.0050000000000000044" rpy="-1.4463919375466857e-31 -0 0"/>
+    <parent link="l_foot"/>
+    <child link="l_sole"/>
+  </joint>
+  <link name="r_sole"/>
+  <joint name="r_sole_fixed_joint" type="fixed">
+    <origin xyz="-6.938893903907228e-18 0 -0.0050000000000000044" rpy="0 -0 0"/>
+    <parent link="r_foot"/>
+    <child link="r_sole"/>
+  </joint>
+  <link name="weight1"/>
+  <joint name="weight1_fixed_joint" type="fixed">
+    <origin xyz="0 -0.132 0.275" rpy="2.220446049250313e-16 6.428470543675579e-16 -2.4791156470855907e-30"/>
+    <parent link="root_link"/>
+    <child link="weight1"/>
+  </joint>
+  <link name="weight2"/>
+  <joint name="weight2_fixed_joint" type="fixed">
+    <origin xyz="9.96305419573945e-32 -0.094 0.275" rpy="2.220446049250313e-16 6.428470543675579e-16 -2.4791156470855907e-30"/>
+    <parent link="root_link"/>
+    <child link="weight2"/>
+  </joint>
+  <link name="weight3"/>
+  <joint name="weight3_fixed_joint" type="fixed">
+    <origin xyz="5.925395390097673e-31 0.094 0.275" rpy="2.220446049250313e-16 6.428470543675579e-16 -2.4791156470855907e-30"/>
+    <parent link="root_link"/>
+    <child link="weight3"/>
+  </joint>
+  <link name="weight4"/>
+  <joint name="weight4_fixed_joint" type="fixed">
+    <origin xyz="6.921700809671617e-31 0.132 0.275" rpy="2.220446049250313e-16 6.428470543675579e-16 -2.4791156470855907e-30"/>
+    <parent link="root_link"/>
+    <child link="weight4"/>
+  </joint>
+  <link name="imu_frame"/>
+  <joint name="imu_frame_fixed_joint" type="fixed">
+    <origin xyz="0.07459999999977064 0.0076999515154014585 0.08609428492897575" rpy="-1.5707963109495677 -1.5706911187937582 1.5707963109489231"/>
+    <parent link="root_link"/>
+    <child link="imu_frame"/>
+  </joint>
+</robot>
