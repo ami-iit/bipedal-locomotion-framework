@@ -11,6 +11,7 @@
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Port.h>
 
+#include <atomic>
 #include <functional>
 #include <optional>
 #include <unordered_set>
@@ -26,6 +27,7 @@ struct VectorsCollectionServer::Impl
     VectorsCollectionMetadata metadata; /**< Metadata of the vectors collection. */
 
     std::atomic<bool> isMetadataFinalized{false}; /**< True if the metadata has been finalized. */
+    std::atomic<int> metadataVersion{0}; /**< Version of the metadata. */
     std::unordered_set<std::string> setOfKeys; /**< Set of keys. */
     std::optional<std::reference_wrapper<VectorsCollection>> collection; /**< Reference to the
                                                                             collection. */
@@ -123,20 +125,15 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
 
 bool VectorsCollectionServer::finalizeMetadata()
 {
-    // check if the metadata has been already finalized
-    if (m_pimpl->isMetadataFinalized)
-    {
-        log()->error("[VectorsCollectionServer::finalizeMetadata] The metadata has been already "
-                     "finalized.");
-        return false;
-    }
-
     // check if the metadata is empty
     if (m_pimpl->metadata.vectors.empty())
     {
         log()->error("[VectorsCollectionServer::finalizeMetadata] The metadata is empty.");
         return false;
     }
+
+    // increment the metadata version
+    m_pimpl->metadataVersion.fetch_add(1);
 
     // set the metadata as finalized
     m_pimpl->isMetadataFinalized = true;
@@ -147,6 +144,11 @@ bool VectorsCollectionServer::finalizeMetadata()
 void VectorsCollectionServer::prepareData()
 {
     m_pimpl->collection = m_pimpl->port.prepare();
+
+    if (m_pimpl->collection.has_value())
+    {
+        m_pimpl->collection.value().get().version = m_pimpl->metadataVersion.load();
+    }
 }
 
 bool VectorsCollectionServer::populateData(const std::string& key,
@@ -212,5 +214,7 @@ VectorsCollectionMetadata VectorsCollectionServer::getMetadata()
         return VectorsCollectionMetadata();
     }
 
-    return m_pimpl->metadata;
+    VectorsCollectionMetadata result = m_pimpl->metadata;
+    result.version = m_pimpl->metadataVersion.load();
+    return result;
 }
