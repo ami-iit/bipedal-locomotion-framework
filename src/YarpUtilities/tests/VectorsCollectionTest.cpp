@@ -105,6 +105,17 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
         REQUIRE_FALSE(server.areMetadataReady());
     }
 
+    SECTION("Incremental retrieval before finalization returns empty metadata")
+    {
+        // Test: Incremental retrieval should return empty metadata when not finalized yet
+        server.populateMetadata("test_key", {"elem1", "elem2"});
+        REQUIRE_FALSE(server.areMetadataReady());
+
+        const auto incremental = server.getMetadataIncremental(-5);
+        REQUIRE(incremental.vectors.empty());
+        REQUIRE(incremental.version == -1);
+    }
+
     SECTION("Successful metadata finalization") {
         // Test: Metadata finalization should succeed when metadata exists
         // Behavior: finalizeMetadata returns true and sets metadata as ready
@@ -120,22 +131,70 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
         REQUIRE_FALSE(server.areMetadataReady());
     }
 
-    SECTION("Prevention of metadata changes after finalization") {
-        // Test: Metadata structure becomes immutable after finalization
-        // Behavior: populateMetadata calls fail after finalizeMetadata
+    SECTION("Metadata can be extended after finalization")
+    {
+        // Test: Metadata can be augmented with new keys after a finalize
+        // Behavior: New keys are accepted and version increments on re-finalize
         server.populateMetadata("initial_key", {"elem1"});
         REQUIRE(server.finalizeMetadata());
+        REQUIRE(server.areMetadataReady());
 
-        // This should fail - metadata is locked
-        REQUIRE_FALSE(server.populateMetadata("late_key", {"elem2"}));
+        REQUIRE(server.populateMetadata("extended_key", {"elem2"}));
+        REQUIRE_FALSE(server.areMetadataReady());
+        REQUIRE(server.finalizeMetadata());
+        REQUIRE(server.areMetadataReady());
+
+        const auto metadata = server.getMetadata();
+        REQUIRE(metadata.version == 1);
+        REQUIRE(metadata.vectors.count("initial_key") == 1);
+        REQUIRE(metadata.vectors.count("extended_key") == 1);
     }
 
-    SECTION("Multiple finalization attempts") {
-        // Test: Multiple finalization calls should be handled gracefully
-        // Behavior: Second finalizeMetadata call should fail
+    SECTION("Multiple finalization attempts require new metadata")
+    {
+        // Test: finalizeMetadata succeeds only when new keys are present
         server.populateMetadata("test_key", {"elem1"});
         REQUIRE(server.finalizeMetadata());
-        REQUIRE_FALSE(server.finalizeMetadata()); // Second call should fail
+        REQUIRE_FALSE(server.finalizeMetadata());
+
+        REQUIRE(server.populateMetadata("new_key", {"elem2"}));
+        REQUIRE(server.finalizeMetadata());
+
+        const auto metadata = server.getMetadata();
+        REQUIRE(metadata.version == 1);
+        REQUIRE(metadata.vectors.count("new_key") == 1);
+    }
+
+    SECTION("Incremental metadata retrieval returns only new keys")
+    {
+        // Test: Incremental retrieval returns data introduced after the requested version
+        server.populateMetadata("base_key", {"base_elem"});
+        REQUIRE(server.finalizeMetadata());
+
+        server.populateMetadata("second_key", {"second_elem"});
+        REQUIRE(server.finalizeMetadata());
+
+        const auto latestMetadata = server.getMetadata();
+        REQUIRE(latestMetadata.version == 1);
+        REQUIRE(server.areMetadataReady());
+
+        const auto incremental = server.getMetadataIncremental(0);
+        REQUIRE(incremental.version == 1);
+        REQUIRE(incremental.vectors.size() == 1);
+        REQUIRE(incremental.vectors.count("second_key") == 1);
+
+        const auto allIncremental = server.getMetadataIncremental(-1);
+        REQUIRE(allIncremental.vectors.size() == 2);
+        REQUIRE(allIncremental.vectors.count("base_key") == 1);
+        REQUIRE(allIncremental.vectors.count("second_key") == 1);
+
+        const auto negativeIncremental = server.getMetadataIncremental(-5);
+        REQUIRE(negativeIncremental.vectors.size() == allIncremental.vectors.size());
+        REQUIRE(negativeIncremental.vectors == allIncremental.vectors);
+
+        const auto emptyIncremental = server.getMetadataIncremental(5);
+        REQUIRE(emptyIncremental.version == latestMetadata.version);
+        REQUIRE(emptyIncremental.vectors.empty());
     }
 }
 
