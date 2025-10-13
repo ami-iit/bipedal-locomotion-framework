@@ -20,6 +20,12 @@ service VectorsCollectionMetadataService
     VectorsCollectionMetadata getMetadata();
 
     /**
+     * Read only the metadata introduced after the provided version.
+     * Pass -1 to get the full metadata.
+     */
+    VectorsCollectionMetadata getMetadataIncremental(1: i32 fromVersion);
+
+    /**
      * Check if the metadata is ready.
      */
     bool areMetadataReady();
