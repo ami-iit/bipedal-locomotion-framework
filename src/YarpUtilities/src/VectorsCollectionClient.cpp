@@ -5,9 +5,10 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
-#include <BipedalLocomotion/TextLogging/Logger.h>
-#include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
-#include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadataService.h>
+ #include <BipedalLocomotion/TextLogging/Logger.h>
+ #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
+ #include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadataService.h>
+ #include <BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h>
 
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/Network.h>
@@ -30,7 +31,12 @@ struct VectorsCollectionClient::Impl
     std::string remotePortName; /**< Name of the remote port. */
     std::string carrier; /**< Carrier used to connect the port. */
 
+    int cachedVersion{-1}; /**< Cached version of the metadata. */
+    VectorsCollectionMetadata cachedMetadata; /**< Cached metadata. */
+
     bool isConnected{false}; /**< True if the client is connected. */
+
+    bool updateMetadata(int fromVersion); /**< Update the cached metadata. */
 };
 
 VectorsCollectionClient::VectorsCollectionClient()
@@ -151,12 +157,82 @@ bool VectorsCollectionClient::getMetadata(
         return false;
     }
 
-    metadata = m_pimpl->rpcInterface.getMetadata();
+    if (!m_pimpl->updateMetadata(m_pimpl->cachedVersion))
+    {
+        log()->error("[VectorsCollectionClient::getMetadata] Unable to retrieve the metadata.");
+        return false;
+    }
+
+    metadata = m_pimpl->cachedMetadata;
     return true;
 }
 
 BipedalLocomotion::YarpUtilities::VectorsCollection*
 VectorsCollectionClient::readData(bool shouldWait /*= true */)
 {
-    return m_pimpl->port.read(shouldWait);
+    auto data = m_pimpl->port.read(shouldWait);
+
+    if (data == nullptr)
+    {
+        log()->warn("[VectorsCollectionClient::readData] The data read from the port is null.");
+        return nullptr;
+    }
+
+    int receivedVersion = data->version;
+    if (receivedVersion > 0 && receivedVersion > m_pimpl->cachedVersion)
+    {
+        log()->info("[VectorsCollectionClient::readData] Received data with newer metadata version "
+                    "{}.",
+                    receivedVersion);
+
+        if (!m_pimpl->updateMetadata(m_pimpl->cachedVersion))
+        {
+            log()->warn("[VectorsCollectionClient::readData] Unable to update the metadata.");
+        }
+
+        log()->info("[VectorsCollectionClient::readData] Updated metadata to version {}.",
+                    receivedVersion);
+        m_pimpl->cachedVersion = receivedVersion;
+    }
+
+    return data;
+}
+
+bool VectorsCollectionClient::Impl::updateMetadata(int fromVersion)
+{
+    constexpr auto logPrefix = "[VectorsCollectionClient::updateMetadata]";
+
+    if (!isConnected)
+    {
+        log()->error("{} The client is not connected.", logPrefix);
+        return false;
+    }
+
+    auto delta = rpcInterface.getMetadataIncremental(fromVersion);
+
+    if (delta.version < 0 && delta.vectors.empty())
+    {
+        log()->warn("{} Metadata not available yet.", logPrefix);
+        return false;
+    }
+
+    if (delta.version < cachedVersion)
+    {
+        log()->warn("{} Received older metadata version {} (cached {}).",
+                    logPrefix,
+                    delta.version,
+                    cachedVersion);
+        return false;
+    }
+
+    for (const auto& [key, value] : delta.vectors)
+    {
+        cachedMetadata.vectors[key] = value;
+    }
+
+    cachedVersion = delta.version;
+    cachedMetadata.version = delta.version;
+
+    log()->info("{} Updated metadata to version {}.", logPrefix, cachedVersion);
+    return true;
 }
