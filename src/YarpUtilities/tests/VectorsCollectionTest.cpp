@@ -113,7 +113,8 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
 
         const auto incremental = server.getMetadataIncremental(-5);
         REQUIRE(incremental.vectors.empty());
-        REQUIRE(incremental.version == -1);
+        const auto metadataBeforeFinalize = server.getMetadata();
+        REQUIRE(incremental.version == metadataBeforeFinalize.version);
     }
 
     SECTION("Successful metadata finalization") {
@@ -189,8 +190,8 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
         REQUIRE(allIncremental.vectors.count("second_key") == 1);
 
         const auto negativeIncremental = server.getMetadataIncremental(-5);
-        REQUIRE(negativeIncremental.vectors.size() == allIncremental.vectors.size());
-        REQUIRE(negativeIncremental.vectors == allIncremental.vectors);
+        REQUIRE(negativeIncremental.vectors.empty());
+        REQUIRE(negativeIncremental.version == latestMetadata.version);
 
         const auto emptyIncremental = server.getMetadataIncremental(5);
         REQUIRE(emptyIncremental.version == latestMetadata.version);
@@ -458,6 +459,57 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer-Client Integ
                 REQUIRE(receivedIMU[i] == Catch::Approx(imuData[i]).epsilon(1e-10));
             }
         }
+    }
+
+    SECTION("Client refreshes metadata when receiving newer version")
+    {
+        REQUIRE(client.connect());
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        server.prepareData();
+        std::vector<double> firstJointData{0.0, 0.1, 0.2, 0.3};
+        std::vector<double> firstImuData{9.81, 0.0, 0.0, 0.01, 0.02, 0.03};
+        REQUIRE(server.populateData("robot_joints", firstJointData));
+        REQUIRE(server.populateData("head_imu", firstImuData));
+        server.sendData();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        const auto* firstSample = client.readData(true);
+        REQUIRE(firstSample != nullptr);
+        REQUIRE(firstSample->version == 0);
+
+        VectorsCollectionMetadata cachedMetadata;
+        REQUIRE(client.getMetadata(cachedMetadata));
+        REQUIRE(cachedMetadata.version == 0);
+        REQUIRE(cachedMetadata.vectors.count("robot_joints") == 1);
+        REQUIRE(cachedMetadata.vectors.count("head_imu") == 1);
+
+        REQUIRE(server.populateMetadata("ankle_force_sensor", {"fx", "fy", "fz"}));
+        REQUIRE(server.finalizeMetadata());
+
+        server.prepareData();
+        std::vector<double> secondJointData{1.0, 1.1, 1.2, 1.3};
+        std::vector<double> secondImuData{9.7, 0.1, 0.2, 0.01, 0.01, 0.02};
+        std::vector<double> ankleForces{20.0, 10.0, -5.0};
+        REQUIRE(server.populateData("robot_joints", secondJointData));
+        REQUIRE(server.populateData("head_imu", secondImuData));
+        REQUIRE(server.populateData("ankle_force_sensor", ankleForces));
+        server.sendData();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        const auto* secondSample = client.readData(true);
+        REQUIRE(secondSample != nullptr);
+        REQUIRE(secondSample->version == 1);
+        REQUIRE(secondSample->vectors.count("ankle_force_sensor") == 1);
+
+        VectorsCollectionMetadata updatedMetadata;
+        REQUIRE(client.getMetadata(updatedMetadata));
+        REQUIRE(updatedMetadata.version == 1);
+        REQUIRE(updatedMetadata.vectors.count("ankle_force_sensor") == 1);
+        REQUIRE(updatedMetadata.vectors.at("ankle_force_sensor")
+                == std::vector<std::string>{"fx", "fy", "fz"});
     }
 }
 
