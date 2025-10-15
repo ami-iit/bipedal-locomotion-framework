@@ -30,8 +30,8 @@ struct VectorsCollectionServer::Impl
     std::atomic<bool> isMetadataFinalized{false}; /**< True if the metadata has been finalized. */
     std::atomic<int> metadataVersion{-1}; /**< Version of the metadata. */
     std::unordered_set<std::string> setOfKeys; /**< Set of keys. */
-    std::vector<std::vector<std::string>> versionHistory; /**< History of the metadata versions. */
-    std::vector<std::string> pendingKeys; /**< Keys collected since last finalize. */
+    std::vector<std::set<std::string>> versionHistory; /**< History of the metadata versions. */
+    std::set<std::string> pendingKeys; /**< Keys collected since last finalize. */
     std::optional<std::reference_wrapper<VectorsCollection>> collection; /**< Reference to the
                                                                             collection. */
 
@@ -123,7 +123,7 @@ bool VectorsCollectionServer::populateMetadata(const std::string& key,
     m_pimpl->setOfKeys.insert(key);
 
     // add the key to the pending keys
-    m_pimpl->pendingKeys.push_back(key);
+    m_pimpl->pendingKeys.insert(key);
 
     return true;
 }
@@ -144,8 +144,7 @@ bool VectorsCollectionServer::finalizeMetadata()
         return false;
     }
 
-    // Generate new metadata version
-    std::sort(m_pimpl->pendingKeys.begin(), m_pimpl->pendingKeys.end());
+    // Generate new metadata version by adding the pending keys to the version history
     m_pimpl->versionHistory.push_back(m_pimpl->pendingKeys);
 
     // increment the metadata version
