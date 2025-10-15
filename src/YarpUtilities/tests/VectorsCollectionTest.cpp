@@ -1,26 +1,48 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/reporters/catch_reporter_event_listener.hpp>
+#include <catch2/reporters/catch_reporter_registrars.hpp>
 
 #include <BipedalLocomotion/ParametersHandler/StdImplementation.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <random>
-#include <unistd.h>
 #include <yarp/os/Network.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
+
+// Global fixture to manage YARP network initialization and finalization
+struct YarpNetworkGlobalFixture : Catch::EventListenerBase
+{
+    using Catch::EventListenerBase::EventListenerBase;
+
+    void testRunStarting(Catch::TestRunInfo const&) override
+    {
+        // Initialize YARP network for inter-process communication
+        yarp::os::NetworkBase::setLocalMode(true);
+
+        // Initialize YARP network for inter-process communication
+        yarp::os::Network::init();
+    }
+
+    void testRunEnded(Catch::TestRunStats const&) override
+    {
+        yarp::os::Network::fini();
+    }
+};
+
+CATCH_REGISTER_LISTENER(YarpNetworkGlobalFixture)
 
 std::string generateUniquePortName(const std::string& base)
 {
     static thread_local std::mt19937 rng{std::random_device{}()};
     std::uniform_int_distribution<int> dist(10000, 99999);
     int random_number = dist(rng);
-    int pid = getpid();
 
     std::ostringstream oss;
-    oss << base << "_" << pid << "_" << random_number;
+    oss << base << "_" << random_number;
     return oss.str();
 }
 
@@ -30,13 +52,8 @@ std::string generateUniquePortName(const std::string& base)
  */
 class VectorsCollectionFixture {
 public:
-    VectorsCollectionFixture() {
-        // Initialize YARP network for inter-process communication
-        yarp::os::NetworkBase::setLocalMode(true);
-
-        // Initialize YARP network for inter-process communication
-        yarp::os::Network::init();
-
+    VectorsCollectionFixture()
+    {
         // Generate unique port names for each test instance
         std::string serverPort = generateUniquePortName("/test/server");
         std::string clientPort = generateUniquePortName("/test/client");
@@ -55,10 +72,7 @@ public:
         clientHandler = clientParams;
     }
 
-    ~VectorsCollectionFixture() {
-        // Clean shutdown of YARP network
-        yarp::os::Network::fini();
-    }
+    ~VectorsCollectionFixture() = default;
 
     std::shared_ptr<IParametersHandler> serverHandler;
     std::shared_ptr<IParametersHandler> clientHandler;
