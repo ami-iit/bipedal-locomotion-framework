@@ -105,6 +105,7 @@ public:
      * Get the metadata.
      * @return the metadata.
      * @note if the metadata is not ready, an empty VectorsCollectionMetadata is returned.
+     * @note if some keys are pending to be finalized, the last finalized metadata is returned.
      */
     VectorsCollectionMetadata getMetadata() override;
 
@@ -119,7 +120,7 @@ public:
 
     /**
      * Check if the metadata is ready.
-     * @return true if the metadata is ready, false otherwise.
+     * @return true if the metadata is ready (it has been finalized at least once), false otherwise.
      */
     bool areMetadataReady() override;
 

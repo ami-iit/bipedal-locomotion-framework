@@ -5,6 +5,7 @@
  * distributed under the terms of the BSD-3-Clause license.
  */
 
+#include "BipedalLocomotion/YarpUtilities/VectorsCollectionMetadata.h"
 #include <BipedalLocomotion/TextLogging/Logger.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
@@ -27,9 +28,11 @@ struct VectorsCollectionServer::Impl
 
     VectorsCollectionMetadata metadata; /**< Metadata of the vectors collection. */
 
-    std::atomic<bool> isMetadataFinalized{false}; /**< True if the metadata has been finalized. */
+    std::atomic<bool> hasEverFinalizedMetadata{false}; /**< True if the metadata has been finalized
+                                                          at least once. */
+    VectorsCollectionMetadata lastFinalizedMetadata; /**< Last finalized metadata. */
     std::atomic<int> metadataVersion{-1}; /**< Version of the metadata. */
-    std::unordered_set<std::string> setOfKeys; /**< Set of keys. */
+    std::unordered_set<std::string> setOfKeys; /**< Set of all keys in metadata. */
     std::vector<std::set<std::string>> versionHistory; /**< History of the metadata versions. */
     std::set<std::string> pendingKeys; /**< Keys collected since last finalize. */
     std::optional<std::reference_wrapper<VectorsCollection>> collection; /**< Reference to the
@@ -100,13 +103,6 @@ bool VectorsCollectionServer::initialize(
 bool VectorsCollectionServer::populateMetadata(const std::string& key,
                                                const std::vector<std::string>& metadata)
 {
-
-    // if the metadata was already finalized, reset the flag and allow to populate new metadata
-    if (m_pimpl->isMetadataFinalized)
-    {
-        m_pimpl->isMetadataFinalized = false;
-    }
-
     // check if the key has been already used
     if (m_pimpl->setOfKeys.find(key) != m_pimpl->setOfKeys.end())
     {
@@ -147,15 +143,18 @@ bool VectorsCollectionServer::finalizeMetadata()
     // Generate new metadata version by adding the pending keys to the version history
     m_pimpl->versionHistory.push_back(m_pimpl->pendingKeys);
 
+    // store the last finalized metadata
+    m_pimpl->lastFinalizedMetadata = m_pimpl->metadata;
+
     // increment the metadata version
-    const int newVersion = m_pimpl->metadataVersion.fetch_add(1) + 1;
-    m_pimpl->metadata.version = newVersion;
+    m_pimpl->metadataVersion.fetch_add(1);
+    m_pimpl->metadata.version = m_pimpl->metadataVersion;
 
     // clear the pending keys
     m_pimpl->pendingKeys.clear();
 
     // set the metadata as finalized
-    m_pimpl->isMetadataFinalized = true;
+    m_pimpl->hasEverFinalizedMetadata = true;
 
     return true;
 }
@@ -176,7 +175,7 @@ bool VectorsCollectionServer::populateData(const std::string& key,
     constexpr auto logPrefix = "[VectorsCollectionServer::setData]";
 
     // check if the metadata has been finalized
-    if (!m_pimpl->isMetadataFinalized)
+    if (!m_pimpl->hasEverFinalizedMetadata)
     {
         log()->error("{} The metadata has not been finalized.", logPrefix);
         return false;
@@ -223,14 +222,20 @@ bool VectorsCollectionServer::clearData()
 
 bool VectorsCollectionServer::areMetadataReady()
 {
-    return m_pimpl->isMetadataFinalized;
+    return m_pimpl->hasEverFinalizedMetadata;
 }
 
 VectorsCollectionMetadata VectorsCollectionServer::getMetadata()
 {
-    if (!m_pimpl->isMetadataFinalized)
+    if (!m_pimpl->hasEverFinalizedMetadata)
     {
         return VectorsCollectionMetadata();
+    }
+
+    // if some keys are pending to be finalized, return the last finalized metadata
+    if (!m_pimpl->pendingKeys.empty())
+    {
+        return m_pimpl->lastFinalizedMetadata;
     }
 
     VectorsCollectionMetadata result = m_pimpl->metadata;
@@ -241,7 +246,7 @@ VectorsCollectionMetadata VectorsCollectionServer::getMetadata()
 VectorsCollectionMetadata
 VectorsCollectionServer::getMetadataIncremental(const std::int32_t fromVersion)
 {
-    if (!m_pimpl->isMetadataFinalized)
+    if (!m_pimpl->hasEverFinalizedMetadata)
     {
         return VectorsCollectionMetadata();
     }
