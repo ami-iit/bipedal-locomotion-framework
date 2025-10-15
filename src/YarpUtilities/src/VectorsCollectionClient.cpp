@@ -32,6 +32,7 @@ struct VectorsCollectionClient::Impl
     std::string carrier; /**< Carrier used to connect the port. */
 
     int cachedVersion{-1}; /**< Cached version of the metadata. */
+    bool newMetadataAvailable{false}; /**< True if new metadata is available.*/
     VectorsCollectionMetadata cachedMetadata; /**< Cached metadata. */
 
     bool isConnected{false}; /**< True if the client is connected. */
@@ -147,6 +148,11 @@ bool VectorsCollectionClient::connect()
     return true;
 }
 
+bool VectorsCollectionClient::isNewMetadataAvailable() const
+{
+    return m_pimpl->newMetadataAvailable;
+}
+
 bool VectorsCollectionClient::getMetadata(
     BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata)
 {
@@ -157,10 +163,14 @@ bool VectorsCollectionClient::getMetadata(
         return false;
     }
 
-    if (!m_pimpl->updateMetadata(m_pimpl->cachedVersion))
+    if (m_pimpl->cachedVersion < 0 || m_pimpl->newMetadataAvailable)
     {
-        log()->error("[VectorsCollectionClient::getMetadata] Unable to retrieve the metadata.");
-        return false;
+        if (!m_pimpl->updateMetadata(m_pimpl->cachedVersion))
+        {
+            log()->error("[VectorsCollectionClient::getMetadata] Unable to retrieve the metadata.");
+            return false;
+        }
+        m_pimpl->newMetadataAvailable = false;
     }
 
     metadata = m_pimpl->cachedMetadata;
@@ -178,21 +188,11 @@ VectorsCollectionClient::readData(bool shouldWait /*= true */)
         return nullptr;
     }
 
+    // Check if the received data has a newer metadata version
     int receivedVersion = data->version;
-    if (receivedVersion > 0 && receivedVersion > m_pimpl->cachedVersion)
+    if (receivedVersion >= 0 && receivedVersion > m_pimpl->cachedVersion)
     {
-        log()->info("[VectorsCollectionClient::readData] Received data with newer metadata version "
-                    "{}.",
-                    receivedVersion);
-
-        if (!m_pimpl->updateMetadata(m_pimpl->cachedVersion))
-        {
-            log()->warn("[VectorsCollectionClient::readData] Unable to update the metadata.");
-        }
-
-        log()->info("[VectorsCollectionClient::readData] Updated metadata to version {}.",
-                    receivedVersion);
-        m_pimpl->cachedVersion = receivedVersion;
+        m_pimpl->newMetadataAvailable = true;
     }
 
     return data;
