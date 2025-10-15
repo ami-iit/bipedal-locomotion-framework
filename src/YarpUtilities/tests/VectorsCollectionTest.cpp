@@ -353,7 +353,8 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Data Popul
 TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionClient - Initialization and Configuration") {
     VectorsCollectionClient client;
 
-    SECTION("Successful initialization with complete parameters") {
+    SECTION("Successful initialization with all required parameters")
+    {
         // Test: Client should initialize with all required parameters
         // Behavior: Creates local ports and stores connection configuration
         REQUIRE(client.initialize(clientHandler));
@@ -770,4 +771,73 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionClient - Error Hand
         // Behavior: disconnect should succeed even if not connected
         REQUIRE(client.disconnect());
     }
+}
+
+TEST_CASE_METHOD(VectorsCollectionFixture,
+                 "VectorsCollectionClient - Metadata Caching and Versioning")
+{
+    VectorsCollectionServer server;
+    VectorsCollectionClient client;
+
+    REQUIRE(server.initialize(serverHandler));
+    REQUIRE(client.initialize(clientHandler));
+
+    // Setup initial metadata and finalize
+    REQUIRE(server.populateMetadata("key1", {"a", "b"}));
+    REQUIRE(server.finalizeMetadata());
+
+    REQUIRE(client.connect());
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    // Read initial data to trigger metadata version check
+    server.prepareData();
+    std::vector<double> d1 = {1.0, 2.0};
+    REQUIRE(server.populateData("key1", d1));
+    server.sendData();
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    client.readData(true);
+
+    // Should detect new metadata available
+    REQUIRE(client.isNewMetadataAvailable());
+
+    // getMetadata should update the cache and clear the flag
+    BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata meta;
+    REQUIRE(client.getMetadata(meta));
+    REQUIRE(meta.vectors.count("key1") == 1);
+    REQUIRE(meta.vectors.at("key1") == std::vector<std::string>{"a", "b"});
+    REQUIRE_FALSE(client.isNewMetadataAvailable());
+
+    // Add new metadata on server and finalize
+    REQUIRE(server.populateMetadata("key2", {"c"}));
+    REQUIRE(server.finalizeMetadata());
+
+    // Send new data with updated version
+    server.prepareData();
+    std::vector<double> d2 = {3.0, 4.0};
+    std::vector<double> d3 = {5.0};
+    REQUIRE(server.populateData("key1", d2));
+    REQUIRE(server.populateData("key2", d3));
+    server.sendData();
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    client.readData(true);
+
+    // Should detect new metadata available again
+    REQUIRE(client.isNewMetadataAvailable());
+
+    // getMetadata should now include the new key
+    REQUIRE(client.getMetadata(meta));
+    REQUIRE(meta.vectors.count("key2") == 1);
+    REQUIRE(meta.vectors.at("key2") == std::vector<std::string>{"c"});
+    REQUIRE(meta.version == 1);
+    REQUIRE_FALSE(client.isNewMetadataAvailable());
+}
+
+TEST_CASE_METHOD(VectorsCollectionFixture,
+                 "VectorsCollectionClient - getMetadata fails if not connected")
+{
+    VectorsCollectionClient client;
+    REQUIRE(client.initialize(clientHandler));
+
+    BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata meta;
+    REQUIRE_FALSE(client.getMetadata(meta));
 }
