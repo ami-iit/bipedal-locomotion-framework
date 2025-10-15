@@ -5,10 +5,24 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h>
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
+#include <random>
+#include <unistd.h>
 #include <yarp/os/Network.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
 using namespace BipedalLocomotion::ParametersHandler;
+
+std::string generateUniquePortName(const std::string& base)
+{
+    static thread_local std::mt19937 rng{std::random_device{}()};
+    std::uniform_int_distribution<int> dist(10000, 99999);
+    int random_number = dist(rng);
+    int pid = getpid();
+
+    std::ostringstream oss;
+    oss << base << "_" << pid << "_" << random_number;
+    return oss.str();
+}
 
 /**
  * Test fixture for VectorsCollection tests
@@ -23,14 +37,18 @@ public:
         // Initialize YARP network for inter-process communication
         yarp::os::Network::init();
 
+        // Generate unique port names for each test instance
+        std::string serverPort = generateUniquePortName("/test/server");
+        std::string clientPort = generateUniquePortName("/test/client");
+
         // Setup server parameters with unique port names to avoid conflicts
         auto serverParams = std::make_shared<StdImplementation>();
-        serverParams->setParameter("remote", std::string("/test/server"));
+        serverParams->setParameter("remote", serverPort);
 
         // Setup client parameters matching server configuration
         auto clientParams = std::make_shared<StdImplementation>();
-        clientParams->setParameter("remote", std::string("/test/server"));
-        clientParams->setParameter("local", std::string("/test/client"));
+        clientParams->setParameter("remote", serverPort);
+        clientParams->setParameter("local", clientPort);
         clientParams->setParameter("carrier", std::string("tcp"));
 
         serverHandler = serverParams;
