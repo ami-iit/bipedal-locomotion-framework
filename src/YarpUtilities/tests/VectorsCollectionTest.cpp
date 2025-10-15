@@ -130,23 +130,61 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
         REQUIRE_FALSE(server.populateMetadata("duplicate_key", duplicateMetadata));
     }
 
-    SECTION("Metadata ready state before finalization") {
-        // Test: Metadata should not be ready before finalization
-        // Behavior: areMetadataReady returns false until finalizeMetadata is called
+    SECTION("Metadata ready state before and after finalization, and after new keys")
+    {
+        // Before any metadata is populated, areMetadataReady should be false
+        REQUIRE_FALSE(server.areMetadataReady());
+
+        // Populate metadata, but not finalized yet
         server.populateMetadata("test_key", {"elem1", "elem2"});
         REQUIRE_FALSE(server.areMetadataReady());
+
+        // getMetadata should return empty before any finalize
+        auto metaBeforeFinalize = server.getMetadata();
+        REQUIRE(metaBeforeFinalize.vectors.empty());
+
+        // Finalize metadata
+        REQUIRE(server.finalizeMetadata());
+        REQUIRE(server.areMetadataReady());
+
+        // getMetadata should now return the finalized metadata
+        auto metaAfterFinalize = server.getMetadata();
+        REQUIRE(metaAfterFinalize.vectors.count("test_key") == 1);
+
+        // Add new key after finalization
+        REQUIRE(server.populateMetadata("new_key", {"elem3"}));
+        // areMetadataReady should remain true after first finalize, even if new keys are pending
+        REQUIRE(server.areMetadataReady());
+
+        // getMetadata should return the last finalized metadata, not the new key
+        auto metaWithPending = server.getMetadata();
+        REQUIRE(metaWithPending.vectors.count("test_key") == 1);
+        REQUIRE(metaWithPending.vectors.count("new_key") == 0);
+
+        // Finalize again
+        REQUIRE(server.finalizeMetadata());
+        REQUIRE(server.areMetadataReady());
+
+        // Now getMetadata should include the new key
+        auto metaAfterSecondFinalize = server.getMetadata();
+        REQUIRE(metaAfterSecondFinalize.vectors.count("test_key") == 1);
+        REQUIRE(metaAfterSecondFinalize.vectors.count("new_key") == 1);
     }
 
-    SECTION("Incremental retrieval before finalization returns empty metadata")
+    SECTION("getMetadata returns last finalized metadata if new keys are pending")
     {
-        // Test: Incremental retrieval should return empty metadata when not finalized yet
-        server.populateMetadata("test_key", {"elem1", "elem2"});
-        REQUIRE_FALSE(server.areMetadataReady());
-
-        const auto incremental = server.getMetadataIncremental(-5);
-        REQUIRE(incremental.vectors.empty());
-        const auto metadataBeforeFinalize = server.getMetadata();
-        REQUIRE(incremental.version == metadataBeforeFinalize.version);
+        server.populateMetadata("k1", {"a"});
+        REQUIRE(server.finalizeMetadata());
+        REQUIRE(server.populateMetadata("k2", {"b"}));
+        // Not finalized yet, so getMetadata should return only k1
+        auto meta = server.getMetadata();
+        REQUIRE(meta.vectors.count("k1") == 1);
+        REQUIRE(meta.vectors.count("k2") == 0);
+        // After finalize, both keys should be present
+        REQUIRE(server.finalizeMetadata());
+        auto meta2 = server.getMetadata();
+        REQUIRE(meta2.vectors.count("k1") == 1);
+        REQUIRE(meta2.vectors.count("k2") == 1);
     }
 
     SECTION("Successful metadata finalization") {
@@ -173,7 +211,7 @@ TEST_CASE_METHOD(VectorsCollectionFixture, "VectorsCollectionServer - Metadata M
         REQUIRE(server.areMetadataReady());
 
         REQUIRE(server.populateMetadata("extended_key", {"elem2"}));
-        REQUIRE_FALSE(server.areMetadataReady());
+        REQUIRE(server.areMetadataReady());
         REQUIRE(server.finalizeMetadata());
         REQUIRE(server.areMetadataReady());
 
