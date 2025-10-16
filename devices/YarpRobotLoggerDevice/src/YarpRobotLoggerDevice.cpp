@@ -2190,6 +2190,53 @@ void YarpRobotLoggerDevice::run()
         }
 
         std::lock_guard<std::mutex> lock(signal.mutex);
+
+        // Check for new metadata and eventually update the RT stream
+        const bool metadataUpdated = signal.client.isNewMetadataAvailable()
+                                     && signal.client.getMetadata(signal.metadata);
+        if (metadataUpdated)
+        {
+            // Reset dataArrived to force channel recreation with new metadata
+            signal.dataArrived = false;
+            log()->info("{} Updated metadata for VectorsCollection signal: {}", logPrefix, name);
+
+            // Dynamically add new metadata to RT stream (exploiting versioning!)
+            if (m_sendDataRT)
+            {
+                bool newMetadataAdded = false;
+                for (const auto& [key, metadata] : signal.metadata.vectors)
+                {
+                    std::string rtSignalName
+                        = robotRtRootName + treeDelim + signal.signalName + treeDelim + key;
+
+                    // Try to populate metadata for new signals
+                    // The VectorsCollectionServer will handle versioning internally
+                    if (m_vectorCollectionRTDataServer.populateMetadata(rtSignalName, {metadata}))
+                    {
+                        newMetadataAdded = true;
+                    }
+                }
+
+                // If we added new metadata, finalize to increment version
+                if (newMetadataAdded)
+                {
+                    if (m_vectorCollectionRTDataServer.finalizeMetadata())
+                    {
+                        log()->info("{} Finalized new RT metadata version for VectorsCollection: "
+                                    "{}",
+                                    logPrefix,
+                                    name);
+                    } else
+                    {
+                        log()->warn("{} Failed to finalize new RT metadata for VectorsCollection: "
+                                    "{}",
+                                    logPrefix,
+                                    name);
+                    }
+                }
+            }
+        }
+
         const BipedalLocomotion::YarpUtilities::VectorsCollection* collection
             = signal.client.readData(false);
 
