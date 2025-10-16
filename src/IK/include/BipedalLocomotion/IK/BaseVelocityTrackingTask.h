@@ -96,7 +96,7 @@ public:
     std::size_t size() const override;
 
     /**
-     * The JointsLimitsTask is an inequality task.
+     * The BaseVelocityTrackingTask is an inequality task.
      * @return the size of the task.
      */
     Type type() const override;
