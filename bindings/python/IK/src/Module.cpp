@@ -8,6 +8,7 @@
 #include <pybind11/pybind11.h>
 
 #include <BipedalLocomotion/bindings/IK/AngularMomentumTask.h>
+#include <BipedalLocomotion/bindings/IK/BaseVelocityTrackingTask.h>
 #include <BipedalLocomotion/bindings/IK/CoMTask.h>
 #include <BipedalLocomotion/bindings/IK/DistanceTask.h>
 #include <BipedalLocomotion/bindings/IK/GravityTask.h>
@@ -43,6 +44,7 @@ void CreateModule(pybind11::module& module)
     CreateDistanceTask(module);
     CreateGravityTask(module);
     CreateJointVelocityLimitsTask(module);
+    CreateBaseVelocityTrackingTask(module);
     CreateIntegrationBasedIK(module);
     CreateQPInverseKinematics(module);
 }

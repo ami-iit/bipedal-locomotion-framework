@@ -47,10 +47,15 @@ add_bipedal_test(
   SOURCES GravityTaskTest.cpp
   LINKS BipedalLocomotion::IK)
 
-  add_bipedal_test(
-    NAME JointVelocityLimitsTaskIK
-    SOURCES JointVelocityLimitsTaskTest.cpp
-    LINKS BipedalLocomotion::IK)
+add_bipedal_test(
+  NAME JointVelocityLimitsTaskIK
+  SOURCES JointVelocityLimitsTaskTest.cpp
+  LINKS BipedalLocomotion::IK)
+
+add_bipedal_test(
+  NAME BaseVelocityTrackingTaskIK
+  SOURCES BaseVelocityTrackingTaskTest.cpp
+  LINKS BipedalLocomotion::IK)
 
 if (FRAMEWORK_COMPILE_ContinuousDynamicalSystem)
 
