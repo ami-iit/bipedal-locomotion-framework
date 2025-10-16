@@ -278,6 +278,29 @@ def test_joint_velocity_limits_task():
     assert joint_limits_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
     assert joint_velocity_limits_task.set_variables_handler(variables_handler=joint_limits_var_handler)
 
+def test_base_velocity_tracking_task():
+
+    # create KinDynComputationsDescriptor
+    joints_list, kindyn = get_kindyn()
+
+    # Set the parameters
+    base_velocity_tracking_param_handler = blf.parameters_handler.StdParametersHandler()
+    base_velocity_tracking_param_handler.set_parameter_string(name="robot_velocity_variable_name", value="robotVelocity")
+    base_velocity_tracking_param_handler.set_parameter_float(name="kp_linear", value=10.0)
+    base_velocity_tracking_param_handler.set_parameter_float(name="kp_angular", value=10.0)
+
+    # Initialize the task
+    base_velocity_tracking_task = blf.ik.BaseVelocityTrackingTask()
+    assert base_velocity_tracking_task.set_kin_dyn(kindyn)
+    assert base_velocity_tracking_task.initialize(param_handler=base_velocity_tracking_param_handler)
+    base_velocity_tracking_var_handler = blf.system.VariablesHandler()
+    assert base_velocity_tracking_var_handler.add_variable("robotVelocity", 32) is True  # robot velocity size = 26 (joints) + 6 (base)
+    assert base_velocity_tracking_task.set_variables_handler(variables_handler=base_velocity_tracking_var_handler)
+
+    # Set desired base vel
+    desiredBaseVelocity = [np.random.uniform(-0.5,0.5) for _ in range(6)]
+    assert base_velocity_tracking_task.set_set_point(desired_base_velocity=desiredBaseVelocity)
+
 def test_integration_based_ik_state():
 
     state = blf.ik.IntegrationBasedIKState()
