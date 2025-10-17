@@ -24,6 +24,7 @@
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
+#include <yarp/sig/Image.h>
 #include <yarp/sig/Vector.h>
 
 #include <robometry/BufferManager.h>
@@ -117,6 +118,7 @@ private:
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
+    std::unordered_map<std::string, ExogenousSignal<yarp::sig::Image>> m_imageSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};

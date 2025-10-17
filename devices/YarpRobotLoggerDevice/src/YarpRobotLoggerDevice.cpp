@@ -485,6 +485,17 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         return false;
     }
 
+    inputs.clear();
+    if (!ptr->getParameter("image_exogenous_inputs", inputs))
+    {
+        log()->warn("{} Unable to get the image exogenous inputs. Assuming none.", logPrefix);
+    }
+
+    if (!openExogenousSignals(ptr, inputs, m_imageSignals))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1588,6 +1599,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
         connectToExogeneous(m_stringSignals);
+        connectToExogeneous(m_imageSignals);
 
         // TODO check for updated metadata from already connected signals
 
@@ -2224,6 +2236,23 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = true;
             }
             m_bufferManager.push_back(bottle->toString(), time, signalFullName);
+        }
+    }
+
+    // Image signals are not streamed in RT
+    for (auto& [name, signal] : m_imageSignals)
+    {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        yarp::sig::Image* image = signal.port.read(false);
+
+        if (image != nullptr)
+        {
+            // TODO save the image here with a frame saver
         }
     }
 
