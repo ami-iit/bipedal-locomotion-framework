@@ -184,7 +184,6 @@ VectorsCollectionClient::readData(bool shouldWait /*= true */)
 
     if (data == nullptr)
     {
-        log()->warn("[VectorsCollectionClient::readData] The data read from the port is null.");
         return nullptr;
     }
 
