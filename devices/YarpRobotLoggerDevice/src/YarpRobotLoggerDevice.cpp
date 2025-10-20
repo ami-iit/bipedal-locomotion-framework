@@ -1466,7 +1466,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareExogenousImageLogging()
         auto saver = std::make_shared<VideoWriter::ImageSaver>();
         saver->saveMode = VideoWriter::SaveMode::Frame; // We assume the exogenous images are
                                                         // spurious frames
-        m_exogenousImageWriters[name].rgb = saver;
+        m_exogenousImageWriters[signal.signalName].rgb = saver;
 
         // Equivalent to prepareCameraLogging for exogenous images
         if (!this->createFramesFolder(saver, signal.signalName, "rgb"))
@@ -2312,8 +2312,10 @@ void YarpRobotLoggerDevice::run()
 
             // Save the frame
             const std::filesystem::path imgPath
-                = m_exogenousImageWriters[name].rgb->framesPath
-                  / ("img_" + std::to_string(m_exogenousImageWriters[name].frameIndex++) + ".png");
+                = m_exogenousImageWriters[signal.signalName].rgb->framesPath
+                  / ("img_"
+                     + std::to_string(m_exogenousImageWriters[signal.signalName].frameIndex++)
+                     + ".png");
             cv::imwrite(imgPath.string(), colorImg);
 
             // TODO here we may save the frame itself
@@ -2599,6 +2601,22 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         }
         m_videoWriters[camera].resetIndex = true;
         m_videoWriters[camera].paused = false;
+    }
+
+    // rename the exogenous images folder if any
+    for (auto& [name, writer] : m_exogenousImageWriters)
+    {
+        log()->info("{} Saving the exogenous images for the signal named {}.", logPrefix, name);
+
+        auto start = BipedalLocomotion::clock().now();
+
+        if (!saveVideo(writer.rgb, name, "rgb"))
+        {
+            log()->error("{} Unable to save the exogenous images for the signal named {}.",
+                         logPrefix,
+                         name);
+            return false;
+        }
     }
 
     // save the status of the code
