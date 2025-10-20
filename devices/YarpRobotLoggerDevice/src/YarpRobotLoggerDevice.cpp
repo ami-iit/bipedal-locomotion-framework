@@ -2303,7 +2303,6 @@ void YarpRobotLoggerDevice::run()
 
         if (yarpImage != nullptr)
         {
-            log()->info("{} New image arrived from signal named: {}", logPrefix, signal.signalName);
             // Convert the frame from yarp to cv
             auto colorImg = cv::Mat(yarpImage->height(),
                                     yarpImage->width(),
@@ -2312,23 +2311,12 @@ void YarpRobotLoggerDevice::run()
                                     yarpImage->getRowSize());
 
             // Save the frame
-            log()->info("{} Saving exogenous image from signal named: {}",
-                        logPrefix,
-                        signal.signalName);
             const std::filesystem::path imgPath
                 = m_exogenousImageWriters[name].rgb->framesPath
                   / ("img_" + std::to_string(m_exogenousImageWriters[name].frameIndex++) + ".png");
-            log()->info("{} Image path: {}", logPrefix, imgPath.string());
             cv::imwrite(imgPath.string(), colorImg);
 
-            // lock the the buffered manager mutex
-            log()->info("{} Locking the buffer manager mutex...", logPrefix);
-            std::lock_guard lock(m_bufferManagerMutex);
-
             // TODO here we may save the frame itself
-            log()->info("{} Pushing back the timestamp for exogenous image from signal named: {}",
-                        logPrefix,
-                        signal.signalName);
             m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
                                       std::chrono::duration<double>(time).count(),
                                       "exogenous_images::" + signal.signalName + "::rgb");
