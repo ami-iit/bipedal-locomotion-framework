@@ -151,7 +151,7 @@ private:
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
-        int frameIndex{0};
+        unsigned int frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
     };
