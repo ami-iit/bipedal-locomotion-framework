@@ -151,6 +151,7 @@ private:
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
+        int frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
     };
@@ -260,6 +261,7 @@ private:
     bool startLogging();
     bool prepareRobotLogging();
     bool prepareCameraLogging();
+    bool prepareExogenousImageLogging();
     bool prepareRTStreaming();
 
     const std::string defaultFilePrefix = "robot_logger_device";
