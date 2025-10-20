@@ -30,6 +30,7 @@
 #include <Eigen/Core>
 
 #include <yarp/conf/version.h>
+#include <yarp/cv/Cv.h>
 #include <yarp/eigen/Eigen.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/profiler/NetworkProfiler.h>
@@ -493,6 +494,12 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
 
     if (!openExogenousSignals(ptr, inputs, m_imageSignals))
     {
+        return false;
+    }
+
+    if (!prepareExogenousImageLogging())
+    {
+        log()->error("{} Unable to prepare the exogenous image logging.", logPrefix);
         return false;
     }
 
@@ -1444,6 +1451,48 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
     return true;
 }
 
+bool BipedalLocomotion::YarpRobotLoggerDevice::prepareExogenousImageLogging()
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareExogenousImageLogging]";
+    bool ok = true;
+    for (auto& [name, signal] : m_imageSignals)
+    {
+        // Print some info
+        log()->info("{} Preparing the logging for the exogenous image named {}, signal: {}.",
+                    logPrefix,
+                    name,
+                    signal.signalName);
+        // Equivalent to populateCamerasData for exogenous images
+        auto saver = std::make_shared<VideoWriter::ImageSaver>();
+        saver->saveMode = VideoWriter::SaveMode::Frame; // We assume the exogenous images are
+                                                        // spurious frames
+        m_exogenousImageWriters[signal.signalName].rgb = saver;
+
+        // Equivalent to prepareCameraLogging for exogenous images
+        if (!this->createFramesFolder(saver, signal.signalName, "rgb"))
+        {
+            log()->error("{} Unable to create the folder to store the frames for the exogenous "
+                         "image named {}.",
+                         logPrefix,
+                         signal.signalName);
+            ok = false;
+        }
+        ok = m_bufferManager.addChannel({"exogenous_images::" + signal.signalName + "::rgb",
+                                         {1, 1}, //
+                                         {"timestamp"}});
+
+        if (!ok)
+        {
+            log()->error("{} Unable to add the channels for the exogenous images signal {}.",
+                         logPrefix,
+                         signal.signalName);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRTStreaming]";
@@ -1563,7 +1612,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
     m_lookForNewExogenousSignalIsRunning = true;
 
     auto connectToExogeneous = [this](auto& signals) -> void {
-        for (auto & [ name, signal ] : signals)
+        for (auto& [name, signal] : signals)
         {
             if (signal.connected)
             {
@@ -2127,7 +2176,7 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    for (auto & [ name, signal ] : m_vectorsCollectionSignals)
+    for (auto& [name, signal] : m_vectorsCollectionSignals)
     {
         if (!signal.connected)
         {
@@ -2142,7 +2191,9 @@ void YarpRobotLoggerDevice::run()
         {
             if (!signal.dataArrived)
             {
-                bool channelAdded = true;
+                bool channelAdded = false;
+                for (const auto& [key, vector] : collection->vectors)
+                    bool channelAdded = true;
                 // Fetch metadata on-demand if not yet available
                 if (signal.metadata.vectors.empty())
                 {
@@ -2153,7 +2204,7 @@ void YarpRobotLoggerDevice::run()
                                     signal.signalName);
                     }
                 }
-                for (const auto & [ key, vector ] : collection->vectors)
+                for (const auto& [key, vector] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     const auto& metadata = signal.metadata.vectors.find(key);
@@ -2178,7 +2229,7 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = channelAdded;
             } else
             {
-                for (const auto & [ key, vector ] : collection->vectors)
+                for (const auto& [key, vector] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
                     logData(signalFullName, vector, time);
@@ -2187,7 +2238,7 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    for (auto & [ name, signal ] : m_vectorSignals)
+    for (auto& [name, signal] : m_vectorSignals)
     {
         if (!signal.connected)
         {
@@ -2210,7 +2261,7 @@ void YarpRobotLoggerDevice::run()
     }
 
     // String signals are not streamed in RT
-    for (auto & [ name, signal ] : m_stringSignals)
+    for (auto& [name, signal] : m_stringSignals)
     {
         if (!signal.connected)
         {
@@ -2248,9 +2299,9 @@ void YarpRobotLoggerDevice::run()
         }
 
         std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::Image* image = signal.port.read(false);
+        yarp::sig::ImageOf<yarp::sig::PixelRgb>* yarpImage = signal.port.read(false);
 
-        if (image != nullptr)
+        if (yarpImage != nullptr)
         {
             // TODO save the image here with a frame saver
         }
@@ -2556,13 +2607,13 @@ bool YarpRobotLoggerDevice::close()
     m_statusPort.close();
 
     // stop all the video thread
-    for (auto & [ cameraName, writer ] : m_videoWriters)
+    for (auto& [cameraName, writer] : m_videoWriters)
     {
         writer.recordVideoIsRunning = false;
     }
 
     // close all the thread associated to the video logging
-    for (auto & [ cameraName, writer ] : m_videoWriters)
+    for (auto& [cameraName, writer] : m_videoWriters)
     {
         if (writer.videoThread.joinable())
         {

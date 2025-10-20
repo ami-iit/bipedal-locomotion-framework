@@ -118,7 +118,8 @@ private:
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
-    std::unordered_map<std::string, ExogenousSignal<yarp::sig::Image>> m_imageSignals;
+    std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
+        m_imageSignals;
 
     std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
@@ -157,6 +158,8 @@ private:
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
     std::mutex m_videoWritersMutex;
+
+    std::unordered_map<std::string, VideoWriter> m_exogenousImageWriters;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
     std::unordered_set<std::string> m_textLoggingPortNames;
