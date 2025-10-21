@@ -1940,6 +1940,9 @@ void YarpRobotLoggerDevice::saveExogenousImages(
                                     yarpImage->getRawImage(),
                                     yarpImage->getRowSize());
 
+            // Convert from RGB to BGR for OpenCV compatibility
+            cv::cvtColor(colorImg, colorImg, cv::COLOR_RGB2BGR);
+
             // Lock the image saver mutex
             std::lock_guard<std::mutex> imageLock(writer.rgb->mutex);
 
