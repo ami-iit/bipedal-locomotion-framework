@@ -151,7 +151,7 @@ private:
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
-        unsigned int frameIndex{0};
+        std::atomic<unsigned int> frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
     };
@@ -237,6 +237,9 @@ private:
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
+    void saveExogenousImages(const std::string& signalName,
+                             VideoWriter& writer,
+                             ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>& signal);
     void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,

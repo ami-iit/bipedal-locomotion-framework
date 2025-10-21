@@ -1652,6 +1652,23 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
 
         // TODO check for updated metadata from already connected signals
 
+        // Start the logging for exogenous images
+        for (auto& [name, signal] : m_imageSignals)
+        {
+            if (!signal.connected
+                || m_exogenousImageWriters[signal.signalName].videoThread.joinable())
+            {
+                continue;
+            }
+
+            // start a separate thread for each exogenous image signal
+            auto& writer = m_exogenousImageWriters[signal.signalName];
+
+            writer.videoThread = std::thread([this, name, &writer, &signal] {
+                this->saveExogenousImages(name, writer, signal);
+            });
+        }
+
         // release the CPU
         BipedalLocomotion::clock().yield();
 
@@ -1706,9 +1723,9 @@ void YarpRobotLoggerDevice::lookForNewLogs()
             {
                 // check if the port has not be already connected if exits, its resposive
                 // it is a text logging port and it should be logged
-                // This operation does not require a lock since it is not touching the port object
-                // as the connection operation is done through yarpserver and not through the port
-                // directly. YARP inside will take care of the connection.
+                // This operation does not require a lock since it is not touching the port
+                // object as the connection operation is done through yarpserver and not through
+                // the port directly. YARP inside will take care of the connection.
                 if ((port.name.rfind(textLoggingPortPrefix, 0) == 0)
                     && (m_textLoggingPortNames.find(port.name) == m_textLoggingPortNames.end())
                     && (m_textLoggingSubnames.empty()
@@ -1783,7 +1800,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             {
                 if (!m_cameraBridge->getColorImage(cameraName, writer.rgb->frame))
                 {
-                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                    log()->info("{} Unable to get the frame of the camera named: {}. The "
+                                "previous "
                                 "frame "
                                 "will be used.",
                                 logPrefix,
@@ -1820,7 +1838,8 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             {
                 if (!m_cameraBridge->getDepthImage(cameraName, writer.depth->frame))
                 {
-                    log()->info("{} Unable to get the frame of the camera named: {}. The previous "
+                    log()->info("{} Unable to get the frame of the camera named: {}. The "
+                                "previous "
                                 "frame "
                                 "will be used.",
                                 logPrefix,
@@ -1889,6 +1908,57 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
     }
 }
 
+void YarpRobotLoggerDevice::saveExogenousImages(
+    const std::string& signalName,
+    VideoWriter& writer,
+    ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>& signal)
+{
+    constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveExogenousImages]";
+
+    auto time = BipedalLocomotion::clock().now();
+
+    writer.recordVideoIsRunning = true;
+
+    while (writer.recordVideoIsRunning)
+    {
+        if (writer.resetIndex)
+        {
+            writer.frameIndex = 0;
+            writer.resetIndex = false;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        // Blocking read, so we save only when a new frame arrives
+        yarp::sig::ImageOf<yarp::sig::PixelRgb>* yarpImage = signal.port.read(true);
+
+        if (yarpImage != nullptr)
+        {
+            // Convert the frame from yarp to cv
+            auto colorImg = cv::Mat(yarpImage->height(),
+                                    yarpImage->width(),
+                                    yarp::cv::type_code<yarp::sig::PixelRgb>::value,
+                                    yarpImage->getRawImage(),
+                                    yarpImage->getRowSize());
+
+            // Save the frame
+            const std::filesystem::path imgPath
+                = m_exogenousImageWriters[signal.signalName].rgb->framesPath
+                  / ("img_"
+                     + std::to_string(m_exogenousImageWriters[signal.signalName].frameIndex++)
+                     + ".png");
+            cv::imwrite(imgPath.string(), colorImg);
+
+            // lock the the buffered manager mutex
+            std::lock_guard bufferLock(m_bufferManagerMutex);
+
+            // TODO here we may save the frame itself
+            m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                                      std::chrono::duration<double>(time).count(),
+                                      "exogenous_images::" + signal.signalName + "::rgb");
+        }
+    }
+}
+
 void BipedalLocomotion::YarpRobotLoggerDevice::saveCodeStatus(const std::string& logPrefix,
                                                               const std::string& fileName) const
 {
@@ -1923,13 +1993,15 @@ void BipedalLocomotion::YarpRobotLoggerDevice::saveCodeStatus(const std::string&
 
     std::ofstream file(fileName + ".md");
     file << "# " << fileName << std::endl;
-    file << "File containing all the installed software required to replicate the experiment.  "
+    file << "File containing all the installed software required to replicate the "
+            "experiment.  "
          << std::endl;
 
     if (m_codeStatusCmdPrefixes.empty())
     {
         file << codeStatus("bash "
-                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/robotologyGitStatus.sh",
+                           "${ROBOTOLOGY_SUPERBUILD_SOURCE_DIR}/scripts/"
+                           "robotologyGitStatus.sh",
                            "ROBOTOLOGY");
         file << codeStatus("apt list --installed", "APT");
     } else
@@ -1971,7 +2043,8 @@ void YarpRobotLoggerDevice::run()
     {
         if (t - m_previousTimestamp > m_acceptableStep)
         {
-            log()->warn("{} The time step is too big. The previous timestamp is {} and the current "
+            log()->warn("{} The time step is too big. The previous timestamp is {} and the "
+                        "current "
                         "timestamp is {}. The time step is {}.",
                         logPrefix,
                         std::chrono::duration<double>(m_previousTimestamp),
@@ -2146,7 +2219,8 @@ void YarpRobotLoggerDevice::run()
         {
             if (m_robotSensorBridge->getIMUMeasurement(sensorName, m_analogSensorBuffer))
             {
-                // it will return a tuple containing the Accelerometer, the gyro and the orientation
+                // it will return a tuple containing the Accelerometer, the gyro and the
+                // orientation
                 this->unpackIMU(m_analogSensorBuffer,
                                 m_acceloremeterBuffer,
                                 m_gyroBuffer,
@@ -2290,41 +2364,6 @@ void YarpRobotLoggerDevice::run()
         }
     }
 
-    // Image signals are not streamed in RT
-    for (auto& [name, signal] : m_imageSignals)
-    {
-        if (!signal.connected)
-        {
-            continue;
-        }
-
-        std::lock_guard<std::mutex> lock(signal.mutex);
-        yarp::sig::ImageOf<yarp::sig::PixelRgb>* yarpImage = signal.port.read(false);
-
-        if (yarpImage != nullptr)
-        {
-            // Convert the frame from yarp to cv
-            auto colorImg = cv::Mat(yarpImage->height(),
-                                    yarpImage->width(),
-                                    yarp::cv::type_code<yarp::sig::PixelRgb>::value,
-                                    yarpImage->getRawImage(),
-                                    yarpImage->getRowSize());
-
-            // Save the frame
-            const std::filesystem::path imgPath
-                = m_exogenousImageWriters[signal.signalName].rgb->framesPath
-                  / ("img_"
-                     + std::to_string(m_exogenousImageWriters[signal.signalName].frameIndex++)
-                     + ".png");
-            cv::imwrite(imgPath.string(), colorImg);
-
-            // TODO here we may save the frame itself
-            m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
-                                      std::chrono::duration<double>(time).count(),
-                                      "exogenous_images::" + signal.signalName + "::rgb");
-        }
-    }
-
     if (m_logText)
     {
         int bufferportSize = m_textLoggingPort.getPendingReads();
@@ -2345,8 +2384,8 @@ void YarpRobotLoggerDevice::run()
                     // matlab does not support the character - as a key of a struct
                     findAndReplaceAll(signalFullName, "-", "_");
 
-                    // if it is the first time this signal is seen by the device the channel is
-                    // added
+                    // if it is the first time this signal is seen by the device the channel
+                    // is added
                     if (m_textLogsStoredInManager.find(signalFullName)
                         == m_textLogsStoredInManager.end())
                     {
@@ -2415,7 +2454,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                                             const std::string& videoTypePostfix) -> bool {
         if (imageSaver == nullptr)
         {
-            log()->error("{} The camera named {} do not expose the rgb image. This should't be "
+            log()->error("{} The camera named {} do not expose the rgb image. This "
+                         "should't be "
                          "possible.",
                          logPrefix,
                          camera);
@@ -2495,7 +2535,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         {
             if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
             {
-                log()->error("{} Unable to create the folder associated to the frames of the "
+                log()->error("{} Unable to create the folder associated to the frames of "
+                             "the "
                              "camera named {}.",
                              logPrefix,
                              camera);
@@ -2567,7 +2608,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         {
             if (!this->createFramesFolder(m_videoWriters[camera].rgb, camera, "rgb"))
             {
-                log()->error("{} Unable to create the folder associated to the frames of the "
+                log()->error("{} Unable to create the folder associated to the frames of "
+                             "the "
                              "camera named {}.",
                              logPrefix,
                              camera);
@@ -2582,7 +2624,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
                                        m_cameraBridge->getMetaData()
                                            .bridgeOptions.rgbdImgDimensions))
             {
-                log()->error("{} Unable to open a video writer for the depth camera named {}.",
+                log()->error("{} Unable to open a video writer for the depth camera named "
+                             "{}.",
                              logPrefix,
                              camera);
                 return false;
@@ -2591,7 +2634,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         {
             if (!this->createFramesFolder(m_videoWriters[camera].depth, camera, "depth"))
             {
-                log()->error("{} Unable to create the folder associated to the depth frames of "
+                log()->error("{} Unable to create the folder associated to the depth "
+                             "frames of "
                              "the "
                              "camera named {}.",
                              logPrefix,
@@ -2636,7 +2680,8 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         {
             if (!this->createFramesFolder(writer.rgb, signalName, "rgb"))
             {
-                log()->error("{} Unable to create the folder associated to the frames of the "
+                log()->error("{} Unable to create the folder associated to the frames of "
+                             "the "
                              "exogenous image signal named {}.",
                              logPrefix,
                              signalName);
@@ -2680,6 +2725,19 @@ bool YarpRobotLoggerDevice::close()
         {
             writer.videoThread.join();
             writer.videoThread = std::thread();
+        }
+    }
+
+    // close all the thread associated to the exogenous image logging
+    for (auto& [name, signal] : m_imageSignals)
+    {
+
+        m_exogenousImageWriters[signal.signalName].recordVideoIsRunning = false;
+        signal.port.interrupt();
+        if (m_exogenousImageWriters[signal.signalName].videoThread.joinable())
+        {
+            m_exogenousImageWriters[signal.signalName].videoThread.join();
+            m_exogenousImageWriters[signal.signalName].videoThread = std::thread();
         }
     }
 
