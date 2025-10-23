@@ -97,9 +97,16 @@ void CreateVectorsCollectionMetadata(pybind11::module& module)
 
     py::class_<VectorsCollectionMetadata>(module, "VectorsCollectionMetadata")
         .def(py::init())
-        .def(py::init<const std::map<std::string, std::vector<std::string>>&>())
+        .def(py::init<const std::map<std::string, std::vector<std::string>>&, const std::int32_t&>(),
+             py::arg("vectors"),
+             py::arg("version") = 0)
+        .def(py::init([](const std::map<std::string, std::vector<std::string>>& vectors) {
+                 return VectorsCollectionMetadata(vectors, 0);
+             }),
+             py::arg("vectors"))
         .def("to_string", &VectorsCollectionMetadata::toString)
-        .def_readwrite("vectors", &VectorsCollectionMetadata::vectors);
+        .def_readwrite("vectors", &VectorsCollectionMetadata::vectors)
+        .def_readwrite("version", &VectorsCollectionMetadata::version);
 }
 
 void CreateVectorsCollection(pybind11::module& module)
@@ -110,9 +117,16 @@ void CreateVectorsCollection(pybind11::module& module)
 
     py::class_<VectorsCollection>(module, "VectorsCollection")
         .def(py::init())
-        .def(py::init<const std::map<std::string, std::vector<double>>&>())
+        .def(py::init<const std::map<std::string, std::vector<double>>&, const std::int32_t&>(),
+             py::arg("vectors"),
+             py::arg("version") = 0)
+        .def(py::init([](const std::map<std::string, std::vector<double>>& vectors) {
+                 return VectorsCollection(vectors, 0);
+             }),
+             py::arg("vectors"))
         .def("to_string", &VectorsCollection::toString)
-        .def_readwrite("vectors", &VectorsCollection::vectors);
+        .def_readwrite("vectors", &VectorsCollection::vectors)
+        .def_readwrite("version", &VectorsCollection::version);
 }
 
 } // namespace YarpUtilities
