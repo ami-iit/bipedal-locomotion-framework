@@ -23,6 +23,7 @@ BSD-3-Clause license. -->
   </group>
 
   <group name="Telemetry">
+    <param name="save_periodically">true</param>
     <param name="save_period">600.0</param>
   </group>
 

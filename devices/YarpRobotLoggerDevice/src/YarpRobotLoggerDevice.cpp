@@ -653,16 +653,33 @@ bool YarpRobotLoggerDevice::setupTelemetry(
         config.yarp_robot_name = tmp;
     }
     config.filename = defaultFilePrefix;
+    // We always want to save on shutdown since we are also logging videos that are saving
+    // frames in a temporary folder. Thus we need to ensure that on shutdown the folder
+    // is renamed, and this is done in the save callback.
     config.auto_save = true;
-    config.save_periodically = true;
     config.file_indexing = "%Y_%m_%d_%H_%M_%S";
     config.mat_file_version = matioCpp::FileVersion::MAT7_3;
 
-    if (!ptr->getParameter("save_period", config.save_period))
+    double savePeriod{1800.0}; // default 30 minutes
+
+    if (!ptr->getParameter("save_period", savePeriod))
     {
-        log()->error("{} Unable to get the 'save_period' parameter for the telemetry.", logPrefix);
-        return false;
+        log()->info("{} Unable to get the 'save_period' parameter for the telemetry. "
+                    "Default value: {}.",
+                    logPrefix,
+                    savePeriod);
     }
+    config.save_period = savePeriod;
+
+    bool savePeriodically{true};
+    if (!ptr->getParameter("save_periodically", savePeriodically))
+    {
+        log()->info("{} Unable to get the 'save_periodically' parameter for the telemetry. "
+                    "Default value: {}.",
+                    logPrefix,
+                    savePeriodically);
+    }
+    config.save_periodically = savePeriodically;
 
     // the telemetry will flush the content of its storage every config.save_period
     // and this device runs every devicePeriod
@@ -670,7 +687,7 @@ bool YarpRobotLoggerDevice::setupTelemetry(
     // to be sure we are not going to lose data the buffer will be 10% longer
     constexpr double percentage = 0.1;
     config.n_samples = static_cast<int>(std::ceil((1 + percentage) //
-                                                  * (config.save_period / devicePeriod)));
+                                                  * (savePeriod / devicePeriod)));
 
     return m_bufferManager.configure(config);
 }
