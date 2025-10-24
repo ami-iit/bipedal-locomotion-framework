@@ -81,6 +81,15 @@ void findAndReplaceAll(std::string& data,
     }
 }
 
+Eigen::Vector3d trintrinVectorXYZToVector3(const trintrin::msgs::VectorXYZ& vec)
+{
+    Eigen::Vector3d eigenVec;
+    eigenVec(0) = vec.x;
+    eigenVec(1) = vec.y;
+    eigenVec(2) = vec.z;
+    return eigenVec;
+}
+
 bool YarpRobotLoggerDevice::VectorsCollectionSignal::connect()
 {
     return client.connect();
@@ -500,6 +509,16 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
     if (!prepareExogenousImageLogging())
     {
         log()->error("{} Unable to prepare the exogenous image logging.", logPrefix);
+        return false;
+    }
+
+    inputs.clear();
+    if (!ptr->getParameter("human_state_exogenous_inputs", inputs))
+    {
+        log()->warn("{} Unable to get the human state exogenous inputs. Assuming none.", logPrefix);
+    }
+    if (!openExogenousSignals(ptr, inputs, m_humanStateSignals))
+    {
         return false;
     }
 
@@ -1665,6 +1684,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         connectToExogeneous(m_vectorsCollectionSignals);
         connectToExogeneous(m_vectorSignals);
         connectToExogeneous(m_stringSignals);
+        connectToExogeneous(m_humanStateSignals);
         connectToExogeneous(m_imageSignals);
 
         // TODO check for updated metadata from already connected signals
@@ -2413,6 +2433,122 @@ void YarpRobotLoggerDevice::run()
                 signal.dataArrived = true;
             }
             m_bufferManager.push_back(bottle->toString(), time, signalFullName);
+        }
+    }
+
+    for (auto& [name, signal] : m_humanStateSignals)
+    {
+        if (!signal.connected)
+        {
+            continue;
+        }
+
+        std::lock_guard<std::mutex> lock(signal.mutex);
+        trintrin::msgs::HumanState* human_state = signal.port.read(false);
+
+        if (human_state != nullptr)
+        {
+            if (!signal.dataArrived)
+            {
+                //The name of the channels mimics https://github.com/robotology/human-dynamics-estimation/blob/15c44f994dffab76a18bb06b70c01422384804c7/devices/HumanLogger/HumanLogger.cpp#L344-L349
+                bool channelAdded = true;
+                signalFullName
+                    = signal.signalName + treeDelim + "joints_state" + treeDelim + "positions";
+                channelAdded &= addChannel(signalFullName,
+                                           human_state->positions.size(),
+                                           human_state->jointNames);
+                signalFullName
+                    = signal.signalName + treeDelim + "joints_state" + treeDelim + "velocities";
+                channelAdded &= addChannel(signalFullName,
+                                           human_state->velocities.size(),
+                                           human_state->jointNames);
+                signalFullName
+                    = signal.signalName + treeDelim + "human_state" + treeDelim + "base_position";
+                std::string baseName = human_state->baseName;
+                channelAdded &= addChannel(signalFullName,
+                                           3,
+                                           {
+                                               baseName + "_x",
+                                               baseName + "_y",
+                                               baseName + "_z",
+                                           });
+                signalFullName = signal.signalName + treeDelim + "human_state" + treeDelim
+                                 + "base_orientation";
+                // Using XYZW convention to be coherent with the robot-log-visualizer
+                channelAdded &= addChannel(signalFullName,
+                                           4,
+                                           {
+                                               baseName + "_qx",
+                                               baseName + "_qy",
+                                               baseName + "_qz",
+                                               baseName + "_qw",
+                                           });
+                signalFullName
+                    = signal.signalName + treeDelim + "human_state" + treeDelim + "base_velocity";
+                channelAdded &= addChannel(signalFullName,
+                                           6,
+                                           {
+                                               baseName + "_vx",
+                                               baseName + "_vy",
+                                               baseName + "_vz",
+                                               baseName + "_wx",
+                                               baseName + "_wy",
+                                               baseName + "_wz",
+                                           });
+                signalFullName = signal.signalName + treeDelim + "com" + treeDelim + "position";
+                channelAdded &= addChannel(signalFullName,
+                                           3,
+                                           {
+                                               "x",
+                                               "y",
+                                               "z",
+                                           });
+                signalFullName = signal.signalName + treeDelim + "com" + treeDelim + "velocity";
+                channelAdded &= addChannel(signalFullName,
+                                           3,
+                                           {
+                                               "vx",
+                                               "vy",
+                                               "vz",
+                                           });
+
+                signal.dataArrived = channelAdded;
+            }
+
+            if (signal.dataArrived)
+            {
+                signalFullName
+                    = signal.signalName + treeDelim + "joints_state" + treeDelim + "positions";
+                logData(signalFullName, human_state->positions, time);
+                signalFullName
+                    = signal.signalName + treeDelim + "joints_state" + treeDelim + "velocities";
+                logData(signalFullName, human_state->velocities, time);
+                signalFullName
+                    = signal.signalName + treeDelim + "human_state" + treeDelim + "base_position";
+                logData(signalFullName,
+                        trintrinVectorXYZToVector3(human_state->baseOriginWRTGlobal),
+                        time);
+                signalFullName = signal.signalName + treeDelim + "human_state" + treeDelim
+                                 + "base_orientation";
+                // Using XYZW convention to be coherent with the robot-log-visualizer
+                Eigen::Vector4d orientationVec;
+                orientationVec << human_state->baseOrientationWRTGlobal.imaginary.x,
+                    human_state->baseOrientationWRTGlobal.imaginary.y,
+                    human_state->baseOrientationWRTGlobal.imaginary.z,
+                    human_state->baseOrientationWRTGlobal.w;
+                logData(signalFullName, orientationVec, time);
+                signalFullName
+                    = signal.signalName + treeDelim + "human_state" + treeDelim + "base_velocity";
+                logData(signalFullName, human_state->baseVelocityWRTGlobal, time);
+                signalFullName = signal.signalName + treeDelim + "com" + treeDelim + "position";
+                logData(signalFullName,
+                        trintrinVectorXYZToVector3(human_state->CoMPositionWRTGlobal),
+                        time);
+                signalFullName = signal.signalName + treeDelim + "com" + treeDelim + "velocity";
+                logData(signalFullName,
+                        trintrinVectorXYZToVector3(human_state->CoMVelocityWRTGlobal),
+                        time);
+            }
         }
     }
 
