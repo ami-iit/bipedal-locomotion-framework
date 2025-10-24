@@ -32,7 +32,7 @@ jobs:
       with:
         miniforge-variant: Miniforge3
         miniforge-version: latest
-        channels: conda-forge,robostack-jazzy
+        channels: conda-forge,robostack-jazzy,robotology
         channel-priority: true
         conda-remove-defaults: true
 
@@ -44,7 +44,7 @@ jobs:
                       "idyntree>=12.2.1" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
                       liblie-group-controllers eigen qhull "casadi>=3.5.5" cppad "spdlog>=1.15.1" \
                       nlohmann_json manif manifpy pybind11 numpy pytest scipy opencv pcl \
-                      tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" \
+                      tomlplusplus libunicycle-footstep-planner "icub-models>=1.23.4" libtrintrin \
                       ros-jazzy-rclcpp onnxruntime-cpp libbayes-filters-lib cmake-package-check catch2
 
     - name: Linux-only Dependencies [Linux]
