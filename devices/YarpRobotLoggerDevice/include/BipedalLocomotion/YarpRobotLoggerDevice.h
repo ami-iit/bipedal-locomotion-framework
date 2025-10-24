@@ -29,6 +29,8 @@
 
 #include <robometry/BufferManager.h>
 
+#include <trintrin/msgs/HumanState.h>
+
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
 #include <BipedalLocomotion/RobotInterface/YarpSensorBridge.h>
@@ -122,6 +124,8 @@ private:
     std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
         m_imageSignals;
+    std::unordered_map<std::string, ExogenousSignal<trintrin::msgs::HumanState>>
+        m_humanStateSignals;
 
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
     std::thread m_lookForNewExogenousSignalThread;
