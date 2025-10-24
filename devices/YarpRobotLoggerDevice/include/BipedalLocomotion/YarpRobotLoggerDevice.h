@@ -121,7 +121,6 @@ private:
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
         m_imageSignals;
 
-    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
     std::thread m_lookForNewExogenousSignalThread;
 
