@@ -2515,8 +2515,10 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         // check if temp folder already exists
         if (std::filesystem::exists(temp))
         {
-            log()->error("{} The folder {} already exists. Please choose a different name.",
+            log()->error("{} Attempted to rename {} to {}, but it already exists. "
+                             "Please choose a different name.",
                          logPrefix,
+                         oldName,
                          temp);
             return false;
         }
