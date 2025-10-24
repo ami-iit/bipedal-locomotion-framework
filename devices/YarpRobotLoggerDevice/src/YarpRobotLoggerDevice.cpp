@@ -2337,7 +2337,8 @@ void YarpRobotLoggerDevice::run()
                     }
                 }
                 signal.dataArrived = channelAdded;
-            } else
+            }
+            if (signal.dataArrived)
             {
                 for (const auto& [key, vector] : collection->vectors)
                 {
