@@ -1346,7 +1346,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
         }
         ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
                                          {1, 1}, //
-                                         {"timestamp"}});
+                                         {"frame_index"}});
         if (!ok)
         {
             log()->error("{} Unable to add the channel for the camera named {}.",
@@ -1415,12 +1415,12 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
 
         ok = m_bufferManager.addChannel({"camera::" + camera + "::rgb",
                                          {1, 1}, //
-                                         {"timestamp"}});
+                                         {"frame_index"}});
 
         ok = ok
              && m_bufferManager.addChannel({"camera::" + camera + "::depth",
                                             {1, 1}, //
-                                            {"timestamp"}});
+                                            {"frame_index"}});
 
         if (!ok)
         {
@@ -1479,7 +1479,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareExogenousImageLogging()
         }
         ok = m_bufferManager.addChannel({"exogenous_images::" + signal.signalName + "::rgb",
                                          {1, 1}, //
-                                         {"timestamp"}});
+                                         {"frame_index"}});
 
         if (!ok)
         {
@@ -1822,9 +1822,9 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             {
                 assert(writer.rgb->saveMode == VideoWriter::SaveMode::Frame);
 
+                unsigned int frameIndex = writer.frameIndex.load();
                 const std::filesystem::path imgPath
-                    = writer.rgb->framesPath
-                        / ("img_" + std::to_string(writer.frameIndex) + ".png");
+                    = writer.rgb->framesPath / ("img_" + std::to_string(frameIndex) + ".png");
 
                 cv::imwrite(imgPath.string(), writer.rgb->frame);
 
@@ -1832,7 +1832,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 std::lock_guard lock(m_bufferManagerMutex);
 
                 // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                m_bufferManager.push_back(frameIndex,
                                             std::chrono::duration<double>(time).count(),
                                             "camera::" + cameraName + "::rgb");
             }
@@ -1869,9 +1869,9 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
             {
                 assert(writer.depth->saveMode == VideoWriter::SaveMode::Frame);
 
+                unsigned int frameIndex = writer.frameIndex.load();
                 const std::filesystem::path imgPath
-                    = writer.depth->framesPath
-                        / ("img_" + std::to_string(writer.frameIndex) + ".png");
+                    = writer.depth->framesPath / ("img_" + std::to_string(frameIndex) + ".png");
 
                 // convert the image into 16bit grayscale image
                 cv::Mat image16Bit;
@@ -1882,7 +1882,7 @@ void YarpRobotLoggerDevice::recordVideo(const std::string& cameraName, VideoWrit
                 std::lock_guard lock(m_bufferManagerMutex);
 
                 // TODO here we may save the frame itself
-                m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+                m_bufferManager.push_back(frameIndex,
                                             std::chrono::duration<double>(time).count(),
                                             "camera::" + cameraName + "::depth");
             }
@@ -1960,11 +1960,11 @@ void YarpRobotLoggerDevice::saveExogenousImages(
             // Lock the image saver mutex
             std::lock_guard<std::mutex> imageLock(writer.rgb->mutex);
 
+            unsigned int frameIndex = writer.frameIndex.load();
             // Save the frame
             const std::filesystem::path imgPath
-                = m_exogenousImageWriters[signal.signalName].rgb->framesPath
-                  / ("img_"
-                     + std::to_string(m_exogenousImageWriters[signal.signalName].frameIndex++)
+                = writer.rgb->framesPath
+                  / ("img_" + std::to_string(frameIndex)
                      + ".png");
             cv::imwrite(imgPath.string(), colorImg);
 
@@ -1972,9 +1972,10 @@ void YarpRobotLoggerDevice::saveExogenousImages(
             std::lock_guard bufferLock(m_bufferManagerMutex);
 
             // TODO here we may save the frame itself
-            m_bufferManager.push_back(std::chrono::duration<double>(time).count(),
+            m_bufferManager.push_back(frameIndex,
                                       std::chrono::duration<double>(time).count(),
                                       "exogenous_images::" + signal.signalName + "::rgb");
+            writer.frameIndex++;
         }
     }
 }
@@ -2793,7 +2794,7 @@ void BipedalLocomotion::YarpRobotLoggerDevice::waitForVideoThreadsToPause()
         allPaused = true;
         for (auto& [cameraName, writer] : m_videoWriters)
         {
-            if (!writer.paused)
+            if (writer.recordVideoIsRunning && !writer.paused)
             {
                 allPaused = false;
                 break;
@@ -2803,7 +2804,7 @@ void BipedalLocomotion::YarpRobotLoggerDevice::waitForVideoThreadsToPause()
         {
             for (auto& [cameraName, writer] : m_exogenousImageWriters)
             {
-                if (!writer.paused)
+                if (writer.recordVideoIsRunning && !writer.paused)
                 {
                     allPaused = false;
                     break;
@@ -2820,13 +2821,19 @@ void BipedalLocomotion::YarpRobotLoggerDevice::resumeVideoThreads()
 {
     for (auto& [cameraName, writer] : m_videoWriters)
     {
-        writer.requestPause = false;
-        writer.paused = false;
+        if (writer.recordVideoIsRunning)
+        {
+            writer.requestPause = false;
+            writer.paused = false;
+        }
     }
     for (auto& [cameraName, writer] : m_exogenousImageWriters)
     {
-        writer.requestPause = false;
-        writer.paused = false;
+        if (writer.recordVideoIsRunning)
+        {
+            writer.requestPause = false;
+            writer.paused = false;
+        }
     }
     log()->info("[YarpRobotLoggerDevice::resumeVideoThreads] Resumed video threads.");
 }
