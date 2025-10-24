@@ -154,12 +154,11 @@ private:
         std::atomic<unsigned int> frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
+        std::atomic<bool> requestPause{false};
     };
 
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
-    std::mutex m_videoWritersMutex;
-
     std::unordered_map<std::string, VideoWriter> m_exogenousImageWriters;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
@@ -318,6 +317,10 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
+
+    void waitForVideoThreadsToPause();
+
+    void resumeVideoThreads();
 
     virtual bool saveData(const std::string& tag = "") override;
 };
