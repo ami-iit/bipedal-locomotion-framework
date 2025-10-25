@@ -119,12 +119,18 @@ private:
         void disconnect();
     };
 
+    template <typename T> struct ExogenousSignalWithMetadata : ExogenousSignal<T>
+    {
+        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+        BipedalLocomotion::YarpUtilities::VectorsCollection convertedSignal;
+    };
+
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
         m_imageSignals;
-    std::unordered_map<std::string, ExogenousSignal<trintrin::msgs::HumanState>>
+    std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::HumanState>>
         m_humanStateSignals;
 
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
@@ -270,6 +276,15 @@ private:
     bool prepareCameraLogging();
     bool prepareExogenousImageLogging();
     bool prepareRTStreaming();
+
+    void extractMetadata(const trintrin::msgs::HumanState& message,
+                         const std::string& prefix,
+                         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
+
+    void
+    convertToVectorsCollection(const trintrin::msgs::HumanState& message,
+                               const std::string& prefix,
+                               BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
 
     const std::string defaultFilePrefix = "robot_logger_device";
     const std::string treeDelim = "::";
