@@ -2079,6 +2079,9 @@ void YarpRobotLoggerDevice::run()
 
     if (!m_firstRun)
     {
+        // This is to check if something happened with the clock.
+        // When the clock is reset, especially in simulation, the time difference
+        // between two consecutive run could be very big.
         if (t - m_previousTimestamp > m_acceptableStep)
         {
             log()->warn("{} The time step is too big. The previous timestamp is {} and the "
@@ -2477,6 +2480,18 @@ void YarpRobotLoggerDevice::run()
 
     m_previousTimestamp = t;
     m_firstRun = false;
+
+    // Check the duration of the run
+    double runDuration
+        = std::chrono::duration<double>(BipedalLocomotion::clock().now() - t).count();
+    if (runDuration > getPeriod())
+    {
+        log()->warn("{} The run method took {} seconds which is more than the "
+                    "configured period of {} seconds.",
+                    logPrefix,
+                    runDuration,
+                    getPeriod());
+    }
 
     yInfoThrottle(5) << "Logging data..";
 }
