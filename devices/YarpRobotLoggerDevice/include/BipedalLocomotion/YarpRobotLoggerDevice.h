@@ -283,31 +283,7 @@ private:
     bool prepareExogenousImageLogging();
     bool prepareRTStreaming();
 
-    void extractMetadata(const trintrin::msgs::HumanState& message,
-                         const std::string& prefix,
-                         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
-    void extractMetadata(const trintrin::msgs::WearableTargets& message,
-                         const std::string& prefix,
-                         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
-    void extractMetadata(const trintrin::msgs::WearableData& message,
-                         const std::string& prefix,
-                         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
-
-    void
-    convertToVectorsCollection(const trintrin::msgs::HumanState& message,
-                               const std::string& prefix,
-                               BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
-    void
-    convertToVectorsCollection(const trintrin::msgs::WearableTargets& message,
-                               const std::string& prefix,
-                               BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
-    void
-    convertToVectorsCollection(const trintrin::msgs::WearableData& message,
-                               const std::string& prefix,
-                               BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
-
     const std::string defaultFilePrefix = "robot_logger_device";
-    const std::string treeDelim = "::";
 
     const std::string robotRtRootName = "robot_realtime";
 
