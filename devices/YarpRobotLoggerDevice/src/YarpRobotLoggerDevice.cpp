@@ -522,6 +522,17 @@ bool YarpRobotLoggerDevice::setupExogenousInputs(
         return false;
     }
 
+    inputs.clear();
+    if (!ptr->getParameter("wearable_targets_exogenous_inputs", inputs))
+    {
+        log()->warn("{} Unable to get the wearable targets exogenous inputs. Assuming none.",
+                    logPrefix);
+    }
+    if (!openExogenousSignals(ptr, inputs, m_wearableTargetsSignals))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -1573,6 +1584,38 @@ void BipedalLocomotion::YarpRobotLoggerDevice::extractMetadata(
     metadata.vectors[p + "com" + treeDelim + "velocity"] = {"x", "y", "z"};
 }
 
+void BipedalLocomotion::YarpRobotLoggerDevice::extractMetadata(
+    const trintrin::msgs::WearableTargets& message,
+    const std::string& prefix,
+    BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata)
+{
+    std::string p = prefix + treeDelim;
+    for (const auto& [name, target] : message.targets)
+    {
+        std::string targetPrefix = p + name + treeDelim;
+        // The wearable sensor name and link name should not change,
+        // so we store them as metadata for the type (that is also constant)
+        metadata.vectors[targetPrefix + "type"]
+            = {target.wearableSensorName + "_" + target.linkName};
+        metadata.vectors[targetPrefix + "position"] = {"x", "y", "z"};
+        metadata.vectors[targetPrefix + "orientation"] = {"qx", "qy", "qz", "qw"};
+        metadata.vectors[targetPrefix + "linear_velocity"] = {"x", "y", "z"};
+        metadata.vectors[targetPrefix + "angular_velocity"] = {"x", "y", "z"};
+        metadata.vectors[targetPrefix + "calibration_world_to_measurement_world" + treeDelim
+                         + "position"]
+            = {"x", "y", "z"};
+        metadata.vectors[targetPrefix + "calibration_world_to_measurement_world" + treeDelim
+                         + "orientation"]
+            = {"qx", "qy", "qz", "qw"};
+        metadata.vectors[targetPrefix + "calibration_measurement_to_link" + treeDelim + "position"]
+            = {"x", "y", "z"};
+        metadata
+            .vectors[targetPrefix + "calibration_measurement_to_link" + treeDelim + "orientation"]
+            = {"qx", "qy", "qz", "qw"};
+        metadata.vectors[targetPrefix + "position_scale_factor"] = {"x", "y", "z"};
+    }
+}
+
 void BipedalLocomotion::YarpRobotLoggerDevice::convertToVectorsCollection(
     const trintrin::msgs::HumanState& message,
     const std::string& prefix,
@@ -1597,6 +1640,54 @@ void BipedalLocomotion::YarpRobotLoggerDevice::convertToVectorsCollection(
     collection.vectors[p + "com" + treeDelim + "velocity"] = {message.CoMVelocityWRTGlobal.x,
                                                               message.CoMVelocityWRTGlobal.y,
                                                               message.CoMVelocityWRTGlobal.z};
+}
+
+void BipedalLocomotion::YarpRobotLoggerDevice::convertToVectorsCollection(
+    const trintrin::msgs::WearableTargets& message,
+    const std::string& prefix,
+    BipedalLocomotion::YarpUtilities::VectorsCollection& collection)
+{
+    std::string p = prefix + treeDelim;
+    for (const auto& [name, target] : message.targets)
+    {
+        std::string targetPrefix = p + name + treeDelim;
+        collection.vectors[targetPrefix + "type"]
+            = {static_cast<double>(target.type)};
+        collection.vectors[targetPrefix + "position"]
+            = {target.position.x, target.position.y, target.position.z};
+        collection.vectors[targetPrefix + "orientation"] = {target.orientation.imaginary.x,
+                                                            target.orientation.imaginary.y,
+                                                            target.orientation.imaginary.z,
+                                                            target.orientation.w};
+        collection.vectors[targetPrefix + "linear_velocity"]
+            = {target.linearVelocity.x, target.linearVelocity.y, target.linearVelocity.z};
+        collection.vectors[targetPrefix + "angular_velocity"]
+            = {target.angularVelocity.x, target.angularVelocity.y, target.angularVelocity.z};
+        collection.vectors[targetPrefix + "calibration_world_to_measurement_world" + treeDelim
+                           + "position"]
+            = {target.calibrationWorldToMeasurementWorld.position.x,
+               target.calibrationWorldToMeasurementWorld.position.y,
+               target.calibrationWorldToMeasurementWorld.position.z};
+        collection.vectors[targetPrefix + "calibration_world_to_measurement_world" + treeDelim
+                           + "orientation"]
+            = {target.calibrationWorldToMeasurementWorld.orientation.imaginary.x,
+               target.calibrationWorldToMeasurementWorld.orientation.imaginary.y,
+               target.calibrationWorldToMeasurementWorld.orientation.imaginary.z,
+               target.calibrationWorldToMeasurementWorld.orientation.w};
+        collection.vectors[targetPrefix + "calibration_measurement_to_link" + treeDelim + "position"]
+            = {target.calibrationMeasurementToLink.position.x,
+               target.calibrationMeasurementToLink.position.y,
+               target.calibrationMeasurementToLink.position.z};
+        collection
+            .vectors[targetPrefix + "calibration_measurement_to_link" + treeDelim + "orientation"]
+            = {target.calibrationMeasurementToLink.orientation.imaginary.x,
+               target.calibrationMeasurementToLink.orientation.imaginary.y,
+               target.calibrationMeasurementToLink.orientation.imaginary.z,
+               target.calibrationMeasurementToLink.orientation.w};
+        collection.vectors[targetPrefix + "position_scale_factor"] = {target.positionScaleFactor.x,
+                                                                      target.positionScaleFactor.y,
+                                                                      target.positionScaleFactor.z};
+    }
 }
 
 bool YarpRobotLoggerDevice::openVideoWriter(
@@ -1731,6 +1822,7 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
         connectToExogeneous(m_vectorSignals);
         connectToExogeneous(m_stringSignals);
         connectToExogeneous(m_humanStateSignals);
+        connectToExogeneous(m_wearableTargetsSignals);
         connectToExogeneous(m_imageSignals);
 
         // TODO check for updated metadata from already connected signals
@@ -2519,6 +2611,7 @@ void YarpRobotLoggerDevice::run()
     };
 
     handleExogenousWithMetadata(m_humanStateSignals, time);
+    handleExogenousWithMetadata(m_wearableTargetsSignals, time);
 
 
 
