@@ -31,6 +31,7 @@
 
 #include <trintrin/msgs/HumanState.h>
 #include <trintrin/msgs/WearableTargets.h>
+#include <trintrin/msgs/WearableData.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
@@ -135,6 +136,8 @@ private:
         m_humanStateSignals;
     std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::WearableTargets>>
         m_wearableTargetsSignals;
+    std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::WearableData>>
+        m_wearableDataSignals;
 
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
     std::thread m_lookForNewExogenousSignalThread;
@@ -286,6 +289,9 @@ private:
     void extractMetadata(const trintrin::msgs::WearableTargets& message,
                          const std::string& prefix,
                          BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
+    void extractMetadata(const trintrin::msgs::WearableData& message,
+                         const std::string& prefix,
+                         BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata& metadata);
 
     void
     convertToVectorsCollection(const trintrin::msgs::HumanState& message,
@@ -293,6 +299,10 @@ private:
                                BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
     void
     convertToVectorsCollection(const trintrin::msgs::WearableTargets& message,
+                               const std::string& prefix,
+                               BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
+    void
+    convertToVectorsCollection(const trintrin::msgs::WearableData& message,
                                const std::string& prefix,
                                BipedalLocomotion::YarpUtilities::VectorsCollection& collection);
 
