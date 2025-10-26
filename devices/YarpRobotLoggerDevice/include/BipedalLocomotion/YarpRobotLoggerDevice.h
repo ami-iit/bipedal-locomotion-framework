@@ -63,6 +63,8 @@ private:
     std::chrono::nanoseconds m_previousTimestamp;
     std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
     bool m_firstRun{true};
+    std::atomic<bool> m_requestPause{false};
+    std::atomic<bool> m_paused{false};
 
     using ft_t = Eigen::Matrix<double, 6, 1>;
     using gyro_t = Eigen::Matrix<double, 3, 1>;
@@ -317,9 +319,9 @@ private:
 
     const std::string timestampsName = "timestamps";
 
-    void waitForVideoThreadsToPause();
+    void waitForAcquisitionThreadsToPause();
 
-    void resumeVideoThreads();
+    void resumeAcquisitionThreads();
 
     virtual bool saveData(const std::string& tag = "") override;
 };

@@ -2082,6 +2082,7 @@ void YarpRobotLoggerDevice::run()
         // This is to check if something happened with the clock.
         // When the clock is reset, especially in simulation, the time difference
         // between two consecutive run could be very big.
+        // This effectively stops the logging until the next valid timestamp
         if (t - m_previousTimestamp > m_acceptableStep)
         {
             log()->warn("{} The time step is too big. The previous timestamp is {} and the "
@@ -2093,6 +2094,17 @@ void YarpRobotLoggerDevice::run()
                         std::chrono::duration<double>(t - m_previousTimestamp));
             return;
         }
+    }
+
+    if (m_requestPause)
+    {
+        m_paused = true;
+    }
+    if (m_paused)
+    {
+        m_previousTimestamp = t;
+        m_firstRun = false;
+        return;
     }
 
     const double time = std::chrono::duration<double>(t).count();
@@ -2545,7 +2557,7 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         return true;
     };
 
-    waitForVideoThreadsToPause();
+    waitForAcquisitionThreadsToPause();
 
     // save the video if there is any
     for (const auto& camera : m_rgbCamerasList)
@@ -2740,7 +2752,10 @@ bool YarpRobotLoggerDevice::saveCallback(const std::string& fileName,
         writer.resetIndex = true;
     }
 
-    resumeVideoThreads();
+    if (method != robometry::SaveCallbackSaveMethod::last_call)
+    {
+        resumeAcquisitionThreads();
+    }
 
     // save the status of the code
     this->saveCodeStatus(logPrefix, fileName);
@@ -2760,6 +2775,9 @@ bool YarpRobotLoggerDevice::detachAll()
 
 bool YarpRobotLoggerDevice::close()
 {
+    // Wait for the run method to finish
+    stop();
+
     m_rpcPort.close();
     m_statusPort.close();
 
@@ -2810,10 +2828,10 @@ bool YarpRobotLoggerDevice::close()
     return true;
 }
 
-void BipedalLocomotion::YarpRobotLoggerDevice::waitForVideoThreadsToPause()
+void BipedalLocomotion::YarpRobotLoggerDevice::waitForAcquisitionThreadsToPause()
 {
-    // First we request all video threads to pause and we wait for them to be paused
-    log()->info("[YarpRobotLoggerDevice::waitForVideoThreadsToPause] Pausing video threads...");
+    // First we request all acquisition threads to pause and we wait for them to be paused
+    log()->info("[YarpRobotLoggerDevice::waitForAcquisitionThreadsToPause] Pausing acquisition threads...");
     for (auto& [cameraName, writer] : m_videoWriters)
     {
         writer.requestPause = true;
@@ -2822,7 +2840,9 @@ void BipedalLocomotion::YarpRobotLoggerDevice::waitForVideoThreadsToPause()
     {
         writer.requestPause = true;
     }
-    // Wait for all the video threads to be paused
+    m_requestPause = true;
+
+    // Wait for all the acquisition threads to be paused
     bool allPaused = false;
     while (!allPaused)
     {
@@ -2846,13 +2866,14 @@ void BipedalLocomotion::YarpRobotLoggerDevice::waitForVideoThreadsToPause()
                 }
             }
         }
+        allPaused = allPaused && (!isRunning() || m_paused.load());
         using namespace std::chrono_literals;
         BipedalLocomotion::clock().sleepFor(1ms);
     }
-    log()->info("[YarpRobotLoggerDevice::waitForVideoThreadsToPause] All video threads paused.");
+    log()->info("[YarpRobotLoggerDevice::waitForAcquisitionThreadsToPause] All acquisition threads paused.");
 }
 
-void BipedalLocomotion::YarpRobotLoggerDevice::resumeVideoThreads()
+void BipedalLocomotion::YarpRobotLoggerDevice::resumeAcquisitionThreads()
 {
     for (auto& [cameraName, writer] : m_videoWriters)
     {
@@ -2870,7 +2891,9 @@ void BipedalLocomotion::YarpRobotLoggerDevice::resumeVideoThreads()
             writer.paused = false;
         }
     }
-    log()->info("[YarpRobotLoggerDevice::resumeVideoThreads] Resumed video threads.");
+    m_requestPause = false;
+    m_paused = false;
+    log()->info("[YarpRobotLoggerDevice::resumeAcquisitionThreads] Resumed acquisition threads.");
 }
 
 bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
@@ -2921,7 +2944,7 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::saveData(const std::string& tag)
         inputFileName = defaultFilePrefix + "_" + edited_tag;
     }
 
-    waitForVideoThreadsToPause();
+    waitForAcquisitionThreadsToPause();
 
     {
         std::lock_guard<std::mutex> lockBuffer(m_bufferManagerMutex);
