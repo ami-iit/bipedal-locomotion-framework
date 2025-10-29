@@ -8,6 +8,7 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <random>
+#include <unistd.h> // for getpid()
 #include <yarp/os/Network.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
@@ -30,6 +31,9 @@ struct YarpNetworkGlobalFixture : Catch::EventListenerBase
     void testRunEnded(Catch::TestRunStats const&) override
     {
         yarp::os::Network::fini();
+
+        // Allow a short time for YARP resources to be released before exiting
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 };
 
@@ -41,8 +45,11 @@ std::string generateUniquePortName(const std::string& base)
     std::uniform_int_distribution<int> dist(10000, 99999);
     int random_number = dist(rng);
 
+    // Add process ID to ensure uniqueness across processes
+    int pid = getpid();
+
     std::ostringstream oss;
-    oss << base << "_" << random_number;
+    oss << base << "_" << pid << "_" << random_number;
     return oss.str();
 }
 
