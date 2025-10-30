@@ -1915,8 +1915,6 @@ void YarpRobotLoggerDevice::saveExogenousImages(
 {
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::saveExogenousImages]";
 
-    auto time = BipedalLocomotion::clock().now();
-
     writer.recordVideoIsRunning = true;
 
     while (writer.recordVideoIsRunning)
@@ -1930,7 +1928,7 @@ void YarpRobotLoggerDevice::saveExogenousImages(
         std::lock_guard<std::mutex> lock(signal.mutex);
         // Blocking read, so we save only when a new frame arrives
         yarp::sig::ImageOf<yarp::sig::PixelRgb>* yarpImage = signal.port.read(true);
-        time = BipedalLocomotion::clock().now();
+        auto time = BipedalLocomotion::clock().now();
 
         if (yarpImage != nullptr)
         {
