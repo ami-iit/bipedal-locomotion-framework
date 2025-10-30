@@ -1930,6 +1930,7 @@ void YarpRobotLoggerDevice::saveExogenousImages(
         std::lock_guard<std::mutex> lock(signal.mutex);
         // Blocking read, so we save only when a new frame arrives
         yarp::sig::ImageOf<yarp::sig::PixelRgb>* yarpImage = signal.port.read(true);
+        time = BipedalLocomotion::clock().now();
 
         if (yarpImage != nullptr)
         {
