@@ -15,5 +15,10 @@ add_bipedal_test(
 )
 
 # Set different port ranges for the two tests to avoid address conflicts
-set_property(TEST VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=20000")
-set_property(TEST memcheck_VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=21000")
+if(TEST VectorsCollectionTestUnitTests)
+  set_property(TEST VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=20000")
+endif()
+
+if(TEST memcheck_VectorsCollectionTestUnitTests)
+  set_property(TEST memcheck_VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=21000")
+endif()
