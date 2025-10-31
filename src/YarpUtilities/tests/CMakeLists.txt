@@ -12,4 +12,5 @@ add_bipedal_test(
     NAME VectorsCollectionTest
     SOURCES VectorsCollectionTest.cpp
     LINKS BipedalLocomotion::YarpUtilities BipedalLocomotion::VectorsCollection
-    )
+    DISABLE_VALGRIND_TEST
+)
