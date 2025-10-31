@@ -12,5 +12,8 @@ add_bipedal_test(
     NAME VectorsCollectionTest
     SOURCES VectorsCollectionTest.cpp
     LINKS BipedalLocomotion::YarpUtilities BipedalLocomotion::VectorsCollection
-    DISABLE_VALGRIND_TEST
 )
+
+# Set different port ranges for the two tests to avoid address conflicts
+set_property(TEST VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=20000")
+set_property(TEST memcheck_VectorsCollectionTestUnitTests APPEND PROPERTY ENVIRONMENT "YARP_PORT_RANGE=21000")

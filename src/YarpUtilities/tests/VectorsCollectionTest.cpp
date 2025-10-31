@@ -31,6 +31,8 @@ struct YarpNetworkGlobalFixture : Catch::EventListenerBase
 
         // Initialize YARP network for inter-process communication
         yarp::os::Network::init();
+
+        std::cout << "YARP port range: " << yarp::os::Network::getDefaultPortRange() << std::endl;
     }
 
     void testRunEnded(Catch::TestRunStats const&) override
