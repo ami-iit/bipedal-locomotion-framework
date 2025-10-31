@@ -560,3 +560,24 @@
    fun:_ZN15ACE_DLL_ManagerD1Ev
    fun:_ZN15ACE_DLL_Manager15close_singletonEv
 }
+
+{
+   opencv_tbb_parallel_for_leak_4.6.0
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.34
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   obj:/usr/lib/x86_64-linux-gnu/libopencv_core.so.4.6.0
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   obj:/usr/lib/x86_64-linux-gnu/libopencv_core.so.4.6.0
+   obj:/usr/lib/x86_64-linux-gnu/libtbb.so.12.11
+   fun:_ZN2cv13parallel_for_ERKNS_5RangeERKNS_16ParallelLoopBodyEd
+}
