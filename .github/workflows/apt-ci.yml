@@ -162,4 +162,4 @@ jobs:
       shell: bash
       run: |
         cd build
-        ctest -E "${BLF_TEST_TO_SKIP}" --output-on-failure -C ${{ matrix.build_type }} .
+        ctest -E "${BLF_TEST_TO_SKIP}" --output-on-failure -C ${{ matrix.build_type }} -j${{env.NUM_CORES_FOR_CMAKE_BUILD}} .
