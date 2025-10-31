@@ -191,6 +191,13 @@ VectorsCollectionClient::readData(bool shouldWait /*= true */)
     int receivedVersion = data->version;
     if (receivedVersion >= 0 && receivedVersion > m_pimpl->cachedVersion)
     {
+        if (!m_pimpl->newMetadataAvailable) // Only log on the first detection
+        {
+            log()->warn("[VectorsCollectionClient::readData] Received data with new metadata "
+                        "version {} (previous {}). New metadata is available.",
+                        receivedVersion,
+                        m_pimpl->cachedVersion);
+        }
         m_pimpl->newMetadataAvailable = true;
     }
 
