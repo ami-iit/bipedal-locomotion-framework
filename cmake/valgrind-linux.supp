@@ -517,3 +517,46 @@
    fun:dlopen_implementation
    fun:dlopen@@GLIBC_2.34
 }
+
+{
+   <ubuntu-24-04-apt-ace-dlopen>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:malloc
+   fun:resize_scopes
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+   fun:dlopen
+   fun:_ZN14ACE_DLL_Handle6open_iEPKciP15ACE_Fixed_StackI15ACE_String_BaseIcELm10EE
+}
+
+{
+   <ubuntu-24-04-apt-ace-dlclose>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:malloc
+   fun:_dl_close_worker.part.0
+   fun:_dl_close_worker
+   fun:_dl_close
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlclose@@GLIBC_2.34
+   fun:dlclose
+   fun:_ZN14ACE_DLL_Handle5closeEi
+   fun:_ZN15ACE_DLL_Manager10unload_dllEP14ACE_DLL_Handlei
+   fun:_ZN15ACE_DLL_Manager5closeEv
+   fun:_ZN15ACE_DLL_ManagerD1Ev
+   fun:_ZN15ACE_DLL_Manager15close_singletonEv
+}
