@@ -8,7 +8,12 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <random>
+#include <thread>
+#if defined(_WIN32)
+#include <process.h> // for _getpid()
+#else
 #include <unistd.h> // for getpid()
+#endif
 #include <yarp/os/Network.h>
 
 using namespace BipedalLocomotion::YarpUtilities;
@@ -46,7 +51,11 @@ std::string generateUniquePortName(const std::string& base)
     int random_number = dist(rng);
 
     // Add process ID to ensure uniqueness across processes
+#if defined(_WIN32)
+    int pid = _getpid();
+#else
     int pid = getpid();
+#endif
 
     std::ostringstream oss;
     oss << base << "_" << pid << "_" << random_number;
