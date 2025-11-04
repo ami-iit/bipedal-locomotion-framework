@@ -1595,9 +1595,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                                 "metadata for the vectors collection signal named: {}",
                                 name);
 
-                    // TODO: only get incremental metadata updates
-                    // if (!signal.client.isNewMetadataAvailable()
-                    //     && signal.client.getMetadata(signal.metadata))
                     if (signal.client.getMetadata(signal.metadata))
 
                     {
@@ -2225,12 +2222,7 @@ void YarpRobotLoggerDevice::run()
                               && addChannel(signalFullName, vector.size(), {metadata->second});
                     }
                 }
-
-                if (channelAdded)
-                {
-                    signal.dataArrived = true;
-                }
-
+                signal.dataArrived = channelAdded;
             } else
             {
                 for (const auto & [ key, vector ] : collection->vectors)
