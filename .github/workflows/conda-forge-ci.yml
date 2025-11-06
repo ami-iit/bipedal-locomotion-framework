@@ -32,7 +32,7 @@ jobs:
       with:
         miniforge-variant: Miniforge3
         miniforge-version: latest
-        channels: conda-forge,robostack-jazzy,robotology
+        channels: conda-forge,robostack-jazzy
         channel-priority: true
         conda-remove-defaults: true
 
