@@ -828,55 +828,46 @@ bool YarpRobotLoggerDevice::addChannel(const std::string& nameKey,
         }
     }
 
-    // RT mode: populate metadata for robot signals (for exogenous signals this is done in the
-    // lookForExogenousSignals method)
+    // RT mode: populate metadata for all signals (robot and exogenous)
     if (m_sendDataRT)
     {
         std::string rtNameKey = robotRtRootName + treeDelim + nameKey;
 
-        // Check if this is an exogenous signal
-        bool isExogenous = false;
-        for (const auto& [remote, signal] : m_vectorsCollectionSignals)
+        // use provided metadata if available, otherwise generate defaults
+        const bool hasMetadata = !metadataNames.empty();
+        if (hasMetadata)
         {
-            std::string prefix = signal.signalName + treeDelim;
-            if (nameKey.rfind(prefix, 0) == 0)
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames))
             {
-                isExogenous = true;
-                break;
+                log()->error("[Realtime logging] Failed to populate the metadata for the signal {}",
+                             rtNameKey);
+                return false;
+            }
+        } else
+        {
+            std::vector<std::string> defaultMetadata;
+            defaultMetadata.reserve(vectorSize);
+            for (std::size_t i = 0; i < vectorSize; i++)
+            {
+                defaultMetadata.push_back("element_" + std::to_string(i));
+            }
+
+            if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, defaultMetadata))
+            {
+                log()->error("[Realtime logging] Failed to populate default metadata for the "
+                             "signal {}",
+                             rtNameKey);
+                return false;
             }
         }
 
-        if (!isExogenous)
+        // Make the new metadata available to clients
+        if (!m_vectorCollectionRTDataServer.finalizeMetadata())
         {
-            // if the metadata names are empty then the default metadata will be used
-            if (!metadataNames.empty())
-            {
-                if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, metadataNames))
-                {
-                    log()->error("[Realtime logging] Failed to populate the metadata for the "
-                                 "signal {}",
-                                 rtNameKey);
-                    return false;
-                }
-
-            } else
-            {
-                std::vector<std::string> defaultMetadata;
-                for (std::size_t i = 0; i < vectorSize; i++)
-                {
-                    defaultMetadata.push_back("element_" + std::to_string(i));
-                }
-
-                if (!m_vectorCollectionRTDataServer.populateMetadata(rtNameKey, defaultMetadata))
-                {
-                    log()->error("[Realtime logging] Failed to populate metadata with "
-                                 "default "
-                                 "values "
-                                 "for the signal {}",
-                                 rtNameKey);
-                    return false;
-                }
-            }
+            log()->warn("[Realtime logging] Failed to finalize RT metadata after adding '{}'. "
+                        "Clients may not see the update until the next successful finalization.",
+                        rtNameKey);
+            return false;
         }
     }
     return true;
@@ -1576,64 +1567,6 @@ void YarpRobotLoggerDevice::lookForExogenousSignals()
                 std::lock_guard<std::mutex> lock(signal.mutex);
 
                 connectionDone = signal.connect();
-
-                // try to connect to the signal
-
-                // if the connection is successful, get the metadata
-                // this is required only for the vectors collection signal
-                if constexpr (std::is_same_v<std::decay_t<decltype(signal)>,
-                                             typename decltype(
-                                                 this->m_vectorsCollectionSignals)::mapped_type>)
-                {
-                    if (!connectionDone)
-                    {
-                        continue;
-                    }
-
-                    log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] Attempt to get "
-                                "the "
-                                "metadata for the vectors collection signal named: {}",
-                                name);
-
-                    if (signal.client.getMetadata(signal.metadata))
-
-                    {
-                        // Add new metadata to RT server and finalize version
-                        bool newMetadataAdded = false;
-                        for (const auto& [key, metadata] : signal.metadata.vectors)
-                        {
-                            std::string rtSignalName
-                                = robotRtRootName + treeDelim + signal.signalName + treeDelim + key;
-                            if (m_vectorCollectionRTDataServer.populateMetadata(rtSignalName,
-                                                                                {metadata}))
-                            {
-                                newMetadataAdded = true;
-                            }
-                        }
-                        if (newMetadataAdded)
-                        {
-                            if (m_vectorCollectionRTDataServer.finalizeMetadata())
-                            {
-                                log()->info("[YarpRobotLoggerDevice::lookForExogenousSignals] "
-                                            "Finalized new RT metadata version for "
-                                            "VectorsCollection: {}",
-                                            name);
-                            } else
-                            {
-                                log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] "
-                                            "Failed to finalize new RT metadata for "
-                                            "VectorsCollection: {}",
-                                            name);
-                            }
-                        }
-                    } else
-                    {
-                        log()->warn("[YarpRobotLoggerDevice::lookForExogenousSignals] Unable to "
-                                    "get the metadata for the signal named: {}. The exogenous "
-                                    "signal will not contain the metadata.",
-                                    name);
-                    }
-                }
             }
 
             signal.connected = connectionDone;
@@ -2200,6 +2133,16 @@ void YarpRobotLoggerDevice::run()
             if (!signal.dataArrived)
             {
                 bool channelAdded = true;
+                // Fetch metadata on-demand if not yet available
+                if (signal.metadata.vectors.empty())
+                {
+                    if (signal.client.getMetadata(signal.metadata))
+                    {
+                        log()->info("{} Fetched metadata on-demand for exogenous signal group: {}",
+                                    logPrefix,
+                                    signal.signalName);
+                    }
+                }
                 for (const auto & [ key, vector ] : collection->vectors)
                 {
                     signalFullName = signal.signalName + treeDelim + key;
