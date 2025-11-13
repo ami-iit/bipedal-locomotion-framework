@@ -45,7 +45,12 @@ void CreateVectorsCollectionServer(pybind11::module& module)
                 Eigen::Ref<const Eigen::VectorXd> data) -> bool {
                  return impl.populateData(key, data);
              })
-        .def("prepare_data", &VectorsCollectionServer::prepareData);
+        .def("prepare_data", &VectorsCollectionServer::prepareData)
+        .def("get_metadata", &VectorsCollectionServer::getMetadata)
+        .def("get_metadata_incremental",
+             &VectorsCollectionServer::getMetadataIncremental,
+             py::arg("from_version"))
+        .def("are_metadata_ready", &VectorsCollectionServer::areMetadataReady);
 }
 
 void CreateVectorsCollectionClient(pybind11::module& module)
@@ -86,7 +91,8 @@ void CreateVectorsCollectionClient(pybind11::module& module)
                  }
                  VectorsCollection collection = *collectionPtr;
                  return collection;
-             });
+             })
+        .def("is_new_metadata_available", &VectorsCollectionClient::isNewMetadataAvailable);
 }
 
 void CreateVectorsCollectionMetadata(pybind11::module& module)
