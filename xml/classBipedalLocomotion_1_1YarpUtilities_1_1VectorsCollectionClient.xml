@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="85" column="21" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" bodystart="84" bodyend="-1"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="93" column="21" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" bodystart="92" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -134,6 +134,25 @@
         </inbodydescription>
         <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="66" column="10"/>
       </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1ab5de5f8802943ea2881eed4c5f25deba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BipedalLocomotion::YarpUtilities::VectorsCollectionClient::isNewMetadataAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isNewMetadataAvailable</name>
+        <briefdescription>
+<para>Check if new metadata is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if new metadata is available, false otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>it requires that the client is connected and that at least one data or metadata has been read from the server. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="74" column="10"/>
+      </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a876e4982c25802f40aae7d679d6a08a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool BipedalLocomotion::YarpUtilities::VectorsCollectionClient::getMetadata</definition>
@@ -162,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="73" column="10"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="81" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a852a3bc04e23591dfd9b5485147aa346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>BipedalLocomotion::YarpUtilities::VectorsCollection *</type>
@@ -193,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="81" column="57"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="89" column="57"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -201,12 +220,13 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="30" column="1" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" bodystart="31" bodyend="86"/>
+    <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" line="30" column="1" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionClient.h" bodystart="31" bodyend="94"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a1b8462b0453b3fa6ef1fdb8924550460" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>connect</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a775a57a8dcbdef77362ac739f2831f9f" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>disconnect</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a876e4982c25802f40aae7d679d6a08a9" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>getMetadata</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a44391d83f00acff0c0887d38bf14506c" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>initialize</name></member>
+      <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1ab5de5f8802943ea2881eed4c5f25deba" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>isNewMetadataAvailable</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a12f788ac0c41c55773d62134a03fc7b0" prot="private" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1a852a3bc04e23591dfd9b5485147aa346" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>readData</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient_1aa72a895a6d81196d062c755720d60a12" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionClient</scope><name>VectorsCollectionClient</name></member>

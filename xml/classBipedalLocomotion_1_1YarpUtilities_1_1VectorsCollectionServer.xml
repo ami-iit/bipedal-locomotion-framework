@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="142" column="21" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" bodystart="141" bodyend="-1"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="152" column="21" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" bodystart="151" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -209,11 +209,45 @@
 </simplesect>
 <simplesect kind="note"><para>if the metadata is not ready, an empty VectorsCollectionMetadata is returned. </para>
 </simplesect>
+<simplesect kind="note"><para>if some keys are pending to be finalized, the last finalized metadata is returned. </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="109" column="31"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="110" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a3a06e2e61cee2489ee279c8607dfb76a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>VectorsCollectionMetadata</type>
+        <definition>VectorsCollectionMetadata BipedalLocomotion::YarpUtilities::VectorsCollectionServer::getMetadataIncremental</definition>
+        <argsstring>(const std::int32_t fromVersion) override</argsstring>
+        <name>getMetadataIncremental</name>
+        <param>
+          <type>const std::int32_t</type>
+          <declname>fromVersion</declname>
+        </param>
+        <briefdescription>
+<para>Read only the metadata introduced after the provided version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>version from which the metadata should be returned. Pass -1 to get the full metadata. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the metadata introduced after the provided version. </para>
+</simplesect>
+<simplesect kind="note"><para>if the metadata is not ready, an empty VectorsCollectionMetadata is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="119" column="31"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab9bad32b954249921c8b393b29d4890b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -224,13 +258,13 @@
 <para>Check if the metadata is ready. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>true if the metadata is ready, false otherwise. </para>
+<para><simplesect kind="return"><para>true if the metadata is ready (it has been finalized at least once), false otherwise. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="115" column="10"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="125" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a11300c1246f96871f3952f8b0e47fb24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -247,7 +281,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="121" column="10"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="131" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab664728a5a709297618f9e94b8a3e64b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -276,7 +310,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="128" column="10"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="138" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a425cd46ed345c642ad4558b37914f0d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -297,7 +331,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="138" column="10"/>
+        <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="148" column="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -348,12 +382,13 @@
         <label>VectorsCollectionMetadataService</label>
       </node>
     </collaborationgraph>
-    <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="54" column="1" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" bodystart="55" bodyend="143"/>
+    <location file="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" line="54" column="1" bodyfile="BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h" bodystart="55" bodyend="153"/>
     <listofallmembers>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1ab9bad32b954249921c8b393b29d4890b" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>areMetadataReady</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a425cd46ed345c642ad4558b37914f0d7" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>clearData</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a8d6c90c7512271ebfa615e465634d6c8" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>finalizeMetadata</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a4e86fc0a34e47a37d548ccc894a3eead" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>getMetadata</name></member>
+      <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a3a06e2e61cee2489ee279c8607dfb76a" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>getMetadataIncremental</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a5aa7a1d27b90a8ea57e04787fdae1835" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>initialize</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a0e8b2b00daf7717db8fe01c0bf74ee12" prot="private" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>m_pimpl</name></member>
       <member refid="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer_1a47e3d8463e7d6ed8bc0b017b23bf1876" prot="public" virt="non-virtual"><scope>BipedalLocomotion::YarpUtilities::VectorsCollectionServer</scope><name>populateData</name></member>

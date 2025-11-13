@@ -134,6 +134,10 @@
             </dt>
             <dd>Get the metadata.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3a06e2e61cee2489ee279c8607dfb76a" class="m-doc">getMetadataIncremental</a>(</span><span class="m-doc-wrap">const std::int32_t fromVersion) -&gt; VectorsCollectionMetadata <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd>Read only the metadata introduced after the provided version.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#ab9bad32b954249921c8b393b29d4890b" class="m-doc">areMetadataReady</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd>Check if the metadata is ready.</dd>
@@ -262,6 +266,30 @@
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-info"><h4>Note</h4><p>if the metadata is not ready, an empty VectorsCollectionMetadata is returned.</p><p>if some keys are pending to be finalized, the last finalized metadata is returned.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3a06e2e61cee2489ee279c8607dfb76a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">VectorsCollectionMetadata BipedalLocomotion::<wbr />YarpUtilities::<wbr />VectorsCollectionServer::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3a06e2e61cee2489ee279c8607dfb76a" class="m-doc-self">getMetadataIncremental</a>(</span><span class="m-doc-wrap">const std::int32_t fromVersion) <span class="m-label m-warning">override</span></span></span>
+            </h3>
+            <p>Read only the metadata introduced after the provided version.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">fromVersion</td>
+                  <td>version from which the metadata should be returned. Pass -1 to get the full metadata.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>the metadata introduced after the provided version.</td>
+                </tr>
+              </tfoot>
+            </table>
 <aside class="m-note m-info"><h4>Note</h4><p>if the metadata is not ready, an empty VectorsCollectionMetadata is returned.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ab9bad32b954249921c8b393b29d4890b"><div>
@@ -273,7 +301,7 @@
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>true if the metadata is ready, false otherwise.</td>
+                  <td>true if the metadata is ready (it has been finalized at least once), false otherwise.</td>
                 </tr>
               </tfoot>
             </table>
