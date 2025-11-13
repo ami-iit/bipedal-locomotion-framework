@@ -1435,8 +1435,6 @@ bool BipedalLocomotion::YarpRobotLoggerDevice::prepareCameraLogging()
 
 bool BipedalLocomotion::YarpRobotLoggerDevice::prepareRTStreaming()
 {
-    // Only populate the metadata for robot signals (for exogenous signals this is done in the
-    // lookForExogenousSignals method)
     constexpr auto logPrefix = "[YarpRobotLoggerDevice::prepareRTStreaming]";
     if (!m_sendDataRT)
     {
