@@ -34,12 +34,11 @@ jobs:
         miniforge-version: latest
         channels: conda-forge,robostack-jazzy
         channel-priority: true
+        conda-remove-defaults: true
 
     - name: Dependencies
       shell: bash -l {0}
       run: |
-        # Workaround for https://github.com/conda-incubator/setup-miniconda/issues/186
-        conda config --remove channels defaults
         # Dependencies
         conda install cmake compilers make ninja pkg-config \
                       "idyntree>=12.2.1" "yarp>=3.5.0" libmatio libmatio-cpp librobometry \
@@ -126,7 +125,8 @@ jobs:
       shell: cmd /C call {0}
       run: |
         cd build
-        ctest --output-on-failure -C ${{ matrix.build_type }}
+        :: Python as a workaround for https://github.com/ami-iit/bipedal-locomotion-framework/issues/992
+        ctest --output-on-failure -C ${{ matrix.build_type }} -E "Python"
 
     - name: Install and test installed package [Windows]
       if: contains(matrix.os, 'windows')
