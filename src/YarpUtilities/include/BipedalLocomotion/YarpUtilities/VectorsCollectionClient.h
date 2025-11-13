@@ -66,6 +66,14 @@ public:
     bool disconnect();
 
     /**
+     * Check if new metadata is available.
+     * @return true if new metadata is available, false otherwise.
+     * @note it requires that the client is connected and that at least one data or metadata has
+     * been read from the server.
+     */
+    bool isNewMetadataAvailable() const;
+
+    /**
      * Get the metadata.
      * @param metadata metadata of the vectors collection.
      * @return true if the metadata has been retrieved successfully, false otherwise.

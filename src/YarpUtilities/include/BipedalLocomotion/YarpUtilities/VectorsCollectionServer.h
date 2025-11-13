@@ -105,12 +105,22 @@ public:
      * Get the metadata.
      * @return the metadata.
      * @note if the metadata is not ready, an empty VectorsCollectionMetadata is returned.
+     * @note if some keys are pending to be finalized, the last finalized metadata is returned.
      */
     VectorsCollectionMetadata getMetadata() override;
 
     /**
+     * Read only the metadata introduced after the provided version.
+     * @param fromVersion version from which the metadata should be returned. Pass -1 to get the
+     * full metadata.
+     * @return the metadata introduced after the provided version.
+     * @note if the metadata is not ready, an empty VectorsCollectionMetadata is returned.
+     */
+    VectorsCollectionMetadata getMetadataIncremental(const std::int32_t fromVersion) override;
+
+    /**
      * Check if the metadata is ready.
-     * @return true if the metadata is ready, false otherwise.
+     * @return true if the metadata is ready (it has been finalized at least once), false otherwise.
      */
     bool areMetadataReady() override;
 
