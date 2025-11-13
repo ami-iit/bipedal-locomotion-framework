@@ -24,9 +24,14 @@
 #include <yarp/os/Bottle.h>
 #include <yarp/os/BufferedPort.h>
 #include <yarp/os/PeriodicThread.h>
+#include <yarp/sig/Image.h>
 #include <yarp/sig/Vector.h>
 
 #include <robometry/BufferManager.h>
+
+#include <trintrin/msgs/HumanState.h>
+#include <trintrin/msgs/WearableTargets.h>
+#include <trintrin/msgs/WearableData.h>
 
 #include <BipedalLocomotion/ParametersHandler/IParametersHandler.h>
 #include <BipedalLocomotion/RobotInterface/YarpCameraBridge.h>
@@ -62,6 +67,8 @@ private:
     std::chrono::nanoseconds m_previousTimestamp;
     std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
     bool m_firstRun{true};
+    std::atomic<bool> m_requestPause{false};
+    std::atomic<bool> m_paused{false};
 
     using ft_t = Eigen::Matrix<double, 6, 1>;
     using gyro_t = Eigen::Matrix<double, 3, 1>;
@@ -114,11 +121,24 @@ private:
         void disconnect();
     };
 
+    template <typename T> struct ExogenousSignalWithMetadata : ExogenousSignal<T>
+    {
+        BipedalLocomotion::YarpUtilities::VectorsCollectionMetadata metadata;
+        BipedalLocomotion::YarpUtilities::VectorsCollection convertedSignal;
+    };
+
     std::unordered_map<std::string, VectorsCollectionSignal> m_vectorsCollectionSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::Vector>> m_vectorSignals;
     std::unordered_map<std::string, ExogenousSignal<yarp::os::Bottle>> m_stringSignals;
+    std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
+        m_imageSignals;
+    std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::HumanState>>
+        m_humanStateSignals;
+    std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::WearableTargets>>
+        m_wearableTargetsSignals;
+    std::unordered_map<std::string, ExogenousSignalWithMetadata<trintrin::msgs::WearableData>>
+        m_wearableDataSignals;
 
-    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
     std::thread m_lookForNewExogenousSignalThread;
 
@@ -148,13 +168,15 @@ private:
         std::thread videoThread;
         std::atomic<bool> recordVideoIsRunning{false};
         int fps{-1};
+        std::atomic<unsigned int> frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
+        std::atomic<bool> requestPause{false};
     };
 
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
-    std::mutex m_videoWritersMutex;
+    std::unordered_map<std::string, VideoWriter> m_exogenousImageWriters;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
     std::unordered_set<std::string> m_textLoggingPortNames;
@@ -231,6 +253,9 @@ private:
 
     bool hasSubstring(const std::string& str, const std::vector<std::string>& substrings) const;
     void recordVideo(const std::string& cameraName, VideoWriter& writer);
+    void saveExogenousImages(const std::string& signalName,
+                             VideoWriter& writer,
+                             ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>& signal);
     void saveCodeStatus(const std::string& logPrefix, const std::string& fileName) const;
     void unpackIMU(Eigen::Ref<const analog_sensor_t> signal,
                    Eigen::Ref<accelerometer_t> accelerometer,
@@ -255,10 +280,10 @@ private:
     bool startLogging();
     bool prepareRobotLogging();
     bool prepareCameraLogging();
+    bool prepareExogenousImageLogging();
     bool prepareRTStreaming();
 
     const std::string defaultFilePrefix = "robot_logger_device";
-    const std::string treeDelim = "::";
 
     const std::string robotRtRootName = "robot_realtime";
 
@@ -308,6 +333,10 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
+
+    void waitForAcquisitionThreadsToPause();
+
+    void resumeAcquisitionThreads();
 
     virtual bool saveData(const std::string& tag = "") override;
 };
