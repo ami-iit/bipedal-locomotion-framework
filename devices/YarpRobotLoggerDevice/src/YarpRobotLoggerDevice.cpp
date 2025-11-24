@@ -2270,9 +2270,7 @@ void YarpRobotLoggerDevice::run()
         {
             if (!signal.dataArrived)
             {
-                bool channelAdded = false;
-                for (const auto& [key, vector] : collection->vectors)
-                    bool channelAdded = true;
+                bool channelAdded = true;
                 // Fetch metadata on-demand if not yet available
                 if (signal.metadata.vectors.empty())
                 {
