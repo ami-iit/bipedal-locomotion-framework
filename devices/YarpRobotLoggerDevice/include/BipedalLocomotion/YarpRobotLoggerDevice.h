@@ -63,6 +63,8 @@ private:
     std::chrono::nanoseconds m_previousTimestamp;
     std::chrono::nanoseconds m_acceptableStep{std::chrono::nanoseconds::max()};
     bool m_firstRun{true};
+    std::atomic<bool> m_requestPause{false};
+    std::atomic<bool> m_paused{false};
 
     using ft_t = Eigen::Matrix<double, 6, 1>;
     using gyro_t = Eigen::Matrix<double, 3, 1>;
@@ -121,7 +123,6 @@ private:
     std::unordered_map<std::string, ExogenousSignal<yarp::sig::ImageOf<yarp::sig::PixelRgb>>>
         m_imageSignals;
 
-    std::unordered_set<std::string> m_exogenousPortsStoredInManager;
     std::atomic<bool> m_lookForNewExogenousSignalIsRunning{false};
     std::thread m_lookForNewExogenousSignalThread;
 
@@ -154,12 +155,11 @@ private:
         std::atomic<unsigned int> frameIndex{0};
         std::atomic<bool> resetIndex{false};
         std::atomic<bool> paused{false};
+        std::atomic<bool> requestPause{false};
     };
 
     std::string m_videoCodecCode{"mp4v"};
     std::unordered_map<std::string, VideoWriter> m_videoWriters;
-    std::mutex m_videoWritersMutex;
-
     std::unordered_map<std::string, VideoWriter> m_exogenousImageWriters;
 
     const std::string m_textLoggingPortName = "/YarpRobotLoggerDevice/TextLogging:i";
@@ -318,6 +318,10 @@ private:
     const std::string robotDescriptionList = "description_list";
 
     const std::string timestampsName = "timestamps";
+
+    void waitForAcquisitionThreadsToPause();
+
+    void resumeAcquisitionThreads();
 
     virtual bool saveData(const std::string& tag = "") override;
 };
