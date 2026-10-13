@@ -236,10 +236,13 @@ bool YarpRobotLoggerDevice::open(yarp::os::Searchable& config)
     };
 
     double devicePeriod{0.01};
-    if (params->getParameter("sampling_period_in_s", devicePeriod))
+    getOptionalParameter("sampling_period_in_s", devicePeriod);
+    if (devicePeriod <= 0)
     {
-        this->setPeriod(devicePeriod);
+        log()->error("{} The parameter 'sampling_period_in_s' must be positive.", logPrefix);
+        return false;
     }
+    this->setPeriod(devicePeriod);
 
     std::string portPrefix{"/yarp-robot-logger"};
     getOptionalParameter("port_prefix", portPrefix);
@@ -570,6 +573,9 @@ bool YarpRobotLoggerDevice::setupCameras(
 
     std::string videoEncoder;
     const bool hasVideoEncoder = params->getParameter("video_encoder", videoEncoder);
+    std::string videoEncoderOptions;
+    const bool hasVideoEncoderOptions
+        = params->getParameter("video_encoder_options", videoEncoderOptions);
 
     auto addRecorder
         = [this, logPrefix](std::shared_ptr<ParametersHandler::StdImplementation> handler,
@@ -642,6 +648,10 @@ bool YarpRobotLoggerDevice::setupCameras(
             if (hasVideoEncoder)
             {
                 handler->setParameter("video_encoder", videoEncoder);
+            }
+            if (hasVideoEncoderOptions)
+            {
+                handler->setParameter("video_encoder_options", videoEncoderOptions);
             }
 
             // the color and the depth images of a camera are not read at the same time

@@ -62,6 +62,7 @@ namespace RobotInterface
  * |                            |stream_temperatures              | boolean           |Flag to activate the attachment to MAS temperature sensors      |
  * |                            |stream_joint_accelerations       | boolean           |Flag to activate the attachment to joint accelerations from encoders      |
  * |                            |stream_motor_temperature         | boolean           |Flag to activate the attachment to motor temperature sensors      |
+ * |                            |stream_battery                   | boolean           |Flag to activate the attachment to battery devices      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
  * |InertialSensors             |                                 |                   |Expects inertials to be opened as a part of the multiple analog sensors remapper ("multipleanalogsensorsremapper"). If the group is not provided, all the sensors of the first attached device exposing each interface are used |
@@ -75,6 +76,8 @@ namespace RobotInterface
  * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors |
  * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
  * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
+ * |Batteries                   |                                 |                   |Expects the batteries to be opened with the IBattery interface. If the group is not provided, all the attached devices exposing the IBattery interface are used |
+ * |                            |batteries_list                   | vector of strings |list containing the names of the attached devices exposing the IBattery interface      |
  */
 // clang-format on
 

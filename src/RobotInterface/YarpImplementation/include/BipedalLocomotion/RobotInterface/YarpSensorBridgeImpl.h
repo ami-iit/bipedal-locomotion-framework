@@ -185,6 +185,8 @@ struct YarpSensorBridge::Impl
                                             encoders */
     bool discoverInertials{false}; /**< flag set to true if the inertial sensors are retrieved
                                       from the attached devices */
+    bool discoverBatteries{false}; /**< flag set to true if the batteries are retrieved from the
+                                      attached devices */
     bool allJointsAreRevolutes{false}; /**< flag to indicate if all the joints are revolute */
     bool allJointsArePrismatics{false}; /**< flag to indicate if all the joints are prismatic */
 
@@ -411,7 +413,11 @@ struct YarpSensorBridge::Impl
         auto ptr = handler.lock();
         if (ptr == nullptr)
         {
-            return false;
+            log()->info("{} The group 'Batteries' is not provided. The batteries will be "
+                        "retrieved from the attached devices.",
+                        logPrefix);
+            discoverBatteries = true;
+            return true;
         }
 
         if (!ptr->getParameter("batteries_list", metaData.sensorsList.batteriesList))
@@ -1304,6 +1310,24 @@ struct YarpSensorBridge::Impl
         }
 
         constexpr auto logPrefix = "[YarpSensorBridge::Impl::attachAllBatteries]";
+
+        if (discoverBatteries)
+        {
+            auto& batteries = metaData.sensorsList.batteriesList;
+            batteries.clear();
+            for (int devIdx = 0; devIdx < devList.size(); devIdx++)
+            {
+                yarp::dev::IBattery* batteryInterface{nullptr};
+                if (devList[devIdx]->poly->view(batteryInterface) && batteryInterface != nullptr)
+                {
+                    batteries.push_back(devList[devIdx]->key);
+                }
+            }
+            metaData.bridgeOptions.isBatteryEnabled = !batteries.empty();
+            log()->info("{} Batteries found in the attached devices: {}.",
+                        logPrefix,
+                        batteries.size());
+        }
 
         for (const auto& batteryName : metaData.sensorsList.batteriesList)
         {

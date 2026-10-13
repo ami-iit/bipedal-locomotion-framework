@@ -48,6 +48,8 @@ namespace RobotInterface
  * |                            |rgb_image_width                  | vector of integers |list containing the image width dimensions of RGB cameras. The list must be the same size and order as rgb_list.  If not provided the size of the image is taken from the YarpInterface after calling `YarpCameraBridge::setDriversList` | No |
  * |                            |rgb_image_height                 | vector of integers |list containing the image height dimensions of RGB cameras. The list must be the same size and order as rgb_list.  If not provided the size of the image is taken from the YarpInterface after calling `YarpCameraBridge::setDriversList` | No |
  *
+ * @note The image dimensions are only used to preallocate the image buffers. If a received image has
+ * a different size, the buffer is resized by YARP and the returned image has the size of the received one.
  */
 class YarpCameraBridge : public BipedalLocomotion::RobotInterface::ICameraBridge
 {

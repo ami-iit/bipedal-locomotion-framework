@@ -21,9 +21,11 @@ Each mat file also contains the `version` variable storing the version of `biped
 Most of the parameters are optional, and what is already described by the attached devices does not need to be repeated:
 - the joints are the ones of the attached control board, in the same order (`joints_list` is optional);
 - if the group `RobotSensorBridge/InertialSensors` is not provided, all the inertial sensors of the attached multiple analog sensors devices are logged;
+- if the group `RobotSensorBridge/Batteries` is not provided, all the attached devices exposing `IBattery` are logged;
 - if the group `RobotCameraBridge` is not provided, the attached devices exposing `IRGBDSensor` are logged as rgbd cameras and the ones exposing `IFrameGrabberImage` as rgb cameras. The camera options (`rgb_cameras_fps`, `rgb_cameras_rgb_save_mode`, `rgbd_cameras_fps`, `rgbd_cameras_rgb_save_mode`, `rgbd_cameras_depth_save_mode`, `rgbd_cameras_depth_scale`) accept a single value used for all the cameras, and their default values are `30`, `"video"` and `1000` (depth in millimeters);
 - for each exogenous signal only `remote` is required: `signal_name` defaults to the name of the group, `local` to `<port_prefix>/exogenous_signals/<signal_name>` and `carrier` to `udp`;
 - the real time streaming is disabled by default (`enable_real_time_logging`) and, if `REAL_TIME_STREAMING` is not provided, it uses the port `<port_prefix>/rt_logging`;
+- the data is logged every `sampling_period_in_s` seconds (default `0.01`, i.e., 100 Hz);
 - the `stream_*` flags of `RobotSensorBridge` are `false` by default (except `stream_joint_accelerations`), so only the enabled ones need to be listed.
 
 ```xml
@@ -81,7 +83,7 @@ The device can run in the same `yarprobotinterface` that opens the robot devices
 Each camera stream is acquired and written by two separate threads, so a slow encoding does not affect the acquisition. For each saved image, the channel `camera::<camera>::<rgb|depth>` stores its index in the video (or frames folder) and its time. The index restarts from zero in each video, hence the time of the first image of `<file>_<camera>_rgb.mp4` is the time associated to the index `0` in `<file>.mat`.
 
 The videos are written with [FFmpeg](https://ffmpeg.org/), which is required to compile the device:
-- the rgb videos are encoded in H.264 (`libx264`, `libopenh264` or `mpeg4`, the encoder can be chosen with the `video_encoder` parameter) and stored in fragmented mp4 files, readable also if the logger crashes;
+- the rgb videos are encoded in H.264 (`libx264`, `libopenh264` or `mpeg4`, the encoder can be chosen with the `video_encoder` parameter and configured with the `video_encoder_options` parameter, e.g. `"preset=veryfast:crf=23"`) and stored in fragmented mp4 files, readable also if the logger crashes;
 - the depth videos are stored with the lossless FFV1 codec (16 bit) in mkv files;
 - each image is stored with its own timestamp (variable frame rate), so the video is aligned with the other signals also if some images are dropped.
 

@@ -43,6 +43,7 @@ namespace
 struct VideoEncoderOptions
 {
     std::string encoder; /**< FFmpeg encoder. If empty the first available is used. */
+    std::string encoderOptions; /**< FFmpeg encoder options, e.g. "preset=veryfast:crf=23". */
     double fps{30.0}; /**< Nominal frame rate. */
 };
 
@@ -239,6 +240,7 @@ bool FFmpegVideoWriter::openEncoder(const std::string& name)
     context->width = m_width;
     context->height = m_height;
     context->time_base = timeBase;
+    // nominal value used by the encoder (rate control, gop size). The pts are the logging times.
     context->framerate = av_d2q(m_options.fps, 1000);
     context->pix_fmt = m_isDepth ? AV_PIX_FMT_GRAY16LE : AV_PIX_FMT_YUV420P;
     // a keyframe (and a new mp4 fragment) every two seconds
@@ -262,7 +264,28 @@ bool FFmpegVideoWriter::openEncoder(const std::string& name)
                                                       * m_options.fps);
     }
 
-    const int ret = avcodec_open2(context.get(), codec, &options);
+    // the user options override the default ones
+    if (!m_isDepth && !m_options.encoderOptions.empty()
+        && av_dict_parse_string(&options, m_options.encoderOptions.c_str(), "=", ":", 0) < 0)
+    {
+        log()->error("[FFmpegVideoWriter::openEncoder] Unable to parse the encoder options '{}'. "
+                     "The expected format is 'key1=value1:key2=value2'.",
+                     m_options.encoderOptions);
+        av_dict_free(&options);
+        return false;
+    }
+
+    int ret = avcodec_open2(context.get(), codec, &options);
+    // avcodec_open2 leaves in the dictionary the options not recognized by the encoder
+    if (ret >= 0 && av_dict_count(options) > 0)
+    {
+        const AVDictionaryEntry* unused = av_dict_get(options, "", nullptr, AV_DICT_IGNORE_SUFFIX);
+        log()->warn("[FFmpegVideoWriter::openEncoder] The option '{}' is not supported by the "
+                    "encoder {}.",
+                    unused->key,
+                    name);
+        ret = AVERROR_OPTION_NOT_FOUND;
+    }
     av_dict_free(&options);
     if (ret < 0)
     {
@@ -860,6 +883,7 @@ bool ImageRecorder::initialize(std::weak_ptr<const ParametersHandler::IParameter
     VideoEncoderOptions encoder;
     encoder.fps = m_pimpl->fps > 0 ? m_pimpl->fps : encoder.fps;
     ptr->getParameter("video_encoder", encoder.encoder);
+    ptr->getParameter("video_encoder_options", encoder.encoderOptions);
 
     if (saveMode == "frame")
     {

@@ -89,6 +89,7 @@ public:
      * |    `save_mode`     | `string` |                 Either `video` or `frame`.               |    Yes    |
      * |       `fps`        | `double` | Acquisition rate. If 0 the images are read as soon as they arrive. Default 0. | No |
      * |  `video_encoder`   | `string` | FFmpeg encoder of the rgb videos. Default the first available among `libx264`, `libopenh264` and `mpeg4`. | No |
+     * |  `video_encoder_options` | `string` | FFmpeg options of the rgb video encoder in the form `key1=value1:key2=value2` (e.g. `preset=veryfast:crf=23` for `libx264`, `b=4M` for the other encoders). They override the default ones. | No |
      * @return true in case of success, false otherwise.
      */
     // clang-format on
