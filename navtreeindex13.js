@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html#a3b42a3be24e1c44991c9e72ff4d16329":[4,0,0,5,7,3],
 "structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html#a6517a30f6bfb8c25d48380aa3a5169a1":[4,0,0,5,7,2],
 "structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html#a7900d8a104a011e8bff7bd80f4286353":[4,0,0,5,7,4],
 "structBipedalLocomotion_1_1IK_1_1IntegrationBasedIKProblem.html#ab33183bc16d823a48e87025b3c416885":[4,0,0,5,7,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX13 =
 "structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1Steps.html#a8789b27a07e29c6b65c2eeffe6b88b9d":[4,0,0,11,13,4,0],
 "structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory.html":[4,0,0,11,13,5],
 "structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory.html#a114d7246a179a54681be6b352b99565d":[4,0,0,11,13,5,3],
-"structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory.html#a38fd508ccab33d0c1635c0e86423c172":[4,0,0,11,13,5,4],
-"structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory.html#a40ec59304f1728cf40f893aa9707f04d":[4,0,0,11,13,5,5]
+"structBipedalLocomotion_1_1Planners_1_1UnicycleTrajectoryPlannerOutput_1_1ZMPTrajectory.html#a38fd508ccab33d0c1635c0e86423c172":[4,0,0,11,13,5,4]
 };

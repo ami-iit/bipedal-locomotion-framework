@@ -28,6 +28,7 @@ var structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl =
     [ "checkValidSensorMeasure", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a65d7097f2ad3b41707ea97fe46509a85", null ],
     [ "checkValid", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a30d2088aa0e66fb413c561f8c08feb98", null ],
     [ "checkControlBoardSensor", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#aabf6c61436ed4f912c606f3818766cee", null ],
+    [ "discoverMASSensors", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a247ff1fb04b1c354116e3098132798d0", null ],
     [ "attachAllInertials", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a2e4b18fccd7384fac60a967ffb74bf4b", null ],
     [ "attachRemappedRemoteControlBoard", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a1acf90173fd12a89f642fc288bc87946", null ],
     [ "resetControlBoardBuffers", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a77ef4bc9f2b8602e32b697356149fca6", null ],
@@ -76,6 +77,8 @@ var structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl =
     [ "driversAttached", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a202ee276fabf30890f4eacdc94e10aa5", null ],
     [ "checkForNAN", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a9792148229e6b49ad4b2d99b94a89f17", null ],
     [ "streamJointAccelerations", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#ae4d98a963dee32cda86cab29b6564ba7", null ],
+    [ "discoverInertials", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a598221c8ed7526adbd6064e53e032cfb", null ],
+    [ "discoverBatteries", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a72cb1be74d2e488193f991f8b8ff909e", null ],
     [ "allJointsAreRevolutes", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#a217847fe144ce52ecbc42410cef3586a", null ],
     [ "allJointsArePrismatics", "structBipedalLocomotion_1_1RobotInterface_1_1YarpSensorBridge_1_1Impl.html#adaaac2ca6ed3c992ddbb3f219aea99f3", null ]
 ];

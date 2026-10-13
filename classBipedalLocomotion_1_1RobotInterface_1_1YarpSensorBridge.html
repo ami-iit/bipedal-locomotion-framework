@@ -446,7 +446,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Output</b> = _Output
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter">Group   </th><th class="markdownTableHeadCenter">Parameter   </th><th class="markdownTableHeadCenter">Type   </th><th class="markdownTableHeadCenter">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">check_for_nan   </td><td class="markdownTableBodyCenter">boolean   </td><td class="markdownTableBodyCenter">flag to activate checking for NANs in the incoming measurement buffers, not applicable for images    </td></tr>
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">check_for_nan   </td><td class="markdownTableBodyCenter">boolean   </td><td class="markdownTableBodyCenter">flag to activate checking for NANs in the incoming measurement buffers, not applicable for images. Default false    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">stream_joint_states   </td><td class="markdownTableBodyCenter">boolean   </td><td class="markdownTableBodyCenter">Flag to activate the attachment to remapped control boards for joint states reading    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -470,31 +470,37 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Output</b> = _Output
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">stream_motor_temperature   </td><td class="markdownTableBodyCenter">boolean   </td><td class="markdownTableBodyCenter">Flag to activate the attachment to motor temperature sensors    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">stream_battery   </td><td class="markdownTableBodyCenter">boolean   </td><td class="markdownTableBodyCenter">Flag to activate the attachment to battery devices    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter">RemoteControlBoardRemapper   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then use a remapper to create a single remotecontrolboard    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">joints_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">This parameter is <b>optional</b>. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter">InertialSensors   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects inertials to be opened as a part of the multiple analog sensors remapper ("multipleanalogsensorsremapper")    </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter">InertialSensors   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects inertials to be opened as a part of the multiple analog sensors remapper ("multipleanalogsensorsremapper"). If the group is not provided, all the sensors of the first attached device exposing each interface are used    </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">gyroscopes_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of the names of devices opened with ThreeAxisGyroscope interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">accelerometers_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of the names of devices opened with ThreeAxisLinearAccelerometers interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">orientation_sensors_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of the names of devices opened with OrientationSensors interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">magnetometers_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of the names of devices opened with ThreeAxisMagnetometer interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">CartesianWrenches   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects the devices wrapping the cartesian wrenches ports to be opened as "genericSensorClient" device and have a channel dimension of 6    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">cartesian_wrenches_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of the names of devices opened as genericSensorClient device and having a channel dimension of 6    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">SixAxisForceTorqueSensors   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects the Six axis FT sensors to be opened with SixAxisForceTorqueSensors interface remapped through multiple analog sensors remapper ("multipleanalogsensorsremapper")    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">sixaxis_forcetorque_sensors_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of six axis FT sensors    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter">TemperatureSensors   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper    </td></tr>
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">sixaxis_forcetorque_sensors_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list of six axis FT sensors    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">temperature_sensors_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list containing the devices opened with TemperatureSensors interface   </td></tr>
+<td class="markdownTableBodyCenter">TemperatureSensors   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">temperature_sensors_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list containing the devices opened with TemperatureSensors interface    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter">Batteries   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">Expects the batteries to be opened with the IBattery interface. If the group is not provided, all the attached devices exposing the IBattery interface are used    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">batteries_list   </td><td class="markdownTableBodyCenter">vector of strings   </td><td class="markdownTableBodyCenter">list containing the names of the attached devices exposing the IBattery interface   </td></tr>
 </table>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aeb4ee698c61dfc3f5fce18df2ff9b658"></a>

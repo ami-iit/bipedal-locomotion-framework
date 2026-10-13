@@ -137,6 +137,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:a754585c2d57518a404c738b9144c97d8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a754585c2d57518a404c738b9144c97d8">disconnect</a> ()</td></tr>
 <tr class="memdesc:a754585c2d57518a404c738b9144c97d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect from the ports.  <a href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a754585c2d57518a404c738b9144c97d8">More...</a><br /></td></tr>
 <tr class="separator:a754585c2d57518a404c738b9144c97d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a692740a5a7bb6fddc8c51a3b2bff65db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a692740a5a7bb6fddc8c51a3b2bff65db">isConnected</a> () const</td></tr>
+<tr class="memdesc:a692740a5a7bb6fddc8c51a3b2bff65db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the data connection with the server is still alive.  <a href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a692740a5a7bb6fddc8c51a3b2bff65db">More...</a><br /></td></tr>
+<tr class="separator:a692740a5a7bb6fddc8c51a3b2bff65db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a176212399bac94afb8893c8a5ae6212d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a176212399bac94afb8893c8a5ae6212d">isNewMetadataAvailable</a> () const</td></tr>
 <tr class="memdesc:a176212399bac94afb8893c8a5ae6212d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if new metadata is available.  <a href="classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a176212399bac94afb8893c8a5ae6212d">More...</a><br /></td></tr>
 <tr class="separator:a176212399bac94afb8893c8a5ae6212d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,6 +207,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div><div class="memdoc">
 
 <p>Connect to the ports. </p>
+<dl class="section note"><dt>Note</dt><dd>The cached metadata are discarded, since the server may be a new instance. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the connection has been established successfully, false otherwise. </dd></dl>
 
 </div>
@@ -225,6 +229,27 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 <p>Disconnect from the ports. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the connection has been closed successfully, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a692740a5a7bb6fddc8c51a3b2bff65db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a692740a5a7bb6fddc8c51a3b2bff65db">&#9670;&nbsp;</a></span>isConnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool VectorsCollectionClient::isConnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the data connection with the server is still alive. </p>
+<dl class="section note"><dt>Note</dt><dd>The server is not contacted, since it may block its streaming. The connection is alive if the local port has an input connection and the server registered in the name server is the one found at connection time. This function queries the name server, so it should not be called in a real-time loop. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the client is connected to the server, false otherwise. </dd></dl>
 
 </div>
 </div>

@@ -175,12 +175,13 @@ var NAVTREEINDEX10 =
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html":[4,0,0,19,0],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a04a8fece597f8066918037a9572299b1":[4,0,0,19,0,3],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a145acb5bf65471ab612b693c6b4b7e63":[4,0,0,19,0,1],
-"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a176212399bac94afb8893c8a5ae6212d":[4,0,0,19,0,5],
+"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a176212399bac94afb8893c8a5ae6212d":[4,0,0,19,0,6],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a1fb1c00f358d5d0c40b3ac2149c2a6cc":[4,0,0,19,0,0],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a60a25b082f1688dce5fd7f4fe78649d7":[4,0,0,19,0,2],
+"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a692740a5a7bb6fddc8c51a3b2bff65db":[4,0,0,19,0,5],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#a754585c2d57518a404c738b9144c97d8":[4,0,0,19,0,4],
-"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#ad37458d158a06da483ee51ca96593f2c":[4,0,0,19,0,6],
-"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#afc5f3caeb5d71261cedd8a5fd9cc1f9d":[4,0,0,19,0,7],
+"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#ad37458d158a06da483ee51ca96593f2c":[4,0,0,19,0,7],
+"classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionClient.html#afc5f3caeb5d71261cedd8a5fd9cc1f9d":[4,0,0,19,0,8],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer.html":[4,0,0,19,1],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer.html#a1747b42faa9dedf3d11ba37776890db2":[4,0,0,19,1,11],
 "classBipedalLocomotion_1_1YarpUtilities_1_1VectorsCollectionServer.html#a2d514827997ea5a06f06253d3fb30e8c":[4,0,0,19,1,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "dir_48be3292c12d75f2d1cf5432ea7189e9.html":[5,0,15,3],
 "dir_4912aa10243f4c87373511870dc68706.html":[5,0,11,3,0,0],
 "dir_4b692558ae1a58cc79ad092b3be1bfe4.html":[5,0,16,2],
-"dir_4d873cee532edd16134c6568eb998b0c.html":[5,0,7,0,0,0],
-"dir_4eaf63722a389f555075d4df3a02c7fd.html":[5,0,5,2,0]
+"dir_4d873cee532edd16134c6568eb998b0c.html":[5,0,7,0,0,0]
 };
