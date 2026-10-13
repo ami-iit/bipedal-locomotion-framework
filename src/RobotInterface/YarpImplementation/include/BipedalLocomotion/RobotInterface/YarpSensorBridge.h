@@ -50,7 +50,7 @@ namespace RobotInterface
  * The parameters for writing the configuration file for this class is given as,
  * |     Group                  |         Parameter               | Type              |                   Description                   |
  * |:--------------------------:|:-------------------------------:|:-----------------:|:---------------------------------------------- :|
- * |                            |check_for_nan                    | boolean           |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images|
+ * |                            |check_for_nan                    | boolean           |flag to activate checking for NANs in the incoming measurement buffers, not applicable for images. Default false|
  * |                            |stream_joint_states              | boolean           |Flag to activate the attachment to remapped control boards for joint states reading     |
  * |                            |stream_inertials                 | boolean           |Flag to activate the attachment to IMU sensor devices       |
  * |                            |stream_cartesian_wrenches        | boolean           |Flag to activate the attachment to Cartesian wrench related devices       |
@@ -62,9 +62,10 @@ namespace RobotInterface
  * |                            |stream_temperatures              | boolean           |Flag to activate the attachment to MAS temperature sensors      |
  * |                            |stream_joint_accelerations       | boolean           |Flag to activate the attachment to joint accelerations from encoders      |
  * |                            |stream_motor_temperature         | boolean           |Flag to activate the attachment to motor temperature sensors      |
+ * |                            |stream_battery                   | boolean           |Flag to activate the attachment to battery devices      |
  * |RemoteControlBoardRemapper  |                                 |                   |Expects only one remapped remotecontrolboard device attached to it, if there multiple remote control boards, then  use a remapper to create a single remotecontrolboard |
  * |                            |joints_list                      | vector of strings |This parameter is **optional**. The joints list used to open the remote control board remapper. If the list is not passed, the order of the joint stored in the PolyDriver is used       |
- * |InertialSensors             |                                 |                   |Expects inertials to be opened as a part of the multiple analog sensors remapper ("multipleanalogsensorsremapper") |
+ * |InertialSensors             |                                 |                   |Expects inertials to be opened as a part of the multiple analog sensors remapper ("multipleanalogsensorsremapper"). If the group is not provided, all the sensors of the first attached device exposing each interface are used |
  * |                            |gyroscopes_list                  | vector of strings |list of the names of devices opened with ThreeAxisGyroscope interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3  |
  * |                            |accelerometers_list              | vector of strings |list of the names of devices opened with ThreeAxisLinearAccelerometers interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
  * |                            |orientation_sensors_list         | vector of strings |list of the names of devices opened with OrientationSensors interface remapped through the "multipleanalogsensorsremapper" interfaces and having a channel dimension of 3 |
@@ -75,6 +76,8 @@ namespace RobotInterface
  * |                            |sixaxis_forcetorque_sensors_list | vector of strings |list of six axis FT sensors |
  * |TemperatureSensors          |                                 |                   |Expects the temperature sensors to be opened with TemperatureSensors interface remapped through multiple analog sensors remapper|
  * |                            |temperature_sensors_list         | vector of strings |list containing the devices opened with TemperatureSensors interface      |
+ * |Batteries                   |                                 |                   |Expects the batteries to be opened with the IBattery interface. If the group is not provided, all the attached devices exposing the IBattery interface are used |
+ * |                            |batteries_list                   | vector of strings |list containing the names of the attached devices exposing the IBattery interface      |
  */
 // clang-format on
 
