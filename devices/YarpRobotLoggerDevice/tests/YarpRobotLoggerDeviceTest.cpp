@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <random>
 #include <set>
+#include <string>
 #include <thread>
 
 // BLF
@@ -209,7 +210,8 @@ TEST_CASE("Launch simple logger")
     const matioCpp::Variable version = savedLog.read("version");
     REQUIRE(version.isValid());
     // in MAT 7.3 files the strings are read as UTF-16
-    REQUIRE(!version.asVector<char16_t>()().empty());
+    const auto versionData = version.asVector<char16_t>();
+    REQUIRE(std::u16string(versionData.data(), versionData.size()) == u"0.1.0");
 
     matioCpp::Struct robotLoggerDeviceStruct = savedLog.read("robot_logger_device").asStruct();
 
