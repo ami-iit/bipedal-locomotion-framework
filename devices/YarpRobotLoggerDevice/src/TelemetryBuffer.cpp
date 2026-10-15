@@ -20,7 +20,6 @@
 #include <BipedalLocomotion/YarpUtilities/VectorsCollectionServer.h>
 
 #include <BipedalLocomotion/RobotLogger/TelemetryBuffer.h>
-#include <BipedalLocomotion/RobotLogger/Version.h>
 
 VISITABLE_STRUCT(BipedalLocomotion::TextLoggingEntry,
                  level,
@@ -206,12 +205,16 @@ struct TelemetryBuffer::Impl
             return false;
         }
 
-        // robometry does not allow adding custom fields, the version is appended as a variable
+        // robometry does not allow adding custom fields, the format version is appended as a
+        // top-level variable
         {
             matioCpp::File file(savedFileName + ".mat", matioCpp::FileMode::ReadAndWrite);
-            if (!file.isOpen() || !file.write(matioCpp::String(versionName, RobotLogger::version)))
+            if (!file.isOpen()
+                || !file.write(matioCpp::String(versionName, TelemetryBuffer::logFormatVersion)))
             {
-                log()->warn("{} Unable to write the version in {}.mat.", logPrefix, savedFileName);
+                log()->warn("{} Unable to write the format version in {}.mat.",
+                            logPrefix,
+                            savedFileName);
             }
         }
 

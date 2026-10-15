@@ -37,6 +37,12 @@ public:
     static constexpr auto defaultFilePrefix = "robot_logger_device";
 
     /**
+     * Version of the format of the saved files, stored in the top-level `version` variable. It is
+     * independent of the version of the framework. See docs/log-format/README.md.
+     */
+    static constexpr auto logFormatVersion = "0.1.0";
+
+    /**
      * Function called after each successful save.
      * @param fileName path of the saved file without extension.
      */
