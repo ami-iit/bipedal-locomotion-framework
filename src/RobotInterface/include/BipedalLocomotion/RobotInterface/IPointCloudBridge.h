@@ -6,6 +6,7 @@
 #ifndef BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_IPCL_BRIDGE_H
 #define BIPEDAL_LOCOMOTION_ROBOT_INTERFACE_IPCL_BRIDGE_H
 
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -72,7 +73,7 @@ public:
     virtual bool
     getPointCloud(const std::string& pclDev,
                   pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {})
+                  std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {})
     {
         return false;
     };
