@@ -222,7 +222,7 @@ bool RealSense::getPCLDevicesList(std::vector<std::string>& pclDevList)
 
 bool RealSense::getColorImage(const std::string& camName,
                               cv::Mat& colorImg,
-                              std::optional<std::reference_wrapper<double>>)
+                              std::optional<std::reference_wrapper<std::chrono::nanoseconds>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -260,7 +260,7 @@ bool RealSense::getColorImage(const std::string& camName,
 
 bool RealSense::getDepthImage(const std::string& camName,
                               cv::Mat& depthImg,
-                              std::optional<std::reference_wrapper<double>>)
+                              std::optional<std::reference_wrapper<std::chrono::nanoseconds>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -297,9 +297,10 @@ bool RealSense::getDepthImage(const std::string& camName,
     return true;
 }
 
-bool RealSense::getColorizedDepthImage(const std::string& camName,
-                                       cv::Mat& depthImg,
-                                       std::optional<std::reference_wrapper<double>>)
+bool RealSense::getColorizedDepthImage(
+    const std::string& camName,
+    cv::Mat& depthImg,
+    std::optional<std::reference_wrapper<std::chrono::nanoseconds>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -338,7 +339,7 @@ bool RealSense::getColorizedDepthImage(const std::string& camName,
 
 bool RealSense::getInfraredImage(const std::string& camName,
                                  cv::Mat& irImage,
-                                 std::optional<std::reference_wrapper<double>>)
+                                 std::optional<std::reference_wrapper<std::chrono::nanoseconds>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(camName))
     {
@@ -374,7 +375,7 @@ bool RealSense::getInfraredImage(const std::string& camName,
 
 bool RealSense::getPointCloud(const std::string& pclDevName,
                               pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                              std::optional<std::reference_wrapper<double>>)
+                              std::optional<std::reference_wrapper<std::chrono::nanoseconds>>)
 {
     if (!isValid() || !m_pimpl->isValidCamera(pclDevName))
     {

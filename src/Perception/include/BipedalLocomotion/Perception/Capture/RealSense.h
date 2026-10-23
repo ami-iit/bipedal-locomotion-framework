@@ -57,29 +57,30 @@ public:
 
     bool getPCLDevicesList(std::vector<std::string>& pclDevList) final;
 
-    bool
-    getColorImage(const std::string& camName,
-                  cv::Mat& colorImg,
-                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool getColorImage(
+        const std::string& camName,
+        cv::Mat& colorImg,
+        std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {}) final;
 
-    bool
-    getDepthImage(const std::string& camName,
-                  cv::Mat& depthImg,
-                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool getDepthImage(
+        const std::string& camName,
+        cv::Mat& depthImg,
+        std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {}) final;
 
-    bool
-    getColorizedDepthImage(const std::string& camName,
-                           cv::Mat& depthImg,
-                           std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
+    bool getColorizedDepthImage(
+        const std::string& camName,
+        cv::Mat& depthImg,
+        std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {});
 
-    bool getInfraredImage(const std::string& camName,
-                          cv::Mat& irImage,
-                          std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {});
+    bool getInfraredImage(
+        const std::string& camName,
+        cv::Mat& irImage,
+        std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {});
 
-    bool
-    getPointCloud(const std::string& pclDevName,
-                  pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
-                  std::optional<std::reference_wrapper<double>> receiveTimeInSeconds = {}) final;
+    bool getPointCloud(
+        const std::string& pclDevName,
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredPointCloud,
+        std::optional<std::reference_wrapper<std::chrono::nanoseconds>> receiveTime = {}) final;
 
     /**
      * Get the stored metadata.
